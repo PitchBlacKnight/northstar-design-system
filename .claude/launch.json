@@ -1,6 +1,6 @@
 {
   "version": "0.0.1",
   "configurations": [
-    { "name": "pathfinder-ds", "runtimeExecutable": "python3", "runtimeArgs": ["-m", "http.server", "8910"], "port": 8910 }
+    { "name": "northstar-ds", "runtimeExecutable": "python3", "runtimeArgs": ["-m", "http.server", "8910"], "port": 8910 }
   ]
 }

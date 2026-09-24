@@ -1,6 +1,6 @@
-# Pathfinder Design System site
+# NorthStar Design System site
 
-Carbon-style docs site for the Pathfinder Design System. Static, no build step.
+Carbon-style docs site for the NorthStar Design System. Static, no build step.
 
 Source of truth: Figma file VZxmDNQiosTN6gqnvEQ65Z (page "00 Foundations" + site frames).
 
@@ -13,11 +13,11 @@ Open http://localhost:8910. Hash routing, so any static host works.
 ## Files
 
 - css/tokens.css      Primitives + semantic roles (dark default, light via data-theme)
-- css/components.css  pf-* component classes, token-only values
+- css/components.css  ns-* component classes, token-only values
 - css/site.css        Docs shell (header, side nav, TOC, playgrounds, tools)
 - js/components.js    Component catalog: one entry drives Usage / Style / Code / Accessibility tabs
 - js/pages.js         Nav tree + foundations, patterns, data viz, floorplans, a11y, community
 - js/tools.js         Token editor, Live Builder, Claude AI generator, embed helper
 - js/app.js           Router, search palette, TOC scrollspy, theme, embed mode
 
-Add a component: append an entry to PF.COMPONENTS in js/components.js. Nav, search, index, and prev/next pick it up.
+Add a component: append an entry to NS.COMPONENTS in js/components.js. Nav, search, index, and prev/next pick it up.

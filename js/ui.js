@@ -1,11 +1,11 @@
-/* Shared doc-building helpers. Everything hangs off window.PF. */
+/* Shared doc-building helpers. Everything hangs off window.NS. */
 (function () {
-  const PF = (window.PF = window.PF || {});
+  const NS = (window.NS = window.NS || {});
 
-  PF.esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  PF.slug = (s) => String(s).toLowerCase().replace(/<[^>]+>/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  NS.esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  NS.slug = (s) => String(s).toLowerCase().replace(/<[^>]+>/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
-  PF.icon = {
+  NS.icon = {
     search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
     sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',
     moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>',
@@ -16,8 +16,8 @@
   };
 
   /* ---------- very small HTML/CSS/JS highlighter ---------- */
-  PF.hl = function (code, lang) {
-    let s = PF.esc(code.trim());
+  NS.hl = function (code, lang) {
+    let s = NS.esc(code.trim());
     if (lang === "css") {
       s = s.replace(/(\/\*[\s\S]*?\*\/)/g, '<span class="tok-c">$1</span>')
         .replace(/(--[\w-]+)/g, '<span class="tok-a">$1</span>')
@@ -34,85 +34,85 @@
     return s;
   };
 
-  PF.codeBlock = (code, lang = "html", solo = true) =>
-    `<div class="code ${solo ? "code--solo" : ""}"><div class="code__copy"><button class="copy-btn" data-copy-code>Copy</button></div><pre><code data-raw="${PF.esc(code.trim())}">${PF.hl(code, lang)}</code></pre></div>`;
+  NS.codeBlock = (code, lang = "html", solo = true) =>
+    `<div class="code ${solo ? "code--solo" : ""}"><div class="code__copy"><button class="copy-btn" data-copy-code>Copy</button></div><pre><code data-raw="${NS.esc(code.trim())}">${NS.hl(code, lang)}</code></pre></div>`;
 
   /* ---------- clipboard + toast ---------- */
-  PF.copy = async function (text, btn, label = "Copied") {
+  NS.copy = async function (text, btn, label = "Copied") {
     try { await navigator.clipboard.writeText(text); } catch (e) {
       const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select();
       try { document.execCommand("copy"); } catch (_) {} ta.remove();
     }
     if (btn) { const o = btn.textContent; btn.textContent = label; btn.classList.add("is-done"); setTimeout(() => { btn.textContent = o; btn.classList.remove("is-done"); }, 1400); }
-    else PF.toast(label, text.length > 48 ? text.slice(0, 48) + "..." : text, "success");
+    else NS.toast(label, text.length > 48 ? text.slice(0, 48) + "..." : text, "success");
   };
 
-  PF.toast = function (title, body = "", kind = "info") {
-    let stack = document.querySelector(".pf-toast-stack");
-    if (!stack) { stack = document.createElement("div"); stack.className = "pf-toast-stack"; stack.setAttribute("role", "status"); stack.setAttribute("aria-live", "polite"); document.body.appendChild(stack); }
+  NS.toast = function (title, body = "", kind = "info") {
+    let stack = document.querySelector(".ns-toast-stack");
+    if (!stack) { stack = document.createElement("div"); stack.className = "ns-toast-stack"; stack.setAttribute("role", "status"); stack.setAttribute("aria-live", "polite"); document.body.appendChild(stack); }
     const el = document.createElement("div");
     const glyph = { success: "✓", warning: "!", error: "×", info: "i" }[kind];
-    el.className = `pf pf-notice pf-notice--toast pf-notice--${kind}`;
-    el.innerHTML = `<span class="pf-notice__icon">${glyph}</span><div><p class="pf-notice__title">${PF.esc(title)}</p>${body ? `<p class="pf-notice__body">${PF.esc(body)}</p>` : ""}</div><button class="pf-notice__close" aria-label="Dismiss">×</button>`;
+    el.className = `ns ns-notice ns-notice--toast ns-notice--${kind}`;
+    el.innerHTML = `<span class="ns-notice__icon">${glyph}</span><div><p class="ns-notice__title">${NS.esc(title)}</p>${body ? `<p class="ns-notice__body">${NS.esc(body)}</p>` : ""}</div><button class="ns-notice__close" aria-label="Dismiss">×</button>`;
     el.querySelector("button").onclick = () => el.remove();
     stack.appendChild(el);
     setTimeout(() => el.remove(), 3200);
   };
 
   /* ---------- doc building blocks ---------- */
-  PF.h2 = (t) => `<h2 id="${PF.slug(t)}">${t}<a class="anchor" href="#${PF.slug(t)}" aria-label="Link to section">#</a></h2>`;
-  PF.h3 = (t) => `<h3 id="${PF.slug(t)}">${t}</h3>`;
+  NS.h2 = (t) => `<h2 id="${NS.slug(t)}">${t}<a class="anchor" href="#${NS.slug(t)}" aria-label="Link to section">#</a></h2>`;
+  NS.h3 = (t) => `<h3 id="${NS.slug(t)}">${t}</h3>`;
 
-  PF.table = (heads, rows) =>
+  NS.table = (heads, rows) =>
     `<div class="dtable-wrap"><table class="dtable"><thead><tr>${heads.map((h) => `<th>${h}</th>`).join("")}</tr></thead><tbody>${rows
       .map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
 
-  PF.dd = (doDemo, doTxt, dontDemo, dontTxt) =>
-    `<div class="dd"><div class="do"><div class="dd__demo pf">${doDemo}</div><div class="dd__txt"><h4>Do</h4><p>${doTxt}</p></div></div>
-     <div class="dont"><div class="dd__demo pf">${dontDemo}</div><div class="dd__txt"><h4>Don't</h4><p>${dontTxt}</p></div></div></div>`;
+  NS.dd = (doDemo, doTxt, dontDemo, dontTxt) =>
+    `<div class="dd"><div class="do"><div class="dd__demo ns">${doDemo}</div><div class="dd__txt"><h4>Do</h4><p>${doTxt}</p></div></div>
+     <div class="dont"><div class="dd__demo ns">${dontDemo}</div><div class="dd__txt"><h4>Don't</h4><p>${dontTxt}</p></div></div></div>`;
 
-  PF.notice = (kind, title, body) =>
-    `<div class="pf pf-notice pf-notice--${kind}" style="margin:0 0 24px"><span class="pf-notice__icon">${{ success: "✓", warning: "!", error: "×", info: "i" }[kind]}</span><div><p class="pf-notice__title">${title}</p><p class="pf-notice__body">${body}</p></div><span></span></div>`;
+  NS.notice = (kind, title, body) =>
+    `<div class="ns ns-notice ns-notice--${kind}" style="margin:0 0 24px"><span class="ns-notice__icon">${{ success: "✓", warning: "!", error: "×", info: "i" }[kind]}</span><div><p class="ns-notice__title">${title}</p><p class="ns-notice__body">${body}</p></div><span></span></div>`;
 
-  PF.cards = (items, cols = 3) =>
+  NS.cards = (items, cols = 3) =>
     `<div class="grid grid-${cols}">${items.map((c) =>
       `<a class="rcard ${c.color ? "c-" + c.color : ""}" href="${c.href}">${c.icon ? `<span class="rcard__icon" aria-hidden="true">${c.icon}</span>` : ""}<h3>${c.title}</h3><p>${c.body}</p>${c.go ? `<span class="go">${c.go} →</span>` : ""}</a>`).join("")}</div>`;
 
   /* Static stage (no controls): render one or more demo snippets with code. */
-  PF.stage = (html, opts = {}) =>
+  NS.stage = (html, opts = {}) =>
     `<div class="stage"><div class="stage__bar"><span class="lbl">${opts.label || "Example"}</span></div>
-     <div class="stage__canvas pf ${opts.left ? "is-left" : ""} ${opts.block ? "is-block" : ""}">${html}</div>
-     ${opts.code === false ? "" : PF.codeBlock(opts.code || html, "html", false)}</div>`;
+     <div class="stage__canvas ns ${opts.left ? "is-left" : ""} ${opts.block ? "is-block" : ""}">${html}</div>
+     ${opts.code === false ? "" : NS.codeBlock(opts.code || html, "html", false)}</div>`;
 
   /* ---------- interactive playground ----------
      spec = { controls: [{ key, label, options:[..] | type:'bool' | type:'text' }], render(state) -> html, init(root) }
   */
-  PF.playgrounds = {};
+  NS.playgrounds = {};
   let pgId = 0;
-  PF.playground = function (spec) {
+  NS.playground = function (spec) {
     const id = "pg" + ++pgId;
     const state = {};
     (spec.controls || []).forEach((c) => (state[c.key] = c.default ?? (c.options ? c.options[0] : c.type === "bool" ? false : "")));
-    PF.playgrounds[id] = { spec, state };
+    NS.playgrounds[id] = { spec, state };
     const ctrls = (spec.controls || []).map((c) => {
-      if (c.options) return `<div><h4>${c.label}</h4><div class="seg" role="group" aria-label="${c.label}">${c.options.map((o) => `<button data-pg="${id}" data-k="${c.key}" data-v="${PF.esc(o)}" aria-pressed="${o === state[c.key]}">${o}</button>`).join("")}</div></div>`;
-      if (c.type === "bool") return `<label class="pf pf-toggle pf-toggle--sm"><input type="checkbox" data-pg="${id}" data-k="${c.key}" ${state[c.key] ? "checked" : ""}/> ${c.label}</label>`;
-      return `<div class="pf pf-field"><label class="pf-label" for="${id}-${c.key}">${c.label}</label><input class="pf-input pf-input--sm" id="${id}-${c.key}" data-pg="${id}" data-k="${c.key}" value="${PF.esc(state[c.key])}"/></div>`;
+      if (c.options) return `<div><h4>${c.label}</h4><div class="seg" role="group" aria-label="${c.label}">${c.options.map((o) => `<button data-pg="${id}" data-k="${c.key}" data-v="${NS.esc(o)}" aria-pressed="${o === state[c.key]}">${o}</button>`).join("")}</div></div>`;
+      if (c.type === "bool") return `<label class="ns ns-toggle ns-toggle--sm"><input type="checkbox" data-pg="${id}" data-k="${c.key}" ${state[c.key] ? "checked" : ""}/> ${c.label}</label>`;
+      return `<div class="ns ns-field"><label class="ns-label" for="${id}-${c.key}">${c.label}</label><input class="ns-input ns-input--sm" id="${id}-${c.key}" data-pg="${id}" data-k="${c.key}" value="${NS.esc(state[c.key])}"/></div>`;
     }).join("");
     const html = spec.render(state);
-    return `<div class="stage" id="${id}"><div class="stage__bar"><span class="lbl">Live playground</span><div class="pf seg"><button data-bg="${id}" aria-pressed="false" title="Toggle canvas background">Grid</button></div></div>
-      <div class="${ctrls ? "stage__split" : ""}"><div class="stage__canvas pf ${spec.left ? "is-left" : ""} ${spec.block ? "is-block" : ""}" data-canvas>${html}</div>${ctrls ? `<div class="stage__controls">${ctrls}</div>` : ""}</div>
-      ${PF.codeBlock(spec.code ? spec.code(state) : html, "html", false)}</div>`;
+    return `<div class="stage" id="${id}"><div class="stage__bar"><span class="lbl">Live playground</span><div class="ns seg"><button data-bg="${id}" aria-pressed="false" title="Toggle canvas background">Grid</button></div></div>
+      <div class="${ctrls ? "stage__split" : ""}"><div class="stage__canvas ns ${spec.left ? "is-left" : ""} ${spec.block ? "is-block" : ""}" data-canvas>${html}</div>${ctrls ? `<div class="stage__controls">${ctrls}</div>` : ""}</div>
+      ${NS.codeBlock(spec.code ? spec.code(state) : html, "html", false)}</div>`;
   };
 
-  PF.refreshPlayground = function (id) {
-    const pg = PF.playgrounds[id]; if (!pg) return;
+  NS.refreshPlayground = function (id) {
+    const pg = NS.playgrounds[id]; if (!pg) return;
     const root = document.getElementById(id);
     const html = pg.spec.render(pg.state);
     root.querySelector("[data-canvas]").innerHTML = html;
     const code = root.querySelector(".code code");
     const src = (pg.spec.code ? pg.spec.code(pg.state) : html).trim();
-    code.dataset.raw = src; code.innerHTML = PF.hl(src, "html");
+    code.dataset.raw = src; code.innerHTML = NS.hl(src, "html");
     pg.spec.init && pg.spec.init(root);
   };
 
@@ -120,65 +120,65 @@
   document.addEventListener("click", (e) => {
     const t = e.target;
     const copyCode = t.closest("[data-copy-code]");
-    if (copyCode) { const code = copyCode.closest(".code").querySelector("code"); PF.copy(code.dataset.raw || code.textContent, copyCode); return; }
+    if (copyCode) { const code = copyCode.closest(".code").querySelector("code"); NS.copy(code.dataset.raw || code.textContent, copyCode); return; }
     const copyVal = t.closest("[data-copy]");
-    if (copyVal) { PF.copy(copyVal.dataset.copy, null, "Copied " + copyVal.dataset.copy.slice(0, 40)); return; }
+    if (copyVal) { NS.copy(copyVal.dataset.copy, null, "Copied " + copyVal.dataset.copy.slice(0, 40)); return; }
     const seg = t.closest("button[data-pg]");
-    if (seg) { const pg = PF.playgrounds[seg.dataset.pg]; pg.state[seg.dataset.k] = seg.dataset.v; seg.parentElement.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", b === seg)); PF.refreshPlayground(seg.dataset.pg); return; }
+    if (seg) { const pg = NS.playgrounds[seg.dataset.pg]; pg.state[seg.dataset.k] = seg.dataset.v; seg.parentElement.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", b === seg)); NS.refreshPlayground(seg.dataset.pg); return; }
     const bg = t.closest("[data-bg]");
     if (bg) { const c = document.querySelector(`#${bg.dataset.bg} [data-canvas]`); const on = bg.getAttribute("aria-pressed") !== "true"; bg.setAttribute("aria-pressed", on); c.style.backgroundImage = on ? "none" : ""; return; }
     // demo behaviors
-    const dismiss = t.closest(".pf-tag button, .pf-notice__close");
+    const dismiss = t.closest(".ns-tag button, .ns-notice__close");
     if (dismiss && dismiss.closest(".stage, .dd")) { dismiss.parentElement.style.opacity = ".25"; return; }
-    const tab = t.closest(".pf-tabs .pf-tab");
-    if (tab && tab.closest(".stage, .fp-frame")) { tab.parentElement.querySelectorAll(".pf-tab").forEach((x) => x.setAttribute("aria-selected", x === tab)); return; }
+    const tab = t.closest(".ns-tabs .ns-tab");
+    if (tab && tab.closest(".stage, .fp-frame")) { tab.parentElement.querySelectorAll(".ns-tab").forEach((x) => x.setAttribute("aria-selected", x === tab)); return; }
     const pop = t.closest("[data-popover]");
-    if (pop) { pop.closest(".pf-popover").classList.toggle("is-open"); return; }
+    if (pop) { pop.closest(".ns-popover").classList.toggle("is-open"); return; }
     const openModal = t.closest("[data-open-modal]");
-    if (openModal) { PF.demoModal(); return; }
+    if (openModal) { NS.demoModal(); return; }
     const toastBtn = t.closest("[data-toast]");
-    if (toastBtn) { PF.toast(toastBtn.dataset.toast, "Triggered from a live example.", toastBtn.dataset.kind || "info"); return; }
-    const page = t.closest(".pf-pagination .pf-page");
-    if (page && page.closest(".stage") && !page.disabled && /^\d+$/.test(page.textContent)) { page.parentElement.querySelectorAll(".pf-page").forEach((p) => p.removeAttribute("aria-current")); page.setAttribute("aria-current", "page"); return; }
-    const day = t.closest(".pf-cal__day");
-    if (day && !day.classList.contains("is-muted")) { day.closest(".pf-cal").querySelectorAll(".is-selected").forEach((d) => d.classList.remove("is-selected")); day.classList.add("is-selected"); return; }
+    if (toastBtn) { NS.toast(toastBtn.dataset.toast, "Triggered from a live example.", toastBtn.dataset.kind || "info"); return; }
+    const page = t.closest(".ns-pagination .ns-page");
+    if (page && page.closest(".stage") && !page.disabled && /^\d+$/.test(page.textContent)) { page.parentElement.querySelectorAll(".ns-page").forEach((p) => p.removeAttribute("aria-current")); page.setAttribute("aria-current", "page"); return; }
+    const day = t.closest(".ns-cal__day");
+    if (day && !day.classList.contains("is-muted")) { day.closest(".ns-cal").querySelectorAll(".is-selected").forEach((d) => d.classList.remove("is-selected")); day.classList.add("is-selected"); return; }
     const sortTh = t.closest("th[data-sort]");
-    if (sortTh) { PF.sortTable(sortTh); return; }
-    if (!t.closest(".pf-popover")) document.querySelectorAll(".pf-popover.is-open").forEach((p) => p.classList.remove("is-open"));
+    if (sortTh) { NS.sortTable(sortTh); return; }
+    if (!t.closest(".ns-popover")) document.querySelectorAll(".ns-popover.is-open").forEach((p) => p.classList.remove("is-open"));
   });
 
   document.addEventListener("input", (e) => {
     const t = e.target;
-    if (t.matches("input[data-pg]")) { const pg = PF.playgrounds[t.dataset.pg]; pg.state[t.dataset.k] = t.type === "checkbox" ? t.checked : t.value; PF.refreshPlayground(t.dataset.pg); }
-    if (t.matches(".pf-slider")) { const p = ((t.value - t.min) / (t.max - t.min)) * 100; t.style.setProperty("--_pct", p + "%"); const out = t.parentElement.querySelector("output"); if (out) out.textContent = t.value; }
-    if (t.matches("[data-row-select]")) { t.closest("tr").classList.toggle("is-selected", t.checked); PF.updateBatch(t.closest(".pf-table-wrap")); }
-    if (t.matches("[data-select-all]")) { const wrap = t.closest(".pf-table-wrap"); wrap.querySelectorAll("[data-row-select]").forEach((c) => { c.checked = t.checked; c.closest("tr").classList.toggle("is-selected", t.checked); }); PF.updateBatch(wrap); }
+    if (t.matches("input[data-pg]")) { const pg = NS.playgrounds[t.dataset.pg]; pg.state[t.dataset.k] = t.type === "checkbox" ? t.checked : t.value; NS.refreshPlayground(t.dataset.pg); }
+    if (t.matches(".ns-slider")) { const p = ((t.value - t.min) / (t.max - t.min)) * 100; t.style.setProperty("--_pct", p + "%"); const out = t.parentElement.querySelector("output"); if (out) out.textContent = t.value; }
+    if (t.matches("[data-row-select]")) { t.closest("tr").classList.toggle("is-selected", t.checked); NS.updateBatch(t.closest(".ns-table-wrap")); }
+    if (t.matches("[data-select-all]")) { const wrap = t.closest(".ns-table-wrap"); wrap.querySelectorAll("[data-row-select]").forEach((c) => { c.checked = t.checked; c.closest("tr").classList.toggle("is-selected", t.checked); }); NS.updateBatch(wrap); }
   });
 
-  PF.updateBatch = function (wrap) {
-    const bar = wrap.querySelector(".pf-table-bar"); if (!bar) return;
+  NS.updateBatch = function (wrap) {
+    const bar = wrap.querySelector(".ns-table-bar"); if (!bar) return;
     const n = wrap.querySelectorAll("[data-row-select]:checked").length;
     bar.classList.toggle("is-batch", n > 0);
     const lbl = bar.querySelector("[data-batch-label]"); if (lbl) lbl.textContent = n ? `${n} selected` : lbl.dataset.default;
   };
 
-  PF.sortTable = function (th) {
+  NS.sortTable = function (th) {
     const table = th.closest("table"); const idx = [...th.parentElement.children].indexOf(th);
     const dir = th.dataset.dir === "asc" ? "desc" : "asc";
-    table.querySelectorAll("th").forEach((x) => { x.classList.remove("is-sorted"); x.removeAttribute("aria-sort"); const s = x.querySelector(".pf-sort"); if (s) s.textContent = "↕"; });
+    table.querySelectorAll("th").forEach((x) => { x.classList.remove("is-sorted"); x.removeAttribute("aria-sort"); const s = x.querySelector(".ns-sort"); if (s) s.textContent = "↕"; });
     th.dataset.dir = dir; th.classList.add("is-sorted"); th.setAttribute("aria-sort", dir === "asc" ? "ascending" : "descending");
-    th.querySelector(".pf-sort").textContent = dir === "asc" ? "↑" : "↓";
+    th.querySelector(".ns-sort").textContent = dir === "asc" ? "↑" : "↓";
     const rows = [...table.tBodies[0].rows];
     const val = (r) => { const t = r.cells[idx].textContent.trim(); const n = parseFloat(t.replace(/[$,%]/g, "")); return isNaN(n) ? t.toLowerCase() : n; };
     rows.sort((a, b) => (val(a) > val(b) ? 1 : val(a) < val(b) ? -1 : 0) * (dir === "asc" ? 1 : -1));
     rows.forEach((r) => table.tBodies[0].appendChild(r));
   };
 
-  PF.demoModal = function () {
+  NS.demoModal = function () {
     const prev = document.activeElement;
     const bd = document.createElement("div");
-    bd.className = "pf pf-modal-backdrop";
-    bd.innerHTML = `<div class="pf-modal" role="dialog" aria-modal="true" aria-labelledby="dm-t"><div class="pf-modal__head"><div><p class="pf-modal__label">Partner access</p><h2 class="pf-modal__title" id="dm-t">Revoke API credentials?</h2></div><button class="icon-btn" aria-label="Close">${PF.icon.close}</button></div><div class="pf-modal__body">Revoking credentials for <strong>Acme Corp</strong> will stop 14 active integrations immediately. This cannot be undone.</div><div class="pf-modal__foot"><button class="pf-btn pf-btn--tertiary" data-close>Cancel</button><button class="pf-btn pf-btn--danger" data-close>Revoke credentials</button></div></div>`;
+    bd.className = "ns ns-modal-backdrop";
+    bd.innerHTML = `<div class="ns-modal" role="dialog" aria-modal="true" aria-labelledby="dm-t"><div class="ns-modal__head"><div><p class="ns-modal__label">Partner access</p><h2 class="ns-modal__title" id="dm-t">Revoke API credentials?</h2></div><button class="icon-btn" aria-label="Close">${NS.icon.close}</button></div><div class="ns-modal__body">Revoking credentials for <strong>Acme Corp</strong> will stop 14 active integrations immediately. This cannot be undone.</div><div class="ns-modal__foot"><button class="ns-btn ns-btn--tertiary" data-close>Cancel</button><button class="ns-btn ns-btn--danger" data-close>Revoke credentials</button></div></div>`;
     const close = () => { bd.remove(); document.body.style.overflow = ""; prev && prev.focus(); };
     bd.addEventListener("click", (e) => { if (e.target === bd || e.target.closest("[data-close], .icon-btn")) close(); });
     bd.addEventListener("keydown", (e) => {
@@ -190,16 +190,16 @@
   };
 
   /* Read a computed token value */
-  PF.tokenValue = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  NS.tokenValue = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 
   /* WCAG contrast */
-  PF.toRgb = function (c) {
+  NS.toRgb = function (c) {
     const el = document.createElement("i"); el.style.color = c; document.body.appendChild(el);
     const m = getComputedStyle(el).color.match(/[\d.]+/g).map(Number); el.remove(); return m.slice(0, 3);
   };
-  PF.contrast = function (a, b) {
+  NS.contrast = function (a, b) {
     const L = (rgb) => { const [r, g, bb] = rgb.map((v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }); return 0.2126 * r + 0.7152 * g + 0.0722 * bb; };
-    const l1 = L(PF.toRgb(a)), l2 = L(PF.toRgb(b));
+    const l1 = L(NS.toRgb(a)), l2 = L(NS.toRgb(b));
     return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
   };
 })();

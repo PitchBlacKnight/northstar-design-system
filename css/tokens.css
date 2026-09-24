@@ -1,5 +1,5 @@
 /* ============================================================
-   PATHFINDER DESIGN SYSTEM - tokens
+   NORTHSTAR DESIGN SYSTEM - tokens
    Source: Figma "PATHFINDER-Design-System" (VZxmDNQiosTN6gqnvEQ65Z)
    Page 00 Foundations + site frames (system-home, foundation-color)
    Primitive ramps -> semantic roles. Components use semantic roles only.
@@ -7,154 +7,154 @@
 
 :root {
   /* ---------- Primitives: gray ramp (gray/0 - gray/10) ---------- */
-  --pf-gray-0: #f5f5ff;
-  --pf-gray-1: #d0d0da;
-  --pf-gray-2: #a9a9b7;
-  --pf-gray-3: #8a8a98;
-  --pf-gray-4: #70707c;
-  --pf-gray-5: #5b5b65;
-  --pf-gray-6: #40404a;
-  --pf-gray-7: #2c2c35;
-  --pf-gray-8: #1e1e24;
-  --pf-gray-9: #0f0f13;
-  --pf-gray-10: #000000;
+  --ns-gray-0: #f5f5ff;
+  --ns-gray-1: #d0d0da;
+  --ns-gray-2: #a9a9b7;
+  --ns-gray-3: #8a8a98;
+  --ns-gray-4: #70707c;
+  --ns-gray-5: #5b5b65;
+  --ns-gray-6: #40404a;
+  --ns-gray-7: #2c2c35;
+  --ns-gray-8: #1e1e24;
+  --ns-gray-9: #0f0f13;
+  --ns-gray-10: #000000;
 
   /* ---------- Primitives: brand + accents ---------- */
-  --pf-black: #05050f;
-  --pf-white: #ffffff;
-  --pf-navy-900: #191932;
-  --pf-blue-500: #023aff;
-  --pf-persian-500: #4807ea;
-  --pf-purple-500: #991bfa;
-  --pf-teal-500: #01f1e3;
-  --pf-green-500: #5eff5a;
-  --pf-green-600: #73be03;
-  --pf-yellow-500: #ffa63f;
-  --pf-red-400: #ff2069;
-  --pf-red-500: #ff2d2e;
+  --ns-black: #05050f;
+  --ns-white: #ffffff;
+  --ns-navy-900: #191932;
+  --ns-blue-500: #023aff;
+  --ns-persian-500: #4807ea;
+  --ns-purple-500: #991bfa;
+  --ns-teal-500: #01f1e3;
+  --ns-green-500: #5eff5a;
+  --ns-green-600: #73be03;
+  --ns-yellow-500: #ffa63f;
+  --ns-red-400: #ff2069;
+  --ns-red-500: #ff2d2e;
 
   /* ---------- Typography ---------- */
-  --pf-font-sans: "Open Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --pf-font-ui: "Inter", "Open Sans", system-ui, sans-serif;
-  --pf-font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --ns-font-sans: "Open Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ns-font-ui: "Inter", "Open Sans", system-ui, sans-serif;
+  --ns-font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
-  --pf-type-h1-size: 48px;   --pf-type-h1-line: 56px;   --pf-type-h1-weight: 800;
-  --pf-type-h2-size: 40px;   --pf-type-h2-line: 48px;   --pf-type-h2-weight: 800;
-  --pf-type-h3-size: 32px;   --pf-type-h3-line: 40px;   --pf-type-h3-weight: 700;
-  --pf-type-h4-size: 28px;   --pf-type-h4-line: 36px;   --pf-type-h4-weight: 700;
-  --pf-type-h5-size: 24px;   --pf-type-h5-line: 32px;   --pf-type-h5-weight: 700;
-  --pf-type-h6-size: 20px;   --pf-type-h6-line: 28px;   --pf-type-h6-weight: 700;
-  --pf-type-title-size: 20px;  --pf-type-title-line: 28px;
-  --pf-type-body1-size: 16px;  --pf-type-body1-line: 24px;  --pf-type-body1-tracking: 0.44px;
-  --pf-type-body2-size: 14px;  --pf-type-body2-line: 20px;  --pf-type-body2-tracking: 0.25px;
-  --pf-type-body3-size: 13px;  --pf-type-body3-line: 18px;
-  --pf-type-caption-size: 12px; --pf-type-caption-line: 16px; --pf-type-caption-tracking: 0.4px;
-  --pf-type-overline-size: 11px; --pf-type-overline-line: 16px; --pf-type-overline-tracking: 1.5px;
-  --pf-type-button-size: 14px; --pf-type-button-line: 20px;
+  --ns-type-h1-size: 48px;   --ns-type-h1-line: 56px;   --ns-type-h1-weight: 800;
+  --ns-type-h2-size: 40px;   --ns-type-h2-line: 48px;   --ns-type-h2-weight: 800;
+  --ns-type-h3-size: 32px;   --ns-type-h3-line: 40px;   --ns-type-h3-weight: 700;
+  --ns-type-h4-size: 28px;   --ns-type-h4-line: 36px;   --ns-type-h4-weight: 700;
+  --ns-type-h5-size: 24px;   --ns-type-h5-line: 32px;   --ns-type-h5-weight: 700;
+  --ns-type-h6-size: 20px;   --ns-type-h6-line: 28px;   --ns-type-h6-weight: 700;
+  --ns-type-title-size: 20px;  --ns-type-title-line: 28px;
+  --ns-type-body1-size: 16px;  --ns-type-body1-line: 24px;  --ns-type-body1-tracking: 0.44px;
+  --ns-type-body2-size: 14px;  --ns-type-body2-line: 20px;  --ns-type-body2-tracking: 0.25px;
+  --ns-type-body3-size: 13px;  --ns-type-body3-line: 18px;
+  --ns-type-caption-size: 12px; --ns-type-caption-line: 16px; --ns-type-caption-tracking: 0.4px;
+  --ns-type-overline-size: 11px; --ns-type-overline-line: 16px; --ns-type-overline-tracking: 1.5px;
+  --ns-type-button-size: 14px; --ns-type-button-line: 20px;
 
   /* ---------- Spacing (spacing/0 - spacing/14) ---------- */
-  --pf-space-0: 0px;
-  --pf-space-1: 2px;
-  --pf-space-2: 4px;
-  --pf-space-3: 8px;
-  --pf-space-4: 12px;
-  --pf-space-5: 16px;
-  --pf-space-6: 20px;
-  --pf-space-7: 24px;
-  --pf-space-8: 32px;
-  --pf-space-9: 40px;
-  --pf-space-10: 48px;
-  --pf-space-11: 64px;
-  --pf-space-12: 80px;
-  --pf-space-13: 96px;
-  --pf-space-14: 120px;
+  --ns-space-0: 0px;
+  --ns-space-1: 2px;
+  --ns-space-2: 4px;
+  --ns-space-3: 8px;
+  --ns-space-4: 12px;
+  --ns-space-5: 16px;
+  --ns-space-6: 20px;
+  --ns-space-7: 24px;
+  --ns-space-8: 32px;
+  --ns-space-9: 40px;
+  --ns-space-10: 48px;
+  --ns-space-11: 64px;
+  --ns-space-12: 80px;
+  --ns-space-13: 96px;
+  --ns-space-14: 120px;
 
   /* ---------- Radius ---------- */
-  --pf-radius-none: 0px;
-  --pf-radius-xs: 2px;
-  --pf-radius-sm: 4px;
-  --pf-radius-md: 6px;
-  --pf-radius-lg: 8px;
-  --pf-radius-xl: 12px;
-  --pf-radius-2xl: 16px;
-  --pf-radius-3xl: 24px;
-  --pf-radius-full: 9999px;
+  --ns-radius-none: 0px;
+  --ns-radius-xs: 2px;
+  --ns-radius-sm: 4px;
+  --ns-radius-md: 6px;
+  --ns-radius-lg: 8px;
+  --ns-radius-xl: 12px;
+  --ns-radius-2xl: 16px;
+  --ns-radius-3xl: 24px;
+  --ns-radius-full: 9999px;
 
   /* ---------- Motion ---------- */
-  --pf-duration-instant: 0ms;
-  --pf-duration-fast: 100ms;
-  --pf-duration-base: 200ms;
-  --pf-duration-slow: 320ms;
-  --pf-duration-expressive: 500ms;
-  --pf-easing-standard: cubic-bezier(0.2, 0, 0, 1);
-  --pf-easing-enter: cubic-bezier(0, 0, 0, 1);
-  --pf-easing-exit: cubic-bezier(0.3, 0, 1, 1);
+  --ns-duration-instant: 0ms;
+  --ns-duration-fast: 100ms;
+  --ns-duration-base: 200ms;
+  --ns-duration-slow: 320ms;
+  --ns-duration-expressive: 500ms;
+  --ns-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ns-easing-enter: cubic-bezier(0, 0, 0, 1);
+  --ns-easing-exit: cubic-bezier(0.3, 0, 1, 1);
 
   /* ---------- Layout ---------- */
-  --pf-breakpoint-compact: 480px;
-  --pf-breakpoint-medium: 768px;
-  --pf-breakpoint-expanded: 1280px;
-  --pf-breakpoint-wide: 1600px;
-  --pf-content-max-width: 1440px;
-  --pf-grid-columns: 12;
-  --pf-grid-gutter: 24px;
+  --ns-breakpoint-compact: 480px;
+  --ns-breakpoint-medium: 768px;
+  --ns-breakpoint-expanded: 1280px;
+  --ns-breakpoint-wide: 1600px;
+  --ns-content-max-width: 1440px;
+  --ns-grid-columns: 12;
+  --ns-grid-gutter: 24px;
 
   /* ============================================================
      Semantic roles - DARK (default)
      ============================================================ */
-  --pf-background-primary: var(--pf-black);
-  --pf-background-secondary: #0b0b16;
-  --pf-background-surface: #0e0e18;
-  --pf-background-elevated: var(--pf-navy-900);
-  --pf-background-shell: #0c0c14;
-  --pf-background-selected: #16163a;
-  --pf-background-hover: #ffffff0d;
-  --pf-background-inverse: var(--pf-white);
+  --ns-background-primary: var(--ns-black);
+  --ns-background-secondary: #0b0b16;
+  --ns-background-surface: #0e0e18;
+  --ns-background-elevated: var(--ns-navy-900);
+  --ns-background-shell: #0c0c14;
+  --ns-background-selected: #16163a;
+  --ns-background-hover: #ffffff0d;
+  --ns-background-inverse: var(--ns-white);
 
-  --pf-text-primary: var(--pf-white);
-  --pf-text-secondary: var(--pf-gray-2);
-  --pf-text-tertiary: var(--pf-gray-3);
-  --pf-text-disabled: var(--pf-gray-5);
-  --pf-text-inverse: var(--pf-black);
-  --pf-text-on-color: var(--pf-white);
-  --pf-text-link: var(--pf-teal-500);
-  --pf-text-accent: var(--pf-teal-500);
+  --ns-text-primary: var(--ns-white);
+  --ns-text-secondary: var(--ns-gray-2);
+  --ns-text-tertiary: var(--ns-gray-3);
+  --ns-text-disabled: var(--ns-gray-5);
+  --ns-text-inverse: var(--ns-black);
+  --ns-text-on-color: var(--ns-white);
+  --ns-text-link: var(--ns-teal-500);
+  --ns-text-accent: var(--ns-teal-500);
 
-  --pf-border-subtle: var(--pf-gray-8);
-  --pf-border-default: var(--pf-gray-7);
-  --pf-border-strong: var(--pf-gray-5);
+  --ns-border-subtle: var(--ns-gray-8);
+  --ns-border-default: var(--ns-gray-7);
+  --ns-border-strong: var(--ns-gray-5);
 
-  --pf-interactive-primary: var(--pf-blue-500);
-  --pf-interactive-primary-hover: #2b5aff;
-  --pf-interactive-primary-active: #0230d4;
-  --pf-interactive-secondary: var(--pf-purple-500);
-  --pf-interactive-ghost-hover: #ffffff12;
-  --pf-focus-ring: var(--pf-teal-500);
+  --ns-interactive-primary: var(--ns-blue-500);
+  --ns-interactive-primary-hover: #2b5aff;
+  --ns-interactive-primary-active: #0230d4;
+  --ns-interactive-secondary: var(--ns-purple-500);
+  --ns-interactive-ghost-hover: #ffffff12;
+  --ns-focus-ring: var(--ns-teal-500);
 
-  --pf-status-success: var(--pf-green-500);
-  --pf-status-warning: var(--pf-yellow-500);
-  --pf-status-error: var(--pf-red-400);
-  --pf-status-info: #4d7cff;
-  --pf-status-success-bg: #5eff5a14;
-  --pf-status-warning-bg: #ffa63f14;
-  --pf-status-error-bg: #ff206914;
-  --pf-status-info-bg: #023aff1f;
+  --ns-status-success: var(--ns-green-500);
+  --ns-status-warning: var(--ns-yellow-500);
+  --ns-status-error: var(--ns-red-400);
+  --ns-status-info: #4d7cff;
+  --ns-status-success-bg: #5eff5a14;
+  --ns-status-warning-bg: #ffa63f14;
+  --ns-status-error-bg: #ff206914;
+  --ns-status-info-bg: #023aff1f;
 
-  --pf-viz-1: var(--pf-teal-500);
-  --pf-viz-2: var(--pf-purple-500);
-  --pf-viz-3: var(--pf-yellow-500);
-  --pf-viz-4: var(--pf-blue-500);
-  --pf-viz-5: var(--pf-green-500);
-  --pf-viz-6: var(--pf-red-400);
-  --pf-viz-7: var(--pf-persian-500);
+  --ns-viz-1: var(--ns-teal-500);
+  --ns-viz-2: var(--ns-purple-500);
+  --ns-viz-3: var(--ns-yellow-500);
+  --ns-viz-4: var(--ns-blue-500);
+  --ns-viz-5: var(--ns-green-500);
+  --ns-viz-6: var(--ns-red-400);
+  --ns-viz-7: var(--ns-persian-500);
 
-  --pf-gradient-brand: linear-gradient(135deg, var(--pf-blue-500), var(--pf-teal-500));
-  --pf-gradient-bruise: linear-gradient(135deg, var(--pf-persian-500), var(--pf-purple-500));
+  --ns-gradient-brand: linear-gradient(135deg, var(--ns-blue-500), var(--ns-teal-500));
+  --ns-gradient-bruise: linear-gradient(135deg, var(--ns-persian-500), var(--ns-purple-500));
 
-  --pf-elevation-01: 0 1px 2px #00000066, 0 0 0 1px var(--pf-border-subtle);
-  --pf-elevation-02: 0 4px 12px #00000080, 0 0 0 1px var(--pf-border-default);
-  --pf-elevation-03: 0 12px 32px #000000a6, 0 0 0 1px var(--pf-border-default);
-  --pf-elevation-04: 0 24px 64px #000000cc, 0 0 0 1px var(--pf-border-strong), 0 0 40px #023aff33;
+  --ns-elevation-01: 0 1px 2px #00000066, 0 0 0 1px var(--ns-border-subtle);
+  --ns-elevation-02: 0 4px 12px #00000080, 0 0 0 1px var(--ns-border-default);
+  --ns-elevation-03: 0 12px 32px #000000a6, 0 0 0 1px var(--ns-border-default);
+  --ns-elevation-04: 0 24px 64px #000000cc, 0 0 0 1px var(--ns-border-strong), 0 0 40px #023aff33;
 
   color-scheme: dark;
 }
@@ -163,54 +163,54 @@
    Semantic roles - LIGHT (mode switch, same structure)
    ============================================================ */
 :root[data-theme="light"] {
-  --pf-background-primary: var(--pf-white);
-  --pf-background-secondary: var(--pf-gray-0);
-  --pf-background-surface: var(--pf-white);
-  --pf-background-elevated: var(--pf-white);
-  --pf-background-shell: #fafaff;
-  --pf-background-selected: #e8edff;
-  --pf-background-hover: #05050f0a;
-  --pf-background-inverse: var(--pf-black);
+  --ns-background-primary: var(--ns-white);
+  --ns-background-secondary: var(--ns-gray-0);
+  --ns-background-surface: var(--ns-white);
+  --ns-background-elevated: var(--ns-white);
+  --ns-background-shell: #fafaff;
+  --ns-background-selected: #e8edff;
+  --ns-background-hover: #05050f0a;
+  --ns-background-inverse: var(--ns-black);
 
-  --pf-text-primary: var(--pf-black);
-  --pf-text-secondary: var(--pf-gray-6);
-  --pf-text-tertiary: var(--pf-gray-5);
-  --pf-text-disabled: var(--pf-gray-2);
-  --pf-text-inverse: var(--pf-white);
-  --pf-text-link: var(--pf-blue-500);
-  --pf-text-accent: #007f78;
+  --ns-text-primary: var(--ns-black);
+  --ns-text-secondary: var(--ns-gray-6);
+  --ns-text-tertiary: var(--ns-gray-5);
+  --ns-text-disabled: var(--ns-gray-2);
+  --ns-text-inverse: var(--ns-white);
+  --ns-text-link: var(--ns-blue-500);
+  --ns-text-accent: #007f78;
 
-  --pf-border-subtle: var(--pf-gray-1);
-  --pf-border-default: var(--pf-gray-2);
-  --pf-border-strong: var(--pf-gray-4);
+  --ns-border-subtle: var(--ns-gray-1);
+  --ns-border-default: var(--ns-gray-2);
+  --ns-border-strong: var(--ns-gray-4);
 
-  --pf-interactive-ghost-hover: #05050f0d;
-  --pf-focus-ring: var(--pf-blue-500);
+  --ns-interactive-ghost-hover: #05050f0d;
+  --ns-focus-ring: var(--ns-blue-500);
 
-  --pf-status-success: #2f8a00;
-  --pf-status-warning: #b35f00;
-  --pf-status-error: #d7002f;
-  --pf-status-info: var(--pf-blue-500);
-  --pf-status-success-bg: #73be031a;
-  --pf-status-warning-bg: #ffa63f1f;
-  --pf-status-error-bg: #ff2d2e14;
-  --pf-status-info-bg: #023aff12;
+  --ns-status-success: #2f8a00;
+  --ns-status-warning: #b35f00;
+  --ns-status-error: #d7002f;
+  --ns-status-info: var(--ns-blue-500);
+  --ns-status-success-bg: #73be031a;
+  --ns-status-warning-bg: #ffa63f1f;
+  --ns-status-error-bg: #ff2d2e14;
+  --ns-status-info-bg: #023aff12;
 
-  --pf-viz-1: #00a89e;
+  --ns-viz-1: #00a89e;
 
-  --pf-elevation-01: 0 1px 2px #05050f14, 0 0 0 1px var(--pf-border-subtle);
-  --pf-elevation-02: 0 4px 12px #05050f1a, 0 0 0 1px var(--pf-border-subtle);
-  --pf-elevation-03: 0 12px 32px #05050f24, 0 0 0 1px var(--pf-border-subtle);
-  --pf-elevation-04: 0 24px 64px #05050f33, 0 0 0 1px var(--pf-border-default);
+  --ns-elevation-01: 0 1px 2px #05050f14, 0 0 0 1px var(--ns-border-subtle);
+  --ns-elevation-02: 0 4px 12px #05050f1a, 0 0 0 1px var(--ns-border-subtle);
+  --ns-elevation-03: 0 12px 32px #05050f24, 0 0 0 1px var(--ns-border-subtle);
+  --ns-elevation-04: 0 24px 64px #05050f33, 0 0 0 1px var(--ns-border-default);
 
   color-scheme: light;
 }
 
 @media (prefers-reduced-motion: reduce) {
   :root {
-    --pf-duration-fast: 0ms;
-    --pf-duration-base: 0ms;
-    --pf-duration-slow: 0ms;
-    --pf-duration-expressive: 0ms;
+    --ns-duration-fast: 0ms;
+    --ns-duration-base: 0ms;
+    --ns-duration-slow: 0ms;
+    --ns-duration-expressive: 0ms;
   }
 }
