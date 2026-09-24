@@ -1,0 +1,572 @@
+[
+  {
+    "name": "Restoraunt",
+    "file": "restoraunt.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Trend up",
+    "file": "trend-up.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Cancel",
+    "file": "cancel.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Star",
+    "file": "star.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Arrow down",
+    "file": "arrow-down.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Crown",
+    "file": "crown.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Near protocol",
+    "file": "near-protocol.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Coffee",
+    "file": "coffee.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "User",
+    "file": "user.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Dots",
+    "file": "dots.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Heart",
+    "file": "heart.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Search",
+    "file": "search.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Diamonds",
+    "file": "diamonds.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Money exchange",
+    "file": "money-exchange.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "stacks",
+    "file": "stacks.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Send",
+    "file": "send.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Coin",
+    "file": "coin.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Movie",
+    "file": "movie.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Download",
+    "file": "download.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Money hand",
+    "file": "money-hand.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Tag",
+    "file": "tag.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Dashboard",
+    "file": "dashboard.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "avalanche avax",
+    "file": "avalanche-avax.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Bell",
+    "file": "bell.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "User stroke",
+    "file": "user-stroke.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Play",
+    "file": "play.svg",
+    "size": 32,
+    "set": "24"
+  },
+  {
+    "name": "Coin 2",
+    "file": "coin-2.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Wallet",
+    "file": "wallet.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Cup",
+    "file": "cup.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Calendar",
+    "file": "calendar.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Bitcoin btc",
+    "file": "bitcoin-btc.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Bell solid",
+    "file": "bell-solid.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Credit card",
+    "file": "credit-card.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Cardano ada",
+    "file": "cardano-ada.svg",
+    "size": 26,
+    "set": "24"
+  },
+  {
+    "name": "Chat",
+    "file": "chat.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Pharmacy",
+    "file": "pharmacy.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Avatar",
+    "file": "avatar.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Charts",
+    "file": "charts.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Candle chart",
+    "file": "candle-chart.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Ethereum eth",
+    "file": "ethereum-eth.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Safe",
+    "file": "safe.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "4k",
+    "file": "4k.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "House",
+    "file": "house.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Coins",
+    "file": "coins.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Eye",
+    "file": "eye.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Speed up",
+    "file": "speed-up.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Volume",
+    "file": "volume.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Coins hand 2",
+    "file": "coins-hand-2.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Gamepad",
+    "file": "gamepad.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Setting",
+    "file": "setting.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Tag",
+    "file": "tag-2.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Smile",
+    "file": "smile.svg",
+    "size": 20,
+    "set": "24"
+  },
+  {
+    "name": "Medicaments",
+    "file": "medicaments.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Artboard",
+    "file": "artboard.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Code",
+    "file": "code.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Target",
+    "file": "target.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Car",
+    "file": "car.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Filter",
+    "file": "filter.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Apple",
+    "file": "apple.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Shirt",
+    "file": "shirt.svg",
+    "size": 16,
+    "set": "24"
+  },
+  {
+    "name": "Plus",
+    "file": "plus.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "4 square",
+    "file": "4-square.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Column charts",
+    "file": "column-charts.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Cup outline",
+    "file": "cup-outline.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Bell 2",
+    "file": "bell-2.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Setting 2",
+    "file": "setting-2.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Modal",
+    "file": "modal.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Full screen",
+    "file": "full-screen.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Add user",
+    "file": "add-user.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Documents",
+    "file": "documents.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "House outline",
+    "file": "house-outline.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Column chart outline",
+    "file": "column-chart-outline.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Done",
+    "file": "done.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Smile outline",
+    "file": "smile-outline.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Dashboard outline",
+    "file": "dashboard-outline.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Buildings outline",
+    "file": "buildings-outline.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Attach",
+    "file": "attach.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Doc",
+    "file": "doc.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "More",
+    "file": "more.svg",
+    "size": 24,
+    "set": "24"
+  },
+  {
+    "name": "Link",
+    "file": "link.svg",
+    "size": 18,
+    "set": "mini"
+  },
+  {
+    "name": "Filter mini",
+    "file": "filter-mini.svg",
+    "size": 18,
+    "set": "mini"
+  },
+  {
+    "name": "Mic mini",
+    "file": "mic-mini.svg",
+    "size": 18,
+    "set": "mini"
+  },
+  {
+    "name": "Arrow down mini",
+    "file": "arrow-down-mini.svg",
+    "size": 18,
+    "set": "mini"
+  },
+  {
+    "name": "Menu 1 mini",
+    "file": "menu-1-mini.svg",
+    "size": 18,
+    "set": "mini"
+  },
+  {
+    "name": "Menu 2 mini",
+    "file": "menu-2-mini.svg",
+    "size": 18,
+    "set": "mini"
+  },
+  {
+    "name": "More mini",
+    "file": "more-mini.svg",
+    "size": 18,
+    "set": "mini"
+  },
+  {
+    "name": "More horizontal mini",
+    "file": "more-horizontal-mini.svg",
+    "size": 18,
+    "set": "mini"
+  },
+  {
+    "name": "Sort",
+    "file": "sort.svg",
+    "size": 18,
+    "set": "mini"
+  },
+  {
+    "name": "24",
+    "file": "24.svg",
+    "size": 18,
+    "set": "mini"
+  },
+  {
+    "name": "Calendar outline",
+    "file": "calendar-outline.svg",
+    "size": 20,
+    "set": "24"
+  },
+  {
+    "name": "Warning",
+    "file": "warning.svg",
+    "size": 24,
+    "set": "status"
+  },
+  {
+    "name": "Success",
+    "file": "success.svg",
+    "size": 24,
+    "set": "status"
+  },
+  {
+    "name": "Attention",
+    "file": "attention.svg",
+    "size": 24,
+    "set": "status"
+  },
+  {
+    "name": "Question",
+    "file": "question.svg",
+    "size": 24,
+    "set": "status"
+  },
+  {
+    "name": "Frame",
+    "file": "frame.svg",
+    "size": 24,
+    "set": "24"
+  }
+]

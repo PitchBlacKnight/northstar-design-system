@@ -1,0 +1,12 @@
+<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icons">
+<g id="stacks" clip-path="url(#clip0_stacks)">
+<path id="Subtract" fill-rule="evenodd" clip-rule="evenodd" d="M24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12C0 5.37258 5.37258 0 12 0C18.6274 0 24 5.37258 24 12ZM14.313 14.2679L16.8962 18.3229H14.9738L11.94 13.562L8.90623 18.3229H6.98383L9.56706 14.2679H5.85742V12.7359H18.0226V14.2679H14.313ZM18.0226 9.71716V11.2491L5.85742 11.2641V9.71716H9.49197L6.93877 5.70715H8.87619L11.94 10.5432L15.0039 5.70715H16.9413L14.3881 9.71716H18.0226Z" fill="currentColor"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_stacks">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>
+</svg>

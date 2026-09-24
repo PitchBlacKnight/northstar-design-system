@@ -128,10 +128,14 @@
     const bg = t.closest("[data-bg]");
     if (bg) { const c = document.querySelector(`#${bg.dataset.bg} [data-canvas]`); const on = bg.getAttribute("aria-pressed") !== "true"; bg.setAttribute("aria-pressed", on); c.style.backgroundImage = on ? "none" : ""; return; }
     // demo behaviors
-    const dismiss = t.closest(".ns-tag button, .ns-notice__close");
+    const dismiss = t.closest(".ns-tag button, .ns-notice__close, .ns-alert__close");
     if (dismiss && dismiss.closest(".stage, .dd")) { dismiss.parentElement.style.opacity = ".25"; return; }
     const tab = t.closest(".ns-tabs .ns-tab");
     if (tab && tab.closest(".stage, .fp-frame")) { tab.parentElement.querySelectorAll(".ns-tab").forEach((x) => x.setAttribute("aria-selected", x === tab)); return; }
+    const ddTrig = t.closest("[data-dd] .ns-dd__trigger");
+    if (ddTrig) { const dd = ddTrig.closest("[data-dd]"); const o = dd.classList.toggle("is-open"); ddTrig.setAttribute("aria-expanded", o); return; }
+    const ddItem = t.closest("[data-dd] .ns-dd__item");
+    if (ddItem) { const dd = ddItem.closest("[data-dd]"); dd.querySelectorAll(".ns-dd__item").forEach((i) => i.setAttribute("aria-selected", i === ddItem)); dd.querySelector(".ns-dd__trigger").firstChild.textContent = ddItem.textContent; dd.classList.remove("is-open"); return; }
     const pop = t.closest("[data-popover]");
     if (pop) { pop.closest(".ns-popover").classList.toggle("is-open"); return; }
     const openModal = t.closest("[data-open-modal]");
@@ -144,6 +148,7 @@
     if (day && !day.classList.contains("is-muted")) { day.closest(".ns-cal").querySelectorAll(".is-selected").forEach((d) => d.classList.remove("is-selected")); day.classList.add("is-selected"); return; }
     const sortTh = t.closest("th[data-sort]");
     if (sortTh) { NS.sortTable(sortTh); return; }
+    if (!t.closest("[data-dd]")) document.querySelectorAll("[data-dd].is-open").forEach((d) => d.classList.remove("is-open"));
     if (!t.closest(".ns-popover")) document.querySelectorAll(".ns-popover.is-open").forEach((p) => p.classList.remove("is-open"));
   });
 

@@ -1,0 +1,12 @@
+<svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icons">
+<g id="Menu 2 mini" clip-path="url(#clip0_menu_2_mini)">
+<path id="Vector" d="M13.5 13.5V15H4.5V13.5H13.5ZM15.75 8.25V9.75H2.25V8.25H15.75ZM13.5 3V4.5H4.5V3H13.5Z" fill="currentColor"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_menu_2_mini">
+<rect width="18" height="18" fill="white"/>
+</clipPath>
+</defs>
+</svg>

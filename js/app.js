@@ -27,7 +27,7 @@
   <button class="icon-btn hdr__menu" id="menu-btn" aria-label="Open navigation" aria-expanded="false" aria-controls="side">${NS.icon.menu}</button>
   <a class="brand" href="#/"><span class="brand__dot" aria-hidden="true"></span>NORTHSTAR <span>DS</span></a>
   <span class="ver">${NS.VERSION}</span>
-  <nav class="hdr__nav" aria-label="Primary">${[["foundations", "Foundations"], ["components", "Components"], ["patterns/forms", "Patterns"], ["data-viz", "Data viz"], ["floorplans", "Floorplans"], ["tools/live-builder", "Live tools"]].map(([p, l]) => `<a href="#/${p}" data-top="${p.split("/")[0]}">${l}</a>`).join("")}</nav>
+  <nav class="hdr__nav" aria-label="Primary">${[["foundations", "Foundations"], ["components", "Components"], ["patterns/forms", "Patterns"], ["graphics", "Graphics"], ["floorplans", "Floorplans"], ["tools/live-builder", "Live tools"]].map(([p, l]) => `<a href="#/${p}" data-top="${p.split("/")[0]}">${l}</a>`).join("")}</nav>
   <span class="hdr__spacer"></span>
   <button class="hdr__search" data-open-search aria-label="Search documentation">${NS.icon.search}<span class="label">Search docs...</span><kbd>⌘K</kbd></button>
   <button class="icon-btn" data-drawer aria-label="Open token editor" title="Token editor">${NS.icon.sliders}</button>

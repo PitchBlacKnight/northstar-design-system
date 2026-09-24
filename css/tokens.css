@@ -32,24 +32,34 @@
   --ns-yellow-500: #ffa63f;
   --ns-red-400: #ff2069;
   --ns-red-500: #ff2d2e;
+  --ns-purple-300: #6a6a9f;
+  --ns-purple-400: #8855e8;
+  --ns-blue-700: #3506ef;
+  --ns-green-2: #27ae60;
+  --ns-magenta-500: #d91cff;
+  --ns-violet-600: #7a12ff;
+  --ns-cyan-400: #22d3ff;
+  --ns-sky-500: #1e6bff;
+  --ns-orange-500: #ff8a00;
+  --ns-periwinkle-500: #6c63ff;
 
   /* ---------- Typography ---------- */
   --ns-font-sans: "Open Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --ns-font-ui: "Inter", "Open Sans", system-ui, sans-serif;
   --ns-font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
-  --ns-type-h1-size: 48px;   --ns-type-h1-line: 56px;   --ns-type-h1-weight: 800;
-  --ns-type-h2-size: 40px;   --ns-type-h2-line: 48px;   --ns-type-h2-weight: 800;
-  --ns-type-h3-size: 32px;   --ns-type-h3-line: 40px;   --ns-type-h3-weight: 700;
+  --ns-type-h1-size: 72px;   --ns-type-h1-line: 118px;   --ns-type-h1-weight: 800;
+  --ns-type-h2-size: 60px;   --ns-type-h2-line: 80px;   --ns-type-h2-weight: 800;
+  --ns-type-h3-size: 48px;   --ns-type-h3-line: 56px;   --ns-type-h3-weight: 700;
   --ns-type-h4-size: 28px;   --ns-type-h4-line: 36px;   --ns-type-h4-weight: 700;
-  --ns-type-h5-size: 24px;   --ns-type-h5-line: 32px;   --ns-type-h5-weight: 700;
+  --ns-type-h5-size: 24px;   --ns-type-h5-line: 36px;   --ns-type-h5-weight: 700;
   --ns-type-h6-size: 20px;   --ns-type-h6-line: 28px;   --ns-type-h6-weight: 700;
-  --ns-type-title-size: 20px;  --ns-type-title-line: 28px;
+  --ns-type-title-size: 20px;  --ns-type-title-line: 32px;
   --ns-type-body1-size: 16px;  --ns-type-body1-line: 24px;  --ns-type-body1-tracking: 0.44px;
   --ns-type-body2-size: 14px;  --ns-type-body2-line: 20px;  --ns-type-body2-tracking: 0.25px;
   --ns-type-body3-size: 13px;  --ns-type-body3-line: 18px;
   --ns-type-caption-size: 12px; --ns-type-caption-line: 16px; --ns-type-caption-tracking: 0.4px;
-  --ns-type-overline-size: 11px; --ns-type-overline-line: 16px; --ns-type-overline-tracking: 1.5px;
+  --ns-type-overline-size: 10px; --ns-type-overline-line: 16px; --ns-type-overline-tracking: 1.5px;
   --ns-type-button-size: 14px; --ns-type-button-line: 20px;
 
   /* ---------- Spacing (spacing/0 - spacing/14) ---------- */
@@ -125,8 +135,12 @@
   --ns-border-strong: var(--ns-gray-5);
 
   --ns-interactive-primary: var(--ns-blue-500);
-  --ns-interactive-primary-hover: #2b5aff;
-  --ns-interactive-primary-active: #0230d4;
+  --ns-interactive-primary-hover: var(--ns-blue-700);
+  --ns-interactive-primary-active: var(--ns-purple-500);
+  --ns-interactive-secondary-bg: var(--ns-gray-8);
+  --ns-interactive-secondary-hover: var(--ns-gray-7);
+  --ns-field-bg: #121216;
+  --ns-focus-field: var(--ns-blue-700);
   --ns-interactive-secondary: var(--ns-purple-500);
   --ns-interactive-ghost-hover: #ffffff12;
   --ns-focus-ring: var(--ns-teal-500);
@@ -150,6 +164,20 @@
 
   --ns-gradient-brand: linear-gradient(135deg, var(--ns-blue-500), var(--ns-teal-500));
   --ns-gradient-bruise: linear-gradient(135deg, var(--ns-persian-500), var(--ns-purple-500));
+  --ns-gradient-purple: linear-gradient(180deg, var(--ns-magenta-500), var(--ns-violet-600));
+  --ns-gradient-bubble: linear-gradient(180deg, var(--ns-cyan-400), var(--ns-sky-500));
+  --ns-gradient-glow: radial-gradient(120% 90% at 85% 0%, #22d3ff 0%, #0a5cff 28%, #0b1a55 48%, transparent 70%);
+
+  /* ---------- Widgets (Figma: Widgets page) ---------- */
+  --ns-widget-bg: var(--ns-navy-900);
+  --ns-widget-inset: var(--ns-black);
+  --ns-widget-track: #0e0e22;
+  --ns-widget-band: #12122a;
+  --ns-widget-grid: #2a2a4a;
+  --ns-widget-muted: var(--ns-purple-300);
+  --ns-widget-radius: 12px;
+  --ns-widget-shadow: inset 0 1px 0.3px #ffffff08;
+  --ns-widget-pad: 24px;
 
   --ns-elevation-01: 0 1px 2px #00000066, 0 0 0 1px var(--ns-border-subtle);
   --ns-elevation-02: 0 4px 12px #00000080, 0 0 0 1px var(--ns-border-default);
@@ -185,6 +213,9 @@
   --ns-border-strong: var(--ns-gray-4);
 
   --ns-interactive-ghost-hover: #05050f0d;
+  --ns-interactive-secondary-bg: var(--ns-gray-0);
+  --ns-interactive-secondary-hover: var(--ns-gray-1);
+  --ns-field-bg: var(--ns-gray-0);
   --ns-focus-ring: var(--ns-blue-500);
 
   --ns-status-success: #2f8a00;
@@ -197,6 +228,13 @@
   --ns-status-info-bg: #023aff12;
 
   --ns-viz-1: #00a89e;
+  --ns-widget-bg: var(--ns-white);
+  --ns-widget-inset: var(--ns-gray-0);
+  --ns-widget-track: #e6e6f2;
+  --ns-widget-band: #f3f3fb;
+  --ns-widget-grid: #dcdcea;
+  --ns-widget-muted: #5a5a8f;
+  --ns-widget-shadow: 0 1px 2px #05050f14, 0 0 0 1px var(--ns-border-subtle);
 
   --ns-elevation-01: 0 1px 2px #05050f14, 0 0 0 1px var(--ns-border-subtle);
   --ns-elevation-02: 0 4px 12px #05050f1a, 0 0 0 1px var(--ns-border-subtle);
