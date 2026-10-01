@@ -16,7 +16,7 @@
     { group: "Floorplans", items: [["floorplans", "Overview"], ["floorplans/dashboard", "Dashboard"], ["floorplans/analytical-list", "Analytical list"], ["floorplans/object-detail", "Object detail"], ["floorplans/wizard", "Guided wizard"], ["floorplans/approval-queue", "Approval queue"]] },
     { group: "Accessibility", items: [["accessibility", "Principles"], ["accessibility/checklist", "Checklist"], ["accessibility/wcag", "WCAG mapping"], ["accessibility/contrast", "Contrast checker", "Tool"]] },
     { group: "Live tools", items: [["tools/live-builder", "Live Builder", "Live"], ["tools/ai", "AI generator", "AI"], ["tools/token-editor", "Token editor"], ["tools/embed", "Embed mode"]] },
-    { group: "Community", items: [["community/contributing", "Contributing"], ["community/governance", "Governance"], ["community/support", "Support"]] },
+    { group: "Community", items: [["community/contributing", "Contributing"], ["community/governance", "Governance"], ["community/carbon-parity", "Carbon parity", "New"], ["community/support", "Support"]] },
   ];
 
   const hex = (t) => NS.tokenValue(t);
