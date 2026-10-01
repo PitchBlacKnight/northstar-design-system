@@ -33,6 +33,7 @@
   <button class="icon-btn" data-drawer aria-label="Open token editor" title="Token editor">${NS.icon.sliders}</button>
   <button class="icon-btn" id="theme-btn"></button>
   <a class="icon-btn hide-sm" href="${NS.FIGMA}" target="_blank" rel="noopener" aria-label="Open Figma library" title="Figma library"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 24a4 4 0 0 0 4-4v-4H8a4 4 0 0 0 0 8Zm-4-12a4 4 0 0 1 4-4h4v8H8a4 4 0 0 1-4-4Zm0-8a4 4 0 0 1 4-4h4v8H8a4 4 0 0 1-4-4Zm8-4h4a4 4 0 0 1 0 8h-4V0Zm8 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"/></svg></a>
+  <a class="hdr__back hide-sm" href="../" title="Back to mikelrosenthal.com">← mikelrosenthal.com</a>
 </header>
 <div class="shell">
   <nav class="side" id="side" aria-label="Documentation">${NS.NAV.map((g, gi) => `<div class="side__group" data-g="${gi}"><button class="side__head" aria-expanded="true">${g.group}</button><ul class="side__list">${g.items.map(([p, l, tag]) => `<li><a href="#/${p}" data-path="${p}">${l}${tag ? `<span class="ns ns-tag ns-tag--sm ${tag === "New" ? "ns-tag--teal" : tag === "AI" ? "ns-tag--purple" : tag === "Live" ? "ns-tag--green" : "ns-tag--blue"}">${tag}</span>` : ""}</a></li>`).join("")}</ul></div>`).join("")}</nav>

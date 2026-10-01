@@ -333,3 +333,7 @@ html.embed .page-tabs { top: 0; }
   .ramp i { height: 64px; }
   .hdr .hide-sm { display: none; }
 }
+
+/* back to the portfolio when hosted at mikelrosenthal.com/northstar/ */
+.hdr__back{margin-left:8px;font-size:12px;letter-spacing:.02em;color:var(--text-secondary,#a0a6b4);text-decoration:none;white-space:nowrap;padding:6px 10px;border-radius:6px}
+.hdr__back:hover{color:var(--text-primary,#fff);background:rgba(255,255,255,.06)}
