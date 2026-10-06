@@ -134,7 +134,7 @@ a.rcard:hover { border-color: var(--ns-border-strong); transform: translateY(-2p
 .stage__canvas.is-block { display: block; }
 .stage__split { display: grid; grid-template-columns: minmax(0, 1fr) 260px; }
 .stage__controls { border-left: 1px solid var(--ns-border-subtle); padding: var(--ns-space-5); display: grid; gap: var(--ns-space-5); align-content: start; background: var(--ns-background-secondary); }
-.stage__controls h4 { margin: 0; font: 700 var(--ns-type-overline-size)/1 var(--ns-font-sans); letter-spacing: var(--ns-type-overline-tracking); text-transform: uppercase; color: var(--ns-text-tertiary); }
+.stage__controls h4 { margin: 0 0 var(--ns-space-3); font: 700 var(--ns-type-overline-size)/1.4 var(--ns-font-sans); letter-spacing: var(--ns-type-overline-tracking); text-transform: uppercase; color: var(--ns-text-tertiary); }
 .seg { display: flex; flex-wrap: wrap; gap: 4px; }
 .seg button { all: unset; cursor: pointer; padding: 6px 10px; border-radius: var(--ns-radius-sm); border: 1px solid var(--ns-border-default); font: 600 var(--ns-type-caption-size)/1 var(--ns-font-sans); color: var(--ns-text-secondary); }
 .seg button:hover { color: var(--ns-text-primary); border-color: var(--ns-border-strong); }
@@ -244,7 +244,7 @@ a.rcard:hover { border-color: var(--ns-border-strong); transform: translateY(-2p
 /* ---------- Live builder ---------- */
 .lb { display: grid; grid-template-columns: 280px minmax(0, 1fr); border: 1px solid var(--ns-border-subtle); border-radius: var(--ns-radius-lg); overflow: hidden; min-height: 620px; background: var(--ns-background-surface); }
 .lb__rail { border-right: 1px solid var(--ns-border-subtle); padding: var(--ns-space-5); display: grid; gap: var(--ns-space-3); align-content: start; background: var(--ns-background-secondary); }
-.lb__rail h4 { margin: var(--ns-space-3) 0 0; font: 700 var(--ns-type-overline-size)/1 var(--ns-font-sans); letter-spacing: var(--ns-type-overline-tracking); text-transform: uppercase; color: var(--ns-text-tertiary); }
+.lb__rail h4 { margin: var(--ns-space-3) 0 var(--ns-space-3); font: 700 var(--ns-type-overline-size)/1.4 var(--ns-font-sans); letter-spacing: var(--ns-type-overline-tracking); text-transform: uppercase; color: var(--ns-text-tertiary); }
 .recipe { all: unset; cursor: pointer; display: grid; gap: 2px; padding: var(--ns-space-4); border-radius: var(--ns-radius-md); border: 1px solid var(--ns-border-subtle); background: var(--ns-background-surface); }
 .recipe b { font: 700 var(--ns-type-body2-size)/1.3 var(--ns-font-sans); }
 .recipe span { font: 400 var(--ns-type-caption-size)/1.35 var(--ns-font-sans); color: var(--ns-text-tertiary); }
