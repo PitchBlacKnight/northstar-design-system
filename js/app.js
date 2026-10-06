@@ -70,6 +70,7 @@
     const { route, anchor } = parse();
     const main = document.getElementById("main-content");
     const mainWrap = document.getElementById("main");
+    if (NS.pageCleanup) { NS.pageCleanup(); NS.pageCleanup = null; }
     let page, html = "", tabsHtml = "", path = route, compTab = null;
 
     const m = route.match(/^components\/([\w-]+)(?:\/(\w+))?$/);
