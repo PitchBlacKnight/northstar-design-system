@@ -132,7 +132,7 @@
       react: "<Dropdown label=\"Sort by\" icon={<Settings />} items={sorts} onChange={setSort} />",
     },
     {
-      id: "checkbox", name: "Checkbox", cat: "Inputs", status: "Stable",
+      id: "checkbox", name: "Checkbox", cat: "Inputs", status: "Stable", figma: "4038:30904",
       desc: "Checkboxes select one or more options from a list, or toggle a single setting that applies on submit.",
       playground: {
         controls: [{ key: "state", label: "State", options: ["Group", "Indeterminate", "Disabled"] }],
@@ -171,7 +171,7 @@
       react: "<RadioGroup legend=\"Deployment strategy\" name=\"strategy\" defaultValue=\"rolling\">\n  <Radio label=\"Rolling\" value=\"rolling\" />\n  <Radio label=\"Canary\" value=\"canary\" />\n</RadioGroup>",
     },
     {
-      id: "toggle", name: "Switch", cat: "Inputs", status: "Stable", figma: "4038:29816",
+      id: "toggle", name: "Switch", cat: "Inputs", status: "Stable", figma: "4038:30919",
       desc: "Switches allow users to turn an individual option on or off. They are usually used to activate or deactivate a specific setting.",
       axes: [["Selected", "On, Off"], ["Show label", "Yes, No"], ["State", "Default, Hover"], ["Disabled", "No, Yes"]],
       doc: [],
@@ -422,7 +422,7 @@
       react: "<Modal open={open} danger modalHeading=\"Revoke API credentials?\" primaryButtonText=\"Revoke\" secondaryButtonText=\"Cancel\" onRequestClose={close} />",
     },
     {
-      id: "tooltip", name: "Tooltip", cat: "Overlays", status: "Stable", figma: "4038:29816",
+      id: "tooltip", name: "Tooltip", cat: "Overlays", status: "Stable", figma: "4038:30995",
       desc: "Tooltips show contextual help or information about specific components when a user hovers or focuses on them.",
       axes: [["Placement", "N, NW, NE, S, E, W"], ["Icon", "Yes, No"]],
       doc: [],
@@ -504,7 +504,8 @@
 
   /* ---------- page renderer ---------- */
   NS.renderComponent = function (c, tab) {
-    const tabs = ["usage", "style", "code", "accessibility"];
+    const spec = NS.SPECS && NS.SPECS[c.id];
+    const tabs = ["usage", "style", "code", "accessibility", ...(spec ? ["spec"] : [])];
     tab = tabs.includes(tab) ? tab : "usage";
     let body = "";
     if (tab === "usage") {
@@ -525,6 +526,8 @@
       body += NS.h2("React") + NS.codeBlock(c.react, "js");
       body += NS.h2("HTML + CSS") + `<p>Framework-free markup using <code>components.css</code> classes and <code>tokens.css</code> variables.</p>` + NS.codeBlock(c.playground.render(Object.fromEntries((c.playground.controls || []).map((k) => [k.key, k.default ?? (k.options ? k.options[0] : k.type === "bool" ? false : "")]))), "html");
       body += NS.h2("Props") + NS.table(["Prop", "Type", "Default", "Description"], c.props.map((p) => [`<code>${p[0]}</code>`, `<code>${x(p[1])}</code>`, `<code>${x(p[2])}</code>`, p[3]]));
+    } else if (tab === "spec") {
+      body += NS.renderSpec(spec);
     } else {
       body += NS.h2("What NorthStar provides") + `<ul>${c.aria.map((a) => `<li>${a}</li>`).join("")}</ul>`;
       body += NS.h2("Keyboard interactions") + NS.table(["Key", "Interaction"], c.keyboard.map(([k, a]) => [k === "-" ? "-" : k.split(" / ").map((s) => `<kbd>${s}</kbd>`).join(" / "), a]));
@@ -532,5 +535,31 @@
       body += NS.h2("Development considerations") + `<p>Test with VoiceOver and NVDA, keyboard only, and 200% zoom. See the <a href="#/accessibility/checklist">accessibility checklist</a>.</p>`;
     }
     return { tabs, tab, body };
+  };
+
+  /* ---------- Figma specification documents (data in specs.js) ---------- */
+  const figLink = (id, label) => `<a href="${NS.FIGMA}?node-id=${id.replace(":", "-")}" target="_blank" rel="noopener">${label} ↗</a>`;
+  const linkify = (s) => x(s).replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+  NS.renderSpecBlock = (b) => {
+    if (b.type === "text") return `<p>${linkify(b.text)}</p>`;
+    if (b.type === "label") return `<p class="spec-label">${x(b.text)}</p>`;
+    if (b.type === "table") return NS.table(b.columns.map(x), b.rows.map((r) => r.map(linkify)));
+    if (b.type === "checklist") return `<ul class="spec-check">${b.items.map((i) => `<li>${x(i)}</li>`).join("")}</ul>`;
+    if (b.type === "note") return NS.notice("warning", x(b.heading || "Review note"), linkify(b.text));
+    if (b.type === "links") return `<ul>${b.items.map((u) => `<li>${linkify(u)}</li>`).join("")}</ul>`;
+    if (b.type === "example") return `<p class="spec-specimen"><span>Figma specimen${b.label ? ` · ${x(b.label)}` : ""}</span>${x(b.description)}</p>`;
+    return "";
+  };
+  NS.renderSpec = (d) => {
+    const m = d.meta || {};
+    let h = `<div class="spec-head"><p class="spec-label">${x(d.category)} · ${x(d.revision)}</p><p>${x(d.summary)}</p>
+<div class="spec-status">${Object.entries(m).map(([k, v]) => `<span><b>${x(k)}</b>${x(String(v).replace(/^Owner: /, ""))}</span>`).join("")}</div>
+<p>${figLink(d.nodeId, "Open the full specification in Figma")}</p></div>`;
+    d.sections.forEach((s) => {
+      h += NS.h2(`${s.number} ${s.heading}`);
+      s.blocks.forEach((b) => (h += NS.renderSpecBlock(b)));
+    });
+    if (d.footer && d.footer.length) h += `<p class="spec-foot">${d.footer.map(x).join(" · ")}</p>`;
+    return h;
   };
 })();
