@@ -98,6 +98,7 @@
     const feedback = `<div class="feedback ns" data-fb="${fbKey}"><span class="grow">${fb ? "Thanks for the feedback." : "Was this page helpful?"}</span>${fb ? "" : '<button class="ns-btn ns-btn--sm ns-btn--tertiary" data-vote="yes">Yes</button><button class="ns-btn ns-btn--sm ns-btn--tertiary" data-vote="no">No</button>'}<a class="ns-btn ns-btn--sm ns-btn--ghost" href="#/community/contributing">Suggest an edit</a></div>`;
     const footer = `<footer class="ftr"><div><h4>NORTHSTAR DESIGN SYSTEM</h4><p>An enterprise-grade UI architecture crafted for secure, high-density telemetry dashboards, command panels, and distributed cloud systems.</p></div><div><h5>Resources</h5><ul><li><a href="${NS.FIGMA}" target="_blank" rel="noopener">Figma library</a></li><li><a href="#/getting-started/developers">Developer guide</a></li><li><a href="#/foundations/tokens">Token reference</a></li></ul></div><div><h5>Community</h5><ul><li><a href="#/community/support">Slack channel</a></li><li><a href="#/community/contributing">Contribution guide</a></li><li><a href="#/community/governance">Security board</a></li></ul></div><p class="legal">© 2026 NorthStar Enterprise Solutions. Code licensed under Apache 2.0. Documentation licensed under CC BY 4.0.</p></footer>`;
 
+    document.body.classList.toggle("is-home", !!page.home);
     main.innerHTML = `${header}${tabsHtml}<div class="prose">${html}</div>${idx >= 0 && !page.home ? feedback : ""}${pn}${footer}`;
     document.title = `${page.title === "Home" ? "NorthStar Design System" : page.title + " | NorthStar DS"}`;
 
