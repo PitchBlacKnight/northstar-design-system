@@ -140,6 +140,44 @@
   const shell = (cls, inner, w) => `<div class="ns ns-w ${cls}"${w ? ` style="--_w:${w}px"` : ""}>${inner}</div>`;
   const tableFor = (t, n) => (t && tables[t] ? tables[t](n) : "");
 
+  /* ---------- v1.5 widgets: gauge, area, heatmap, ranked bar, funnel, uptime, states, parts ---------- */
+  const RANK = [["North America", 4210, 100], ["Europe", 3380, 80], ["Asia Pacific", 2470, 59], ["Latin America", 1120, 27], ["Middle East", 640, 15], ["Africa", 410, 10], ["Oceania", 330, 8], ["Other", 120, 3]];
+  const FUNNEL = [["Visits", "12,400", 100, "viz-2"], ["Sign-ups", "4,960", 40, "viz-7"], ["Trials", "2,108", 17, "viz-4"], ["Paid", "397", 3.2, "viz-1"]];
+  const SER = [["Sales", "viz-1", "42%"], ["Product", "viz-2", "26%"], ["Marketing", "viz-3", "18%"], ["Other", "viz-4", "14%"]];
+
+  /* Semicircle meter. pct 0-100, optional warning (70-90) and critical (90-100) bands */
+  function gauge({ w = 180, pct = 64, thresholds = false, tone = "viz-2" }) {
+    const sw = w * 0.08, r = w / 2 - sw / 2, cx = w / 2, cy = w / 2, h = w / 2 + sw / 2;
+    const pt = (p) => { const a = Math.PI + Math.PI * (p / 100); return `${(cx + r * Math.cos(a)).toFixed(1)},${(cy + r * Math.sin(a)).toFixed(1)}`; };
+    const arc = (a, b, style, width = sw) => `<path d="M${pt(a)} A${r},${r} 0 0 1 ${pt(b)}" fill="none" style="stroke:${style}" stroke-width="${width}" stroke-linecap="round"/>`;
+    const ro = r + sw * 0.9, pto = (p) => { const a = Math.PI + Math.PI * (p / 100); return `${(cx + ro * Math.cos(a)).toFixed(1)},${(cy + ro * Math.sin(a)).toFixed(1)}`; };
+    const band = (a, b, c) => `<path d="M${pto(a)} A${ro},${ro} 0 0 1 ${pto(b)}" fill="none" style="stroke:${v(c)}" stroke-width="${sw * 0.3}"/>`;
+    return `<svg width="${w}" height="${h + (thresholds ? sw : 0)}" viewBox="${thresholds ? -sw : 0} ${thresholds ? -sw : 0} ${w + (thresholds ? sw * 2 : 0)} ${h + (thresholds ? sw : 0)}" role="img" aria-label="${pct}% of capacity">${arc(0.5, 99.5, v("widget-track"))}${arc(0.5, Math.min(pct, 99.5), v(tone))}${thresholds ? band(70, 90, "status-warning") + band(90, 100, "status-error") : ""}</svg>`;
+  }
+
+  /* Filled trend with a fading gradient; axis=true adds gridlines, y ticks and months */
+  function area({ w = 230, h = 72, two = false, axis = false, seed = 3 }) {
+    const pad = axis ? 40 : 0, top = axis ? 8 : 4, bot = axis ? 22 : 0, iw = w - pad, ih = h - top - bot;
+    const sets = two ? [["viz-2", series(seed, 12, 0.35, 0.9)], ["viz-1", series(seed + 4, 12, 0.1, 0.45)]] : [["viz-2", series(seed, 12, 0.3, 0.9)]];
+    let defs = "", body = "";
+    if (axis) { ["$1k", "$800", "$600", "$400", "$200", "0"].forEach((t, i) => { const y = top + (ih / 5) * i; body += `<line x1="${pad}" x2="${w}" y1="${y}" y2="${y}" style="stroke:${v("widget-grid")}" stroke-dasharray="2 4"/><text x="${pad - 10}" y="${y + 4}" text-anchor="end" font-size="11" style="fill:${v("widget-muted")}">${t}</text>`; }); MONTHS.forEach((m, i) => { body += `<text x="${pad + (iw / 11) * i}" y="${h - 4}" text-anchor="middle" font-size="11" style="fill:${v("widget-muted")}">${m}</text>`; }); }
+    sets.forEach(([c, d]) => { const g = id("ag"); defs += `<linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1">${stop(0, v(c), 0.4)}${stop(1, v(c), 0)}</linearGradient>`; const pts = d.map((y, i) => [pad + (iw / (d.length - 1)) * i, top + ih - y * ih]); const line = smooth(pts); body += `<path d="${line} L${pad + iw},${top + ih} L${pad},${top + ih} Z" fill="url(#${g})"/><path d="${line}" fill="none" style="stroke:${v(c)}" stroke-width="2" stroke-linecap="round"/>`; });
+    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="Area chart, ${two ? "two series" : "one series"}, rising trend"><defs>${defs}</defs>${body}</svg>`;
+  }
+
+  /* Day x slot intensity grid on --ns-viz-1 */
+  const OP = [0, 0.18, 0.35, 0.55, 0.78, 1];
+  function heat(cols, cell, seed) {
+    const r = rng(seed); let out = "";
+    ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].forEach((d, row) => { out += `<span class="ns-hm__day">${d}</span>`; for (let c = 0; c < cols; c++) { const work = row < 5 ? 1 : 0.35, peak = Math.exp(-Math.pow((c - cols * 0.55) / (cols * 0.28), 2)); const lv = Math.min(5, Math.max(0, Math.round(work * peak * 4.2 + r() * 1.6))); out += `<i class="ns-hm__c" data-l="${lv}" style="${lv ? `--_o:${OP[lv]}` : ""}"></i>`; } });
+    return `<div class="ns-hm" style="--_cols:${cols};--_cell:${cell}px" role="img" aria-label="Heatmap of activity by day and ${cols === 24 ? "hour" : "week"}">${out}</div>`;
+  }
+  const heatScale = () => `<div class="ns-hm__scale"><span>Less</span>${OP.map((o, i) => `<i class="ns-hm__c" data-l="${i}" style="${i ? `--_o:${o}` : ""}"></i>`).join("")}<span>More</span></div>`;
+
+  /* Status segments: ok / warn / down */
+  const strip = (n, f) => `<div class="ns-uptime" style="--_n:${n}" role="img" aria-label="${n} day status history">${Array.from({ length: n }, (_, i) => `<i class="is-${f(i)}"></i>`).join("")}</div>`;
+  const legend = (items, square = false, vertical = false) => `<div class="ns-legend ${vertical ? "ns-legend--v" : ""} ${square ? "ns-legend--sq" : ""}">${items.map(([l, c]) => `<span><i style="--_c:${v(c)}"></i>${l}</span>`).join("")}</div>`;
+
   const R = {
     /* Circle chart family */
     "circle-S": () => shell("ns-w--S96", ring({ size: 72, stroke: 7 })),
@@ -201,6 +239,36 @@
     /* Simple informer */
     "index-M": () => shell("ns-w--M", kpi({ title: "Total earning" })),
     "index-composite": (o) => { const n = o.rows || 1; return shell("ns-w--M", `<p class="ns-w__title">Projects</p>${kpi({ title: "Total earning", big: true })}${Array.from({ length: n }, (_, i) => `<div class="ns-w__inset ns-w__pair"><div><span>${["Product", "Orders", "Refunds"][i]}</span><b>${["540", "1,204", "38"][i]}</b></div><div><span>${["Views", "Visitors", "Tickets"][i]}</span><b>${["136,350", "48,209", "912"][i]}</b></div></div>`).join("")}`); },
+    /* Gauge (Figma: Widget / Gauge) */
+    "gauge-S": (o) => shell("ns-w--S", `${gauge({ w: 84, pct: o.value || 64 })}<div class="ns-w__value ns-w__value--sm">${o.value || 64}%</div>`),
+    "gauge-M": (o) => shell("ns-w--M ns-w--center", `<div class="ns-gauge">${gauge({ w: 180, pct: o.value || 64.3, thresholds: o.thresholds === true || o.thresholds === "true", tone: o.thresholds ? "viz-1" : "viz-2" })}<span class="ns-gauge__val">${String(o.value || 64.3).replace(".", ",")}%</span></div><div class="ns-gauge__scale"><span>0%</span><span>100%</span></div><div class="ns-w__kpi"><p class="ns-w__title">${o.title || "CPU load"}</p><span class="ns-w__cmp">${o.thresholds ? "Warning at 70%, critical at 90%" : "Average across 12 nodes"}</span></div>`),
+
+    /* Area chart (Figma: Widget / Area chart) */
+    "area-M": (o) => shell("ns-w--M", `${kpi({ title: o.title || "Total earning" })}${area({ w: 230, h: 72, two: o.series == 2, seed: o.seed || 3 })}`),
+    "area-L": (o) => shell("ns-w--XL", `<div class="ns-w__head"><p class="ns-w__title">${o.title || "Traffic"}</p>${o.series == 2 ? legend([["Organic", "viz-2"], ["Paid", "viz-1"]]) : ""}</div>${area({ w: 764, h: 210, two: o.series == 2, axis: true, seed: o.seed || 3 })}`),
+
+    /* Heatmap (Figma: Widget / Heatmap) */
+    "heatmap-M": (o) => shell("ns-w--M", `${kpi({ title: "Active sessions", value: "48,210", delta: "6%", cmp: false })}${heat(11, 14, o.seed || 7)}${heatScale()}`),
+    "heatmap-L": (o) => shell("ns-w--XL", `<div class="ns-w__head"><p class="ns-w__title">Load by hour</p>${heatScale()}</div>${heat(24, 26, o.seed || 7)}<div class="ns-hm__hours">${Array.from({ length: 8 }, (_, i) => `<span>${String(i * 3).padStart(2, "0")}:00</span>`).join("")}</div>`),
+
+    /* Ranked bar (Figma: Widget / Ranked bar) */
+    "ranked-M": () => shell("ns-w--M ns-w--fluid", `${kpi({ title: "Top regions", value: "12,580", delta: "8%", cmp: false })}<div class="ns-rank">${RANK.slice(0, 5).map(([l, n, p]) => `<div class="ns-rank__row"><span>${l}</span><span class="ns-wt__num">${fmt(n)}</span><div class="ns-rank__bar" role="img" aria-label="${l} ${fmt(n)}"><i style="--_v:${p}%;--_c:${v("viz-4")}"></i></div></div>`).join("")}</div>`),
+    "ranked-L": () => shell("ns-w--L ns-w--fluid", `<div class="ns-w__head"><p class="ns-w__title">Revenue by region</p><span class="ns-w__cmp">Last 30 days</span></div><div class="ns-rank ns-rank--L">${RANK.map(([l, n, p], i) => `<div class="ns-rank__row"><span class="ns-rank__k">${String(i + 1).padStart(2, "0")}</span><span>${l}</span><div class="ns-rank__bar" role="img" aria-label="${l} $${fmt(n)}"><i style="--_v:${p}%;--_c:${v(i < 3 ? "viz-1" : i < 6 ? "viz-4" : "viz-7")}"></i></div><span class="ns-wt__num">$${fmt(n)}</span></div>`).join("")}</div>`),
+
+    /* Funnel (Figma: Widget / Funnel) */
+    "funnel-M": () => shell("ns-w--M ns-w--fluid", `${kpi({ title: "Conversion", value: "3.2%", delta: "0.4%", cmp: "Visit to paid, last 30 days" })}<div class="ns-funnel">${FUNNEL.map(([l, n, p, c]) => `<div class="ns-funnel__row"><div class="ns-funnel__lbl"><span>${l} &nbsp;${n}</span><b>${p}%</b></div><i style="--_v:${Math.max(p, 6)}%;--_c:${v(c)}" role="img" aria-label="${l} ${n}, ${p}%"></i></div>`).join("")}</div>`),
+    "funnel-L": () => shell("ns-w--XL ns-w--fluid", `<div class="ns-w__head"><p class="ns-w__title">Signup funnel</p><span class="ns-w__cmp">Last 30 days</span></div><div class="ns-funnel--L">${FUNNEL.map(([l, n, p, c], i) => `<div class="ns-funnel__col"><span class="ns-w__cmp">${l}</span><b class="ns-funnel__n">${n}</b><span class="ns-funnel__share">${p}% of visits</span><div class="ns-funnel__well"><i style="--_v:${Math.max(p, 5)}%;--_c:${v(c)}" role="img" aria-label="${l} ${n}"></i></div><span class="ns-funnel__drop ${i < FUNNEL.length - 1 ? "" : "is-end"}">${i < FUNNEL.length - 1 ? `↓ ${Math.round((1 - FUNNEL[i + 1][2] / p) * 100)}% drop-off` : "End of funnel"}</span></div>`).join("")}</div>`),
+
+    /* Uptime strip (Figma: Widget / Uptime strip) */
+    "uptime-M": () => shell("ns-w--M ns-w--fluid", `${kpi({ title: "API uptime", value: "99.95%", delta: "0.02%", cmp: "Last 30 days, SLA 99.9%" })}${strip(30, (i) => (i === 23 ? "down" : i === 7 || i === 12 ? "warn" : "ok"))}<div class="ns-w__range"><span>30 days ago</span><span>Today</span></div>`),
+    "uptime-L": () => shell("ns-w--XL ns-w--fluid", `<div class="ns-w__head"><p class="ns-w__title">Platform status <b class="ns-w__inline">99.95%</b></p>${legend([["Operational", "status-success"], ["Degraded", "status-warning"], ["Outage", "status-error"]], true)}</div>${[["API gateway", "99.92%", (i) => (i === 61 ? "down" : i % 23 === 9 ? "warn" : "ok")], ["Auth", "100%", () => "ok"], ["Data sync", "99.90%", (i) => (i === 18 || i === 77 ? "down" : i % 31 === 4 ? "warn" : "ok")]].map(([s, p, f]) => `<div class="ns-uptime__svc"><div class="ns-w__head"><span class="ns-w__cmp">${s}</span><span class="ns-wt__num">${p}</span></div>${strip(90, f)}</div>`).join("")}<div class="ns-w__range"><span>90 days ago</span><span>Today</span></div>`),
+
+    /* States (Figma: Widget / State) */
+    state: (o) => { const s = o.state || "empty", sz = o.size || "M"; const cls = sz === "S" ? "ns-w--S" : sz === "L" ? "ns-w--XL ns-w--fluid" : "ns-w--M ns-w--fluid"; if (s === "loading") return shell(`${cls} ns-w--state is-loading`, sz === "S" ? `<i class="ns-sk ns-sk--ring"></i><i class="ns-sk" style="width:60px"></i>` : `<i class="ns-sk" style="width:110px"></i><i class="ns-sk ns-sk--lg" style="width:150px"></i><i class="ns-sk" style="width:180px"></i><div class="ns-sk__bars">${Array.from({ length: sz === "L" ? 34 : 18 }, (_, i) => `<i class="ns-sk" style="height:${Math.round(35 + 65 * Math.abs(Math.sin(i * 0.7)))}%"></i>`).join("")}</div>`).replace('class="ns ns-w', 'aria-busy="true" class="ns ns-w'); const C = { empty: ["+", "No data yet", "Data appears after the first sync.", "widget-muted"], error: ["!", "Couldn't load", "The service did not respond.", "status-error"], none: ["?", "No results", "Try a longer date range or fewer filters.", "status-warning"] }[s]; return shell(`${cls} ns-w--state`, `<span class="ns-state__icon" style="--_c:${v(C[3])}">${C[0]}</span><p class="${sz === "S" ? "ns-w__cmp" : "ns-w__title"}">${sz === "S" && s === "error" ? "Error" : C[1]}</p>${sz === "S" ? "" : `<span class="ns-w__cmp">${C[2]}</span>`}${s === "error" && sz !== "S" ? `<a class="ns-state__retry" href="#" role="button">Retry</a>` : ""}`); },
+
+    /* Chart parts (Figma: Chart / Legend, Chart / Tooltip) */
+    legend: (o) => `<div class="ns ns-w__part">${o.layout === "values" ? `<div class="ns-legend ns-legend--values">${SER.map(([l, c, p]) => `<span><i style="--_c:${v(c)}"></i>${l}<b>${p}</b></span>`).join("")}</div>` : legend(SER, false, o.layout === "vertical")}</div>`,
+    tooltip: (o) => `<div class="ns ns-w__part"><div class="ns-ctip" role="tooltip"><span class="ns-ctip__date">Mar 14, 2026</span>${o.multi ? SER.slice(0, 3).map(([l, c], i) => `<div class="ns-ctip__row"><i style="--_c:${v(c)}"></i><span>${l}</span><b>$${fmt([7655, 9117, 10579][i])}</b></div>`).join("") : `<div class="ns-ctip__val">$12,875 <span class="ns-w__delta">10%</span></div>`}</div></div>`,
   };
 
   NS.widget = (name, opts = {}) => (R[name] ? R[name](opts) : `<div class="ns-w">Unknown widget: ${name}</div>`);
@@ -211,69 +279,102 @@
   /* ---------- Figma catalog: every symbol on page 427:8676 ---------- */
   const F = (fam, figma, nodeId, size, w, h, name, opts = {}) => ({ fam, figma, nodeId, size, w, h, name, opts });
   NS.WIDGETS = [
-    F("circle", "Widget / S-size / Circle chart", "557:1168", "S", 96, 96, "circle-S"),
-    F("circle", "Widget / M-size / Circle chart", "554:27", "M", 290, 96, "circle-M"),
-    F("circle", "Widget / M-size / Circle chart (346)", "596:275", "M", 346, 174, "circle-wide"),
-    F("circle", "Widget / M-size / Big circle chart", "596:533", "M", 268, 128, "circle-big"),
-    F("circle", "Widget / M-size / Circle chart with simple table", "557:1246", "M", 290, 376, "circle-table", { table: "simple" }),
-    F("circle", "Widget / M-size / Circle chart with progress table", "557:1237", "M", 290, 241, "circle-table", { table: "progress" }),
-    F("circle", "Widget / M-size / Circle chart with dynamic table", "557:1211", "M", 290, 221, "circle-table", { table: "dynamic" }),
-    F("circle", "Widget / M-size / Circle chart with indicator table", "557:1191", "M", 290, 496, "circle-table", { table: "indicator" }),
-    F("circle", "Widget / S-size / Composite circle chart", "557:1176", "S", 96, 192, "circle-composite-S"),
-    F("circle", "Widget / M-size / Composite circle chart", "557:1220", "M", 290, 194, "circle-composite", { count: 2 }),
-    F("circle", "Widget / L-size / Composite circle chart", "557:983", "L", 870, 96, "circle-composite", { count: 3 }),
-    F("combined", "Widget / S-size / Composite circle chart", "559:1107", "S", 96, 96, "combined-S"),
-    F("combined", "Widget / M-size / Combined circle chart", "559:1203", "M", 290, 222, "combined-M"),
-    F("combined", "Chart / Double big circle chart", "414:8814", "M", 290, 287, "combined-double"),
-    F("combined", "Widget / M-size / Combined circle chart with simple table", "559:1367", "M", 290, 502, "combined-table", { table: "simple" }),
-    F("combined", "Widget / M-size / Combined circle chart with progress table", "559:1436", "M", 290, 367, "combined-table", { table: "progress" }),
-    F("combined", "Widget / M-size / Combined circle chart with dynamic table", "559:1444", "M", 290, 347, "combined-table", { table: "dynamic" }),
-    F("combined", "Widget / M-size / Combined circle chart with indicator table", "559:1398", "M", 290, 622, "combined-table", { table: "indicator" }),
-    F("line", "Widget / S-size / Line chart", "556:18404", "S", 116, 116, "line-S"),
-    F("line", "Widget / S-size / Composite line chart", "556:18400", "S", 116, 232, "line-composite-S"),
-    F("line", "Widget / M-size / Line chart", "561:1423", "M", 290, 96, "line-M"),
-    F("line", "Widget / M-size / Lines chart", "556:18483", "M", 294, 217, "lines-M"),
-    F("line", "Widget / M-size / Lines chart (346)", "596:199", "M", 346, 178, "lines-wide"),
-    F("line", "Widget / M-size / Composite chart", "561:1316", "M", 290, 192, "composite-line"),
-    F("line", "Widget / M-size / Big lines chart", "556:18781", "M", 290, 277, "big-lines"),
-    F("line", "Widget / M-size / Big lines chart with indicator table", "561:1425", "M", 294, 617, "big-lines", { table: "indicator" }),
-    F("line", "Widget / M-size / Big lines chart with progress table", "561:1545", "M", 294, 362, "big-lines", { table: "progress" }),
-    F("line", "Widget / M-size / Big lines chart with dynamic table", "561:1544", "M", 294, 342, "big-lines", { table: "dynamic" }),
-    F("line", "Widget / L-size / Lines chart", "565:1", "L", 870, 362, "lines-L"),
-    F("line", "Widget / L-size / Dots line chart", "565:0", "L", 870, 362, "dots-L"),
-    F("column", "Widget / S-size / Column chart", "556:21338", "S", 116, 116, "column-S"),
-    F("column", "Widget / S-size / Column composite chart", "556:21339", "S", 116, 232, "column-composite-S"),
-    F("column", "Widget / M-size / Column chart", "556:21707", "M", 290, 229, "column-M"),
-    F("column", "Widget / M-size / Column chart with indicator table", "563:1434", "M", 290, 509, "column-M", { table: "indicator" }),
-    F("column", "Widget / M-size / Column chart with progress table", "563:1431", "M", 290, 374, "column-M", { table: "progress" }),
-    F("column", "Widget / M-size / Column chart with dynamic table", "563:1433", "M", 290, 354, "column-M", { table: "dynamic" }),
-    F("column", "Widget / L-size / Column chart", "563:1432", "L", 576, 217, "column-L"),
-    F("column", "Widget / L-size / Stacked chart", "609:169", "L", 1070, 533, "stacked-L"),
-    F("bubble", "Widget / S-size / Bubble chart", "556:16232", "S", 116, 116, "bubble-S"),
-    F("bubble", "Widget / M-size / Bubble chart (row)", "560:15", "M", 290, 96, "bubble-row"),
-    F("bubble", "Widget / M-size / Bubble chart", "556:16386", "M", 290, 218, "bubble-M"),
-    F("bubble", "Widget / M-size / Bubble chart with indicator table", "560:1", "M", 290, 618, "bubble-M", { table: "indicator" }),
-    F("bubble", "Widget / M-size / Bubble chart with progress table", "560:13", "M", 290, 363, "bubble-M", { table: "progress" }),
-    F("bubble", "Widget / M-size / Bubble chart with dynamic table", "560:14", "M", 290, 343, "bubble-M", { table: "dynamic" }),
-    F("bubble", "Widget / L-size / Bubble chart", "556:16938", "L", 870, 362, "bubble-L"),
-    F("bubble", "Widget / L-size / Global statistic (Sales Figures)", "609:170", "L", 1071, 532, "bubble-global"),
-    F("bubble", "Widget / L-size / Bubble timeline chart", "556:17124", "L", 1800, 96, "bubble-timeline"),
-    F("other", "Widget / L-size / Timeline chart", "565:2", "L", 1800, 86, "timeline-L"),
-    F("other", "Widget / L-size / Compound circular chart", "565:5", "L", 539, 639, "compound-L"),
-    F("other", "Widget / L-size / Global statistic", "565:4", "L", 573, 558, "global-stat"),
-    F("other", "Widget / M-size / Progress chart", "565:7", "M", 290, 278, "progress-M"),
-    F("other", "Widget / M-size / Temperature chart", "565:8", "M", 290, 371, "temperature-M"),
-    F("other", "Widget / L-size / Summary", "565:3", "L", 708, 229, "summary-L"),
-    F("other", "Widget / M-size / Index with progress", "565:6", "M", 422, 220, "index-progress"),
-    F("table", "Table / Simple table", "554:679", "M", 290, 280, "table-simple"),
-    F("table", "Table / Progress table", "554:743", "M", 290, 145, "table-progress"),
-    F("table", "Table / Dynamic table", "554:765", "M", 290, 125, "table-dynamic"),
-    F("table", "Table / Indicator table", "554:793", "M", 290, 400, "table-indicator"),
-    F("table", "Table / Classic table", "596:78", "M", 367, 166, "table-classic"),
-    F("informer", "Widget / M-size / Index", "566:270", "M", 290, 128, "index-M"),
-    F("informer", "Widget / M-size / Composite index (1 row)", "566:271", "M", 290, 252, "index-composite", { rows: 1 }),
-    F("informer", "Widget / M-size / Composite index (2 rows)", "566:272", "M", 290, 376, "index-composite", { rows: 2 }),
-    F("informer", "Widget / M-size / Composite index (3 rows)", "566:273", "M", 290, 300, "index-composite", { rows: 3 }),
+    F("circle", "Widget / Circle chart · Size=S, Layout=Ring", "557:1168", "S", 96, 96, "circle-S"),
+    F("circle", "Widget / Circle chart · Size=M, Layout=Row", "554:27", "M", 290, 96, "circle-M"),
+    F("circle", "Widget / Circle chart · Size=M, Layout=Wide", "596:275", "M", 346, 174, "circle-wide"),
+    F("circle", "Widget / Circle chart · Size=M, Layout=Big number", "596:533", "M", 268, 128, "circle-big"),
+    F("circle", "Widget / Circle chart · Table=Simple", "557:1246", "M", 290, 376, "circle-table", { table: "simple" }),
+    F("circle", "Widget / Circle chart · Table=Progress", "557:1237", "M", 290, 241, "circle-table", { table: "progress" }),
+    F("circle", "Widget / Circle chart · Table=Dynamic", "557:1211", "M", 290, 221, "circle-table", { table: "dynamic" }),
+    F("circle", "Widget / Circle chart · Table=Indicator", "557:1191", "M", 290, 496, "circle-table", { table: "indicator" }),
+    F("circle", "Widget / Composite circle chart · Size=S, Layout=Vertical", "557:1176", "S", 96, 192, "circle-composite-S"),
+    F("circle", "Widget / Composite circle chart · Size=M, Layout=Stacked", "557:1220", "M", 290, 194, "circle-composite", { count: 2 }),
+    F("circle", "Widget / Composite circle chart · Size=L, Layout=Row", "557:983", "L", 870, 96, "circle-composite", { count: 3 }),
+    F("combined", "Widget / Combined circle chart · Size=S, Layout=Ring", "559:1107", "S", 96, 96, "combined-S"),
+    F("combined", "Widget / Combined circle chart · Size=M, Layout=Ring", "559:1203", "M", 290, 222, "combined-M"),
+    F("combined", "Widget / Combined circle chart · Layout=Double ring", "559:1333", "M", 290, 287, "combined-double"),
+    F("combined", "Widget / Combined circle chart · Ring, Table=Simple", "559:1367", "M", 290, 502, "combined-table", { table: "simple" }),
+    F("combined", "Widget / Combined circle chart · Ring, Table=Progress", "559:1436", "M", 290, 367, "combined-table", { table: "progress" }),
+    F("combined", "Widget / Combined circle chart · Ring, Table=Dynamic", "559:1444", "M", 290, 347, "combined-table", { table: "dynamic" }),
+    F("combined", "Widget / Combined circle chart · Ring, Table=Indicator", "559:1398", "M", 290, 622, "combined-table", { table: "indicator" }),
+    F("line", "Widget / Line chart · Size=S, Layout=Tile", "556:18404", "S", 116, 116, "line-S"),
+    F("line", "Widget / Line chart · Size=S, Layout=Stacked", "556:18400", "S", 116, 232, "line-composite-S"),
+    F("line", "Widget / Line chart · Size=M, Layout=Row", "561:1423", "M", 290, 96, "line-M"),
+    F("line", "Widget / Lines chart · Style=KPI", "556:18483", "M", 294, 217, "lines-M"),
+    F("line", "Widget / Lines chart · Style=Wide", "596:199", "M", 346, 178, "lines-wide"),
+    F("line", "Widget / Line chart · Size=M, Layout=Stacked", "561:1316", "M", 290, 192, "composite-line"),
+    F("line", "Widget / Lines chart · Style=Trend", "556:18781", "M", 290, 277, "big-lines"),
+    F("line", "Widget / Lines chart · KPI, Table=Indicator", "561:1425", "M", 294, 617, "big-lines", { table: "indicator" }),
+    F("line", "Widget / Lines chart · KPI, Table=Progress", "561:1545", "M", 294, 362, "big-lines", { table: "progress" }),
+    F("line", "Widget / Lines chart · KPI, Table=Dynamic", "561:1544", "M", 294, 342, "big-lines", { table: "dynamic" }),
+    F("line", "Widget / Line chart · Size=L, Layout=Lines", "565:1", "L", 870, 362, "lines-L"),
+    F("line", "Widget / Line chart · Size=L, Layout=Dots", "565:0", "L", 870, 362, "dots-L"),
+    F("column", "Widget / Column chart · Size=S, Layout=Tile", "556:21338", "S", 116, 116, "column-S"),
+    F("column", "Widget / Column chart · Size=S, Layout=Stacked", "556:21339", "S", 116, 232, "column-composite-S"),
+    F("column", "Widget / Column chart · Size=M, Layout=Chart top", "556:21707", "M", 290, 229, "column-M"),
+    F("column", "Widget / Column chart · Chart top, Table=Simple", "563:1434", "M", 290, 509, "column-M", { table: "indicator" }),
+    F("column", "Widget / Column chart · Chart top, Table=Progress", "563:1431", "M", 290, 374, "column-M", { table: "progress" }),
+    F("column", "Widget / Column chart · Chart top, Table=Dynamic", "563:1433", "M", 290, 354, "column-M", { table: "dynamic" }),
+    F("column", "Widget / Column chart · Size=L, Layout=Track", "563:1432", "L", 576, 217, "column-L"),
+    F("column", "Widget / Column chart · Size=L, Layout=Stacked bars", "609:169", "L", 1070, 533, "stacked-L"),
+    F("bubble", "Widget / Bubble chart · Size=S, Layout=Tile", "556:16232", "S", 116, 116, "bubble-S"),
+    F("bubble", "Widget / Bubble chart · Size=M, Layout=Row", "560:15", "M", 290, 96, "bubble-row"),
+    F("bubble", "Widget / Bubble chart · Size=M, Layout=Chart top", "556:16386", "M", 290, 218, "bubble-M"),
+    F("bubble", "Widget / Bubble chart · Chart top, Table=Indicator", "560:1", "M", 290, 618, "bubble-M", { table: "indicator" }),
+    F("bubble", "Widget / Bubble chart · Chart top, Table=Progress", "560:13", "M", 290, 363, "bubble-M", { table: "progress" }),
+    F("bubble", "Widget / Bubble chart · Chart top, Table=Dynamic", "560:14", "M", 290, 343, "bubble-M", { table: "dynamic" }),
+    F("bubble", "Widget / Bubble chart · Size=L, Layout=Chart", "556:16938", "L", 870, 362, "bubble-L"),
+    F("bubble", "Widget / Other · Type=Global statistic wide", "609:170", "L", 1071, 532, "bubble-global"),
+    F("bubble", "Widget / Bubble chart · Size=L, Layout=Timeline", "556:17124", "L", 1800, 96, "bubble-timeline"),
+    F("other", "Widget / Other · Type=Timeline", "565:2", "L", 1800, 86, "timeline-L"),
+    F("other", "Widget / Other · Type=Compound circular", "565:5", "L", 539, 639, "compound-L"),
+    F("other", "Widget / Other · Type=Global statistic", "565:4", "L", 573, 558, "global-stat"),
+    F("other", "Widget / Other · Type=Progress", "565:7", "M", 290, 278, "progress-M"),
+    F("other", "Widget / Other · Type=Temperature", "565:8", "M", 290, 371, "temperature-M"),
+    F("other", "Widget / Other · Type=Summary", "565:3", "L", 708, 229, "summary-L"),
+    F("other", "Widget / Informer · Type=Index with progress", "565:6", "M", 422, 220, "index-progress"),
+    F("table", "Widget / Table · Type=Simple", "554:679", "M", 290, 280, "table-simple"),
+    F("table", "Widget / Table · Type=Progress", "554:743", "M", 290, 145, "table-progress"),
+    F("table", "Widget / Table · Type=Dynamic", "554:765", "M", 290, 125, "table-dynamic"),
+    F("table", "Widget / Table · Type=Indicator", "554:793", "M", 290, 400, "table-indicator"),
+    F("table", "Widget / Table · Type=Classic", "596:78", "M", 367, 166, "table-classic"),
+    F("informer", "Widget / Informer · Type=Index", "566:270", "M", 290, 128, "index-M"),
+    F("informer", "Widget / Informer · Composite, Rows=1", "566:271", "M", 290, 252, "index-composite", { rows: 1 }),
+    F("informer", "Widget / Informer · Composite, Rows=2", "566:272", "M", 290, 376, "index-composite", { rows: 2 }),
+    F("informer", "Widget / Informer · Composite, Rows=3", "566:273", "M", 290, 300, "index-composite", { rows: 3 }),
+
+    F("gauge", "Widget / Gauge · Size=S", "4254:3490", "S", 116, 120, "gauge-S"),
+    F("gauge", "Widget / Gauge · Size=M, Thresholds=No", "4254:3495", "M", 290, 232, "gauge-M"),
+    F("gauge", "Widget / Gauge · Size=M, Thresholds=Yes", "4254:3507", "M", 290, 232, "gauge-M", { thresholds: true }),
+    F("area", "Widget / Area chart · Size=M, Series=One", "4254:3630", "M", 290, 200, "area-M"),
+    F("area", "Widget / Area chart · Size=M, Series=Two", "4254:3643", "M", 290, 200, "area-M", { series: 2 }),
+    F("area", "Widget / Area chart · Size=L, Series=One", "4254:3658", "L", 870, 354, "area-L"),
+    F("area", "Widget / Area chart · Size=L, Series=Two", "4254:3692", "L", 870, 354, "area-L", { series: 2 }),
+    F("heatmap", "Widget / Heatmap · Size=M", "4254:3737", "M", 290, 266, "heatmap-M"),
+    F("heatmap", "Widget / Heatmap · Size=L", "4254:3849", "L", 870, 326, "heatmap-L"),
+    F("ranked", "Widget / Ranked bar · Size=M", "4254:34932", "M", 290, 320, "ranked-M"),
+    F("ranked", "Widget / Ranked bar · Size=L", "4254:34977", "L", 576, 344, "ranked-L"),
+    F("funnel", "Widget / Funnel · Size=M", "4254:35039", "M", 290, 304, "funnel-M"),
+    F("funnel", "Widget / Funnel · Size=L", "4254:35074", "L", 870, 352, "funnel-L"),
+    F("uptime", "Widget / Uptime strip · Size=M", "4254:35113", "M", 290, 184, "uptime-M"),
+    F("uptime", "Widget / Uptime strip · Size=L", "4254:35157", "L", 870, 310, "uptime-L"),
+    F("state", "Widget / State · Size=S, State=Loading", "4254:35732", "S", 116, 116, "state", { state: "loading", size: "S" }),
+    F("state", "Widget / State · Size=S, State=Empty", "4254:35735", "S", 116, 116, "state", { state: "empty", size: "S" }),
+    F("state", "Widget / State · Size=S, State=Error", "4254:35739", "S", 116, 116, "state", { state: "error", size: "S" }),
+    F("state", "Widget / State · Size=S, State=No results", "4254:35743", "S", 116, 116, "state", { state: "none", size: "S" }),
+    F("state", "Widget / State · Size=M, State=Loading", "4254:35747", "M", 290, 200, "state", { state: "loading", size: "M" }),
+    F("state", "Widget / State · Size=M, State=Empty", "4254:35770", "M", 290, 200, "state", { state: "empty", size: "M" }),
+    F("state", "Widget / State · Size=M, State=Error", "4254:35775", "M", 290, 200, "state", { state: "error", size: "M" }),
+    F("state", "Widget / State · Size=M, State=No results", "4254:35781", "M", 290, 200, "state", { state: "none", size: "M" }),
+    F("state", "Widget / State · Size=L, State=Loading", "4254:35786", "L", 870, 362, "state", { state: "loading", size: "L" }),
+    F("state", "Widget / State · Size=L, State=Empty", "4254:35825", "L", 870, 362, "state", { state: "empty", size: "L" }),
+    F("state", "Widget / State · Size=L, State=Error", "4254:35830", "L", 870, 362, "state", { state: "error", size: "L" }),
+    F("state", "Widget / State · Size=L, State=No results", "4254:35836", "L", 870, 362, "state", { state: "none", size: "L" }),
+    F("parts", "Chart / Legend · Layout=Horizontal", "4254:35847", "S", 277, 16, "legend"),
+    F("parts", "Chart / Legend · Layout=Vertical", "4254:35860", "S", 74, 88, "legend", { layout: "vertical" }),
+    F("parts", "Chart / Legend · Layout=With values", "4254:35873", "S", 230, 110, "legend", { layout: "values" }),
+    F("parts", "Chart / Tooltip · Type=Single", "4254:35892", "S", 140, 76, "tooltip"),
+    F("parts", "Chart / Tooltip · Type=Multi-series", "4254:35897", "S", 180, 104, "tooltip", { multi: true }),
   ];
   NS.FAMILIES = [
     ["circle", "Circle charts", "Single-value progress rings with optional KPI and table.", "○"],
@@ -284,5 +385,13 @@
     ["other", "Other", "Compound circular, timeline, temperature, summary, and progress widgets.", "◈"],
     ["table", "Tables", "The five table types that attach under any M-size widget.", "≡"],
     ["informer", "Simple informers", "Headline KPIs with comparison and inset stat pairs.", "$"],
+    ["gauge", "Gauges", "Semicircle meters for capacity and utilization, with optional warning and critical bands.", "◠"],
+    ["area", "Area charts", "Filled trends that show volume over time, one or two series.", "◭"],
+    ["heatmap", "Heatmaps", "Intensity by day and hour or week, on one sequential color.", "▦"],
+    ["ranked", "Ranked bars", "Horizontal bars for ranked categories and long labels.", "☰"],
+    ["funnel", "Funnels", "Stage-by-stage conversion with drop-off between steps.", "⏷"],
+    ["uptime", "Uptime strips", "Daily status history against an SLA, per service.", "▮"],
+    ["state", "Widget states", "Loading, empty, error, and no-results states for every widget size.", "◌"],
+    ["parts", "Chart parts", "Legend and tooltip parts to compose custom charts.", "⋯"],
   ];
 })();

@@ -280,6 +280,10 @@ a.rcard:hover { border-color: var(--ns-border-strong); transform: translateY(-2p
 .fp__head { display: flex; justify-content: space-between; align-items: flex-end; gap: var(--ns-space-4); flex-wrap: wrap; }
 .fp__head h3 { margin: 4px 0 0; font: 800 26px/1.2 var(--ns-font-sans); }
 .fp__head small { font: 700 var(--ns-type-overline-size)/1 var(--ns-font-sans); letter-spacing: var(--ns-type-overline-tracking); text-transform: uppercase; color: var(--ns-text-tertiary); }
+/* Dashboard floorplan: three equal columns, tiles stretch to the row height, the trend tile spans two. */
+.fp__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--ns-space-5); align-items: stretch; }
+.fp__grid > .ns-w { width: auto; }
+.fp__grid > .ns-w--L { grid-column: span 2; }
 .bars { display: flex; align-items: flex-end; gap: 8px; height: 140px; }
 .bars i { flex: 1; border-radius: 4px 4px 0 0; background: var(--ns-gradient-brand); min-height: 4px; }
 .bars i:nth-child(3n) { background: var(--ns-gradient-bruise); }
@@ -318,6 +322,8 @@ html.embed .page-tabs { top: 0; }
   .lb__rail h4 { grid-column: 1 / -1; }
   .fp { grid-template-columns: 1fr; }
   .fp__nav { display: none; }
+  .fp__grid { grid-template-columns: 1fr; }
+  .fp__grid > .ns-w--L { grid-column: auto; }
   .ftr { grid-template-columns: 1fr 1fr; }
   .ftr > div:first-child { grid-column: 1 / -1; }
   .ramp { grid-template-columns: repeat(6, minmax(0, 1fr)); }
