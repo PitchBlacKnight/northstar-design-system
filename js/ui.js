@@ -2,6 +2,8 @@
 (function () {
   const NS = (window.NS = window.NS || {});
 
+  /* NorthStar mark from Figma "Logo / Northstar" (4057:30836): gray chevron + cyan diamond. */
+  NS.logoSvg = (cls = "", label = "") => `<svg class="${cls}" viewBox="40 30 374 390" ${label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"'} xmlns="http://www.w3.org/2000/svg"><path d="M227 46.1094L393.703 328.086L290.844 281.977L227 170.25L163.156 281.977L60.2969 328.086L227 46.1094Z" fill="#C5C5C5"/><path d="M227 255.375L289.07 360.008L227 404.344L164.93 360.008L227 255.375Z" fill="#27BDFA"/></svg>`;
   NS.esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   NS.slug = (s) => String(s).toLowerCase().replace(/<[^>]+>/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
