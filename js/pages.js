@@ -30,46 +30,17 @@
   P("", {
     title: "Home", home: true, noTitle: true,
     init: () => {
+      const main = document.getElementById("main-content");
       const bg = document.createElement("div");
       bg.className = "hero-rays";
       bg.setAttribute("aria-hidden", "true");
       document.querySelector(".shell").prepend(bg);
       const stop = NS.sideRays(bg, { rayColor2: "#3B82F6", spread: 3, falloff: 1.1, intensity: 2, sourceX: 0.8, sourceY: -0.35 });
       bg.insertAdjacentHTML("beforeend", NS.logoSvg("hero-rays__mark"));
-      NS.pageCleanup = () => { stop(); bg.remove(); };
+      const stopHome = NS.homeInit(main);
+      NS.pageCleanup = () => { stop(); stopHome(); bg.remove(); };
     },
-    body: () => `
-<section class="hero">
-  <h1 class="hero__brand">NORTHSTAR <b>DS</b></h1>
-  <p>NorthStar is our core design language and development kit. Optimized for ultra-dense data visualizations, dark-mode terminal aesthetics, and secure enterprise workflows.</p>
-  <div class="hero__cta ns"><a class="ns-btn" href="#/getting-started/about">Getting started</a><a class="ns-btn ns-btn--tertiary" href="#/components">View components</a><a class="ns-btn ns-btn--ghost" href="#/tools/live-builder">Launch Live Builder →</a></div>
-</section>
-${h2("Ecosystem proposition")}
-${cards([
-  { title: "Design", color: "teal", body: "Access the verified Figma library. Primitive and semantic tokens, 29 components, and dark and light modes.", href: FIGMA, go: "Grab Figma library" },
-  { title: "Develop", color: "purple", body: "Install React components and framework-free CSS. Every value is a token, so nothing drifts from Figma.", href: "#/getting-started/developers", go: "Developer guide" },
-  { title: "Adopt", body: "Learn how teams roll NorthStar into mission-critical pipelines, security platforms, and cloud dashboards.", href: "#/getting-started/adoption", go: "Adoption checklist" },
-])}
-<div class="stats"><div><b data-count="tokens">0</b><span>Tokens</span></div><div><b>${NS.COMPONENTS.length}</b><span>Components</span></div><div><b>7</b><span>Patterns</span></div><div><b>5</b><span>Floorplans</span></div></div>
-<div class="callout"><div><h3>▶ Live Builder</h3><p>Pick a recipe and watch a UI assemble on canvas with real tokens, real components, and a streaming build trace. Or describe one and let Claude build it.</p></div><div class="ns" style="display:flex;gap:8px"><a class="ns-btn" href="#/tools/live-builder">Launch</a><a class="ns-btn ns-btn--tertiary" href="#/tools/ai">AI generator</a></div></div>
-${h2("Core entry points")}
-${cards([
-  { icon: "◉", color: "teal", title: "Foundations", body: "Color, type, spacing, radius, elevation, motion, icons, and themes.", href: "#/foundations", go: "Explore" },
-  { icon: "▣", color: "purple", title: "Components", body: "Live playgrounds, token tables, code, and accessibility notes for each one.", href: "#/components", go: "Browse" },
-  { icon: "◈", color: "blue", title: "Patterns", body: "Forms, dialogs, table views, empty states, loading, search, and errors.", href: "#/patterns/forms", go: "View" },
-  { icon: "\u25a4", color: "green", title: "Graphics framework", body: "60+ dashboard widgets: circle, line, column, and bubble charts, tables, and informers.", href: "#/graphics", go: "View" },
-  { icon: "⊞", color: "yellow", title: "Floorplans", body: "Assembled templates: Dashboard, Analytical list, Object detail, Wizard, Approval queue.", href: "#/floorplans", go: "Browse" },
-  { icon: "✓", color: "red", title: "Accessibility", body: "WCAG 2.2 AA principles, checklist, criteria mapping, and a live contrast checker.", href: "#/accessibility", go: "Review" },
-])}
-${h2("Latest releases")}
-<div class="releases"><div><span style="--_c:var(--ns-teal-500)">Design</span><div class="ns-progress"><div class="ns-progress__track"><div class="ns-progress__bar" style="--_v:78%"></div></div></div></div><div><span style="--_c:var(--ns-purple-500)">Code</span><div class="ns-progress ns-progress--purple"><div class="ns-progress__track"><div class="ns-progress__bar" style="--_v:34%"></div></div></div></div><div><span style="--_c:var(--ns-yellow-500)">Docs</span><div class="ns-progress ns-progress--warning"><div class="ns-progress__track"><div class="ns-progress__bar" style="--_v:78%"></div></div></div></div></div>
-<p class="mt"><a href="#/changelog">Read the ${NS.VERSION} changelog →</a></p>
-${h2("Featured resources")}
-${cards([
-  { title: "Figma library", body: "Foundations page, components, and site frames.", href: FIGMA, go: "Open" },
-  { title: "Token reference", body: "Every CSS custom property, searchable, with copy.", href: "#/foundations/tokens", go: "Browse" },
-  { title: "Embed mode", body: "Any page, shell-free, for decks and iframes.", href: "#/tools/embed", go: "Learn" },
-], 3)}`,
+    body: () => NS.homeBody(),
   });
 
   P("getting-started/about", {
