@@ -1,6 +1,7 @@
 /* Side rays background. Plain-WebGL port of React Bits "SideRays" by David Haz
    (MIT + Commons Clause, https://reactbits.dev), without React or ogl.
-   NS.sideRays(container, options) returns a stop() function. */
+   NS.sideRays(container, options) returns a stop() function.
+   Added beyond the original: sourceX / sourceY move the light source (defaults 1.1, -0.5 match React Bits). */
 (function () {
   const NS = window.NS;
 
@@ -28,6 +29,7 @@ uniform float iSaturation;
 uniform float iBlend;
 uniform float iFalloff;
 uniform float iOpacity;
+uniform vec2 iSource;
 
 float rayStrength(vec2 raySource, vec2 rayRefDirection, vec2 coord, float seedA, float seedB, float speed) {
   vec2 sourceToCoord = coord - raySource;
@@ -45,7 +47,7 @@ void main() {
   if (iFlipY > 0.5) fragCoord.y = iResolution.y - fragCoord.y;
 
   vec2 coord = vec2(fragCoord.x, iResolution.y - fragCoord.y);
-  vec2 rayPos = vec2(iResolution.x * 1.1, -0.5 * iResolution.y);
+  vec2 rayPos = vec2(iResolution.x * iSource.x, iSource.y * iResolution.y);
 
   float tiltRad = iTilt * 3.14159265 / 180.0;
   float cs = cos(tiltRad);
@@ -74,7 +76,7 @@ void main() {
 }`;
 
   NS.sideRays = function (container, opts = {}) {
-    const o = { speed: 2.5, rayColor1: "#EAB308", rayColor2: "#96c8ff", intensity: 2, spread: 2, origin: "top-right", tilt: 0, saturation: 1.5, blend: 0.75, falloff: 1.6, opacity: 1, ...opts };
+    const o = { speed: 2.5, rayColor1: "#EAB308", rayColor2: "#96c8ff", intensity: 2, spread: 2, origin: "top-right", tilt: 0, saturation: 1.5, blend: 0.75, falloff: 1.6, opacity: 1, sourceX: 1.1, sourceY: -0.5, ...opts };
     const canvas = document.createElement("canvas");
     canvas.style.cssText = "display:block;width:100%;height:100%";
     const gl = canvas.getContext("webgl", { alpha: true, premultipliedAlpha: false, antialias: false });
@@ -111,6 +113,7 @@ void main() {
     gl.uniform1f(U("iBlend"), o.blend);
     gl.uniform1f(U("iFalloff"), o.falloff);
     gl.uniform1f(U("iOpacity"), o.opacity);
+    gl.uniform2f(U("iSource"), o.sourceX, o.sourceY);
     const uTime = U("iTime"), uRes = U("iResolution");
 
     const resize = () => {

@@ -34,7 +34,7 @@
       bg.className = "hero-rays";
       bg.setAttribute("aria-hidden", "true");
       document.querySelector(".shell").prepend(bg);
-      const stop = NS.sideRays(bg, { rayColor2: "#3B82F6" });
+      const stop = NS.sideRays(bg, { rayColor2: "#3B82F6", spread: 3, falloff: 1.1, intensity: 2, sourceX: 0.8, sourceY: -0.35 });
       NS.pageCleanup = () => { stop(); bg.remove(); };
     },
     body: () => `
