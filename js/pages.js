@@ -31,7 +31,7 @@
     title: "Home", home: true, noTitle: true,
     body: () => `
 <section class="hero">
-  <h1>Build resilient, <em>data-rich</em> command consoles</h1>
+  <h1 class="hero__brand">NORTHSTAR <b>DS</b></h1>
   <p>NorthStar is our core design language and development kit. Optimized for ultra-dense data visualizations, dark-mode terminal aesthetics, and secure enterprise workflows.</p>
   <div class="hero__cta ns"><a class="ns-btn" href="#/getting-started/about">Getting started</a><a class="ns-btn ns-btn--tertiary" href="#/components">View components</a><a class="ns-btn ns-btn--ghost" href="#/tools/live-builder">Launch Live Builder →</a></div>
 </section>

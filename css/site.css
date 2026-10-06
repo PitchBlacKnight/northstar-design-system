@@ -15,7 +15,7 @@ code, pre { font-family: var(--ns-font-mono); }
 .hdr { position: sticky; top: 0; z-index: 500; height: 64px; display: flex; align-items: center; gap: var(--ns-space-5); padding: 0 var(--ns-space-6); background: var(--ns-background-shell); border-bottom: 1px solid var(--ns-border-subtle); }
 .hdr .hdr__menu { display: none; }
 .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ns-text-primary); text-decoration: none; font: 800 18px/1 var(--ns-font-sans); letter-spacing: .3px; white-space: nowrap; }
-.brand__dot { width: 16px; height: 16px; border-radius: 50%; background: var(--ns-teal-500); box-shadow: 0 0 12px color-mix(in srgb, var(--ns-teal-500) 60%, transparent); }
+.brand__dot { width: 16px; height: 16px; border-radius: 50%; background: var(--ns-blue-500); box-shadow: 0 0 12px color-mix(in srgb, var(--ns-blue-500) 60%, transparent); }
 .brand span { font-weight: 400; color: var(--ns-text-secondary); }
 .ver { font: 600 11px/1 var(--ns-font-mono); color: var(--ns-text-accent); background: color-mix(in srgb, var(--ns-teal-500) 10%, transparent); padding: 5px 7px; border-radius: var(--ns-radius-sm); }
 .hdr__nav { display: flex; gap: 2px; margin-left: var(--ns-space-5); }
@@ -106,6 +106,8 @@ a.rcard:hover { border-color: var(--ns-border-strong); transform: translateY(-2p
 .hero { padding: var(--ns-space-4) 0 var(--ns-space-10); }
 .hero h1 { font: 800 clamp(36px, 5.4vw, 60px)/1.08 var(--ns-font-sans); letter-spacing: -1px; margin: 0 0 var(--ns-space-7); max-width: 900px; }
 .hero h1 em { font-style: normal; color: var(--ns-text-accent); }
+.hero h1.hero__brand { font-weight: 400; letter-spacing: 1px; }
+.hero h1.hero__brand b { font-weight: 800; }
 .hero p { font: 400 20px/30px var(--ns-font-sans); color: var(--ns-text-secondary); max-width: 820px; margin: 0 0 var(--ns-space-8); }
 .hero__cta { display: flex; gap: var(--ns-space-4); flex-wrap: wrap; }
 .stats { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--ns-border-subtle); border-radius: var(--ns-radius-lg); overflow: hidden; margin: var(--ns-space-10) 0; }
