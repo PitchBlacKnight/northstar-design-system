@@ -361,8 +361,9 @@ html.embed .page-tabs { top: 0; }
 .cp-state__copy, .cp-state__note { margin: 0; font-size: var(--ns-type-body2-size); color: var(--ns-text-secondary); }
 .cp-state__copy { margin-top: calc(-1 * var(--ns-space-4)) !important; }
 
-/* Home: side rays behind the hero (js/rays.js) */
-.hero-rays { position: absolute; top: 0; left: 264px; right: 0; height: min(820px, 100vh); pointer-events: none; z-index: 0; background: var(--ns-background-primary); -webkit-mask-image: linear-gradient(#000 60%, transparent); mask-image: linear-gradient(#000 60%, transparent); }
+/* Side rays behind every page (js/rays.js, mounted in js/app.js). Full strength on home, dimmed on secondary pages. */
+.hero-rays { position: absolute; top: 0; left: 264px; right: 0; height: min(820px, 100vh); pointer-events: none; z-index: 0; background: var(--ns-background-primary); -webkit-mask-image: linear-gradient(#000 60%, transparent); mask-image: linear-gradient(#000 60%, transparent); transition: opacity .6s ease; }
+body:not(.is-home) .hero-rays { opacity: .5; height: min(620px, 80vh); }
 .shell > .main { position: relative; z-index: 1; }
 .shell > .side { z-index: 1; }
 @media (max-width: 900px) { .hero-rays { left: 0; } }
@@ -543,8 +544,6 @@ html.embed .page-tabs { top: 0; }
 /* Secondary pages: a soft echo of the home hero's blue light, fading down the page */
 body:not(.is-home) .shell::before { content: ""; position: absolute; top: 0; bottom: 0; left: 264px; right: 0; z-index: 0; pointer-events: none;
   background:
-    radial-gradient(900px 560px at 100% 0%, color-mix(in srgb, #3B82F6 24%, transparent), transparent 70%),
-    radial-gradient(520px 380px at 82% 0%, color-mix(in srgb, #27BDFA 11%, transparent), transparent 70%),
     radial-gradient(700px 600px at 0% 38%, color-mix(in srgb, var(--ns-purple-500) 6%, transparent), transparent 70%),
     linear-gradient(180deg, color-mix(in srgb, #3B82F6 7%, transparent) 0, color-mix(in srgb, var(--ns-navy-900) 45%, transparent) 900px, transparent 2400px); }
 :root[data-theme="light"] body:not(.is-home) .shell::before { opacity: .45; }

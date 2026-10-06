@@ -99,6 +99,15 @@
     const footer = `<footer class="ftr"><div><h4>NORTHSTAR DESIGN SYSTEM</h4><p>An enterprise-grade UI architecture crafted for secure, high-density telemetry dashboards, command panels, and distributed cloud systems.</p></div><div><h5>Resources</h5><ul><li><a href="${NS.FIGMA}" target="_blank" rel="noopener">Figma library</a></li><li><a href="#/getting-started/developers">Developer guide</a></li><li><a href="#/foundations/tokens">Token reference</a></li></ul></div><div><h5>Community</h5><ul><li><a href="#/community/support">Slack channel</a></li><li><a href="#/community/contributing">Contribution guide</a></li><li><a href="#/community/governance">Security board</a></li></ul></div><p class="legal">© 2026 NorthStar Enterprise Solutions. Code licensed under Apache 2.0. Documentation licensed under CC BY 4.0.</p></footer>`;
 
     document.body.classList.toggle("is-home", !!page.home);
+    // Side rays live behind every page, created once; secondary pages dim them in CSS.
+    if (!document.querySelector(".hero-rays")) {
+      const bg = document.createElement("div");
+      bg.className = "hero-rays";
+      bg.setAttribute("aria-hidden", "true");
+      document.querySelector(".shell").prepend(bg);
+      NS.sideRays(bg, { rayColor2: "#3B82F6", spread: 3, falloff: 1.1, intensity: 2, sourceX: 0.8, sourceY: -0.35 });
+      bg.insertAdjacentHTML("beforeend", NS.logoSvg("hero-rays__mark"));
+    }
     main.innerHTML = `${header}${tabsHtml}<div class="prose">${html}</div>${idx >= 0 && !page.home ? feedback : ""}${pn}${footer}`;
     document.title = `${page.title === "Home" ? "NorthStar Design System" : page.title + " | NorthStar DS"}`;
 

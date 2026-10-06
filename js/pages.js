@@ -30,15 +30,8 @@
   P("", {
     title: "Home", home: true, noTitle: true,
     init: () => {
-      const main = document.getElementById("main-content");
-      const bg = document.createElement("div");
-      bg.className = "hero-rays";
-      bg.setAttribute("aria-hidden", "true");
-      document.querySelector(".shell").prepend(bg);
-      const stop = NS.sideRays(bg, { rayColor2: "#3B82F6", spread: 3, falloff: 1.1, intensity: 2, sourceX: 0.8, sourceY: -0.35 });
-      bg.insertAdjacentHTML("beforeend", NS.logoSvg("hero-rays__mark"));
-      const stopHome = NS.homeInit(main);
-      NS.pageCleanup = () => { stop(); stopHome(); bg.remove(); };
+      const stopHome = NS.homeInit(document.getElementById("main-content"));
+      NS.pageCleanup = stopHome;
     },
     body: () => NS.homeBody(),
   });
