@@ -26,3 +26,13 @@ Open http://localhost:8910. Hash routing, so any static host works.
 Add a component: append an entry to NS.COMPONENTS in js/components.js. Nav, search, index, and prev/next pick it up.
 
 Icons: assets/icons/*.svg (95, exported from Figma Icons page, currentColor) + manifest.json.
+
+## Keeping Figma and the site in sync
+
+Links run both ways: every component in `js/components.js` has a `figma` node ID, and every component in the NORTHSTAR DS Figma file (VZxmDNQiosTN6gqnvEQ65Z) has a documentation link to its page here. Nothing updates automatically, so check for drift by hand:
+
+```bash
+node tools/figma-sync-check.mjs
+```
+
+It needs a Figma personal access token with `file_content:read`, set as `FIGMA_TOKEN` in your shell or in a `.env` file in this folder (gitignored). `--offline` runs only the site-side checks. It reports broken links in either direction, Figma nodes that no longer exist, specification frames without a Spec tab, and Figma-only components as notes. Exit code 1 means drift.
