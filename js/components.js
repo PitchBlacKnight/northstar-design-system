@@ -89,7 +89,7 @@
       react: "<TextInput id=\"cluster\" label=\"Cluster name\" size=\"m\" state={exists ? 'error' : 'default'}\n  helperText={exists ? 'Name already exists in this region.' : 'Lowercase, 3 to 24 characters.'} />",
     },
     {
-      id: "select", name: "Select", cat: "Inputs", status: "Stable",
+      id: "select", name: "Select", cat: "Inputs", status: "Stable", figma: "4207:955",
       desc: "Select lets people choose one option from a list of 4 to 15 predefined values.",
       playground: {
         controls: [{ key: "state", label: "State", options: ["Default", "Error", "Disabled"] }],
@@ -188,7 +188,7 @@
       react: "<Switch label=\"Real-time telemetry\" checked={on} onChange={setOn} />",
     },
     {
-      id: "slider", name: "Slider", cat: "Inputs", status: "Stable",
+      id: "slider", name: "Slider", cat: "Inputs", status: "Stable", figma: "4207:1097",
       desc: "Sliders pick a value or range from a continuous or stepped scale.",
       playground: {
         controls: [{ key: "step", label: "Step", options: ["1", "10", "25"] }],
@@ -205,7 +205,7 @@
       react: "<Slider labelText=\"Alert threshold\" min={0} max={100} step={1} value={60} />",
     },
     {
-      id: "date-picker", name: "Date picker", cat: "Inputs", status: "New",
+      id: "date-picker", name: "Date picker", cat: "Inputs", status: "New", figma: "4215:37",
       desc: "Date pickers select a single date or a range from a calendar overlay, with typed input as an alternative.",
       playground: { controls: [{ key: "mode", label: "Mode", options: ["Range", "Single"] }], render: (s) => `<div style="display:grid;gap:12px"><div class="ns-field" style="width:280px"><label class="ns-label">${s.mode === "Range" ? "Reporting window" : "Start date"}</label><input class="ns-input" value="${s.mode === "Range" ? "09/10/2026 - 09/16/2026" : "09/10/2026"}"/></div>${cal()}</div>` },
       when: ["Choosing dates near today, or ranges where seeing the week helps."],
@@ -219,7 +219,7 @@
       react: "<DatePicker datePickerType=\"range\" onChange={setRange}>\n  <DatePickerInput id=\"start\" labelText=\"Start\" />\n  <DatePickerInput id=\"end\" labelText=\"End\" />\n</DatePicker>",
     },
     {
-      id: "file-uploader", name: "File uploader", cat: "Inputs", status: "New",
+      id: "file-uploader", name: "File uploader", cat: "Inputs", status: "New", figma: "4217:37",
       desc: "File uploaders accept files by drag-and-drop or browse, and show progress and validation per file.",
       playground: { controls: [], block: true, render: () => `<div style="display:grid;gap:12px;max-width:460px;margin:0 auto"><label class="ns-drop" id="drop-demo"><span style="font-size:22px">↑</span><span>Drag files here or <b>browse</b></span><span class="ns-helper">CSV, JSON up to 25 MB</span><input type="file" class="sr-only" multiple/></label><div class="ns-file"><span class="ns-file__ext">CSV</span><div><b>partners-q3.csv</b><div class="ns-progress" style="margin-top:6px"><div class="ns-progress__track"><div class="ns-progress__bar" style="--_v:72%"></div></div></div></div><span class="ns-helper">72%</span></div><div class="ns-file"><span class="ns-file__ext" style="color:var(--ns-status-error)">PDF</span><div><b>contract.pdf</b><div class="ns-helper" style="color:var(--ns-status-error)">File type not supported</div></div><button class="ns-notice__close" aria-label="Remove">×</button></div></div>`,
         init: (root) => { const d = root.querySelector(".ns-drop"); if (!d) return; ["dragenter", "dragover"].forEach((e) => d.addEventListener(e, (ev) => { ev.preventDefault(); d.classList.add("is-over"); })); ["dragleave", "drop"].forEach((e) => d.addEventListener(e, (ev) => { ev.preventDefault(); d.classList.remove("is-over"); if (e === "drop") NS.toast("Files received", ev.dataTransfer.files.length + " file(s) dropped", "success"); })); } },
@@ -234,7 +234,7 @@
       react: "<FileUploaderDropContainer accept={['.csv','.json']} multiple onAddFiles={upload} />",
     },
     {
-      id: "search", name: "Search", cat: "Inputs", status: "Stable",
+      id: "search", name: "Search", cat: "Inputs", status: "Stable", figma: "4207:1033",
       desc: "Search lets people find content by keyword, inline in a page or globally from the header.",
       playground: { controls: [{ key: "size", label: "Size", options: ["Medium", "Large", "Small"] }], render: (s) => `<div class="ns-search" role="search" style="width:360px">${NS.icon.search}<input class="ns-input${s.size === "Large" ? " ns-input--lg" : s.size === "Small" ? " ns-input--sm" : ""}" type="search" placeholder="Search partners, nodes, tickets" aria-label="Search"/><kbd>/</kbd></div>` },
       when: ["Large collections where browsing is slow.", "Filtering a table or list in place."],
@@ -287,7 +287,7 @@
       react: "<Badge type=\"positive\" variant=\"outline\" icon={<Check />}>Approved</Badge>",
     },
     {
-      id: "card", name: "Card", cat: "Containers", status: "Stable",
+      id: "card", name: "Card", cat: "Containers", status: "Stable", figma: "4207:1138",
       desc: "Cards group related content and actions about a single subject. Clickable cards navigate as a whole.",
       playground: {
         controls: [{ key: "kind", label: "Kind", options: ["Default", "Elevated", "Clickable", "With strip"] }],
@@ -304,7 +304,7 @@
       react: "<Card kind=\"elevated\">\n  <CardTitle>Acme Corp</CardTitle>\n  <CardBody>Gold tier.</CardBody>\n</Card>",
     },
     {
-      id: "data-table", name: "Data table", cat: "Data", status: "Stable",
+      id: "data-table", name: "Data table", cat: "Data", status: "Stable", figma: "4213:46",
       desc: "Data tables organize large sets of records into rows and columns with sorting, selection, and batch actions.",
       playground: { block: true, controls: [{ key: "size", label: "Row size", options: ["Default", "Compact"] }, { key: "batch", label: "Selectable", type: "bool", default: true }, { key: "zebra", label: "Zebra", type: "bool" }], render: (s) => tableHtml(s) },
       when: ["Comparing many records across the same attributes.", "Bulk actions across selected rows."],
@@ -335,7 +335,7 @@
       react: "<Avatar name=\"Alex Park\" shape=\"round\" size={40} status=\"online\" />",
     },
     {
-      id: "progress", name: "Progress", cat: "Status", status: "Stable",
+      id: "progress", name: "Progress", cat: "Status", status: "Stable", figma: "4038:31350",
       desc: "Progress indicators show completion of a task: linear bars, rings for single metrics, and step indicators for flows.",
       playground: { controls: [{ key: "kind", label: "Kind", options: ["Bar", "Ring", "Steps", "Indeterminate"] }, { key: "value", label: "Value", options: ["30", "65", "80", "100"] }], render: (s) => s.kind === "Ring" ? `<div class="ns-ring" style="--_v:${s.value}" role="progressbar" aria-valuenow="${s.value}" aria-valuemin="0" aria-valuemax="100"><span>${s.value}%</span></div>` : s.kind === "Steps" ? `<ol class="ns-steps" style="width:520px"><li class="is-done"><b>Details</b>Complete</li><li class="is-done"><b>Access</b>Complete</li><li class="is-current" aria-current="step"><b>Review</b>In progress</li><li><b>Deploy</b>Not started</li></ol>` : `<div class="ns-progress${s.kind === "Indeterminate" ? " ns-progress--indeterminate" : ""}" style="width:360px"><div class="ns-progress__meta"><span>Migrating records</span><span>${s.kind === "Indeterminate" ? "" : s.value + "%"}</span></div><div class="ns-progress__track" role="progressbar" aria-label="Migrating records"${s.kind === "Indeterminate" ? "" : ` aria-valuenow="${s.value}" aria-valuemin="0" aria-valuemax="100"`}><div class="ns-progress__bar" style="--_v:${s.value}%"></div></div></div>` },
       when: ["Operations that take more than about a second.", "Multi-step flows."], whenNot: ["Instant actions."],
@@ -348,7 +348,7 @@
       react: "<ProgressBar label=\"Migrating records\" value={65} />",
     },
     {
-      id: "loading", name: "Loading", cat: "Status", status: "Stable",
+      id: "loading", name: "Loading", cat: "Status", status: "Stable", figma: "4038:31327",
       desc: "Spinners and skeletons show that content is loading and keep layout stable while it arrives.",
       playground: { controls: [{ key: "kind", label: "Kind", options: ["Skeleton", "Spinner"] }], render: (s) => s.kind === "Spinner" ? `<span class="ns-spin" role="status" aria-label="Loading"></span>` : `<div style="width:360px;display:grid;gap:10px" aria-busy="true" aria-label="Loading partners"><div class="ns-skel" style="height:20px;width:60%"></div><div class="ns-skel" style="height:12px"></div><div class="ns-skel" style="height:12px;width:85%"></div><div class="ns-skel" style="height:80px;margin-top:6px"></div></div>` },
       when: ["Skeletons for page and card loads; spinners for small, local waits."], whenNot: ["Waits under 300ms: show nothing."],
@@ -375,7 +375,7 @@
       react: "<Tabs items={[{ label: 'Overview', icon: <Star /> }, { label: 'Nodes' }]} />",
     },
     {
-      id: "breadcrumb", name: "Breadcrumb", cat: "Navigation", status: "Stable",
+      id: "breadcrumb", name: "Breadcrumb", cat: "Navigation", status: "Stable", figma: "4208:1020",
       desc: "Breadcrumbs show where the current page sits in the hierarchy and let people move up levels.",
       playground: { controls: [{ key: "sep", label: "Separator", options: ["Slash", "Chevron"] }], render: (s) => `<nav aria-label="Breadcrumb"><ol class="ns-breadcrumb${s.sep === "Chevron" ? " ns-breadcrumb--chevron" : ""}"><li><a href="#/">Partners</a></li><li><a href="#/">Acme Corp</a></li><li><a href="#/">Integrations</a></li><li aria-current="page">Salesforce sync</li></ol></nav>` },
       when: ["Hierarchies three or more levels deep."], whenNot: ["Flat sites or single-level apps."],
@@ -386,7 +386,7 @@
       react: "<Breadcrumb>\n  <BreadcrumbItem href=\"/partners\">Partners</BreadcrumbItem>\n  <BreadcrumbItem isCurrentPage>Acme Corp</BreadcrumbItem>\n</Breadcrumb>",
     },
     {
-      id: "pagination", name: "Pagination", cat: "Navigation", status: "Stable",
+      id: "pagination", name: "Pagination", cat: "Navigation", status: "Stable", figma: "4038:31293",
       desc: "Pagination splits long collections into pages with page size control and position feedback.",
       playground: { controls: [{ key: "kind", label: "Kind", options: ["Numbered", "Prev / next"] }], render: (s) => s.kind === "Numbered" ? `<nav class="ns-pagination" aria-label="Pagination"><span style="margin-right:12px">Rows <select class="ns-select" style="width:72px;min-height:32px;display:inline-block"><option>25</option><option>50</option></select></span><button class="ns-page" disabled aria-label="Previous page">‹</button><button class="ns-page" aria-current="page">1</button><button class="ns-page">2</button><button class="ns-page">3</button><span>…</span><button class="ns-page">12</button><button class="ns-page" aria-label="Next page">›</button><span style="margin-left:12px">1-25 of 288</span></nav>` : `<nav class="ns-pagination" aria-label="Pagination"><button class="ns-btn ns-btn--sm ns-btn--tertiary" disabled>Previous</button><span style="margin:0 12px">Page 1 of 12</span><button class="ns-btn ns-btn--sm ns-btn--tertiary">Next</button></nav>` },
       when: ["Tables and lists over ~50 items."], whenNot: ["Feeds where infinite scroll fits better."],
@@ -397,7 +397,7 @@
       react: "<Pagination page={1} pageSize={25} pageSizes={[25, 50, 100]} totalItems={288} />",
     },
     {
-      id: "side-navigation", name: "Side navigation", cat: "Navigation", status: "Stable",
+      id: "side-navigation", name: "Side navigation", cat: "Navigation", status: "Stable", figma: "4212:37",
       desc: "Side navigation is the primary way to move through an app, with collapsible groups for large information spaces.",
       playground: { controls: [], render: () => `<nav class="ns-sidenav" aria-label="App"><div class="brand" style="padding:6px 12px 10px"><span class="brand__dot"></span>NORTHSTAR</div><div class="ns-sidenav__group">Operate</div><a href="#/" aria-current="page">Dashboard</a><a href="#/">Partners <span class="ns-count">3</span></a><a href="#/">Approvals</a><div class="ns-sidenav__group">Configure</div><a href="#/">Integrations</a><a href="#/">Access</a><a href="#/">Settings</a></nav>` },
       when: ["Apps with five or more top-level destinations."], whenNot: ["Two or three destinations: use tabs or header links."],
@@ -409,7 +409,7 @@
       react: "<SideNav aria-label=\"App\">\n  <SideNavLink href=\"/\" isActive>Dashboard</SideNavLink>\n</SideNav>",
     },
     {
-      id: "modal", name: "Modal", cat: "Overlays", status: "Stable",
+      id: "modal", name: "Modal", cat: "Overlays", status: "Stable", figma: "4211:201",
       desc: "Modals focus attention on a single task or decision and block the rest of the page until dismissed.",
       playground: { controls: [{ key: "size", label: "Size", options: ["Medium", "Small", "Large"] }], render: (s) => `<div style="display:grid;gap:20px;justify-items:center;width:100%"><div class="ns-modal ns-modal--inline${s.size === "Small" ? " ns-modal--sm" : s.size === "Large" ? " ns-modal--lg" : ""}" role="dialog" aria-labelledby="mdl-t"><div class="ns-modal__head"><div><p class="ns-modal__label">Partner access</p><h2 class="ns-modal__title" id="mdl-t">Revoke API credentials?</h2></div><button class="icon-btn" aria-label="Close">×</button></div><div class="ns-modal__body">Revoking credentials for Acme Corp stops 14 active integrations immediately.</div><div class="ns-modal__foot"><button class="ns-btn ns-btn--tertiary">Cancel</button><button class="ns-btn ns-btn--danger">Revoke</button></div></div><button class="ns-btn ns-btn--tertiary" data-open-modal>Open live modal</button></div>` },
       when: ["Confirming destructive or irreversible actions.", "Short, focused tasks that need an answer now."], whenNot: ["Long forms: use a full page or side panel.", "Non-blocking info: use a notification."],
@@ -437,7 +437,7 @@
       react: "<Tooltip label=\"Refresh telemetry\" placement=\"nw\" icon>\n  <IconButton icon={<Renew />} />\n</Tooltip>",
     },
     {
-      id: "popover", name: "Popover", cat: "Overlays", status: "Stable",
+      id: "popover", name: "Popover", cat: "Overlays", status: "Stable", figma: "4210:129",
       desc: "Popovers show richer, interactive content anchored to a trigger, such as menus and quick filters.",
       playground: { controls: [], render: () => `<div class="ns-popover"><button class="ns-btn ns-btn--tertiary" data-popover aria-haspopup="menu">Actions ▾</button><div class="ns-popover__panel" style="padding:4px"><ul class="ns-menu" role="menu"><li><button role="menuitem">Duplicate</button></li><li><button role="menuitem">Export CSV</button></li><li><button role="menuitem" style="color:var(--ns-status-error)">Archive</button></li></ul></div></div>` },
       when: ["Overflow menus, quick filters, small forms."], whenNot: ["Blocking decisions: use a modal."],
@@ -448,7 +448,7 @@
       react: "<OverflowMenu>\n  <OverflowMenuItem itemText=\"Duplicate\" />\n  <OverflowMenuItem itemText=\"Archive\" isDelete />\n</OverflowMenu>",
     },
     {
-      id: "notification", name: "Notification", cat: "Feedback", status: "Stable",
+      id: "notification", name: "Notification", cat: "Feedback", status: "Stable", figma: "4209:150",
       desc: "Notifications communicate system messages: inline in context, or as toasts that appear and dismiss themselves.",
       playground: { controls: [{ key: "kind", label: "Severity", options: ["Info", "Success", "Warning", "Error"] }], render: (s) => { const k = s.kind.toLowerCase(); const m = { info: ["Portal update available", "v1.4.0 is ready to deploy."], success: ["Sync complete", "2,418 records updated."], warning: ["Quota at 85%", "Upgrade before the next billing cycle."], error: ["Deployment failed", "Health check timed out on node 3."] }[k]; return `<div style="display:grid;gap:16px;justify-items:center;width:100%"><div class="ns-notice ns-notice--${k}" role="${k === "error" ? "alert" : "status"}" style="width:440px"><span class="ns-notice__icon">${{ info: "i", success: "✓", warning: "!", error: "×" }[k]}</span><div><p class="ns-notice__title">${m[0]}</p><p class="ns-notice__body">${m[1]}</p></div><button class="ns-notice__close" aria-label="Dismiss">×</button></div><button class="ns-btn ns-btn--tertiary ns-btn--sm" data-toast="${m[0]}" data-kind="${k}">Fire as toast</button></div>`; } },
       when: ["Inline: messages tied to a section.", "Toast: confirmation of a completed action."], whenNot: ["Critical, blocking issues: use a modal."],
@@ -478,7 +478,7 @@
       react: "<AlertBanner type=\"error\" title=\"The title identifies what happened\"\n  description=\"The body content lets the user know why, and how to remedy or proceed.\"\n  actions={[{ label: 'Retry' }, { label: 'Details', kind: 'ghost' }]} onClose={dismiss} />",
     },
     {
-      id: "accordion", name: "Accordion", cat: "Containers", status: "Stable",
+      id: "accordion", name: "Accordion", cat: "Containers", status: "Stable", figma: "4208:871",
       desc: "Accordions stack sections of content that expand and collapse to save space.",
       playground: { block: true, controls: [], render: () => `<div class="ns-accordion" style="max-width:640px;margin:0 auto"><details open><summary>What counts as an active partner?</summary><div class="ns-accordion__body">Any partner with at least one integration that synced in the last 30 days.</div></details><details><summary>How are tiers calculated?</summary><div class="ns-accordion__body">Tier is based on trailing twelve-month MRR, recalculated nightly.</div></details><details><summary>Can I export audit logs?</summary><div class="ns-accordion__body">Yes. Admins can export CSV or stream to a SIEM.</div></details></div>` },
       when: ["FAQs, settings groups, long forms split by topic."], whenNot: ["Content everyone needs: show it."],
@@ -489,7 +489,7 @@
       react: "<Accordion>\n  <AccordionItem title=\"How are tiers calculated?\">...</AccordionItem>\n</Accordion>",
     },
     {
-      id: "divider", name: "Divider", cat: "Containers", status: "Stable",
+      id: "divider", name: "Divider", cat: "Containers", status: "Stable", figma: "4205:883",
       desc: "Dividers separate groups of content horizontally, vertically, or with a label.",
       playground: { block: true, controls: [{ key: "kind", label: "Kind", options: ["Horizontal", "Labeled", "Vertical"] }], render: (s) => s.kind === "Vertical" ? `<div style="display:flex;height:40px;align-items:center;justify-content:center">Nodes<hr class="ns-divider ns-divider--v"/>Pods<hr class="ns-divider ns-divider--v"/>Services</div>` : s.kind === "Labeled" ? `<div class="ns-divider-label" style="max-width:480px;margin:0 auto">Or continue with</div>` : `<div style="max-width:480px;margin:0 auto"><p style="margin:0">Section one</p><hr class="ns-divider"/><p style="margin:0">Section two</p></div>` },
       when: ["Separating groups when spacing alone is not enough."], whenNot: ["Between every list item: use spacing."],
@@ -511,7 +511,8 @@
     if (tab === "usage") {
       body += NS.h2("Live demo") + NS.playground(c.playground);
       body += NS.h2("Overview") + `<p>${c.desc}</p>`;
-      if (c.axes) body += NS.h3("Figma variants") + NS.table(["Property", "Values"], c.axes.map(([a, b]) => [`<code>${a}</code>`, b])) + (c.figma ? `<p><a href="${NS.FIGMA}?node-id=${c.figma.replace(":", "-")}" target="_blank" rel="noopener">Open ${c.name} in Figma \u2197</a></p>` : "");
+      if (c.axes) body += NS.h3("Figma variants") + NS.table(["Property", "Values"], c.axes.map(([a, b]) => [`<code>${a}</code>`, b]));
+      if (c.figma) body += `<p><a href="${NS.FIGMA}?node-id=${c.figma.replace(":", "-")}" target="_blank" rel="noopener">Open ${c.name} in Figma \u2197</a></p>`;
       if (c.doc && c.doc.length) body += NS.h3("Guidelines") + c.doc.map(([t, d]) => `<h4>${t}</h4><p>${d}</p>`).join("");
       body += NS.h3("When to use") + `<ul>${c.when.map((w) => `<li>${w}</li>`).join("")}</ul>`;
       body += NS.h3("When not to use") + `<ul>${c.whenNot.map((w) => `<li>${w}</li>`).join("")}</ul>`;

@@ -77,7 +77,7 @@
     if (comp) {
       const r = NS.renderComponent(comp, m[2]);
       compTab = r.tab; path = "components/" + comp.id;
-      page = { title: comp.name, lede: comp.desc, status: comp.status, figma: true };
+      page = { title: comp.name, lede: comp.desc, status: comp.status, figma: true, figmaNode: comp.figma };
       tabsHtml = `<nav class="page-tabs ns"><div class="ns-tabs" role="tablist" aria-label="${comp.name} documentation">${r.tabs.map((t) => `<a class="ns-tab" role="tab" href="#/components/${comp.id}/${t}" aria-selected="${t === r.tab}">${t[0].toUpperCase() + t.slice(1)}</a>`).join("")}</div></nav>`;
       html = r.body;
     } else {
@@ -87,7 +87,7 @@
     }
 
     const statusColor = { New: "var(--ns-teal-500)", Stable: "var(--ns-status-success)", Live: "var(--ns-status-success)", AI: "var(--ns-purple-500)", Beta: "var(--ns-status-warning)" };
-    const header = page.noTitle ? "" : `<div class="eyebrow">${page.status ? `<span class="status-pill" style="--_c:${statusColor[page.status] || "var(--ns-teal-500)"}">${page.status}</span>` : ""}<span>Last updated: Oct 2026</span>${page.figma || route.startsWith("foundations") ? `<a href="${NS.FIGMA}" target="_blank" rel="noopener" style="color:var(--ns-text-tertiary)">View in Figma ↗</a>` : ""}</div><h1 class="page-title">${page.title}</h1>${page.lede ? `<p class="page-lede">${page.lede}</p>` : ""}`;
+    const header = page.noTitle ? "" : `<div class="eyebrow">${page.status ? `<span class="status-pill" style="--_c:${statusColor[page.status] || "var(--ns-teal-500)"}">${page.status}</span>` : ""}<span>Last updated: Oct 2026</span>${page.figma || route.startsWith("foundations") ? `<a href="${NS.FIGMA}${page.figmaNode ? "?node-id=" + page.figmaNode.replace(":", "-") : ""}" target="_blank" rel="noopener" style="color:var(--ns-text-tertiary)">View in Figma ↗</a>` : ""}</div><h1 class="page-title">${page.title}</h1>${page.lede ? `<p class="page-lede">${page.lede}</p>` : ""}`;
 
     const idx = FLAT.findIndex((f) => f.path === path);
     const prev = FLAT[idx - 1], next = FLAT[idx + 1];
