@@ -18,7 +18,7 @@
 }
 .ns-btn:hover, .ns-btn.is-hover { background: var(--_hover); }
 .ns-btn:active, .ns-btn.is-pressed { background: var(--_press); transform: translateY(1px); }
-.ns-btn:focus-visible { outline: 2px solid var(--ns-focus-ring); outline-offset: 2px; }
+.ns-btn:focus-visible, .ns-btn.is-focus { outline: 2px solid var(--ns-focus-ring); outline-offset: 2px; }
 .ns-btn[disabled], .ns-btn.is-disabled { --_bg: var(--ns-gray-4); --_hover: var(--ns-gray-4); --_press: var(--ns-gray-4); --_bd: transparent; color: color-mix(in srgb, var(--ns-white) 55%, transparent); cursor: not-allowed; transform: none; }
 .ns-btn--secondary { --_bg: var(--ns-interactive-secondary-bg); --_fg: var(--ns-text-primary); --_hover: var(--ns-interactive-secondary-hover); --_press: var(--ns-interactive-secondary-hover); }
 .ns-btn--secondary:active, .ns-btn--secondary.is-pressed { --_bd: var(--ns-interactive-primary); }
@@ -28,7 +28,7 @@
 .ns-btn--ghost { --_bg: transparent; --_fg: var(--ns-text-link); --_hover: var(--ns-interactive-ghost-hover); --_press: var(--ns-interactive-ghost-hover); }
 .ns-btn--ghost[disabled] { --_bg: transparent; color: var(--ns-text-disabled); }
 .ns-btn--danger { --_bg: var(--ns-status-error); --_hover: #ff4a82; --_press: var(--ns-red-500); }
-.ns-btn--sm { --_h: 36px; padding: 0 var(--ns-space-5); font-size: 13px; }
+.ns-btn--sm { --_h: 32px; padding: 0 var(--ns-space-5); font-size: 13px; }
 .ns-btn--lg { --_h: 48px; padding: 0 var(--ns-space-7); font-size: var(--ns-type-body1-size); }
 .ns-btn--xl { --_h: 52px; padding: 0 var(--ns-space-8); font: 700 16px/24px var(--ns-font-sans); }
 .ns-btn--square { border-radius: var(--ns-radius-xs); }

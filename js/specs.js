@@ -41,7 +41,7 @@
      {
       "type": "example",
       "label": "ACTUAL INSTANCE · Primary / Default / M",
-      "description": "Button / Recommended instance, Hierarchy=Primary, State=Default, Size=M, label property 'Create partner', showLeadingIcon=true (plus glyph, 16px icon slot). Visual: bg interactive/primary #023aff, radius 8px, padding 16px x 9px, gap 8px, min-width 96px, label Inter Medium 14px/20px. Specimen card bg background/elevated #1e1e24, radius 10px, padding 16px."
+      "description": "Button instance, Hierarchy=Primary, State=Default, Size=M, label property 'Create partner', showLeadingIcon=true (plus glyph, 16px icon slot). Visual: bg interactive/primary #023aff, radius 8px, padding 16px x 9px, gap 8px, min-width 96px, label Inter Medium 14px/20px. Specimen card bg background/elevated #1e1e24, radius 10px, padding 16px."
      },
      {
       "type": "text",
@@ -60,7 +60,7 @@
     "blocks": [
      {
       "type": "text",
-      "text": "Button / Recommended · set 4038:31741 · 48 variants. Variant axes are Hierarchy × State × Size; text and icon visibility are component properties."
+      "text": "Button · set 4038:31741 · 60 variants. Variant axes are Hierarchy × State × Size; text and icon visibility are component properties."
      },
      {
       "type": "table",
@@ -121,12 +121,12 @@
      {
       "type": "example",
       "label": "Button state matrix (rows Primary, Secondary, Outline, Ghost; columns Default, Hover, Pressed, Disabled)",
-      "description": "16 Button / Recommended instances, Size=M, default label 'Button', no icons. Row labels: Primary, Secondary, Outline, Ghost. Each cell 239x70."
+      "description": "16 Button instances, Size=M, default label 'Button', no icons. Row labels: Primary, Secondary, Outline, Ghost. Each cell 239x70."
      },
      {
       "type": "example",
       "label": "ACTUAL S / L",
-      "description": "Button / Recommended Size=S (80px wide min, 30px high Primary) and Size=L (112px min, 48px high Primary), Primary/Default."
+      "description": "Button Size=S (80px wide min, 30px high Primary) and Size=L (112px min, 48px high Primary), Primary/Default."
      },
      {
       "type": "example",
@@ -398,7 +398,7 @@
       "rows": [
        [
         "Hierarchy; Size S / M / L",
-        "Native button + CSS; hierarchy, size s / m / l / xl",
+        "Native button + CSS; hierarchy, size s / m / l",
         "Online mirrors legacy axes; no full recommended parity."
        ],
        [
@@ -442,7 +442,7 @@
      {
       "type": "note",
       "heading": "Legacy set",
-      "text": "The original Button set (1727:22959) is kept for backward compatibility. New work uses Button / Recommended, which replaces content and shape variants with component properties."
+      "text": "The original Button set (1727:22959) is kept for backward compatibility. New work uses Button, which replaces content and shape variants with component properties."
      },
      {
       "type": "table",
@@ -493,7 +493,7 @@
      },
      {
       "type": "text",
-      "text": "48 variants named 'Hierarchy=X, State=Y, Size=Z' (4x4x3), ids 4038:31357 to 4038:31733. Icon slot: 16x16 plus glyph (two rounded 1px rects 10x2 and 2x10), colored to match label. All variants: radius 8px, Inter Medium label."
+      "text": "60 variants named 'Hierarchy=X, State=Y, Size=Z' (4x5x3), ids 4038:31357 to 4038:31733. Icon slot: 16x16 plus glyph (two rounded 1px rects 10x2 and 2x10), colored to match label. All variants: radius 8px, Inter Medium label."
      },
      {
       "type": "table",
@@ -1811,7 +1811,7 @@
     {
      "type": "example",
      "label": "Form state 1: Default (card 548x670)",
-     "description": "Header: state title 'Default' (18px), technical label 'DEMO DATA · static design state', form title 'Create partner' (22px), copy 'Add a partner and set their billing preferences.' Fields: 'Company name *' = 'Atlas Works'; 'Tier *' = 'Growth'; 'Billing email *' label (12px) with control value 'billing@atlas.example' (14px, default border), helper (13px, text/secondary) 'Invoices will be sent to this address.'; checkbox (checked) labelled 'Send welcome kit'; actions: Button / Recommended label 'Create partner' (Primary, bg interactive/primary #023aff), label 'Cancel' (hierarchy Ghost). Note: 'Required fields are marked *. Cancel leaves without creating a partner; persistence rules require application decisions.'"
+     "description": "Header: state title 'Default' (18px), technical label 'DEMO DATA · static design state', form title 'Create partner' (22px), copy 'Add a partner and set their billing preferences.' Fields: 'Company name *' = 'Atlas Works'; 'Tier *' = 'Growth'; 'Billing email *' label (12px) with control value 'billing@atlas.example' (14px, default border), helper (13px, text/secondary) 'Invoices will be sent to this address.'; checkbox (checked) labelled 'Send welcome kit'; actions: Button label 'Create partner' (Primary, bg interactive/primary #023aff), label 'Cancel' (hierarchy Ghost). Note: 'Required fields are marked *. Cancel leaves without creating a partner; persistence rules require application decisions.'"
     },
     {
      "type": "example",

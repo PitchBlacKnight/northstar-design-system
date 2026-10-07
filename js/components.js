@@ -25,44 +25,43 @@
 
   NS.COMPONENTS = [
     {
-      id: "button", name: "Button", cat: "Actions", status: "Stable", figma: "1727:20234",
+      id: "button", name: "Button", cat: "Actions", status: "Stable", figma: "4038:31741",
       desc: "The button component gives users the ability to perform an action or navigate to another page. They have multiple styles and states for different needs.",
-      axes: [["Hierarchy", "Primary, Secondary, Outline, Ghost"], ["Content", "Text, Icon, Icon left, Icon right, Icon left and right"], ["State", "Default, Hover, Clicked, Disabled"], ["Size", "S (36), M (40), L (48), XL (52)"], ["Shape", "Rounded, Square"]],
-      doc: [["Label and icon", "Buttons should always have an inscription. Also, some cases use buttons only with an icon that is clear and understandable to the user. Use the icon only when necessary and when it has a strong association with the label text."], ["Accent", "An accent button has a strong accent and is intended for important actions. When using buttons in your project, remember to design a clear semantic hierarchy."], ["Style", "Buttons can be filled or outline style. A fill-style button has a solid background, because it must be intentionally more prominent than an outline-style button. An outline-style button has a visible border and no background color, and is usually used for secondary actions."], ["Size", "Buttons come in four different sizes: small, medium, large and extra large. The medium size is the most commonly used size. Avoid using three or more different button sizes on the same page."], ["Disabled", "A button in a disabled state shows that an action exists, but is not available in that circumstance."]],
+      axes: [["Hierarchy", "Primary, Secondary, Outline, Ghost"], ["State", "Default, Hover, Pressed, Focus, Disabled"], ["Size", "S (32), M (40), L (48)"], ["Icons", "Show leading icon, Show trailing icon (booleans with instance swaps)"], ["Label", "Text property"]],
+      doc: [["Label and icon", "Buttons should always have an inscription. Also, some cases use buttons only with an icon that is clear and understandable to the user. Use the icon only when necessary and when it has a strong association with the label text."], ["Accent", "An accent button has a strong accent and is intended for important actions. When using buttons in your project, remember to design a clear semantic hierarchy."], ["Style", "Buttons can be filled or outline style. A fill-style button has a solid background, because it must be intentionally more prominent than an outline-style button. An outline-style button has a visible border and no background color, and is usually used for secondary actions."], ["Size", "Buttons come in three different sizes: small, medium and large. The medium size is the most commonly used size. Avoid using three different button sizes on the same page."], ["Focus", "Keyboard focus shows a 2px focus ring with a 2px offset. The ring is never removed."], ["Disabled", "A button in a disabled state shows that an action exists, but is not available in that circumstance."]],
       playground: {
         controls: [
           { key: "kind", label: "Hierarchy", options: ["Primary", "Secondary", "Outline", "Ghost"] },
-          { key: "content", label: "Content", options: ["Text", "Icon left", "Icon right", "Both icons", "Icon"] },
-          { key: "state", label: "State", options: ["Default", "Hover", "Clicked", "Disabled"] },
-          { key: "size", label: "Size", options: ["M", "S", "L", "XL"] },
-          { key: "shape", label: "Shape", options: ["Rounded", "Square"] },
+          { key: "icons", label: "Icons", options: ["None", "Leading icon", "Trailing icon", "Both icons"] },
+          { key: "state", label: "State", options: ["Default", "Hover", "Pressed", "Focus", "Disabled"] },
+          { key: "size", label: "Size", options: ["M", "S", "L"] },
           { key: "label", label: "Label", type: "text", default: "Button" },
         ],
         render: (s) => {
           const k = s.kind === "Primary" ? "" : ` ns-btn--${s.kind.toLowerCase()}`;
-          const z = { S: " ns-btn--sm", L: " ns-btn--lg", XL: " ns-btn--xl", M: "" }[s.size];
-          const st = { Hover: " is-hover", Clicked: " is-pressed", Default: "", Disabled: "" }[s.state];
+          const z = { S: " ns-btn--sm", L: " ns-btn--lg", M: "" }[s.size];
+          const st = { Hover: " is-hover", Pressed: " is-pressed", Focus: " is-focus", Default: "", Disabled: "" }[s.state];
           const ico = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
-          const inner = s.content === "Icon" ? ico : `${/left|Both/.test(s.content) ? ico : ""}${x(s.label)}${/right|Both/.test(s.content) ? ico : ""}`;
-          return `<button class="ns-btn${k}${z}${st}${s.shape === "Square" ? " ns-btn--square" : ""}${s.content === "Icon" ? " ns-btn--icon" : ""}"${s.state === "Disabled" ? " disabled" : ""}${s.content === "Icon" ? ` aria-label="${x(s.label)}"` : ""}>${inner}</button>`;
+          const inner = `${/Leading|Both/.test(s.icons) ? ico : ""}${x(s.label)}${/Trailing|Both/.test(s.icons) ? ico : ""}`;
+          return `<button class="ns-btn${k}${z}${st}"${s.state === "Disabled" ? " disabled" : ""}>${inner}</button>`;
         },
       },
       when: ["Primary: actions that require maximum attention. Use only one per page.", "Secondary: secondary actions, or interfaces with low contrast.", "Outline and Ghost: actions that need the least attention on the page.", "Danger (NorthStar extension): destructive actions, always confirmed."],
       whenNot: ["Do not use a button for navigation to another page. Use a link.", "Avoid three or more button sizes on one page."],
       variants: [
         ["Hierarchy", "Primary, Secondary, Outline, Ghost.", '<button class="ns-btn">Primary</button><button class="ns-btn ns-btn--secondary">Secondary</button><button class="ns-btn ns-btn--outline">Outline</button><button class="ns-btn ns-btn--ghost">Ghost</button>'],
-        ["States", "Default, Hover, Clicked, Disabled.", '<button class="ns-btn">Default</button><button class="ns-btn is-hover">Hover</button><button class="ns-btn is-pressed">Clicked</button><button class="ns-btn" disabled>Disabled</button>'],
-        ["Sizes", "S 36, M 40, L 48, XL 52.", '<button class="ns-btn ns-btn--sm">Small</button><button class="ns-btn">Medium</button><button class="ns-btn ns-btn--lg">Large</button><button class="ns-btn ns-btn--xl">Extra large</button>'],
-        ["Shape", "Rounded (radius md) or Square (radius xs).", '<button class="ns-btn">Rounded</button><button class="ns-btn ns-btn--square">Square</button>'],
+        ["States", "Default, Hover, Pressed, Focus, Disabled.", '<button class="ns-btn">Default</button><button class="ns-btn is-hover">Hover</button><button class="ns-btn is-pressed">Pressed</button><button class="ns-btn is-focus">Focus</button><button class="ns-btn" disabled>Disabled</button>'],
+        ["Sizes", "S 32, M 40, L 48.", '<button class="ns-btn ns-btn--sm">Small</button><button class="ns-btn">Medium</button><button class="ns-btn ns-btn--lg">Large</button>'],
+        ["Icons", "Leading, trailing, or both. Swap the icon instance.", '<button class="ns-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Leading</button><button class="ns-btn">Trailing<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button class="ns-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Both<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>'],
       ],
       dd: ['<button class="ns-btn ns-btn--outline">Cancel</button><button class="ns-btn">Save changes</button>', "Pair one primary action with an outline action, primary on the right.",
         '<button class="ns-btn">Cancel</button><button class="ns-btn">Save</button><button class="ns-btn">Export</button>', "Stack several primary buttons. Users cannot tell which action matters."],
-      tokens: [["--ns-interactive-primary", "Primary default (blue/500)"], ["--ns-interactive-primary-hover", "Primary hover (blue/700)"], ["--ns-interactive-primary-active", "Primary clicked (purple/500)"], ["--ns-interactive-secondary-bg", "Secondary fill (gray/8)"], ["--ns-interactive-secondary-hover", "Secondary hover (gray/7)"], ["--ns-gray-4", "Disabled fill"], ["--ns-radius-md", "Rounded shape"], ["--ns-radius-xs", "Square shape"]],
-      sizes: [["S", "36px", "Dense tables, toolbars"], ["M", "40px", "Default, most common"], ["L", "48px", "Forms, dialogs with space"], ["XL", "52px", "Hero and marketing CTAs"]],
-      props: [["hierarchy", "'primary' | 'secondary' | 'outline' | 'ghost'", "'primary'", "Visual emphasis"], ["size", "'s' | 'm' | 'l' | 'xl'", "'m'", "Height"], ["shape", "'rounded' | 'square'", "'rounded'", "Corner radius"], ["iconLeft / iconRight", "ReactNode", "-", "Icons"], ["disabled", "boolean", "false", "Prevents interaction"]],
+      tokens: [["--ns-interactive-primary", "Primary default (blue/500)"], ["--ns-interactive-primary-hover", "Primary hover (blue/700)"], ["--ns-interactive-primary-active", "Primary pressed (purple/500)"], ["--ns-interactive-secondary-bg", "Secondary fill (gray/8)"], ["--ns-interactive-secondary-hover", "Secondary hover (gray/7)"], ["--ns-gray-4", "Disabled fill"], ["--ns-radius-lg", "Corner radius (8px)"], ["--ns-focus-ring", "Focus ring, 2px with 2px offset"]],
+      sizes: [["S", "32px", "Dense tables, toolbars"], ["M", "40px", "Default, most common"], ["L", "48px", "Forms, dialogs with space"]],
+      props: [["hierarchy", "'primary' | 'secondary' | 'outline' | 'ghost'", "'primary'", "Visual emphasis"], ["size", "'s' | 'm' | 'l'", "'m'", "Height"], ["iconLeading / iconTrailing", "ReactNode", "-", "Icons"], ["disabled", "boolean", "false", "Prevents interaction"]],
       keyboard: [["Tab", "Moves focus to the button"], ["Enter / Space", "Activates the button"]],
-      aria: ["Use a native <code>&lt;button&gt;</code>. Icon-only buttons need <code>aria-label</code>.", "Disabled buttons use the <code>disabled</code> attribute so they leave the tab order."],
-      react: "import { Button } from '@northstar/react';\n\n<Button hierarchy=\"primary\" size=\"m\" shape=\"rounded\" onClick={deploy}>\n  Deploy pipeline\n</Button>",
+      aria: ["Use a native <code>&lt;button&gt;</code>. Icon-only buttons need <code>aria-label</code>.", "Disabled buttons use the <code>disabled</code> attribute so they leave the tab order.", "Focus shows a 2px ring with a 2px offset. Never remove it."],
+      react: "import { Button } from '@northstar/react';\n\n<Button hierarchy=\"primary\" size=\"m\" onClick={deploy}>\n  Deploy pipeline\n</Button>",
     },
     {
       id: "text-input", name: "Text input", cat: "Inputs", status: "Stable", figma: "1846:24421",

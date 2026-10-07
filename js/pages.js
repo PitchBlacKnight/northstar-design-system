@@ -4,7 +4,7 @@
   const { h2, h3, table, dd, notice, cards, stage, codeBlock } = NS;
   const FIGMA = "https://www.figma.com/design/VZxmDNQiosTN6gqnvEQ65Z/NorthStar-Design-System";
   NS.FIGMA = FIGMA;
-  NS.VERSION = "v1.4.0";
+  NS.VERSION = "v1.4.1";
 
   /* ---------- Navigation (Carbon-style left nav) ---------- */
   NS.NAV = [
@@ -75,7 +75,7 @@ ${h2("Adoption checklist")}<div class="ns" style="display:grid;gap:12px">${["Tok
 
   P("changelog", {
     title: "Changelog", lede: "What changed, when, and what you need to do about it.",
-    body: () => `${h2(NS.VERSION + " (October 2026)")}<p><span class="ns-tag ns-tag--green">Minor</span></p><ul><li><strong>New</strong>: Sankey chart (S / M / L, minimum and maximum data, with and without background).</li><li><strong>New</strong>: Date picker and File uploader components.</li><li><strong>New</strong>: Live Builder, AI generator, and token editor on the docs site.</li><li><strong>Changed</strong>: focus ring moved to <code>--ns-teal-500</code> in dark mode for 3:1 on every surface.</li><li><strong>Docs</strong>: Accessibility checklist and WCAG mapping pages.</li></ul>
+    body: () => `${h2("v1.4.1 (October 2026)")}<p><span class="ns-tag">Patch</span></p><ul><li><strong>Changed</strong>: Button docs synced with the rebuilt Figma component (set 4038:31741, 60 variants). Pressed replaces Clicked, Focus added, sizes S 32 / M 40 / L 48, XL and Square retired.</li><li><strong>Deprecated</strong>: the legacy 640-variant set is renamed "Button (Deprecated)" and kept for existing files, per the Governance deprecation rule.</li></ul>${h2("v1.4.0 (October 2026)")}<p><span class="ns-tag ns-tag--green">Minor</span></p><ul><li><strong>New</strong>: Sankey chart (S / M / L, minimum and maximum data, with and without background).</li><li><strong>New</strong>: Date picker and File uploader components.</li><li><strong>New</strong>: Live Builder, AI generator, and token editor on the docs site.</li><li><strong>Changed</strong>: focus ring moved to <code>--ns-teal-500</code> in dark mode for 3:1 on every surface.</li><li><strong>Docs</strong>: Accessibility checklist and WCAG mapping pages.</li></ul>
 ${h2("v1.3.0 (July 2026)")}<ul><li>Light theme override layer. All semantic roles now have light values.</li><li>Radius scale expanded to <code>2xl</code>, <code>3xl</code>, and <code>full</code>.</li><li>Data table: batch action bar and select-all.</li></ul>
 ${h2("v1.2.0 (April 2026)")}<ul><li>Motion tokens: <code>duration/*</code> and <code>easing/*</code>, with reduced-motion fallback.</li><li>Elevation levels 01 to 04.</li></ul>
 ${h2("Migration notes")}${notice("warning", "Renamed in v1.4", "<code>--ns-accent</code> is now <code>--ns-text-accent</code>. The old name is aliased until v2.0.")}`,
