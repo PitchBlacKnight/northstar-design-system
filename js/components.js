@@ -132,7 +132,7 @@
       react: "<Dropdown label=\"Sort by\" icon={<Settings />} items={sorts} onChange={setSort} />",
     },
     {
-      id: "checkbox", name: "Checkbox", cat: "Inputs", status: "Stable", figma: "4038:30904",
+      id: "checkbox", name: "Checkbox", cat: "Inputs", status: "Stable", figma: "1841:21803",
       desc: "Checkboxes select one or more options from a list, or toggle a single setting that applies on submit.",
       playground: {
         controls: [{ key: "state", label: "State", options: ["Group", "Indeterminate", "Disabled"] }],
@@ -171,7 +171,7 @@
       react: "<RadioGroup legend=\"Deployment strategy\" name=\"strategy\" defaultValue=\"rolling\">\n  <Radio label=\"Rolling\" value=\"rolling\" />\n  <Radio label=\"Canary\" value=\"canary\" />\n</RadioGroup>",
     },
     {
-      id: "toggle", name: "Switch", cat: "Inputs", status: "Stable", figma: "4038:30919",
+      id: "toggle", name: "Switch", cat: "Inputs", status: "Stable", figma: "1842:24379",
       desc: "Switches allow users to turn an individual option on or off. They are usually used to activate or deactivate a specific setting.",
       axes: [["Selected", "On, Off"], ["Show label", "Yes, No"], ["State", "Default, Hover"], ["Disabled", "No, Yes"]],
       doc: [],
@@ -422,7 +422,7 @@
       react: "<Modal open={open} danger modalHeading=\"Revoke API credentials?\" primaryButtonText=\"Revoke\" secondaryButtonText=\"Cancel\" onRequestClose={close} />",
     },
     {
-      id: "tooltip", name: "Tooltip", cat: "Overlays", status: "Stable", figma: "4038:30995",
+      id: "tooltip", name: "Tooltip", cat: "Overlays", status: "Stable", figma: "1846:24506",
       desc: "Tooltips show contextual help or information about specific components when a user hovers or focuses on them.",
       axes: [["Placement", "N, NW, NE, S, E, W"], ["Icon", "Yes, No"]],
       doc: [],

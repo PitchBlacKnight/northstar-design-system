@@ -15,7 +15,9 @@ import { fileURLToPath } from "node:url";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const FILE_KEY = "VZxmDNQiosTN6gqnvEQ65Z";
 const SITE = "https://mikelrosenthal.com/northstar/#/";
-const SCAN_PAGE = (name) => /^❖|^0[12] /.test(name.trim()) && !/Widgets|Informers/.test(name);
+// Scan every page except section dividers, docs and utility pages, and the widget/icon libraries.
+const SKIP_PAGE = /^———|^(Cover|Getting Started|Component Status|Changelog|Icons|Widgets|Informers.*|Dashboards|Archive|Doc template)$/;
+const SCAN_PAGE = (name) => !SKIP_PAGE.test(name.trim());
 const offline = process.argv.includes("--offline");
 
 const read = (p) => readFileSync(join(ROOT, p), "utf8");
@@ -62,6 +64,7 @@ async function online() {
     (n.children || []).forEach((c) => walk(c, page, inSet || n.type === "COMPONENT_SET"));
   };
   file.document.children.filter((p) => SCAN_PAGE(p.name)).forEach((p) => walk(p, p.name.trim(), false));
+  if (!figma.length) bad("Scanned no Figma components; the page names changed and SKIP_PAGE needs updating.");
   const meta = { ...file.componentSets, ...file.components };
 
   // Figma -> site: every component needs a doc link to a real site route.
