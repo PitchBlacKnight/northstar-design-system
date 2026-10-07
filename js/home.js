@@ -2,7 +2,7 @@
    NS.homeBody() returns markup; NS.homeInit() wires motion and returns a cleanup function. */
 (function () {
   const NS = window.NS;
-  const FIGMA = "https://www.figma.com/design/VZxmDNQiosTN6gqnvEQ65Z/PATHFINDER-Design-System";
+  const FIGMA = "https://www.figma.com/design/VZxmDNQiosTN6gqnvEQ65Z/NorthStar-Design-System";
 
   // 24px line icons, same 1.75 stroke language as NS.svgIcon.
   const P = {

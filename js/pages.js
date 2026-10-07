@@ -2,7 +2,7 @@
 (function () {
   const NS = window.NS;
   const { h2, h3, table, dd, notice, cards, stage, codeBlock } = NS;
-  const FIGMA = "https://www.figma.com/design/VZxmDNQiosTN6gqnvEQ65Z/PATHFINDER-Design-System";
+  const FIGMA = "https://www.figma.com/design/VZxmDNQiosTN6gqnvEQ65Z/NorthStar-Design-System";
   NS.FIGMA = FIGMA;
   NS.VERSION = "v1.4.0";
 
