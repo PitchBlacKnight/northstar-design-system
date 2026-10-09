@@ -31,7 +31,7 @@
   NS.homeBody = () => {
     const comps = NS.COMPONENTS.length;
     const roles = [
-      ["teal", "pen", "I design", "Use the Figma library", "Tokens, " + comps + " components, and dark, light and high-contrast modes.", ["Enable NORTHSTAR DS in Figma", "Read the component specs"], FIGMA, "Open Figma library", true],
+      ["teal", "pen", "I design", "Use the Figma library", "Tokens, " + comps + " components, and dark, light and high-contrast modes.", ["Request access, then enable NORTHSTAR DS", "Read the component specs"], FIGMA, "Request Figma access", true, "NorthStar Figma library"],
       ["purple", "code", "I build", "Install the code", "Framework-free CSS and React. Every value is a token, so nothing drifts from Figma.", ["Add tokens.css and components.css", "Copy markup from any playground"], "#/getting-started/developers", "Developer guide"],
       ["blue", "flag", "I lead a team", "Roll it out", "Adoption steps, governance and contribution rules for product teams.", ["Run the adoption checklist", "Check Figma drift with the sync script"], "#/getting-started/adoption", "Adoption guide"],
     ];
@@ -55,8 +55,8 @@
 
 <section class="hm-band hm-start" aria-labelledby="hm-start">
   ${eye("01", '<span id="hm-start">Start here</span>', "spark")}
-  <div class="hm-roles">${roles.map(([c, icon, k, t, b, steps, href, go, ext], i) => `
-    <a class="hm-role" style="--c:var(--hm-${c});--i:${i}" href="${href}"${ext ? ' target="_blank" rel="noopener"' : ""} data-reveal>
+  <div class="hm-roles">${roles.map(([c, icon, k, t, b, steps, href, go, ext, fa], i) => `
+    <a class="hm-role" style="--c:var(--hm-${c});--i:${i}" href="${href}"${ext ? ' target="_blank" rel="noopener"' : ""}${fa ? ` data-figma-access="${fa}"` : ""} data-reveal>
       <span class="hm-role__ic">${ic(icon, 22)}</span>
       <small>${k}</small><h3>${t}</h3><p>${b}</p>
       <ol>${steps.map((s) => `<li>${s}</li>`).join("")}</ol>
@@ -103,7 +103,7 @@
   <div data-reveal>
     <h2 class="hm-h">${ic("book", 16)}Resources</h2>
     <ul class="hm-links">
-      <li><a href="${FIGMA}" target="_blank" rel="noopener">Figma library</a></li><li><a href="#/changelog">Changelog</a></li>
+      <li><a href="${FIGMA}" target="_blank" rel="noopener" data-figma-access="NorthStar Figma library">Request Figma access</a></li><li><a href="#/changelog">Changelog</a></li>
       <li><a href="#/tools/embed">Embed mode</a></li><li><a href="#/community/contributing">Contributing</a></li>
       <li><a href="#/community/governance">Governance</a></li><li><a href="#/community/support">Support</a></li>
     </ul>

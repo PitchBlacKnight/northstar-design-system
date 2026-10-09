@@ -45,7 +45,7 @@ ${h2("How it is built")}<p>The Figma file is the design source of truth. Variabl
 
   P("getting-started/designers", {
     title: "Designers", lede: "Everything a designer needs to start: the library, how to use variables, and how to hand off without redlines.",
-    body: () => `${h2("Get the library")}<ol><li>Open the <a href="${FIGMA}" target="_blank" rel="noopener">NorthStar Figma file</a> and duplicate it or enable it as a team library.</li><li>Turn on the NorthStar variable collections: Primitives, Semantic (Dark / Light modes), Spacing, Radius, Motion.</li><li>Use published text styles (Headline / H1 to Buttons / Primary) rather than local formatting.</li></ol>
+    body: () => `${h2("Get the library")}<ol><li>Request access to the <a href="${FIGMA}" target="_blank" rel="noopener" data-figma-access="NorthStar Figma library">NorthStar Figma file</a> (it is invite-only), then duplicate it or enable it as a team library.</li><li>Turn on the NorthStar variable collections: Primitives, Semantic (Dark / Light modes), Spacing, Radius, Motion.</li><li>Use published text styles (Headline / H1 to Buttons / Primary) rather than local formatting.</li></ol>
 ${h2("Work with variables")}${dd('<span class="ns-tag ns-tag--teal">interactive/primary</span>', "Bind fills to semantic variables. Mode switching handles dark and light.", '<span class="ns-tag ns-tag--red">#023AFF</span>', "Paste raw hex values. They break theming and accessibility checks.")}
 ${h2("Handoff")}<p>Dev Mode shows variable names that match the CSS tokens exactly. No redlines needed: if a value is not a token, it is a bug in the design.</p>`,
   });
