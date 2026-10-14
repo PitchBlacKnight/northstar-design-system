@@ -252,3 +252,24 @@
     --ns-duration-expressive: 0ms;
   }
 }
+
+/* ============================================================
+   Density - COMFORTABLE (default) and COMPACT
+   Set data-density="compact" on <html>, or on any container to preview
+   one region. Components read these roles, so one attribute tightens
+   control heights and table rows. Explicit sizes (sm, lg, xl) keep theirs.
+   ============================================================ */
+:root {
+  --ns-density-control: 40px;
+  --ns-density-control-sm: 32px;
+  --ns-density-row-y: var(--ns-space-4);
+  --ns-density-pad-x: var(--ns-space-5);
+}
+
+:root[data-density="compact"],
+[data-density="compact"] {
+  --ns-density-control: 32px;
+  --ns-density-control-sm: 28px;
+  --ns-density-row-y: var(--ns-space-2);
+  --ns-density-pad-x: var(--ns-space-4);
+}

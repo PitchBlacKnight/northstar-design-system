@@ -8,6 +8,7 @@
 
   /* ---------- theme ---------- */
   const THEME_KEY = "ns-theme";
+  const DENSITY_KEY = "ns-density";
   const getTheme = () => params.get("theme") || (() => { try { return localStorage.getItem(THEME_KEY); } catch (e) { return null; } })() || "dark";
   NS.setTheme = (t, persist = true) => {
     if (t === "light") root.dataset.theme = "light"; else delete root.dataset.theme;
@@ -16,6 +17,16 @@
     if (b) { b.innerHTML = t === "light" ? NS.icon.moon : NS.icon.sun; b.setAttribute("aria-label", t === "light" ? "Switch to dark theme" : "Switch to light theme"); }
   };
   NS.setTheme(getTheme(), false);
+
+  /* ---------- density (comfortable default, compact for dense consoles) ---------- */
+  const getDensity = () => params.get("density") || (() => { try { return localStorage.getItem(DENSITY_KEY); } catch (e) { return null; } })() || "comfortable";
+  NS.setDensity = (d, persist = true) => {
+    const compact = d === "compact";
+    if (compact) root.dataset.density = "compact"; else delete root.dataset.density;
+    if (persist && !params.get("density")) try { localStorage.setItem(DENSITY_KEY, compact ? "compact" : "comfortable"); } catch (e) {}
+    const b = document.getElementById("density-btn");
+    if (b) { b.setAttribute("aria-pressed", String(compact)); b.textContent = compact ? "Compact" : "Comfortable"; b.title = compact ? "Switch to comfortable density" : "Switch to compact density"; }
+  };
 
   /* ---------- flat page order for prev/next + search ---------- */
   const FLAT = NS.NAV.flatMap((g) => g.items.map(([path, label, tag]) => ({ path, label, tag, group: g.group })));
@@ -31,6 +42,7 @@
   <span class="hdr__spacer"></span>
   <button class="hdr__search" data-open-search aria-label="Search documentation">${NS.icon.search}<span class="label">Search docs...</span><kbd>⌘K</kbd></button>
   <button class="icon-btn" data-drawer aria-label="Open token editor" title="Token editor">${NS.icon.sliders}</button>
+  <button class="ns-btn ns-btn--ghost ns-btn--sm hide-sm" id="density-btn" aria-pressed="false"></button>
   <button class="icon-btn" id="theme-btn"></button>
   <a class="icon-btn hide-sm" href="${NS.FIGMA}" target="_blank" rel="noopener" aria-label="Open Figma library" title="Figma library"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 24a4 4 0 0 0 4-4v-4H8a4 4 0 0 0 0 8Zm-4-12a4 4 0 0 1 4-4h4v8H8a4 4 0 0 1-4-4Zm0-8a4 4 0 0 1 4-4h4v8H8a4 4 0 0 1-4-4Zm8-4h4a4 4 0 0 1 0 8h-4V0Zm8 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"/></svg></a>
   <a class="hdr__back hide-sm" href="../" title="Back to mikelrosenthal.com">← mikelrosenthal.com</a>
@@ -57,6 +69,8 @@
   menuBtn.onclick = () => { const o = side.classList.toggle("is-open"); menuBtn.setAttribute("aria-expanded", o); };
 
   document.getElementById("theme-btn").onclick = () => { NS.setTheme(root.dataset.theme === "light" ? "dark" : "light"); render(true); };
+  document.getElementById("density-btn").onclick = () => NS.setDensity(root.dataset.density === "compact" ? "comfortable" : "compact");
+  NS.setDensity(getDensity(), false);
 
   /* ---------- router ---------- */
   const parse = () => {
