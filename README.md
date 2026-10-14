@@ -1,6 +1,6 @@
 # NorthStar Design System site
 
-Carbon-style docs site for the NorthStar Design System. Static, no build step.
+Docs site for the NorthStar Design System. Static, no build step.
 
 Source of truth: Figma file VZxmDNQiosTN6gqnvEQ65Z (page "00 Foundations" + site frames).
 

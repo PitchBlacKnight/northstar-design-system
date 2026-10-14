@@ -388,7 +388,7 @@
     {
       id: "breadcrumb", name: "Breadcrumb", cat: "Navigation", status: "Stable", figma: "4208:1020",
       desc: "Breadcrumbs show where the current page sits in the hierarchy and let people move up levels.",
-      playground: { controls: [{ key: "sep", label: "Separator", options: ["Slash", "Chevron"] }], render: (s) => `<nav aria-label="Breadcrumb"><ol class="ns-breadcrumb${s.sep === "Chevron" ? " ns-breadcrumb--chevron" : ""}"><li><a href="#/">Accounts</a></li><li><a href="#/">Acme Corp</a></li><li><a href="#/">Integrations</a></li><li aria-current="page">Salesforce sync</li></ol></nav>` },
+      playground: { controls: [{ key: "sep", label: "Separator", options: ["Slash", "Chevron"] }], render: (s) => `<nav aria-label="Breadcrumb"><ol class="ns-breadcrumb${s.sep === "Chevron" ? " ns-breadcrumb--chevron" : ""}"><li><a href="#/">Accounts</a></li><li><a href="#/">Acme Corp</a></li><li><a href="#/">Integrations</a></li><li aria-current="page">CRM sync</li></ol></nav>` },
       when: ["Hierarchies three or more levels deep."], whenNot: ["Flat sites or single-level apps."],
       variants: [], dd: ['<ol class="ns-breadcrumb"><li><a href="#/">Accounts</a></li><li aria-current="page">Acme</li></ol>', "End with the current page, not a link.", '<ol class="ns-breadcrumb"><li><a href="#/">Home</a></li></ol>', "Show a breadcrumb with one item."],
       tokens: [["--ns-text-link", "Links"], ["--ns-text-disabled", "Separator"]],
