@@ -266,6 +266,41 @@ ${h2("Callable assets")}<p>Name an asset in a command to keep sample content con
     },
   };
 
+  /* ---------- Content and voice ---------- */
+  const VOICE = [
+    ["Plain", "Use the words people use in their work. \"Export failed\", not \"Data serialization error\"."],
+    ["Specific", "Lead with the object and the number. \"3 accounts need review\", not \"Some items need attention\"."],
+    ["Calm", "State the problem and the next step. No exclamation marks, no \"Oops\", no \"Awesome\"."],
+  ];
+  const TERMS = [
+    ["Component", "A reusable UI element with states and rules, such as Button or Toast.", "Component, the component name", "Widget, control (unless the control type is the point)"],
+    ["Pattern", "A tested way to solve a recurring task, such as a form or a bulk action.", "Pattern, the pattern name", "Template, recipe"],
+    ["Floorplan", "A full page layout built from patterns and components.", "Floorplan", "Screen design, mockup"],
+    ["Token", "A named value, such as a color or a spacing step.", "Token, semantic role", "Variable, style (unless you mean the tool)"],
+    ["Mode", "A setting on the root element: theme or density.", "Theme, density", "Skin, layout mode"],
+    ["Sample data", "Invented names and numbers used to demonstrate a layout.", "Sample data, sample account", "Dummy data, fake data"],
+    ["Generated text", "Text written by a model and shown with a label.", "Generated, draft", "AI, bot, chatbot"],
+  ];
+  const MECHANICS = [
+    ["Sentence case", "Buttons, titles, menus and tabs use sentence case: \"Add account\", not \"Add Account\". Product names keep their capitals."],
+    ["Numbers and money", "Use numerals for counts and figures: 1,250 and $1,250. Write percentages without a space: 62%."],
+    ["Dates and times", "Use a full date in tables and records, such as Oct 6, 2026. Use relative time such as 2h ago only in feeds, with the full date on hover."],
+    ["Verb-first buttons", "Name the action and the object: \"Send invoice\", \"Approve request\"."],
+    ["Generated text", "Label it, cite its source, and write it as a draft. Say \"Here is a summary\", not \"I have determined\". Never promise an outcome."],
+    ["Empty states", "Say why the view is empty and give one next step: \"No accounts yet. Add your first account.\""],
+  ];
+  NS.PAGES["foundations/content-voice"] = {
+    title: "Content and voice",
+    status: "New",
+    lede: "How NorthStar writes labels, errors, empty states and generated text. Apply these rules to anything a product or this site shows.",
+    body: () => `${h2("Voice")}<p>Three traits shape every label, message and empty state.</p>${table(["Trait", "What it means"], VOICE)}${h2("Terms")}<p>Use these words the same way everywhere, and avoid the words in the last column.</p>${table(["Term", "Meaning", "Use", "Avoid"], TERMS)}${h2("Errors")}<p>Say what happened, why, and what to do next. Put the message where the problem is.</p>${NS.dd(
+      '<div class="ns-notice ns-notice--error" role="alert"><span class="ns-notice__icon" aria-hidden="true">!</span><div><p class="ns-notice__title">The account could not be saved</p><p class="ns-notice__body">The billing email is missing. Add an email, then save again.</p></div></div>',
+      "Name what failed, why, and the next step.",
+      '<div class="ns-notice ns-notice--error" role="alert"><span class="ns-notice__icon" aria-hidden="true">!</span><div><p class="ns-notice__title">Error 503</p><p class="ns-notice__body">Oops, something went wrong.</p></div></div>',
+      "A code with no cause and no next step, plus an exclamation mark for comfort. Neither helps the person."
+    )}${h2("Mechanics")}${table(["Rule", "How to apply it"], MECHANICS)}`,
+  };
+
   /* ---------- Navigation ---------- */
   const group = (name) => NS.NAV.find((g) => g.group === name);
   group("Getting started").items.push(
@@ -275,4 +310,5 @@ ${h2("Callable assets")}<p>Name an asset in a command to keep sample content con
     ["getting-started/downloads", "Downloads"]
   );
   group("Live tools").items.push(["tools/agentic-commands", "Agentic commands", "Beta"]);
+  group("Foundations").items.push(["foundations/content-voice", "Content and voice", "New"]);
 })();
