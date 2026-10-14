@@ -185,7 +185,7 @@
     const prev = document.activeElement;
     const bd = document.createElement("div");
     bd.className = "ns ns-modal-backdrop";
-    bd.innerHTML = `<div class="ns-modal" role="dialog" aria-modal="true" aria-labelledby="dm-t"><div class="ns-modal__head"><div><p class="ns-modal__label">Partner access</p><h2 class="ns-modal__title" id="dm-t">Revoke API credentials?</h2></div><button class="icon-btn" aria-label="Close">${NS.icon.close}</button></div><div class="ns-modal__body">Revoking credentials for <strong>Acme Corp</strong> will stop 14 active integrations immediately. This cannot be undone.</div><div class="ns-modal__foot"><button class="ns-btn ns-btn--tertiary" data-close>Cancel</button><button class="ns-btn ns-btn--danger" data-close>Revoke credentials</button></div></div>`;
+    bd.innerHTML = `<div class="ns-modal" role="dialog" aria-modal="true" aria-labelledby="dm-t"><div class="ns-modal__head"><div><p class="ns-modal__label">Account access</p><h2 class="ns-modal__title" id="dm-t">Revoke API credentials?</h2></div><button class="icon-btn" aria-label="Close">${NS.icon.close}</button></div><div class="ns-modal__body">Revoking credentials for <strong>Acme Corp</strong> will stop 14 active integrations immediately. This cannot be undone.</div><div class="ns-modal__foot"><button class="ns-btn ns-btn--tertiary" data-close>Cancel</button><button class="ns-btn ns-btn--danger" data-close>Revoke credentials</button></div></div>`;
     const close = () => { bd.remove(); document.body.style.overflow = ""; prev && prev.focus(); };
     bd.addEventListener("click", (e) => { if (e.target === bd || e.target.closest("[data-close], .icon-btn")) close(); });
     bd.addEventListener("keydown", (e) => {

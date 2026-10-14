@@ -80,7 +80,7 @@
       </div>`)}
     ${tile("", "teal", "palette", "Foundations", "Color, type, space", "Radius, elevation, motion, icons and themes.", "#/foundations",
       `<div class="hm-sw" aria-hidden="true">${["blue-500", "teal-500", "purple-500", "navy-900", "yellow-500"].map((v, i) => `<i style="background:var(--ns-${v});--i:${i}"></i>`).join("")}</div>`)}
-    ${tile("", "blue", "layers", "Patterns", "Forms to errors", "Dialogs, tables, empty states and the Create partner workflow.", "#/patterns/forms")}
+    ${tile("", "blue", "layers", "Patterns", "Forms to errors", "Dialogs, tables, empty states and the Create account workflow.", "#/patterns/forms")}
     ${tile("", "green", "chart", "Graphics", "60+ dashboard widgets", "", "#/graphics",
       `<div class="hm-bars" aria-hidden="true">${[40, 70, 55, 90, 65, 82].map((h, i) => `<i style="--h:${h}%;--i:${i}"></i>`).join("")}</div>`)}
     ${tile("", "red", "access", "Accessibility", "WCAG 2.2 AA", "Principles, checklist, criteria mapping and a contrast checker.", "#/accessibility")}
@@ -96,7 +96,7 @@
     <ol class="hm-rel">
       <li><time datetime="2026-10-06">Oct 06</time><a href="#/components/button/spec">Spec tabs for 5 components, synced from Figma</a></li>
       <li><time datetime="2026-10-06">Oct 06</time><a href="#/components">14 new components in the Figma library</a></li>
-      <li><time datetime="2026-10-06">Oct 06</time><a href="#/patterns/create-partner">Create partner workflow pattern</a></li>
+      <li><time datetime="2026-10-06">Oct 06</time><a href="#/patterns/create-account">Create account workflow pattern</a></li>
       <li><time datetime="2026-09-24">Sep 24</time><a href="#/changelog">${NS.VERSION}: light theme layer and token renames</a></li>
     </ol>
   </div>

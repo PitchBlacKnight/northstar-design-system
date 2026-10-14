@@ -8,9 +8,9 @@
     ["Northwind", "Silver", 7300, "error"], ["Globex", "Gold", 19850, "active"],
   ];
   const statusBadge = (s) => `<span class="ns-dot ns-dot--${{ active: "success", pending: "warning", error: "error" }[s]}">${s}</span>`;
-  const tableHtml = (o = {}) => `<div class="ns-table-wrap" style="width:100%">${o.batch ? `<div class="ns-table-bar"><b data-batch-label data-default="Partners">Partners</b><div style="display:flex;gap:8px"><button class="ns-btn ns-btn--sm ns-btn--tertiary">Export</button><button class="ns-btn ns-btn--sm">Add partner</button></div></div>` : ""}
+  const tableHtml = (o = {}) => `<div class="ns-table-wrap" style="width:100%">${o.batch ? `<div class="ns-table-bar"><b data-batch-label data-default="Accounts">Accounts</b><div style="display:flex;gap:8px"><button class="ns-btn ns-btn--sm ns-btn--tertiary">Export</button><button class="ns-btn ns-btn--sm">Add account</button></div></div>` : ""}
 <table class="ns-table ${o.size === "Compact" ? "ns-table--compact" : ""} ${o.zebra ? "ns-table--zebra" : ""}">
-  <thead><tr>${o.batch ? '<th><label class="ns-check"><input type="checkbox" data-select-all aria-label="Select all rows"/></label></th>' : ""}<th data-sort>Partner <span class="ns-sort">↕</span></th><th data-sort>Tier <span class="ns-sort">↕</span></th><th data-sort class="num">MRR <span class="ns-sort">↕</span></th><th>Status</th></tr></thead>
+  <thead><tr>${o.batch ? '<th><label class="ns-check"><input type="checkbox" data-select-all aria-label="Select all rows"/></label></th>' : ""}<th data-sort>Account <span class="ns-sort">↕</span></th><th data-sort>Tier <span class="ns-sort">↕</span></th><th data-sort class="num">Revenue <span class="ns-sort">↕</span></th><th>Status</th></tr></thead>
   <tbody>${rows.map((r) => `<tr>${o.batch ? `<td><label class="ns-check"><input type="checkbox" data-row-select aria-label="Select ${r[0]}"/></label></td>` : ""}<td>${r[0]}</td><td>${r[1]}</td><td class="num">$${r[2].toLocaleString()}</td><td>${statusBadge(r[3])}</td></tr>`).join("")}</tbody>
 </table></div>`;
 
@@ -220,7 +220,7 @@
     {
       id: "file-uploader", name: "File uploader", cat: "Inputs", status: "New", figma: "4217:37",
       desc: "File uploaders accept files by drag-and-drop or browse, and show progress and validation per file.",
-      playground: { controls: [], block: true, render: () => `<div style="display:grid;gap:12px;max-width:460px;margin:0 auto"><label class="ns-drop" id="drop-demo"><span style="font-size:22px">↑</span><span>Drag files here or <b>browse</b></span><span class="ns-helper">CSV, JSON up to 25 MB</span><input type="file" class="sr-only" multiple/></label><div class="ns-file"><span class="ns-file__ext">CSV</span><div><b>partners-q3.csv</b><div class="ns-progress" style="margin-top:6px"><div class="ns-progress__track"><div class="ns-progress__bar" style="--_v:72%"></div></div></div></div><span class="ns-helper">72%</span></div><div class="ns-file"><span class="ns-file__ext" style="color:var(--ns-status-error)">PDF</span><div><b>contract.pdf</b><div class="ns-helper" style="color:var(--ns-status-error)">File type not supported</div></div><button class="ns-notice__close" aria-label="Remove">×</button></div></div>`,
+      playground: { controls: [], block: true, render: () => `<div style="display:grid;gap:12px;max-width:460px;margin:0 auto"><label class="ns-drop" id="drop-demo"><span style="font-size:22px">↑</span><span>Drag files here or <b>browse</b></span><span class="ns-helper">CSV, JSON up to 25 MB</span><input type="file" class="sr-only" multiple/></label><div class="ns-file"><span class="ns-file__ext">CSV</span><div><b>accounts-q3.csv</b><div class="ns-progress" style="margin-top:6px"><div class="ns-progress__track"><div class="ns-progress__bar" style="--_v:72%"></div></div></div></div><span class="ns-helper">72%</span></div><div class="ns-file"><span class="ns-file__ext" style="color:var(--ns-status-error)">PDF</span><div><b>contract.pdf</b><div class="ns-helper" style="color:var(--ns-status-error)">File type not supported</div></div><button class="ns-notice__close" aria-label="Remove">×</button></div></div>`,
         init: (root) => { const d = root.querySelector(".ns-drop"); if (!d) return; ["dragenter", "dragover"].forEach((e) => d.addEventListener(e, (ev) => { ev.preventDefault(); d.classList.add("is-over"); })); ["dragleave", "drop"].forEach((e) => d.addEventListener(e, (ev) => { ev.preventDefault(); d.classList.remove("is-over"); if (e === "drop") NS.toast("Files received", ev.dataTransfer.files.length + " file(s) dropped", "success"); })); } },
       when: ["Importing data files, attachments, and assets."],
       whenNot: ["Pasting short text: use a textarea."],
@@ -235,7 +235,7 @@
     {
       id: "search", name: "Search", cat: "Inputs", status: "Stable", figma: "4207:1033",
       desc: "Search lets people find content by keyword, inline in a page or globally from the header.",
-      playground: { controls: [{ key: "size", label: "Size", options: ["Medium", "Large", "Small"] }], render: (s) => `<div class="ns-search" role="search" style="width:360px">${NS.icon.search}<input class="ns-input${s.size === "Large" ? " ns-input--lg" : s.size === "Small" ? " ns-input--sm" : ""}" type="search" placeholder="Search partners, nodes, tickets" aria-label="Search"/><kbd>/</kbd></div>` },
+      playground: { controls: [{ key: "size", label: "Size", options: ["Medium", "Large", "Small"] }], render: (s) => `<div class="ns-search" role="search" style="width:360px">${NS.icon.search}<input class="ns-input${s.size === "Large" ? " ns-input--lg" : s.size === "Small" ? " ns-input--sm" : ""}" type="search" placeholder="Search accounts, nodes, tickets" aria-label="Search"/><kbd>/</kbd></div>` },
       when: ["Large collections where browsing is slow.", "Filtering a table or list in place."],
       whenNot: ["Fewer than ~10 items: show them all."],
       variants: [["Global", "Opens a command palette. Try ⌘K on this site.", '<button class="hdr__search" style="min-width:260px" data-open-search>' + NS.icon.search + '<span class="label">Search docs</span><kbd>⌘K</kbd></button>']],
@@ -244,7 +244,7 @@
       props: [["placeholder", "string", "-", "Hint"], ["size", "'sm' | 'md' | 'lg'", "'md'", "Height"], ["onSearch", "(q) => void", "-", "Handler"]],
       keyboard: [["/ or ⌘K", "Open global search"], ["Esc", "Clear or close"], ["Arrow keys + Enter", "Pick a result"]],
       aria: ["Wrap in <code>role=\"search\"</code> and give the input an <code>aria-label</code>.", "Announce result counts in a polite live region."],
-      react: "<Search size=\"md\" labelText=\"Search\" placeholder=\"Search partners\" onChange={filter} />",
+      react: "<Search size=\"md\" labelText=\"Search\" placeholder=\"Search accounts\" onChange={filter} />",
     },
     {
       id: "tag", name: "Tag", cat: "Status", status: "Stable", figma: "1840:22808",
@@ -290,11 +290,11 @@
       desc: "Cards group related content and actions about a single subject. Clickable cards navigate as a whole.",
       playground: {
         controls: [{ key: "kind", label: "Kind", options: ["Default", "Elevated", "Clickable", "With strip"] }],
-        render: (s) => `<div class="ns-card${s.kind === "Elevated" ? " ns-card--elevated" : s.kind === "Clickable" ? " ns-card--clickable" : ""}" style="width:320px">${s.kind === "With strip" ? '<div class="ns-card__strip">Partner</div>' : ""}<h3 class="ns-card__title">Acme Corp</h3><p class="ns-card__body">Gold tier. 14 active integrations across 3 regions. Renewal in 42 days.</p><div style="display:flex;gap:8px"><span class="ns-dot ns-dot--success">Active</span></div>${s.kind === "Clickable" ? "" : '<div><button class="ns-btn ns-btn--sm ns-btn--tertiary">View details</button></div>'}</div>`,
+        render: (s) => `<div class="ns-card${s.kind === "Elevated" ? " ns-card--elevated" : s.kind === "Clickable" ? " ns-card--clickable" : ""}" style="width:320px">${s.kind === "With strip" ? '<div class="ns-card__strip">Account</div>' : ""}<h3 class="ns-card__title">Acme Corp</h3><p class="ns-card__body">Gold tier. 14 active integrations across 3 regions. Renewal in 42 days.</p><div style="display:flex;gap:8px"><span class="ns-dot ns-dot--success">Active</span></div>${s.kind === "Clickable" ? "" : '<div><button class="ns-btn ns-btn--sm ns-btn--tertiary">View details</button></div>'}</div>`,
       },
       when: ["Collections of similar objects to scan and compare.", "Dashboard tiles with one job each."],
       whenNot: ["Dense tabular data: use a data table."],
-      variants: [["KPI tile", "Metric card for dashboards.", '<div class="ns-kpi" style="width:200px"><span class="ns-kpi__label">Active partners</span><span class="ns-kpi__value">1,284</span><span class="ns-kpi__delta">↑ +6.2%</span></div>']],
+      variants: [["KPI tile", "Metric card for dashboards.", '<div class="ns-kpi" style="width:200px"><span class="ns-kpi__label">Active accounts</span><span class="ns-kpi__value">1,284</span><span class="ns-kpi__delta">↑ +6.2%</span></div>']],
       dd: ['<div class="ns-card" style="width:220px"><h3 class="ns-card__title">Acme</h3><p class="ns-card__body">One subject per card.</p></div>', "Keep one subject and one primary action per card.", '<div class="ns-card" style="width:220px"><button class="ns-btn ns-btn--sm">Edit</button><button class="ns-btn ns-btn--sm">Share</button><button class="ns-btn ns-btn--sm">Delete</button></div>', "Pack many primary actions into one card."],
       tokens: [["--ns-background-surface", "Default fill"], ["--ns-background-elevated", "Elevated fill"], ["--ns-elevation-02", "Elevated shadow"], ["--ns-radius-lg", "Radius"], ["--ns-space-7", "Padding"]],
       props: [["kind", "'default' | 'elevated' | 'clickable'", "'default'", "Style"], ["href", "string", "-", "Makes the card a link"]],
@@ -309,7 +309,7 @@
       when: ["Comparing many records across the same attributes.", "Bulk actions across selected rows."],
       whenNot: ["A handful of items with rich content: use cards."],
       variants: [["Simple table", "No toolbar or selection.", tableHtml({ size: "Compact" })]],
-      dd: ['<span class="ns-helper">MRR column right-aligned, monospace</span>', "Right-align numbers so magnitudes line up.", '<span class="ns-helper">MRR column centered, proportional</span>', "Center numeric columns."],
+      dd: ['<span class="ns-helper">Revenue column right-aligned, monospace</span>', "Right-align numbers so magnitudes line up.", '<span class="ns-helper">Revenue column centered, proportional</span>', "Center numeric columns."],
       tokens: [["--ns-background-secondary", "Header row"], ["--ns-background-hover", "Row hover"], ["--ns-background-selected", "Selected row"], ["--ns-interactive-primary", "Batch action bar"], ["--ns-font-mono", "Numeric cells"]],
       sizes: [["Compact", "32px", "Monitoring, logs"], ["Default", "48px", "General data"]],
       props: [["rows", "Row[]", "[]", "Data"], ["headers", "Header[]", "[]", "Columns"], ["isSortable", "boolean", "true", "Sorting"], ["radio / selectable", "boolean", "false", "Selection"], ["size", "'compact' | 'default'", "'default'", "Row height"]],
@@ -349,7 +349,7 @@
     {
       id: "loading", name: "Loading", cat: "Status", status: "Stable", figma: "4038:31327",
       desc: "Spinners and skeletons show that content is loading and keep layout stable while it arrives.",
-      playground: { controls: [{ key: "kind", label: "Kind", options: ["Skeleton", "Spinner"] }], render: (s) => s.kind === "Spinner" ? `<span class="ns-spin" role="status" aria-label="Loading"></span>` : `<div style="width:360px;display:grid;gap:10px" aria-busy="true" aria-label="Loading partners"><div class="ns-skel" style="height:20px;width:60%"></div><div class="ns-skel" style="height:12px"></div><div class="ns-skel" style="height:12px;width:85%"></div><div class="ns-skel" style="height:80px;margin-top:6px"></div></div>` },
+      playground: { controls: [{ key: "kind", label: "Kind", options: ["Skeleton", "Spinner"] }], render: (s) => s.kind === "Spinner" ? `<span class="ns-spin" role="status" aria-label="Loading"></span>` : `<div style="width:360px;display:grid;gap:10px" aria-busy="true" aria-label="Loading accounts"><div class="ns-skel" style="height:20px;width:60%"></div><div class="ns-skel" style="height:12px"></div><div class="ns-skel" style="height:12px;width:85%"></div><div class="ns-skel" style="height:80px;margin-top:6px"></div></div>` },
       when: ["Skeletons for page and card loads; spinners for small, local waits."], whenNot: ["Waits under 300ms: show nothing."],
       variants: [],
       dd: ['<div style="width:200px;display:grid;gap:8px"><div class="ns-skel" style="height:14px"></div><div class="ns-skel" style="height:14px;width:70%"></div></div>', "Match the skeleton to the real layout.", '<span class="ns-spin"></span><span class="ns-spin"></span><span class="ns-spin"></span>', "Show a spinner in every card at once."],
@@ -376,13 +376,13 @@
     {
       id: "breadcrumb", name: "Breadcrumb", cat: "Navigation", status: "Stable", figma: "4208:1020",
       desc: "Breadcrumbs show where the current page sits in the hierarchy and let people move up levels.",
-      playground: { controls: [{ key: "sep", label: "Separator", options: ["Slash", "Chevron"] }], render: (s) => `<nav aria-label="Breadcrumb"><ol class="ns-breadcrumb${s.sep === "Chevron" ? " ns-breadcrumb--chevron" : ""}"><li><a href="#/">Partners</a></li><li><a href="#/">Acme Corp</a></li><li><a href="#/">Integrations</a></li><li aria-current="page">Salesforce sync</li></ol></nav>` },
+      playground: { controls: [{ key: "sep", label: "Separator", options: ["Slash", "Chevron"] }], render: (s) => `<nav aria-label="Breadcrumb"><ol class="ns-breadcrumb${s.sep === "Chevron" ? " ns-breadcrumb--chevron" : ""}"><li><a href="#/">Accounts</a></li><li><a href="#/">Acme Corp</a></li><li><a href="#/">Integrations</a></li><li aria-current="page">Salesforce sync</li></ol></nav>` },
       when: ["Hierarchies three or more levels deep."], whenNot: ["Flat sites or single-level apps."],
-      variants: [], dd: ['<ol class="ns-breadcrumb"><li><a href="#/">Partners</a></li><li aria-current="page">Acme</li></ol>', "End with the current page, not a link.", '<ol class="ns-breadcrumb"><li><a href="#/">Home</a></li></ol>', "Show a breadcrumb with one item."],
+      variants: [], dd: ['<ol class="ns-breadcrumb"><li><a href="#/">Accounts</a></li><li aria-current="page">Acme</li></ol>', "End with the current page, not a link.", '<ol class="ns-breadcrumb"><li><a href="#/">Home</a></li></ol>', "Show a breadcrumb with one item."],
       tokens: [["--ns-text-link", "Links"], ["--ns-text-disabled", "Separator"]],
       props: [["items", "{label, href}[]", "[]", "Trail"], ["noTrailingSlash", "boolean", "true", "Separator after last"]],
       keyboard: [["Tab", "Moves between links"]], aria: ["Wrap in <code>&lt;nav aria-label=\"Breadcrumb\"&gt;</code>; mark the last item <code>aria-current=\"page\"</code>."],
-      react: "<Breadcrumb>\n  <BreadcrumbItem href=\"/partners\">Partners</BreadcrumbItem>\n  <BreadcrumbItem isCurrentPage>Acme Corp</BreadcrumbItem>\n</Breadcrumb>",
+      react: "<Breadcrumb>\n  <BreadcrumbItem href=\"/accounts\">Accounts</BreadcrumbItem>\n  <BreadcrumbItem isCurrentPage>Acme Corp</BreadcrumbItem>\n</Breadcrumb>",
     },
     {
       id: "pagination", name: "Pagination", cat: "Navigation", status: "Stable", figma: "4038:31293",
@@ -398,7 +398,7 @@
     {
       id: "side-navigation", name: "Side navigation", cat: "Navigation", status: "Stable", figma: "4212:37",
       desc: "Side navigation is the primary way to move through an app, with collapsible groups for large information spaces.",
-      playground: { controls: [], render: () => `<nav class="ns-sidenav" aria-label="App"><div class="brand" style="padding:6px 12px 10px"><span class="brand__dot"></span>NORTHSTAR</div><div class="ns-sidenav__group">Operate</div><a href="#/" aria-current="page">Dashboard</a><a href="#/">Partners <span class="ns-count">3</span></a><a href="#/">Approvals</a><div class="ns-sidenav__group">Configure</div><a href="#/">Integrations</a><a href="#/">Access</a><a href="#/">Settings</a></nav>` },
+      playground: { controls: [], render: () => `<nav class="ns-sidenav" aria-label="App"><div class="brand" style="padding:6px 12px 10px"><span class="brand__dot"></span>NORTHSTAR</div><div class="ns-sidenav__group">Operate</div><a href="#/" aria-current="page">Dashboard</a><a href="#/">Accounts <span class="ns-count">3</span></a><a href="#/">Approvals</a><div class="ns-sidenav__group">Configure</div><a href="#/">Integrations</a><a href="#/">Access</a><a href="#/">Settings</a></nav>` },
       when: ["Apps with five or more top-level destinations."], whenNot: ["Two or three destinations: use tabs or header links."],
       variants: [], dd: ['<span class="ns-helper">Groups: Operate, Configure</span>', "Group items by task.", '<span class="ns-helper">Groups: Misc, Other, More</span>', "Use vague group names."],
       tokens: [["--ns-background-shell", "Rail"], ["--ns-background-selected", "Current item"], ["--ns-text-accent", "Current label"]],
@@ -410,7 +410,7 @@
     {
       id: "modal", name: "Modal", cat: "Overlays", status: "Stable", figma: "4211:201",
       desc: "Modals focus attention on a single task or decision and block the rest of the page until dismissed.",
-      playground: { controls: [{ key: "size", label: "Size", options: ["Medium", "Small", "Large"] }], render: (s) => `<div style="display:grid;gap:20px;justify-items:center;width:100%"><div class="ns-modal ns-modal--inline${s.size === "Small" ? " ns-modal--sm" : s.size === "Large" ? " ns-modal--lg" : ""}" role="dialog" aria-labelledby="mdl-t"><div class="ns-modal__head"><div><p class="ns-modal__label">Partner access</p><h2 class="ns-modal__title" id="mdl-t">Revoke API credentials?</h2></div><button class="icon-btn" aria-label="Close">×</button></div><div class="ns-modal__body">Revoking credentials for Acme Corp stops 14 active integrations immediately.</div><div class="ns-modal__foot"><button class="ns-btn ns-btn--tertiary">Cancel</button><button class="ns-btn ns-btn--danger">Revoke</button></div></div><button class="ns-btn ns-btn--tertiary" data-open-modal>Open live modal</button></div>` },
+      playground: { controls: [{ key: "size", label: "Size", options: ["Medium", "Small", "Large"] }], render: (s) => `<div style="display:grid;gap:20px;justify-items:center;width:100%"><div class="ns-modal ns-modal--inline${s.size === "Small" ? " ns-modal--sm" : s.size === "Large" ? " ns-modal--lg" : ""}" role="dialog" aria-labelledby="mdl-t"><div class="ns-modal__head"><div><p class="ns-modal__label">Account access</p><h2 class="ns-modal__title" id="mdl-t">Revoke API credentials?</h2></div><button class="icon-btn" aria-label="Close">×</button></div><div class="ns-modal__body">Revoking credentials for Acme Corp stops 14 active integrations immediately.</div><div class="ns-modal__foot"><button class="ns-btn ns-btn--tertiary">Cancel</button><button class="ns-btn ns-btn--danger">Revoke</button></div></div><button class="ns-btn ns-btn--tertiary" data-open-modal>Open live modal</button></div>` },
       when: ["Confirming destructive or irreversible actions.", "Short, focused tasks that need an answer now."], whenNot: ["Long forms: use a full page or side panel.", "Non-blocking info: use a notification."],
       variants: [], dd: ['<button class="ns-btn ns-btn--tertiary">Cancel</button><button class="ns-btn ns-btn--danger">Revoke</button>', "Label actions with the verb: Revoke, Delete, Publish.", '<button class="ns-btn ns-btn--tertiary">No</button><button class="ns-btn">Yes</button>', "Use Yes / No. People skim buttons, not questions."],
       tokens: [["--ns-background-elevated", "Surface"], ["--ns-elevation-04", "Shadow"], ["--ns-radius-xl", "Radius"], ["--ns-duration-slow + --ns-easing-enter", "Entrance"]],
@@ -479,7 +479,7 @@
     {
       id: "accordion", name: "Accordion", cat: "Containers", status: "Stable", figma: "4208:871",
       desc: "Accordions stack sections of content that expand and collapse to save space.",
-      playground: { block: true, controls: [], render: () => `<div class="ns-accordion" style="max-width:640px;margin:0 auto"><details open><summary>What counts as an active partner?</summary><div class="ns-accordion__body">Any partner with at least one integration that synced in the last 30 days.</div></details><details><summary>How are tiers calculated?</summary><div class="ns-accordion__body">Tier is based on trailing twelve-month MRR, recalculated nightly.</div></details><details><summary>Can I export audit logs?</summary><div class="ns-accordion__body">Yes. Admins can export CSV or stream to a SIEM.</div></details></div>` },
+      playground: { block: true, controls: [], render: () => `<div class="ns-accordion" style="max-width:640px;margin:0 auto"><details open><summary>What counts as an active account?</summary><div class="ns-accordion__body">Any account with at least one integration that synced in the last 30 days.</div></details><details><summary>How are tiers calculated?</summary><div class="ns-accordion__body">Tier is based on trailing twelve-month revenue, recalculated nightly.</div></details><details><summary>Can I export audit logs?</summary><div class="ns-accordion__body">Yes. Admins can export CSV or stream to a SIEM.</div></details></div>` },
       when: ["FAQs, settings groups, long forms split by topic."], whenNot: ["Content everyone needs: show it."],
       variants: [], dd: ['<span class="ns-helper">Headers phrased as questions or topics</span>', "Make headers scannable.", '<span class="ns-helper">An accordion inside an accordion</span>', "Nest accordions."],
       tokens: [["--ns-border-subtle", "Dividers"], ["--ns-text-accent", "Open indicator"], ["--ns-duration-base", "Indicator rotation"]],

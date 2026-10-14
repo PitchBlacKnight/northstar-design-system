@@ -24,7 +24,7 @@
      {
       "type": "note",
       "heading": "USE",
-      "text": "Initiate a clear action such as Create partner. Use one Primary action per decision area; Secondary, Outline and Ghost express supporting actions."
+      "text": "Initiate a clear action such as Create account. Use one Primary action per decision area; Secondary, Outline and Ghost express supporting actions."
      },
      {
       "type": "note",
@@ -41,7 +41,7 @@
      {
       "type": "example",
       "label": "ACTUAL INSTANCE · Primary / Default / M",
-      "description": "Button instance, Hierarchy=Primary, State=Default, Size=M, label property 'Create partner', showLeadingIcon=true (plus glyph, 16px icon slot). Visual: bg interactive/primary #023aff, radius 8px, padding 16px x 9px, gap 8px, min-width 96px, label Inter Medium 14px/20px. Specimen card bg background/elevated #1e1e24, radius 10px, padding 16px."
+      "description": "Button instance, Hierarchy=Primary, State=Default, Size=M, label property 'Create account', showLeadingIcon=true (plus glyph, 16px icon slot). Visual: bg interactive/primary #023aff, radius 8px, padding 16px x 9px, gap 8px, min-width 96px, label Inter Medium 14px/20px. Specimen card bg background/elevated #1e1e24, radius 10px, padding 16px."
      },
      {
       "type": "text",
@@ -364,7 +364,7 @@
      {
       "type": "checklist",
       "items": [
-       "Use native <button>; Enter and Space activation is source-backed. Set type=\"submit\" for Create partner and type=\"button\" for Cancel in form context.",
+       "Use native <button>; Enter and Space activation is source-backed. Set type=\"submit\" for Create account and type=\"button\" for Cancel in form context.",
        "Require an accessible name matching the visible label; decorative icons stay out of the name. Native disabled blocks activation.",
        "Required before release: visible keyboard focus, 4.5:1 normal-text contrast and 3:1 meaningful UI contrast across themes; inspect text/inverse on colored fills.",
        "Validate target size / spacing, forced colors, logical tab order and screen-reader naming in the application. No tests are claimed passed."
@@ -379,7 +379,7 @@
     "blocks": [
      {
       "type": "text",
-      "text": "Keep labels short and specific: “Create partner”, not “OK”. Preserve label and icon spacing; do not shrink type to fit. Let actions wrap or stack on narrow layouts while retaining primary emphasis and reading order. Allow translated labels to expand; avoid clipping at 200% zoom. Visual height is not the complete hit-area contract. Reconcile the 38px / 40px M discrepancy before standardizing dimensions."
+      "text": "Keep labels short and specific: “Create account”, not “OK”. Preserve label and icon spacing; do not shrink type to fit. Let actions wrap or stack on narrow layouts while retaining primary emphasis and reading order. Allow translated labels to expand; avoid clipping at 200% zoom. Visual height is not the complete hit-area contract. Reconcile the 38px / 40px M discrepancy before standardizing dimensions."
      }
     ]
    },
@@ -1278,7 +1278,7 @@
      },
      {
       "type": "text",
-      "text": "Offer a compact list of fixed options such as Partner Tier, or a menu of commands. Selection stores a value; command menus execute actions. Resolve the semantic pattern before implementation."
+      "text": "Offer a compact list of fixed options such as Account tier, or a menu of commands. Selection stores a value; command menus execute actions. Resolve the semantic pattern before implementation."
      },
      {
       "type": "label",
@@ -1566,7 +1566,7 @@
      {
       "type": "example",
       "label": "Feedback banner instance (4139:56241), 1120x120",
-      "description": "Instance of Alert banner, Type=Error, Buttons=Yes, Description=Yes (copy overridden). Icon: Warning, 20px. Title (14px/20px Open Sans Bold, gray/0 #f5f5ff): 'Review the billing email'. Description (12px/16px Open Sans Regular, white at 80% opacity, tracking 0.4): 'Demo data: enter a valid email address before creating the partner.' Buttons (outlined, 1px border rgba(255,255,255,0.5), radius 6px, padding 24x8, 14px Open Sans Bold white, 10px gap): 'Review email', 'Keep editing'. Trailing close icon (Cancel). Banner container: background rgba(253,32,105,0.32), padding 16px, gap 12px, radius 6px."
+      "description": "Instance of Alert banner, Type=Error, Buttons=Yes, Description=Yes (copy overridden). Icon: Warning, 20px. Title (14px/20px Open Sans Bold, gray/0 #f5f5ff): 'Review the billing email'. Description (12px/16px Open Sans Regular, white at 80% opacity, tracking 0.4): 'Demo data: enter a valid email address before creating the account.' Buttons (outlined, 1px border rgba(255,255,255,0.5), radius 6px, padding 24x8, 14px Open Sans Bold white, 10px gap): 'Review email', 'Keep editing'. Trailing close icon (Cancel). Banner container: background rgba(253,32,105,0.32), padding 16px, gap 12px, radius 6px."
      },
      {
       "type": "text",
@@ -1790,12 +1790,12 @@
   ]
  }
 };
-  NS.WORKFLOWS = { "create-partner": {
+  NS.WORKFLOWS = { "create-account": {
  "nodeId": "4139:56617",
- "title": "Create Partner",
+ "title": "Create Account",
  "category": "NORTHSTAR DS / COMPOSED WORKFLOW · 06",
  "revision": "Reviewed 04 Oct 2026",
- "summary": "A static form composition showing entry, actionable validation and a success outcome on one surface. All partner values are demo data; application actions and server outcomes are illustrative.",
+ "summary": "A static form composition showing entry, actionable validation and a success outcome on one surface. All account values are demo data; application actions and server outcomes are illustrative.",
  "meta": {
   "Review status": "Source-reviewed",
   "Parity status": "Partial parity",
@@ -1811,12 +1811,12 @@
     {
      "type": "example",
      "label": "Form state 1: Default (card 548x670)",
-     "description": "Header: state title 'Default' (18px), technical label 'DEMO DATA · static design state', form title 'Create partner' (22px), copy 'Add a partner and set their billing preferences.' Fields: 'Company name *' = 'Atlas Works'; 'Tier *' = 'Growth'; 'Billing email *' label (12px) with control value 'billing@atlas.example' (14px, default border), helper (13px, text/secondary) 'Invoices will be sent to this address.'; checkbox (checked) labelled 'Send welcome kit'; actions: Button label 'Create partner' (Primary, bg interactive/primary #023aff), label 'Cancel' (hierarchy Ghost). Note: 'Required fields are marked *. Cancel leaves without creating a partner; persistence rules require application decisions.'"
+     "description": "Header: state title 'Default' (18px), technical label 'DEMO DATA · static design state', form title 'Create account' (22px), copy 'Add an account and set its billing preferences.' Fields: 'Company name *' = 'Atlas Works'; 'Tier *' = 'Growth'; 'Billing email *' label (12px) with control value 'billing@atlas.example' (14px, default border), helper (13px, text/secondary) 'Invoices will be sent to this address.'; checkbox (checked) labelled 'Send welcome kit'; actions: Button label 'Create account' (Primary, bg interactive/primary #023aff), label 'Cancel' (hierarchy Ghost). Note: 'Required fields are marked *. Cancel leaves without creating an account; persistence rules require application decisions.'"
     },
     {
      "type": "example",
      "label": "Form state 2: Validation error (card 548x670)",
-     "description": "Header: 'Validation error', 'DEMO DATA · static design state', 'Create partner', 'Add a partner and set their billing preferences.' Feedback banner (Error, Buttons Yes, Description Yes; 508x136, bg rgba(253,32,105,0.32)): title 'Partner not created', description 'Check Billing email. Enter a complete address, then create the partner again.', buttons 'Review email', 'Keep editing'. Fields 'Company name *' 'Atlas Works'; 'Tier *' 'Growth'. 'Billing email *' control value 'billing@' with red/400 #ff2069 border (Error state); error helper in red/400 13px: 'Enter a complete email address, for example billing@atlas.example.' Checkbox 'Send welcome kit'; actions 'Create partner' (Primary), 'Cancel' (Ghost). Note: 'Required fields are marked *. Cancel leaves without creating a partner; persistence rules require application decisions.'"
+     "description": "Header: 'Validation error', 'DEMO DATA · static design state', 'Create account', 'Add an account and set its billing preferences.' Feedback banner (Error, Buttons Yes, Description Yes; 508x136, bg rgba(253,32,105,0.32)): title 'Account not created', description 'Check Billing email. Enter a complete address, then create the account again.', buttons 'Review email', 'Keep editing'. Fields 'Company name *' 'Atlas Works'; 'Tier *' 'Growth'. 'Billing email *' control value 'billing@' with red/400 #ff2069 border (Error state); error helper in red/400 13px: 'Enter a complete email address, for example billing@atlas.example.' Checkbox 'Send welcome kit'; actions 'Create account' (Primary), 'Cancel' (Ghost). Note: 'Required fields are marked *. Cancel leaves without creating an account; persistence rules require application decisions.'"
     },
     {
      "type": "note",
@@ -1833,7 +1833,7 @@
     {
      "type": "example",
      "label": "Form state 3: Success (card 568x626)",
-     "description": "Header: 'Success', 'DEMO DATA · static design state', 'Create partner', 'Add a partner and set their billing preferences.' Feedback banner (Success, Buttons No, Description Yes; 528x92, bg rgba(43,255,89,0.35)): title 'Partner created · demo outcome', description 'Atlas Works is ready. Billing email and Growth tier are saved in this illustrative state.' Fields 'Company name *' 'Atlas Works'; 'Tier *' 'Growth'; 'Billing email *' 'billing@atlas.example', helper 'Invoices will be sent to this address.'; checkbox 'Send welcome kit'; actions 'Create partner' (State=Disabled, bg interactive/disabled #2c2c35, opacity 64%), 'Cancel' (Ghost). Note: 'Proposed success behavior: prevent duplicate submit while preserving the result. Next action: open partner record.'"
+     "description": "Header: 'Success', 'DEMO DATA · static design state', 'Create account', 'Add an account and set its billing preferences.' Feedback banner (Success, Buttons No, Description Yes; 528x92, bg rgba(43,255,89,0.35)): title 'Account created · demo outcome', description 'Atlas Works is ready. Billing email and Growth tier are saved in this illustrative state.' Fields 'Company name *' 'Atlas Works'; 'Tier *' 'Growth'; 'Billing email *' 'billing@atlas.example', helper 'Invoices will be sent to this address.'; checkbox 'Send welcome kit'; actions 'Create account' (State=Disabled, bg interactive/disabled #2c2c35, opacity 64%), 'Cancel' (Ghost). Note: 'Proposed success behavior: prevent duplicate submit while preserving the result. Next action: open the account record.'"
     },
     {
      "type": "label",
@@ -1860,7 +1860,7 @@
       ],
       [
        "4",
-       "Create partner submits; Cancel is type=\"button\". Retain values on validation failure."
+       "Create account submits; Cancel is type=\"button\". Retain values on validation failure."
       ],
       [
        "5",
@@ -1868,7 +1868,7 @@
       ],
       [
        "6",
-       "After a confirmed server result, announce success politely and offer the partner record. No server result is verified here."
+       "After a confirmed server result, announce success politely and offer the account record. No server result is verified here."
       ]
      ]
     }
@@ -1885,7 +1885,7 @@
     },
     {
      "type": "example",
-     "label": "Partner tier options (Menu instance, 200x174)",
+     "label": "Account tier options (Menu instance, 200x174)",
      "description": "Menu with four overridden demo options: 'Starter', 'Growth', 'Enterprise', 'Custom' (14px, gray/1 #d0d0da). Container bg gray/9 #0f0f13, padding 4, gap 2, radius 8; first-row hover shown."
     },
     {
@@ -1937,7 +1937,7 @@
        "Native checked; associate composed label. Larger clickable target."
       ],
       [
-       "Create partner / Cancel",
+       "Create account / Cancel",
        "Recommended Primary / Ghost, M, explicit labels",
        "type=submit / button; map Label→content. M source 38px, online M40px."
       ],
