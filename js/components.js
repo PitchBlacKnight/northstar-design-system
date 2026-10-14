@@ -31,6 +31,7 @@
     minus: '<path d="M5 12h14"/>',
     close: '<path d="M18 6 6 18M6 6l12 12"/>',
     check: '<path d="M20 6 9 17l-5-5"/>',
+    chevron: '<path d="m9 18 6-6-6-6"/>',
   };
   const cmpIcon = (n, s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${CMP_ICON_PATHS[n]}</svg>`;
 
@@ -736,6 +737,154 @@
       keyboard: [["Enter", "Saves the value"], ["Escape", "Cancels and restores the value"], ["Tab", "Moves to the next editable field"]],
       aria: ["The read state is a button with an aria-label that names the field, such as Edit account manager.", "Editing uses a labeled input and two named buttons, Save and Cancel.", "Announce the save result in a polite live region."],
       react: '<InlineEdit label="Account manager" value={manager} onSave={saveManager} />',
+    },
+    {
+      id: "segmented-control", name: "Segmented control", cat: "Inputs", status: "New",
+      desc: "Switches between two to five views of the same content. Exactly one segment is selected at a time, and arrow keys move the selection.",
+      axes: [["Segments", "2 to 5"], ["Icon", "Optional, shown with the label"], ["State", "Default, Hover, Selected, Focus, Disabled"]],
+      doc: [["Views, not pages", "Use it to change the view of the same data, such as Table or Board. Moving between pages is a job for Tabs."], ["Keep labels short", "One word per segment. Pair an icon with the label only when the icon is widely understood."]],
+      playground: {
+        controls: [
+          { key: "count", label: "Segments", options: ["3", "2", "4"] },
+          { key: "disabled", label: "Disabled", options: ["None", "Last"] },
+        ],
+        render: (s) => {
+          const labels = ["Table", "Board", "Map", "List"].slice(0, Number(s.count));
+          const off = s.disabled === "Last" ? labels.length - 1 : -1;
+          return `<div class="ns-segmented" role="radiogroup" aria-label="View">${labels.map((l, i) => `<button type="button" role="radio" aria-checked="${i === 0}" tabindex="${i === 0 ? 0 : -1}"${i === off ? ' disabled aria-disabled="true"' : ""}>${l}</button>`).join("")}</div>`;
+        },
+      },
+      when: ["Switching views of the same data, such as Table, Board or Map.", "Keeping each label to one word.", "Using an icon with the label for view switchers."],
+      whenNot: ["Do not use for navigation between pages. Use Tabs.", "Do not use for form choices that apply on save. Use Radio.", "Do not exceed five segments."],
+      variants: [
+        ["Default", "Three views with one selected.", '<div class="ns-segmented" role="radiogroup" aria-label="View"><button role="radio" aria-checked="true" tabindex="0">Table</button><button role="radio" aria-checked="false" tabindex="-1">Board</button><button role="radio" aria-checked="false" tabindex="-1">Map</button></div>'],
+        ["Disabled segment", "A single segment can be disabled while the rest stay usable.", '<div class="ns-segmented" role="radiogroup" aria-label="Range"><button role="radio" aria-checked="true" tabindex="0">Day</button><button role="radio" aria-checked="false" tabindex="-1">Week</button><button role="radio" aria-checked="false" tabindex="-1" disabled aria-disabled="true">Year</button></div>'],
+      ],
+      dd: ['<div class="ns-segmented" role="radiogroup" aria-label="View"><button role="radio" aria-checked="true" tabindex="0">Table</button><button role="radio" aria-checked="false" tabindex="-1">Board</button></div>', "Switch the view of the same data.", '<div class="ns-segmented" role="radiogroup" aria-label="Section"><button role="radio" aria-checked="true" tabindex="0">Home</button><button role="radio" aria-checked="false" tabindex="-1">Billing</button></div>', "Moving between pages belongs in Tabs, not a segmented control."],
+      tokens: [["--ns-background-secondary", "Track"], ["--ns-background-elevated", "Selected segment"], ["--ns-text-primary", "Selected label"], ["--ns-focus-field", "Focus ring"]],
+      props: [["items", "{ label, icon, disabled }[]", "[]", "Two to five segments"], ["value", "string", "-", "Selected segment"], ["onChange", "(value) => void", "-", "Called when the selection changes"]],
+      keyboard: [["Tab", "Moves focus into the selected segment and out of the group"], ["Arrow left / right", "Moves the selection to the previous or next segment"]],
+      aria: ["The group is a radiogroup with a name, such as View.", "Each segment is a radio with aria-checked. Only the selected segment is in the tab order.", "Disabled segments keep aria-disabled so screen readers can announce them."],
+      react: '<SegmentedControl label="View" items={[{ label: "Table" }, { label: "Board" }]} value={view} onChange={setView} />',
+    },
+    {
+      id: "tree-view", name: "Tree view", cat: "Navigation", status: "New",
+      desc: "Browses a hierarchy such as account, location and device. Each level indents 20px. Parents expand and collapse, and leaves keep the chevron space so labels line up.",
+      axes: [["Depth", "Up to four levels"], ["Row", "Collapsed, Expanded, Leaf"], ["State", "Default, Hover, Selected, Focus"]],
+      doc: [["Real hierarchies", "Use a tree for hierarchies two to four levels deep. Show child counts on parents, and remember the expanded state for each person."]],
+      playground: {
+        controls: [{ key: "expanded", label: "Chicago, IL", options: ["Expanded", "Collapsed"] }],
+        render: (s) => {
+          const open = s.expanded === "Expanded";
+          const chev = (leaf) => `<span class="ns-tree__chev${leaf ? " is-leaf" : ""}" aria-hidden="true">${cmpIcon("chevron", 14)}</span>`;
+          const leaves = open ? `<ul role="group"><li role="none"><div class="ns-tree__row" role="treeitem" aria-level="3" aria-selected="true" style="--ns-tree-level:2">${chev(true)}<span>Site 0042</span></div></li><li role="none"><div class="ns-tree__row" role="treeitem" aria-level="3" aria-selected="false" style="--ns-tree-level:2">${chev(true)}<span>Site 0187</span></div></li></ul>` : "";
+          return `<ul class="ns-tree" role="tree" aria-label="Locations" style="width:320px"><li role="none"><div class="ns-tree__row" role="treeitem" aria-level="1" aria-expanded="true" aria-selected="false" style="--ns-tree-level:0">${chev()}<span>Acme Corp</span><span class="ns-tree__count">2</span></div><ul role="group"><li role="none"><div class="ns-tree__row" role="treeitem" aria-level="2" aria-expanded="${open}" aria-selected="false" style="--ns-tree-level:1">${chev()}<span>Chicago, IL</span><span class="ns-tree__count">2</span></div>${leaves}</li></ul></li></ul>`;
+        },
+      },
+      when: ["Real hierarchies two to four levels deep.", "Child counts on parents, so people know what is inside before they open it.", "Remembering the expanded state for each person."],
+      whenNot: ["Do not use for flat lists. Use a plain list.", "Do not put actions on every row. Use a Menu on hover or focus.", "Do not go deeper than four levels."],
+      variants: [
+        ["Expanded", "A parent open, with its children visible and one selected.", '<ul class="ns-tree" role="tree" aria-label="Locations" style="width:320px"><li role="none"><div class="ns-tree__row" role="treeitem" aria-level="1" aria-expanded="true" aria-selected="false" style="--ns-tree-level:0">' + cmpIcon("chevron", 14) + '<span>Acme Corp</span><span class="ns-tree__count">2</span></div><ul role="group"><li role="none"><div class="ns-tree__row" role="treeitem" aria-level="2" aria-expanded="true" aria-selected="true" style="--ns-tree-level:1">' + cmpIcon("chevron", 14) + '<span>Chicago, IL</span><span class="ns-tree__count">2</span></div></li></ul></li></ul>'],
+        ["Collapsed", "The parent stays visible with its count, so the contents are known before opening.", '<ul class="ns-tree" role="tree" aria-label="Locations" style="width:320px"><li role="none"><div class="ns-tree__row" role="treeitem" aria-level="1" aria-expanded="false" aria-selected="false" style="--ns-tree-level:0">' + cmpIcon("chevron", 14) + '<span>Acme Corp</span><span class="ns-tree__count">2</span></div></li></ul>'],
+      ],
+      dd: ['<ul class="ns-tree" role="tree" aria-label="Locations" style="width:280px"><li role="none"><div class="ns-tree__row" role="treeitem" aria-level="1" aria-expanded="false" aria-selected="false" style="--ns-tree-level:0">' + cmpIcon("chevron", 14) + '<span>Acme Corp</span><span class="ns-tree__count">14</span></div></li></ul>', "Parents show child counts, so the contents are known before opening.", '<ul class="ns-tree" role="tree" aria-label="Items" style="width:280px"><li role="none"><div class="ns-tree__row" role="treeitem" aria-level="1" aria-selected="false" style="--ns-tree-level:0"><span class="ns-tree__chev is-leaf"></span><span>Item 1</span></div></li><li role="none"><div class="ns-tree__row" role="treeitem" aria-level="1" aria-selected="false" style="--ns-tree-level:0"><span class="ns-tree__chev is-leaf"></span><span>Item 2</span></div></li></ul>', "A flat list has no hierarchy. Use a plain list."],
+      tokens: [["--ns-background-hover", "Row hover"], ["--ns-background-selected", "Selected row"], ["--ns-text-tertiary", "Chevron and count"], ["--ns-focus-field", "Focus ring"]],
+      props: [["items", "{ id, label, count, children }[]", "[]", "Nested nodes"], ["expanded", "string[]", "[]", "Expanded node ids"], ["selected", "string", "-", "Selected node id"], ["onSelect", "(id) => void", "-", "Called when a node is activated"]],
+      keyboard: [["Arrow down / up", "Moves to the next or previous visible row"], ["Arrow right", "Expands a parent, or moves into its first child"], ["Arrow left", "Collapses a parent, or moves to its parent"], ["Enter", "Selects the focused row"]],
+      aria: ["The list has role=tree with a name. Each row is a treeitem with aria-level.", "Parents set aria-expanded. Children sit in a group inside the parent.", "The selected row sets aria-selected=true."],
+      react: '<TreeView label="Locations" items={locations} selected={selected} onSelect={setSelected} />',
+    },
+    {
+      id: "command-palette", name: "Command palette", cat: "Navigation", status: "New",
+      desc: "A global launcher for finding records, pages and actions. Open it with Cmd K or Ctrl K. Results group by type, and the active row follows the keyboard.",
+      axes: [["Result", "Label, meta, icon, shortcut"], ["Group", "Up to four groups"], ["State", "Empty query, Results, Active row"]],
+      doc: [["What to search", "Search the records and actions people use most. Show recent items before the person types anything."]],
+      playground: {
+        controls: [{ key: "query", label: "Query", options: ["Empty", "acme"] }],
+        render: (s) => {
+          const q = s.query === "acme";
+          const results = q
+            ? '<div class="ns-cmdk__group">Accounts</div><div class="ns-cmdk__item" role="option" aria-selected="true"><span><mark>Acme</mark> Corp</span><span class="ns-cmdk__meta">Account</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span><mark>Acme</mark> Holdings</span><span class="ns-cmdk__meta">Account</span></div><div class="ns-cmdk__group">Actions</div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Create account</span><span class="ns-cmdk__meta">Action</span></div>'
+            : '<div class="ns-cmdk__group">Recent</div><div class="ns-cmdk__item" role="option" aria-selected="true"><span>Acme Corp</span><span class="ns-cmdk__meta">Account</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Billing history</span><span class="ns-cmdk__meta">Page</span></div>';
+          return `<div class="ns-cmdk" role="dialog" aria-label="Command palette"><div class="ns-cmdk__query">${NS.icon.search}<input role="combobox" aria-expanded="true" aria-controls="cmdk-list" aria-label="Search" placeholder="Search accounts, pages and actions" value="${q ? "acme" : ""}"/><kbd>Esc</kbd></div><div class="ns-cmdk__list" id="cmdk-list" role="listbox">${results}</div><div class="ns-cmdk__foot"><span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span><span><kbd>↵</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div></div>`;
+        },
+      },
+      when: ["Finding records, pages and actions across the product.", "Showing recent items before the person types.", "Keeping each result to one line."],
+      whenNot: ["Do not make it the only way to reach a feature.", "Do not open it when a page search field gets focus.", "Do not show more than four groups."],
+      variants: [
+        ["Recent", "What people see before they type.", '<div class="ns-cmdk" role="dialog" aria-label="Command palette"><div class="ns-cmdk__query">' + NS.icon.search + '<input role="combobox" aria-expanded="true" aria-label="Search" placeholder="Search accounts, pages and actions"/></div><div class="ns-cmdk__list" role="listbox"><div class="ns-cmdk__group">Recent</div><div class="ns-cmdk__item" role="option" aria-selected="true"><span>Acme Corp</span><span class="ns-cmdk__meta">Account</span></div></div></div>'],
+        ["Results", "Grouped by type, with the active row highlighted.", '<div class="ns-cmdk" role="dialog" aria-label="Command palette"><div class="ns-cmdk__query">' + NS.icon.search + '<input role="combobox" aria-expanded="true" aria-label="Search" value="acme"/></div><div class="ns-cmdk__list" role="listbox"><div class="ns-cmdk__group">Accounts</div><div class="ns-cmdk__item" role="option" aria-selected="true"><span><mark>Acme</mark> Corp</span><span class="ns-cmdk__meta">Account</span></div></div></div>'],
+      ],
+      dd: ['<div class="ns-cmdk" role="dialog" aria-label="Command palette"><div class="ns-cmdk__list" role="listbox"><div class="ns-cmdk__group">Accounts</div><div class="ns-cmdk__item" role="option" aria-selected="true"><span><mark>Acme</mark> Corp</span><span class="ns-cmdk__meta">Account</span></div><div class="ns-cmdk__group">Actions</div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Create account</span><span class="ns-cmdk__meta">Action</span></div></div></div>', "Results grouped by type, with a meta label on each row.", '<div class="ns-cmdk" role="dialog" aria-label="Command palette"><div class="ns-cmdk__list" role="listbox"><div class="ns-cmdk__item" role="option" aria-selected="true"><span>Acme Corp</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Create account</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Billing history</span></div></div></div>', "Mixed results with no group or type label leave people guessing what each row opens."],
+      tokens: [["--ns-background-elevated", "Palette surface"], ["--ns-elevation-04", "Palette shadow"], ["--ns-background-selected", "Active row"], ["--ns-text-accent", "Matched text"]],
+      props: [["items", "{ id, label, group, meta, icon, shortcut }[]", "[]", "Results, grouped"], ["query", "string", "''", "Controlled query"], ["onSelect", "(id) => void", "-", "Called with the chosen result"], ["open", "boolean", "false", "Shows or hides the palette"]],
+      keyboard: [["Cmd K / Ctrl K", "Opens the palette from anywhere"], ["Arrow up / down", "Moves the active row"], ["Enter", "Opens the active result"], ["Escape", "Closes the palette and returns focus to the previous element"]],
+      aria: ["The palette is a dialog with a name. The input is a combobox that points at the list with aria-controls.", "Results form a listbox, and the active row is set with aria-activedescendant.", "Announce the result count in a polite live region as the query changes."],
+      react: '<CommandPalette items={items} onSelect={openItem} />',
+    },
+    {
+      id: "toast", name: "Toast", cat: "Feedback", status: "New",
+      desc: "A short message after an action, such as Account archived. Toasts stack in a corner and clear on their own. Errors the person must fix belong inline, not in a toast.",
+      axes: [["Status", "Information, Success, Warning, Error"], ["Action", "None or one button"], ["Message", "Shown or hidden"]],
+      doc: [["Undo instead of confirm", "For reversible actions, offer Undo in the toast rather than a confirm dialog."], ["Stacking", "Show at most three toasts. The newest sits on top."]],
+      playground: {
+        controls: [
+          { key: "status", label: "Status", options: ["Success", "Information", "Warning", "Error"] },
+          { key: "action", label: "Action", options: ["Undo", "None"] },
+        ],
+        render: (s) => {
+          const v = {
+            Success: { c: " ns-notice--success", g: "✓", t: "Account archived", m: "Acme Corp moved to the archive." },
+            Information: { c: "", g: "i", t: "Sync started", m: "Changes will appear shortly." },
+            Warning: { c: " ns-notice--warning", g: "!", t: "Sync is slow", m: "Some records are still updating." },
+            Error: { c: " ns-notice--error", g: "!", t: "Account not saved", m: "Check the billing email and try again." },
+          }[s.status];
+          const role = s.status === "Error" ? "alert" : "status";
+          const act = s.action === "Undo" ? '<button class="ns-btn ns-btn--ghost ns-btn--sm">Undo</button>' : '<button class="ns-notice__close" aria-label="Dismiss notification">×</button>';
+          return `<div class="ns-notice ns-notice--toast${v.c}" role="${role}" style="width:360px"><span class="ns-notice__icon" aria-hidden="true">${v.g}</span><div><p class="ns-notice__title">${v.t}</p><p class="ns-notice__body">${v.m}</p></div>${act}</div>`;
+        },
+      },
+      when: ["Confirming the result of an action the person just took.", "Offering Undo instead of a confirm dialog for reversible changes.", "Keeping titles under 40 characters."],
+      whenNot: ["Do not use for errors the person must fix. Show those inline.", "Do not put more than one action in a toast.", "Do not auto-dismiss error toasts."],
+      variants: [
+        ["Success", "Confirms a finished action, with Undo.", '<div class="ns-notice ns-notice--toast ns-notice--success" role="status" style="width:360px"><span class="ns-notice__icon" aria-hidden="true">✓</span><div><p class="ns-notice__title">Account archived</p><p class="ns-notice__body">Acme Corp moved to the archive.</p></div><button class="ns-btn ns-btn--ghost ns-btn--sm">Undo</button></div>'],
+        ["Error", "Uses role=alert and stays until dismissed.", '<div class="ns-notice ns-notice--toast ns-notice--error" role="alert" style="width:360px"><span class="ns-notice__icon" aria-hidden="true">!</span><div><p class="ns-notice__title">Account not saved</p><p class="ns-notice__body">Check the billing email and try again.</p></div><button class="ns-notice__close" aria-label="Dismiss notification">×</button></div>'],
+      ],
+      dd: ['<div class="ns-notice ns-notice--toast ns-notice--success" role="status" style="width:320px"><span class="ns-notice__icon" aria-hidden="true">✓</span><div><p class="ns-notice__title">Account archived</p></div><button class="ns-btn ns-btn--ghost ns-btn--sm">Undo</button></div>', "Undo for a reversible change, one action only.", '<div class="ns-notice ns-notice--toast ns-notice--error" role="status" style="width:320px"><span class="ns-notice__icon" aria-hidden="true">!</span><div><p class="ns-notice__title">Billing email is missing</p></div><button class="ns-btn ns-btn--ghost ns-btn--sm">Fix</button><button class="ns-btn ns-btn--ghost ns-btn--sm">Retry</button></div>', "The person must fix this. Show it inline next to the field, and do not stack two actions."],
+      tokens: [["--ns-background-elevated", "Toast surface"], ["--ns-elevation-03", "Toast shadow"], ["--ns-status-success", "Success icon"], ["--ns-status-error", "Error icon"]],
+      props: [["status", "'info' | 'success' | 'warning' | 'error'", "'info'", "Sets color, icon and role"], ["title", "string", "-", "Short result, under 40 characters"], ["message", "string", "-", "Optional detail"], ["action", "{ label, onClick }", "-", "Optional single action"], ["onDismiss", "() => void", "-", "Close control"]],
+      keyboard: [["Tab", "Moves to the action or close button"], ["Enter / Space", "Activates the focused button"]],
+      aria: ["Information and success use role=status, which announces politely without interrupting.", "Error uses role=alert, so it interrupts the screen reader.", "Give the close button a name, such as Dismiss notification."],
+      react: '<Toast status="success" title="Account archived" action={{ label: "Undo", onClick: undo }} />',
+    },
+    {
+      id: "status-dot", name: "Status dot", cat: "Status", status: "New",
+      desc: "A colored dot with a label, for dense tables and maps where a badge would take too much space. Keep the label visible, or name the status in a column header or tooltip.",
+      axes: [["Status", "Positive, Critical, Negative, Informative, Neutral"], ["Label", "Shown or hidden"]],
+      doc: [["Color is not the only signal", "Each status keeps its word. Hiding the label is only safe when a column header or tooltip names the status."]],
+      playground: {
+        controls: [
+          { key: "status", label: "Status", options: ["Positive", "Critical", "Negative", "Informative", "Neutral"] },
+          { key: "label", label: "Label", options: ["Shown", "Hidden"] },
+        ],
+        render: (s) => {
+          const m = { Positive: ["positive", "Active"], Critical: ["critical", "At risk"], Negative: ["negative", "Down"], Informative: ["informative", "Provisioning"], Neutral: ["neutral", "Inactive"] }[s.status];
+          const text = s.label === "Shown" ? m[1] : `<span class="sr-only">${m[1]}</span>`;
+          return `<span class="ns-status-dot ns-status-dot--${m[0]}">${text}</span>`;
+        },
+      },
+      when: ["Dense tables and maps.", "The same status words as Badge.", "Keeping the label visible unless a header names the status."],
+      whenNot: ["Do not rely on color alone.", "Do not use for counts. Use Badge.", "Do not hide the label in a table with no header that names the status."],
+      variants: [
+        ["All statuses", "Five statuses with labels.", '<div style="display:flex;gap:16px;flex-wrap:wrap"><span class="ns-status-dot ns-status-dot--positive">Active</span><span class="ns-status-dot ns-status-dot--critical">At risk</span><span class="ns-status-dot ns-status-dot--negative">Down</span><span class="ns-status-dot ns-status-dot--informative">Provisioning</span><span class="ns-status-dot ns-status-dot--neutral">Inactive</span></div>'],
+        ["Label in a header", "The column header names the status, so the visible label can go. The label stays for screen readers.", '<table class="ns-table" style="width:240px"><thead><tr><th>Status</th></tr></thead><tbody><tr><td><span class="ns-status-dot ns-status-dot--positive"><span class="sr-only">Active</span></span></td></tr><tr><td><span class="ns-status-dot ns-status-dot--negative"><span class="sr-only">Down</span></span></td></tr></tbody></table>'],
+      ],
+      dd: ['<span class="ns-status-dot ns-status-dot--negative">Down</span>', "A dot with its word, the same as Badge.", '<span class="ns-status-dot ns-status-dot--negative"><span class="sr-only">Down</span></span>', "A dot with no visible word. Color alone is not enough without a header that names the status."],
+      tokens: [["--ns-status-success", "Positive dot"], ["--ns-status-warning", "Critical dot"], ["--ns-status-error", "Negative dot"], ["--ns-status-info", "Informative dot"]],
+      props: [["status", "'positive' | 'critical' | 'negative' | 'informative' | 'neutral'", "'neutral'", "Color and meaning"], ["label", "string", "-", "Visible text"], ["showLabel", "boolean", "true", "When false, the label is kept for screen readers only"]],
+      keyboard: [["-", "Not focusable. A static indicator"]],
+      aria: ["The label is text, so screen readers read it. A hidden label stays in the DOM as screen-reader-only text.", "Do not use color alone to show status."],
+      react: '<StatusDot status="positive" label="Active" />',
     },
   ];
 
