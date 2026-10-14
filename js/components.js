@@ -23,6 +23,17 @@
     return `<div class="ns-cal" role="group" aria-label="September 2026"><div class="ns-cal__head"><button class="icon-btn" aria-label="Previous month">‹</button>September 2026<button class="icon-btn" aria-label="Next month">›</button></div><div class="ns-cal__grid">${d}</div></div>`;
   };
 
+  const CMP_ICON_PATHS = {
+    more: '<path d="M5 12h.01M12 12h.01M19 12h.01" stroke-width="3"/>',
+    edit: '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+    send: '<path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4Z"/>',
+    plus: '<path d="M12 5v14M5 12h14"/>',
+    minus: '<path d="M5 12h14"/>',
+    close: '<path d="M18 6 6 18M6 6l12 12"/>',
+    check: '<path d="M20 6 9 17l-5-5"/>',
+  };
+  const cmpIcon = (n, s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${CMP_ICON_PATHS[n]}</svg>`;
+
   NS.COMPONENTS = [
     {
       id: "button", name: "Button", cat: "Actions", status: "Stable", figma: "4038:31741",
@@ -495,6 +506,236 @@
       variants: [], dd: ['<span class="ns-helper">Spacing first, divider second</span>', "Try whitespace first.", '<span class="ns-helper">Dividers between every row</span>', "Overuse dividers."],
       tokens: [["--ns-border-subtle", "Line"], ["--ns-space-5", "Margin"]], props: [["orientation", "'horizontal' | 'vertical'", "'horizontal'", "Direction"]], keyboard: [["-", "Not interactive"]], aria: ["Use <code>&lt;hr&gt;</code> for semantic breaks; purely visual lines can be CSS borders."],
       react: "<Divider />",
+    },
+    {
+      id: "icon-button", name: "Icon button", cat: "Actions", status: "New",
+      desc: "A square, icon-only button for toolbars, table rows and dense headers. Every icon button needs an accessible name. Add a tooltip for any icon that is not widely understood.",
+      axes: [["Hierarchy", "Primary, Secondary, Ghost, Danger"], ["Size", "S (32), M (40), L (48)"], ["Icon", "Swap the glyph"], ["State", "Default, Hover, Pressed, Focus, Disabled"]],
+      doc: [["Choosing the icon", "Use an icon only when most people already read its meaning, such as edit, more or close. Pair anything less clear with a label."], ["Where it fits", "Ghost icon buttons suit table rows and toolbars. Use a labeled Button for page-level actions."]],
+      playground: {
+        controls: [
+          { key: "hierarchy", label: "Hierarchy", options: ["Primary", "Secondary", "Ghost", "Danger"] },
+          { key: "size", label: "Size", options: ["M", "S", "L"] },
+          { key: "state", label: "State", options: ["Default", "Hover", "Pressed", "Focus", "Disabled"] },
+          { key: "icon", label: "Icon", options: ["More", "Edit", "Send"] },
+        ],
+        render: (s) => {
+          const k = { Primary: "", Secondary: " ns-btn--secondary", Ghost: " ns-btn--ghost", Danger: " ns-btn--danger" }[s.hierarchy];
+          const z = { S: " ns-btn--sm", L: " ns-btn--lg", M: "" }[s.size];
+          const st = { Hover: " is-hover", Pressed: " is-pressed", Focus: " is-focus", Default: "", Disabled: "" }[s.state];
+          const g = { More: "more", Edit: "edit", Send: "send" }[s.icon];
+          return `<button class="ns-btn ns-btn--icon${k}${z}${st}" aria-label="${s.icon} action"${s.state === "Disabled" ? " disabled" : ""}>${cmpIcon(g, s.size === "L" ? 20 : 16)}</button>`;
+        },
+      },
+      when: ["Use Ghost in table rows and toolbars where space is tight.", "Show a tooltip with the action name on hover and focus.", "Use the L size on touch surfaces so the target stays at 48px."],
+      whenNot: ["Do not use for primary page actions. Use a Button with a label.", "Do not drop the accessible name. Icon-only buttons need aria-label."],
+      variants: [
+        ["Hierarchy", "Primary, Secondary, Ghost and Danger share one square shape.", `<div style="display:flex;gap:8px;align-items:center"><button class="ns-btn ns-btn--icon" aria-label="Edit">${cmpIcon("edit")}</button><button class="ns-btn ns-btn--secondary ns-btn--icon" aria-label="Edit">${cmpIcon("edit")}</button><button class="ns-btn ns-btn--ghost ns-btn--icon" aria-label="Edit">${cmpIcon("edit")}</button><button class="ns-btn ns-btn--danger ns-btn--icon" aria-label="Delete">${cmpIcon("close")}</button></div>`],
+        ["Sizes", "S 32, M 40, L 48. Square at every size.", `<div style="display:flex;gap:8px;align-items:center"><button class="ns-btn ns-btn--secondary ns-btn--icon ns-btn--sm" aria-label="More actions">${cmpIcon("more")}</button><button class="ns-btn ns-btn--secondary ns-btn--icon" aria-label="More actions">${cmpIcon("more")}</button><button class="ns-btn ns-btn--secondary ns-btn--icon ns-btn--lg" aria-label="More actions">${cmpIcon("more", 20)}</button></div>`],
+      ],
+      dd: [`<button class="ns-btn ns-btn--ghost ns-btn--icon ns-btn--sm" aria-label="Edit row">${cmpIcon("edit")}</button>`, "Use Ghost for row actions, with a tooltip that names the action.", `<button class="ns-btn ns-btn--icon" aria-label="Send">${cmpIcon("send")}</button>`, "A primary icon-only button in a page header leaves the action unclear."],
+      tokens: [["--ns-interactive-primary", "Primary background"], ["--ns-interactive-ghost-hover", "Ghost hover"], ["--ns-status-error", "Danger background"], ["--ns-density-control", "Height in compact density"]],
+      sizes: [["S", "32px", "Dense toolbars and table rows"], ["M", "40px", "Default"], ["L", "48px", "Touch surfaces and dialogs"]],
+      props: [["icon", "ReactNode", "-", "Glyph. Required"], ["hierarchy", "'primary' | 'secondary' | 'ghost' | 'danger'", "'secondary'", "Visual emphasis"], ["size", "'s' | 'm' | 'l'", "'m'", "Square height"], ["aria-label", "string", "-", "Required. Names the action"], ["disabled", "boolean", "false", "Removes the button from the tab order"]],
+      keyboard: [["Tab", "Moves focus to the button"], ["Enter / Space", "Activates the button"]],
+      aria: ["Use a native button. Icon-only buttons need an aria-label that names the action, such as Edit contact.", "Pair the icon with a tooltip so sighted users hear the same name.", "Disabled buttons use the disabled attribute so they leave the tab order."],
+      react: '<IconButton icon={<MoreIcon />} hierarchy="ghost" aria-label="More actions" />',
+    },
+    {
+      id: "link", name: "Link", cat: "Actions", status: "New",
+      desc: "A text link for navigation. Links go to a destination, and buttons run an action. External links open in a new tab and say so to screen readers.",
+      axes: [["Type", "Default, External"], ["State", "Default, Hover, Focus, Disabled"]],
+      doc: [["Link text", "Write the destination in the label, such as View billing history. Avoid generic labels like click here."], ["External destinations", "Mark links that leave the product. They open in a new tab, and the link text says so for screen readers."]],
+      playground: {
+        controls: [
+          { key: "type", label: "Type", options: ["Default", "External"] },
+          { key: "state", label: "State", options: ["Default", "Hover", "Focus", "Disabled"] },
+          { key: "label", label: "Label", type: "text", default: "View billing history" },
+        ],
+        render: (s) => {
+          const ext = s.type === "External";
+          const st = { Hover: " is-hover", Focus: " is-focus" }[s.state] || "";
+          const dis = s.state === "Disabled";
+          return `<a class="ns-link${ext ? " ns-link--external" : ""}${st}" href="#"${dis ? ' aria-disabled="true"' : ""}${ext ? ' target="_blank" rel="noopener"' : ""}>${x(s.label)}${ext ? '<span class="ns-link__arrow" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span>' : ""}</a>`;
+        },
+      },
+      when: ["Use for navigation, not for actions that change data.", "Write the destination as the label.", "Mark external destinations, and say they open in a new tab."],
+      whenNot: ["Do not use click here or more here as the label.", "Do not style a button as a link for a destructive action.", "Do not rely on color alone. Keep the underline on hover and focus."],
+      variants: [
+        ["Default", "Inline in body text. The underline always shows.", '<p style="margin:0">Review the <a class="ns-link" href="#">billing history</a> before you confirm.</p>'],
+        ["External", "Adds an arrow and a hidden note. Opens in a new tab.", '<a class="ns-link ns-link--external" href="#" target="_blank" rel="noopener">Product documentation<span class="ns-link__arrow" aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>'],
+      ],
+      dd: ['<a class="ns-link" href="#">View billing history</a>', "Name the destination in the label.", '<a class="ns-link" href="#">Click here</a>', "Click here tells a screen reader user nothing about the destination."],
+      tokens: [["--ns-text-link", "Default link color"], ["--ns-text-accent", "Hover color"], ["--ns-focus-field", "Focus ring"], ["--ns-text-disabled", "Disabled link"]],
+      props: [["href", "string", "-", "Destination. A real URL or route"], ["external", "boolean", "false", "Opens in a new tab with a hidden note"], ["disabled", "boolean", "false", "Sets aria-disabled and removes the link from interaction"]],
+      keyboard: [["Tab", "Moves focus to the link"], ["Enter", "Follows the link"]],
+      aria: ["Use a native a element with href. Do not use a div with a click handler.", "External links set target and rel=noopener, and include a hidden note that the link opens in a new tab.", "Disabled links use aria-disabled and lose their href."],
+      react: '<Link href="/billing">View billing history</Link>',
+    },
+    {
+      id: "menu", name: "Menu", cat: "Actions", status: "New",
+      desc: "A list of actions that opens from a trigger, such as a row's more button. Use it for secondary actions. Keep primary actions out of the menu, and put destructive actions last.",
+      axes: [["Item", "Label, Icon, Shortcut, Type"], ["Type", "Default, Destructive"], ["State", "Default, Hover, Focus, Disabled"]],
+      doc: [["Ordering", "Group related actions. Put the most common first and destructive actions last, behind a divider."], ["Keyboard", "Arrow keys move between items. Escape closes the menu and returns focus to the trigger."]],
+      playground: {
+        controls: [
+          { key: "shortcut", label: "Shortcut", options: ["On", "Off"] },
+          { key: "destructive", label: "Destructive", options: ["Show", "Hide"] },
+        ],
+        render: (s) => `<div class="ns-menu ns-menu--panel" role="menu" aria-label="Row actions" style="width:240px"><button role="menuitem">Edit details${s.shortcut === "On" ? "<kbd>⌘E</kbd>" : ""}</button><button role="menuitem">Duplicate</button><button role="menuitem" aria-disabled="true">Archive</button>${s.destructive === "Show" ? '<div class="ns-menu__sep" role="separator"></div><button role="menuitem" class="is-destructive">Delete</button>' : ""}</div>`,
+      },
+      when: ["Use for secondary actions on a row or object.", "Group related actions and put destructive ones last.", "Show a shortcut only when the same shortcut works outside the menu."],
+      whenNot: ["Do not put a primary action only in a menu.", "Do not nest more than one level.", "Do not use a menu to choose a value. Use Select."],
+      variants: [
+        ["Basic", "Edit, duplicate and archive. A disabled item stays visible so people know it exists.", '<div class="ns-menu ns-menu--panel" role="menu" aria-label="Row actions" style="width:240px"><button role="menuitem">Edit details<kbd>⌘E</kbd></button><button role="menuitem">Duplicate</button><button role="menuitem" aria-disabled="true">Archive</button></div>'],
+        ["Destructive", "A divider, then the destructive action last.", '<div class="ns-menu ns-menu--panel" role="menu" aria-label="Row actions" style="width:240px"><button role="menuitem">Duplicate</button><div class="ns-menu__sep" role="separator"></div><button role="menuitem" class="is-destructive">Delete</button></div>'],
+      ],
+      dd: ['<div class="ns-menu ns-menu--panel" role="menu" style="width:200px"><button role="menuitem">Edit details</button><button role="menuitem">Duplicate</button><div class="ns-menu__sep" role="separator"></div><button role="menuitem" class="is-destructive">Delete</button></div>', "Destructive actions last, behind a divider.", '<div class="ns-menu ns-menu--panel" role="menu" style="width:200px"><button role="menuitem" class="is-destructive">Delete</button><button role="menuitem">Edit details</button></div>', "A destructive action at the top sits one click from the most common action."],
+      tokens: [["--ns-background-elevated", "Menu surface"], ["--ns-elevation-03", "Menu shadow"], ["--ns-background-hover", "Item hover"], ["--ns-status-error", "Destructive text"]],
+      props: [["trigger", "ReactNode", "-", "Element that opens the menu"], ["items", "{ label, icon, shortcut, destructive, disabled }[]", "[]", "Menu items in order"], ["onSelect", "(id) => void", "-", "Called with the chosen item"]],
+      keyboard: [["Enter / Space", "Opens the menu from the trigger, or activates the focused item"], ["Arrow up / down", "Moves between items"], ["Escape", "Closes the menu and returns focus to the trigger"]],
+      aria: ["The trigger has aria-haspopup=menu and aria-expanded.", "The list uses role=menu and each item uses role=menuitem.", "Disabled items keep aria-disabled so screen readers can announce them."],
+      react: '<Menu trigger={<IconButton icon={<MoreIcon />} aria-label="Row actions" />} items={[{ id: "edit", label: "Edit details", shortcut: "⌘E" }, { id: "delete", label: "Delete", destructive: true }]} />',
+    },
+    {
+      id: "bulk-action-bar", name: "Bulk action bar", cat: "Actions", status: "New",
+      desc: "A toolbar that appears above a table when rows are selected. It shows the count and the actions that apply to every selected row.",
+      axes: [["Count", "Text, such as 3 selected"], ["Actions", "Up to four buttons. Extras move into a Menu"], ["State", "Hidden, Visible"]],
+      doc: [["Show only valid actions", "Show an action only when it applies to every selected row. Keep the order fixed across the table."], ["Confirm destructive actions", "A destructive action opens a Modal that repeats the count, such as Delete 3 accounts."]],
+      playground: {
+        controls: [
+          { key: "count", label: "Count", options: ["3", "1", "12"] },
+          { key: "destructive", label: "Destructive", options: ["Show", "Hide"] },
+        ],
+        render: (s) => `<div class="ns-bulkbar" role="region" aria-label="Bulk actions"><span class="ns-bulkbar__count" aria-live="polite">${x(s.count)} selected</span><span class="ns-bulkbar__sep"></span><button class="ns-btn ns-btn--ghost ns-btn--sm">Approve</button><button class="ns-btn ns-btn--ghost ns-btn--sm">Export</button>${s.destructive === "Show" ? '<button class="ns-btn ns-btn--danger ns-btn--sm">Delete</button>' : ""}<span class="ns-bulkbar__sep"></span><button class="ns-btn ns-btn--ghost ns-btn--sm">Clear</button></div>`,
+      },
+      when: ["Show it when at least one row is selected.", "Keep the count visible, and announce it when it changes.", "Put destructive actions last, and confirm them."],
+      whenNot: ["Do not show more than four actions. Move extras into a Menu.", "Do not hide the selection after an action. Show a Toast with the result.", "Do not cover the last table row. Add bottom padding to the table."],
+      variants: [
+        ["Default", "Count, three actions and a clear control.", '<div class="ns-bulkbar" role="region" aria-label="Bulk actions"><span class="ns-bulkbar__count">3 selected</span><span class="ns-bulkbar__sep"></span><button class="ns-btn ns-btn--ghost ns-btn--sm">Approve</button><button class="ns-btn ns-btn--ghost ns-btn--sm">Export</button><span class="ns-bulkbar__sep"></span><button class="ns-btn ns-btn--ghost ns-btn--sm">Clear</button></div>'],
+        ["Destructive", "Adds a danger action after the neutral ones.", '<div class="ns-bulkbar" role="region" aria-label="Bulk actions"><span class="ns-bulkbar__count">3 selected</span><span class="ns-bulkbar__sep"></span><button class="ns-btn ns-btn--ghost ns-btn--sm">Approve</button><button class="ns-btn ns-btn--danger ns-btn--sm">Delete</button></div>'],
+      ],
+      dd: ['<div class="ns-bulkbar"><span class="ns-bulkbar__count">3 selected</span><button class="ns-btn ns-btn--ghost ns-btn--sm">Approve</button><button class="ns-btn ns-btn--danger ns-btn--sm">Delete</button></div>', "Only actions valid for every selected row, with destructive last.", '<div class="ns-bulkbar"><span class="ns-bulkbar__count">3 selected</span><button class="ns-btn ns-btn--ghost ns-btn--sm">Approve</button><button class="ns-btn ns-btn--ghost ns-btn--sm">Export</button><button class="ns-btn ns-btn--ghost ns-btn--sm">Tag</button><button class="ns-btn ns-btn--ghost ns-btn--sm">Assign</button><button class="ns-btn ns-btn--ghost ns-btn--sm">Move</button></div>', "Five actions crowd the bar. Keep four and move the rest into a Menu."],
+      tokens: [["--ns-background-elevated", "Bar surface"], ["--ns-elevation-03", "Bar shadow"], ["--ns-border-default", "Bar border"], ["--ns-density-control-sm", "Button height"]],
+      props: [["count", "number", "0", "Selected rows. Announced politely"], ["actions", "{ label, onClick, destructive }[]", "[]", "Up to four actions"], ["onClear", "() => void", "-", "Clears the selection"]],
+      keyboard: [["Tab", "Moves through the bar's actions"], ["Escape", "Clears the selection when focus is in the table"]],
+      aria: ["The bar is a named region, such as Bulk actions.", "The count sits in a polite live region, so changes are announced without interrupting.", "Each action is a button with its full label, such as Delete 3 accounts."],
+      react: '<BulkActionBar count={3} actions={[{ label: "Approve" }, { label: "Delete", destructive: true }]} onClear={clear} />',
+    },
+    {
+      id: "textarea", name: "Textarea", cat: "Inputs", status: "New",
+      desc: "A multi-line text field for free text. It follows the same states as Input. Show a counter when the field has a hard limit, and let the field grow to about eight lines.",
+      axes: [["State", "Default, Hover, Focus, Error, Warning, Success, Disabled, Read only"], ["Counter", "Shown or hidden"], ["Rows", "Starts at three, grows to eight"]],
+      doc: [["Limits", "Show a counter such as 0 / 1000 when the user nears a hard limit. Past the limit, the counter turns to error color and the message says what to fix."], ["Size", "Start at three rows. Let the field grow with the text up to about eight lines, then scroll."]],
+      playground: {
+        controls: [
+          { key: "state", label: "State", options: ["Default", "Focus", "Error", "Disabled"] },
+          { key: "counter", label: "Counter", options: ["On", "Off"] },
+        ],
+        render: (s) => {
+          const err = s.state === "Error";
+          const dis = s.state === "Disabled";
+          const focus = s.state === "Focus" ? " is-focus" : "";
+          const helper = err ? '<span class="ns-helper">Add a description to continue.</span>' : s.counter === "On" ? '<span class="ns-helper">0 / 1000</span>' : "";
+          return `<div class="ns-field${err ? " is-error" : ""}" style="width:360px"><label class="ns-label" for="pg-ta">Description</label><textarea class="ns-textarea${focus}" id="pg-ta" placeholder="Services, regions and size"${dis ? " disabled" : ""} maxlength="1000"></textarea>${helper}</div>`;
+        },
+      },
+      when: ["Use for free text longer than one line, such as notes or descriptions.", "Show a counter when there is a hard character limit.", "Let the field grow with the content up to about eight lines."],
+      whenNot: ["Do not use for single values such as names or IDs. Use Input.", "Do not hide the limit until the user reaches it.", "Do not use placeholder text as the label."],
+      variants: [
+        ["Default", "Three rows, with a counter below.", '<div class="ns-field" style="width:360px"><label class="ns-label">Company overview</label><textarea class="ns-textarea" placeholder="Services, regions and size" maxlength="1000"></textarea><span class="ns-helper">0 / 1000</span></div>'],
+        ["Error", "Error color on the border and the message.", '<div class="ns-field is-error" style="width:360px"><label class="ns-label">Company overview</label><textarea class="ns-textarea" aria-invalid="true" aria-describedby="ta-err"></textarea><span class="ns-helper" id="ta-err">Add a description to continue.</span></div>'],
+      ],
+      dd: ['<div class="ns-field" style="width:300px"><label class="ns-label">Notes</label><textarea class="ns-textarea" maxlength="500"></textarea><span class="ns-helper">0 / 500</span></div>', "Label above the field, limit shown below it.", '<div class="ns-field" style="width:300px"><textarea class="ns-textarea" placeholder="Notes"></textarea></div>', "A placeholder used as the label disappears as soon as the user types."],
+      tokens: [["--ns-border-default", "Default border"], ["--ns-focus-field", "Focus border and ring"], ["--ns-status-error", "Error border and message"], ["--ns-text-disabled", "Placeholder and disabled text"]],
+      props: [["label", "string", "-", "Visible label. Required"], ["value", "string", "''", "Controlled value"], ["maxLength", "number", "-", "Hard limit. Turns on the counter"], ["rows", "number", "3", "Starting height in lines"], ["helper", "string", "-", "Hint or error message"], ["state", "'default' | 'error' | 'warning' | 'success' | 'disabled' | 'readonly'", "'default'", "Visual and semantic state"]],
+      keyboard: [["Tab", "Moves focus into and out of the field"], ["Enter", "Adds a new line. It does not submit the form"]],
+      aria: ["Associate the label with for and id.", "Link helper and error text with aria-describedby.", "Set aria-invalid=true on error. Announce the counter at the limit, not on every key press."],
+      react: '<Textarea label="Description" maxLength={1000} helper="Services, regions and size" />',
+    },
+    {
+      id: "combobox", name: "Combobox", cat: "Inputs", status: "New",
+      desc: "A filterable multi-select for long lists. Typing filters the options, Enter toggles the active option, and chosen values stay visible as removable tags. Use it when the list is longer than about ten items.",
+      axes: [["State", "Default, Focus, Open, Disabled"], ["Selection", "Zero, one or many tags"]],
+      doc: [["Long lists", "Use a combobox for lists longer than about ten items. For two to six options, use Checkbox or Radio."], ["Keep picks", "Keep selected values as tags so people can see and remove them. Do not clear the query after each pick, so they can keep filtering."]],
+      playground: {
+        controls: [{ key: "state", label: "State", options: ["Default", "Open", "Disabled"] }],
+        render: (s) => {
+          const open = s.state === "Open";
+          const dis = s.state === "Disabled";
+          return `<div class="ns-combobox${open ? " is-open" : ""}${dis ? " is-disabled" : ""}" style="width:340px"><div class="ns-combobox__control"><span class="ns-tag ns-tag--sm">Analytics <button type="button" aria-label="Remove Analytics">×</button></span><input role="combobox" aria-expanded="${open}" aria-label="Add tag" placeholder="Add tag"${dis ? " disabled" : ""}/></div>${open ? '<div class="ns-menu ns-menu--panel ns-combobox__list" role="listbox" aria-multiselectable="true"><button role="option" aria-selected="false">Billing</button><button role="option" aria-selected="true">Analytics</button><button role="option" aria-selected="false">Compliance</button><span class="ns-helper ns-combobox__count">3 of 32 match</span></div>' : ""}</div>`;
+        },
+      },
+      when: ["Use for lists longer than about ten items.", "Show the match count while the user filters.", "Keep chosen values visible as removable tags."],
+      whenNot: ["Do not use for two to six options. Use Checkbox or Radio.", "Do not clear the query after each pick.", "Do not use for a single choice from a short list. Use Select."],
+      variants: [
+        ["Empty", "Placeholder text with nothing chosen.", '<div class="ns-combobox" style="width:340px"><div class="ns-combobox__control"><input role="combobox" aria-expanded="false" aria-label="Add tag" placeholder="Add tag"/></div></div>'],
+        ["With picks", "Tags for chosen values, and the filtered list with its count.", '<div class="ns-combobox is-open" style="width:340px"><div class="ns-combobox__control"><span class="ns-tag ns-tag--sm">Reporting <button type="button" aria-label="Remove Reporting">×</button></span><input role="combobox" aria-expanded="true" aria-label="Add tag" value="se"/></div><div class="ns-menu ns-menu--panel ns-combobox__list" role="listbox" aria-multiselectable="true"><button role="option" aria-selected="false">Billing</button><button role="option" aria-selected="true">Analytics</button><span class="ns-helper ns-combobox__count">2 of 32 match</span></div></div>'],
+      ],
+      dd: ['<div class="ns-combobox is-open" style="width:300px"><div class="ns-combobox__control"><span class="ns-tag ns-tag--sm">Analytics <button type="button" aria-label="Remove Analytics">×</button></span><input role="combobox" aria-expanded="true" aria-label="Add tag"/></div></div>', "Filters as you type, keeps picks as tags, and shows the match count.", '<div class="ns-combobox" style="width:300px"><div class="ns-combobox__control"><input aria-label="Approved" placeholder="Yes or no"/></div></div>', "Two options are better as Radio buttons or a Toggle."],
+      tokens: [["--ns-border-default", "Control border"], ["--ns-focus-field", "Focus ring"], ["--ns-background-elevated", "List surface"], ["--ns-background-selected", "Selected option"]],
+      props: [["options", "{ value, label }[]", "[]", "Full list, filtered by the query"], ["value", "string[]", "[]", "Picked values, shown as tags"], ["onChange", "(value[]) => void", "-", "Called on every pick or removal"], ["placeholder", "string", "-", "Shown when nothing is chosen"]],
+      keyboard: [["Arrow up / down", "Moves the active option"], ["Enter", "Toggles the active option"], ["Backspace", "On an empty query, removes the last tag"], ["Escape", "Closes the list and keeps the query"]],
+      aria: ["The input has role=combobox, aria-expanded, and aria-controls pointing at the list.", "The list has role=listbox with aria-multiselectable=true, and each option has aria-selected.", "Announce the match count in a polite live region as the query changes."],
+      react: '<Combobox label="Tags" options={tags} value={chosen} onChange={setPicked} placeholder="Add tag" />',
+    },
+    {
+      id: "number-stepper", name: "Number stepper", cat: "Inputs", status: "New",
+      desc: "An integer field with decrement and increment buttons, for small counts with a clear minimum and maximum. People can also type the number directly.",
+      axes: [["State", "Default, Focus, At minimum, At maximum, Disabled"]],
+      doc: [["Range", "State the allowed range in the label or helper text, such as Sites (1 to 50). Disable a button when it cannot go further."], ["Other controls", "Money and large numbers belong in Input. Use Slider when the range is visual and approximate."]],
+      playground: {
+        controls: [
+          { key: "value", label: "Value", options: ["3", "1", "50"] },
+          { key: "state", label: "State", options: ["Default", "At minimum", "At maximum", "Disabled"] },
+        ],
+        render: (s) => {
+          const v = s.state === "At minimum" ? 1 : s.state === "At maximum" ? 50 : Number(s.value);
+          const dis = s.state === "Disabled";
+          const decOff = dis || v <= 1;
+          const incOff = dis || v >= 50;
+          return `<div class="ns-stepper${dis ? " is-disabled" : ""}" role="group" aria-label="Sites"><button type="button" aria-label="Decrease"${decOff ? " disabled" : ""}>${cmpIcon("minus")}</button><input type="number" inputmode="numeric" value="${v}" min="1" max="50" aria-label="Sites"${dis ? " disabled" : ""}/><button type="button" aria-label="Increase"${incOff ? " disabled" : ""}>${cmpIcon("plus")}</button></div>`;
+        },
+      },
+      when: ["Use for small counts with a clear minimum and maximum.", "Let people type the number as well as step it.", "Disable a button when the value is at its limit."],
+      whenNot: ["Do not use for money or large numbers. Use Input.", "Do not hide the minimum and maximum.", "Do not use when the value is better chosen from a list. Use Select."],
+      variants: [
+        ["Default", "A value between the minimum and maximum.", '<div class="ns-stepper" role="group" aria-label="Sites"><button type="button" aria-label="Decrease">' + cmpIcon("minus") + '</button><input type="number" value="3" min="1" max="50" aria-label="Sites"/><button type="button" aria-label="Increase">' + cmpIcon("plus") + '</button></div>'],
+        ["At minimum", "The decrement button is disabled and stays visible.", '<div class="ns-stepper" role="group" aria-label="Sites"><button type="button" aria-label="Decrease" disabled>' + cmpIcon("minus") + '</button><input type="number" value="1" min="1" max="50" aria-label="Sites"/><button type="button" aria-label="Increase">' + cmpIcon("plus") + '</button></div>'],
+      ],
+      dd: ['<div class="ns-field" style="width:240px"><label class="ns-label">Sites (1 to 50)</label><div class="ns-stepper" role="group" aria-label="Sites"><button type="button" aria-label="Decrease">' + cmpIcon("minus") + '</button><input type="number" value="3" min="1" max="50" aria-label="Sites"/><button type="button" aria-label="Increase">' + cmpIcon("plus") + '</button></div></div>', "State the range in the label. The buttons disable at the limits.", '<div class="ns-field" style="width:240px"><label class="ns-label">Amount</label><div class="ns-stepper" role="group" aria-label="Amount"><button type="button" aria-label="Decrease">' + cmpIcon("minus") + '</button><input type="number" value="12500" aria-label="Amount"/><button type="button" aria-label="Increase">' + cmpIcon("plus") + '</button></div></div>', "Money does not belong in a stepper. Use Input."],
+      tokens: [["--ns-border-default", "Outline"], ["--ns-background-hover", "Button hover"], ["--ns-text-disabled", "Disabled buttons"], ["--ns-density-control", "Height"]],
+      props: [["value", "number", "-", "Current value"], ["min", "number", "-", "Lower limit. Decrement disables at it"], ["max", "number", "-", "Upper limit. Increment disables at it"], ["step", "number", "1", "Amount per click"], ["onChange", "(n) => void", "-", "Called with the new value"]],
+      keyboard: [["Arrow up / down", "Steps by 1"], ["Page up / down", "Steps by 10"], ["Home / End", "Jumps to the minimum or maximum"]],
+      aria: ["The input is a native number input with aria-label, min and max, so screen readers announce the range.", "Buttons have names such as Decrease and Increase, and use the disabled attribute at the limits.", "The group has a name, such as Sites, so the buttons are announced in context."],
+      react: '<NumberStepper label="Sites" min={1} max={50} value={sites} onChange={setSites} />',
+    },
+    {
+      id: "inline-edit", name: "Inline edit", cat: "Inputs", status: "New",
+      desc: "Edit one field in place on a detail page. Enter or the check saves, Escape cancels, and a failed save keeps the typed value and shows a Toast.",
+      axes: [["State", "Read, Hover, Editing, Saving"]],
+      doc: [["When to use", "Use it on detail pages for single fields that change often. For fields that depend on each other, use a form so they save together."], ["Saving", "Show a spinner while saving. If the save fails, keep the typed value, show the error in a Toast, and let the person retry."]],
+      playground: {
+        controls: [{ key: "state", label: "State", options: ["Read", "Hover", "Editing", "Saving"] }],
+        render: (s) => {
+          if (s.state === "Editing") return `<div style="width:280px"><span class="ns-label">Account manager</span><div class="ns-inline-edit is-editing"><input class="ns-inline-edit__input" value="Sara Kim" aria-label="Account manager"/><button class="ns-inline-edit__btn" aria-label="Save">${cmpIcon("check", 14)}</button><button class="ns-inline-edit__btn" aria-label="Cancel">${cmpIcon("close", 14)}</button></div></div>`;
+          const cls = s.state === "Hover" ? " is-hover" : "";
+          const busy = s.state === "Saving" ? '<span class="ns-spin" role="status" aria-label="Saving"></span>' : "";
+          return `<div style="width:280px"><span class="ns-label">Account manager</span><div class="ns-inline-edit${cls}" tabindex="0" role="button" aria-label="Edit account manager">Sara Kim${busy}</div></div>`;
+        },
+      },
+      when: ["Use on detail pages for single fields that change often.", "Save one field at a time.", "Show the value as plain text until it is hovered or focused."],
+      whenNot: ["Do not use for fields with dependencies. Use a form.", "Do not use inline edit in tables with sorting active.", "Do not hide that the field is editable. Show the pencil on hover and focus."],
+      variants: [
+        ["Read", "Plain text with a pencil on hover and focus.", '<div style="width:280px"><span class="ns-label">Account manager</span><div class="ns-inline-edit" tabindex="0" role="button" aria-label="Edit account manager">Sara Kim</div></div>'],
+        ["Editing", "A labeled input with Save and Cancel.", '<div style="width:280px"><span class="ns-label">Account manager</span><div class="ns-inline-edit is-editing"><input class="ns-inline-edit__input" value="Sara Kim" aria-label="Account manager"/><button class="ns-inline-edit__btn" aria-label="Save">' + cmpIcon("check", 14) + '</button><button class="ns-inline-edit__btn" aria-label="Cancel">' + cmpIcon("close", 14) + '</button></div></div>'],
+      ],
+      dd: ['<div class="ns-inline-edit" tabindex="0" role="button" aria-label="Edit contact phone">+1 312 555 0140</div>', "Edit one field at a time, and show the saved state.", '<div class="ns-field"><label class="ns-label">Street</label><input class="ns-input" value="12 Main St"/><label class="ns-label">City</label><input class="ns-input" value="Chicago"/></div>', "Dependent fields such as address parts belong in a form that saves together."],
+      tokens: [["--ns-background-hover", "Hover surface"], ["--ns-focus-field", "Editing border"], ["--ns-text-primary", "Value text"], ["--ns-text-tertiary", "Pencil icon"]],
+      props: [["value", "string", "-", "Current value"], ["onSave", "(value) => Promise", "-", "Resolves on success. Rejects to keep editing"], ["state", "'read' | 'editing' | 'saving'", "'read'", "Controlled state"]],
+      keyboard: [["Enter", "Saves the value"], ["Escape", "Cancels and restores the value"], ["Tab", "Moves to the next editable field"]],
+      aria: ["The read state is a button with an aria-label that names the field, such as Edit account manager.", "Editing uses a labeled input and two named buttons, Save and Cancel.", "Announce the save result in a polite live region."],
+      react: '<InlineEdit label="Account manager" value={manager} onSave={saveManager} />',
     },
   ];
 
