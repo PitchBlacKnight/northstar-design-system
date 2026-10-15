@@ -262,7 +262,7 @@ ${h2("Callable assets")}<p>Name an asset in a command to keep sample content con
       const total = NS.COMPONENTS.length;
       const linked = NS.COMPONENTS.filter((c) => c.figma).length;
       const fresh = NS.COMPONENTS.filter((c) => c.status === "New").length;
-      return `${h2("Summary")}${table(["Measure", "Count"], [["Components documented", String(total)], ["Linked to a Figma node", `${linked} of ${total}`], ["Marked New", String(fresh)]])}${notice("info", "What the Figma column means", "A component with no Figma node is documented here but not yet linked to the library. Link its node before you claim parity.")}${h2("All components")}${table(["Component", "Category", "Status", "Figma node"], NS.COMPONENTS.map((c) => [`<a href="#/components/${c.id}">${c.name}</a>`, c.cat, c.status, c.figma ? `<code>${c.figma}</code>` : "Not linked"]))}`;
+      return `${h2("Summary")}${table(["Measure", "Count"], [["Components documented", String(total)], ["Linked to a Figma node", `${linked} of ${total}`], ["Waiting for Figma sync", String(total - linked)], ["Marked New", String(fresh)]])}${notice("info", "What the Figma column means", "A component with no Figma node (<code>figma: null</code> in <code>js/components.js</code>) is built and documented in code first and waits for the next batch sync to the library. Do not claim Figma parity until its node is linked.")}${h2("All components")}${table(["Component", "Category", "Status", "Figma node"], NS.COMPONENTS.map((c) => [`<a href="#/components/${c.id}">${c.name}</a>`, c.cat, c.status, c.figma ? `<code>${c.figma}</code>` : "Waiting for sync"]))}`;
     },
   };
 

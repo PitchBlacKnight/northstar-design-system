@@ -29,6 +29,8 @@ Icons: assets/icons/*.svg (95, exported from Figma Icons page, currentColor) + m
 
 ## Keeping Figma and the site in sync
 
+**Code first.** New components can be built and documented here before they exist in Figma. Set `figma: null` (or leave the node out) in `js/components.js`; the page shows "Waiting for Figma sync", and Component status lists it. List what is waiting with `node tools/figma-sync-check.mjs --queue`. After the next batch sync to Figma, replace `null` with the node ID. Charts are described once in `js/charts.js`, and the same description draws the Figma layers and the docs SVG.
+
 Links run both ways: every component in `js/components.js` has a `figma` node ID, and every component in the NORTHSTAR DS Figma file (VZxmDNQiosTN6gqnvEQ65Z) has a documentation link to its page here. Nothing updates automatically, so check for drift by hand:
 
 ```bash
