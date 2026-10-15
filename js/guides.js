@@ -191,6 +191,8 @@ ${h2("Callable assets")}<p>Name an asset in a command to keep sample content con
     { name: "Object detail", href: "#/floorplans/object-detail", aliases: ["detail page", "record view", "account page"], desc: "A full record with a header, status, tabs and structured sections." },
     { name: "Guided wizard", href: "#/floorplans/wizard", aliases: ["stepper", "multi-step form", "onboarding flow", "setup flow"], desc: "A linear multi-step flow with validation at each step and a review." },
     { name: "Approval queue", href: "#/floorplans/approval-queue", aliases: ["review queue", "task queue", "decision queue"], desc: "A queue of items to approve, escalate or reject, with the reason beside each." },
+    { name: "Learner progress", href: "#/floorplans/learner-progress", aliases: ["cohort dashboard", "course progress", "learning dashboard"], desc: "A cohort at a glance: completion, activity, goals, streaks and who needs attention." },
+    { name: "Enrollment health", href: "#/floorplans/enrollment-health", aliases: ["funnel dashboard", "enrollment dashboard", "conversion dashboard"], desc: "Where enrollment narrows, which stages need attention, and which enrollments stalled." },
   ];
   const FOUNDATIONS = [
     { name: "Color", href: "#/foundations/color", aliases: ["palette", "color system", "semantic color"], desc: "Primitive ramps mapped to semantic roles for text, surfaces and status." },
