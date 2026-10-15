@@ -201,6 +201,19 @@
       return out;
     },
   };
+  DEFS.convergence = {
+    name: "Radial convergence",
+    alt: "Radial convergence chart: twelve nodes on a ring joined by eight links",
+    kpi: ["Links", "12", "+2.0%", "Nodes joined across a ring", "Nodes joined"],
+    sum: [["Most linked", "Node 4", "+1.0%", "Most connections", "Most links"], ["Least linked", "Node 9", "+0.2%", "Fewest connections", "Fewest links"]],
+    prims: (w, h, o) => {
+      const c = o.compact, cx = w / 2, cy = h / 2, R = Math.min(w, h) / 2 - 6, N = 12, out = [];
+      const P = (i) => [cx + R * Math.sin((i * 30 * Math.PI) / 180), cy - R * Math.cos((i * 30 * Math.PI) / 180)];
+      [[0, 5], [1, 7], [2, 9], [3, 10], [4, 8], [6, 11], [0, 8], [2, 6]].forEach((e, i) => out.push({ k: "path", d: H.poly([P(e[0]), P(e[1])]), sk: i % 2 ? "s2" : "s1", sw: 1.5, n: "Link " + (i + 1) }));
+      for (let i = 0; i < N; i++) { const p = P(i); out.push({ k: "circle", cx: p[0], cy: p[1], r: c ? 2.5 : 4, f: "text", n: "Node " + (i + 1) }); }
+      return out;
+    },
+  };
   /* @defs-end */
 
   const TOKV = { s1: "--ns-chart-series-1", s2: "--ns-chart-series-2", s3: "--ns-chart-series-3", s4: "--ns-chart-series-4", s5: "--ns-chart-series-5", track: "--ns-chart-track", target: "--ns-chart-target", label: "--ns-widget-muted", text: "--ns-text-primary", text2: "--ns-text-secondary", ok: "--ns-status-success", err: "--ns-status-error", warn: "--ns-status-warning", grid: "--ns-widget-grid", bg: "--ns-widget-bg", line: "--ns-border-subtle", band: "--ns-widget-band", muted: "--ns-widget-muted" };

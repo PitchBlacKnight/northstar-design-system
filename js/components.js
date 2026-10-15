@@ -1153,6 +1153,21 @@
       aria: ["The SVG is <code>role=\"img\"</code> with a label naming the measures. Provide a table of the values per series nearby.", "Series are told apart by label and stroke, never by color alone.", "Trend text carries its sign, so the color is a second signal."],
       react: '<RadarChart size="medium" title="Coverage" value="86%" trend="+3.0%" data={[[0.8, 0.6, 0.7, 0.5, 0.9, 0.6]]} />',
     }),
+    chartEntry("radial-convergence-chart", "convergence", {
+      name: "Radial convergence chart", figma: "4462:38977",
+      desc: "A radial convergence chart joins nodes around a ring with straight links, to show who is connected to whom. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
+      doc: [
+        ["Nodes are ellipses, links are paths", "Each node is an ellipse on a fixed ring position and each link is a 1.5px vector path between two nodes."],
+        ["Alternate colors by index", "Links alternate between chart/series-1 and chart/series-2 so neighbours separate. Color does not carry meaning on its own."],
+        ["Keep crossings few", "Twelve nodes and under ten links stay readable. Beyond that, filter to one node's links."],
+      ],
+      when: ["Relationships inside one set of members.", "Teams that work together or services that call each other.", "A KPI tile that needs connectedness, not only a count."],
+      whenNot: ["Directed, sized flows. Use Sankey chart.", "Hierarchies. Use Tree chart.", "More than about twenty nodes. Use a table."],
+      tokens: [["--ns-chart-series-1", "Links, odd (alias of viz/1)"], ["--ns-chart-series-2", "Links, even (alias of viz/4)"], ["--ns-text-primary", "Nodes"]],
+      dataType: "[number, number][]", dataNote: "Pairs of node indexes, 0 to 11",
+      aria: ["The SVG is <code>role=\"img\"</code> with a label that states how many links join how many nodes. Provide a table of the pairs nearby.", "Links are told apart by endpoint, never by color alone.", "Trend text carries its sign, so the color is a second signal."],
+      react: '<RadialConvergenceChart size="medium" title="Links" value="12" trend="+2.0%" data={[[0, 5], [1, 7]]} />',
+    }),
   ];
 
   NS.COMPONENTS.sort((a, b) => a.name.localeCompare(b.name));
