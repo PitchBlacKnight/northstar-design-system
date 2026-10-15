@@ -184,6 +184,23 @@
       return out;
     },
   };
+  DEFS.radar = {
+    name: "Radar",
+    alt: "Radar chart: two series across six measures",
+    kpi: ["Coverage", "86%", "+3.0%", "Six skills against the target", "Six skills"],
+    sum: [["Strongest", "Reach", "+1.1%", "Highest score", "Highest"], ["Weakest", "Trust", "+0.4%", "Lowest score", "Lowest"]],
+    prims: (w, h, o) => {
+      const c = o.compact, cx = w / 2, cy = h / 2, R = Math.min(w, h) / 2 - (c ? 4 : 18), N = 6, out = [];
+      const P = (r, i) => [cx + r * Math.sin((i * 360 / N * Math.PI) / 180), cy - r * Math.cos((i * 360 / N * Math.PI) / 180)];
+      const ring = (f) => H.poly(Array.from({ length: N }, (_, i) => P(R * f, i))) + "Z";
+      [1, 0.66, 0.33].forEach((f, k) => out.push({ k: "path", d: ring(f), sk: "grid", sw: 1, n: "Ring " + (k + 1) }));
+      for (let i = 0; i < N; i++) out.push({ k: "path", d: H.poly([[cx, cy], P(R, i)]), sk: "grid", sw: 1, n: "Axis " + (i + 1) });
+      const S = [[0.80, 0.60, 0.70, 0.50, 0.90, 0.60, "s3"], [0.50, 0.80, 0.40, 0.70, 0.50, 0.40, "s1"]];
+      S.forEach((s, j) => out.push({ k: "path", d: H.poly(s.slice(0, N).map((v, i) => P(R * v, i))) + "Z", f: s[N], o: 0.22, sk: s[N], sw: 2, n: "Series " + (j + 1) }));
+      if (!c) ["Speed", "Cost", "Reach", "Rate", "Score", "Trust"].forEach((s, i) => { const p = P(R + 12, i); out.push({ k: "text", x: p[0], y: p[1], s, a: "middle", n: "Axis label" }); });
+      return out;
+    },
+  };
   /* @defs-end */
 
   const TOKV = { s1: "--ns-chart-series-1", s2: "--ns-chart-series-2", s3: "--ns-chart-series-3", s4: "--ns-chart-series-4", s5: "--ns-chart-series-5", track: "--ns-chart-track", target: "--ns-chart-target", label: "--ns-widget-muted", text: "--ns-text-primary", text2: "--ns-text-secondary", ok: "--ns-status-success", err: "--ns-status-error", warn: "--ns-status-warning", grid: "--ns-widget-grid", bg: "--ns-widget-bg", line: "--ns-border-subtle", band: "--ns-widget-band", muted: "--ns-widget-muted" };

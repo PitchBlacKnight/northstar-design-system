@@ -1138,6 +1138,21 @@
       aria: ["The SVG is <code>role=\"img\"</code> with a label that names the cycle. Provide a table of the values per slot nearby.", "The start of the cycle is stated in text.", "Trend text carries its sign, so the color is a second signal."],
       react: '<RadialHistogramChart size="medium" title="Requests" value="1,860" trend="+2.2%" data={[0.3, 0.7, 0.5]} />',
     }),
+    chartEntry("radar-chart", "radar", {
+      name: "Radar chart", figma: "4462:38673",
+      desc: "A radar chart compares several measures for one or two items on radial axes. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
+      doc: [
+        ["Grid is vector, marks are fills", "Rings and axes are 1px vector paths in widget/grid. Each series is one closed path with a 22% fill and a 2px stroke of the same token."],
+        ["Two series at most", "chart/series-3 and chart/series-1 keep two shapes apart. A third makes the overlap unreadable, so use a table or small multiples."],
+        ["Order carries meaning", "Neighbouring axes read as related, so put related measures next to each other and keep the order in every size."],
+      ],
+      when: ["One or two items across five to eight measures.", "Comparing an item against a target profile.", "A KPI tile that needs balance, not only a total."],
+      whenNot: ["Exact values. Use Data table.", "More than three items. Use Parallel coordinates chart.", "Fewer than five measures. Use Bar chart."],
+      tokens: [["--ns-chart-series-1", "Series 2 (alias of viz/1)"], ["--ns-chart-series-3", "Series 1 (alias of viz/2)"], ["--ns-widget-grid", "Rings and axes"]],
+      dataType: "number[][]", dataNote: "One array per series, six values from 0 to 1",
+      aria: ["The SVG is <code>role=\"img\"</code> with a label naming the measures. Provide a table of the values per series nearby.", "Series are told apart by label and stroke, never by color alone.", "Trend text carries its sign, so the color is a second signal."],
+      react: '<RadarChart size="medium" title="Coverage" value="86%" trend="+3.0%" data={[[0.8, 0.6, 0.7, 0.5, 0.9, 0.6]]} />',
+    }),
   ];
 
   NS.COMPONENTS.sort((a, b) => a.name.localeCompare(b.name));
