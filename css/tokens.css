@@ -329,9 +329,9 @@
   --ns-viz-7: #8855e8; /* viz/7 */
   --ns-chart-label-text: #d0d0da; /* text/chart-label */
   --ns-chart-series-1: #01f1e3; /* chart/series-1 */
-  --ns-chart-series-2: #023aff; /* chart/series-2 */
+  --ns-chart-series-2: #2858ff; /* chart/series-2 (was #023aff, 2.5:1): 3.2:1 on widget/bg */
   --ns-chart-series-3: #991bfa; /* chart/series-3 */
-  --ns-chart-series-4: #4807ea; /* chart/series-4 */
+  --ns-chart-series-4: #7844f9; /* chart/series-4 (was #4807ea, 2.0:1): 3.3:1 on widget/bg */
   --ns-chart-series-5: #6a6a9f; /* chart/series-5 */
   --ns-chart-track: #0e0e22; /* chart/track */
   --ns-chart-target: #ffffff; /* chart/target */
