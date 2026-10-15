@@ -142,6 +142,19 @@
         ...pts.map((p, i) => ({ k: "circle", cx: ml + 4 + p[0] * (pw - 8), cy: ph - p[1] * ph, r: c ? 3 : 4, f: p[2], o: 0.85, n: "Point " + (i + 1) }))];
     },
   };
+  DEFS.gauge = {
+    name: "Gauge",
+    alt: "Gauge: 72 percent of the limit is used",
+    kpi: ["Capacity", "72%", "+4.0%", "Share of the limit used", "Of the limit"],
+    sum: [["Used", "72", "+4.0%", "Units in use", "Units in use"], ["Free", "28", "+1.0%", "Units available", "Available"]],
+    prims: (w, h, o) => {
+      const c = o.compact, cx = w / 2, cy = h - (c ? 6 : 18), ro = Math.min(w / 2 - 4, cy - 6), ri = ro * 0.72, a = -90 + 180 * 0.72;
+      const out = [{ k: "arc", cx, cy, ro, ri, a0: -90, a1: 90, f: "track", n: "Track" }, { k: "arc", cx, cy, ro, ri, a0: -90, a1: a, f: "s1", n: "Value" },
+        { k: "text", x: cx, y: cy - ro * 0.3, s: "72%", a: "middle", size: c ? 14 : 24, w: "Bold", f: "text", n: "Gauge value" }];
+      if (!c) out.push({ k: "text", x: cx - (ro + ri) / 2, y: cy + 10, s: "0", a: "middle", n: "Min" }, { k: "text", x: cx + (ro + ri) / 2, y: cy + 10, s: "100", a: "middle", n: "Max" });
+      return out;
+    },
+  };
   /* @defs-end */
 
   const TOKV = { s1: "--ns-chart-series-1", s2: "--ns-chart-series-2", s3: "--ns-chart-series-3", s4: "--ns-chart-series-4", s5: "--ns-chart-series-5", track: "--ns-chart-track", target: "--ns-chart-target", label: "--ns-widget-muted", text: "--ns-text-primary", text2: "--ns-text-secondary", ok: "--ns-status-success", err: "--ns-status-error", warn: "--ns-status-warning", grid: "--ns-widget-grid", bg: "--ns-widget-bg", line: "--ns-border-subtle", band: "--ns-widget-band", muted: "--ns-widget-muted" };

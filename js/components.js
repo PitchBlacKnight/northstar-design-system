@@ -1093,6 +1093,21 @@
       aria: ["The SVG is <code>role=\"img\"</code> with a label that states the relationship. Provide a table of the values nearby.", "Groups are told apart by label or shape in a legend, never by color alone.", "Trend text carries its sign, so the color is a second signal."],
       react: '<ScatterChart size="medium" title="Samples" value="240" trend="+6.2%" data={[{ x: 20, y: 38, series: 1 }]} />',
     }),
+    chartEntry("gauge-chart", "gauge", {
+      name: "Gauge chart", figma: "4460:38422",
+      desc: "A gauge chart shows one value against its limit on a half circle. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
+      doc: [
+        ["Arcs are ellipses", "The track and the value are ellipses with arc data and a 72% inner radius, not vector paths. Changing the value changes an end angle."],
+        ["The number is printed", "The value sits inside the arc as text, so the arc length is never the only signal."],
+        ["One measure per gauge", "A gauge answers one question. Use a bullet chart when several measures share a goal."],
+      ],
+      when: ["One measure against its ceiling: capacity, quota, budget.", "A status tile that needs the headroom at a glance.", "Small spaces where a number needs context."],
+      whenNot: ["More than one measure. Use Bullet chart.", "Trends. Use Line chart.", "Parts of a whole. Use Donut chart."],
+      tokens: [["--ns-chart-series-1", "Value arc (alias of viz/1)"], ["--ns-chart-track", "Track arc (alias of widget/track)"], ["--ns-text-primary", "Value label"]],
+      dataType: "{ value: number, max: number }", dataNote: "Value and limit in the same unit",
+      aria: ["The SVG is <code>role=\"img\"</code> with the value and the limit in the label, for example 72 percent of the limit used.", "The value is also printed as text inside the arc.", "Trend text carries its sign, so the color is a second signal."],
+      react: '<GaugeChart size="medium" title="Capacity" value="72%" trend="+4.0%" data={{ value: 72, max: 100 }} />',
+    }),
   ];
 
   NS.COMPONENTS.sort((a, b) => a.name.localeCompare(b.name));
