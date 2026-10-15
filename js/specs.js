@@ -4532,6 +4532,790 @@
     ]
    }
   ]
+ },
+ "sunburst-chart": {
+  "nodeId": "4463:39667",
+  "title": "Sunburst chart",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 20",
+  "revision": "Reviewed 15 Oct 2026",
+  "summary": "A data visualization card that shows a hierarchy as nested rings, one ring per level. Built natively for NorthStar after reviewing the Hyper charts kit; nothing was imported. Five sizes, three component properties, every fill bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Built 15 Oct 2026, not yet source-reviewed",
+   "Parity status": "Docs site renders the same data as SVG",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4463:39683",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Show part-to-whole at two levels at once: categories and their items, with the angle carrying the share."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not use for more than two levels in a compact card (Tree chart), for one level (Donut chart), or for exact size comparison (Bar chart)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4463:39694",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Container: widget/bg fill, border/subtle stroke, radius/xl. 2 · Header: Title, Value with Trend, Description, optional Icon. 3 · Group ring: ellipse arcs, chart/series-1 to 3, 20% to 55% of the radius. 4 · Item ring: ellipse arcs in the parent color at 60% opacity, 58% to 100% of the radius. 5 · Gap: 0.8 degrees trimmed from each arc."
+     },
+     {
+      "type": "example",
+      "label": "Medium",
+      "description": "Sunburst instance, Size=Medium, Value '11', Title 'Categories', Show icon=false."
+     },
+     {
+      "type": "text",
+      "text": "Sizes: Small 330 wide (header left, mini plot right, no axes) · Vertical small 192 wide, no axes · Medium 375 wide with axes and labels · Large 375 wide with a divider and two-KPI summary · XL 800 wide, three KPIs."
+     }
+    ]
+   },
+   {
+    "nodeId": "4463:39701",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Chart / Sunburst · set 4463:163 · page \"Sunburst chart\" under DATA VIZ."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Size",
+        "VARIANT",
+        "Small",
+        "Small, Vertical small, Medium, Large, XL. Medium is the recommended default."
+       ],
+       [
+        "Title",
+        "TEXT",
+        "Categories",
+        "Binds to the header title. In XL it binds to the first KPI title."
+       ],
+       [
+        "Value",
+        "TEXT",
+        "11",
+        "Binds to the headline figure. In Large it binds to the first summary figure."
+       ],
+       [
+        "Show icon",
+        "BOOLEAN",
+        "false",
+        "Off by default. Turn it on in Medium or XL; Small keeps text and plot only."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4463:39732",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Container fill",
+        "widget/bg",
+        "Card surface, same as the other data viz widgets"
+       ],
+       [
+        "Container stroke",
+        "border/subtle",
+        "1px hairline"
+       ],
+       [
+        "Container radius",
+        "radius/xl",
+        "12px"
+       ],
+       [
+        "Group arc",
+        "chart/series-1 to chart/series-3",
+        "Ellipse with arc data, inner ring"
+       ],
+       [
+        "Item arc",
+        "Parent token at 60% opacity",
+        "Outer ring, children share the parent color"
+       ],
+       [
+        "Arc gap",
+        "0.8 degrees",
+        "Trimmed from both ends of every arc"
+       ],
+       [
+        "Title, Value",
+        "text/primary",
+        "Open Sans SemiBold 14, Bold 28"
+       ],
+       [
+        "Axis label, Description",
+        "text/chart-label",
+        "Open Sans Regular 11 and 12"
+       ],
+       [
+        "Trend",
+        "status/success",
+        "Open Sans SemiBold 12"
+       ],
+       [
+        "Padding, gaps",
+        "spacing/5 to spacing/7, spacing/2 to spacing/4",
+        "16 or 24px padding; 4, 8, 12, 16, 20px gaps"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "All seven chart/* tokens are aliases of existing Semantic / Colors tokens, so Light, Dark and High Contrast resolve through the modes with no new hex values."
+     }
+    ]
+   },
+   {
+    "nodeId": "4463:39782",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The chart has a text equivalent: role=\"img\" with a label naming the groups and their items, and a nested list of the values nearby.",
+       "Groups are told apart by position and label, not color alone; items inherit the parent hue.",
+       "Marks meet 3:1 against the card surface in Light, Dark and High Contrast.",
+       "Trend text carries its sign (+ or -), not just color.",
+       "Not interactive. If marks become links or filters, add focus rings from focus/ring and a keyboard order."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4463:39792",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Pick the size by container width: Small and Vertical small under 360px, Medium and Large at 360 to 600px, XL above 720px. Keep titles to three words and values to one figure with its unit. Two rings in every size. Label groups in a legend, since arcs are too narrow for text below Large."
+     }
+    ]
+   }
+  ]
+ },
+ "tree-chart": {
+  "nodeId": "4463:39851",
+  "title": "Tree chart",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 21",
+  "revision": "Reviewed 15 Oct 2026",
+  "summary": "A data visualization card that shows a hierarchy as nodes joined by elbow lines, root on the left. Built natively for NorthStar after reviewing the Hyper charts kit; nothing was imported. Five sizes, three component properties, every fill bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Built 15 Oct 2026, not yet source-reviewed",
+   "Parity status": "Docs site renders the same data as SVG",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4463:39867",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Show how one thing divides into parts and sub-parts: org structure, file folders, decision paths."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not use for part-to-whole (Sunburst chart or Treemap chart), for flows with sizes (Sankey chart), or for more than three levels in a card."
+     }
+    ]
+   },
+   {
+    "nodeId": "4463:39878",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Container: widget/bg fill, border/subtle stroke, radius/xl. 2 · Header: Title, Value with Trend, Description, optional Icon. 3 · Node: ellipse, chart/series-1 at the root, chart/series-2 for branches and chart/series-3 for leaves. 4 · Edge: 1.5px elbow vector path, widget/grid. 5 · Level labels: text/chart-label, 11px."
+     },
+     {
+      "type": "example",
+      "label": "Medium",
+      "description": "Tree instance, Size=Medium, Value '7', Title 'Teams', Show icon=false."
+     },
+     {
+      "type": "text",
+      "text": "Sizes: Small 330 wide (header left, mini plot right, no axes) · Vertical small 192 wide, no axes · Medium 375 wide with axes and labels · Large 375 wide with a divider and two-KPI summary · XL 800 wide, three KPIs."
+     }
+    ]
+   },
+   {
+    "nodeId": "4463:39885",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Chart / Tree · set 4463:38870 · page \"Tree chart\" under DATA VIZ."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Size",
+        "VARIANT",
+        "Small",
+        "Small, Vertical small, Medium, Large, XL. Medium is the recommended default."
+       ],
+       [
+        "Title",
+        "TEXT",
+        "Teams",
+        "Binds to the header title. In XL it binds to the first KPI title."
+       ],
+       [
+        "Value",
+        "TEXT",
+        "7",
+        "Binds to the headline figure. In Large it binds to the first summary figure."
+       ],
+       [
+        "Show icon",
+        "BOOLEAN",
+        "false",
+        "Off by default. Turn it on in Medium or XL; Small keeps text and plot only."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4463:39916",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Container fill",
+        "widget/bg",
+        "Card surface, same as the other data viz widgets"
+       ],
+       [
+        "Container stroke",
+        "border/subtle",
+        "1px hairline"
+       ],
+       [
+        "Container radius",
+        "radius/xl",
+        "12px"
+       ],
+       [
+        "Node",
+        "chart/series-1 to chart/series-3",
+        "Ellipse, 6px radius, 4px in compact sizes"
+       ],
+       [
+        "Edge",
+        "widget/grid",
+        "1.5px vector path with one elbow"
+       ],
+       [
+        "Level label",
+        "text/chart-label",
+        "Dropped in Small and Vertical small"
+       ],
+       [
+        "Title, Value",
+        "text/primary",
+        "Open Sans SemiBold 14, Bold 28"
+       ],
+       [
+        "Axis label, Description",
+        "text/chart-label",
+        "Open Sans Regular 11 and 12"
+       ],
+       [
+        "Trend",
+        "status/success",
+        "Open Sans SemiBold 12"
+       ],
+       [
+        "Padding, gaps",
+        "spacing/5 to spacing/7, spacing/2 to spacing/4",
+        "16 or 24px padding; 4, 8, 12, 16, 20px gaps"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "All seven chart/* tokens are aliases of existing Semantic / Colors tokens, so Light, Dark and High Contrast resolve through the modes with no new hex values."
+     }
+    ]
+   },
+   {
+    "nodeId": "4463:39966",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The chart has a text equivalent: role=\"img\" with a label that states the levels, and a nested list of the nodes nearby.",
+       "Level is told apart by position and label, not color alone.",
+       "Marks meet 3:1 against the card surface in Light, Dark and High Contrast.",
+       "Trend text carries its sign (+ or -), not just color.",
+       "Not interactive. If marks become links or filters, add focus rings from focus/ring and a keyboard order."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4463:39976",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Pick the size by container width: Small and Vertical small under 360px, Medium and Large at 360 to 600px, XL above 720px. Keep titles to three words and values to one figure with its unit. Three levels in every size, up to four leaves. Label nodes directly when names matter, and move to a list below 192px wide."
+     }
+    ]
+   }
+  ]
+ },
+ "treemap-chart": {
+  "nodeId": "4463:40035",
+  "title": "Treemap chart",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 22",
+  "revision": "Reviewed 15 Oct 2026",
+  "summary": "A data visualization card that shows shares of a whole as nested rectangles sized by value. Built natively for NorthStar after reviewing the Hyper charts kit; nothing was imported. Five sizes, three component properties, every fill bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Built 15 Oct 2026, not yet source-reviewed",
+   "Parity status": "Docs site renders the same data as SVG",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4463:40051",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Show many parts of a whole at once, where area is enough to compare: storage by type, spend by team."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not use for exact comparison (Horizontal bar chart), for time series (Line chart), or for fewer than three parts (Donut chart)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4463:40062",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Container: widget/bg fill, border/subtle stroke, radius/xl. 2 · Header: Title, Value with Trend, Description, optional Icon. 3 · Tile: rectangle, 4px radius, chart/series-1 to 5 at 90% opacity. 4 · Gap: 3px between tiles, 2px in compact sizes. 5 · Layout: slice and dice, largest tile top left."
+     },
+     {
+      "type": "example",
+      "label": "Medium",
+      "description": "Treemap instance, Size=Medium, Value '640 GB', Title 'Storage', Show icon=false."
+     },
+     {
+      "type": "text",
+      "text": "Sizes: Small 330 wide (header left, mini plot right, no axes) · Vertical small 192 wide, no axes · Medium 375 wide with axes and labels · Large 375 wide with a divider and two-KPI summary · XL 800 wide, three KPIs."
+     }
+    ]
+   },
+   {
+    "nodeId": "4463:40069",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Chart / Treemap · set 4463:39101 · page \"Treemap chart\" under DATA VIZ."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Size",
+        "VARIANT",
+        "Small",
+        "Small, Vertical small, Medium, Large, XL. Medium is the recommended default."
+       ],
+       [
+        "Title",
+        "TEXT",
+        "Storage",
+        "Binds to the header title. In XL it binds to the first KPI title."
+       ],
+       [
+        "Value",
+        "TEXT",
+        "640 GB",
+        "Binds to the headline figure. In Large it binds to the first summary figure."
+       ],
+       [
+        "Show icon",
+        "BOOLEAN",
+        "false",
+        "Off by default. Turn it on in Medium or XL; Small keeps text and plot only."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4463:40100",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Container fill",
+        "widget/bg",
+        "Card surface, same as the other data viz widgets"
+       ],
+       [
+        "Container stroke",
+        "border/subtle",
+        "1px hairline"
+       ],
+       [
+        "Container radius",
+        "radius/xl",
+        "12px"
+       ],
+       [
+        "Tile",
+        "chart/series-1 to chart/series-5",
+        "Alias viz/1, viz/4, viz/2, viz/7, widget/muted"
+       ],
+       [
+        "Tile radius",
+        "4px",
+        "Fixed value; not bound to a radius token"
+       ],
+       [
+        "Tile gap",
+        "3px",
+        "2px in compact sizes"
+       ],
+       [
+        "Title, Value",
+        "text/primary",
+        "Open Sans SemiBold 14, Bold 28"
+       ],
+       [
+        "Axis label, Description",
+        "text/chart-label",
+        "Open Sans Regular 11 and 12"
+       ],
+       [
+        "Trend",
+        "status/success",
+        "Open Sans SemiBold 12"
+       ],
+       [
+        "Padding, gaps",
+        "spacing/5 to spacing/7, spacing/2 to spacing/4",
+        "16 or 24px padding; 4, 8, 12, 16, 20px gaps"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "All seven chart/* tokens are aliases of existing Semantic / Colors tokens, so Light, Dark and High Contrast resolve through the modes with no new hex values."
+     }
+    ]
+   },
+   {
+    "nodeId": "4463:40150",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The chart has a text equivalent: role=\"img\" with a label naming the tiles and their shares, and a table nearby.",
+       "Tiles are told apart by position and label, not color alone; add labels to the largest tiles.",
+       "Marks meet 3:1 against the card surface in Light, Dark and High Contrast.",
+       "Trend text carries its sign (+ or -), not just color.",
+       "Not interactive. If marks become links or filters, add focus rings from focus/ring and a keyboard order."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4463:40160",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Pick the size by container width: Small and Vertical small under 360px, Medium and Large at 360 to 600px, XL above 720px. Keep titles to three words and values to one figure with its unit. Five tiles at most. Label the largest tiles and keep the order stable between loads so tiles do not jump."
+     }
+    ]
+   }
+  ]
+ },
+ "calendar-chart": {
+  "nodeId": "4463:40219",
+  "title": "Calendar chart",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 23",
+  "revision": "Reviewed 15 Oct 2026",
+  "summary": "A data visualization card that shows one value per day of a month as the intensity of a cell. Built natively for NorthStar after reviewing the Hyper charts kit; nothing was imported. Five sizes, three component properties, every fill bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Built 15 Oct 2026, not yet source-reviewed",
+   "Parity status": "Docs site renders the same data as SVG",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4463:40235",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Show daily activity or status across a month: streaks, gaps, busy days."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not use for exact values (Data table), for spans longer than a few months (Heatmap chart), or for one number."
+     }
+    ]
+   },
+   {
+    "nodeId": "4463:40246",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Container: widget/bg fill, border/subtle stroke, radius/xl. 2 · Header: Title, Value with Trend, Description, optional Icon. 3 · Day cell: rectangle, chart/series-1 with opacity from 10% to 100%, 4px radius, 3px gap. 4 · Weekday labels: text/chart-label, 11px. 5 · Today: 2px stroke, chart/target."
+     },
+     {
+      "type": "example",
+      "label": "Medium",
+      "description": "Calendar instance, Size=Medium, Value '19', Title 'Active days', Show icon=false."
+     },
+     {
+      "type": "text",
+      "text": "Sizes: Small 330 wide (header left, mini plot right, no axes) · Vertical small 192 wide, no axes · Medium 375 wide with axes and labels · Large 375 wide with a divider and two-KPI summary · XL 800 wide, three KPIs."
+     }
+    ]
+   },
+   {
+    "nodeId": "4463:40253",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Chart / Calendar · set 4463:39465 · page \"Calendar chart\" under DATA VIZ."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Size",
+        "VARIANT",
+        "Small",
+        "Small, Vertical small, Medium, Large, XL. Medium is the recommended default."
+       ],
+       [
+        "Title",
+        "TEXT",
+        "Active days",
+        "Binds to the header title. In XL it binds to the first KPI title."
+       ],
+       [
+        "Value",
+        "TEXT",
+        "19",
+        "Binds to the headline figure. In Large it binds to the first summary figure."
+       ],
+       [
+        "Show icon",
+        "BOOLEAN",
+        "false",
+        "Off by default. Turn it on in Medium or XL; Small keeps text and plot only."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4463:40284",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Container fill",
+        "widget/bg",
+        "Card surface, same as the other data viz widgets"
+       ],
+       [
+        "Container stroke",
+        "border/subtle",
+        "1px hairline"
+       ],
+       [
+        "Container radius",
+        "radius/xl",
+        "12px"
+       ],
+       [
+        "Day cell",
+        "chart/series-1",
+        "Opacity carries the value, 10% to 100%"
+       ],
+       [
+        "Today marker",
+        "chart/target",
+        "2px stroke, alias text/primary"
+       ],
+       [
+        "Weekday label",
+        "text/chart-label",
+        "Dropped in Small and Vertical small"
+       ],
+       [
+        "Title, Value",
+        "text/primary",
+        "Open Sans SemiBold 14, Bold 28"
+       ],
+       [
+        "Axis label, Description",
+        "text/chart-label",
+        "Open Sans Regular 11 and 12"
+       ],
+       [
+        "Trend",
+        "status/success",
+        "Open Sans SemiBold 12"
+       ],
+       [
+        "Padding, gaps",
+        "spacing/5 to spacing/7, spacing/2 to spacing/4",
+        "16 or 24px padding; 4, 8, 12, 16, 20px gaps"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "All seven chart/* tokens are aliases of existing Semantic / Colors tokens, so Light, Dark and High Contrast resolve through the modes with no new hex values."
+     }
+    ]
+   },
+   {
+    "nodeId": "4463:40334",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The chart has a text equivalent: role=\"img\" with a label that states the month and the busiest days, and a table of the daily values nearby.",
+       "Today is marked by an outline as well as intensity, so it never relies on color alone.",
+       "Marks meet 3:1 against the card surface in Light, Dark and High Contrast.",
+       "Trend text carries its sign (+ or -), not just color.",
+       "Not interactive. If marks become links or filters, add focus rings from focus/ring and a keyboard order."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4463:40344",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Pick the size by container width: Small and Vertical small under 360px, Medium and Large at 360 to 600px, XL above 720px. Keep titles to three words and values to one figure with its unit. Five weeks by seven days in every size. Put the month name in the title, and start the week on the day the rest of the product uses."
+     }
+    ]
+   }
+  ]
  }
 };
   NS.WORKFLOWS = { "create-account": {

@@ -214,6 +214,20 @@
       return out;
     },
   };
+  DEFS.sunburst = {
+    name: "Sunburst",
+    alt: "Sunburst chart: three groups in the inner ring, eight items in the outer ring",
+    kpi: ["Categories", "11", "+2.0%", "Two levels, one ring each", "Two levels"],
+    sum: [["Largest", "Group A", "+1.0%", "Biggest parent", "Biggest"], ["Smallest", "Group C", "+0.2%", "Smallest parent", "Smallest"]],
+    prims: (w, h, o) => {
+      const cx = w / 2, cy = h / 2, R = Math.min(w, h) / 2 - 2, out = [], g = 0.8;
+      const inner = [[0, 150, "s1"], [150, 260, "s2"], [260, 360, "s3"]];
+      const outer = [[0, 70, "s1"], [70, 110, "s1"], [110, 150, "s1"], [150, 215, "s2"], [215, 260, "s2"], [260, 300, "s3"], [300, 330, "s3"], [330, 360, "s3"]];
+      inner.forEach((s, i) => out.push({ k: "arc", cx, cy, ro: R * 0.55, ri: R * 0.2, a0: s[0] + g, a1: s[1] - g, f: s[2], n: "Group " + (i + 1) }));
+      outer.forEach((s, i) => out.push({ k: "arc", cx, cy, ro: R, ri: R * 0.58, a0: s[0] + g, a1: s[1] - g, f: s[2], o: 0.6, n: "Item " + (i + 1) }));
+      return out;
+    },
+  };
   /* @defs-end */
 
   const TOKV = { s1: "--ns-chart-series-1", s2: "--ns-chart-series-2", s3: "--ns-chart-series-3", s4: "--ns-chart-series-4", s5: "--ns-chart-series-5", track: "--ns-chart-track", target: "--ns-chart-target", label: "--ns-widget-muted", text: "--ns-text-primary", text2: "--ns-text-secondary", ok: "--ns-status-success", err: "--ns-status-error", warn: "--ns-status-warning", grid: "--ns-widget-grid", bg: "--ns-widget-bg", line: "--ns-border-subtle", band: "--ns-widget-band", muted: "--ns-widget-muted" };

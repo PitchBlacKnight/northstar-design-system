@@ -1168,6 +1168,21 @@
       aria: ["The SVG is <code>role=\"img\"</code> with a label that states how many links join how many nodes. Provide a table of the pairs nearby.", "Links are told apart by endpoint, never by color alone.", "Trend text carries its sign, so the color is a second signal."],
       react: '<RadialConvergenceChart size="medium" title="Links" value="12" trend="+2.0%" data={[[0, 5], [1, 7]]} />',
     }),
+    chartEntry("sunburst-chart", "sunburst", {
+      name: "Sunburst chart", figma: "4463:163",
+      desc: "A sunburst chart shows a hierarchy as nested rings, with the angle of each arc carrying its share. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
+      doc: [
+        ["Arcs are ellipses", "Each arc is an ellipse with arc data on one of two rings, with 0.8 degrees trimmed from both ends so neighbours separate. Nothing is a vector."],
+        ["Children share the parent hue", "Items on the outer ring use the parent token at 60% opacity, so the hierarchy reads without extra labels."],
+        ["Two levels at most", "More rings turn the arcs into slivers. Use a tree chart or a table for deeper hierarchies."],
+      ],
+      when: ["Part-to-whole at two levels at once.", "Categories and their items, with the angle carrying the share.", "A KPI tile that needs the make-up of a total."],
+      whenNot: ["Deeper hierarchies. Use Tree chart.", "One level. Use Donut chart.", "Exact size comparison. Use Bar chart."],
+      tokens: [["--ns-chart-series-1", "Group 1 and its items (alias of viz/1)"], ["--ns-chart-series-2", "Group 2 and its items (alias of viz/4)"], ["--ns-chart-series-3", "Group 3 and its items (alias of viz/2)"]],
+      dataType: "{ label: string, value: number, children: { label: string, value: number }[] }[]", dataNote: "Values become angles; children share the parent color",
+      aria: ["The SVG is <code>role=\"img\"</code> with a label naming the groups and their items. Provide a nested list of the values nearby.", "Groups are told apart by position and label, never by color alone.", "Trend text carries its sign, so the color is a second signal."],
+      react: '<SunburstChart size="medium" title="Categories" value="11" trend="+2.0%" data={[{ label: "Group A", value: 150, children: [] }]} />',
+    }),
   ];
 
   NS.COMPONENTS.sort((a, b) => a.name.localeCompare(b.name));
