@@ -1,5 +1,5 @@
-/* Figma specification documents, synced from NORTHSTAR DS (VZxmDNQiosTN6gqnvEQ65Z) on 2026-10-06.
-   Component specs feed the Spec tab; WORKFLOWS feed composed pattern pages. Regenerate, do not hand-edit. */
+/* Figma specification documents, synced from NORTHSTAR DS (VZxmDNQiosTN6gqnvEQ65Z) on 2026-10-14.
+   Component specs feed the Spec tab; WORKFLOWS feed composed pattern pages. Regenerate with tools/figma-spec-extract.mjs, do not hand-edit. */
 (function () {
   const NS = window.NS;
   NS.SPECS = {
@@ -1787,6 +1787,202 @@
   "footer": [
    "NORTHSTAR DS is the linked Figma library. NorthStar is the online documentation name.",
    "Required before release"
+  ]
+ },
+ "bullet-chart": {
+  "nodeId": "4444:979",
+  "title": "Bullet chart",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 06",
+  "revision": "Reviewed 14 Oct 2026",
+  "summary": "A data visualization card that shows a measure against a target: stacked segments on a quiet track and one tick for the goal. Built natively for NorthStar after reviewing the Hyper charts kit; nothing was imported. Five sizes, three component properties, every fill bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Built 14 Oct 2026, not yet source-reviewed",
+   "Parity status": "Docs site renders the same data as SVG",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4444:995",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Show one measure per row against a goal: revenue to plan, tickets to SLA, capacity to limit. Stacked segments break the measure into parts; the tick is the target."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not use for time series (Line chart), for ranking categories without a target (Horizontal bar chart), or for a single percentage (Progress)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4444:1006",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Container: widget/bg fill, border/subtle stroke, radius/xl. 2 · Header: Title, Value with Trend, Description, optional Icon. 3 · Axis label: 28px column, text/chart-label. 4 · Track: chart/track, radius/full, clips its children. 5 · Segments: plain rectangles, 2px gap, chart/series-1 to 5 in order. 6 · Target tick: 2px rectangle, chart/target, 4px shorter than the track on 10px tracks."
+     },
+     {
+      "type": "example",
+      "label": "Medium",
+      "description": "Bullet Chart instance, Size=Medium, Value '$42,180', Title 'Revenue', Show icon=false."
+     },
+     {
+      "type": "text",
+      "text": "Sizes: Small 330 wide (header left, four unlabeled 6px tracks right) · Vertical small 192 wide · Medium 375 wide, five labeled 10px tracks · Large 375 wide with a divider and two-KPI summary · XL 800 wide, three KPIs, six rows, up to five segments."
+     }
+    ]
+   },
+   {
+    "nodeId": "4444:1067",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Data Visualization / Bullet Chart · set 4443:314 · page \"Bullet chart\" under DATA VIZ."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Size",
+        "VARIANT",
+        "Small",
+        "Small, Vertical small, Medium, Large, XL. Medium is the recommended default."
+       ],
+       [
+        "Title",
+        "TEXT",
+        "Revenue",
+        "Binds to the header title. In XL it binds to the first KPI title."
+       ],
+       [
+        "Value",
+        "TEXT",
+        "$42,180",
+        "Binds to the headline figure. In Large it binds to the first summary figure."
+       ],
+       [
+        "Show icon",
+        "BOOLEAN",
+        "false",
+        "Medium and XL ship with the icon on; Small, Vertical small and Large ship with it off."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4444:1098",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Container fill",
+        "widget/bg",
+        "Card surface, same as the other data viz widgets"
+       ],
+       [
+        "Container stroke",
+        "border/subtle",
+        "1px hairline"
+       ],
+       [
+        "Container radius",
+        "radius/xl",
+        "12px"
+       ],
+       [
+        "Segment 1 to 5",
+        "chart/series-1 to chart/series-5",
+        "Alias viz/1, viz/4, viz/2, viz/7, widget/muted"
+       ],
+       [
+        "Track",
+        "chart/track",
+        "Alias widget/track; radius/full"
+       ],
+       [
+        "Target tick",
+        "chart/target",
+        "Alias text/primary"
+       ],
+       [
+        "Title, Value",
+        "text/primary",
+        "Open Sans SemiBold 14, Bold 28"
+       ],
+       [
+        "Axis label, Description",
+        "text/chart-label",
+        "Open Sans Regular 11 and 12"
+       ],
+       [
+        "Trend",
+        "status/success",
+        "Open Sans SemiBold 12"
+       ],
+       [
+        "Padding, gaps",
+        "spacing/5 to spacing/7, spacing/2 to spacing/4",
+        "16 or 24px padding; 4, 8, 12, 16, 20px gaps"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "All seven chart/* tokens are aliases of existing Semantic / Colors tokens, so Light, Dark and High Contrast resolve through the modes with no new hex values."
+     }
+    ]
+   },
+   {
+    "nodeId": "4444:1148",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "Each row has a text equivalent: label, segment values and target. In code the SVG is role=\"list\" with one labeled item per row.",
+       "Segments are distinguished by order and label, not color alone; keep the legend or axis label visible.",
+       "Track-to-segment contrast meets 3:1 in every mode; the tick uses text/primary for the strongest contrast.",
+       "Trend arrows carry a sign in the text (+ or -), not just color.",
+       "Not interactive. If rows become links, add focus rings from focus/ring."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4444:1158",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Pick the size by container width: Small and Vertical small under 360px, Medium and Large at 360 to 600px, XL above 720px. Keep titles to three words and values to one figure with its unit. Axis labels are scale steps, not category names. Never more than five segments; group the rest into chart/series-5."
+     }
+    ]
+   }
   ]
  }
 };

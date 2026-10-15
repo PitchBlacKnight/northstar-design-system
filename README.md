@@ -36,3 +36,11 @@ node tools/figma-sync-check.mjs
 ```
 
 It needs a Figma personal access token with `file_content:read`, set as `FIGMA_TOKEN` in your shell or in a `.env` file in this folder (gitignored). `--offline` runs only the site-side checks. It reports broken links in either direction, Figma nodes that no longer exist, specification frames without a Spec tab, and Figma-only components as notes. Exit code 1 means drift.
+
+When a specification frame is added or edited in Figma, regenerate its Spec tab entry in `js/specs.js` instead of editing the file by hand:
+
+```bash
+node tools/figma-spec-extract.mjs 4444:979
+```
+
+Pass the frame's node ID (a `NORTHSTAR DS / <Name> specification` frame on the Components overview page). It uses the same `FIGMA_TOKEN`; with `--from <dump.json>` it reads a dump made by pasting `tools/figma-spec-dump.js` into the Figma MCP instead, and `--dry` prints the entry without writing.
