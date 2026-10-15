@@ -115,6 +115,20 @@
       return out;
     },
   };
+  DEFS.stepped = {
+    name: "Stepped line",
+    alt: "Stepped line chart: two series that change only at set points in time",
+    kpi: ["Plan limit", "2,400", "+2.0%", "Changes only on a date", "Changes by date"],
+    sum: [["Previous", "2,000", "+1.0%", "Before the last change", "Before change"], ["Next", "2,800", "+1.5%", "Planned change", "Planned"]],
+    prims: (w, h, o) => {
+      const c = o.compact, ml = c ? 0 : 30, mb = c ? 0 : 22, pw = w - ml, ph = h - mb;
+      const A = [0.30, 0.30, 0.50, 0.45, 0.70, 0.60, 0.80, 0.75], B = [0.20, 0.35, 0.30, 0.50, 0.40, 0.55, 0.50, 0.65];
+      const dx = pw / (A.length - 1), Y = (v) => ph - 4 - v * (ph - 8);
+      const step = (V) => { let d = "M" + ml + " " + Y(V[0]).toFixed(1); for (let i = 1; i < V.length; i++) { const x = (ml + dx * i).toFixed(1); d += "L" + x + " " + Y(V[i - 1]).toFixed(1) + "L" + x + " " + Y(V[i]).toFixed(1); } return d; };
+      const g = c ? [] : [...H.hgrid(ml, w, 0, ph, 4), ...H.ylab(ml - 8, 0, ph, ["3k", "2k", "1k", "0"]), ...H.xlab(ml, w, h - 8, ["Jan", "Apr", "Jul", "Oct"])];
+      return [...g, { k: "path", d: step(B), sk: "s3", sw: 2, n: "Series 2" }, { k: "path", d: step(A), sk: "s1", sw: 2, n: "Series 1" }];
+    },
+  };
   /* @defs-end */
 
   const TOKV = { s1: "--ns-chart-series-1", s2: "--ns-chart-series-2", s3: "--ns-chart-series-3", s4: "--ns-chart-series-4", s5: "--ns-chart-series-5", track: "--ns-chart-track", target: "--ns-chart-target", label: "--ns-widget-muted", text: "--ns-text-primary", text2: "--ns-text-secondary", ok: "--ns-status-success", err: "--ns-status-error", warn: "--ns-status-warning", grid: "--ns-widget-grid", bg: "--ns-widget-bg", line: "--ns-border-subtle", band: "--ns-widget-band", muted: "--ns-widget-muted" };

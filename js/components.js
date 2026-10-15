@@ -1063,6 +1063,21 @@
       aria: ["The SVG is <code>role=\"img\"</code> with a label naming the measures. Provide a table of the values per profile nearby.", "Lines are told apart by label or by highlighting, never by color alone.", "Trend text carries its sign, so the color is a second signal."],
       react: '<ParallelCoordinatesChart size="medium" title="Profiles" value="128" trend="+4.0%" data={[[0.2, 0.7, 0.4, 0.8, 0.5]]} />',
     }),
+    chartEntry("stepped-line-chart", "stepped", {
+      name: "Stepped line chart", figma: "4460:37871",
+      desc: "A stepped line chart shows a value that holds steady and then changes at set points in time. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
+      doc: [
+        ["Steps sit on the change", "The line runs flat until a change date and then moves vertically, so the corner marks the date. A smooth line would imply values that never existed."],
+        ["Two series at most", "chart/series-1 and chart/series-3 give the two lines their own colors. Add direct labels when a third is needed."],
+        ["Gridlines stay quiet", "Gridlines are 1px rectangles in widget/grid, so the steps carry the contrast."],
+      ],
+      when: ["Limits, prices and plan tiers that change on a date.", "Quotas and rates that hold between changes.", "A KPI tile that needs the history of a setting."],
+      whenNot: ["Continuous measures. Use Line chart.", "Totals by category. Use Bar chart.", "A single current value. Use a KPI tile."],
+      tokens: [["--ns-chart-series-1", "Series 1 (alias of viz/1)"], ["--ns-chart-series-3", "Series 2 (alias of viz/2)"], ["--ns-widget-grid", "Gridlines"]],
+      dataType: "number[][]", dataNote: "One array per series, values from 0 to 1 at each change point",
+      aria: ["The SVG is <code>role=\"img\"</code> with a label that states the values and the dates they change.", "Series are told apart by label and position, never by color alone.", "Trend text carries its sign, so the color is a second signal."],
+      react: '<SteppedLineChart size="medium" title="Plan limit" value="2,400" trend="+2.0%" data={[[0.3, 0.3, 0.5, 0.45]]} />',
+    }),
   ];
 
   NS.COMPONENTS.sort((a, b) => a.name.localeCompare(b.name));
