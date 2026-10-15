@@ -247,12 +247,38 @@ ${h2("Callable assets")}<p>Name an asset in a command to keep sample content con
     ["Tokens and styles", ["css/tokens.css", "css/components.css", "css/widgets.css", "css/site.css"]],
     ["Components, specs and widgets", ["js/components.js", "js/specs.js", "js/widgets.js"]],
     ["Docs site", ["index.html", "js/ui.js", "js/app.js", "js/pages.js", "js/guides.js", "js/roadmap.js", "js/tools.js", "js/graphics.js", "js/home.js", "js/rays.js"]],
+    ["Logo", ["assets/logo/northstar-mark.svg", "assets/logo/northstar-mark-mono.svg"]],
     ["Icons and tooling", ["assets/icons/manifest.json", "tools/figma-sync-check.mjs"]],
   ];
   NS.PAGES["getting-started/downloads"] = {
     title: "Downloads",
     lede: "The source files for the NorthStar design system and docs site. Each file downloads on its own.",
     body: () => `${h2("Source files")}<p>A single ZIP of the set is not built yet, so download the files you need.</p>${FILE_GROUPS.map(([label, files]) => `${h3(label)}<ul>${files.map((f) => `<li><a href="${f}" download><code>${f}</code></a></li>`).join("")}</ul>`).join("")}${h2("Figma library")}<p>The library is invite-only. <a href="${NS.FIGMA}" target="_blank" rel="noopener">Open the NorthStar Figma file</a>.</p>${h2("Run the docs locally")}${codeBlock("python3 -m http.server 8910", "bash")}`,
+  };
+
+  /* ---------- Logo ---------- */
+  const MARK = NS.logoSvg("", "NorthStar mark");
+  const MARK_MONO = MARK.replace(/#C5C5C5|#27BDFA/g, "currentColor");
+  NS.PAGES["foundations/logo"] = {
+    title: "Logo",
+    status: "New",
+    lede: "The NorthStar mark: a gray chevron over a cyan diamond. Use it as drawn, at a size where the diamond stays visible, and with room around it.",
+    body: () => `${h2("The mark")}<div class="ns-card" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;align-items:center;padding:32px">
+      <div style="display:grid;gap:12px;justify-items:center;padding:16px;background:var(--ns-navy-900);border-radius:12px"><div style="width:120px">${MARK}</div><span class="ns-helper" style="color:var(--ns-white)">Full color on dark</span></div>
+      <div style="display:grid;gap:12px;justify-items:center;padding:16px;background:var(--ns-white);border-radius:12px"><div style="width:120px;color:var(--ns-navy-900)">${MARK_MONO}</div><span class="ns-helper" style="color:var(--ns-navy-900)">Mono on light</span></div>
+      <div style="display:grid;gap:12px;justify-items:center;padding:16px;background:var(--ns-navy-900);border-radius:12px"><div style="width:120px;color:var(--ns-white)">${MARK_MONO}</div><span class="ns-helper" style="color:var(--ns-white)">Mono on dark</span></div>
+    </div>${h2("Clear space and size")}${table(["Rule", "Value", "Note"], [
+      ["Clear space", "Half the mark's height on every side", "Keep text, edges and other logos out of this zone"],
+      ["Minimum size", "16px tall", "Below this the diamond closes up. Enlarge the mark or drop it"],
+      ["Preferred size in product", "24 to 40px tall", "The header uses 26px"],
+    ])}${h2("Color")}${table(["Version", "Use", "Colors"], [
+      ["Full color", "Dark surfaces, the default", "Chevron #C5C5C5, diamond #27BDFA"],
+      ["Mono", "Print, one-color, and light surfaces when color is not available", "One color, set with currentColor"],
+    ])}${notice("info", "Proposed values", "The clear-space and minimum-size rules are a proposal, not a signed-off standard. Confirm them before the mark goes into external material.")}${h2("Misuse")}${table(["Do not", "Why"], [
+      ["Recolor the chevron or the diamond", "The two colors are the mark. Use mono instead"],
+      ["Rotate, skew or add effects", "The mark is drawn once; effects like the header glow are for the site, not the logo"],
+      ["Stretch or redraw it", "Scale proportionally and use the files in assets/logo"],
+    ])}${h2("Downloads")}<p>Files are in <code>assets/logo</code>. <a href="assets/logo/northstar-mark.svg" download>Full color SVG</a>, <a href="assets/logo/northstar-mark-mono.svg" download>Mono SVG</a>.</p>`,
   };
 
   /* ---------- Component status ---------- */
@@ -312,5 +338,5 @@ ${h2("Callable assets")}<p>Name an asset in a command to keep sample content con
     ["getting-started/downloads", "Downloads"]
   );
   group("Live tools").items.push(["tools/agentic-commands", "Agentic commands", "Beta"]);
-  group("Foundations").items.push(["foundations/content-voice", "Content and voice", "New"]);
+  group("Foundations").items.push(["foundations/logo", "Logo", "New"], ["foundations/content-voice", "Content and voice", "New"]);
 })();
