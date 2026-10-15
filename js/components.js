@@ -35,6 +35,46 @@
   };
   const cmpIcon = (n, s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${CMP_ICON_PATHS[n]}</svg>`;
 
+  /* Bullet chart: rows render as SVG from a data array (segments and target as percent of the track) */
+  let bulletUid = 0;
+  const BULLET_ROWS = [
+    { label: "500", segments: [40, 10, 10, 14], target: 98 },
+    { label: "400", segments: [38, 10, 12, 20], target: 88 },
+    { label: "300", segments: [15, 8, 8, 10], target: 50 },
+    { label: "200", segments: [15, 10, 12, 12], target: 64 },
+    { label: "100", segments: [40, 14, 15, 15], target: 98 },
+  ];
+  const BULLET_ROWS_XL = [
+    { label: "600", segments: [20, 20, 20, 20], target: 99 },
+    { label: "500", segments: [12, 12, 12, 12, 10], target: 57 },
+    { label: "400", segments: [20, 20, 20, 20], target: 91 },
+    { label: "300", segments: [9, 9, 9, 9], target: 45 },
+    { label: "200", segments: [16, 16, 16, 16, 14], target: 75 },
+    { label: "100", segments: [48, 20, 12, 15], target: 99 },
+  ];
+  NS.bulletSvg = (rows, o = {}) => {
+    const id = "nsb" + ++bulletUid, h = o.track ?? 10, gap = o.gap ?? 16, labelW = o.labels === false ? 0 : 40, w = o.width ?? 327;
+    const trackW = w - labelW, rowH = Math.max(h, 14), H = rows.length * rowH + (rows.length - 1) * gap, th = h >= 10 ? h - 4 : h;
+    const body = rows.map((r, i) => {
+      const cy = i * (rowH + gap) + rowH / 2, top = (cy - h / 2).toFixed(1); let x = 0;
+      const segs = r.segments.map((p, j) => { const sw = Math.max(2, (trackW * p) / 100); const el = `<rect x="${(labelW + x).toFixed(1)}" y="${top}" width="${sw.toFixed(1)}" height="${h}" style="fill:var(--ns-chart-series-${j + 1})"/>`; x += sw + 2; return el; }).join("");
+      const label = `${r.label ? r.label + ": " : ""}${r.segments.join(" + ")} of ${r.segments.reduce((a, b) => a + b, 0)}, target ${r.target}`;
+      const tick = r.target > 0 ? `<rect x="${(labelW + (trackW * r.target) / 100 - 2).toFixed(1)}" y="${(cy - th / 2).toFixed(1)}" width="2" height="${th}" rx="1" style="fill:var(--ns-chart-target)"/>` : "";
+      return `<g role="listitem" aria-label="${label}">${labelW ? `<text x="0" y="${cy.toFixed(1)}" dominant-baseline="middle" font-size="11" style="fill:var(--ns-widget-muted)">${r.label}</text>` : ""}<clipPath id="${id}-${i}"><rect x="${labelW}" y="${top}" width="${trackW}" height="${h}" rx="${h / 2}"/></clipPath><rect x="${labelW}" y="${top}" width="${trackW}" height="${h}" rx="${h / 2}" style="fill:var(--ns-chart-track)"/><g clip-path="url(#${id}-${i})">${segs}</g>${tick}</g>`;
+    }).join("");
+    return `<svg class="ns-bullet__rows" width="${w}" height="${H}" viewBox="0 0 ${w} ${H}" role="list" aria-label="${o.label || "Bullet chart"}">${body}</svg>`;
+  };
+  const bulletIcon = () => `<span class="ns-bullet__icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="0" y="6" width="3" height="8" rx="1"/><rect x="5.5" y="1" width="3" height="13" rx="1"/><rect x="11" y="4" width="3" height="10" rx="1"/></svg></span>`;
+  const bulletKpi = (series, title, value, trend, desc, big) => `<div class="ns-bullet__kpi"><span class="ns-bullet__title"><span class="ns-bullet__dot" style="background:var(--ns-chart-series-${series})"></span>${title}</span><span class="ns-bullet__value${big ? "" : " ns-bullet__value--sm"}">${value}<span class="ns-bullet__trend">${trend}</span></span><span class="ns-bullet__desc">${desc}</span></div>`;
+  const bulletCard = (size = "Medium", icon = true) => {
+    const ic = icon ? bulletIcon() : "";
+    if (size === "Small") return `<div class="ns-bullet ns-bullet--small" style="width:330px"><div class="ns-bullet__text"><span class="ns-bullet__title">Revenue</span><span class="ns-bullet__value ns-bullet__value--sm">$42,180<span class="ns-bullet__trend">+3.1%</span></span><span class="ns-bullet__desc">vs. $40,900 last month</span></div>${NS.bulletSvg(BULLET_ROWS.slice(0, 4), { width: 120, track: 6, gap: 10, labels: false })}${ic}</div>`;
+    if (size === "Vertical small") return `<div class="ns-bullet ns-bullet--vertical" style="width:192px"><div class="ns-bullet__head"><div class="ns-bullet__text"><span class="ns-bullet__title">Income</span><span class="ns-bullet__value ns-bullet__value--sm">$18,420</span><span class="ns-bullet__desc"><span class="ns-bullet__trend">+1.8%</span> this quarter</span></div>${ic}</div>${NS.bulletSvg(BULLET_ROWS.slice(0, 4), { width: 160, track: 6, gap: 12, labels: false })}</div>`;
+    if (size === "Large") return `<div class="ns-bullet" style="width:375px"><div class="ns-bullet__head"><span class="ns-bullet__title ns-bullet__title--lg">Sales report</span>${ic}</div>${NS.bulletSvg(BULLET_ROWS, { width: 327 })}<div class="ns-bullet__summary">${bulletKpi(1, "Monthly", "$8,097", "+1.6%", "44,214 units")}${bulletKpi(3, "Yearly", "$96,310", "+2.5%", "301,002 units")}</div></div>`;
+    if (size === "XL") return `<div class="ns-bullet" style="width:800px"><div class="ns-bullet__head"><div class="ns-bullet__kpis">${bulletKpi(1, "Weekly", "$2,310", "+4.2%", "Compared with $2,217 last week", true)}${bulletKpi(3, "Monthly", "$9,480", "+1.9%", "Compared with $9,300 last month", true)}${bulletKpi(2, "Yearly", "$104,200", "+2.7%", "Compared with $101,460 last year", true)}</div>${ic}</div>${NS.bulletSvg(BULLET_ROWS_XL, { width: 752, gap: 20 })}</div>`;
+    return `<div class="ns-bullet" style="width:375px"><div class="ns-bullet__head"><div class="ns-bullet__text"><span class="ns-bullet__title">Income</span><span class="ns-bullet__value">$18,420<span class="ns-bullet__trend">+1.8%</span></span><span class="ns-bullet__desc">Compared with $18,090 last month</span></div>${ic}</div>${NS.bulletSvg(BULLET_ROWS, { width: 327 })}</div>`;
+  };
+
   NS.COMPONENTS = [
     {
       id: "button", name: "Button", cat: "Actions", status: "Stable", figma: "4038:31741",
@@ -885,6 +925,31 @@
       keyboard: [["-", "Not focusable. A static indicator"]],
       aria: ["The label is text, so screen readers read it. A hidden label stays in the DOM as screen-reader-only text.", "Do not use color alone to show status."],
       react: '<StatusDot status="positive" label="Active" />',
+    },
+    {
+      id: "bullet-chart", name: "Bullet chart", cat: "Data", status: "New", figma: "4443:314",
+      desc: "A bullet chart shows one measure per row against a target: stacked segments on a quiet track and a single tick for the goal. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The rows render from a data array as SVG, so the same numbers drive the Figma set and the docs.",
+      axes: [["Size", "Small, Vertical small, Medium, Large, XL"], ["Title", "Text"], ["Value", "Text"], ["Show icon", "Boolean"]],
+      doc: [
+        ["Segments are rectangles, not vectors", "Each segment is a plain rectangle bound to chart/series-1 to 5, and the track clips the stack to its rounded shape. Changing a value changes a width, not a path, so the component survives data edits in Figma and in code."],
+        ["One tick per row", "The target is a 2px tick in chart/target, the strongest text color in every mode. Keep one target per row. A range band belongs to a different chart."],
+        ["Chart tokens are aliases", "chart/series-1 to 5, chart/track and chart/target alias viz/*, widget/track and text/primary, so Light, Dark and High Contrast resolve through the existing modes and no new hex value was added."],
+      ],
+      playground: { controls: [{ key: "size", label: "Size", options: ["Medium", "Small", "Vertical small", "Large", "XL"] }, { key: "icon", label: "Show icon", type: "bool", default: true }], render: (s) => bulletCard(s.size, s.icon) },
+      when: ["One measure against a goal, per row: revenue to plan, tickets to SLA, capacity to limit.", "Breaking a measure into parts with stacked segments.", "KPI tiles that need more than a single number."],
+      whenNot: ["Time series. Use Line chart.", "Ranking categories with no target. Use Horizontal bar chart.", "A single percentage. Use Progress."],
+      variants: [
+        ["Sizes", "Five sizes from the same data array. Small and Vertical small drop the axis labels and use a 6px track.", `<div style="display:grid;gap:24px;justify-items:start">${bulletCard("Small", false)}${bulletCard("Vertical small", false)}${bulletCard("Medium")}${bulletCard("Large", false)}</div>`],
+        ["XL", "Three KPIs, six rows, up to five segments each.", bulletCard("XL")],
+        ["Rows only", "The SVG on its own, for use inside another card.", `<div style="width:327px">${NS.bulletSvg(BULLET_ROWS)}</div>`],
+      ],
+      dd: [`<div style="width:260px">${NS.bulletSvg(BULLET_ROWS.slice(0, 2), { width: 260 })}</div>`, "An axis label and a target tick on every row.", `<div style="width:260px">${NS.bulletSvg([{ label: "", segments: [40, 10, 10, 14], target: 0 }, { label: "", segments: [38, 10, 12, 20], target: 0 }], { width: 260, labels: false })}</div>`, "No label and no target. It reads as a progress bar."],
+      tokens: [["--ns-chart-series-1", "Segment 1 (alias of viz/1)"], ["--ns-chart-series-2", "Segment 2 (alias of viz/4)"], ["--ns-chart-series-3", "Segment 3 (alias of viz/2)"], ["--ns-chart-series-4", "Segment 4 (alias of viz/7)"], ["--ns-chart-series-5", "Segment 5 (alias of widget/muted)"], ["--ns-chart-track", "Track (alias of widget/track)"], ["--ns-chart-target", "Target tick (alias of text/primary)"], ["--ns-widget-bg", "Card surface"], ["--ns-border-subtle", "Card stroke and summary divider"], ["--ns-widget-muted", "Axis labels and description"], ["--ns-status-success", "Trend"], ["--ns-radius-xl", "Card radius"]],
+      sizes: [["Small", "100px", "KPI tile, header left and four 6px tracks right"], ["Vertical small", "178px", "Narrow column or sidebar"], ["Medium", "284px", "Default card, five labeled 10px tracks"], ["Large", "341px", "Card with divider and two-KPI summary"], ["XL", "338px", "Wide panel, three KPIs and six rows"]],
+      props: [["size", "'small' | 'vertical-small' | 'medium' | 'large' | 'xl'", "'medium'", "Layout and track height"], ["title", "string", "-", "Header title"], ["value", "string", "-", "Headline figure"], ["trend", "string", "-", "Signed change, for example +1.8%"], ["rows", "{ label, segments: number[], target }[]", "[]", "Segments and target as percent of the track"], ["showIcon", "boolean", "false", "Icon in the header"]],
+      keyboard: [["-", "Not interactive"]],
+      aria: ["The SVG is <code>role=\"list\"</code>; each row is a <code>listitem</code> whose label reads the segments, their sum and the target.", "Segments are told apart by order and label, never by color alone.", "Trend text carries its sign, so the color is a second signal."],
+      react: '<BulletChart size="medium" title="Income" value="$18,420" trend="+1.8%" rows={[{ label: "500", segments: [40, 10, 10, 14], target: 98 }]} />',
     },
   ];
 
