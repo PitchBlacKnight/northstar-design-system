@@ -4,6 +4,7 @@
 
      node tools/figma-sync-check.mjs            full check (needs FIGMA_TOKEN)
      node tools/figma-sync-check.mjs --offline  site-side checks only
+     node tools/copy-lint.mjs                   em dashes and banned claims in site copy (runs here too)
      node tools/figma-sync-check.mjs --queue    list components waiting for a Figma sync
      node tools/figma-sync-check.mjs --fit      also run the narrow-width fit probe (needs Chrome; add --offline to skip Figma)
 
@@ -46,6 +47,14 @@ const syncedOn = (specSrc.match(/on (\d{4}-\d{2}-\d{2})/) || [])[1];
 
 if (!site.length) bad("Could not parse any components from js/components.js; the regex needs updating.");
 if (waiting.length) note(`${waiting.length} component(s) built in code and waiting for Figma sync: ${waiting.map((c) => c.name).join(", ")}. Sync them, then set figma: "<node id>" in js/components.js.`);
+
+/* Copy lint: em dashes and claims that must not appear in site copy (tools/copy-lint.mjs). */
+{
+  const { spawnSync } = await import("node:child_process");
+  const r = spawnSync("node", [join(ROOT, "tools/copy-lint.mjs"), "--json"], { encoding: "utf8" });
+  let hits = null; try { hits = JSON.parse(r.stdout).hits; } catch { note("Copy lint could not run."); }
+  (hits || []).forEach((h) => bad(`Copy: ${h.file}:${h.line} ${h.kind}: ${h.detail}`));
+}
 
 /* --fit: render every component at 320, 240 and 192px in headless Chrome (tools/fit-probe.mjs)
    and fold overflow, small targets, unnamed controls and tiny chart labels into this report. */

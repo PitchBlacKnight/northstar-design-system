@@ -1,0 +1,19 @@
+#!/bin/sh
+# NorthStar pre-commit: copy lint on staged site files; the fit probe when CSS or components change.
+# Enable once per clone: git config core.hooksPath tools/hooks
+cd "$(git rev-parse --show-toplevel)" || exit 1
+staged=$(git diff --cached --name-only --diff-filter=ACM)
+[ -z "$staged" ] && exit 0
+
+sitefiles=$(echo "$staged" | grep -E '^(index\.html|js/.*\.js)$')
+if [ -n "$sitefiles" ]; then
+  node tools/copy-lint.mjs $sitefiles || { echo "Commit blocked by copy lint."; exit 1; }
+fi
+
+if echo "$staged" | grep -qE '^(css/|js/components\.js|js/charts\.js|tools/fit-probe)'; then
+  node tools/fit-probe.mjs > /dev/null
+  code=$?
+  if [ "$code" -eq 1 ]; then echo "Commit blocked by the fit probe. Run: node tools/fit-probe.mjs"; exit 1; fi
+  [ "$code" -eq 2 ] && echo "Fit probe skipped (no Chrome found). Run node tools/fit-probe.mjs before pushing."
+fi
+exit 0
