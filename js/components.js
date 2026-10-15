@@ -232,7 +232,7 @@
       doc: [["Label", "Radio buttons should always have a label. When the label is not defined, a checkbox becomes standalone."], ["Selection", "Radio buttons can be selected, not selected and disabled."], ["Disabled", "Radio buttons in a disabled state show that a selection exists, but is not available in that circumstance. Usually this state is used to show the user that the action may become available later."]],
       playground: {
         controls: [{ key: "dir", label: "Orientation", options: ["Vertical", "Horizontal"] }, { key: "disabled", label: "Disabled", type: "bool" }],
-        render: (s) => `<fieldset style="border:0;padding:0;margin:0"><legend class="ns-label" style="margin-bottom:10px">Deployment strategy</legend><div style="display:flex;gap:${s.dir === "Horizontal" ? "24px" : "12px"};flex-direction:${s.dir === "Horizontal" ? "row" : "column"}">${["Rolling", "Blue / green", "Canary"].map((l, i) => `<label class="ns-check ns-check--radio"><input type="radio" name="rb"${i === 0 ? " checked" : ""}${s.disabled ? " disabled" : ""}/> ${l}</label>`).join("")}</div></fieldset>`,
+        render: (s) => `<fieldset style="border:0;padding:0;margin:0"><legend class="ns-label" style="margin-bottom:10px">Deployment strategy</legend><div style="display:flex;gap:${s.dir === "Horizontal" ? "24px" : "12px"};flex-direction:${s.dir === "Horizontal" ? "row" : "column"};flex-wrap:wrap">${["Rolling", "Blue / green", "Canary"].map((l, i) => `<label class="ns-check ns-check--radio"><input type="radio" name="rb"${i === 0 ? " checked" : ""}${s.disabled ? " disabled" : ""}/> ${l}</label>`).join("")}</div></fieldset>`,
       },
       when: ["Two to five mutually exclusive options that benefit from being visible together."],
       whenNot: ["More than five options: use a dropdown.", "Multiple choices: use checkboxes."],
@@ -281,7 +281,7 @@
     {
       id: "date-picker", name: "Date picker", cat: "Inputs", status: "New", figma: "4215:37",
       desc: "Date pickers select a single date or a range from a calendar overlay, with typed input as an alternative.",
-      playground: { controls: [{ key: "mode", label: "Mode", options: ["Range", "Single"] }], render: (s) => `<div style="display:grid;gap:12px"><div class="ns-field" style="width:280px"><label class="ns-label">${s.mode === "Range" ? "Reporting window" : "Start date"}</label><input class="ns-input" value="${s.mode === "Range" ? "09/10/2026 - 09/16/2026" : "09/10/2026"}"/></div>${cal()}</div>` },
+      playground: { controls: [{ key: "mode", label: "Mode", options: ["Range", "Single"] }], render: (s) => `<div style="display:grid;gap:12px"><div class="ns-field" style="width:280px"><label class="ns-label">${s.mode === "Range" ? "Reporting window" : "Start date"}</label><input class="ns-input" aria-label="${s.mode === "Range" ? "Reporting window" : "Start date"}" value="${s.mode === "Range" ? "09/10/2026 - 09/16/2026" : "09/10/2026"}"/></div>${cal()}</div>` },
       when: ["Choosing dates near today, or ranges where seeing the week helps."],
       whenNot: ["Dates far in the past like birthdays: use a typed input."],
       variants: [["Calendar", "Month grid with range fill.", cal()]],

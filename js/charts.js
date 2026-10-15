@@ -343,7 +343,7 @@
     el.dataset.w = w;
   };
   if (typeof ResizeObserver !== "undefined" && typeof MutationObserver !== "undefined") {
-    const ro = new ResizeObserver((es) => es.forEach((e) => redraw(e.target)));
+    const ro = new ResizeObserver((es) => requestAnimationFrame(() => es.forEach((e) => redraw(e.target))));
     const sel = "svg[data-chart], svg[data-bullet]";
     const scan = (n) => { if (n.nodeType !== 1) return; if (n.matches(sel)) ro.observe(n); n.querySelectorAll(sel).forEach((x) => ro.observe(x)); };
     new MutationObserver((ms) => ms.forEach((m) => m.addedNodes.forEach(scan))).observe(document.documentElement, { childList: true, subtree: true });
