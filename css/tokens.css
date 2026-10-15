@@ -258,6 +258,8 @@
   color-scheme: light;
   /* Series 1 nudged to 3.2:1 on white (was viz-1, #00a89e, 3.0:1) */
   --ns-chart-series-1: #00a097;
+  --ns-chart-series-2: var(--ns-viz-4);
+  --ns-chart-series-4: var(--ns-viz-7);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -288,4 +290,49 @@
   --ns-density-control-sm: 28px;
   --ns-density-row-y: var(--ns-space-2);
   --ns-density-pad-x: var(--ns-space-4);
+}
+
+/* High Contrast: values from the Figma Semantic High Contrast mode. Opt in with data-theme="contrast". */
+:root[data-theme="contrast"] {
+  color-scheme: dark;
+  --ns-background-primary: #05050f; /* background/primary */
+  --ns-background-secondary: #05050f; /* background/secondary */
+  --ns-background-surface: #05050f; /* background/surface */
+  --ns-background-elevated: #05050f; /* background/elevated */
+  --ns-text-primary: #ffffff; /* text/primary */
+  --ns-text-secondary: #ffffff; /* text/secondary */
+  --ns-text-tertiary: #ffffff; /* text/tertiary */
+  --ns-text-disabled: #a9a9b7; /* text/disabled */
+  --ns-text-inverse: #05050f; /* text/inverse */
+  --ns-border-default: #ffffff; /* border/default */
+  --ns-border-subtle: #ffffff; /* border/subtle */
+  --ns-border-strong: #ffffff; /* border/strong */
+  --ns-status-success: #5eff5a; /* status/success */
+  --ns-status-warning: #ffa63f; /* status/warning */
+  --ns-status-error: #ff2d2e; /* status/error */
+  --ns-status-info: #023aff; /* status/info */
+  --ns-background-selected: #1e1e24; /* background/selected */
+  --ns-interactive-primary: #023aff; /* interactive/primary */
+  --ns-focus-ring: #ffa63f; /* focus/ring */
+  --ns-widget-bg: #191932; /* widget/bg */
+  --ns-widget-inset: #000000; /* widget/inset */
+  --ns-widget-track: #2c2c35; /* widget/track */
+  --ns-widget-band: #1e1e24; /* widget/band */
+  --ns-widget-grid: #5b5b65; /* widget/grid */
+  --ns-widget-muted: #d0d0da; /* widget/muted */
+  --ns-viz-1: #01f1e3; /* viz/1 */
+  --ns-viz-2: #b45cff; /* viz/2 */
+  --ns-viz-3: #ffa63f; /* viz/3 */
+  --ns-viz-4: #4d7cff; /* viz/4 */
+  --ns-viz-5: #5eff5a; /* viz/5 */
+  --ns-viz-6: #ff5c8d; /* viz/6 */
+  --ns-viz-7: #8855e8; /* viz/7 */
+  --ns-chart-label-text: #d0d0da; /* text/chart-label */
+  --ns-chart-series-1: #01f1e3; /* chart/series-1 */
+  --ns-chart-series-2: #023aff; /* chart/series-2 */
+  --ns-chart-series-3: #991bfa; /* chart/series-3 */
+  --ns-chart-series-4: #4807ea; /* chart/series-4 */
+  --ns-chart-series-5: #6a6a9f; /* chart/series-5 */
+  --ns-chart-track: #0e0e22; /* chart/track */
+  --ns-chart-target: #ffffff; /* chart/target */
 }

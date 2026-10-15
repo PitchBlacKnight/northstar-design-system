@@ -11,10 +11,12 @@
   const DENSITY_KEY = "ns-density";
   const getTheme = () => params.get("theme") || (() => { try { return localStorage.getItem(THEME_KEY); } catch (e) { return null; } })() || "dark";
   NS.setTheme = (t, persist = true) => {
-    if (t === "light") root.dataset.theme = "light"; else delete root.dataset.theme;
+    if (t === "light" || t === "contrast") root.dataset.theme = t; else delete root.dataset.theme;
     if (persist && !params.get("theme")) try { localStorage.setItem(THEME_KEY, t); } catch (e) {}
     const b = document.getElementById("theme-btn");
-    if (b) { b.innerHTML = t === "light" ? NS.icon.moon : NS.icon.sun; b.setAttribute("aria-label", t === "light" ? "Switch to dark theme" : "Switch to light theme"); }
+    const next = { dark: "light", light: "contrast", contrast: "dark" }[t] || "light";
+    const icon = { dark: NS.icon.sun, light: NS.icon.contrast, contrast: NS.icon.moon }[t] || NS.icon.sun;
+    if (b) { b.innerHTML = icon; b.setAttribute("aria-label", `Switch to ${next === "contrast" ? "high contrast" : next} theme`); }
   };
   NS.setTheme(getTheme(), false);
 
@@ -68,7 +70,7 @@
   const closeSide = () => { side.classList.remove("is-open"); menuBtn.setAttribute("aria-expanded", "false"); };
   menuBtn.onclick = () => { const o = side.classList.toggle("is-open"); menuBtn.setAttribute("aria-expanded", o); };
 
-  document.getElementById("theme-btn").onclick = () => { NS.setTheme(root.dataset.theme === "light" ? "dark" : "light"); render(true); };
+  document.getElementById("theme-btn").onclick = () => { const cur = root.dataset.theme || "dark"; NS.setTheme({ dark: "light", light: "contrast", contrast: "dark" }[cur]); render(true); };
   document.getElementById("density-btn").onclick = () => NS.setDensity(root.dataset.density === "compact" ? "comfortable" : "compact");
   NS.setDensity(getDensity(), false);
 
