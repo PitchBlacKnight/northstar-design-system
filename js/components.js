@@ -1198,6 +1198,21 @@
       aria: ["The SVG is <code>role=\"img\"</code> with a label that states the levels. Provide a nested list of the nodes nearby.", "Level is told apart by position and label, never by color alone.", "Trend text carries its sign, so the color is a second signal."],
       react: '<TreeChart size="medium" title="Teams" value="7" trend="+1.0%" data={{ label: "Root", children: [] }} />',
     }),
+    chartEntry("treemap-chart", "treemap", {
+      name: "Treemap chart", figma: "4463:39101",
+      desc: "A treemap shows shares of a whole as nested rectangles sized by value. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
+      doc: [
+        ["Tiles are rectangles", "Each tile is a plain rectangle in chart/series-1 to 5 at 90% opacity with a 4px radius and a 3px gap. Changing a share changes a width and a height."],
+        ["Keep the layout stable", "Slice and dice puts the largest tile top left. Keep the order stable between loads so tiles do not jump."],
+        ["Label the large tiles", "Small tiles cannot hold text. Label the largest ones and list the rest."],
+      ],
+      when: ["Many parts of a whole where area is enough.", "Storage by type or spend by team.", "A KPI tile that needs the make-up of a total."],
+      whenNot: ["Exact comparison. Use Horizontal bar chart.", "Time series. Use Line chart.", "Fewer than three parts. Use Donut chart."],
+      tokens: [["--ns-chart-series-1", "Tile 1 (alias of viz/1)"], ["--ns-chart-series-2", "Tile 2 (alias of viz/4)"], ["--ns-chart-series-3", "Tile 3 (alias of viz/2)"], ["--ns-chart-series-4", "Tile 4 (alias of viz/7)"], ["--ns-chart-series-5", "Tile 5 (alias of widget/muted)"]],
+      dataType: "{ label: string, value: number }[]", dataNote: "Values become areas, largest first",
+      aria: ["The SVG is <code>role=\"img\"</code> with a label naming the tiles and their shares. Provide a table nearby.", "Tiles are told apart by position and label, never by color alone.", "Trend text carries its sign, so the color is a second signal."],
+      react: '<TreemapChart size="medium" title="Storage" value="640 GB" trend="+3.0%" data={[{ label: "Photos", value: 40 }]} />',
+    }),
   ];
 
   NS.COMPONENTS.sort((a, b) => a.name.localeCompare(b.name));

@@ -246,6 +246,20 @@
       return out;
     },
   };
+  DEFS.treemap = {
+    name: "Treemap",
+    alt: "Treemap: five tiles, each sized by its share of the whole",
+    kpi: ["Storage", "640 GB", "+3.0%", "Tile size is its share", "Tile is share"],
+    sum: [["Largest", "Photos", "+1.5%", "Biggest tile", "Biggest"], ["Smallest", "Docs", "+0.4%", "Smallest tile", "Smallest"]],
+    prims: (w, h, o) => {
+      const g = o.compact ? 2 : 3, wl = w * 0.55 - g / 2, xr = w * 0.55 + g / 2, wr = w - xr, out = [];
+      out.push({ k: "rect", x: 0, y: 0, w: wl, h: h * 0.6 - g / 2, r: 4, f: "s1", o: 0.9, n: "Tile 1" });
+      out.push({ k: "rect", x: 0, y: h * 0.6 + g / 2, w: wl, h: h * 0.4 - g / 2, r: 4, f: "s3", o: 0.9, n: "Tile 2" });
+      let y = 0;
+      [[0.4, "s2"], [0.35, "s4"], [0.25, "s5"]].forEach((t, i) => { const th = (h - 2 * g) * t[0]; out.push({ k: "rect", x: xr, y, w: wr, h: th, r: 4, f: t[1], o: 0.9, n: "Tile " + (i + 3) }); y += th + g; });
+      return out;
+    },
+  };
   /* @defs-end */
 
   const TOKV = { s1: "--ns-chart-series-1", s2: "--ns-chart-series-2", s3: "--ns-chart-series-3", s4: "--ns-chart-series-4", s5: "--ns-chart-series-5", track: "--ns-chart-track", target: "--ns-chart-target", label: "--ns-widget-muted", text: "--ns-text-primary", text2: "--ns-text-secondary", ok: "--ns-status-success", err: "--ns-status-error", warn: "--ns-status-warning", grid: "--ns-widget-grid", bg: "--ns-widget-bg", line: "--ns-border-subtle", band: "--ns-widget-band", muted: "--ns-widget-muted" };
