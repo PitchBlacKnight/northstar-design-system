@@ -125,7 +125,7 @@
       const A = [0.30, 0.30, 0.50, 0.45, 0.70, 0.60, 0.80, 0.75], B = [0.20, 0.35, 0.30, 0.50, 0.40, 0.55, 0.50, 0.65];
       const dx = pw / (A.length - 1), Y = (v) => ph - 4 - v * (ph - 8);
       const step = (V) => { let d = "M" + ml + " " + Y(V[0]).toFixed(1); for (let i = 1; i < V.length; i++) { const x = (ml + dx * i).toFixed(1); d += "L" + x + " " + Y(V[i - 1]).toFixed(1) + "L" + x + " " + Y(V[i]).toFixed(1); } return d; };
-      const g = c ? [] : [...H.hgrid(ml, w, 0, ph, 4), ...H.ylab(ml - 8, 0, ph, ["3k", "2k", "1k", "0"]), ...H.xlab(ml, w, h - 8, ["Jan", "Apr", "Jul", "Oct"])];
+      const g = c ? [] : [...H.hgrid(ml, w, 0, ph, 4), ...H.ylab(ml - 8, 0, ph, ["3k", "2k", "1k", "0"]), ...H.xlab(ml + 12, w - 12, h - 8, ["Jan", "Apr", "Jul", "Oct"])];
       return [...g, { k: "path", d: step(B), sk: "s3", sw: 2, n: "Series 2" }, { k: "path", d: step(A), sk: "s1", sw: 2, n: "Series 1" }];
     },
   };

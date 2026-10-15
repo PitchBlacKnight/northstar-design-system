@@ -5,6 +5,7 @@
      node tools/figma-sync-check.mjs            full check (needs FIGMA_TOKEN)
      node tools/figma-sync-check.mjs --offline  site-side checks only
      node tools/figma-sync-check.mjs --queue    list components waiting for a Figma sync
+     node tools/figma-sync-check.mjs --fit      also run the narrow-width fit probe (needs Chrome; add --offline to skip Figma)
 
    FIGMA_TOKEN comes from the environment or a gitignored .env file in the repo root
    (a Figma personal access token with file_content:read). Exit code 1 means drift. */
@@ -45,6 +46,19 @@ const syncedOn = (specSrc.match(/on (\d{4}-\d{2}-\d{2})/) || [])[1];
 
 if (!site.length) bad("Could not parse any components from js/components.js; the regex needs updating.");
 if (waiting.length) note(`${waiting.length} component(s) built in code and waiting for Figma sync: ${waiting.map((c) => c.name).join(", ")}. Sync them, then set figma: "<node id>" in js/components.js.`);
+
+/* --fit: render every component at 320, 240 and 192px in headless Chrome (tools/fit-probe.mjs)
+   and fold overflow, small targets, unnamed controls and tiny chart labels into this report. */
+if (process.argv.includes("--fit")) {
+  const { spawnSync } = await import("node:child_process");
+  const r = spawnSync("node", [join(ROOT, "tools/fit-probe.mjs"), "--json"], { encoding: "utf8", maxBuffer: 20 * 1024 * 1024 });
+  let out = null; try { out = JSON.parse(r.stdout); } catch {}
+  if (!out || out.error) note(`Fit probe skipped: ${out?.error || "no result"}`);
+  else {
+    note(`Fit probe: ${out.components} components, ${out.checked} renders at ${out.widths.join(", ")}px, ${out.issues.length} issue(s).`);
+    out.issues.forEach((i) => bad(`Fit: ${i.id} [${i.label}] @${i.width}px ${i.kind}: ${i.detail}`));
+  }
+}
 
 if (offline) report();
 else await online();
