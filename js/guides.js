@@ -274,7 +274,7 @@ ${h2("Callable assets")}<p>Name an asset in a command to keep sample content con
     ])}${h2("Color")}${table(["Version", "Use", "Colors"], [
       ["Full color", "Dark surfaces, the default", "Chevron #C5C5C5, diamond #27BDFA"],
       ["Mono", "Print, one-color, and light surfaces when color is not available", "One color, set with currentColor"],
-    ])}${notice("info", "Proposed values", "The clear-space and minimum-size rules are a proposal, not a signed-off standard. Confirm them before the mark goes into external material.")}${h2("Misuse")}${table(["Do not", "Why"], [
+    ])}${h2("Misuse")}${table(["Do not", "Why"], [
       ["Recolor the chevron or the diamond", "The two colors are the mark. Use mono instead"],
       ["Rotate, skew or add effects", "The mark is drawn once; effects like the header glow are for the site, not the logo"],
       ["Stretch or redraw it", "Scale proportionally and use the files in assets/logo"],
