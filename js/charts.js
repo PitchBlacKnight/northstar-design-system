@@ -294,7 +294,7 @@
     return `M${n1(x0)} ${n1(y0)}A${p.ro} ${p.ro} 0 ${big} 1 ${n1(x1)} ${n1(y1)}L${n1(x2)} ${n1(y2)}A${p.ri} ${p.ri} 0 ${big} 0 ${n1(x3)} ${n1(y3)}Z`;
   };
   const prim = (p) => {
-    if (p.k === "rect") return `<rect x="${n1(p.x)}" y="${n1(p.y)}" width="${n1(p.w)}" height="${n1(p.h)}"${p.r ? ` rx="${p.r}"` : ""} style="${fill(p.f, p.o)}${p.sk ? ";" + stroke(p.sk) + ";stroke-width:" + (p.sw || 1) : ""}"/>`;
+    if (p.k === "rect") return `<rect x="${n1(p.x)}" y="${n1(p.y)}" width="${n1(Math.max(0, p.w))}" height="${n1(Math.max(0, p.h))}"${p.r ? ` rx="${p.r}"` : ""} style="${fill(p.f, p.o)}${p.sk ? ";" + stroke(p.sk) + ";stroke-width:" + (p.sw || 1) : ""}"/>`;
     if (p.k === "circle") return `<circle cx="${n1(p.cx)}" cy="${n1(p.cy)}" r="${n1(p.r)}" style="${p.f ? fill(p.f, p.o) : "fill:none"}${p.sk ? ";" + stroke(p.sk) + ";stroke-width:" + (p.sw || 1) : ""}"/>`;
     if (p.k === "arc") return `<path d="${arcPath(p)}" fill-rule="evenodd" style="${fill(p.f, p.o)}"/>`;
     if (p.k === "path") return `<path d="${p.d}" stroke-linecap="round" stroke-linejoin="round" style="${p.f ? fill(p.f, p.o) : "fill:none"}${p.sk ? ";" + stroke(p.sk, p.so) + ";stroke-width:" + (p.sw || 1.5) : ""}"/>`;
@@ -308,7 +308,7 @@
   const svg = (id, size = "Medium", o = {}) => {
     const d = DEFS[id], s = SIZES[size], w = o.width || s[1], h = o.height || s[2];
     const compact = size === "Small" || size === "Vertical small";
-    return `<svg class="ns-chart__plot" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="${d.alt}">${d.prims(w, h, { compact, size }).map(prim).join("")}</svg>`;
+    return `<svg class="ns-chart__plot" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="${d.alt}" data-chart="${id}" data-size="${size}" data-h="${h}" data-w="${w}">${d.prims(w, h, { compact, size }).map(prim).join("")}</svg>`;
   };
 
   const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
@@ -317,12 +317,40 @@
 
   const card = (id, size = "Medium", icon = true) => {
     const d = DEFS[id], K = d.kpi, S = d.sum, ic = icon ? barIcon : "", w = SIZES[size][0], plot = svg(id, size);
-    if (size === "Small") return `<div class="ns-chart ns-chart--small" style="width:${w}px">${kpi(K, { sm: true, compact: true })}${plot}${ic}</div>`;
-    if (size === "Vertical small") return `<div class="ns-chart ns-chart--vertical" style="width:${w}px"><div class="ns-chart__head">${kpi(K, { sm: true, compact: true })}${ic}</div>${plot}</div>`;
-    if (size === "Large") return `<div class="ns-chart" style="width:${w}px"><div class="ns-chart__head">${kpi(K, { lg: true, titleOnly: true })}${ic}</div>${plot}<div class="ns-chart__summary">${kpi(K, { dot: 1, sm: true })}${kpi(S[0], { dot: 3, sm: true })}</div></div>`;
-    if (size === "XL") return `<div class="ns-chart" style="width:${w}px"><div class="ns-chart__head"><div class="ns-chart__kpis">${kpi(K, { dot: 1 })}${kpi(S[0], { dot: 3 })}${kpi(S[1], { dot: 2 })}</div>${ic}</div>${plot}</div>`;
-    return `<div class="ns-chart" style="width:${w}px"><div class="ns-chart__head">${kpi(K)}${ic}</div>${plot}</div>`;
+    if (size === "Small") return `<div class="ns-chart ns-chart--small" style="width:100%;max-width:${w}px">${kpi(K, { sm: true, compact: true })}${plot}${ic}</div>`;
+    if (size === "Vertical small") return `<div class="ns-chart ns-chart--vertical" style="width:100%;max-width:${w}px"><div class="ns-chart__head">${kpi(K, { sm: true, compact: true })}${ic}</div>${plot}</div>`;
+    if (size === "Large") return `<div class="ns-chart" style="width:100%;max-width:${w}px"><div class="ns-chart__head">${kpi(K, { lg: true, titleOnly: true })}${ic}</div>${plot}<div class="ns-chart__summary">${kpi(K, { dot: 1, sm: true })}${kpi(S[0], { dot: 3, sm: true })}</div></div>`;
+    if (size === "XL") return `<div class="ns-chart" style="width:100%;max-width:${w}px"><div class="ns-chart__head"><div class="ns-chart__kpis">${kpi(K, { dot: 1 })}${kpi(S[0], { dot: 3 })}${kpi(S[1], { dot: 2 })}</div>${ic}</div>${plot}</div>`;
+    return `<div class="ns-chart" style="width:100%;max-width:${w}px"><div class="ns-chart__head">${kpi(K)}${ic}</div>${plot}</div>`;
   };
 
-  NS.chartKit = { H, defs: DEFS, svg, card, sizes: SIZES };
+  /* Plots redraw at the width of their tile, so labels stay at their real size instead of scaling down.
+     Works for chart plots (data-chart) and bullet rows (data-bullet); height stays fixed. */
+  const redraw = (el) => {
+    const w = Math.max(96, Math.round(el.getBoundingClientRect().width));
+    if (!w || String(w) === el.dataset.w) return;
+    if (el.dataset.chart && DEFS[el.dataset.chart]) {
+      const h = +el.dataset.h, size = el.dataset.size, compact = size === "Small" || size === "Vertical small";
+      el.setAttribute("viewBox", `0 0 ${w} ${h}`); el.setAttribute("width", w);
+      el.innerHTML = DEFS[el.dataset.chart].prims(w, h, { compact, size }).map(prim).join("");
+    } else if (el.dataset.bullet && NS.bulletSvg) {
+      const b = JSON.parse(el.dataset.bullet), t = document.createElement("div");
+      t.innerHTML = NS.bulletSvg(b.rows, { ...b.opts, width: w });
+      const n = t.firstElementChild;
+      ["viewBox", "width", "height"].forEach((a) => el.setAttribute(a, n.getAttribute(a)));
+      el.innerHTML = n.innerHTML;
+    }
+    el.dataset.w = w;
+  };
+  if (typeof ResizeObserver !== "undefined" && typeof MutationObserver !== "undefined") {
+    const ro = new ResizeObserver((es) => es.forEach((e) => redraw(e.target)));
+    const sel = "svg[data-chart], svg[data-bullet]";
+    const scan = (n) => { if (n.nodeType !== 1) return; if (n.matches(sel)) ro.observe(n); n.querySelectorAll(sel).forEach((x) => ro.observe(x)); };
+    new MutationObserver((ms) => ms.forEach((m) => m.addedNodes.forEach(scan))).observe(document.documentElement, { childList: true, subtree: true });
+    document.addEventListener("DOMContentLoaded", () => scan(document.body));
+  }
+
+  const fit = (root = document) => root.querySelectorAll("svg[data-chart], svg[data-bullet]").forEach(redraw);
+
+  NS.chartKit = { H, defs: DEFS, svg, card, fit, sizes: SIZES };
 })();
