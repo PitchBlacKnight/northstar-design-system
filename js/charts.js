@@ -260,6 +260,21 @@
       return out;
     },
   };
+  DEFS.calendar = {
+    name: "Calendar",
+    alt: "Calendar heatmap: one month by weekday, darker days had more activity",
+    kpi: ["Active days", "19", "+3.0%", "Days with activity this month", "This month"],
+    sum: [["Longest streak", "6", "+1.0%", "Days in a row", "In a row"], ["Quiet days", "12", "+0.5%", "Days without activity", "Quiet"]],
+    prims: (w, h, o) => {
+      const c = o.compact, hdr = c ? 0 : 18, gap = c ? 2 : 3, cw = (w - gap * 6) / 7, ch = (h - hdr - gap * 4) / 5, out = [];
+      for (let r = 0; r < 5; r++) for (let k = 0; k < 7; k++) {
+        const v = ((r * 5 + k * 3 + r * k) % 7) / 6, today = r === 2 && k === 3;
+        out.push({ k: "rect", x: k * (cw + gap), y: hdr + r * (ch + gap), w: cw, h: ch, r: c ? 2 : 4, f: "s1", o: 0.1 + 0.9 * v, ...(today ? { sk: "target", sw: 2 } : {}), n: "Day " + (r * 7 + k + 1) });
+      }
+      if (!c) out.push(...H.xlab(cw / 2, w - cw / 2, 6, ["M", "T", "W", "T", "F", "S", "S"]));
+      return out;
+    },
+  };
   /* @defs-end */
 
   const TOKV = { s1: "--ns-chart-series-1", s2: "--ns-chart-series-2", s3: "--ns-chart-series-3", s4: "--ns-chart-series-4", s5: "--ns-chart-series-5", track: "--ns-chart-track", target: "--ns-chart-target", label: "--ns-widget-muted", text: "--ns-text-primary", text2: "--ns-text-secondary", ok: "--ns-status-success", err: "--ns-status-error", warn: "--ns-status-warning", grid: "--ns-widget-grid", bg: "--ns-widget-bg", line: "--ns-border-subtle", band: "--ns-widget-band", muted: "--ns-widget-muted" };

@@ -1213,6 +1213,21 @@
       aria: ["The SVG is <code>role=\"img\"</code> with a label naming the tiles and their shares. Provide a table nearby.", "Tiles are told apart by position and label, never by color alone.", "Trend text carries its sign, so the color is a second signal."],
       react: '<TreemapChart size="medium" title="Storage" value="640 GB" trend="+3.0%" data={[{ label: "Photos", value: 40 }]} />',
     }),
+    chartEntry("calendar-chart", "calendar", {
+      name: "Calendar chart", figma: "4463:39465",
+      desc: "A calendar chart shows one value per day of a month as the intensity of a cell. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
+      doc: [
+        ["Days are rectangles", "Each day is a plain rectangle in chart/series-1 whose opacity carries the value, from 10% to 100%."],
+        ["Today has an outline", "Today is marked with a 2px outline in chart/target as well as its intensity, so it never relies on color alone."],
+        ["Month in the title", "Put the month in the title and start the week on the day the rest of the product uses."],
+      ],
+      when: ["Daily activity or status across one month.", "Streaks, gaps and busy days.", "A KPI tile that needs consistency, not only a total."],
+      whenNot: ["Exact values. Use Data table.", "Spans longer than a few months. Use Heatmap chart.", "One number. Use a KPI tile."],
+      tokens: [["--ns-chart-series-1", "Day cells (opacity carries the value)"], ["--ns-chart-target", "Today outline (alias of text/primary)"]],
+      dataType: "number[]", dataNote: "One value per day from 0 to 1, week by week",
+      aria: ["The SVG is <code>role=\"img\"</code> with a label that states the month and the busiest days. Provide a table of the daily values nearby.", "Today is marked by an outline as well as intensity.", "Trend text carries its sign, so the color is a second signal."],
+      react: '<CalendarChart size="medium" title="Active days" value="19" trend="+3.0%" data={[0.2, 0.8, 0.5]} />',
+    }),
   ];
 
   NS.COMPONENTS.sort((a, b) => a.name.localeCompare(b.name));
