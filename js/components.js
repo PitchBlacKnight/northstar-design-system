@@ -1183,6 +1183,21 @@
       aria: ["The SVG is <code>role=\"img\"</code> with a label naming the groups and their items. Provide a nested list of the values nearby.", "Groups are told apart by position and label, never by color alone.", "Trend text carries its sign, so the color is a second signal."],
       react: '<SunburstChart size="medium" title="Categories" value="11" trend="+2.0%" data={[{ label: "Group A", value: 150, children: [] }]} />',
     }),
+    chartEntry("tree-chart", "tree", {
+      name: "Tree chart", figma: "4463:38870",
+      desc: "A tree chart shows a hierarchy as nodes joined by elbow lines, with the root on the left. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
+      doc: [
+        ["Nodes are ellipses, edges are paths", "Each node is an ellipse and each edge is a 1.5px vector path with one elbow. Moving a node means moving its ellipse and redrawing its edge."],
+        ["Level reads by hue", "The root uses chart/series-1, branches chart/series-2 and leaves chart/series-3. Position and the level labels carry the same information."],
+        ["Three levels in a card", "Deeper trees need room and labels. Link to a full tree view instead of shrinking nodes."],
+      ],
+      when: ["Org structure, folders and decision paths.", "How one thing divides into parts and sub-parts.", "A KPI tile that needs the shape of a hierarchy."],
+      whenNot: ["Part-to-whole. Use Sunburst chart or Treemap chart.", "Flows with sizes. Use Sankey chart.", "More than three levels. Use a table or a tree view."],
+      tokens: [["--ns-chart-series-1", "Root (alias of viz/1)"], ["--ns-chart-series-2", "Branches (alias of viz/4)"], ["--ns-chart-series-3", "Leaves (alias of viz/2)"], ["--ns-widget-grid", "Edges"]],
+      dataType: "{ label: string, children?: Node[] }", dataNote: "A root node with nested children",
+      aria: ["The SVG is <code>role=\"img\"</code> with a label that states the levels. Provide a nested list of the nodes nearby.", "Level is told apart by position and label, never by color alone.", "Trend text carries its sign, so the color is a second signal."],
+      react: '<TreeChart size="medium" title="Teams" value="7" trend="+1.0%" data={{ label: "Root", children: [] }} />',
+    }),
   ];
 
   NS.COMPONENTS.sort((a, b) => a.name.localeCompare(b.name));

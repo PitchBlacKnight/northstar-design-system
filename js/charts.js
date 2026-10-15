@@ -228,6 +228,24 @@
       return out;
     },
   };
+  DEFS.tree = {
+    name: "Tree",
+    alt: "Tree chart: one root, two branches and four leaves",
+    kpi: ["Teams", "7", "+1.0%", "One root, two levels", "Two levels"],
+    sum: [["Branches", "2", "+0.5%", "Second level", "Second level"], ["Leaves", "4", "+0.5%", "Third level", "Third level"]],
+    prims: (w, h, o) => {
+      const c = o.compact, mb = c ? 0 : 22, ph = h - mb, x0 = c ? 8 : 12, x2 = w - (c ? 8 : 12), x1 = (x0 + x2) / 2, r = c ? 4 : 6, out = [];
+      const L1 = [ph * 0.28, ph * 0.72], L2 = [[ph * 0.14, 0], [ph * 0.38, 0], [ph * 0.62, 1], [ph * 0.86, 1]];
+      const elbow = (xa, ya, xb, yb) => { const xm = (xa + xb) / 2; return "M" + xa + " " + ya.toFixed(1) + "L" + xm + " " + ya.toFixed(1) + "L" + xm + " " + yb.toFixed(1) + "L" + xb + " " + yb.toFixed(1); };
+      L1.forEach((y, i) => out.push({ k: "path", d: elbow(x0, ph / 2, x1, y), sk: "grid", sw: 1.5, n: "Edge " + (i + 1) }));
+      L2.forEach((n, i) => out.push({ k: "path", d: elbow(x1, L1[n[1]], x2, n[0]), sk: "grid", sw: 1.5, n: "Edge " + (i + 3) }));
+      out.push({ k: "circle", cx: x0, cy: ph / 2, r, f: "s1", n: "Root" });
+      L1.forEach((y, i) => out.push({ k: "circle", cx: x1, cy: y, r, f: "s2", n: "Branch " + (i + 1) }));
+      L2.forEach((n, i) => out.push({ k: "circle", cx: x2, cy: n[0], r, f: "s3", n: "Leaf " + (i + 1) }));
+      if (!c) out.push(...H.xlab(x0, x2, h - 8, ["Root", "Group", "Item"]));
+      return out;
+    },
+  };
   /* @defs-end */
 
   const TOKV = { s1: "--ns-chart-series-1", s2: "--ns-chart-series-2", s3: "--ns-chart-series-3", s4: "--ns-chart-series-4", s5: "--ns-chart-series-5", track: "--ns-chart-track", target: "--ns-chart-target", label: "--ns-widget-muted", text: "--ns-text-primary", text2: "--ns-text-secondary", ok: "--ns-status-success", err: "--ns-status-error", warn: "--ns-status-warning", grid: "--ns-widget-grid", bg: "--ns-widget-bg", line: "--ns-border-subtle", band: "--ns-widget-band", muted: "--ns-widget-muted" };
