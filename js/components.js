@@ -1078,6 +1078,21 @@
       aria: ["The SVG is <code>role=\"img\"</code> with a label that states the values and the dates they change.", "Series are told apart by label and position, never by color alone.", "Trend text carries its sign, so the color is a second signal."],
       react: '<SteppedLineChart size="medium" title="Plan limit" value="2,400" trend="+2.0%" data={[[0.3, 0.3, 0.5, 0.45]]} />',
     }),
+    chartEntry("scatter-chart", "scatter", {
+      name: "Scatter chart", figma: "4460:38167",
+      desc: "A scatter chart plots samples on two measures and shows the relationship between them, with an optional trend line. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
+      doc: [
+        ["Points are ellipses", "Each sample is a plain ellipse in chart/series-1 or chart/series-2 at 85% opacity, so dense regions read as darker."],
+        ["One trend line", "The trend is a single 1.5px path in chart/target. It states the relationship; it does not forecast."],
+        ["Reduce size before opacity", "When data gets denser, shrink the points first. Lower opacity hides the overlap you are trying to show."],
+      ],
+      when: ["How two measures relate across many samples.", "Finding outliers against a trend.", "A KPI tile that needs the spread, not only the average."],
+      whenNot: ["A third measure. Use Bubble chart.", "Fewer than ten samples. Use Bar chart.", "Time series. Use Line chart."],
+      tokens: [["--ns-chart-series-1", "Points (alias of viz/1)"], ["--ns-chart-series-2", "Second group (alias of viz/4)"], ["--ns-chart-target", "Trend line (alias of text/primary)"], ["--ns-widget-grid", "Gridlines"]],
+      dataType: "{ x: number, y: number, series: 1 | 2 }[]", dataNote: "Position as percent of the plot",
+      aria: ["The SVG is <code>role=\"img\"</code> with a label that states the relationship. Provide a table of the values nearby.", "Groups are told apart by label or shape in a legend, never by color alone.", "Trend text carries its sign, so the color is a second signal."],
+      react: '<ScatterChart size="medium" title="Samples" value="240" trend="+6.2%" data={[{ x: 20, y: 38, series: 1 }]} />',
+    }),
   ];
 
   NS.COMPONENTS.sort((a, b) => a.name.localeCompare(b.name));

@@ -129,6 +129,19 @@
       return [...g, { k: "path", d: step(B), sk: "s3", sw: 2, n: "Series 2" }, { k: "path", d: step(A), sk: "s1", sw: 2, n: "Series 1" }];
     },
   };
+  DEFS.scatter = {
+    name: "Scatter",
+    alt: "Scatter plot: samples on two measures with a rising trend line",
+    kpi: ["Samples", "240", "+6.2%", "Two measures per sample", "Two measures"],
+    sum: [["Trend", "Up", "+1.0%", "Positive relationship", "Positive"], ["Outliers", "7", "+0.3%", "Far from the trend", "Far from trend"]],
+    prims: (w, h, o) => {
+      const c = o.compact, ml = c ? 0 : 30, mb = c ? 0 : 22, pw = w - ml, ph = h - mb;
+      const g = c ? [] : [...H.hgrid(ml, w, 0, ph, 4), ...H.ylab(ml - 8, 0, ph, ["100", "75", "50", "25"]), ...H.xlab(ml + 6, w - 6, h - 8, ["0", "5", "10"])];
+      const pts = Array.from({ length: c ? 12 : 18 }, (_, i) => { const x = ((i * 37) % 100) / 100; return [x, Math.max(0.06, Math.min(0.94, 0.2 + 0.6 * x + ((((i * 53) % 17) / 17) - 0.5) * 0.35)), i % 3 === 0 ? "s2" : "s1"]; });
+      return [...g, { k: "path", d: "M" + (ml + 4) + " " + (ph - 0.2 * ph).toFixed(1) + "L" + (w - 4) + " " + (ph - 0.8 * ph).toFixed(1), sk: "target", sw: 1.5, n: "Trend line" },
+        ...pts.map((p, i) => ({ k: "circle", cx: ml + 4 + p[0] * (pw - 8), cy: ph - p[1] * ph, r: c ? 3 : 4, f: p[2], o: 0.85, n: "Point " + (i + 1) }))];
+    },
+  };
   /* @defs-end */
 
   const TOKV = { s1: "--ns-chart-series-1", s2: "--ns-chart-series-2", s3: "--ns-chart-series-3", s4: "--ns-chart-series-4", s5: "--ns-chart-series-5", track: "--ns-chart-track", target: "--ns-chart-target", label: "--ns-widget-muted", text: "--ns-text-primary", text2: "--ns-text-secondary", ok: "--ns-status-success", err: "--ns-status-error", warn: "--ns-status-warning", grid: "--ns-widget-grid", bg: "--ns-widget-bg", line: "--ns-border-subtle", band: "--ns-widget-band", muted: "--ns-widget-muted" };
