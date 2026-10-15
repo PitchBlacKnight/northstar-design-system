@@ -1,4 +1,4 @@
-/* Figma specification documents, synced from NORTHSTAR DS (VZxmDNQiosTN6gqnvEQ65Z) on 2026-10-14.
+/* Figma specification documents, synced from NORTHSTAR DS (VZxmDNQiosTN6gqnvEQ65Z) on 2026-10-15.
    Component specs feed the Spec tab; WORKFLOWS feed composed pattern pages. Regenerate with tools/figma-spec-extract.mjs, do not hand-edit. */
 (function () {
   const NS = window.NS;
@@ -1980,6 +1980,202 @@
      {
       "type": "text",
       "text": "Pick the size by container width: Small and Vertical small under 360px, Medium and Large at 360 to 600px, XL above 720px. Keep titles to three words and values to one figure with its unit. Axis labels are scale steps, not category names. Never more than five segments; group the rest into chart/series-5."
+     }
+    ]
+   }
+  ]
+ },
+ "bubble-chart": {
+  "nodeId": "4454:37191",
+  "title": "Bubble chart",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 07",
+  "revision": "Reviewed 15 Oct 2026",
+  "summary": "A data visualization card that plots points on two axes and uses bubble area for a third measure. Built natively for NorthStar after reviewing the Hyper charts kit; nothing was imported. Five sizes, three component properties, every fill bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Built 15 Oct 2026, not yet source-reviewed",
+   "Parity status": "Docs site renders the same data as SVG",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4454:37207",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Compare a small set of items on two measures at once, with size carrying a third: accounts by spend and tenure, sized by seats. Keep it to about ten bubbles."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not use for time series (Line chart), for exact comparison of one measure (Bar chart), or when more than twelve points would overlap (Scatter)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4454:37218",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Container: widget/bg fill, border/subtle stroke, radius/xl. 2 · Header: Title, Value with Trend, Description, optional Icon. 3 · Gridlines: 1px rectangles, widget/grid. 4 · Axis labels: text/chart-label, 11px. 5 · Bubbles: ellipses, chart/series-1 to 3 at 85% opacity, area proportional to the third measure."
+     },
+     {
+      "type": "example",
+      "label": "Medium",
+      "description": "Bubble instance, Size=Medium, Value '1,240', Title 'Accounts', Show icon=false."
+     },
+     {
+      "type": "text",
+      "text": "Sizes: Small 330 wide (header left, mini plot right, no axes) · Vertical small 192 wide, no axes · Medium 375 wide with gridlines and labels · Large 375 wide with a divider and two-KPI summary · XL 800 wide, three KPIs."
+     }
+    ]
+   },
+   {
+    "nodeId": "4454:37225",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Chart / Bubble · set 4454:37087 · page \"Bubble chart\" under DATA VIZ."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Size",
+        "VARIANT",
+        "Small",
+        "Small, Vertical small, Medium, Large, XL. Medium is the recommended default."
+       ],
+       [
+        "Title",
+        "TEXT",
+        "Accounts",
+        "Binds to the header title. In XL it binds to the first KPI title."
+       ],
+       [
+        "Value",
+        "TEXT",
+        "1,240",
+        "Binds to the headline figure. In Large it binds to the first summary figure."
+       ],
+       [
+        "Show icon",
+        "BOOLEAN",
+        "false",
+        "Off by default. Turn it on in Medium or XL; Small keeps text and plot only."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4454:37256",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Container fill",
+        "widget/bg",
+        "Card surface, same as the other data viz widgets"
+       ],
+       [
+        "Container stroke",
+        "border/subtle",
+        "1px hairline"
+       ],
+       [
+        "Container radius",
+        "radius/xl",
+        "12px"
+       ],
+       [
+        "Bubble fill",
+        "chart/series-1 to chart/series-3",
+        "Alias viz/1, viz/4, viz/2; 85% opacity so overlaps stay readable"
+       ],
+       [
+        "Gridline",
+        "widget/grid",
+        "1px rectangle, no axis line"
+       ],
+       [
+        "Bubble radius",
+        "Computed from value",
+        "Area, not radius, is proportional to the measure"
+       ],
+       [
+        "Title, Value",
+        "text/primary",
+        "Open Sans SemiBold 14, Bold 28"
+       ],
+       [
+        "Axis label, Description",
+        "text/chart-label",
+        "Open Sans Regular 11 and 12"
+       ],
+       [
+        "Trend",
+        "status/success",
+        "Open Sans SemiBold 12"
+       ],
+       [
+        "Padding, gaps",
+        "spacing/5 to spacing/7, spacing/2 to spacing/4",
+        "16 or 24px padding; 4, 8, 12, 16, 20px gaps"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "All seven chart/* tokens are aliases of existing Semantic / Colors tokens, so Light, Dark and High Contrast resolve through the modes with no new hex values."
+     }
+    ]
+   },
+   {
+    "nodeId": "4454:37306",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The chart has a text equivalent: role=\"img\" with an aria-label naming the three measures, and a table of the points nearby.",
+       "Series are told apart by position and label, not color alone; add a direct label to the largest bubble.",
+       "Bubbles meet 3:1 against the card surface in Light, Dark and High Contrast.",
+       "Trend text carries its sign (+ or -), not just color.",
+       "Not interactive. If bubbles become filters, add focus rings from focus/ring and a keyboard order."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4454:37316",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Pick the size by container width: Small and Vertical small under 360px, Medium and Large at 360 to 600px, XL above 720px. Keep titles to three words and values to one figure with its unit. Bubble size is the weakest channel: never fewer than 6px radius in Medium, and drop to Scatter below 192px wide."
      }
     ]
    }

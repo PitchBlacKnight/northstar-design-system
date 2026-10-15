@@ -541,3 +541,25 @@
 .ns-bullet__icon { display: grid; place-items: center; width: 32px; height: 32px; flex: none; border-radius: var(--ns-radius-full); background: var(--ns-widget-band); color: var(--ns-chart-series-1); }
 .ns-bullet__rows { display: block; max-width: 100%; height: auto; overflow: visible; }
 .ns-bullet__summary { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ns-space-5); padding-top: var(--ns-space-6); border-top: 1px solid var(--ns-border-subtle); }
+
+/* Chart cards (Figma: Chart / <Name> sets; plots are SVG rendered from NS.charts) */
+.ns-chart { display: grid; gap: var(--ns-space-6); padding: var(--ns-space-7); background: var(--ns-widget-bg); border: 1px solid var(--ns-border-subtle); border-radius: var(--ns-radius-xl); font-family: var(--ns-font-sans); color: var(--ns-text-primary); box-sizing: border-box; }
+.ns-chart--small { display: flex; align-items: center; gap: var(--ns-space-5); padding: var(--ns-space-5); }
+.ns-chart--vertical { gap: var(--ns-space-5); padding: var(--ns-space-5); }
+.ns-chart__head { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--ns-space-4); }
+.ns-chart__kpi { display: grid; gap: var(--ns-space-2); align-content: start; flex: 1; min-width: 0; }
+.ns-chart--small .ns-chart__kpi, .ns-chart--vertical .ns-chart__kpi { gap: 2px; }
+.ns-chart__kpis { display: flex; gap: 40px; flex: 1; }
+.ns-chart__title { display: inline-flex; align-items: center; gap: var(--ns-space-3); font: 600 14px/20px var(--ns-font-sans); }
+.ns-chart__title--sm { font-size: 12px; line-height: 16px; }
+.ns-chart__title--lg { font-size: 16px; line-height: 24px; }
+.ns-chart__summary .ns-chart__title { color: var(--ns-text-secondary); }
+.ns-chart__dot { width: 8px; height: 8px; border-radius: var(--ns-radius-full); flex: none; }
+.ns-chart__value { display: flex; align-items: flex-end; gap: var(--ns-space-3); font: 700 28px/36px var(--ns-font-sans); }
+.ns-chart__value--sm { font-size: 24px; line-height: 32px; }
+.ns-chart__trend { font: 600 12px/16px var(--ns-font-sans); color: var(--ns-status-success); }
+.ns-chart__desc { font: 400 12px/16px var(--ns-font-sans); color: var(--ns-widget-muted); }
+.ns-chart__desc--sm { font-size: 11px; line-height: 14px; }
+.ns-chart__icon { display: grid; place-items: center; width: 32px; height: 32px; flex: none; border-radius: var(--ns-radius-full); background: var(--ns-widget-band); color: var(--ns-chart-series-1); }
+.ns-chart__plot { display: block; max-width: 100%; height: auto; overflow: visible; flex: none; font-family: var(--ns-font-sans); }
+.ns-chart__summary { display: flex; gap: var(--ns-space-5); padding-top: var(--ns-space-6); border-top: 1px solid var(--ns-border-subtle); }

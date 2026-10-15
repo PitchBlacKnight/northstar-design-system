@@ -75,6 +75,28 @@
     return `<div class="ns-bullet" style="width:375px"><div class="ns-bullet__head"><div class="ns-bullet__text"><span class="ns-bullet__title">Income</span><span class="ns-bullet__value">$18,420<span class="ns-bullet__trend">+1.8%</span></span><span class="ns-bullet__desc">Compared with $18,090 last month</span></div>${ic}</div>${NS.bulletSvg(BULLET_ROWS, { width: 327 })}</div>`;
   };
 
+  /* Chart entries share one shell: five sizes, Title / Value / Show icon, plots from NS.chartKit */
+  const CHART_SIZES = [["Small", "100px", "KPI tile: text left, mini plot right, no axes"], ["Vertical small", "256px", "Narrow column or sidebar, no axes"], ["Medium", "350px", "Default card with axis labels"], ["Large", "465px", "Card with divider and two-KPI summary"], ["XL", "390px", "Wide panel, three KPIs"]];
+  const chartEntry = (id, key, o) => ({
+    id, name: o.name, cat: "Data viz", status: "New", figma: o.figma, desc: o.desc,
+    axes: [["Size", "Small, Vertical small, Medium, Large, XL"], ["Title", "Text"], ["Value", "Text"], ["Show icon", "Boolean"]],
+    doc: o.doc,
+    playground: { controls: [{ key: "size", label: "Size", options: ["Medium", "Small", "Vertical small", "Large", "XL"] }, { key: "icon", label: "Show icon", type: "bool", default: true }], render: (s) => NS.chartKit.card(key, s.size, s.icon) },
+    when: o.when, whenNot: o.whenNot,
+    variants: [
+      ["Sizes", "Five sizes from the same data. Small and Vertical small drop the axes and labels.", `<div style="display:grid;gap:24px;justify-items:start">${["Small", "Vertical small", "Medium", "Large"].map((z) => NS.chartKit.card(key, z, false)).join("")}</div>`],
+      ["XL", "Three KPIs above the plot.", NS.chartKit.card(key, "XL", true)],
+      ["Plot only", "The SVG on its own, for use inside another card.", `<div style="width:327px">${NS.chartKit.svg(key, "Medium")}</div>`],
+    ],
+    dd: o.dd || [`<div style="width:260px">${NS.chartKit.svg(key, "Medium", { width: 260, height: 160 })}</div>`, "Axis labels and gridlines on the Medium plot.", `<div style="width:120px">${NS.chartKit.svg(key, "Small")}</div>`, "The compact plot drops axes and labels."],
+    tokens: [...o.tokens, ["--ns-widget-bg", "Card surface"], ["--ns-border-subtle", "Card stroke and summary divider"], ["--ns-widget-muted", "Axis labels and description"], ["--ns-status-success", "Trend"], ["--ns-radius-xl", "Card radius"]],
+    sizes: CHART_SIZES,
+    props: [["size", "'small' | 'vertical-small' | 'medium' | 'large' | 'xl'", "'medium'", "Layout and plot size"], ["title", "string", "-", "Header title"], ["value", "string", "-", "Headline figure"], ["trend", "string", "-", "Signed change, for example +2.4%"], ["data", o.dataType, "[]", o.dataNote], ["showIcon", "boolean", "false", "Icon in the header"]],
+    keyboard: [["-", "Not interactive"]],
+    aria: o.aria,
+    react: o.react,
+  });
+
   NS.COMPONENTS = [
     {
       id: "button", name: "Button", cat: "Actions", status: "Stable", figma: "4038:31741",
@@ -927,7 +949,7 @@
       react: '<StatusDot status="positive" label="Active" />',
     },
     {
-      id: "bullet-chart", name: "Bullet chart", cat: "Data", status: "New", figma: "4443:314",
+      id: "bullet-chart", name: "Bullet chart", cat: "Data viz", status: "New", figma: "4443:314",
       desc: "A bullet chart shows one measure per row against a target: stacked segments on a quiet track and a single tick for the goal. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The rows render from a data array as SVG, so the same numbers drive the Figma set and the docs.",
       axes: [["Size", "Small, Vertical small, Medium, Large, XL"], ["Title", "Text"], ["Value", "Text"], ["Show icon", "Boolean"]],
       doc: [
@@ -951,6 +973,21 @@
       aria: ["The SVG is <code>role=\"list\"</code>; each row is a <code>listitem</code> whose label reads the segments, their sum and the target.", "Segments are told apart by order and label, never by color alone.", "Trend text carries its sign, so the color is a second signal."],
       react: '<BulletChart size="medium" title="Income" value="$18,420" trend="+1.8%" rows={[{ label: "500", segments: [40, 10, 10, 14], target: 98 }]} />',
     },
+    chartEntry("bubble-chart", "bubble", {
+      name: "Bubble chart", figma: "4454:37087",
+      desc: "A bubble chart plots items on two axes and uses area for a third measure. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set, so the two cannot drift.",
+      doc: [
+        ["Points are ellipses, not vectors", "Each bubble is a plain ellipse bound to chart/series-1 to 3 at 85% opacity, so overlaps stay readable. Changing a value changes a position and a radius, not a path."],
+        ["Area carries the third measure", "Radius grows with the square root of the value so the eye reads area, not width. Keep a minimum radius of 6px in Medium or the smallest point disappears."],
+        ["Chart tokens are aliases", "chart/series-1 to 5 alias viz/* and widget/muted, and gridlines use widget/grid, so Light, Dark and High Contrast resolve through the existing modes."],
+      ],
+      when: ["Comparing a few items on two measures, with a third shown as size.", "Spotting outliers across accounts, regions or projects.", "A KPI tile that needs a shape of the data, not only a number."],
+      whenNot: ["Time series. Use Line chart.", "Exact comparison of one measure. Use Bar chart.", "More than about twelve points. Use a scatter or a table."],
+      tokens: [["--ns-chart-series-1", "Bubble color 1 (alias of viz/1)"], ["--ns-chart-series-2", "Bubble color 2 (alias of viz/4)"], ["--ns-chart-series-3", "Bubble color 3 (alias of viz/2)"], ["--ns-widget-grid", "Gridlines"]],
+      dataType: "{ x: number, y: number, r: number, series: 1 | 2 | 3 }[]", dataNote: "Position as percent of the plot, r as relative size",
+      aria: ["The SVG is <code>role=\"img\"</code> with a label that names the three measures. Provide a table of the points nearby.", "Series are told apart by position and label, never by color alone.", "Trend text carries its sign, so the color is a second signal."],
+      react: '<BubbleChart size="medium" title="Accounts" value="1,240" trend="+2.4%" data={[{ x: 10, y: 62, r: 28, series: 1 }]} />',
+    }),
   ];
 
   NS.COMPONENTS.sort((a, b) => a.name.localeCompare(b.name));
