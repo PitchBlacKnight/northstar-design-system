@@ -5316,6 +5316,2150 @@
     ]
    }
   ]
+ },
+ "status-dot": {
+  "nodeId": "4469:1558",
+  "title": "Status dot",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 24",
+  "revision": "Reviewed 15 Oct 2026",
+  "summary": "A colored dot with an optional label for dense tables and maps where a badge would take too much space. Built natively for NorthStar in Open Sans; every fill and text is bound to Semantic / Colors. Ten variants.",
+  "meta": {
+   "Review status": "Built 15 Oct 2026, not yet source-reviewed",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4469:1574",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Show a state in dense tables and maps where a badge would take too much space. Keep the label visible."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not use when the label would be hidden from everyone, for counts (Badge), or for removable filters (Tag)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4469:1585",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Container: horizontal auto layout, spacing/3 gap. 2 · Dot: 8px ellipse bound to a status token. 3 · Label: Open Sans Regular 14, text/secondary, optional."
+     },
+     {
+      "type": "example",
+      "label": "Positive, Shown",
+      "description": "Status dot instance, Status=Positive, Label=Shown."
+     },
+     {
+      "type": "text",
+      "text": "Variants: five statuses (Positive, Critical, Negative, Informative, Neutral) with the label shown or hidden."
+     }
+    ]
+   },
+   {
+    "nodeId": "4469:1592",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Status dot · set 4465:39 · page \"Status dot\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Status",
+        "VARIANT",
+        "Positive",
+        "Positive, Critical, Negative, Informative, Neutral."
+       ],
+       [
+        "Label",
+        "VARIANT",
+        "Shown",
+        "Shown or Hidden. A hidden label must still reach screen readers in code."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4469:1623",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Positive dot",
+        "status/success",
+        "Alias green"
+       ],
+       [
+        "Critical dot",
+        "status/warning",
+        "Alias yellow"
+       ],
+       [
+        "Negative dot",
+        "status/error",
+        "Alias red"
+       ],
+       [
+        "Informative dot",
+        "status/info",
+        "Alias blue"
+       ],
+       [
+        "Neutral dot",
+        "text/tertiary",
+        "The only dot that signals no state"
+       ],
+       [
+        "Label",
+        "text/secondary",
+        "Open Sans Regular 14"
+       ],
+       [
+        "Gap",
+        "spacing/3",
+        "8px"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Fills and text are bound to Semantic / Colors, spacing to Primitives where a token exists. A few radii and paddings are fixed values, not tokens."
+     }
+    ]
+   },
+   {
+    "nodeId": "4469:1673",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The label is text, so screen readers read it. A hidden label stays in the DOM as screen-reader-only text.",
+       "Never rely on dot color alone: keep the label visible, or name the status in a column header.",
+       "Dot colors meet 3:1 against the surface in Light, Dark and High Contrast.",
+       "Neutral uses text/tertiary and does not signal a state.",
+       "Not interactive."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4469:1683",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Use at 14px in tables; the dot and label never wrap apart. Keep labels to one or two words."
+     }
+    ]
+   }
+  ]
+ },
+ "link": {
+  "nodeId": "4469:1744",
+  "title": "Link",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 25",
+  "revision": "Reviewed 15 Oct 2026",
+  "summary": "A text link for navigation, with an external type that adds an arrow. Built natively for NorthStar in Open Sans; every fill and text is bound to Semantic / Colors. Eight variants.",
+  "meta": {
+   "Review status": "Built 15 Oct 2026, not yet source-reviewed",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4469:1760",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Go to another page or place, inline with text or on its own."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not use for actions that change data (Button) or for items in a list of actions (Menu)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4469:1771",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Label: Open Sans Regular 14, underlined, text/link. 2 · Arrow: 8px vector stroke, External type only. 3 · Focus ring: absolute 2px rectangle, focus/ring, 4px radius."
+     },
+     {
+      "type": "example",
+      "label": "Default, Default",
+      "description": "Link instance, Type=Default, State=Default."
+     },
+     {
+      "type": "text",
+      "text": "Variants: Default or External, each in Default, Hover, Focus and Disabled states."
+     }
+    ]
+   },
+   {
+    "nodeId": "4469:1778",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Link · set 4465:92 · page \"Link\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Type",
+        "VARIANT",
+        "Default",
+        "Default or External. External adds the arrow."
+       ],
+       [
+        "State",
+        "VARIANT",
+        "Default",
+        "Default, Hover, Focus, Disabled."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4469:1809",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Label, default",
+        "text/link",
+        "Underlined"
+       ],
+       [
+        "Label, hover",
+        "text/accent",
+        "Underlined"
+       ],
+       [
+        "Label, disabled",
+        "text/disabled",
+        "No underline"
+       ],
+       [
+        "Focus ring",
+        "focus/ring",
+        "2px stroke, absolute layer"
+       ],
+       [
+        "Arrow",
+        "Same as the label",
+        "8px vector, 1.5px stroke"
+       ],
+       [
+        "Gap",
+        "spacing/2",
+        "4px"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Fills and text are bound to Semantic / Colors, spacing to Primitives where a token exists. A few radii and paddings are fixed values, not tokens."
+     }
+    ]
+   },
+   {
+    "nodeId": "4469:1859",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "Links go to a destination; buttons run an action. Use the right element.",
+       "External links open in a new tab and say so to screen readers.",
+       "The underline is the second signal after color; do not remove it.",
+       "The focus ring is visible against every surface and is not clipped.",
+       "Disabled links use aria-disabled and are not activated."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4469:1869",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Links wrap with the text around them. Write link text that makes sense out of context, not \"click here\"."
+     }
+    ]
+   }
+  ]
+ },
+ "toast": {
+  "nodeId": "4469:1929",
+  "title": "Toast",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 26",
+  "revision": "Reviewed 15 Oct 2026",
+  "summary": "A short, non-blocking message after an action, with a status color and an optional Undo. Built natively for NorthStar in Open Sans; every fill and text is bound to Semantic / Colors. Eight variants.",
+  "meta": {
+   "Review status": "Built 15 Oct 2026, not yet source-reviewed",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4469:1945",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Confirm a short result after an action, such as Account archived."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not use for errors the person must fix (Alert banner inline) or for decisions (Modal)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4469:1956",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Container: 360px, background/elevated, 1px status stroke, 8px radius. 2 · Status dot: 8px. 3 · Title: SemiBold 14. 4 · Message: Regular 13, text/secondary. 5 · Action: optional Undo, SemiBold 13, text/link."
+     },
+     {
+      "type": "example",
+      "label": "Success, Undo",
+      "description": "Toast instance, Status=Success, Action=Undo."
+     },
+     {
+      "type": "text",
+      "text": "Variants: Success, Information, Warning or Error, each with an Undo action or none."
+     }
+    ]
+   },
+   {
+    "nodeId": "4469:1963",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Toast · set 4465:138 · page \"Toast\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Status",
+        "VARIANT",
+        "Success",
+        "Success, Information, Warning, Error."
+       ],
+       [
+        "Action",
+        "VARIANT",
+        "Undo",
+        "Undo or None."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4469:1994",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Container fill",
+        "background/elevated",
+        "Toast surface"
+       ],
+       [
+        "Container stroke",
+        "status/success, info, warning, error",
+        "1px, by status"
+       ],
+       [
+        "Status dot",
+        "Same as the stroke",
+        "8px ellipse"
+       ],
+       [
+        "Title",
+        "text/primary",
+        "Open Sans SemiBold 14"
+       ],
+       [
+        "Message",
+        "text/secondary",
+        "Open Sans Regular 13"
+       ],
+       [
+        "Action",
+        "text/link",
+        "Open Sans SemiBold 13"
+       ],
+       [
+        "Gap",
+        "spacing/3",
+        "8px"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Fills and text are bound to Semantic / Colors, spacing to Primitives where a token exists. A few radii and paddings are fixed values, not tokens."
+     }
+    ]
+   },
+   {
+    "nodeId": "4469:2044",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "Toasts use role=\"status\"; errors use role=\"alert\".",
+       "A toast with an action stays long enough to reach it by keyboard.",
+       "Status is carried by the title text as well as the dot color.",
+       "Do not auto-dismiss a toast that carries an action before the person can reach it.",
+       "Focus moves to a toast only when it carries an action."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4469:2054",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Toasts are 360px wide and stack in a corner. On narrow screens they take the full width minus the page margin."
+     }
+    ]
+   }
+  ]
+ },
+ "combobox": {
+  "nodeId": "4469:2118",
+  "title": "Combobox",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 27",
+  "revision": "Reviewed 15 Oct 2026",
+  "summary": "A filterable multi-select for long lists: typing filters the options and chosen values stay visible as removable tags. Built natively for NorthStar in Open Sans; every fill and text is bound to Semantic / Colors. Three variants.",
+  "meta": {
+   "Review status": "Built 15 Oct 2026, not yet source-reviewed",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4469:2134",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Choose several items from a long list by typing to filter."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not use for fewer than seven options (Select or Checkbox) or for one choice from a short list."
+     }
+    ]
+   },
+   {
+    "nodeId": "4469:2145",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Control: 340px, background/elevated, border/default, 8px radius. 2 · Tags: widget/band pills with a remove mark. 3 · Query: placeholder in text/tertiary. 4 · List: below the control when open, the active row in background/selected."
+     },
+     {
+      "type": "example",
+      "label": "Default",
+      "description": "Combobox instance, State=Default."
+     },
+     {
+      "type": "text",
+      "text": "Variants: Default, Open (with the list) and Disabled (45% opacity)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4469:2152",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Combobox · set 4466:34 · page \"Combobox\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "State",
+        "VARIANT",
+        "Default",
+        "Default, Open, Disabled."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4469:2183",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Control fill",
+        "background/elevated",
+        "Field surface"
+       ],
+       [
+        "Control stroke",
+        "border/default",
+        "interactive/primary when Open"
+       ],
+       [
+        "Tag",
+        "widget/band",
+        "text/primary label, text/secondary remove mark"
+       ],
+       [
+        "Placeholder",
+        "text/tertiary",
+        "Open Sans Regular 14"
+       ],
+       [
+        "List fill and stroke",
+        "background/elevated, border/default",
+        "Open variant only"
+       ],
+       [
+        "Active option",
+        "background/selected",
+        "First option in the specimen"
+       ],
+       [
+        "Disabled",
+        "Opacity 45%",
+        "Whole component"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Fills and text are bound to Semantic / Colors, spacing to Primitives where a token exists. A few radii and paddings are fixed values, not tokens."
+     }
+    ]
+   },
+   {
+    "nodeId": "4469:2233",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The control exposes role=\"combobox\" with aria-expanded and a listbox of options.",
+       "Arrow keys move the active option, Enter toggles it, Backspace on an empty query removes the last tag, Escape closes the list.",
+       "Each tag has a remove button with an accessible name.",
+       "Selection shows as a check and a background, not color alone.",
+       "The docs demo is a static specimen; these behaviors are the contract to build."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4469:2243",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Full width of its container with a 340px default. Tags wrap onto new lines and the list scrolls at a maximum height."
+     }
+    ]
+   }
+  ]
+ },
+ "inline-edit": {
+  "nodeId": "4470:1571",
+  "title": "Inline edit",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 28",
+  "revision": "Reviewed 15 Oct 2026",
+  "summary": "A value that turns into an editable field in place, with hover, editing and saving states. Built natively for NorthStar in Open Sans; every fill and text is bound to Semantic / Colors. Four variants.",
+  "meta": {
+   "Review status": "Built 15 Oct 2026, not yet source-reviewed",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4470:1587",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Edit one value in place on a detail page without opening a form."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not use for several related fields (a form) or for destructive changes (Modal)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:1598",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Label: text/secondary, Regular 14. 2 · Value: text/primary, SemiBold 14. 3 · Field: transparent at rest, background/hover on hover, background/secondary with a focus/ring stroke while editing. 4 · Confirm mark in Editing. 5 · Saving note after confirm."
+     },
+     {
+      "type": "example",
+      "label": "Read",
+      "description": "Inline edit instance, State=Read."
+     },
+     {
+      "type": "text",
+      "text": "Variants: Read, Hover, Editing and Saving."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:1605",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Inline edit · set 4466:54 · page \"Inline edit\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "State",
+        "VARIANT",
+        "Read",
+        "Read, Hover, Editing, Saving."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:1636",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Field, hover",
+        "background/hover",
+        "6px radius"
+       ],
+       [
+        "Field, editing",
+        "background/secondary",
+        "1px focus/ring stroke"
+       ],
+       [
+        "Label",
+        "text/secondary",
+        "Open Sans Regular 14"
+       ],
+       [
+        "Value",
+        "text/primary",
+        "Open Sans SemiBold 14"
+       ],
+       [
+        "Confirm mark",
+        "text/accent",
+        "Editing only"
+       ],
+       [
+        "Saving note",
+        "text/tertiary",
+        "Open Sans Regular 12"
+       ],
+       [
+        "Gap",
+        "spacing/2, spacing/3",
+        "4px inside the field, 8px outside"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Fills and text are bound to Semantic / Colors, spacing to Primitives where a token exists. A few radii and paddings are fixed values, not tokens."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:1686",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "Enter saves, Escape cancels, and focus returns to the read value.",
+       "The read value is a button whose accessible name includes the field label.",
+       "A failed save keeps the typed value and shows an error message, not only a color.",
+       "The Saving state is announced with a polite live region.",
+       "Keyboard focus shows the same affordance as hover."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:1696",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Fits its text. At narrow widths the label stacks above the value."
+     }
+    ]
+   }
+  ]
+ },
+ "menu": {
+  "nodeId": "4470:1758",
+  "title": "Menu",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 29",
+  "revision": "Reviewed 15 Oct 2026",
+  "summary": "A list of secondary actions that opens from a trigger such as a row, with optional shortcuts and a destructive item. Built natively for NorthStar in Open Sans; every fill and text is bound to Semantic / Colors. Four variants.",
+  "meta": {
+   "Review status": "Built 15 Oct 2026, not yet source-reviewed",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4470:1774",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Offer a short list of secondary actions from a trigger, such as a table row."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not put primary actions in a menu (Button) or use it for navigation (Side navigation)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:1785",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Panel: 240px, background/elevated, border/default, 12px radius. 2 · Items: Regular 14 labels with an optional shortcut at the right. 3 · Disabled item: stays visible at 45% opacity. 4 · Destructive item: status/error, last."
+     },
+     {
+      "type": "example",
+      "label": "On, Show",
+      "description": "Menu instance, Shortcut=On, Destructive=Show."
+     },
+     {
+      "type": "text",
+      "text": "Variants: shortcuts on or off, destructive item shown or hidden."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:1792",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Menu · set 4466:90 · page \"Menu\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Shortcut",
+        "VARIANT",
+        "On",
+        "On or Off. Shows the key hint on Edit details."
+       ],
+       [
+        "Destructive",
+        "VARIANT",
+        "Show",
+        "Show or Hide the Delete item."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:1823",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Panel fill",
+        "background/elevated",
+        "Menu surface"
+       ],
+       [
+        "Panel stroke",
+        "border/default",
+        "1px"
+       ],
+       [
+        "Item label",
+        "text/primary",
+        "Open Sans Regular 14"
+       ],
+       [
+        "Shortcut",
+        "text/tertiary",
+        "Open Sans Regular 12"
+       ],
+       [
+        "Delete item",
+        "status/error",
+        "Destructive"
+       ],
+       [
+        "Disabled item",
+        "Opacity 45%",
+        "Archive in the specimen"
+       ],
+       [
+        "Gap",
+        "spacing/2",
+        "4px"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Fills and text are bound to Semantic / Colors, spacing to Primitives where a token exists. A few radii and paddings are fixed values, not tokens."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:1873",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The panel is role=\"menu\" with role=\"menuitem\" items.",
+       "Arrow keys, Home and End move between items and skip disabled ones; Escape closes and returns focus to the trigger.",
+       "Disabled items use aria-disabled and stay in the reading order.",
+       "The destructive item is named in text (\"Delete\"), not only colored.",
+       "Shortcuts are exposed with aria-keyshortcuts where they exist."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:1883",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "The panel is 240px and shrinks to fit narrow containers. Keep labels to a few words."
+     }
+    ]
+   }
+  ]
+ },
+ "bulk-action-bar": {
+  "nodeId": "4470:1951",
+  "title": "Bulk action bar",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 30",
+  "revision": "Reviewed 15 Oct 2026",
+  "summary": "A bar that appears over a table when rows are selected, with the count and the actions that apply to all of them. Built natively for NorthStar in Open Sans; every fill and text is bound to Semantic / Colors. Six variants.",
+  "meta": {
+   "Review status": "Built 15 Oct 2026, not yet source-reviewed",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4470:1967",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Act on several selected rows at once."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not show it with nothing selected, or use it for single-row actions (Menu)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:1978",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Bar: interactive/primary fill, 8px radius. 2 · Count: \"N selected\" in SemiBold 14. 3 · Actions: Approve and Export. 4 · Clear: right aligned. 5 · Delete: shown when destructive."
+     },
+     {
+      "type": "example",
+      "label": "3, Show",
+      "description": "Bulk action bar instance, Count=3, Destructive=Show."
+     },
+     {
+      "type": "text",
+      "text": "Variants: 3, 1 or 12 selected, with the Delete action shown or hidden."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:1985",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Bulk action bar · set 4466:131 · page \"Bulk action bar\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Count",
+        "VARIANT",
+        "3",
+        "3, 1 or 12. The number in the \"N selected\" label."
+       ],
+       [
+        "Destructive",
+        "VARIANT",
+        "Show",
+        "Show or Hide the Delete action."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2016",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Bar fill",
+        "interactive/primary",
+        "8px radius"
+       ],
+       [
+        "Count and actions",
+        "text/on-primary",
+        "Open Sans SemiBold and Regular 14"
+       ],
+       [
+        "Delete",
+        "text/on-primary",
+        "SemiBold; the bar gives no extra red"
+       ],
+       [
+        "Gap",
+        "spacing/4",
+        "12px"
+       ],
+       [
+        "Padding",
+        "Fixed",
+        "16px sides, 10px top and bottom"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Fills and text are bound to Semantic / Colors, spacing to Primitives where a token exists. A few radii and paddings are fixed values, not tokens."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2066",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The bar is role=\"region\" with a label such as \"Bulk actions\".",
+       "The count is announced when the selection changes.",
+       "Every action is a button with an accessible name; Delete is not distinguished by color alone.",
+       "Keyboard focus moves into the bar only when the person asks for it.",
+       "Text on the primary fill meets 4.5:1."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2076",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Sticks to the top of the table while rows are selected. Actions should collapse into a menu when they no longer fit."
+     }
+    ]
+   }
+  ]
+ },
+ "segmented-control": {
+  "nodeId": "4470:2141",
+  "title": "Segmented control",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 31",
+  "revision": "Reviewed 15 Oct 2026",
+  "summary": "A row of two to four segments that switches between views of the same content, one selected at a time. Built natively for NorthStar in Open Sans; every fill and text is bound to Semantic / Colors. Six variants.",
+  "meta": {
+   "Review status": "Built 15 Oct 2026, not yet source-reviewed",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4470:2157",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Switch between two to five views of the same content, one at a time."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not use for navigation between pages (Tabs) or for independent on and off options (Switch)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2168",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Track: background/secondary with a border/default stroke, 8px radius. 2 · Selected segment: background/elevated, SemiBold text/primary. 3 · Other segments: Regular text/secondary. 4 · Disabled segment: text/disabled."
+     },
+     {
+      "type": "example",
+      "label": "2, None",
+      "description": "Segmented control instance, Count=2, Disabled=None."
+     },
+     {
+      "type": "text",
+      "text": "Variants: 2, 3 or 4 segments, with the last segment disabled or not."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2175",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Segmented control · set 4466:175 · page \"Segmented control\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Count",
+        "VARIANT",
+        "2",
+        "2, 3 or 4 segments."
+       ],
+       [
+        "Disabled",
+        "VARIANT",
+        "None",
+        "None or Last."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2206",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Track fill",
+        "background/secondary",
+        "Container"
+       ],
+       [
+        "Track stroke",
+        "border/default",
+        "1px"
+       ],
+       [
+        "Selected segment",
+        "background/elevated",
+        "text/primary SemiBold"
+       ],
+       [
+        "Other segments",
+        "text/secondary",
+        "Open Sans Regular 14"
+       ],
+       [
+        "Disabled segment",
+        "text/disabled",
+        "Last segment"
+       ],
+       [
+        "Gap",
+        "spacing/1",
+        "2px"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Fills and text are bound to Semantic / Colors, spacing to Primitives where a token exists. A few radii and paddings are fixed values, not tokens."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2256",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The track is role=\"radiogroup\"; each segment is role=\"radio\" with aria-checked.",
+       "Arrow keys move and select, Home and End jump to the ends.",
+       "A disabled segment stays visible and uses aria-disabled.",
+       "Selection shows as an elevated surface and a SemiBold label, not color alone.",
+       "Labels are short enough to fit without truncation."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2266",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Two to five segments. Under 360px wide the control scrolls sideways instead of wrapping."
+     }
+    ]
+   }
+  ]
+ },
+ "number-stepper": {
+  "nodeId": "4470:2329",
+  "title": "Number stepper",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 32",
+  "revision": "Reviewed 15 Oct 2026",
+  "summary": "A field with decrement and increment buttons for a small whole number, with minimum, maximum and disabled states. Built natively for NorthStar in Open Sans; every fill and text is bound to Semantic / Colors. Twelve variants.",
+  "meta": {
+   "Review status": "Built 15 Oct 2026, not yet source-reviewed",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4470:2345",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Enter a small whole number with clear steps."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not use for wide ranges (Slider) or for free-form numbers such as prices (Text input)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2356",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Container: 136 by 40, background/secondary, border/default, 8px radius. 2 · Decrement and increment: 40px buttons, text/secondary. 3 · Value: SemiBold 16, text/primary. 4 · Disabled limit: text/disabled on the button that cannot move."
+     },
+     {
+      "type": "example",
+      "label": "3, Default",
+      "description": "Number stepper instance, Value=3, State=Default."
+     },
+     {
+      "type": "text",
+      "text": "Variants: value 3, 1 or 50, in Default, At minimum, At maximum and Disabled states."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2363",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Number stepper · set 4466:261 · page \"Number stepper\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Value",
+        "VARIANT",
+        "3",
+        "3, 1 or 50. The number shown."
+       ],
+       [
+        "State",
+        "VARIANT",
+        "Default",
+        "Default, At minimum, At maximum, Disabled."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2394",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Container fill",
+        "background/secondary",
+        "Field surface"
+       ],
+       [
+        "Container stroke",
+        "border/default",
+        "1px, 8px radius"
+       ],
+       [
+        "Value",
+        "text/primary",
+        "Open Sans SemiBold 16"
+       ],
+       [
+        "Buttons",
+        "text/secondary",
+        "Open Sans Regular 18"
+       ],
+       [
+        "Button at a limit",
+        "text/disabled",
+        "At minimum or At maximum"
+       ],
+       [
+        "Disabled",
+        "Opacity 45%",
+        "Whole component"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Fills and text are bound to Semantic / Colors, spacing to Primitives where a token exists. A few radii and paddings are fixed values, not tokens."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2444",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The container is role=\"group\" with a label; the value is an input with inputmode numeric.",
+       "Increment and decrement are buttons with accessible names; at a limit the button is disabled and uses aria-disabled.",
+       "Arrow up and arrow down also step the value from the input.",
+       "The limits are stated in the label or helper text.",
+       "Disabled keeps the layout and the label readable."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2454",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Fixed at 136 by 40; it never stretches."
+     }
+    ]
+   }
+  ]
+ },
+ "textarea": {
+  "nodeId": "4470:2519",
+  "title": "Textarea",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 33",
+  "revision": "Reviewed 15 Oct 2026",
+  "summary": "A multi-line text field with a label, an optional character counter and an error message. Built natively for NorthStar in Open Sans; every fill and text is bound to Semantic / Colors. Eight variants.",
+  "meta": {
+   "Review status": "Built 15 Oct 2026, not yet source-reviewed",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4470:2535",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Collect free text of more than one line."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not use for single-line values (Text input) or for rich text."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2546",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Label: SemiBold 14, text/primary. 2 · Field: 340 by 96, background/elevated, border/default, 8px radius. 3 · Placeholder: text/tertiary. 4 · Helper row: error message on the left, counter on the right."
+     },
+     {
+      "type": "example",
+      "label": "Default, On",
+      "description": "Textarea instance, State=Default, Counter=On."
+     },
+     {
+      "type": "text",
+      "text": "Variants: Default, Focus, Error and Disabled, each with the counter on or off."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2553",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Textarea · set 4466:309 · page \"Textarea\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "State",
+        "VARIANT",
+        "Default",
+        "Default, Focus, Error, Disabled."
+       ],
+       [
+        "Counter",
+        "VARIANT",
+        "On",
+        "On or Off. Shows \"0 / 1000\"."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2584",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Label",
+        "text/primary",
+        "Open Sans SemiBold 14"
+       ],
+       [
+        "Field fill",
+        "background/elevated",
+        "background/sunken when Disabled"
+       ],
+       [
+        "Field stroke",
+        "border/default",
+        "interactive/primary 2px in Focus, status/error 2px in Error"
+       ],
+       [
+        "Placeholder",
+        "text/tertiary",
+        "Open Sans Regular 14"
+       ],
+       [
+        "Error message",
+        "status/error",
+        "Open Sans Regular 12"
+       ],
+       [
+        "Counter",
+        "text/tertiary",
+        "Open Sans Regular 12"
+       ],
+       [
+        "Disabled",
+        "Opacity 45%",
+        "Whole component"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Fills and text are bound to Semantic / Colors, spacing to Primitives where a token exists. A few radii and paddings are fixed values, not tokens."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2634",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The label is associated with the field.",
+       "Errors use aria-invalid and aria-describedby that points at the message.",
+       "The counter is text, announced politely, and states the limit.",
+       "Error shows as a border and a message, not color alone.",
+       "Disabled keeps the label readable."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2644",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Full width of its container with a 340px default. Height grows to about eight lines."
+     }
+    ]
+   }
+  ]
+ },
+ "tree-view": {
+  "nodeId": "4470:2708",
+  "title": "Tree view",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 34",
+  "revision": "Reviewed 15 Oct 2026",
+  "summary": "A nested list of items with indentation, expandable parents, counts and one selected row. Built natively for NorthStar in Open Sans; every fill and text is bound to Semantic / Colors. Two variants.",
+  "meta": {
+   "Review status": "Built 15 Oct 2026, not yet source-reviewed",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4470:2724",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Browse nested items such as accounts, locations and devices."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not use for flat lists or for page navigation (Side navigation)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2735",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Row: Regular 14 label, text/primary, 28px tall. 2 · Chevron: text/tertiary, rotated 90 degrees when open. 3 · Count: text/tertiary, Regular 12. 4 · Selected row: background/selected. 5 · Indent: 20px per level."
+     },
+     {
+      "type": "example",
+      "label": "Expanded",
+      "description": "Tree view instance, State=Expanded."
+     },
+     {
+      "type": "text",
+      "text": "Variants: Expanded (parent open, one child selected) and Collapsed."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2742",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Tree view · set 4466:335 · page \"Tree view\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "State",
+        "VARIANT",
+        "Expanded",
+        "Expanded or Collapsed. Controls whether Chicago, IL shows its children."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2773",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Selected row",
+        "background/selected",
+        "6px radius"
+       ],
+       [
+        "Label",
+        "text/primary",
+        "Open Sans Regular 14"
+       ],
+       [
+        "Count",
+        "text/tertiary",
+        "Open Sans Regular 12"
+       ],
+       [
+        "Chevron",
+        "text/tertiary",
+        "Rotated when open"
+       ],
+       [
+        "Indent",
+        "Fixed",
+        "20px per level"
+       ],
+       [
+        "Gap",
+        "spacing/2",
+        "4px"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Fills and text are bound to Semantic / Colors, spacing to Primitives where a token exists. A few radii and paddings are fixed values, not tokens."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2823",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The list is role=\"tree\" with role=\"treeitem\" rows and aria-level, aria-expanded and aria-selected.",
+       "One row is the tab stop; arrow keys move, Right and Left expand and collapse, Enter selects.",
+       "Selection is a background and aria-selected, not color alone.",
+       "Counts are text, read after the label.",
+       "Expand and collapse work from the keyboard, not only by clicking the chevron."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2833",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Each level indents 20px. Long labels truncate with an ellipsis."
+     }
+    ]
+   }
+  ]
+ },
+ "command-palette": {
+  "nodeId": "4470:2906",
+  "title": "Command palette",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 35",
+  "revision": "Reviewed 15 Oct 2026",
+  "summary": "A keyboard-first launcher with a search field and grouped results for finding records, pages and actions. Built natively for NorthStar in Open Sans; every fill and text is bound to Semantic / Colors. Two variants.",
+  "meta": {
+   "Review status": "Built 15 Oct 2026, not yet source-reviewed",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4470:2922",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Jump to any record, page or action from the keyboard."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not use it as the only way to reach a feature, or in place of a search results page (Search)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2933",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Panel: 440px, background/elevated, border/default, 12px radius. 2 · Search field: background/secondary, 8px radius. 3 · Group label: SemiBold 11, text/tertiary. 4 · Result rows: label and type; the active row is background/selected. 5 · Hints: keyboard hints at the bottom."
+     },
+     {
+      "type": "example",
+      "label": "Empty",
+      "description": "Command palette instance, Query=Empty."
+     },
+     {
+      "type": "text",
+      "text": "Variants: Empty (recent items) and a query of \"acme\" (filtered results)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2940",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Command palette · set 4466:359 · page \"Command palette\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Query",
+        "VARIANT",
+        "Empty",
+        "Empty or acme. Changes the field text and the results."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:2971",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Panel fill and stroke",
+        "background/elevated, border/default",
+        "12px radius"
+       ],
+       [
+        "Search field",
+        "background/secondary",
+        "Placeholder text/tertiary, query text/primary"
+       ],
+       [
+        "Group label",
+        "text/tertiary",
+        "Open Sans SemiBold 11"
+       ],
+       [
+        "Result label",
+        "text/primary",
+        "Open Sans Regular 14"
+       ],
+       [
+        "Result type",
+        "text/tertiary",
+        "Open Sans Regular 12"
+       ],
+       [
+        "Active row",
+        "background/selected",
+        "First result"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Fills and text are bound to Semantic / Colors, spacing to Primitives where a token exists. A few radii and paddings are fixed values, not tokens."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:3021",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The palette is role=\"dialog\" with a labelled search field and a listbox of results.",
+       "Cmd K or Ctrl K opens it; arrows move the active row, Enter opens it, Escape closes it and returns focus.",
+       "Results announce their group and type.",
+       "The active row shows as a background and aria-selected, not color alone.",
+       "The docs demo is a static specimen; these behaviors are the contract to build."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:3031",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Centered and 440px wide, full width minus the page margin on narrow screens."
+     }
+    ]
+   }
+  ]
+ },
+ "icon-button": {
+  "nodeId": "4470:3102",
+  "title": "Icon button",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 36",
+  "revision": "Reviewed 15 Oct 2026",
+  "summary": "A square button with only an icon, in four hierarchies, three sizes and five states. Built natively for NorthStar; every fill is bound to Semantic / Colors. Sixty variants, shipped with the More icon.",
+  "meta": {
+   "Review status": "Built 15 Oct 2026, not yet source-reviewed",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4470:3118",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Trigger a single action with an icon only, in toolbars, table rows and dense headers."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not use without an accessible name and a tooltip, for primary page actions (Button), or for navigation (Link)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:3129",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Container: 32, 40 or 48px square, 8px radius. 2 · Icon: three-dot More icon, 14, 16 or 20px. 3 · Hierarchy sets the fill and the icon color. 4 · Focus: 2px focus/ring outside the container. 5 · Disabled: 45% opacity."
+     },
+     {
+      "type": "example",
+      "label": "Primary, S, Default",
+      "description": "Icon button instance, Hierarchy=Primary, Size=S, State=Default."
+     },
+     {
+      "type": "text",
+      "text": "Variants: Primary, Secondary, Ghost or Danger; S, M or L; Default, Hover, Pressed, Focus or Disabled. Swap the icon layer for Edit or Send."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:3136",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Icon button · set 4466:661 · page \"Icon button\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Hierarchy",
+        "VARIANT",
+        "Primary",
+        "Primary, Secondary, Ghost, Danger."
+       ],
+       [
+        "Size",
+        "VARIANT",
+        "S",
+        "S 32px, M 40px, L 48px."
+       ],
+       [
+        "State",
+        "VARIANT",
+        "Default",
+        "Default, Hover, Pressed, Focus, Disabled."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:3167",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Primary fill",
+        "interactive/primary",
+        "Hover interactive/hover, pressed interactive/pressed"
+       ],
+       [
+        "Primary icon",
+        "text/on-primary",
+        "Also on Danger"
+       ],
+       [
+        "Secondary fill and stroke",
+        "background/elevated, border/default",
+        "Hover background/hover, pressed background/selected"
+       ],
+       [
+        "Ghost icon",
+        "text/secondary",
+        "No fill at rest"
+       ],
+       [
+        "Danger fill",
+        "status/error",
+        "Same in every state"
+       ],
+       [
+        "Focus ring",
+        "focus/ring",
+        "2px stroke, outside"
+       ],
+       [
+        "Disabled",
+        "Opacity 45%",
+        "Whole component"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Fills and text are bound to Semantic / Colors, spacing to Primitives where a token exists. A few radii and paddings are fixed values, not tokens."
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:3217",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "Every icon button has an accessible name (aria-label) and a tooltip.",
+       "Targets are 32px or larger in every size.",
+       "The focus ring is visible on every hierarchy.",
+       "Danger is named in text, not only colored.",
+       "Disabled is 45% opacity and not focusable."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4470:3227",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Use M by default, S inside dense rows and L on touch layouts."
+     }
+    ]
+   }
+  ]
  }
 };
   NS.WORKFLOWS = { "create-account": {
