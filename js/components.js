@@ -1033,6 +1033,21 @@
       aria: ["The SVG is <code>role=\"img\"</code> with a label naming both states. Provide a table of start and end values nearby.", "Start and end are told apart by color and position; add a legend when that is not obvious.", "Trend text carries its sign, so the color is a second signal."],
       react: '<DumbbellChart size="medium" title="Satisfaction" value="4.6" trend="+0.3%" data={[{ label: "North", from: 20, to: 62 }]} />',
     }),
+    chartEntry("heatmap-chart", "heatmap", {
+      name: "Heatmap chart", figma: "4458:38007",
+      desc: "A heatmap shows a measure as the intensity of cells in a grid of two categories. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
+      doc: [
+        ["Cells are rectangles", "Each cell is a plain rectangle in chart/series-1 whose opacity carries the value, from 12% to 100%. Changing a value changes an opacity, not a path."],
+        ["One hue, one scale", "A single-hue ramp survives color-vision differences and High Contrast. Keep every cell on one scale, and show exact values in a table or on focus."],
+        ["Quiet cells stay quiet", "The lightest cells are intentionally low contrast. They never carry meaning alone, so pair the grid with the numbers."],
+      ],
+      when: ["Patterns across two categories at once.", "Activity by weekday and hour, or errors by service and day.", "A KPI tile that needs where the load sits."],
+      whenNot: ["Exact values. Use Data table.", "One category. Use Bar chart.", "Trends over time. Use Line chart."],
+      tokens: [["--ns-chart-series-1", "Cell color (opacity carries the value)"], ["--ns-widget-muted", "Row and column labels"]],
+      dataType: "number[][]", dataNote: "Rows of values from 0 to 1",
+      aria: ["The SVG is <code>role=\"img\"</code> with a label naming both categories. Provide a table of the values nearby.", "Intensity is a single-hue ramp; show exact values in a table or on focus.", "Trend text carries its sign, so the color is a second signal."],
+      react: '<HeatmapChart size="medium" title="Activity" value="3,260" trend="+5.1%" data={[[0.2, 0.8, 0.5]]} />',
+    }),
   ];
 
   NS.COMPONENTS.sort((a, b) => a.name.localeCompare(b.name));

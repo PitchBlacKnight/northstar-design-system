@@ -81,6 +81,25 @@
       return out;
     },
   };
+  DEFS.heatmap = {
+    name: "Heatmap",
+    alt: "Heatmap: activity by weekday and time, darker cells mean more events",
+    kpi: ["Activity", "3,260", "+5.1%", "Events by weekday and hour", "By day and hour"],
+    sum: [["Busiest", "Wed", "+2.0%", "Peak weekday", "Peak weekday"], ["Quietest", "Fri", "+0.6%", "Lowest weekday", "Lowest weekday"]],
+    prims: (w, h, o) => {
+      const c = o.compact, ml = c ? 0 : 34, mb = c ? 0 : 22, cols = c ? 8 : 12, rows = c ? 4 : 5, gap = c ? 2 : 3, pw = w - ml, ph = h - mb;
+      const cw = (pw - gap * (cols - 1)) / cols, ch = (ph - gap * (rows - 1)) / rows, D = ["Mon", "Tue", "Wed", "Thu", "Fri"], out = [];
+      for (let r = 0; r < rows; r++) {
+        if (!c) out.push({ k: "text", x: ml - 8, y: r * (ch + gap) + ch / 2, s: D[r], a: "end", n: "Row label" });
+        for (let k = 0; k < cols; k++) {
+          const v = ((r * 7 + k * 5 + r * k) % 10) / 9;
+          out.push({ k: "rect", x: ml + k * (cw + gap), y: r * (ch + gap), w: cw, h: ch, r: c ? 1 : 3, f: "s1", o: 0.12 + 0.88 * v, n: "Cell " + (r + 1) + "-" + (k + 1) });
+        }
+      }
+      if (!c) out.push(...H.xlab(ml + cw / 2, w - cw / 2, h - 8, ["6a", "12p", "6p"]));
+      return out;
+    },
+  };
   /* @defs-end */
 
   const TOKV = { s1: "--ns-chart-series-1", s2: "--ns-chart-series-2", s3: "--ns-chart-series-3", s4: "--ns-chart-series-4", s5: "--ns-chart-series-5", track: "--ns-chart-track", target: "--ns-chart-target", label: "--ns-widget-muted", text: "--ns-text-primary", text2: "--ns-text-secondary", ok: "--ns-status-success", err: "--ns-status-error", warn: "--ns-status-warning", grid: "--ns-widget-grid", bg: "--ns-widget-bg", line: "--ns-border-subtle", band: "--ns-widget-band", muted: "--ns-widget-muted" };
