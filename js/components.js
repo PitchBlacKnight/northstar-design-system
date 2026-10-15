@@ -1123,6 +1123,21 @@
       aria: ["The SVG is <code>role=\"img\"</code> with a label naming each goal and its value.", "Rings are told apart by order and label, never by color alone.", "Trend text carries its sign, so the color is a second signal."],
       react: '<RadialBarChart size="medium" title="Progress" value="78%" trend="+5.0%" data={[0.8, 0.62, 0.45, 0.3]} />',
     }),
+    chartEntry("radial-histogram-chart", "radialhist", {
+      name: "Radial histogram chart", figma: "4462:38356",
+      desc: "A radial histogram shows counts around a circle, one bar per hour, day or direction, where the end of the cycle meets the start. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
+      doc: [
+        ["Bars are arc segments", "Each bar is an ellipse arc segment 14 degrees wide with a 1 degree gap, so changing a value changes an outer radius."],
+        ["A hole in the middle", "The inner radius is 28% of the outer radius, which keeps short bars visible and gives the eye a center."],
+        ["State the start", "The circle has no left edge. Say where the cycle starts in the title or description."],
+      ],
+      when: ["Cyclic measures: hours of the day, days of the week, compass direction.", "Finding the busy and quiet part of a cycle.", "A KPI tile that needs the daily rhythm."],
+      whenNot: ["A measure with no cycle. Use Bar chart.", "Exact comparison. Use Horizontal bar chart.", "Time series that do not repeat. Use Line chart."],
+      tokens: [["--ns-chart-series-1", "Bars (alias of viz/1)"], ["--ns-chart-series-2", "Reference bars (alias of viz/4)"]],
+      dataType: "number[]", dataNote: "One value per slot from 0 to 1, clockwise from the top",
+      aria: ["The SVG is <code>role=\"img\"</code> with a label that names the cycle. Provide a table of the values per slot nearby.", "The start of the cycle is stated in text.", "Trend text carries its sign, so the color is a second signal."],
+      react: '<RadialHistogramChart size="medium" title="Requests" value="1,860" trend="+2.2%" data={[0.3, 0.7, 0.5]} />',
+    }),
   ];
 
   NS.COMPONENTS.sort((a, b) => a.name.localeCompare(b.name));

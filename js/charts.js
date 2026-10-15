@@ -170,6 +170,20 @@
       return out;
     },
   };
+  DEFS.radialhist = {
+    name: "Radial histogram",
+    alt: "Radial histogram: 24 bars around a circle, one per hour of the day",
+    kpi: ["Requests", "1,860", "+2.2%", "By hour, around the clock", "By hour"],
+    sum: [["Peak", "2 pm", "+1.5%", "Busiest hour", "Busiest"], ["Low", "4 am", "+0.3%", "Quietest hour", "Quietest"]],
+    prims: (w, h, o) => {
+      const c = o.compact, cx = w / 2, cy = h / 2, R = Math.min(w, h) / 2 - 2, r0 = R * 0.28, N = 24, out = [];
+      for (let i = 0; i < N; i++) {
+        const v = 0.3 + 0.7 * Math.abs(Math.sin(i * 0.9 + 0.4));
+        out.push({ k: "arc", cx, cy, ro: r0 + (R - r0) * v, ri: r0, a0: i * 15 + 1, a1: (i + 1) * 15 - 1, f: i % 6 === 0 ? "s2" : "s1", n: "Bar " + (i + 1) });
+      }
+      return out;
+    },
+  };
   /* @defs-end */
 
   const TOKV = { s1: "--ns-chart-series-1", s2: "--ns-chart-series-2", s3: "--ns-chart-series-3", s4: "--ns-chart-series-4", s5: "--ns-chart-series-5", track: "--ns-chart-track", target: "--ns-chart-target", label: "--ns-widget-muted", text: "--ns-text-primary", text2: "--ns-text-secondary", ok: "--ns-status-success", err: "--ns-status-error", warn: "--ns-status-warning", grid: "--ns-widget-grid", bg: "--ns-widget-bg", line: "--ns-border-subtle", band: "--ns-widget-band", muted: "--ns-widget-muted" };
