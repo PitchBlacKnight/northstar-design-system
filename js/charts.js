@@ -47,6 +47,22 @@
       return [...g, ...out];
     },
   };
+  DEFS.funnel = {
+    name: "Funnel",
+    alt: "Funnel chart: five stages from visits to active, each narrower than the last",
+    kpi: ["Signups", "8,420", "+3.2%", "From first visit to active", "Visit to active"],
+    sum: [["Trial", "2,100", "+1.4%", "Started a trial", "Started trial"], ["Active", "640", "+0.9%", "Active at day 30", "Active day 30"]],
+    prims: (w, h, o) => {
+      const c = o.compact, ml = c ? 0 : 72, pw = w - ml, n = 5, gap = c ? 3 : 6, bh = (h - gap * (n - 1)) / n;
+      const V = [1, 0.78, 0.56, 0.38, 0.22], L = ["Visits", "Signups", "Trial", "Paid", "Active"], out = [];
+      V.forEach((v, i) => {
+        const bw = pw * v, y = i * (bh + gap);
+        out.push({ k: "rect", x: ml + (pw - bw) / 2, y, w: bw, h: bh, r: Math.min(4, bh / 2), f: "s1", o: 1 - i * 0.16, n: "Stage " + (i + 1) });
+        if (!c) out.push({ k: "text", x: 0, y: y + bh / 2, s: L[i], a: "start", n: "Stage label" });
+      });
+      return out;
+    },
+  };
   /* @defs-end */
 
   const TOKV = { s1: "--ns-chart-series-1", s2: "--ns-chart-series-2", s3: "--ns-chart-series-3", s4: "--ns-chart-series-4", s5: "--ns-chart-series-5", track: "--ns-chart-track", target: "--ns-chart-target", label: "--ns-widget-muted", text: "--ns-text-primary", text2: "--ns-text-secondary", ok: "--ns-status-success", err: "--ns-status-error", warn: "--ns-status-warning", grid: "--ns-widget-grid", bg: "--ns-widget-bg", line: "--ns-border-subtle", band: "--ns-widget-band", muted: "--ns-widget-muted" };

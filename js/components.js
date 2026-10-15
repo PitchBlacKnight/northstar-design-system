@@ -1003,6 +1003,21 @@
       aria: ["The SVG is <code>role=\"img\"</code> with a label that states the trend. Provide a table of open, close, high and low nearby.", "Direction is never carried by green and red alone.", "Trend text carries its sign, so the color is a second signal."],
       react: '<CandlestickChart size="medium" title="Index" value="4,820" trend="+0.8%" data={[{ open: 40, close: 52, low: 34, high: 58 }]} />',
     }),
+    chartEntry("funnel-chart", "funnel", {
+      name: "Funnel chart", figma: "4458:37265",
+      desc: "A funnel chart shows how a count narrows across ordered stages, one centered bar per stage. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
+      doc: [
+        ["Stages are rectangles", "Each stage is a plain rectangle centered in the plot, with a width proportional to its count. Changing a value changes a width, not a path."],
+        ["Order reads without color", "One series color steps down in opacity from the first stage to the last, so the order survives color-vision differences and High Contrast."],
+        ["Keep stages few", "Five stages is the ceiling. Merge the tail into one bar, and drop the stage labels below 192px wide, where the headline carries the story."],
+      ],
+      when: ["Conversion across an ordered process.", "A drop-off story where each stage is a subset of the last.", "A KPI tile that needs the shape of the loss, not only the end count."],
+      whenNot: ["Unordered categories. Use Horizontal bar chart.", "Flows between states. Use Sankey chart.", "Parts of a whole. Use Donut chart."],
+      tokens: [["--ns-chart-series-1", "Stage bars (opacity steps by stage)"], ["--ns-widget-muted", "Stage labels"]],
+      dataType: "{ label: string, value: number }[]", dataNote: "Stages in order, value as percent of the first stage",
+      aria: ["The SVG is <code>role=\"img\"</code> with a label naming the stages. Provide a table of counts and conversion rates nearby.", "Order is carried by position and width, never by color.", "Trend text carries its sign, so the color is a second signal."],
+      react: '<FunnelChart size="medium" title="Signups" value="8,420" trend="+3.2%" data={[{ label: "Visits", value: 100 }, { label: "Signups", value: 78 }]} />',
+    }),
   ];
 
   NS.COMPONENTS.sort((a, b) => a.name.localeCompare(b.name));
