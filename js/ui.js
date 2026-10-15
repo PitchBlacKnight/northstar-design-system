@@ -118,6 +118,68 @@
     pg.spec.init && pg.spec.init(root);
   };
 
+  /* Tree view: roving tabindex, arrows to move, Right and Left to expand and collapse, Enter to select. */
+  const initTrees = (root) => root.querySelectorAll && root.querySelectorAll("[role=tree]").forEach((t) => {
+    const rows = [...t.querySelectorAll("[role=treeitem]")];
+    if (!rows.length || rows.some((r) => r.tabIndex === 0)) return;
+    const start = rows.find((r) => r.getAttribute("aria-selected") === "true") || rows[0];
+    rows.forEach((r) => (r.tabIndex = r === start ? 0 : -1));
+  });
+  if (typeof MutationObserver !== "undefined") {
+    new MutationObserver((ms) => ms.forEach((m) => m.addedNodes.forEach((n) => { if (n.nodeType === 1) initTrees(n.matches("[role=tree]") ? n.parentNode : n); }))).observe(document.documentElement, { childList: true, subtree: true });
+    document.addEventListener("DOMContentLoaded", () => initTrees(document));
+  }
+  const treeSelect = (tree, row) => tree.querySelectorAll("[role=treeitem]").forEach((x) => x.setAttribute("aria-selected", String(x === row)));
+  const treeToggle = (row, open) => { row.setAttribute("aria-expanded", String(open)); const g = row.parentElement.querySelector(":scope > [role=group]"); if (g) g.hidden = !open; };
+  document.addEventListener("keydown", (e) => {
+    const row = e.target;
+    if (!row.matches || !row.matches("[role=treeitem]")) return;
+    const tree = row.closest("[role=tree]");
+    if (!tree) return;
+    const items = [...tree.querySelectorAll("[role=treeitem]")].filter((x) => !x.closest("[role=group][hidden]"));
+    const i = items.indexOf(row), group = row.parentElement.querySelector(":scope > [role=group]");
+    const expandable = row.hasAttribute("aria-expanded"), open = row.getAttribute("aria-expanded") === "true";
+    let next = null;
+    if (e.key === "ArrowDown") next = items[i + 1];
+    else if (e.key === "ArrowUp") next = items[i - 1];
+    else if (e.key === "Home") next = items[0];
+    else if (e.key === "End") next = items[items.length - 1];
+    else if (e.key === "ArrowRight") { if (expandable && !open) treeToggle(row, true); else if (expandable && open && group) next = group.querySelector("[role=treeitem]"); }
+    else if (e.key === "ArrowLeft") { if (expandable && open) treeToggle(row, false); else { const pg = row.closest("[role=group]"); next = pg && pg.parentElement.querySelector(":scope > [role=treeitem]"); } }
+    else if (e.key === "Enter" || e.key === " ") treeSelect(tree, row);
+    else return;
+    e.preventDefault();
+    if (next) { tree.querySelectorAll("[role=treeitem]").forEach((x) => (x.tabIndex = -1)); next.tabIndex = 0; next.focus(); }
+  });
+  document.addEventListener("click", (e) => {
+    const row = e.target.closest && e.target.closest(".ns-tree__row[role=treeitem]");
+    if (!row) return;
+    const tree = row.closest("[role=tree]");
+    treeSelect(tree, row);
+    tree.querySelectorAll("[role=treeitem]").forEach((x) => (x.tabIndex = x === row ? 0 : -1));
+    if (row.hasAttribute("aria-expanded")) treeToggle(row, row.getAttribute("aria-expanded") !== "true");
+  });
+
+  /* Tabs and menus: arrows, Home and End move focus between items; button tabs in demos also activate. */
+  document.addEventListener("keydown", (e) => {
+    const t = e.target;
+    if (!t.matches) return;
+    const isTab = t.matches("[role=tab]"), isItem = t.matches("[role=menuitem]");
+    const group = isTab ? t.closest("[role=tablist]") : isItem ? t.closest("[role=menu]") : null;
+    if (!group) return;
+    const items = [...group.querySelectorAll(isTab ? "[role=tab]" : "[role=menuitem]")].filter((x) => !x.disabled && x.getAttribute("aria-disabled") !== "true");
+    const fwd = isTab ? "ArrowRight" : "ArrowDown", back = isTab ? "ArrowLeft" : "ArrowUp", i = items.indexOf(t);
+    let j;
+    if (e.key === fwd) j = (i + 1) % items.length;
+    else if (e.key === back) j = (i - 1 + items.length) % items.length;
+    else if (e.key === "Home") j = 0;
+    else if (e.key === "End") j = items.length - 1;
+    else return;
+    e.preventDefault();
+    items[j].focus();
+    if (isTab && items[j].tagName === "BUTTON") items[j].click();
+  });
+
   /* Roving focus for button-based radio groups (segmented control): arrows and Home/End move and select. */
   document.addEventListener("keydown", (e) => {
     const t = e.target;
