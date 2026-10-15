@@ -1018,6 +1018,21 @@
       aria: ["The SVG is <code>role=\"img\"</code> with a label naming the stages. Provide a table of counts and conversion rates nearby.", "Order is carried by position and width, never by color.", "Trend text carries its sign, so the color is a second signal."],
       react: '<FunnelChart size="medium" title="Signups" value="8,420" trend="+3.2%" data={[{ label: "Visits", value: 100 }, { label: "Signups", value: 78 }]} />',
     }),
+    chartEntry("dumbbell-chart", "dumbbell", {
+      name: "Dumbbell chart", figma: "4458:37527",
+      desc: "A dumbbell chart joins two values per row to show the gap between them, such as before and after. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
+      doc: [
+        ["Points are ellipses, links are rectangles", "Each row is two ellipses joined by a 2px rectangle. Changing a value moves a point and resizes the link; nothing is a vector."],
+        ["Start and end have fixed colors", "The start point uses chart/series-2 and the end point chart/series-1 in every row, so the direction of change reads at a glance."],
+        ["Sort when the order is free", "Sorting rows by gap size makes the largest change the first thing seen. Keep the same row order across sizes."],
+      ],
+      when: ["Change between two states across several categories.", "Plan against actual, or this period against the last.", "A KPI tile that needs the gap per group."],
+      whenNot: ["One value per row. Use Horizontal bar chart.", "More than two states. Use Line chart.", "Time series. Use Line chart."],
+      tokens: [["--ns-chart-series-1", "End point (alias of viz/1)"], ["--ns-chart-series-2", "Start point (alias of viz/4)"], ["--ns-widget-grid", "Link between the points"]],
+      dataType: "{ label: string, from: number, to: number }[]", dataNote: "Values as percent of the plot width",
+      aria: ["The SVG is <code>role=\"img\"</code> with a label naming both states. Provide a table of start and end values nearby.", "Start and end are told apart by color and position; add a legend when that is not obvious.", "Trend text carries its sign, so the color is a second signal."],
+      react: '<DumbbellChart size="medium" title="Satisfaction" value="4.6" trend="+0.3%" data={[{ label: "North", from: 20, to: 62 }]} />',
+    }),
   ];
 
   NS.COMPONENTS.sort((a, b) => a.name.localeCompare(b.name));

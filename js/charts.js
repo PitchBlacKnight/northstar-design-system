@@ -63,6 +63,24 @@
       return out;
     },
   };
+  DEFS.dumbbell = {
+    name: "Dumbbell",
+    alt: "Dumbbell chart: five rows, each joining a before value and an after value",
+    kpi: ["Satisfaction", "4.6", "+0.3%", "Before and after the change", "Before vs after"],
+    sum: [["Largest gap", "0.7", "+0.2%", "Biggest improvement", "Biggest gain"], ["Smallest gap", "0.1", "+0.1%", "Least movement", "Least movement"]],
+    prims: (w, h, o) => {
+      const c = o.compact, ml = c ? 0 : 64, n = c ? 4 : 5, pw = w - ml - 8, rh = h / n;
+      const V = [[0.20, 0.62], [0.35, 0.80], [0.10, 0.45], [0.40, 0.70], [0.25, 0.90]].slice(0, n), L = ["North", "South", "East", "West", "Central"], out = [];
+      V.forEach((v, i) => {
+        const cy = rh * (i + 0.5), x1 = ml + 4 + pw * v[0], x2 = ml + 4 + pw * v[1], r = c ? 4 : 6;
+        if (!c) out.push({ k: "text", x: 0, y: cy, s: L[i], a: "start", n: "Row label" });
+        out.push({ k: "rect", x: x1, y: cy - 1, w: x2 - x1, h: 2, r: 1, f: "grid", n: "Link " + (i + 1) });
+        out.push({ k: "circle", cx: x1, cy, r, f: "s2", n: "Before " + (i + 1) });
+        out.push({ k: "circle", cx: x2, cy, r, f: "s1", n: "After " + (i + 1) });
+      });
+      return out;
+    },
+  };
   /* @defs-end */
 
   const TOKV = { s1: "--ns-chart-series-1", s2: "--ns-chart-series-2", s3: "--ns-chart-series-3", s4: "--ns-chart-series-4", s5: "--ns-chart-series-5", track: "--ns-chart-track", target: "--ns-chart-target", label: "--ns-widget-muted", text: "--ns-text-primary", text2: "--ns-text-secondary", ok: "--ns-status-success", err: "--ns-status-error", warn: "--ns-status-warning", grid: "--ns-widget-grid", bg: "--ns-widget-bg", line: "--ns-border-subtle", band: "--ns-widget-band", muted: "--ns-widget-muted" };
