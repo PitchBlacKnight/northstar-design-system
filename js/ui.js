@@ -118,6 +118,25 @@
     pg.spec.init && pg.spec.init(root);
   };
 
+  /* Roving focus for button-based radio groups (segmented control): arrows and Home/End move and select. */
+  document.addEventListener("keydown", (e) => {
+    const t = e.target;
+    if (!t.matches || !t.matches("[role=radio]")) return;
+    const group = t.closest("[role=radiogroup]");
+    if (!group) return;
+    const items = [...group.querySelectorAll("[role=radio]:not([disabled])")];
+    const i = items.indexOf(t);
+    let j;
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") j = (i + 1) % items.length;
+    else if (e.key === "ArrowLeft" || e.key === "ArrowUp") j = (i - 1 + items.length) % items.length;
+    else if (e.key === "Home") j = 0;
+    else if (e.key === "End") j = items.length - 1;
+    else return;
+    e.preventDefault();
+    items.forEach((b, k) => { b.setAttribute("aria-checked", String(k === j)); b.tabIndex = k === j ? 0 : -1; });
+    items[j].focus();
+  });
+
   /* Delegated events for copy, playground, demo behaviors */
   document.addEventListener("click", (e) => {
     const t = e.target;
