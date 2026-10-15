@@ -572,7 +572,7 @@
       react: "<Divider />",
     },
     {
-      id: "icon-button", name: "Icon button", cat: "Actions", status: "New",
+      id: "icon-button", name: "Icon button", cat: "Actions", status: "New", figma: "4466:661",
       desc: "A square, icon-only button for toolbars, table rows and dense headers. Every icon button needs an accessible name. Add a tooltip for any icon that is not widely understood.",
       axes: [["Hierarchy", "Primary, Secondary, Ghost, Danger"], ["Size", "S (32), M (40), L (48)"], ["Icon", "Swap the glyph"], ["State", "Default, Hover, Pressed, Focus, Disabled"]],
       doc: [["Choosing the icon", "Use an icon only when most people already read its meaning, such as edit, more or close. Pair anything less clear with a label."], ["Where it fits", "Ghost icon buttons suit table rows and toolbars. Use a labeled Button for page-level actions."]],
@@ -606,7 +606,7 @@
       react: '<IconButton icon={<MoreIcon />} hierarchy="ghost" aria-label="More actions" />',
     },
     {
-      id: "link", name: "Link", cat: "Actions", status: "New",
+      id: "link", name: "Link", cat: "Actions", status: "New", figma: "4465:92",
       desc: "A text link for navigation. Links go to a destination, and buttons run an action. External links open in a new tab and say so to screen readers.",
       axes: [["Type", "Default, External"], ["State", "Default, Hover, Focus, Disabled"]],
       doc: [["Link text", "Write the destination in the label, such as View billing history. Avoid generic labels like click here."], ["External destinations", "Mark links that leave the product. They open in a new tab, and the link text says so for screen readers."]],
@@ -637,7 +637,7 @@
       react: '<Link href="/billing">View billing history</Link>',
     },
     {
-      id: "menu", name: "Menu", cat: "Actions", status: "New",
+      id: "menu", name: "Menu", cat: "Actions", status: "New", figma: "4466:90",
       desc: "A list of actions that opens from a trigger, such as a row's more button. Use it for secondary actions. Keep primary actions out of the menu, and put destructive actions last.",
       axes: [["Item", "Label, Icon, Shortcut, Type"], ["Type", "Default, Destructive"], ["State", "Default, Hover, Focus, Disabled"]],
       doc: [["Ordering", "Group related actions. Put the most common first and destructive actions last, behind a divider."], ["Keyboard", "Arrow keys move between items. Escape closes the menu and returns focus to the trigger."]],
@@ -662,7 +662,7 @@
       react: '<Menu trigger={<IconButton icon={<MoreIcon />} aria-label="Row actions" />} items={[{ id: "edit", label: "Edit details", shortcut: "⌘E" }, { id: "delete", label: "Delete", destructive: true }]} />',
     },
     {
-      id: "bulk-action-bar", name: "Bulk action bar", cat: "Actions", status: "New",
+      id: "bulk-action-bar", name: "Bulk action bar", cat: "Actions", status: "New", figma: "4466:131",
       desc: "A toolbar that appears above a table when rows are selected. It shows the count and the actions that apply to every selected row.",
       axes: [["Count", "Text, such as 3 selected"], ["Actions", "Up to four buttons. Extras move into a Menu"], ["State", "Hidden, Visible"]],
       doc: [["Show only valid actions", "Show an action only when it applies to every selected row. Keep the order fixed across the table."], ["Confirm destructive actions", "A destructive action opens a Modal that repeats the count, such as Delete 3 accounts."]],
@@ -687,7 +687,7 @@
       react: '<BulkActionBar count={3} actions={[{ label: "Approve" }, { label: "Delete", destructive: true }]} onClear={clear} />',
     },
     {
-      id: "textarea", name: "Textarea", cat: "Inputs", status: "New",
+      id: "textarea", name: "Textarea", cat: "Inputs", status: "New", figma: "4466:309",
       desc: "A multi-line text field for free text. It follows the same states as Input. Show a counter when the field has a hard limit, and let the field grow to about eight lines.",
       axes: [["State", "Default, Hover, Focus, Error, Warning, Success, Disabled, Read only"], ["Counter", "Shown or hidden"], ["Rows", "Starts at three, grows to eight"]],
       doc: [["Limits", "Show a counter such as 0 / 1000 when the user nears a hard limit. Past the limit, the counter turns to error color and the message says what to fix."], ["Size", "Start at three rows. Let the field grow with the text up to about eight lines, then scroll."]],
@@ -718,7 +718,7 @@
       react: '<Textarea label="Description" maxLength={1000} helper="Services, regions and size" />',
     },
     {
-      id: "combobox", name: "Combobox", cat: "Inputs", status: "New",
+      id: "combobox", name: "Combobox", cat: "Inputs", status: "New", figma: "4466:34",
       desc: "A filterable multi-select for long lists. Typing filters the options, Enter toggles the active option, and chosen values stay visible as removable tags. Use it when the list is longer than about ten items.",
       axes: [["State", "Default, Focus, Open, Disabled"], ["Selection", "Zero, one or many tags"]],
       doc: [["Long lists", "Use a combobox for lists longer than about ten items. For two to six options, use Checkbox or Radio."], ["Keep picks", "Keep selected values as tags so people can see and remove them. Do not clear the query after each pick, so they can keep filtering."]],
@@ -744,7 +744,7 @@
       react: '<Combobox label="Tags" options={tags} value={chosen} onChange={setPicked} placeholder="Add tag" />',
     },
     {
-      id: "number-stepper", name: "Number stepper", cat: "Inputs", status: "New",
+      id: "number-stepper", name: "Number stepper", cat: "Inputs", status: "New", figma: "4466:261",
       desc: "An integer field with decrement and increment buttons, for small counts with a clear minimum and maximum. People can also type the number directly.",
       axes: [["State", "Default, Focus, At minimum, At maximum, Disabled"]],
       doc: [["Range", "State the allowed range in the label or helper text, such as Sites (1 to 50). Disable a button when it cannot go further."], ["Other controls", "Money and large numbers belong in Input. Use Slider when the range is visual and approximate."]],
@@ -775,7 +775,7 @@
       react: '<NumberStepper label="Sites" min={1} max={50} value={sites} onChange={setSites} />',
     },
     {
-      id: "inline-edit", name: "Inline edit", cat: "Inputs", status: "New",
+      id: "inline-edit", name: "Inline edit", cat: "Inputs", status: "New", figma: "4466:54",
       desc: "Edit one field in place on a detail page. Enter or the check saves, Escape cancels, and a failed save keeps the typed value and shows a Toast.",
       axes: [["State", "Read, Hover, Editing, Saving"]],
       doc: [["When to use", "Use it on detail pages for single fields that change often. For fields that depend on each other, use a form so they save together."], ["Saving", "Show a spinner while saving. If the save fails, keep the typed value, show the error in a Toast, and let the person retry."]],
@@ -802,7 +802,7 @@
       react: '<InlineEdit label="Account manager" value={manager} onSave={saveManager} />',
     },
     {
-      id: "segmented-control", name: "Segmented control", cat: "Inputs", status: "New",
+      id: "segmented-control", name: "Segmented control", cat: "Inputs", status: "New", figma: "4466:175",
       desc: "Switches between two to five views of the same content. Exactly one segment is selected at a time, and arrow keys move the selection.",
       axes: [["Segments", "2 to 5"], ["Icon", "Optional, shown with the label"], ["State", "Default, Hover, Selected, Focus, Disabled"]],
       doc: [["Views, not pages", "Use it to change the view of the same data, such as Table or Board. Moving between pages is a job for Tabs."], ["Keep labels short", "One word per segment. Pair an icon with the label only when the icon is widely understood."]],
@@ -831,7 +831,7 @@
       react: '<SegmentedControl label="View" items={[{ label: "Table" }, { label: "Board" }]} value={view} onChange={setView} />',
     },
     {
-      id: "tree-view", name: "Tree view", cat: "Navigation", status: "New",
+      id: "tree-view", name: "Tree view", cat: "Navigation", status: "New", figma: "4466:335",
       desc: "Browses a hierarchy such as account, location and device. Each level indents 20px. Parents expand and collapse, and leaves keep the chevron space so labels line up.",
       axes: [["Depth", "Up to four levels"], ["Row", "Collapsed, Expanded, Leaf"], ["State", "Default, Hover, Selected, Focus"]],
       doc: [["Real hierarchies", "Use a tree for hierarchies two to four levels deep. Show child counts on parents, and remember the expanded state for each person."]],
@@ -858,7 +858,7 @@
       react: '<TreeView label="Locations" items={locations} selected={selected} onSelect={setSelected} />',
     },
     {
-      id: "command-palette", name: "Command palette", cat: "Navigation", status: "New",
+      id: "command-palette", name: "Command palette", cat: "Navigation", status: "New", figma: "4466:359",
       desc: "A global launcher for finding records, pages and actions. Open it with Cmd K or Ctrl K. Results group by type, and the active row follows the keyboard.",
       axes: [["Result", "Label, meta, icon, shortcut"], ["Group", "Up to four groups"], ["State", "Empty query, Results, Active row"]],
       doc: [["What to search", "Search the records and actions people use most. Show recent items before the person types anything."]],
@@ -886,7 +886,7 @@
       react: '<CommandPalette items={items} onSelect={openItem} />',
     },
     {
-      id: "toast", name: "Toast", cat: "Feedback", status: "New",
+      id: "toast", name: "Toast", cat: "Feedback", status: "New", figma: "4465:138",
       desc: "A short message after an action, such as Account archived. Toasts stack in a corner and clear on their own. Errors the person must fix belong inline, not in a toast.",
       axes: [["Status", "Information, Success, Warning, Error"], ["Action", "None or one button"], ["Message", "Shown or hidden"]],
       doc: [["Undo instead of confirm", "For reversible actions, offer Undo in the toast rather than a confirm dialog."], ["Stacking", "Show at most three toasts. The newest sits on top."]],
@@ -921,7 +921,7 @@
       react: '<Toast status="success" title="Account archived" action={{ label: "Undo", onClick: undo }} />',
     },
     {
-      id: "status-dot", name: "Status dot", cat: "Status", status: "New",
+      id: "status-dot", name: "Status dot", cat: "Status", status: "New", figma: "4465:39",
       desc: "A colored dot with a label, for dense tables and maps where a badge would take too much space. Keep the label visible, or name the status in a column header or tooltip.",
       axes: [["Status", "Positive, Critical, Negative, Informative, Neutral"], ["Label", "Shown or hidden"]],
       doc: [["Color is not the only signal", "Each status keeps its word. Hiding the label is only safe when a column header or tooltip names the status."]],
