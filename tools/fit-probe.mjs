@@ -31,30 +31,40 @@ if (!chrome) fail("fit probe skipped: no Chrome found (set CHROME=/path/to/chrom
 const TYPES = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png", ".woff2": "font/woff2" };
 const server = createServer((req, res) => {
   const url = decodeURIComponent((req.url || "/").split("?")[0]);
-  if (url === "/__fit-probe.js") { res.setHeader("content-type", "text/javascript"); return res.end(`window.__fitWidths=${JSON.stringify(widths)};\n` + readFileSync(join(ROOT, "tools/fit-probe-page.js"))); }
+  if (url === "/__fit-probe.js") { const mode = /[?&]mode=page/.test(req.url || "") ? "page" : "components"; res.setHeader("content-type", "text/javascript"); return res.end(`window.__fitWidths=${JSON.stringify(widths)};window.__fitMode=${JSON.stringify(mode)};\n` + readFileSync(join(ROOT, "tools/fit-probe-page.js"))); }
   const p = join(ROOT, url === "/" ? "index.html" : url);
   if (!p.startsWith(ROOT) || !existsSync(p) || !statSync(p).isFile()) { res.statusCode = 404; return res.end("not found"); }
   let body = readFileSync(p);
-  if (p.endsWith("index.html")) body = Buffer.from(String(body).replace("</body>", '<script src="/__fit-probe.js"></script></body>'));
+  if (p.endsWith("index.html")) { const pm = /[?&]fit=page/.test(req.url || "") ? "?mode=page" : ""; body = Buffer.from(String(body).replace("</body>", `<script src="/__fit-probe.js${pm}"></script></body>`)); }
   res.setHeader("content-type", TYPES[extname(p)] || "application/octet-stream"); res.end(body);
 });
 await new Promise((r) => server.listen(0, "127.0.0.1", r));
 const port = server.address().port;
 
-const dom = await new Promise((resolve) => {
-  const p = spawn(chrome, ["--headless=new", "--disable-gpu", "--no-sandbox", "--hide-scrollbars", "--window-size=1200,900", "--virtual-time-budget=60000", "--dump-dom", `http://127.0.0.1:${port}/index.html`], { stdio: ["ignore", "pipe", "ignore"] });
+const runChrome = (size, query) => new Promise((resolve) => {
+  const p = spawn(chrome, ["--headless=new", "--disable-gpu", "--no-sandbox", `--window-size=${size},900`, "--virtual-time-budget=60000", "--dump-dom", `http://127.0.0.1:${port}/index.html${query}`], { stdio: ["ignore", "pipe", "ignore"] });
   let out = ""; p.stdout.on("data", (d) => (out += d));
   const t = setTimeout(() => p.kill(), 180000);
   p.on("close", () => { clearTimeout(t); resolve(out); });
 });
+const grab = (dom) => { const m = dom.match(/<script type="application\/json" id="ns-fit-result">([\s\S]*?)<\/script>/); return m ? JSON.parse(m[1]) : null; };
+const dom = await runChrome(1200, "");
+/* Page mode: the page itself must not scroll sideways at common window widths. */
+const PAGE_WIDTHS = [1920, 1440, 1280, 1024, 768, 390];
+const pageRows = [];
+for (const w of PAGE_WIDTHS) {
+  const r = grab(await runChrome(w, "?fit=page"));
+  if (r) r.rows.forEach((x) => { if (x.over > 1) pageRows.push({ id: x.route, label: "page", width: w, kind: "page-overflow", detail: `+${x.over}px sideways scroll` }); });
+}
 server.close();
 
-const m = dom.match(/<script type="application\/json" id="ns-fit-result">([\s\S]*?)<\/script>/);
-if (!m) fail("fit probe produced no result (the page did not finish rendering).");
-const result = JSON.parse(m[1]);
+const result = grab(dom);
+if (!result) fail("fit probe produced no result (the page did not finish rendering).");
+result.issues.push(...pageRows);
+result.pageWidths = PAGE_WIDTHS;
 if (asJson) { console.log(JSON.stringify(result)); process.exit(result.issues.length ? 1 : 0); }
 
-console.log(`NorthStar fit probe: ${result.components} components, ${result.checked} renders at ${result.widths.join(", ")}px\n`);
+console.log(`NorthStar fit probe: ${result.components} components, ${result.checked} renders at ${result.widths.join(", ")}px; page overflow at ${result.pageWidths.join(", ")}px\n`);
 if (!result.issues.length) { console.log("Everything fits."); process.exit(0); }
 const byKind = {};
 result.issues.forEach((i) => (byKind[i.kind] = byKind[i.kind] || []).push(i));

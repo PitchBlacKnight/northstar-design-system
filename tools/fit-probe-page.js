@@ -5,6 +5,21 @@
 (async () => {
   await new Promise((r) => (document.readyState === "complete" ? r() : addEventListener("load", r)));
   await new Promise((r) => setTimeout(r, 600));
+  /* Page mode: does the page itself scroll sideways at this window width? Run once per width by tools/fit-probe.mjs. */
+  if (window.__fitMode === "page") {
+    const ROUTES = ["", "foundations/color", "foundations/logo", "components/button", "components/bubble-chart", "floorplans/dashboard", "floorplans/learner-progress", "floorplans/enrollment-health", "getting-started/downloads"];
+    const de = document.documentElement, rows = [];
+    for (const r of ROUTES) {
+      location.hash = "#/" + r;
+      await new Promise((res) => setTimeout(res, 500));
+      rows.push({ route: r || "home", over: de.scrollWidth - de.clientWidth });
+    }
+    const o = document.createElement("script");
+    o.type = "application/json"; o.id = "ns-fit-result";
+    o.textContent = JSON.stringify({ width: innerWidth, rows });
+    document.body.appendChild(o);
+    return;
+  }
   const WIDTHS = (window.__fitWidths || [320, 240, 192]);
   /* By design: fixed-size surfaces, overlays and animations. [component id, label pattern, max width it applies to] */
   const BY_DESIGN = [["modal", /./], ["side-navigation", /./], ["tooltip", /./], ["progress", /Indeterminate/], ["divider", /Vertical/], ["dropdown", /./], ["date-picker", /./, 223], ["slider", /./], ["alert-banner", /./, 200], ["search", /variant 1/]];

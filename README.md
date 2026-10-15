@@ -33,7 +33,7 @@ Icons: assets/icons/*.svg (95, exported from Figma Icons page, currentColor) + m
 
 **Copy lint and hook.** `node tools/copy-lint.mjs` fails on em dashes and banned claims in site copy; `figma-sync-check` runs it too. The repo commits `tools/hooks/pre-commit`, which runs the copy lint on staged site files and the fit probe when CSS or components change. Enable it once per clone with `git config core.hooksPath tools/hooks`.
 
-**Fit probe.** `node tools/fit-probe.mjs` renders every component state at 320, 240 and 192px tiles in headless Chrome (no npm install; it finds Chrome or `$CHROME`) and reports overflow, targets under 24px, unnamed controls and chart labels under 9px. `node tools/figma-sync-check.mjs --offline --fit` adds the result to the drift report. By-design exceptions (modal, side navigation, XL sizes, full-width alert) are listed at the top of `tools/fit-probe-page.js`.
+**Fit probe.** `node tools/fit-probe.mjs` renders every component state at 320, 240 and 192px tiles in headless Chrome (no npm install; it finds Chrome or `$CHROME`) and reports overflow, targets under 24px, unnamed controls and chart labels under 9px. `node tools/figma-sync-check.mjs --offline --fit` adds the result to the drift report. It also loads nine routes at window widths of 1920, 1440, 1280, 1024, 768 and 390px and fails if the page scrolls sideways. By-design exceptions (modal, side navigation, XL sizes, full-width alert) are listed at the top of `tools/fit-probe-page.js`.
 
 Links run both ways: every component in `js/components.js` has a `figma` node ID, and every component in the NORTHSTAR DS Figma file (VZxmDNQiosTN6gqnvEQ65Z) has a documentation link to its page here. Nothing updates automatically, so check for drift by hand:
 
