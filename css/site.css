@@ -566,10 +566,10 @@ body:not(.is-home) .shell::before { content: ""; position: absolute; top: 0; bot
 .bt--purple { background: color-mix(in srgb, var(--ns-purple-500) 18%, var(--ns-widget-bg)); border-color: color-mix(in srgb, var(--ns-purple-500) 34%, transparent); }
 .bt__head { display: grid; gap: 2px; }
 .bt__head h4 { margin: 0; font: 600 14px/20px var(--ns-font-sans); }
-.bt__head span { font: 400 12px/16px var(--ns-font-sans); color: var(--ns-widget-muted); }
+.bt__head span { font: 400 12px/16px var(--ns-font-sans); color: var(--ns-chart-label-text); }
 .bt__value { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--ns-space-3); font: 700 28px/36px var(--ns-font-sans); }
-.bt__trend { font: 600 12px/16px var(--ns-font-sans); color: var(--ns-status-success); }
-.bt__note { margin: 0; font: 400 12px/16px var(--ns-font-sans); color: var(--ns-widget-muted); }
+.bt__trend { font: 600 12px/16px var(--ns-font-sans); color: var(--ns-chart-trend-text); }
+.bt__note { margin: 0; font: 400 12px/16px var(--ns-font-sans); color: var(--ns-chart-label-text); }
 .bt__legend { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--ns-space-2); font: 400 12px/16px var(--ns-font-sans); }
 .bt__legend li { display: flex; align-items: center; gap: var(--ns-space-3); }
 .bt__legend i { width: 8px; height: 8px; border-radius: var(--ns-radius-full); flex: none; }

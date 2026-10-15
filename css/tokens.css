@@ -184,6 +184,9 @@
   --ns-widget-band: #12122a;
   --ns-widget-grid: #2a2a4a;
   --ns-widget-muted: var(--ns-purple-300);
+  /* Chart text, tuned for 4.5:1 on the widget surface. Graphics keep their own tokens. */
+  --ns-chart-label-text: #8f8fc0;
+  --ns-chart-trend-text: var(--ns-status-success);
   --ns-widget-radius: 12px;
   --ns-widget-shadow: inset 0 1px 0.3px #ffffff08;
   --ns-widget-pad: 24px;
@@ -243,6 +246,8 @@
   --ns-widget-band: #f3f3fb;
   --ns-widget-grid: #dcdcea;
   --ns-widget-muted: #5a5a8f;
+  --ns-chart-label-text: #5a5a8f;
+  --ns-chart-trend-text: #2a7a00;
   --ns-widget-shadow: 0 1px 2px #05050f14, 0 0 0 1px var(--ns-border-subtle);
 
   --ns-elevation-01: 0 1px 2px #05050f14, 0 0 0 1px var(--ns-border-subtle);
