@@ -100,6 +100,21 @@
       return out;
     },
   };
+  DEFS.parallel = {
+    name: "Parallel coordinates",
+    alt: "Parallel coordinates: four profiles across five measures, one line per profile",
+    kpi: ["Profiles", "128", "+4.0%", "Five measures per profile", "Five measures"],
+    sum: [["Strongest", "Reach", "+1.2%", "Highest average", "Highest avg"], ["Weakest", "Cost", "+0.5%", "Lowest average", "Lowest avg"]],
+    prims: (w, h, o) => {
+      const c = o.compact, ml = c ? 6 : 16, mb = c ? 0 : 22, pw = w - ml * 2, ph = h - mb, n = c ? 4 : 5;
+      const D = [[0.20, 0.70, 0.40, 0.80, 0.50], [0.60, 0.30, 0.70, 0.20, 0.60], [0.80, 0.50, 0.20, 0.60, 0.90], [0.40, 0.90, 0.60, 0.40, 0.20]];
+      const X = (i) => ml + (pw * i) / (n - 1), out = [];
+      for (let i = 0; i < n; i++) out.push({ k: "rect", x: X(i) - 0.5, y: 0, w: 1, h: ph, f: "grid", n: "Axis " + (i + 1) });
+      D.forEach((d, j) => out.push({ k: "path", d: H.poly(d.slice(0, n).map((v, i) => [X(i), ph - 4 - v * (ph - 8)])), sk: "s" + (j + 1), sw: 2, n: "Profile " + (j + 1) }));
+      if (!c) out.push(...H.xlab(ml, ml + pw, h - 8, ["Speed", "Cost", "Reach", "Rate", "Score"]));
+      return out;
+    },
+  };
   /* @defs-end */
 
   const TOKV = { s1: "--ns-chart-series-1", s2: "--ns-chart-series-2", s3: "--ns-chart-series-3", s4: "--ns-chart-series-4", s5: "--ns-chart-series-5", track: "--ns-chart-track", target: "--ns-chart-target", label: "--ns-widget-muted", text: "--ns-text-primary", text2: "--ns-text-secondary", ok: "--ns-status-success", err: "--ns-status-error", warn: "--ns-status-warning", grid: "--ns-widget-grid", bg: "--ns-widget-bg", line: "--ns-border-subtle", band: "--ns-widget-band", muted: "--ns-widget-muted" };

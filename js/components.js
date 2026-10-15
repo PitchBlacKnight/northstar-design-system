@@ -1048,6 +1048,21 @@
       aria: ["The SVG is <code>role=\"img\"</code> with a label naming both categories. Provide a table of the values nearby.", "Intensity is a single-hue ramp; show exact values in a table or on focus.", "Trend text carries its sign, so the color is a second signal."],
       react: '<HeatmapChart size="medium" title="Activity" value="3,260" trend="+5.1%" data={[[0.2, 0.8, 0.5]]} />',
     }),
+    chartEntry("parallel-coordinates-chart", "parallel", {
+      name: "Parallel coordinates chart", figma: "4460:166",
+      desc: "A parallel coordinates chart compares several measures across profiles, one line per profile, so you can see which profiles move together. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
+      doc: [
+        ["Axes are rectangles, profiles are paths", "Each measure is a 1px rectangle and each profile is one 2px vector path across the axes. The paths are the only vector layers in the set."],
+        ["Normalize every axis", "Plot each measure on a 0 to 1 scale so the lines are comparable, and keep the axis order the same in every size."],
+        ["Keep profiles few", "Four to six profiles stay readable. Beyond that, highlight one profile at a time and mute the rest."],
+      ],
+      when: ["Comparing items across four to six measures at once.", "Seeing which profiles move together.", "A KPI tile that needs the shape of each profile."],
+      whenNot: ["Two measures. Use Scatter chart.", "Time series. Use Line chart.", "More than about eight profiles. Use a table."],
+      tokens: [["--ns-chart-series-1", "Profile 1 (alias of viz/1)"], ["--ns-chart-series-2", "Profile 2 (alias of viz/4)"], ["--ns-chart-series-3", "Profile 3 (alias of viz/2)"], ["--ns-chart-series-4", "Profile 4 (alias of viz/7)"], ["--ns-widget-grid", "Axes"]],
+      dataType: "number[][]", dataNote: "One array per profile, values from 0 to 1 per axis",
+      aria: ["The SVG is <code>role=\"img\"</code> with a label naming the measures. Provide a table of the values per profile nearby.", "Lines are told apart by label or by highlighting, never by color alone.", "Trend text carries its sign, so the color is a second signal."],
+      react: '<ParallelCoordinatesChart size="medium" title="Profiles" value="128" trend="+4.0%" data={[[0.2, 0.7, 0.4, 0.8, 0.5]]} />',
+    }),
   ];
 
   NS.COMPONENTS.sort((a, b) => a.name.localeCompare(b.name));
