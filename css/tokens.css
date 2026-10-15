@@ -164,9 +164,9 @@
 
   /* Chart tokens: aliases of theme-aware tokens, so one definition covers both themes */
   --ns-chart-series-1: var(--ns-viz-1);
-  --ns-chart-series-2: var(--ns-viz-4);
+  --ns-chart-series-2: #2858ff; /* was viz-4 (#023aff, 2.5:1 on the widget): nudged to 3.2:1 */
   --ns-chart-series-3: var(--ns-viz-2);
-  --ns-chart-series-4: var(--ns-viz-7);
+  --ns-chart-series-4: #7844f9; /* was viz-7 (#4807ea, 2.0:1): nudged to 3.3:1 */
   --ns-chart-series-5: var(--ns-widget-muted);
   --ns-chart-track: var(--ns-widget-track);
   --ns-chart-target: var(--ns-text-primary);
@@ -256,6 +256,8 @@
   --ns-elevation-04: 0 24px 64px #05050f33, 0 0 0 1px var(--ns-border-default);
 
   color-scheme: light;
+  /* Series 1 nudged to 3.2:1 on white (was viz-1, #00a89e, 3.0:1) */
+  --ns-chart-series-1: #00a097;
 }
 
 @media (prefers-reduced-motion: reduce) {
