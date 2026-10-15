@@ -3748,6 +3748,790 @@
     ]
    }
   ]
+ },
+ "radial-bar-chart": {
+  "nodeId": "4462:39105",
+  "title": "Radial bar chart",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 16",
+  "revision": "Reviewed 15 Oct 2026",
+  "summary": "A data visualization card that shows progress toward a target as concentric rings. Built natively for NorthStar after reviewing the Hyper charts kit; nothing was imported. Five sizes, three component properties, every fill bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Built 15 Oct 2026, not yet source-reviewed",
+   "Parity status": "Docs site renders the same data as SVG",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4462:39121",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Compare progress for three to four goals against the same target in a compact space: goals, quotas, onboarding steps."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not use for parts of a whole (Donut chart), for exact comparison (Horizontal bar chart), or for more than five rings."
+     }
+    ]
+   },
+   {
+    "nodeId": "4462:39132",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Container: widget/bg fill, border/subtle stroke, radius/xl. 2 · Header: Title, Value with Trend, Description, optional Icon. 3 · Track: ellipse arc, chart/track, 270 degrees per ring. 4 · Value: ellipse arc, chart/series-1 to 4, sweep proportional to the value. 5 · Rings step inward with a gap of 5% of the outer radius."
+     },
+     {
+      "type": "example",
+      "label": "Medium",
+      "description": "Radial bar instance, Size=Medium, Value '78%', Title 'Progress', Show icon=false."
+     },
+     {
+      "type": "text",
+      "text": "Sizes: Small 330 wide (header left, mini plot right, no axes) · Vertical small 192 wide, no axes · Medium 375 wide with axes and labels · Large 375 wide with a divider and two-KPI summary · XL 800 wide, three KPIs."
+     }
+    ]
+   },
+   {
+    "nodeId": "4462:39139",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Chart / Radial bar · set 4462:148 · page \"Radial bar chart\" under DATA VIZ."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Size",
+        "VARIANT",
+        "Small",
+        "Small, Vertical small, Medium, Large, XL. Medium is the recommended default."
+       ],
+       [
+        "Title",
+        "TEXT",
+        "Progress",
+        "Binds to the header title. In XL it binds to the first KPI title."
+       ],
+       [
+        "Value",
+        "TEXT",
+        "78%",
+        "Binds to the headline figure. In Large it binds to the first summary figure."
+       ],
+       [
+        "Show icon",
+        "BOOLEAN",
+        "false",
+        "Off by default. Turn it on in Medium or XL; Small keeps text and plot only."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4462:39170",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Container fill",
+        "widget/bg",
+        "Card surface, same as the other data viz widgets"
+       ],
+       [
+        "Container stroke",
+        "border/subtle",
+        "1px hairline"
+       ],
+       [
+        "Container radius",
+        "radius/xl",
+        "12px"
+       ],
+       [
+        "Value ring",
+        "chart/series-1 to chart/series-4",
+        "Ellipse with arc data, one per goal"
+       ],
+       [
+        "Track ring",
+        "chart/track",
+        "Alias widget/track, 270 degrees"
+       ],
+       [
+        "Ring gap",
+        "5% of the radius",
+        "Inner rings are shorter, so compare by value, not by arc length"
+       ],
+       [
+        "Title, Value",
+        "text/primary",
+        "Open Sans SemiBold 14, Bold 28"
+       ],
+       [
+        "Axis label, Description",
+        "text/chart-label",
+        "Open Sans Regular 11 and 12"
+       ],
+       [
+        "Trend",
+        "status/success",
+        "Open Sans SemiBold 12"
+       ],
+       [
+        "Padding, gaps",
+        "spacing/5 to spacing/7, spacing/2 to spacing/4",
+        "16 or 24px padding; 4, 8, 12, 16, 20px gaps"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "All seven chart/* tokens are aliases of existing Semantic / Colors tokens, so Light, Dark and High Contrast resolve through the modes with no new hex values."
+     }
+    ]
+   },
+   {
+    "nodeId": "4462:39220",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The chart has a text equivalent: role=\"img\" with a label naming each goal and its value.",
+       "Rings are told apart by order and label, not color alone; the outer ring is always the first goal.",
+       "Marks meet 3:1 against the card surface in Light, Dark and High Contrast.",
+       "Trend text carries its sign (+ or -), not just color.",
+       "Not interactive. If marks become links or filters, add focus rings from focus/ring and a keyboard order."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4462:39230",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Pick the size by container width: Small and Vertical small under 360px, Medium and Large at 360 to 600px, XL above 720px. Keep titles to three words and values to one figure with its unit. Four rings at most. Inner rings travel less distance, so label values or keep a table nearby."
+     }
+    ]
+   }
+  ]
+ },
+ "radial-histogram-chart": {
+  "nodeId": "4462:39289",
+  "title": "Radial histogram chart",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 17",
+  "revision": "Reviewed 15 Oct 2026",
+  "summary": "A data visualization card that shows counts around a circle, one bar per hour or direction. Built natively for NorthStar after reviewing the Hyper charts kit; nothing was imported. Five sizes, three component properties, every fill bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Built 15 Oct 2026, not yet source-reviewed",
+   "Parity status": "Docs site renders the same data as SVG",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4462:39305",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Show a cyclic measure where the end meets the start: hours of the day, days of the week, compass direction."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not use for a measure with no cycle (Bar chart), for exact comparison (Horizontal bar chart), or for time series that do not repeat (Line chart)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4462:39316",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Container: widget/bg fill, border/subtle stroke, radius/xl. 2 · Header: Title, Value with Trend, Description, optional Icon. 3 · Bar: ellipse arc segment, 14 degrees wide with a 1 degree gap, chart/series-1; reference hours use chart/series-2. 4 · Inner radius: 28% of the outer radius, so short bars stay visible."
+     },
+     {
+      "type": "example",
+      "label": "Medium",
+      "description": "Radial histogram instance, Size=Medium, Value '1,860', Title 'Requests', Show icon=false."
+     },
+     {
+      "type": "text",
+      "text": "Sizes: Small 330 wide (header left, mini plot right, no axes) · Vertical small 192 wide, no axes · Medium 375 wide with axes and labels · Large 375 wide with a divider and two-KPI summary · XL 800 wide, three KPIs."
+     }
+    ]
+   },
+   {
+    "nodeId": "4462:39323",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Chart / Radial histogram · set 4462:38356 · page \"Radial histogram chart\" under DATA VIZ."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Size",
+        "VARIANT",
+        "Small",
+        "Small, Vertical small, Medium, Large, XL. Medium is the recommended default."
+       ],
+       [
+        "Title",
+        "TEXT",
+        "Requests",
+        "Binds to the header title. In XL it binds to the first KPI title."
+       ],
+       [
+        "Value",
+        "TEXT",
+        "1,860",
+        "Binds to the headline figure. In Large it binds to the first summary figure."
+       ],
+       [
+        "Show icon",
+        "BOOLEAN",
+        "false",
+        "Off by default. Turn it on in Medium or XL; Small keeps text and plot only."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4462:39354",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Container fill",
+        "widget/bg",
+        "Card surface, same as the other data viz widgets"
+       ],
+       [
+        "Container stroke",
+        "border/subtle",
+        "1px hairline"
+       ],
+       [
+        "Container radius",
+        "radius/xl",
+        "12px"
+       ],
+       [
+        "Bar",
+        "chart/series-1",
+        "Ellipse with arc data, one per slot"
+       ],
+       [
+        "Highlighted bar",
+        "chart/series-2",
+        "Every sixth slot marks a reference hour"
+       ],
+       [
+        "Inner radius",
+        "28% of the outer radius",
+        "Keeps short bars readable"
+       ],
+       [
+        "Title, Value",
+        "text/primary",
+        "Open Sans SemiBold 14, Bold 28"
+       ],
+       [
+        "Axis label, Description",
+        "text/chart-label",
+        "Open Sans Regular 11 and 12"
+       ],
+       [
+        "Trend",
+        "status/success",
+        "Open Sans SemiBold 12"
+       ],
+       [
+        "Padding, gaps",
+        "spacing/5 to spacing/7, spacing/2 to spacing/4",
+        "16 or 24px padding; 4, 8, 12, 16, 20px gaps"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "All seven chart/* tokens are aliases of existing Semantic / Colors tokens, so Light, Dark and High Contrast resolve through the modes with no new hex values."
+     }
+    ]
+   },
+   {
+    "nodeId": "4462:39404",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The chart has a text equivalent: role=\"img\" with a label that names the cycle, and a table of the values per slot nearby.",
+       "The start of the cycle is stated in text; the circle alone does not show it.",
+       "Marks meet 3:1 against the card surface in Light, Dark and High Contrast.",
+       "Trend text carries its sign (+ or -), not just color.",
+       "Not interactive. If marks become links or filters, add focus rings from focus/ring and a keyboard order."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4462:39414",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Pick the size by container width: Small and Vertical small under 360px, Medium and Large at 360 to 600px, XL above 720px. Keep titles to three words and values to one figure with its unit. 24 bars in every size. State the start of the cycle in the title or description, since the circle has no left edge."
+     }
+    ]
+   }
+  ]
+ },
+ "radar-chart": {
+  "nodeId": "4462:39473",
+  "title": "Radar chart",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 18",
+  "revision": "Reviewed 15 Oct 2026",
+  "summary": "A data visualization card that compares several measures for one or two items on radial axes. Built natively for NorthStar after reviewing the Hyper charts kit; nothing was imported. Five sizes, three component properties, every fill bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Built 15 Oct 2026, not yet source-reviewed",
+   "Parity status": "Docs site renders the same data as SVG",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4462:39489",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Compare an item against a target or another item across five to eight measures: skills, quality attributes, coverage."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not use for exact values (Data table), for more than three items, or for fewer than five measures (Bar chart)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4462:39500",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Container: widget/bg fill, border/subtle stroke, radius/xl. 2 · Header: Title, Value with Trend, Description, optional Icon. 3 · Rings: closed vector paths, widget/grid, at 33%, 66% and 100%. 4 · Axes: 1px vector paths from the center. 5 · Series: closed vector path, 22% fill and 2px stroke, chart/series-3 and chart/series-1. 6 · Axis labels: text/chart-label, 11px."
+     },
+     {
+      "type": "example",
+      "label": "Medium",
+      "description": "Radar instance, Size=Medium, Value '86%', Title 'Coverage', Show icon=false."
+     },
+     {
+      "type": "text",
+      "text": "Sizes: Small 330 wide (header left, mini plot right, no axes) · Vertical small 192 wide, no axes · Medium 375 wide with axes and labels · Large 375 wide with a divider and two-KPI summary · XL 800 wide, three KPIs."
+     }
+    ]
+   },
+   {
+    "nodeId": "4462:39507",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Chart / Radar · set 4462:38673 · page \"Radar chart\" under DATA VIZ."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Size",
+        "VARIANT",
+        "Small",
+        "Small, Vertical small, Medium, Large, XL. Medium is the recommended default."
+       ],
+       [
+        "Title",
+        "TEXT",
+        "Coverage",
+        "Binds to the header title. In XL it binds to the first KPI title."
+       ],
+       [
+        "Value",
+        "TEXT",
+        "86%",
+        "Binds to the headline figure. In Large it binds to the first summary figure."
+       ],
+       [
+        "Show icon",
+        "BOOLEAN",
+        "false",
+        "Off by default. Turn it on in Medium or XL; Small keeps text and plot only."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4462:39538",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Container fill",
+        "widget/bg",
+        "Card surface, same as the other data viz widgets"
+       ],
+       [
+        "Container stroke",
+        "border/subtle",
+        "1px hairline"
+       ],
+       [
+        "Container radius",
+        "radius/xl",
+        "12px"
+       ],
+       [
+        "Series area",
+        "chart/series-1, chart/series-3",
+        "22% fill with a 2px stroke of the same token"
+       ],
+       [
+        "Ring and axis",
+        "widget/grid",
+        "1px vector paths"
+       ],
+       [
+        "Axis label",
+        "text/chart-label",
+        "Dropped in Small and Vertical small"
+       ],
+       [
+        "Title, Value",
+        "text/primary",
+        "Open Sans SemiBold 14, Bold 28"
+       ],
+       [
+        "Axis label, Description",
+        "text/chart-label",
+        "Open Sans Regular 11 and 12"
+       ],
+       [
+        "Trend",
+        "status/success",
+        "Open Sans SemiBold 12"
+       ],
+       [
+        "Padding, gaps",
+        "spacing/5 to spacing/7, spacing/2 to spacing/4",
+        "16 or 24px padding; 4, 8, 12, 16, 20px gaps"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "All seven chart/* tokens are aliases of existing Semantic / Colors tokens, so Light, Dark and High Contrast resolve through the modes with no new hex values."
+     }
+    ]
+   },
+   {
+    "nodeId": "4462:39588",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The chart has a text equivalent: role=\"img\" with a label naming the measures, and a table of the values per series nearby.",
+       "Series are told apart by label and stroke, not color alone; the fill never carries meaning alone.",
+       "Marks meet 3:1 against the card surface in Light, Dark and High Contrast.",
+       "Trend text carries its sign (+ or -), not just color.",
+       "Not interactive. If marks become links or filters, add focus rings from focus/ring and a keyboard order."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4462:39598",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Pick the size by container width: Small and Vertical small under 360px, Medium and Large at 360 to 600px, XL above 720px. Keep titles to three words and values to one figure with its unit. Six axes in every size and two series at most. Order axes so related measures sit together."
+     }
+    ]
+   }
+  ]
+ },
+ "radial-convergence-chart": {
+  "nodeId": "4462:39657",
+  "title": "Radial convergence chart",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 19",
+  "revision": "Reviewed 15 Oct 2026",
+  "summary": "A data visualization card that joins nodes around a ring with straight links. Built natively for NorthStar after reviewing the Hyper charts kit; nothing was imported. Five sizes, three component properties, every fill bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Built 15 Oct 2026, not yet source-reviewed",
+   "Parity status": "Docs site renders the same data as SVG",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4462:39673",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Show relationships between members of one set: teams that work together, services that call each other, categories that overlap."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not use for flows with a direction and a size (Sankey chart), for hierarchies (Tree chart), or for more than about twenty nodes."
+     }
+    ]
+   },
+   {
+    "nodeId": "4462:39684",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Container: widget/bg fill, border/subtle stroke, radius/xl. 2 · Header: Title, Value with Trend, Description, optional Icon. 3 · Node: ellipse on the ring, text/primary. 4 · Link: 1.5px vector path between two nodes, chart/series-1 or chart/series-2, alternating. 5 · Ring: 12 positions at 30 degrees."
+     },
+     {
+      "type": "example",
+      "label": "Medium",
+      "description": "Radial convergence instance, Size=Medium, Value '12', Title 'Links', Show icon=false."
+     },
+     {
+      "type": "text",
+      "text": "Sizes: Small 330 wide (header left, mini plot right, no axes) · Vertical small 192 wide, no axes · Medium 375 wide with axes and labels · Large 375 wide with a divider and two-KPI summary · XL 800 wide, three KPIs."
+     }
+    ]
+   },
+   {
+    "nodeId": "4462:39691",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Chart / Radial convergence · set 4462:38977 · page \"Radial convergence chart\" under DATA VIZ."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Size",
+        "VARIANT",
+        "Small",
+        "Small, Vertical small, Medium, Large, XL. Medium is the recommended default."
+       ],
+       [
+        "Title",
+        "TEXT",
+        "Links",
+        "Binds to the header title. In XL it binds to the first KPI title."
+       ],
+       [
+        "Value",
+        "TEXT",
+        "12",
+        "Binds to the headline figure. In Large it binds to the first summary figure."
+       ],
+       [
+        "Show icon",
+        "BOOLEAN",
+        "false",
+        "Off by default. Turn it on in Medium or XL; Small keeps text and plot only."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4462:39722",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Container fill",
+        "widget/bg",
+        "Card surface, same as the other data viz widgets"
+       ],
+       [
+        "Container stroke",
+        "border/subtle",
+        "1px hairline"
+       ],
+       [
+        "Container radius",
+        "radius/xl",
+        "12px"
+       ],
+       [
+        "Link",
+        "chart/series-1, chart/series-2",
+        "1.5px vector path, alternating by index"
+       ],
+       [
+        "Node",
+        "text/primary",
+        "Ellipse, 4px radius, 2.5px in compact sizes"
+       ],
+       [
+        "Node count",
+        "12",
+        "Fixed positions at 30 degrees"
+       ],
+       [
+        "Title, Value",
+        "text/primary",
+        "Open Sans SemiBold 14, Bold 28"
+       ],
+       [
+        "Axis label, Description",
+        "text/chart-label",
+        "Open Sans Regular 11 and 12"
+       ],
+       [
+        "Trend",
+        "status/success",
+        "Open Sans SemiBold 12"
+       ],
+       [
+        "Padding, gaps",
+        "spacing/5 to spacing/7, spacing/2 to spacing/4",
+        "16 or 24px padding; 4, 8, 12, 16, 20px gaps"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "All seven chart/* tokens are aliases of existing Semantic / Colors tokens, so Light, Dark and High Contrast resolve through the modes with no new hex values."
+     }
+    ]
+   },
+   {
+    "nodeId": "4462:39772",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The chart has a text equivalent: role=\"img\" with a label that states how many links join how many nodes, and a table of the pairs nearby.",
+       "Links are told apart by endpoint, not color alone; add node labels when the nodes have names.",
+       "Marks meet 3:1 against the card surface in Light, Dark and High Contrast.",
+       "Trend text carries its sign (+ or -), not just color.",
+       "Not interactive. If marks become links or filters, add focus rings from focus/ring and a keyboard order."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4462:39782",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Pick the size by container width: Small and Vertical small under 360px, Medium and Large at 360 to 600px, XL above 720px. Keep titles to three words and values to one figure with its unit. Twelve nodes at most. Keep links under ten, since crossings become unreadable."
+     }
+    ]
+   }
+  ]
  }
 };
   NS.WORKFLOWS = { "create-account": {

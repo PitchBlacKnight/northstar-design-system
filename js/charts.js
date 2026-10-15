@@ -155,6 +155,21 @@
       return out;
     },
   };
+  DEFS.radialbar = {
+    name: "Radial bar",
+    alt: "Radial bar chart: four goals, each a ring filled toward a target",
+    kpi: ["Progress", "78%", "+5.0%", "Four goals toward a target", "Four goals"],
+    sum: [["Closest", "Goal A", "+2.0%", "Nearest to target", "Nearest"], ["Furthest", "Goal D", "+0.8%", "Furthest from target", "Furthest"]],
+    prims: (w, h, o) => {
+      const c = o.compact, cx = w / 2, cy = h / 2, R0 = Math.min(w, h) / 2 - 2, t = R0 * (c ? 0.14 : 0.11), gap = R0 * 0.05, V = [0.80, 0.62, 0.45, 0.30], out = [];
+      V.forEach((v, i) => {
+        const ro = R0 - i * (t + gap), ri = ro - t;
+        out.push({ k: "arc", cx, cy, ro, ri, a0: 0, a1: 270, f: "track", n: "Track " + (i + 1) });
+        out.push({ k: "arc", cx, cy, ro, ri, a0: 0, a1: 270 * v, f: "s" + (i + 1), n: "Ring " + (i + 1) });
+      });
+      return out;
+    },
+  };
   /* @defs-end */
 
   const TOKV = { s1: "--ns-chart-series-1", s2: "--ns-chart-series-2", s3: "--ns-chart-series-3", s4: "--ns-chart-series-4", s5: "--ns-chart-series-5", track: "--ns-chart-track", target: "--ns-chart-target", label: "--ns-widget-muted", text: "--ns-text-primary", text2: "--ns-text-secondary", ok: "--ns-status-success", err: "--ns-status-error", warn: "--ns-status-warning", grid: "--ns-widget-grid", bg: "--ns-widget-bg", line: "--ns-border-subtle", band: "--ns-widget-band", muted: "--ns-widget-muted" };

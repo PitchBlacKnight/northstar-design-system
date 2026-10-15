@@ -1108,6 +1108,21 @@
       aria: ["The SVG is <code>role=\"img\"</code> with the value and the limit in the label, for example 72 percent of the limit used.", "The value is also printed as text inside the arc.", "Trend text carries its sign, so the color is a second signal."],
       react: '<GaugeChart size="medium" title="Capacity" value="72%" trend="+4.0%" data={{ value: 72, max: 100 }} />',
     }),
+    chartEntry("radial-bar-chart", "radialbar", {
+      name: "Radial bar chart", figma: "4462:148",
+      desc: "A radial bar chart shows progress toward a target as concentric rings, one ring per goal. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
+      doc: [
+        ["Rings are ellipses with arc data", "Each ring is an ellipse arc over a 270 degree track. Changing a value changes an end angle, not a path."],
+        ["Inner rings travel less", "A short arc on an inner ring is the same value as a longer arc outside. Print the values, or keep a table nearby, when the comparison matters."],
+        ["Four rings at most", "Beyond four, the rings get thin and the order stops reading. Use a bar chart for longer lists."],
+      ],
+      when: ["Progress for three to four goals against one target.", "Compact status tiles with several measures.", "A KPI tile that needs more than one number."],
+      whenNot: ["Parts of a whole. Use Donut chart.", "Exact comparison. Use Horizontal bar chart.", "More than five goals. Use a table."],
+      tokens: [["--ns-chart-series-1", "Ring 1 (alias of viz/1)"], ["--ns-chart-series-2", "Ring 2 (alias of viz/4)"], ["--ns-chart-series-3", "Ring 3 (alias of viz/2)"], ["--ns-chart-series-4", "Ring 4 (alias of viz/7)"], ["--ns-chart-track", "Ring tracks"]],
+      dataType: "number[]", dataNote: "One value per ring from 0 to 1, outer ring first",
+      aria: ["The SVG is <code>role=\"img\"</code> with a label naming each goal and its value.", "Rings are told apart by order and label, never by color alone.", "Trend text carries its sign, so the color is a second signal."],
+      react: '<RadialBarChart size="medium" title="Progress" value="78%" trend="+5.0%" data={[0.8, 0.62, 0.45, 0.3]} />',
+    }),
   ];
 
   NS.COMPONENTS.sort((a, b) => a.name.localeCompare(b.name));
