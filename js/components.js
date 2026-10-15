@@ -988,6 +988,21 @@
       aria: ["The SVG is <code>role=\"img\"</code> with a label that names the three measures. Provide a table of the points nearby.", "Series are told apart by position and label, never by color alone.", "Trend text carries its sign, so the color is a second signal."],
       react: '<BubbleChart size="medium" title="Accounts" value="1,240" trend="+2.4%" data={[{ x: 10, y: 62, r: 28, series: 1 }]} />',
     }),
+    chartEntry("candlestick-chart", "candle", {
+      name: "Candlestick chart", figma: "4458:233",
+      desc: "A candlestick chart shows open, close, high and low for each period as a body and a wick. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
+      doc: [
+        ["Bodies and wicks are rectangles", "Each candle is two plain rectangles: a 1px wick from low to high and a body from open to close. Changing a value changes a height, not a path."],
+        ["Direction uses the status pair", "A period that closes higher uses status/success and one that closes lower uses status/error. No new token was needed, and both resolve in Light, Dark and High Contrast."],
+        ["Never color alone", "Body position and the headline trend also state the direction. Pair the chart with a table of open, close, high and low for exact numbers."],
+      ],
+      when: ["Price-like data where the range inside each period matters.", "Daily or per-release open, close, high and low.", "A KPI tile that needs volatility, not only a last value."],
+      whenNot: ["One value per period. Use Line chart.", "Totals by category. Use Bar chart.", "Unordered categories. Use Horizontal bar chart."],
+      tokens: [["--ns-status-success", "Rising candle and wick"], ["--ns-status-error", "Falling candle and wick"], ["--ns-widget-grid", "Gridlines"]],
+      dataType: "{ open: number, close: number, low: number, high: number }[]", dataNote: "One entry per period, values as percent of the plot",
+      aria: ["The SVG is <code>role=\"img\"</code> with a label that states the trend. Provide a table of open, close, high and low nearby.", "Direction is never carried by green and red alone.", "Trend text carries its sign, so the color is a second signal."],
+      react: '<CandlestickChart size="medium" title="Index" value="4,820" trend="+0.8%" data={[{ open: 40, close: 52, low: 34, high: 58 }]} />',
+    }),
   ];
 
   NS.COMPONENTS.sort((a, b) => a.name.localeCompare(b.name));

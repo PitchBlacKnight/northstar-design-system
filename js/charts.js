@@ -28,6 +28,25 @@
       return [...g, ...P.map((p, i) => ({ k: "circle", cx: ml + p[0] * pw, cy: Math.min(ph - R * p[2] - 1, Math.max(R * p[2] + 1, p[1] * ph)), r: R * p[2], f: p[3], o: 0.85, n: "Bubble " + (i + 1) }))];
     },
   };
+  DEFS.candle = {
+    name: "Candlestick",
+    alt: "Candlestick chart: ten sessions, green candles close higher and red candles close lower",
+    kpi: ["Index", "4,820", "+0.8%", "Open, close, high and low", "Daily range"],
+    sum: [["Highest", "4,910", "+1.1%", "Session high", "Session high"], ["Lowest", "4,610", "+0.2%", "Session low", "Session low"]],
+    prims: (w, h, o) => {
+      const c = o.compact, ml = c ? 0 : 30, mb = c ? 0 : 22, pw = w - ml, ph = h - mb;
+      const D = [[0.40, 0.52, 0.34, 0.58], [0.52, 0.46, 0.40, 0.60], [0.46, 0.60, 0.42, 0.66], [0.60, 0.70, 0.55, 0.74], [0.70, 0.62, 0.56, 0.78], [0.62, 0.55, 0.50, 0.68], [0.55, 0.68, 0.50, 0.72], [0.68, 0.80, 0.64, 0.86], [0.80, 0.74, 0.70, 0.88], [0.74, 0.84, 0.70, 0.90]].slice(0, c ? 8 : 10);
+      const step = pw / D.length, bw = Math.max(4, step * 0.5), Y = (v) => ph - 4 - v * (ph - 8);
+      const g = c ? [] : [...H.hgrid(ml, w, 0, ph, 4), ...H.ylab(ml - 8, 0, ph, ["120", "110", "100", "90"]), ...H.xlab(ml + step / 2, w - step / 2, h - 8, ["Mon", "Wed", "Fri"])];
+      const out = [];
+      D.forEach((d, i) => {
+        const cx = ml + step * (i + 0.5), f = d[1] >= d[0] ? "ok" : "err", top = Y(Math.max(d[0], d[1])), bot = Y(Math.min(d[0], d[1]));
+        out.push({ k: "rect", x: cx - 0.5, y: Y(d[3]), w: 1, h: Y(d[2]) - Y(d[3]), f, n: "Wick " + (i + 1) });
+        out.push({ k: "rect", x: cx - bw / 2, y: top, w: bw, h: Math.max(2, bot - top), r: 1, f, n: "Candle " + (i + 1) });
+      });
+      return [...g, ...out];
+    },
+  };
   /* @defs-end */
 
   const TOKV = { s1: "--ns-chart-series-1", s2: "--ns-chart-series-2", s3: "--ns-chart-series-3", s4: "--ns-chart-series-4", s5: "--ns-chart-series-5", track: "--ns-chart-track", target: "--ns-chart-target", label: "--ns-widget-muted", text: "--ns-text-primary", text2: "--ns-text-secondary", ok: "--ns-status-success", err: "--ns-status-error", warn: "--ns-status-warning", grid: "--ns-widget-grid", bg: "--ns-widget-bg", line: "--ns-border-subtle", band: "--ns-widget-band", muted: "--ns-widget-muted" };
