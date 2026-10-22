@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=1600">
+<title>Annotated briefing | NorthStar dashboard layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css"><link rel="stylesheet" href="../css/dashboards.css">
+<style>
+
+  .br { display: grid; grid-template-columns: 1fr 370px; gap: 16px; min-height: 0; }
+  .story { display: flex; flex-direction: column; gap: 14px; min-height: 0; }
+  .story > .t { flex: 1; justify-content: center; }
+  .story > .t:first-child { flex: 1.6; }
+  .story h2 { margin: 0; font: 800 28px/1.08 var(--ns-font-sans); letter-spacing: -.8px; }
+  .story p { margin: 0; font: 400 14px/21px var(--ns-font-sans); color: var(--ns-text-secondary); }
+  .note { position: absolute; font: 600 12px/16px var(--ns-font-sans); padding: 9px 12px; border-radius: 10px; background: var(--ns-widget-inset); box-shadow: inset 0 0 0 1px var(--ns-border-default); width: 190px; color: var(--ns-text-primary); z-index: 2; }
+  .note b { display: block; font: 800 11px/1 var(--ns-font-mono); color: var(--ns-teal-500); margin-bottom: 4px; letter-spacing: .5px; }
+  .pin { position: absolute; width: 0; border-left: 1px dashed var(--ns-teal-500); z-index: 1; }
+
+</style>
+</head>
+<body>
+<div class="art" id="a"></div>
+<script src="../js/dashboards.js"></script>
+<script>
+const D = NS.dash;
+
+const s = D.shell({ active: "chart", title: "Weekly Briefing", sub: "MARKETPLACE  /  GMV, ORDERS AND TAKE RATE  /  WEEK 42", right: D.seg(["GMV", "Orders", "Take rate"], 0) });
+const gmv = D.series(30, 210, 286, .07, 21); gmv[22] = 262; gmv[23] = 301; gmv[24] = 318;
+const W = 1040, H = 560, PL = 52, PR = 8, PT = 8, PB = 22; const X = i => PL + (W - PL - PR) * i / 29, Y = v => PT + (H - PT - PB) - (v - 180) / 160 * (H - PT - PB);
+a.innerHTML = s.open + `<div class="br">
+  <section class="t">
+    <div class="o">GMV, last 30 days, $K per day <em>Annotated</em></div>
+    <div class="sp1" style="display:flex;align-items:center;justify-content:center"><div style="position:relative;width:${W}px;height:${H}px">${D.area({ w: W, h: H, pad: [PT, PR, PB, PL], ticks: 5, min: 180, max: 340, labels: ["Sep 23","Sep 30","Oct 7","Oct 14","Oct 22"], fmt: v => "$" + Math.round(v) + "K", sets: [{ data: gmv, color: "var(--ns-teal-500)", sw: 3, glow: true, fillTop: .3 }, { data: Array(30).fill(232), color: "var(--ns-widget-muted)", fill: false, dash: "5 6", sw: 1.6, last: false }] })}
+      <div class="pin" style="left:${X(22)}px;top:${H - 560 + 118}px;height:${Y(262) - 118 - H + 560}px"></div>
+      <div class="note" style="left:${X(22) - 215}px;top:${H - 560 + 70}px"><b>OCT 15</b>Free shipping test starts on 4 categories.</div>
+      <div class="pin" style="left:${X(24)}px;top:${Y(318) - 90}px;height:76px"></div>
+      <div class="note" style="left:${X(24) + 12}px;top:${Y(318) - 112}px"><b>OCT 17</b>Bank holiday weekend. Orders up 14%.</div>
+    </div></div>
+    <div class="lg"><span><i style="--_c:var(--ns-teal-500)"></i>GMV</span><span><i style="--_c:var(--ns-widget-muted)"></i>Four-week average</span></div>
+  </section>
+  <aside class="story">
+    <section class="t t--ink"><div class="o">The short version</div><h2>Free shipping lifted orders. Take rate held.</h2><p>Four categories ran the test for ten days. Orders rose 9 percent. Margin fell less than the model predicted.</p></section>
+    <section class="t"><div class="o">Week total</div><div class="row row--b" style="gap:12px"><div class="d-lg num">$2.11M</div><span class="dl" style="padding-bottom:6px">+6.4%</span></div></section>
+    <section class="t"><div class="o">Take rate</div><div class="row row--b" style="gap:12px"><div class="d-lg num">11.8%</div><span class="cap" style="padding-bottom:6px">Band 11.5 to 12.5</span></div>${D.bullet({ pct: 59, target: 50, color: "var(--ns-teal-500)", h: 8 })}</section>
+    <section class="t t--teal"><div class="o">Decision needed</div><p style="color:var(--ns-black);font:700 17px/23px var(--ns-font-sans);margin:0">Roll free shipping to all categories from Nov 1?</p><span class="cap">Recommend yes for 12 categories, hold on 3.</span></section>
+  </aside>
+</div>` + s.close;
+
+</script>
+</body>
+</html>

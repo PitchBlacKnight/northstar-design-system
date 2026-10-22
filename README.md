@@ -19,6 +19,10 @@ Open http://localhost:8910. Hash routing, so any static host works.
 - js/components.js    Component catalog: one entry drives Usage / Style / Code / Accessibility tabs
 - js/widgets.js       Widget renderer + catalog of the Figma Widgets page (NS.widget, NS.hydrate)
 - js/graphics.js      Graphics framework docs, widget gallery, family pages, board builder
+- js/dashboards.js     NS.dash: chart parts and shell helpers for full-screen dashboard layouts
+- js/dashboard-layouts.js  Docs pages and nav for the 24 dashboard layouts and the chart parts page
+- css/dashboards.css  Dashboard kit: artboard, tiles, fills, display type, rail, stepper. Loaded by dashboards/*.html only
+- dashboards/         24 layout pages plus chart-parts.html. Each is a standalone page that follows the tokens
 - js/pages.js         Nav tree + foundations, patterns, data viz, floorplans, a11y, community
 - js/tools.js         Token editor, Live Builder, Claude AI generator, embed helper
 - js/app.js           Router, search palette, TOC scrollspy, theme, embed mode

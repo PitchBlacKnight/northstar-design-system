@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=1600">
+<title>Status wall | NorthStar dashboard layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css"><link rel="stylesheet" href="../css/dashboards.css">
+<style>
+  .g { grid-template-columns: repeat(12, 1fr); grid-template-rows: 142px 1fr 1fr; }
+  .k { grid-column: span 2; justify-content: space-between; padding: 14px 20px; gap: 4px; }
+  .up { grid-column: 1 / 8; grid-row: 2 / 4; }
+  .gs { grid-column: 8 / 13; grid-row: 2; } .lat { grid-column: 8 / 10; grid-row: 3; } .inc { grid-column: 10 / 13; grid-row: 3; }
+  .us { display: grid; grid-template-columns: 124px 1fr 66px; gap: 14px; align-items: center; }
+  .us b { font: 700 13px/1 var(--ns-font-sans); } .us small { display: block; font: 400 11px/14px var(--ns-font-mono); color: var(--ns-widget-muted); margin-top: 4px; }
+  .us .st { display: grid; grid-template-columns: repeat(60, 1fr); gap: 2px; height: 30px; }
+  .us .st i { border-radius: 2px; background: var(--ns-status-success); }
+  .us .st i.w { background: var(--ns-status-warning); } .us .st i.d { background: var(--ns-status-error); }
+  .us .pc { text-align: right; font: 800 15px/1 var(--ns-font-sans); }
+  .ic { display: grid; grid-template-columns: 8px 1fr auto; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--ns-widget-grid); align-items: stretch; font: 400 13px/18px var(--ns-font-sans); }
+  .ic:last-child { border: 0; } .ic > i { border-radius: 4px; background: var(--_c); } .ic b { font-weight: 700; display: block; } .ic small { color: var(--ns-widget-muted); font: 400 11px/16px var(--ns-font-mono); }
+  .gg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; flex: 1; align-items: center; justify-items: center; }
+  .gg figcaption { font: 700 12px/1 var(--ns-font-sans); text-align: center; margin-top: 2px; color: var(--ns-widget-muted); }
+  .gg figure { margin: 0; display: grid; justify-items: center; gap: 6px; }
+</style>
+</head>
+<body>
+<div class="art" id="a"></div>
+<script src="../js/dashboards.js"></script>
+<script>
+const D = NS.dash;
+const s = D.shell({ active: "pulse", title: "Status Wall", sub: "PLATFORM RELIABILITY  /  PRODUCTION  /  ALL REGIONS", right: D.seg(["1h", "24h", "7d", "60d"], 3) + D.live("Auto-refresh 15 s") });
+const r = D.rng(41);
+const svc = [["Checkout API", "api.checkout", 99.998, []], ["Auth service", "id.core", 99.991, [38]], ["Catalog search", "search.v3", 99.962, [12, 13, 47]], ["Payments gateway", "pay.edge", 99.994, [30]], ["Media CDN", "cdn.assets", 100, []], ["Notifications", "push.queue", 99.871, [5, 21, 22, 56]], ["Data pipeline", "etl.main", 99.939, [44, 45]]];
+const strip = (marks) => Array.from({ length: 60 }, (_, i) => `<i class="${marks.includes(i) ? (i % 3 === 0 ? "d" : "w") : ""}"></i>`).join("");
+const kp = (o, v, c, x, cls = "") => `<section class="t t--ink k ${cls}"><div class="o">${o}</div><div class="d-lg num" style="${c ? "color:" + c : ""}">${v}</div><div>${x}</div></section>`;
+a.innerHTML = s.open + `<div class="grid g">
+ <section class="t t--green k"><div class="o">Uptime, 60 days</div><div class="d-lg num">99.982<span class="u">%</span></div><div class="cap">SLA 99.950%. Clear.</div></section>
+ <section class="t t--ink k"><div class="o">Requests / sec</div><div class="row sb"><div class="d-lg num">48.2K</div>${D.spark({ w: 64, h: 30, data: D.series(20, 10, 30, .25, 3), color: "var(--ns-chart-series-1)" })}</div><div class="cap">Peak today 61.4K</div></section>
+ ${kp("p95 latency", "184<span class=u>ms</span>", "", '<span class="dl dn">+12 ms vs yesterday</span>')}
+ ${kp("Error rate", "0.07<span class=u>%</span>", "", '<span class="dl">0.02 pts better</span>')}
+ <section class="t t--amber k"><div class="o">Open incidents</div><div class="d-lg num">2</div><div class="cap">1 minor, 1 degraded</div></section>
+ ${kp("Deploys today", "14", "", '<span class="cap">0 rollbacks</span>')}
+
+ <section class="t up">
+   <div class="o">Service uptime <em>Each cell is one day, newest right</em></div>
+   <div class="sp1" style="display:grid;align-content:space-evenly">${svc.map(([n, h, p, m]) => `<div class="us"><div><b>${n}</b><small>${h}</small></div><div class="st">${strip(m)}</div><div class="pc num" style="color:${p < 99.9 ? "var(--ns-status-warning)" : "var(--ns-text-primary)"}">${p.toFixed(p === 100 ? 0 : 3)}%</div></div>`).join("")}</div>
+   <div class="lg"><span><i style="--_c:var(--ns-status-success)"></i>Operational</span><span><i style="--_c:var(--ns-status-warning)"></i>Degraded</span><span><i style="--_c:var(--ns-status-error)"></i>Outage</span></div>
+ </section>
+
+ <section class="t gs">
+   <div class="o">Cluster load <em>us-east-1</em></div>
+   <div class="gg">${[["CPU", 46, "var(--ns-chart-series-1)"], ["Memory", 71, "var(--ns-status-warning)"], ["Disk", 38, "var(--ns-chart-series-3)"]].map(([n, p, c]) => `<figure>${D.gauge({ w: 124, pct: p, color: c, stroke: 13, label: p + "%" })}<figcaption>${n}</figcaption></figure>`).join("")}</div>
+   <div class="row sb cap"><span>Nodes 48 / 48 healthy</span><span>612 pods running</span></div>
+ </section>
+
+ <section class="t lat">
+   <div class="o">Latency <em>p50 / p95</em></div>
+   <div class="sp1" style="display:flex;align-items:flex-end">${D.area({ w: 182, h: 220, ticks: 3, fmt: v => Math.round(v), labels: ["-60m", "now"], pad: [6, 6, 20, 28], sets: [{ data: D.series(30, 160, 185, .22, 7), color: "var(--ns-chart-series-3)", sw: 2 }, { data: D.series(30, 70, 78, .12, 2), color: "var(--ns-chart-series-1)", fill: false, sw: 2, last: false }] })}</div>
+ </section>
+
+ <section class="t inc">
+   <div class="o">Incidents <em>Last 24h</em></div>
+   <div>${[["warning", "Search latency elevated", "INC-2291  /  Investigating  /  41m", "var(--ns-status-warning)"], ["warning", "Push delivery delayed", "INC-2290  /  Monitoring  /  2h 08m", "var(--ns-status-warning)"], ["ok", "Auth token refresh errors", "INC-2288  /  Resolved  /  6h", "var(--ns-status-success)"], ["ok", "ETL job backlog", "INC-2285  /  Resolved  /  19h", "var(--ns-status-success)"], ["ok", "Certificate renewal warning", "INC-2283  /  Resolved  /  22h", "var(--ns-status-success)"]].map(([k, t, m, c]) => `<div class="ic" style="--_c:${c}"><i></i><div><b>${t}</b><small>${m}</small></div></div>`).join("")}</div>
+ </section>
+</div>` + s.close;
+</script>
+</body>
+</html>

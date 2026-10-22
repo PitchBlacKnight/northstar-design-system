@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=1600">
+<title>Small multiples | NorthStar dashboard layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css"><link rel="stylesheet" href="../css/dashboards.css">
+<style>
+
+  .art { background: var(--ns-background-secondary); }
+  .sm { display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(3, 1fr); gap: 14px; min-height: 0; }
+  .sm .t { padding: 18px 20px; gap: 6px; }
+  .sm .d-sm { font-size: 30px; }
+  .sm .kv { display: flex; justify-content: space-between; font: 600 12px/1 var(--ns-font-sans); color: var(--ns-text-secondary); padding-top: 10px; border-top: 1px solid var(--ns-widget-grid); }
+  .sm .kv b { color: var(--ns-text-primary); }
+
+</style>
+</head>
+<body>
+<div class="art" id="a"></div>
+<script src="../js/dashboards.js"></script>
+<script>
+const D = NS.dash;
+
+const s = D.shell({ active: "grid", title: "Regional Scorecard", sub: "TWELVE MARKETS  /  SAME SCALE, SAME PERIOD  /  LAST 12 WEEKS", right: D.seg(["Revenue", "Margin", "Churn"], 0) });
+const mk = [["North America", 24.6, 14, "teal-500"], ["Europe", 12.1, 31, "viz-4"], ["UK and Ireland", 5.8, 9, "viz-2"], ["DACH", 3.4, 17, "viz-3"], ["Nordics", 2.1, 22, "viz-5"], ["France", 2.6, -4, "viz-6"], ["Iberia", 1.9, 6, "viz-7"], ["Japan", 3.2, 4, "viz-1"], ["Korea", 2.4, 19, "viz-2"], ["Australia", 2.8, 11, "viz-4"], ["Brazil", 1.6, 26, "viz-3"], ["Mexico", 1.2, -2, "viz-6"]];
+a.innerHTML = s.open + `<div class="sm">${mk.map(([n, v, g, c], i) => `<section class="t" style="border-top:3px solid var(--ns-${c})"><div class="o">${n}</div><div class="row sb"><div class="d-sm num">$${v.toFixed(1)}M</div><span class="dl ${g < 0 ? "dn" : ""}">${g > 0 ? "+" : ""}${g}%</span></div><div class="sp1" style="display:flex;align-items:flex-end">${D.area({ w: 326, h: 130, ticks: 2, grid: false, pad: [6, 4, 4, 4], sets: [{ data: D.series(12, 80 + i, 100 + g * 1.2 + i, .14, 50 + i), color: "var(--ns-" + c + ")", sw: 2.4, fillTop: .3 }] })}</div><div class="kv"><span>Margin <b class="num">${(38 + (i * 7) % 12 + .4).toFixed(1)}%</b></span><span>Orders <b class="num">${(v * 0.38).toFixed(1)}K</b></span></div></section>`).join("")}</div>` + s.close;
+
+</script>
+</body>
+</html>

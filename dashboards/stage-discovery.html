@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=1600">
+<title>Stage 3, discovery | NorthStar dashboard layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css"><link rel="stylesheet" href="../css/dashboards.css">
+<style>
+  .g { grid-template-columns: repeat(12, 1fr); grid-template-rows: 96px 1fr 1fr; }
+  .spine { grid-column: 1 / 13; }
+  .as { grid-column: 1 / 6; } .dn { grid-column: 6 / 10; } .rt { grid-column: 1 / 6; } .gtt { grid-column: 6 / 10; }
+  .ar { display: grid; grid-template-columns: 1.4fr 124px 1fr; gap: 14px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--ns-widget-grid); font: 400 13px/17px var(--ns-font-sans); } .ar:last-child { border: 0; }
+  .ar b { font-weight: 700; display: block; } .ar small { color: var(--ns-widget-muted); font-size: 11px; }
+  .ar .bar { height: 8px; } .ar .cap { margin-top: 5px; display: block; }
+  .gt { display: grid; grid-template-columns: 96px repeat(4, 1fr); align-items: center; font: 600 12px/1 var(--ns-font-sans); } .gt .m { font: 700 10px/1 var(--ns-font-sans); letter-spacing: 1px; color: var(--ns-widget-muted); padding: 0 0 8px 6px; border-left: 1px solid var(--ns-widget-grid); }
+  .gt .n { padding: 10px 0; } .gt .l { grid-column: 2 / 6; position: relative; height: 20px; border-radius: 6px; background: var(--ns-widget-track); } .gt .l i { position: absolute; top: 0; bottom: 0; border-radius: 6px; left: var(--_s); width: var(--_w); background: var(--_c); }
+  .now { position: absolute; left: calc(96px + (100% - 96px) * .5); top: 0; bottom: 0; width: 2px; background: var(--ns-red-400); z-index: 2; }
+
+</style>
+</head>
+<body>
+<div class="art" id="a"></div>
+<script src="../js/dashboards.js"></script>
+<script>
+const D = NS.dash;
+
+const s = D.shell({ active: "grid", title: "Deal flow", sub: "BRIGHTWATER DENTAL GROUP  /  ASSESSMENTS AND STATUS  /  STAGE 3 OF 5", right: D.seg(["All", "Waiting", "Returned"], 0) + D.live("Checked 4 min ago") });
+const R = [["Kestrel Networks", "SD-WAN site assessment", "Returned", "var(--ns-status-success)", 100, "5 of 10 days"], ["Northline Fiber", "Fiber build-out, 9 sites", "Returned", "var(--ns-status-success)", 100, "7 of 10 days"], ["Meridian Voice", "Seat readiness, 212 seats", "Returned", "var(--ns-status-success)", 100, "4 of 7 days"], ["Altus Broadband", "Cable quote refresh", "Returned", "var(--ns-status-success)", 100, "3 of 5 days"], ["Northline Fiber", "Last-mile survey, 3 sites", "In progress", "var(--ns-status-info)", 60, "6 of 10 days"], ["Client IT", "Switch inventory, 14 sites", "Waiting on client", "var(--ns-status-warning)", 90, "9 of 7 days"]];
+a.innerHTML = s.open + `<div class="grid g">
+ ${D.spine(2)}
+ <section class="t as">
+   <div class="o">Assessments you asked for <em>Anything you are waiting on</em></div>
+   <div style="flex:1;display:grid;align-content:space-between">${R.map(([w, t, st, c, p, d]) => `<div class="ar"><span><b>${t}</b><small>${w}</small></span><span class="st-tag" style="--_c:${c}">${st}</span><span><div class="bar"><i style="--_v:${p}%;--_c:${c}"></i></div><span class="cap">${d}</span></span></div>`).join("")}</div>
+ </section>
+
+ <section class="t dn">
+   <div class="o">Status <em>6 assessments</em></div>
+   <div class="row" style="gap:26px;flex:1;justify-content:space-around">${D.donut({ size: 176, stroke: 26, center: "4 / 6", sub: "returned", parts: [{ v: 4, color: "var(--ns-status-success)" }, { v: 1, color: "var(--ns-status-info)" }, { v: 1, color: "var(--ns-status-warning)" }] })}
+   <div class="rl" style="display:grid;gap:14px;font:600 13px/1 var(--ns-font-sans)">${[["Returned", 4, "var(--ns-status-success)"], ["In progress", 1, "var(--ns-status-info)"], ["Waiting on client", 1, "var(--ns-status-warning)"]].map(([n, v, c]) => `<div class="row" style="gap:10px"><i class="dot" style="--_c:${c}"></i><span style="flex:1">${n}</span><b class="num">${v}</b></div>`).join("")}</div></div>
+ </section>
+
+ <section class="t rt">
+   <div class="o">Time to return <em>Days, target tick</em></div>
+   <div style="display:grid;gap:18px;flex:1;align-content:space-around">${[["Kestrel", 50, 80, "var(--ns-chart-series-1)", "5 days"], ["Northline", 70, 80, "var(--ns-chart-series-1)", "7 days"], ["Meridian", 57, 70, "var(--ns-chart-series-1)", "4 days"], ["Altus", 60, 70, "var(--ns-chart-series-1)", "3 days"], ["Client IT", 128, 70, "var(--ns-status-warning)", "9 days"]].map(([n, p, t, c, d]) => `<div style="display:grid;grid-template-columns:76px 1fr 56px;gap:12px;align-items:center;font:600 13px/1 var(--ns-font-sans)"><span>${n}</span>${D.bullet({ pct: Math.min(100, p / 1.3), target: t / 1.3, color: c, h: 10 })}<span class="num" style="text-align:right;color:${p > t ? "var(--ns-status-warning)" : "inherit"}">${d}</span></div>`).join("")}</div>
+ </section>
+
+ <section class="t gtt">
+   <div class="o">Timeline <em>Oct 9 to Nov 8</em></div>
+   <div class="sp1" style="position:relative;display:grid;align-content:center">
+     <div class="gt"><div></div>${["WK 1", "WK 2", "WK 3", "WK 4"].map(m => `<div class="m">${m}</div>`).join("")}</div>
+     ${[["Kestrel", 0, 50, "var(--ns-viz-4)"], ["Northline", 0, 70, "var(--ns-teal-500)"], ["Meridian", 10, 40, "var(--ns-viz-2)"], ["Altus", 25, 30, "var(--ns-viz-3)"], ["Last-mile", 30, 60, "var(--ns-status-info)"], ["Client IT", 5, 90, "var(--ns-status-warning)"]].map(([n, st, ln, c]) => `<div class="gt"><div class="n">${n}</div><div class="l"><i style="--_c:${c};--_s:${st}%;--_w:${ln}%"></i></div></div>`).join("")}
+     <div class="now"></div>
+   </div>
+ </section>
+ ${D.railPanel()}
+</div>` + s.close;
+
+</script>
+</body>
+</html>

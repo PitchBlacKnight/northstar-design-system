@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=1600">
+<title>Stage 2, configuration | NorthStar dashboard layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css"><link rel="stylesheet" href="../css/dashboards.css">
+<style>
+  .g { grid-template-columns: repeat(12, 1fr); grid-template-rows: 96px 1fr 1fr; }
+  .spine { grid-column: 1 / 13; }
+  .g { grid-template-rows: 96px 1.32fr 1fr; }
+  .cmp { grid-column: 1 / 10; grid-row: 2 / 3; } .rd { grid-column: 1 / 5; } .qv { grid-column: 5 / 10; }
+  .pr { display: grid; grid-template-columns: 26px 1.35fr 150px 1fr 96px 110px; gap: 14px; align-items: center; padding: 9px 14px; margin: 0 -14px; border-radius: 12px; font: 400 13px/17px var(--ns-font-sans); }
+  .pr.sel { background: var(--ns-background-selected); box-shadow: inset 0 0 0 1px var(--ns-blue-500); }
+  .pr.hd { padding-top: 0; padding-bottom: 9px; font: 700 10px/1 var(--ns-font-sans); letter-spacing: 1.3px; text-transform: uppercase; color: var(--ns-widget-muted); }
+  .pr b { font-weight: 700; display: block; } .pr small { display: block; color: var(--ns-widget-muted); font-size: 11px; }
+  .pr .sc { display: grid; grid-template-columns: 52px 1fr; gap: 10px; align-items: center; font: 800 22px/1 var(--ns-font-sans); letter-spacing: -.6px; } .pr .sc .bar { height: 8px; }
+  .ck { width: 20px; height: 20px; border-radius: 6px; box-shadow: inset 0 0 0 1.5px var(--ns-border-strong); display: grid; place-items: center; font: 800 12px/1 var(--ns-font-sans); color: #fff; }
+  .sel .ck { background: var(--ns-interactive-primary); box-shadow: none; }
+
+</style>
+</head>
+<body>
+<div class="art" id="a"></div>
+<script src="../js/dashboards.js"></script>
+<script>
+const D = NS.dash;
+
+const s = D.shell({ active: "grid", title: "Deal flow", sub: "BRIGHTWATER DENTAL GROUP  /  COMPARE, SCORE, CHOOSE  /  STAGE 2 OF 5", right: D.seg(["Fit score", "Price", "Term"], 0) + `<span class="pill">Share screen view</span>` });
+const P = [[1, "Northline Fiber", "Fiber, 9 of 14 sites", 94, "$4,820", "36 mo", "Only provider with a dedicated line at the HQ", 1, "var(--ns-teal-500)"], [1, "Kestrel Networks", "SD-WAN, managed", 88, "$4,310", "36 mo", "Failover tested across all 14 sites", 1, "var(--ns-viz-4)"], [1, "Meridian Voice", "UCaaS, 212 seats", 85, "$3,780", "36 mo", "Native dental practice software integration", 1, "var(--ns-viz-2)"], [0, "Altus Broadband", "Cable, 14 of 14 sites", 71, "$3,950", "24 mo", "Widest coverage, lowest install cost", 0, "var(--ns-viz-3)"], [0, "Summitline Cloud", "UCaaS, 212 seats", 64, "$4,120", "36 mo", "Strong contact center add-on, not needed here", 0, "var(--ns-widget-muted)"], [0, "Harbor Mesh", "SD-WAN, self-managed", 58, "$3,410", "12 mo", "Lowest price, no managed support", 0, "var(--ns-widget-muted)"]];
+a.innerHTML = s.open + `<div class="grid g">
+ ${D.spine(1)}
+ <section class="t cmp" style="grid-row:2 / 3">
+   <div class="o">Providers, one row each <em>3 chosen of 6 considered. Sorted by fit.</em></div>
+   <div style="display:grid;gap:0;flex:1;align-content:space-between">
+     <div class="pr hd"><span></span><span>Provider</span><span>Fit score</span><span>Differentiator</span><span>Monthly</span><span>Term</span></div>
+     ${P.map(([sel, n, m, f, pr, t, d, _x, c]) => `<div class="pr ${sel ? "sel" : ""}"><span class="ck">${sel ? "&#10003;" : ""}</span><span><b>${n}</b><small>${m}</small></span><span class="sc"><span class="num" style="color:${f >= 80 ? "var(--ns-teal-500)" : "var(--ns-text-primary)"}">${f}</span><span class="bar"><i style="--_v:${f}%;--_c:${c}"></i></span></span><span>${d}</span><b class="num">${pr}</b><span>${t}</span></div>`).join("")}
+   </div>
+ </section>
+
+ <section class="t rd">
+   <div class="o">Why these three <em>Fit by criterion</em></div>
+   <div style="display:grid;place-items:center;flex:1">${D.radar({ m: 50, px: 70, size: 232, axes: ["Coverage", "Price", "SLA", "Support", "Install speed", "Integration"], sets: [{ data: [96, 62, 92, 80, 70, 74], color: "var(--ns-teal-500)", fill: .16 }, { data: [90, 78, 88, 86, 82, 70], color: "var(--ns-viz-4)", fill: .12 }, { data: [74, 88, 82, 78, 76, 96], color: "var(--ns-viz-2)", fill: .12 }] })}</div>
+   <div class="lg"><span><i style="--_c:var(--ns-teal-500)"></i>Northline</span><span><i style="--_c:var(--ns-viz-4)"></i>Kestrel</span><span><i style="--_c:var(--ns-viz-2)"></i>Meridian</span></div>
+ </section>
+
+ <section class="t qv">
+   <div class="o">Quote, 4 versions <em>Total monthly, chosen three</em></div>
+   <div class="row row--b" style="gap:14px"><div class="d-lg num">$12.9K</div><span class="dl" style="padding-bottom:6px">9.2% below v1</span></div>
+   <div class="sp1" style="display:flex;align-items:flex-end">${D.area({ w: 480, h: 200, pad: [26, 8, 22, 40], ticks: 4, min: 12, max: 15, fmt: v => "$" + v.toFixed(1) + "K", labels: ["v1 Oct 4", "v2 Oct 9", "v3 Oct 15", "v4 Oct 20"], sets: [{ data: [14.2, 13.5, 13.1, 12.9], color: "var(--ns-chart-series-1)", sw: 3, glow: true }] })}</div>
+   <div class="cap">Kestrel held price to Oct 31. Meridian dropped 6% after the seat count was confirmed.</div>
+ </section>
+ ${D.railPanel()}
+</div>` + s.close;
+
+</script>
+</body>
+</html>

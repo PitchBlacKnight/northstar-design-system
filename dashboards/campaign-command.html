@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=1600">
+<title>Campaign command | NorthStar dashboard layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css"><link rel="stylesheet" href="../css/dashboards.css">
+<style>
+  .g1 { grid-template-columns: repeat(12, 1fr); grid-template-rows: repeat(3, 1fr); }
+  .hero { grid-column: 1 / 8; grid-row: 1 / 3; }
+  .k-spend { grid-column: 8 / 10; } .k-conv { grid-column: 10 / 13; }
+  .pace { grid-column: 8 / 10; } .chan { grid-column: 10 / 13; grid-row: 2 / 4; }
+  .fun { grid-column: 1 / 5; } .heat { grid-column: 5 / 10; }
+  .frow { display: grid; grid-template-columns: 96px 1fr 64px; gap: 12px; align-items: center; font: 400 13px/18px var(--ns-font-sans); }
+  .frow i { display: block; height: 20px; border-radius: 5px; background: var(--ns-gradient-brand); }
+  .frow span:first-child { color: var(--ns-widget-muted); } .frow b { text-align: right; font-weight: 700; }
+  .hlab { display: grid; grid-template-columns: 34px 1fr; gap: 0; align-items: start; }
+  .hlab > div:first-child { display: grid; gap: 3px; font: 400 10px/21px var(--ns-font-sans); color: var(--ns-widget-muted); }
+  .hx { display: flex; justify-content: space-between; padding-left: 34px; font: 400 10px/1 var(--ns-font-sans); color: var(--ns-widget-muted); margin-top: 6px; }
+</style>
+</head>
+<body>
+<div class="art" id="a"></div>
+<script src="../js/dashboards.js"></script>
+<script>
+const D = NS.dash;
+const s = D.shell({ active: "grid", title: "Campaign Command", sub: "HALCYON FOOTWEAR  /  Q4 AUTUMN LAUNCH  /  OCT 1 - OCT 22", right: D.seg(["24h", "7d", "30d", "Flight"], 3) + D.live("Synced 2 min ago") });
+const ch = [["Meta", 5.9, "viz-4"], ["Google Search", 5.4, "viz-1"], ["YouTube", 4.6, "viz-2"], ["TikTok", 4.1, "viz-6"], ["Programmatic", 3.2, "viz-3"], ["Retail media", 2.9, "viz-5"], ["Podcast", 2.2, "viz-7"]];
+const rev = D.series(22, 48, 128, .12, 3), spend = D.series(22, 20, 31, .1, 8);
+a.innerHTML = s.open + `<div class="grid g1">
+
+ <section class="t t--blue hero">
+   <div class="o">Blended ROAS <em>Revenue / media spend</em></div>
+   <div class="row row--b" style="gap:22px"><div class="d-mega num">4.82<span class="u" style="font-size:.4em">x</span></div>
+     <div style="padding-bottom:14px;display:grid;gap:8px"><span class="dl">0.61x vs Q3</span><span class="cap">Target 4.00x. Cleared on Oct 6.</span></div></div>
+   <div class="sp1"></div>
+   ${D.area({ w: 812, h: 268, min: 0, max: 140, ticks: 5, ink: "var(--ns-interactive-primary)", gridColor: "#ffffff30", labelFill: "#ffffffb8", fmt: v => "$" + Math.round(v) + "K",
+     labels: ["Oct 1", "Oct 6", "Oct 11", "Oct 16", "Oct 22"], sets: [{ data: rev, color: "#fff", fillTop: .34, sw: 3 }, { data: spend, color: "var(--ns-teal-500)", fill: false, sw: 2, dash: "5 5", last: false }] })}
+   <div class="lg" style="--ink2:#ffffffd0"><span><i style="--_c:#fff"></i>Revenue</span><span><i style="--_c:var(--ns-teal-500)"></i>Media spend</span></div>
+ </section>
+
+ <section class="t k-spend">
+   <div class="o">Media spend</div>
+   <div class="d-xl num">$412<span class="u">K</span></div>
+   <div class="sp1"></div>
+   ${D.spark({ w: 200, h: 46, data: D.series(16, 10, 30, .15, 5), color: "var(--ns-chart-series-3)" })}
+   <div class="row sb"><span class="cap">of $520K flight</span><span class="dl dn">3.1% pacing</span></div>
+ </section>
+
+ <section class="t t--teal k-conv">
+   <div class="o">Purchases</div>
+   <div class="row row--b"><div class="d-xl num">31,204</div><span class="dl" style="padding-bottom:8px">18.4%</span></div>
+   <div class="sp1"></div>
+   ${D.bars({ w: 330, h: 70, data: D.series(24, 40, 100, .25, 9), color: "var(--ink)", r: 3, gap: 4, pad: [2, 0, 2, 0] })}
+   <div class="row sb"><span class="cap">CPA $13.20</span><span class="cap">AOV $96.40</span></div>
+ </section>
+
+ <section class="t pace">
+   <div class="o">Budget pacing</div>
+   <div class="row" style="gap:18px;margin-top:4px">${D.ring({ size: 124, stroke: 14, pct: 79, grad: ["var(--ns-teal-500)", "var(--ns-blue-500)"], label: "79%", fs: 26 })}
+     <div class="ls" style="--cols:auto auto;gap:0;flex:1"><div><span class="k">Spent</span><b class="num">$412K</b></div><div><span class="k">Left</span><b class="num">$108K</b></div><div><span class="k">Days</span><b class="num">9</b></div></div></div>
+   <div class="sp1"></div>
+   <div style="display:grid;gap:10px">${[["Meta", 92, 85], ["Search", 81, 85], ["YouTube", 64, 85]].map(([n, p, t]) => `<div style="display:grid;grid-template-columns:62px 1fr 34px;gap:10px;align-items:center;font:400 12px/1 var(--ns-font-sans)"><span style="color:var(--ns-widget-muted)">${n}</span>${D.bullet({ pct: p, target: t, color: p > 85 ? "var(--ns-status-warning)" : "var(--ns-chart-series-1)", h: 8 })}<b class="num">${p}%</b></div>`).join("")}</div>
+ </section>
+
+ <section class="t chan">
+   <div class="o">ROAS by channel <em>Oct 1 - 22</em></div>
+   <div style="display:grid;gap:34px;margin-top:16px">${ch.map(([n, v, c], i) => `<div style="display:grid;gap:7px"><div class="row sb" style="font:600 13px/1 var(--ns-font-sans)"><span>${n}</span><span class="num">${v.toFixed(1)}x</span></div><div class="bar" style="height:10px;border-radius:5px"><i style="--_v:${v / 6 * 100}%;--_c:var(--ns-${c})"></i></div></div>`).join("")}</div>
+   <div class="sp1"></div><hr class="hr"><div class="cap">Target 4.00x. Podcast and retail media sit under.</div>
+ </section>
+
+ <section class="t fun">
+   <div class="o">Conversion funnel <em>Flight to date</em></div>
+   <div style="display:grid;gap:11px;flex:1;align-content:space-around">
+   ${[["Impressions", 100, "18.4M"], ["Clicks", 74, "612K"], ["Sessions", 58, "498K"], ["Add to cart", 36, "84K"], ["Purchases", 20, "31.2K"]].map(([l, w, v]) => `<div class="frow"><span>${l}</span><div><i style="width:${w}%"></i></div><b class="num">${v}</b></div>`).join("")}</div>
+ </section>
+
+ <section class="t heat">
+   <div class="o">Purchases by hour <em>Peak 8 PM, Thu</em></div>
+   <div class="sp1"></div>
+   <div class="hlab"><div>${["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(d => `<span>${d}</span>`).join("")}</div>
+   ${D.heat({ rows: 7, cols: 24, cell: 18, ch: 21, gap: 3, seed: 12, color: "var(--ns-viz-1)", fn: (x, y, r) => { const peak = Math.exp(-((x - 20) ** 2) / 14) + .5 * Math.exp(-((x - 12) ** 2) / 10); return (peak * (y === 3 ? 1 : .6 + (y > 4 ? .15 : 0)) * (.7 + r() * .4)); } })}</div>
+   <div class="hx"><span>12A</span><span>6A</span><span>12P</span><span>6P</span><span>12A</span></div>
+ </section>
+
+</div>` + s.close;
+</script>
+</body>
+</html>

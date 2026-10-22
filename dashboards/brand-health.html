@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=1600">
+<title>Brand health | NorthStar dashboard layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css"><link rel="stylesheet" href="../css/dashboards.css">
+<style>
+  .g { grid-template-columns: repeat(12, 1fr); grid-template-rows: repeat(3, 1fr); }
+  .rd { grid-column: 1 / 5; grid-row: 1 / 4; } .bhi { grid-column: 5 / 9; } .sov { grid-column: 9 / 13; }
+  .tr { grid-column: 5 / 9; grid-row: 2 / 4; } .wd { grid-column: 9 / 13; } .qt { grid-column: 9 / 13; }
+  .wds { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; align-content: space-around; flex: 1; font-family: var(--ns-font-sans); letter-spacing: -.03em; line-height: 1; }
+  .wds span { font-weight: 800; }
+  .sv { display: flex; height: 54px; border-radius: 10px; overflow: hidden; gap: 3px; }
+  .sv i { display: block; background: var(--_c); width: var(--_w); border-radius: 4px; }
+  .svl { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 20px; font: 600 13px/1 var(--ns-font-sans); }
+  .svl div { display: grid; grid-template-columns: 10px 1fr auto; gap: 8px; align-items: center; } .svl i { width: 10px; height: 10px; border-radius: 3px; background: var(--_c); }
+  .qt blockquote { margin: 0; font: 800 32px/1.1 var(--ns-font-sans); letter-spacing: -.8px; }
+  .qm { font: 800 100px/.6 var(--ns-font-sans); opacity: .35; height: 40px; }
+</style>
+</head>
+<body>
+<div class="art" id="a"></div>
+<script src="../js/dashboards.js"></script>
+<script>
+const D = NS.dash;
+const s = D.shell({ active: "star", title: "Brand Health", sub: "SALTLINE COFFEE  /  QUARTERLY TRACKER, WAVE 14  /  N = 4,812 US ADULTS", right: D.seg(["Wave 14", "Wave 13", "YoY"], 0) + `<span class="pill">vs 6 category peers</span>` });
+const ax = ["Quality", "Value", "Trust", "Innovation", "Sustainability", "Availability", "Relevance"];
+const w = ["Smooth", "Ritual", "Local", "Pricey", "Reliable", "Bold", "Sustainable", "Cozy", "Morning", "Rewards"];
+const sz = [60, 52, 44, 30, 40, 34, 36, 26, 46, 28]; const cl = ["var(--ns-black)", "var(--ns-blue-500)", "var(--ns-black)", "var(--ns-red-500)", "var(--ns-black)", "var(--ns-persian-500)", "var(--ns-black)", "var(--ns-blue-500)", "var(--ns-black)", "var(--ns-persian-500)"];
+a.innerHTML = s.open + `<div class="grid g">
+
+ <section class="t rd">
+   <div class="o">Perception vs category <em>Index, category avg = 50</em></div>
+   <div style="display:grid;place-items:center;flex:1">${D.radar({ size: 392, m: 76, px: 23, axes: ax, sets: [{ data: [50,50,50,50,50,50,50], color: "var(--ns-widget-muted)", dash: 1, fill: .04 }, { data: [82, 54, 76, 61, 88, 47, 72], color: "var(--ns-teal-500)", fill: .2 }] })}</div>
+   <div class="lg"><span><i style="--_c:var(--ns-teal-500)"></i>Saltline</span><span><i style="--_c:var(--ns-widget-muted)"></i>Category average</span></div>
+   <hr class="hr"><div style="display:grid;gap:9px">${[["Sustainability", 88, 38], ["Quality", 82, 32], ["Trust", 76, 26], ["Relevance", 72, 22], ["Innovation", 61, 11], ["Value", 54, 4], ["Availability", 47, -3]].map(([n, v, d]) => `<div style="display:grid;grid-template-columns:110px 1fr 40px;gap:12px;align-items:center;font:600 12px/1 var(--ns-font-sans)"><span>${n}</span><div class="bar" style="height:8px"><i style="--_v:${v}%;--_c:${d < 0 ? "var(--ns-status-error)" : "var(--ns-teal-500)"}"></i></div><span class="num" style="text-align:right;color:${d < 0 ? "var(--ns-status-error)" : "var(--ns-status-success)"}">${d > 0 ? "+" : ""}${d}</span></div>`).join("")}</div>
+ </section>
+
+ <section class="t t--blue bhi">
+   <div class="o">Brand health index</div>
+   <div class="row row--b" style="gap:18px"><div class="d-xxl num">78</div><div style="padding-bottom:10px;display:grid;gap:6px"><span class="dl">4 pts vs wave 13</span><span class="cap">Highest in the tracker's history.</span></div></div>
+   <div class="sp1"></div>
+   ${D.spark({ w: 400, h: 70, data: D.series(14, 60, 78, .06, 33), color: "#fff", sw: 2.6 })}
+ </section>
+
+ <section class="t sov">
+   <div class="o">Share of voice <em>Earned + paid, 90 days</em></div>
+   <div class="sv">${[[34, "var(--ns-teal-500)"], [22, "var(--ns-viz-2)"], [18, "var(--ns-viz-3)"], [14, "var(--ns-viz-4)"], [12, "var(--ns-widget-muted)"]].map(([v, c]) => `<i style="--_w:${v}%;--_c:${c}"></i>`).join("")}</div>
+   <div class="svl" style="margin-top:6px">${[["Saltline", 34, "viz-1"], ["Harbor Roast", 22, "viz-2"], ["Daybreak", 18, "viz-3"], ["Copper Cup", 14, "viz-4"]].map(([n, v, c]) => `<div><i style="--_c:var(--ns-${c})"></i><span>${n}</span><b class="num">${v}%</b></div>`).join("")}<div><i style="--_c:var(--ns-widget-muted)"></i><span>Others</span><b class="num">12%</b></div></div>
+   <div class="sp1"></div><hr class="hr"><div class="ls" style="--cols:1fr auto"><div><span class="k">Net sentiment</span><b class="num">+41</b></div><div><span class="k">Mentions, 90 days</span><b class="num">128K</b></div></div>
+ </section>
+
+ <section class="t tr">
+   <div class="o">Brand funnel, 12 waves <em>% of US adults</em></div>
+   <div class="row" style="gap:28px;margin:2px 0 4px"><div><div class="d-md num" style="color:var(--ns-chart-series-1)">72%</div><span class="cap">Aided awareness</span></div><div><div class="d-md num" style="color:var(--ns-chart-series-3)">44%</div><span class="cap">Consideration</span></div><div><div class="d-md num" style="color:var(--ns-viz-3)">23%</div><span class="cap">Preference</span></div></div>
+   <div class="sp1" style="display:flex;align-items:flex-end">${D.area({ w: 436, h: 410, ticks: 5, min: 0, max: 80, fmt: v => Math.round(v) + "%", labels: ["W3", "W5", "W7", "W9", "W11", "W14"], sets: [{ data: D.series(12, 58, 71, .04, 2), color: "var(--ns-chart-series-1)", sw: 2.6 }, { data: D.series(12, 33, 44, .05, 6), color: "var(--ns-chart-series-3)", sw: 2.6, fillTop: .25 }, { data: D.series(12, 17, 23, .06, 9), color: "var(--ns-viz-3)", sw: 2.6, fillTop: .2 }] })}</div>
+ </section>
+
+ <section class="t t--paper wd">
+   <div class="o">What people say <em>Top themes, mentions</em></div>
+   <div class="wds">${w.map((x, i) => `<span style="font-size:${sz[i]}px;color:${["#05050f","#023aff","#05050f","#d7002f","#05050f","#4807ea","#05050f","#023aff","#05050f","#4807ea"][i]};${i % 2 ? "" : ""}">${x}</span>`).join("")}</div>
+ </section>
+
+ <section class="t t--bruise qt">
+   <div class="qm">&ldquo;</div>
+   <blockquote>The only coffee that tastes like it cares where it came from.</blockquote>
+   <div class="sp1"></div>
+   <div class="row sb"><span class="cap">Survey verbatim, wave 14. Age 25 to 34.</span><span class="tag">Positive</span></div>
+ </section>
+
+</div>` + s.close;
+</script>
+</body>
+</html>

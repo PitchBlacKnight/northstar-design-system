@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=1600">
+<title>Board report | NorthStar dashboard layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css"><link rel="stylesheet" href="../css/dashboards.css">
+<style>
+  .art { background: var(--ns-background-secondary); }
+  .g { grid-template-columns: repeat(12, 1fr); grid-template-rows: 1.05fr 1fr 1fr; }
+  .hd { grid-column: 1 / 9; justify-content: space-between; } .pa { grid-column: 9 / 13; }
+  .wf { grid-column: 1 / 8; } .ok { grid-column: 8 / 13; }
+  .rm { grid-column: 1 / 8; } .hc { grid-column: 8 / 10; } .rg { grid-column: 10 / 13; }
+  .hd h2 { margin: 0; font: 800 54px/1.02 var(--ns-font-sans); letter-spacing: -2px; max-width: 880px; }
+  .hd h2 em { font-style: normal; color: var(--ns-teal-500); }
+  .gt { display: grid; grid-template-columns: 150px repeat(9, 1fr); gap: 0; font: 600 12px/1 var(--ns-font-sans); align-items: center; }
+  .gt .m { text-align: left; font: 700 10px/1 var(--ns-font-sans); letter-spacing: 1px; color: var(--ns-widget-muted); padding-bottom: 8px; border-left: 1px solid var(--ns-widget-grid); padding-left: 6px; }
+  .gt .n { padding: 14px 0; } .gt .l { grid-column: 2 / 11; position: relative; height: 26px; border-radius: 6px; background: var(--ns-widget-track); }
+  .gt .l i { position: absolute; top: 0; bottom: 0; border-radius: 6px; background: var(--_c); left: var(--_s); width: var(--_w); }
+  .gt .l i::after { content: attr(data-t); position: absolute; left: 10px; top: 0; line-height: 26px; font: 700 11px/26px var(--ns-font-sans); color: #fff; white-space: nowrap; }
+  .gt .l i.dk::after { color: var(--ns-black); }
+  .gt .rowl { display: contents; }
+  .now { position: absolute; left: calc(150px + (100% - 150px) * .078); top: 0; bottom: 0; width: 2px; background: var(--ns-red-400); z-index: 2; }
+  .rt { display: grid; gap: 0; font: 600 13px/1 var(--ns-font-sans); }
+  .rt > div { display: grid; grid-template-columns: 1fr 52px 56px; gap: 10px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--ns-widget-grid); }
+  .rt > div:last-child { border: 0; } .rt .hh { font: 700 10px/1 var(--ns-font-sans); letter-spacing: 1px; color: var(--ns-widget-muted); padding-top: 0; text-transform: uppercase; }
+  .rt .num { text-align: right; }
+  .okr { display: grid; gap: 11px; flex: 1; align-content: space-around; }
+  .okr > div { display: grid; gap: 8px; }
+  .okr .h { display: flex; justify-content: space-between; font: 600 13px/1.2 var(--ns-font-sans); gap: 12px; } .okr .h span:last-child { font-weight: 800; }
+</style>
+</head>
+<body>
+<div class="art" id="a"></div>
+<script src="../js/dashboards.js"></script>
+<script>
+const D = NS.dash;
+const s = D.shell({ active: "chart", title: "Board Report", sub: "MERIDIAN LOGISTICS  /  Q3 FY26  /  PREPARED FOR THE BOARD, OCT 22", right: D.seg(["Q1", "Q2", "Q3", "Q4"], 2) + `<span class="pill">Draft v4</span>` });
+a.innerHTML = s.open + `<div class="grid g">
+
+ <section class="t t--paper hd">
+   <div class="o" style="--lbl:#ffffff99">Headline</div>
+   <h2>Revenue closed Q3 at <em>$48.2M</em>, 11% ahead of plan, with churn at a three-year low.</h2>
+   <div class="row" style="gap:10px"><span class="tag" style="background:#ffffff1f;color:#fff">Net revenue retention 118%</span><span class="tag" style="background:#ffffff1f;color:#fff">Gross margin 62.4%</span><span class="tag" style="background:#ffffff1f;color:#fff">Cash runway 31 months</span></div>
+ </section>
+
+ <section class="t t--blue pa">
+   <div class="o">Plan attainment</div>
+   <div class="d-mega num" style="font-size:150px;letter-spacing:-7px">111<span class="u" style="font-size:.38em">%</span></div>
+   <div class="sp1"></div>
+   <div class="row sb"><span class="cap">Plan $43.4M</span><span class="dl">$4.8M over</span></div>
+ </section>
+
+ <section class="t wf">
+   <div class="o">Revenue bridge, Q2 to Q3 <em>$M, axis starts at $36M</em></div>
+   <div class="sp1" style="display:flex;align-items:flex-end">${D.waterfall({ w: 800, h: 252, base: 36, steps: [{ l: "Q2 revenue", v: 41.6, total: true }, { l: "New logos", v: 3.9 }, { l: "Expansion", v: 3.1 }, { l: "Pricing", v: 1.2 }, { l: "Churn", v: -1.4 }, { l: "FX", v: -0.2 }, { l: "Q3 revenue", v: 48.2, total: true }] })}</div>
+ </section>
+
+ <section class="t ok">
+   <div class="o">Objectives <em>Progress vs target tick</em></div>
+   <div class="okr">${[["Launch EU network, 6 hubs", 83, 70, "chart-series-1"], ["Cut cost per parcel to $4.10", 64, 75, "chart-series-3"], ["On-time delivery above 97%", 92, 85, "chart-series-2"], ["Same-day coverage, 40 metros", 58, 60, "chart-series-4"], ["Carbon per parcel down 15%", 68, 66, "chart-series-1"]].map(([n, p, t, c]) => `<div><div class="h"><span>${n}</span><span class="num">${p}%</span></div>${D.bullet({ pct: p, target: t, color: "var(--ns-" + c + ")", h: 10 })}</div>`).join("")}</div>
+ </section>
+
+ <section class="t rm">
+   <div class="o">Roadmap <em>Oct 2026 - Jun 2027</em></div>
+   <div class="sp1" style="position:relative;display:grid;align-content:center">
+     <div class="gt"><div></div>${["OCT", "NOV", "DEC", "JAN", "FEB", "MAR", "APR", "MAY", "JUN"].map(m => `<div class="m">${m}</div>`).join("")}</div>
+     ${[["EU hub buildout", 0, 5, "var(--ns-blue-500)", "6 hubs"], ["Routing engine v2", 1, 4, "var(--ns-purple-500)", "Beta Dec"], ["Same-day expansion", 3, 5, "var(--ns-teal-500)", "40 metros", 1], ["Fleet electrification", 2, 7, "var(--ns-persian-500)", "Phase 1 and 2"], ["Partner API", 5, 3, "var(--ns-yellow-500)", "GA Jun", 1]].map(([n, st, ln, c, t, dk]) => `<div class="gt"><div class="n">${n}</div><div class="l"><i class="${dk ? "dk" : ""}" style="--_c:${c};--_s:${st / 9 * 100}%;--_w:${ln / 9 * 100}%" data-t="${t}"></i></div></div>`).join("")}
+     <div class="now"></div>
+   </div>
+ </section>
+
+ <section class="t t--teal hc">
+   <div class="o">Headcount</div>
+   <div class="d-xxl num">412</div>
+   <div class="sp1"></div>
+   <div class="ls" style="--cols:1fr auto"><div><span class="k">Hired Q3</span><b class="num">38</b></div><div><span class="k">Attrition</span><b class="num">6.1%</b></div></div>
+ </section>
+
+ <section class="t rg">
+   <div class="o">Revenue by region <em>$M</em></div>
+   <div class="rt"><div class="hh"><span>Region</span><span class="num">Q3</span><span class="num">YoY</span></div>${[["North America", "24.6", "+14%"], ["Europe", "12.1", "+31%"], ["Asia Pacific", "7.8", "+9%"], ["Latin America", "3.7", "+22%"]].map(([r, v, y]) => `<div><span>${r}</span><span class="num">${v}</span><span class="num" style="color:var(--ns-status-success)">${y}</span></div>`).join("")}</div>
+ </section>
+
+</div>` + s.close;
+</script>
+</body>
+</html>

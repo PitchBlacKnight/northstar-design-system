@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=1600">
+<title>Deal home | NorthStar dashboard layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css"><link rel="stylesheet" href="../css/dashboards.css">
+<style>
+  .g { grid-template-columns: repeat(12, 1fr); grid-template-rows: repeat(3, 1fr); }
+  .h1 { grid-column: 1 / 6; } .h2 { grid-column: 6 / 9; } .h3 { grid-column: 9 / 13; }
+  .tb { grid-column: 1 / 8; grid-row: 2 / 4; } .wt { grid-column: 8 / 13; } .mr { grid-column: 8 / 13; }
+  .sb5 { display: flex; gap: 4px; } .sb5 > div { display: grid; gap: 8px; min-width: 0; } .sb5 i { display: grid; place-items: center; height: 44px; border-radius: 8px; font: 800 14px/1 var(--ns-font-sans); font-style: normal; color: var(--ns-black); background: var(--_c); } .sb5 span { font: 600 11px/1 var(--ns-font-sans); color: #ffffffcc; white-space: nowrap; }
+  .sl { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; font: 600 11px/1.2 var(--ns-font-sans); color: #ffffffcc; } 
+  .wi { display: grid; grid-template-columns: 8px 1fr auto; gap: 12px; align-items: stretch; padding: 9px 0; border-bottom: 1px solid var(--ns-widget-grid); font: 400 13px/17px var(--ns-font-sans); } .wi:last-child { border: 0; }
+  .wi > i { border-radius: 4px; background: var(--_c); } .wi b { font-weight: 700; display: block; } .wi small { color: var(--ns-widget-muted); font-size: 11px; } .wi .d { font: 800 15px/1.1 var(--ns-font-sans); text-align: right; } .wi .d small { display: block; font: 400 10px/12px var(--ns-font-sans); }
+
+</style>
+</head>
+<body>
+<div class="art" id="a"></div>
+<script src="../js/dashboards.js"></script>
+<script>
+const D = NS.dash;
+
+const s = D.shell({ active: "grid", title: "Deal flow", sub: "DEAL HOME  /  24 ACTIVE", right: D.seg(["My deals", "Team", "All"], 0) + `<span class="pill">+ New deal</span>` });
+const sc = ["var(--ns-teal-500)", "#ffffff", "var(--ns-purple-500)", "var(--ns-yellow-500)", "var(--ns-green-500)"];
+const cnt = [4, 7, 6, 4, 3];
+const deals = [["Brightwater Dental Group", "14 sites", 1, "Choose three providers", "$12.9K", "3d"], ["Cedar and Vale Logistics", "9 sites", 2, "Kestrel assessment due", "$28.4K", "6d"], ["Harborview Credit Union", "22 sites", 3, "Northline registration reply", "$9.6K", "4d"], ["Ironwood Manufacturing", "5 sites", 4, "Countersign, then deploy", "$41.2K", "1d"], ["Summit Ridge Hotels", "31 sites", 2, "Client site access", "$22.7K", "9d"], ["Larkspur Foods", "11 sites", 1, "Altus quote refresh", "$15.3K", "2d"], ["Tidewater Law Partners", "3 sites", 3, "Registration approved, 1 of 2", "$7.8K", "2d"], ["Pell Street Pediatrics", "4 sites", 0, "Confirm technologies", "$4.1K", "5d"]];
+a.innerHTML = s.open + `<div class="grid g">
+ <section class="t t--blue h1">
+   <div class="o">Active deals</div>
+   <div class="row row--b" style="gap:18px"><div class="d-xxl num">24</div><div style="padding-bottom:10px;display:grid;gap:6px"><span class="dl">3 new this week</span><span class="cap">Five stages, in the order a deal moves</span></div></div>
+   <div class="sp1"></div>
+   <div class="sb5">${cnt.map((c, i) => `<div style="width:${c / 24 * 100}%"><i style="--_c:${sc[i]}">${c}</i><span>${["Project", "Configuration", "Discovery", "Registration", "Contract"][i]}</span></div>`).join("")}</div>
+ </section>
+ <section class="t t--amber h2">
+   <div class="o">Waiting on others</div>
+   <div class="d-xxl num">9</div>
+   <div class="sp1"></div>
+   <div class="cap">Oldest: Summit Ridge site access, 9 days.</div>
+   <div class="bar" style="height:8px"><i style="--_v:62%;--_c:var(--ink)"></i></div>
+   <div class="cap">6 of 9 inside their expected window</div>
+ </section>
+ <section class="t t--teal h3">
+   <div class="o">Booked MRR, Oct</div>
+   <div class="row row--b"><div class="d-xl num">$186K</div><span class="dl" style="padding-bottom:8px">14%</span></div>
+   <div class="sp1"></div>
+   ${D.spark({ w: 330, h: 54, data: D.series(18, 90, 186, .1, 31), color: "var(--ink)", sw: 2.6 })}
+   <div class="row sb cap"><span>Goal $175K</span><span>Cleared Oct 17</span></div>
+ </section>
+
+ <section class="t tb">
+   <div class="o">My deals <em>Sorted by what needs me first</em></div>
+   <div class="dtab" style="--cols:1.5fr 110px 1.4fr 70px 52px;flex:1;align-content:space-between"><div class="h"><span>Client</span><span>State</span><span>Next</span><span>MRR</span><span>Idle</span></div>
+   ${deals.map(([n, m, st, nx, v, age]) => `<div><span><b>${n}</b><small>${m}</small></span>${D.miniSpine(st)}<span>${nx}</span><b class="num">${v}</b><span class="cap" style="color:${parseInt(age) > 5 ? "var(--ns-status-warning)" : ""}">${age}</span></div>`).join("")}</div>
+ </section>
+
+ <section class="t wt">
+   <div class="o">Waiting on <em>Status page</em></div>
+   <div>${[["Assessment returned", "Kestrel Networks  /  Cedar and Vale", "6d", "var(--ns-status-warning)", "of 10d"], ["Registration reply", "Northline Fiber  /  Harborview", "4d", "var(--ns-viz-4)", "of 7d"], ["Client site access", "Summit Ridge Hotels", "9d", "var(--ns-status-error)", "overdue"], ["Quote refresh", "Altus Broadband  /  Larkspur", "2d", "var(--ns-viz-4)", "of 5d"]].map(([t, w, d, c, u]) => `<div class="wi" style="--_c:${c}"><i></i><div><b>${t}</b><small>${w}</small></div><div class="d">${d}<small>${u}</small></div></div>`).join("")}</div>
+ </section>
+
+ <section class="t mr">
+   <div class="o">Booked MRR by service <em>$K, last 6 months</em></div>
+   <div class="sp1" style="display:flex;align-items:flex-end">${D.stack({ w: 430, h: 170, gap: 14, labels: ["May", "Jun", "Jul", "Aug", "Sep", "Oct"], sets: [{ data: [38, 41, 44, 47, 52, 58], color: "var(--ns-chart-series-1)" }, { data: [30, 33, 33, 38, 42, 47], color: "var(--ns-chart-series-2)" }, { data: [22, 24, 29, 31, 35, 41], color: "var(--ns-chart-series-3)" }, { data: [14, 15, 17, 19, 22, 24], color: "var(--ns-viz-3)" }] })}</div>
+   <div class="lg"><span><i style="--_c:var(--ns-chart-series-1)"></i>Fiber and broadband</span><span><i style="--_c:var(--ns-chart-series-2)"></i>SD-WAN</span><span><i style="--_c:var(--ns-chart-series-3)"></i>UCaaS</span><span><i style="--_c:var(--ns-viz-3)"></i>Cloud</span></div>
+ </section>
+</div>` + s.close;
+
+</script>
+</body>
+</html>

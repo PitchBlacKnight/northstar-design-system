@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=1600">
+<title>Pipeline and forecast | NorthStar dashboard layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css"><link rel="stylesheet" href="../css/dashboards.css">
+<style>
+  .g { grid-template-columns: repeat(12, 1fr); grid-template-rows: repeat(3, 1fr); }
+  .fc { grid-column: 1 / 8; grid-row: 1 / 3; } .lb { grid-column: 8 / 10; grid-row: 1 / 4; }
+  .win { grid-column: 10 / 13; } .st { grid-column: 10 / 13; grid-row: 2 / 4; }
+  .cov { grid-column: 1 / 4; } .risk { grid-column: 4 / 8; }
+  .rp { display: grid; grid-template-columns: 30px 1fr auto; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--ns-widget-grid); font: 600 13px/1.15 var(--ns-font-sans); }
+  .rp:last-child { border: 0; } .rp .av { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font: 800 11px/1 var(--ns-font-sans); color: var(--ns-black); background: var(--_c); }
+  .rp small { display: block; font: 400 11px/14px var(--ns-font-mono); color: var(--ns-widget-muted); }
+  .rp .bar { grid-column: 2 / 4; height: 5px; margin-top: -2px; }
+  .dr { display: grid; grid-template-columns: 1fr auto 70px; gap: 12px; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--ns-widget-grid); font: 400 13px/16px var(--ns-font-sans); }
+  .dr:last-child { border: 0; } .dr b { display: block; font-weight: 700; } .dr small { color: var(--ns-widget-muted); font: 400 11px/14px var(--ns-font-mono); }
+  .stg { display: grid; gap: 14px; flex: 1; align-content: space-around; }
+  .stg > div { display: grid; grid-template-columns: 82px 1fr; gap: 12px; align-items: center; font: 600 13px/1.2 var(--ns-font-sans); }
+  .stg .b { height: 38px; border-radius: 8px; background: var(--_c); width: var(--_w); display: flex; align-items: center; padding-left: 12px; color: var(--ns-black); font: 800 14px/1 var(--ns-font-sans); }
+  .stg small { display: block; color: var(--ns-widget-muted); font: 400 11px/14px var(--ns-font-sans); }
+</style>
+</head>
+<body>
+<div class="art" id="a"></div>
+<script src="../js/dashboards.js"></script>
+<script>
+const D = NS.dash;
+const s = D.shell({ active: "target", title: "Pipeline and Forecast", sub: "REVENUE OPERATIONS  /  Q4 FY26  /  WEEK 6 OF 13", right: D.seg(["Commit", "Best case", "Pipeline"], 0) + `<span class="pill">Team: All of Sales</span>` });
+a.innerHTML = s.open + `<div class="grid g">
+
+ <section class="t t--bruise fc">
+   <div class="o">Q4 forecast, commit <em>Quota $6.50M</em></div>
+   <div class="row row--b" style="gap:20px"><div class="d-xxl num">$6.84M</div><div style="padding-bottom:10px;display:grid;gap:7px"><span class="dl">105% of quota</span><span class="cap">Range $6.31M to $7.20M</span></div></div>
+   <div class="sp1" style="display:flex;align-items:flex-end">${(() => { const act = D.series(8, 0.2, 2.9, .05, 3), fc = D.series(15, 2.9, 6.84, .02, 5); const band = fc.map((v, i) => [v - i * .035 * 1.0, v + i * .026]); return D.area({ w: 790, h: 290, ticks: 5, min: 0, max: 8, n: 22, ink: "#6b2bf0", gridColor: "#ffffff30", labelFill: "#ffffffb8", fmt: v => "$" + Math.round(v) + "M", labels: ["Oct 1", "Oct 22", "Nov 12", "Dec 3", "Dec 31"], sets: [{ data: Array(22).fill(6.5), color: "var(--ns-teal-500)", fill: false, sw: 1.8, dash: "3 5", last: false }, { data: fc, from: 7, n: 22, band, color: "#fff", fill: false, sw: 2.4, dash: "6 5", last: false }, { data: act, n: 22, color: "#fff", fillTop: .3, sw: 3 }] }); })()}</div>
+   <div class="lg" style="--ink2:#ffffffd0"><span><i style="--_c:#fff"></i>Closed won</span><span><i style="--_c:#ffffff66"></i>Forecast band</span><span><i style="--_c:var(--ns-teal-500)"></i>Quota</span></div>
+ </section>
+
+ <section class="t lb">
+   <div class="o">Rep attainment <em>% of quota</em></div>
+   <div style="flex:1;display:grid;align-content:space-between">${[["Priya N.", 142, "teal-500", "PN"], ["Marcus O.", 128, "green-500", "MO"], ["Elena V.", 117, "yellow-500", "EV"], ["Dev K.", 104, "purple-400", "DK"], ["Hannah L.", 96, "cyan-400", "HL"], ["Tomas R.", 81, "red-400", "TR"], ["Jin S.", 74, "orange-500", "JS"], ["Aisha B.", 63, "magenta-500", "AB"]].map(([n, v, c, i]) => `<div class="rp"><div class="av" style="--_c:var(--ns-${c})">${i}</div><div>${n}</div><b class="num">${v}%</b><div class="bar"><i style="--_v:${Math.min(100, v / 1.45)}%;--_c:${v >= 100 ? "var(--ns-teal-500)" : "var(--ns-widget-muted)"}"></i></div></div>`).join("")}</div>
+ </section>
+
+ <section class="t t--teal win">
+   <div class="o">Win rate</div>
+   <div class="row" style="flex:1;gap:18px">${D.ring({ size: 112, stroke: 14, pct: 34, color: "var(--ink)", track: "#05050f26", label: "34%", fs: 26 })}<div style="display:grid;gap:8px"><span class="dl">3 pts vs Q3</span><span class="cap">Avg cycle 47 days, down from 53</span></div></div>
+   <div class="o" style="--lbl:var(--ink2)">Win rate, last 4 quarters</div>${D.bars({ w: 330, h: 70, data: [27, 29, 31, 34], color: "#05050f55", hi: 3, hiColor: "var(--ink)", gap: 14, r: 4, labels: ["Q1","Q2","Q3","Q4"], labelFill: "#05050fcc", pad: [2, 0, 18, 0], vmax: 40 })}
+ </section>
+
+ <section class="t st">
+   <div class="o">Open pipeline by stage <em>$14.2M total</em></div>
+   <div class="stg">${[["Discovery", 100, "$5.1M", "viz-1", "142 deals"], ["Evaluation", 74, "$3.8M", "viz-2", "88 deals"], ["Proposal", 51, "$2.6M", "viz-3", "47 deals"], ["Negotiation", 36, "$1.9M", "viz-5", "21 deals"], ["Closing", 16, "$0.8M", "viz-6", "9 deals"]].map(([n, w, v, c, d]) => `<div><div>${n}<small>${d}</small></div><div class="b" style="--_c:var(--ns-${c});--_w:${Math.max(w, 28)}%">${v}</div></div>`).join("")}</div>
+ </section>
+
+ <section class="t cov">
+   <div class="o">Pipeline coverage</div>
+   <div style="display:grid;place-items:center;flex:1">${D.gauge({ w: 210, pct: 80, stroke: 17, color: "var(--ns-teal-500)", label: "3.2x", sub: "Target 3.0x" })}</div>
+ </section>
+
+ <section class="t risk">
+   <div class="o">Deals at risk <em>5 flagged</em></div>
+   <div>${[["Cobalt Freight renewal", "Priya N.  /  Stalled 19 days", "$420K"], ["Larch and Pine Group", "Marcus O.  /  No exec sponsor", "$385K"], ["Ardent Health", "Elena V.  /  Legal redlines", "$310K"], ["Tidewater Foods", "Dev K.  /  Slipped to Q1", "$275K"]].map(([n, m, v]) => `<div class="dr"><div><b>${n}</b><small>${m}</small></div><b class="num">${v}</b><span class="tag" style="color:var(--ns-status-warning);background:var(--ns-status-warning-bg)">At risk</span></div>`).join("")}</div>
+ </section>
+</div>` + s.close;
+</script>
+</body>
+</html>

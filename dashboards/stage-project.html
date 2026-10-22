@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=1600">
+<title>Stage 1, project | NorthStar dashboard layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css"><link rel="stylesheet" href="../css/dashboards.css">
+<style>
+  .g { grid-template-columns: repeat(12, 1fr); grid-template-rows: 96px 1fr 1fr; }
+  .spine { grid-column: 1 / 13; }
+  .cl { grid-column: 1 / 5; } .mp { grid-column: 5 / 10; } .tc { grid-column: 1 / 5; } .tl { grid-column: 5 / 10; }
+  .chip { display: inline-flex; align-items: center; gap: 7px; font: 600 12px/1 var(--ns-font-sans); padding: 8px 11px; border-radius: 9999px; box-shadow: inset 0 0 0 1px var(--ns-border-default); }
+  .chip i { width: 8px; height: 8px; border-radius: 50%; background: var(--_c); }
+  .fld { display: grid; gap: 2px; } .fld small { font: 700 10px/14px var(--ns-font-sans); letter-spacing: 1.3px; text-transform: uppercase; color: var(--ns-widget-muted); } .fld b { font: 600 15px/20px var(--ns-font-sans); }
+
+</style>
+</head>
+<body>
+<div class="art" id="a"></div>
+<script src="../js/dashboards.js"></script>
+<script>
+const D = NS.dash;
+
+const s = D.shell({ active: "grid", title: "Deal flow", sub: "BRIGHTWATER DENTAL GROUP  /  14 LOCATIONS  /  STAGE 1 OF 5", right: D.seg(["Project", "Rail", "History"], 0) + D.live("Saved 2 min ago") });
+a.innerHTML = s.open + `<div class="grid g">
+ ${D.spine(0)}
+ <section class="t cl">
+   <div class="o">Client and contact</div>
+   <div class="d-md">Brightwater Dental Group</div>
+   <div class="cap">Multi-site dental practice, Pacific Northwest. Referred by an existing client.</div>
+   <hr class="hr">
+   <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 14px;flex:1;align-content:space-around">
+     <div class="fld"><small>Primary contact</small><b>Dana Whitfield</b><span class="cap">Operations director</span></div>
+     <div class="fld"><small>Decision date</small><b>Nov 15</b><span class="cap">Board vote</span></div>
+     <div class="fld"><small>Term</small><b>36 months</b><span class="cap">With a 12-month option</span></div>
+     <div class="fld"><small>Budget</small><b>$12K to $15K / mo</b><span class="cap">All sites</span></div>
+   </div>
+ </section>
+
+ <section class="t mp">
+   <div class="o">Sites <em>14 locations, access by site</em></div>
+   <div class="sp1" style="display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:repeat(2,1fr);gap:8px;margin-top:4px">${[["HQ", "Fiber", 38], ["Site 2", "Fiber", 24], ["Site 3", "Fiber", 22], ["Site 4", "Fiber", 18], ["Site 5", "Cable", 18], ["Site 6", "Fiber", 16], ["Site 7", "Fiber", 14], ["Site 8", "Cable", 12], ["Site 9", "Fiber", 12], ["Site 10", "Cable", 10], ["Site 11", "Fiber", 8], ["Site 12", "Cable", 8], ["Site 13", "Fiber", 6], ["Site 14", "Cable", 6]].map(([n, k, seats]) => `<div style="border-radius:12px;padding:12px;display:grid;align-content:space-between;background:${k === "Fiber" ? "color-mix(in srgb,var(--ns-teal-500) 20%,var(--ns-widget-inset))" : "color-mix(in srgb,var(--ns-viz-3) 20%,var(--ns-widget-inset))"};box-shadow:inset 0 0 0 1px ${k === "Fiber" ? "var(--ns-teal-500)" : "var(--ns-viz-3)"}"><b style="font:700 13px/1 var(--ns-font-sans)">${n}</b><div><div class="d-sm num">${seats}</div><span class="cap">seats, ${k}</span></div></div>`).join("")}</div>
+   <div class="lg"><span><i style="--_c:var(--ns-teal-500)"></i>Fiber available, 9 sites</span><span><i style="--_c:var(--ns-viz-3)"></i>Cable only, 5 sites</span></div>
+ </section>
+
+ <section class="t tc">
+   <div class="o">Technologies <em>What the client asked for</em></div>
+   <div style="display:grid;gap:16px;flex:1;align-content:space-around">${[["Business internet", "14 sites", 100, "viz-1"], ["SD-WAN", "14 sites", 100, "viz-4"], ["Cloud voice (UCaaS)", "212 seats", 76, "viz-2"], ["Backup connectivity", "14 sites", 54, "viz-3"]].map(([n, q, p, c]) => `<div style="display:grid;gap:7px"><div class="row sb" style="font:600 13px/1 var(--ns-font-sans)"><span>${n}</span><span class="num" style="font-weight:400;color:var(--ns-text-secondary)">${q}</span></div><div class="bar" style="height:10px;border-radius:5px"><i style="--_v:${p}%;--_c:var(--ns-${c})"></i></div></div>`).join("")}</div>
+ </section>
+
+ <section class="t tl">
+   <div class="o">Demand by site <em>Bandwidth need, Mbps</em></div>
+   <div class="sp1" style="display:flex;align-items:flex-end">${D.bars({ w: 600, h: 200, data: [900, 600, 600, 500, 500, 400, 400, 300, 300, 300, 200, 200, 200, 100], color: ["var(--ns-chart-series-1)","var(--ns-chart-series-1)","var(--ns-chart-series-1)","var(--ns-chart-series-2)","var(--ns-chart-series-2)","var(--ns-chart-series-2)","var(--ns-chart-series-2)","var(--ns-chart-series-3)","var(--ns-chart-series-3)","var(--ns-chart-series-3)","var(--ns-chart-series-3)","var(--ns-chart-series-3)","var(--ns-chart-series-3)","var(--ns-chart-series-3)"], gap: 9, r: 5, labels: ["HQ","S2","S3","S4","S5","S6","S7","S8","S9","S10","S11","S12","S13","S14"], grid: true, ticks: 4, pad: [8, 4, 22, 34], fmt: v => Math.round(v) })}</div>
+   <div class="lg"><span><i style="--_c:var(--ns-chart-series-1)"></i>Hub, 500+</span><span><i style="--_c:var(--ns-chart-series-2)"></i>Clinic, 400 to 500</span><span><i style="--_c:var(--ns-chart-series-3)"></i>Satellite, under 400</span></div>
+ </section>
+ ${D.railPanel()}
+</div>` + s.close;
+
+</script>
+</body>
+</html>

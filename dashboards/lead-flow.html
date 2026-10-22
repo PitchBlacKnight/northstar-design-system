@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=1600">
+<title>Lead flow | NorthStar dashboard layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css"><link rel="stylesheet" href="../css/dashboards.css">
+<style>
+
+  .fl { display: grid; grid-template-columns: 1fr 360px; grid-template-rows: 1fr auto; gap: 16px; min-height: 0; }
+  .fl > .big { grid-column: 1; grid-row: 1; }
+  .fl > .side { grid-column: 2; grid-row: 1 / 3; }
+  .fl > .foot { grid-column: 1; grid-row: 2; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .foot .t { padding: 16px 20px; gap: 6px; }
+
+</style>
+</head>
+<body>
+<div class="art" id="a"></div>
+<script src="../js/dashboards.js"></script>
+<script>
+const D = NS.dash;
+
+const s = D.shell({ active: "users", title: "Lead Flow", sub: "WHERE 4,820 INQUIRIES WENT THIS QUARTER", right: D.seg(["Quarter", "Month"], 0) });
+const cols = [[{ l: "Web", v: 2300, c: "var(--ns-viz-4)" }, { l: "Partner", v: 1100, c: "var(--ns-viz-2)" }, { l: "Events", v: 780, c: "var(--ns-viz-3)" }, { l: "Referral", v: 640, c: "var(--ns-viz-1)" }], [{ l: "Qualified", v: 2880, c: "var(--ns-teal-500)" }, { l: "Not yet", v: 1940, c: "var(--ns-widget-muted)" }], [{ l: "Won", v: 412, c: "var(--ns-status-success)" }, { l: "Open", v: 2610, c: "var(--ns-blue-500)" }, { l: "Lost", v: 1798, c: "var(--ns-status-error)" }]];
+const links = [[0, 0, 0, 1200, "var(--ns-viz-4)"], [0, 0, 1, 1100, "var(--ns-viz-4)"], [0, 1, 0, 900, "var(--ns-viz-2)"], [0, 1, 1, 200, "var(--ns-viz-2)"], [0, 2, 0, 480, "var(--ns-viz-3)"], [0, 2, 1, 300, "var(--ns-viz-3)"], [0, 3, 0, 300, "var(--ns-viz-1)"], [0, 3, 1, 340, "var(--ns-viz-1)"], [1, 0, 0, 412, "var(--ns-teal-500)"], [1, 0, 1, 1600, "var(--ns-teal-500)"], [1, 0, 2, 868, "var(--ns-teal-500)"], [1, 1, 1, 1010, "var(--ns-widget-muted)"], [1, 1, 2, 930, "var(--ns-widget-muted)"]];
+a.innerHTML = s.open + `<div class="fl">
+  <section class="t big"><div class="o">Inquiry to outcome <em>Band width = inquiries</em></div>
+    <div class="sp1" style="display:flex;align-items:center;justify-content:center">${D.flow({ w: 1010, h: 560, cols, links, colW: 18, gapY: 40, labelFill: "var(--ns-text-secondary)" })}</div>
+  </section>
+  <section class="t side t--blue"><div class="o">Win rate</div><div class="d-xxl num">34%</div><div class="cap">Partner leads close at 41%. Web leads close at 18%.</div>
+    <hr class="hr" style="margin:12px 0 4px"><div class="o">By channel</div>
+    <div style="display:grid;gap:14px;flex:1;align-content:space-around">${[["Partner", 41], ["Referral", 31], ["Events", 26], ["Web", 18]].map(([n, v]) => `<div style="display:grid;grid-template-columns:70px 1fr 44px;gap:10px;align-items:center;font:600 13px/1 var(--ns-font-sans)"><span>${n}</span><div class="bar" style="height:12px;border-radius:6px"><i style="--_v:${v / 45 * 100}%;--_c:#fff"></i></div><span class="num" style="text-align:right">${v}%</span></div>`).join("")}</div>
+    <hr class="hr" style="margin:4px 0"><div class="cap">Won 412 of 1,210 decided.</div>
+  </section>
+  <div class="foot">
+    <section class="t t--teal"><div class="o">Median days to reply</div><div class="d-md num">1.6</div></section>
+    <section class="t"><div class="o">Cost per win</div><div class="d-md num">$3,140</div></section>
+    <section class="t"><div class="o">Pipeline value</div><div class="d-md num">$9.8M</div></section>
+    <section class="t"><div class="o">Lost, top reason</div><div class="d-md">Price</div></section>
+  </div>
+</div>` + s.close;
+
+</script>
+</body>
+</html>

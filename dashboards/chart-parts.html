@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=1600">
+<title>Dashboard chart parts | NorthStar</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css"><link rel="stylesheet" href="../css/dashboards.css">
+<style>
+  .art { height: 1560px; }
+  .pg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; align-content: start; }
+  .pg .t { gap: 8px; min-height: 250px; }
+  .pg .sig { font: 500 11px/16px var(--ns-font-mono); color: var(--ns-text-tertiary); }
+  .pg .stage { flex: 1; display: grid; place-items: center; min-height: 0; padding: 4px 0; }
+  .pg .w2 { grid-column: span 2; }
+</style>
+</head>
+<body>
+<div class="art" id="a"></div>
+<script src="../js/dashboards.js"></script>
+<script>
+const D = NS.dash;
+const s = D.shell({ active: "chart", title: "Chart parts", sub: "NS.dash  /  EVERY PART TAKES TOKEN COLORS AND RETURNS AN SVG OR HTML STRING", right: D.seg(["Charts", "Shell"], 0) });
+const cell = (name, sig, body, cls = "") => `<section class="t ${cls}"><div class="o">${name}</div><div class="stage">${body}</div><div class="sig">${sig}</div></section>`;
+const t = (c) => `var(--ns-${c})`;
+a.innerHTML = s.open + `<div class="pg">
+${cell("area", "D.area({ w, h, sets, labels, min, max, fmt, glow })", D.area({ w: 300, h: 170, ticks: 3, fmt: (v) => Math.round(v), labels: ["A", "B", "C", "D"], sets: [{ data: D.series(14, 40, 90, .1, 3), color: t("teal-500"), sw: 2.6, glow: true }, { data: D.series(14, 20, 50, .1, 5), color: t("purple-500"), fill: false, dash: "5 5", last: false }] }))}
+${cell("spark", "D.spark({ w, h, data, color })", D.spark({ w: 300, h: 80, data: D.series(16, 10, 30, .2, 4), color: t("teal-500"), sw: 2.6 }))}
+${cell("bars", "D.bars({ w, h, data, color, hi, labels, track, grid })", D.bars({ w: 300, h: 170, data: [4, 7, 5, 9, 6, 8], color: t("viz-4"), hi: 3, hiColor: t("teal-500"), gap: 10, r: 5, labels: ["A", "B", "C", "D", "E", "F"], grid: true, ticks: 3, pad: [8, 4, 22, 28], fmt: (v) => Math.round(v) }))}
+${cell("stack", "D.stack({ w, h, sets, labels, gap })", D.stack({ w: 300, h: 170, gap: 14, labels: ["Q1", "Q2", "Q3", "Q4"], sets: [{ data: [10, 12, 14, 15], color: t("viz-2") }, { data: [6, 8, 9, 11], color: t("viz-1") }] }))}
+${cell("ring", "D.ring({ size, stroke, pct, color, label, grad })", D.ring({ size: 150, stroke: 16, pct: 72, label: "72%", fs: 30, grad: [t("teal-500"), t("blue-500")] }))}
+${cell("rings", "D.rings({ size, stroke, gap, items })", D.rings({ size: 200, stroke: 14, gap: 8, items: [{ pct: 90, color: t("teal-500") }, { pct: 70, color: t("blue-500") }, { pct: 50, color: t("purple-500") }] }))}
+${cell("donut", "D.donut({ size, stroke, parts, center, sub })", D.donut({ size: 180, stroke: 26, center: "62%", sub: "share", parts: [{ v: 62, color: t("blue-500") }, { v: 22, color: t("purple-500") }, { v: 16, color: t("teal-500") }] }))}
+${cell("gauge", "D.gauge({ w, pct, color, label, sub })", D.gauge({ w: 220, pct: 64, stroke: 18, color: t("status-warning"), label: "64", sub: "Moderate" }))}
+${cell("radar", "D.radar({ size, axes, sets, m, px })", D.radar({ size: 190, m: 46, px: 50, axes: ["Speed", "Cost", "Reach", "Trust", "Fit", "Care"], sets: [{ data: [50, 50, 50, 50, 50, 50], color: t("widget-muted"), dash: 1, fill: .04 }, { data: [80, 60, 74, 90, 66, 70], color: t("teal-500"), fill: .2 }] }))}
+${cell("heat", "D.heat({ rows, cols, cell, ch, fn, color })", D.heat({ rows: 5, cols: 14, cell: 18, ch: 22, gap: 4, seed: 9, color: t("viz-1"), fn: (x, y, r) => r() }))}
+${cell("year", "D.year({ vals, cell, gap, color })", D.year({ vals: Array.from({ length: 140 }, (_, i) => (Math.sin(i / 7) + 1) / 2), cell: 12, gap: 3, color: t("teal-500") }))}
+${cell("dotmap", "D.dotmap({ w, h, step, spots, color })", D.dotmap({ w: 290, h: 150, step: 10, seed: 6, spots: [[.2, .4, 1, ""], [.52, .34, .7, ""], [.7, .5, .9, ""]] }))}
+${cell("candles", "D.candles({ w, h, n, seed })", D.candles({ w: 300, h: 170, n: 28, seed: 4 }))}
+${cell("bullet", "D.bullet({ pct, target, color, h })", `<div style="width:300px;display:grid;gap:18px">${D.bullet({ pct: 72, target: 85, color: t("teal-500"), h: 12 })}${D.bullet({ pct: 40, target: 60, color: t("viz-2"), h: 12 })}${D.bullet({ pct: 92, target: 80, color: t("viz-3"), h: 12 })}</div>`)}
+${cell("waterfall", "D.waterfall({ w, h, steps, base })", D.waterfall({ w: 300, h: 180, base: 36, steps: [{ l: "Start", v: 41.6, total: true }, { l: "Up", v: 3.9 }, { l: "Down", v: -1.4 }, { l: "End", v: 44.1, total: true }] }))}
+${cell("flow", "D.flow({ w, h, cols, links, gapY })", D.flow({ w: 300, h: 190, gapY: 16, colW: 12, cols: [[{ l: "A", v: 60, c: t("viz-4") }, { l: "B", v: 40, c: t("viz-2") }], [{ l: "Yes", v: 70, c: t("teal-500") }, { l: "No", v: 30, c: t("widget-muted") }]], links: [[0, 0, 0, 50, t("viz-4")], [0, 0, 1, 10, t("viz-4")], [0, 1, 0, 20, t("viz-2")], [0, 1, 1, 20, t("viz-2")]] }))}
+${cell("shell, seg, live", "D.shell({ active, title, sub, right })  /  D.seg(items, on)  /  D.live(text)", `<div style="display:grid;gap:14px;justify-items:center">${D.seg(["Day", "Week", "Month"], 1)}${D.live("Live 01:24")}</div>`)}
+${cell("spine, miniSpine, railPanel", "D.spine(current)  /  D.miniSpine(current)  /  D.railPanel()", `<div style="display:grid;gap:14px;justify-items:center">${D.miniSpine(2)}${D.miniSpine(4)}${D.miniSpine(0)}</div>`)}
+</div>` + s.close;
+</script>
+</body>
+</html>

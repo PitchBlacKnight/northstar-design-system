@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=1600">
+<title>Portfolio | NorthStar dashboard layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css"><link rel="stylesheet" href="../css/dashboards.css">
+<style>
+  .g { grid-template-columns: repeat(12, 1fr); grid-template-rows: repeat(3, 1fr); }
+  .bal { grid-column: 1 / 5; grid-row: 1 / 4; gap: 14px; }
+  .perf { grid-column: 5 / 10; grid-row: 1 / 3; } .wl { grid-column: 10 / 13; grid-row: 1 / 3; }
+  .cd { grid-column: 5 / 8; } .rk { grid-column: 8 / 10; } .cf { grid-column: 10 / 13; }
+  .al { display: grid; gap: 10px; font: 600 13px/1 var(--ns-font-sans); }
+  .al > div { display: grid; grid-template-columns: 10px 1fr auto auto; gap: 10px; align-items: center; }
+  .al i { width: 10px; height: 10px; border-radius: 3px; background: var(--_c); }
+  .al .k { font-weight: 400; color: var(--ink2); width: 46px; text-align: right; }
+  .wr { display: grid; grid-template-columns: 1fr 74px auto; gap: 12px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--ns-widget-grid); }
+  .wr:last-child { border: 0; }
+  .wr b { display: block; font: 700 14px/18px var(--ns-font-sans); } .wr small { font: 400 11px/14px var(--ns-font-mono); color: var(--ns-widget-muted); }
+  .wr .p { text-align: right; font: 700 14px/18px var(--ns-font-sans); }
+  .wr .p span { display: block; }
+</style>
+</head>
+<body>
+<div class="art" id="a"></div>
+<script src="../js/dashboards.js"></script>
+<script>
+const D = NS.dash;
+const s = D.shell({ active: "wallet", title: "Portfolio", sub: "LANTERN WEALTH  /  HOUSEHOLD ACCOUNT 0417  /  AS OF OCT 22, 4:00 PM", right: D.seg(["1D", "1W", "1M", "YTD", "All"], 3) + `<span class="pill">Rebalance due in 6 days</span>` });
+const wl = [["Northwind Growth", "NWGE", 1, 12, "182.40", "+1.8%"], ["Halcyon Brands", "HLCN", 1, 5, "64.12", "+0.9%"], ["Orbit Systems", "ORBT", 0, 21, "311.07", "-2.1%"], ["Quantile Health", "QNTL", 1, 33, "97.55", "+3.4%"], ["Verde Energy", "VRDE", 0, 40, "28.90", "-0.6%"], ["Saltcoast REIT", "SLTC", 1, 17, "52.18", "+0.3%"]];
+const p1 = D.series(60, 100, 134, .1, 21), bench = D.series(60, 100, 118, .08, 4);
+a.innerHTML = s.open + `<div class="grid g">
+
+ <section class="t t--paper bal">
+   <div class="o">Net worth <em>USD</em></div>
+   <div class="d-xxl num" style="letter-spacing:-5px">$2.84<span class="u" style="font-size:.5em">M</span></div>
+   <div class="row" style="gap:14px"><span class="dl">$112,480 / 4.1%</span><span class="cap">this month</span></div>
+   <hr class="hr" style="margin:10px 0 4px">
+   <div class="o">Net worth, 12 months</div>
+   ${D.area({ w: 436, h: 118, ticks: 3, fmt: v => "$" + (v / 100).toFixed(1) + "M", labels: ["Nov", "Feb", "May", "Aug", "Oct"], gridColor: "#05050f22", labelFill: "#05050f99", ink: "#fff", sets: [{ data: D.series(24, 205, 284, .08, 17), color: "var(--ns-blue-500)", sw: 2.6 }] })}
+   <hr class="hr" style="margin:6px 0 2px">
+   <div class="row" style="gap:26px;flex:1;align-items:center">
+     ${D.donut({ size: 176, stroke: 26, centerFill: "var(--ink)", center: "62%", sub: "Equities", parts: [{ v: 62, color: "var(--ns-blue-500)" }, { v: 18, color: "var(--ns-persian-500)" }, { v: 11, color: "var(--ns-purple-500)" }, { v: 9, color: "var(--ns-black)" }] })}
+     <div class="al" style="flex:1">${[["Equities", "$1.76M", "62%", "blue-500"], ["Bonds", "$511K", "18%", "persian-500"], ["Real estate", "$312K", "11%", "purple-500"], ["Cash", "$256K", "9%", "black"]].map(([n, v, p, c]) => `<div><i style="--_c:var(--ns-${c})"></i><span>${n}</span><span class="num">${v}</span><span class="k">${p}</span></div>`).join("")}</div>
+   </div>
+   <hr class="hr" style="margin:4px 0">
+   <div class="o" style="margin-top:2px">Goals</div>
+   <div style="display:grid;gap:14px">${[["Retirement, age 62", 71, 80], ["College fund", 54, 50], ["Lake house", 33, 45]].map(([n, p, t]) => `<div style="display:grid;gap:7px"><div class="row sb" style="font:600 13px/1 var(--ns-font-sans)"><span>${n}</span><span class="num">${p}%</span></div>${D.bullet({ pct: p, target: t, color: p >= t ? "var(--ns-blue-500)" : "var(--ns-persian-500)", h: 10 })}</div>`).join("")}</div>
+ </section>
+
+ <section class="t perf">
+   <div class="o">Performance vs benchmark <em>Year to date</em></div>
+   <div class="row row--b" style="gap:16px"><div class="d-lg num">+34.1%</div><span class="cap" style="padding-bottom:6px">Benchmark +18.0%. Ahead by 16.1 pts.</span></div>
+   <div class="sp1" style="display:flex;align-items:flex-end">${D.area({ w: 560, h: 420, ticks: 5, glow: true, fmt: v => { const r = Math.round(v - 100); return (r > 0 ? "+" : "") + r + "%"; }, labels: ["Jan", "Mar", "May", "Jul", "Sep", "Oct"], sets: [{ data: p1, color: "var(--ns-teal-500)", sw: 3 }, { data: bench, color: "var(--ns-widget-muted)", fill: false, dash: "5 5", sw: 2, last: false }] })}</div>
+   <div class="lg"><span><i style="--_c:var(--ns-teal-500)"></i>Household</span><span><i style="--_c:var(--ns-widget-muted)"></i>60/40 benchmark</span></div>
+ </section>
+
+ <section class="t wl">
+   <div class="o">Top holdings <em>Day change</em></div>
+   <div>${wl.map(([n, tk, up, sd, px, ch]) => `<div class="wr"><div><b>${n}</b><small>${tk}</small></div>${D.spark({ w: 74, h: 28, data: D.series(14, 10, up ? 20 : 8, .3, sd), color: up ? "var(--ns-status-success)" : "var(--ns-status-error)", sw: 1.8, fill: false })}<div class="p"><span class="num">$${px}</span><span class="dl ${up ? "" : "dn"}" style="font-size:12px;justify-content:flex-end">${ch}</span></div></div>`).join("")}<div class="sp1"></div><hr class="hr"><div class="ls" style="--cols:1fr auto"><div><span class="k">Dividends, year to date</span><b class="num">$38.2K</b></div><div><span class="k">Fees, year to date</span><b class="num">$4.1K</b></div></div>
+ </section>
+
+ <section class="t cd">
+   <div class="o">Northwind Growth <em>NWGE, 60 days</em></div>
+   <div class="row row--b"><div class="d-md num">$182.40</div><span class="dl" style="padding-bottom:4px">1.8%</span></div>
+   <div class="sp1" style="display:flex;align-items:flex-end">${D.candles({ w: 340, h: 200, n: 34, seed: 9 })}</div>
+ </section>
+
+ <section class="t t--ink rk">
+   <div class="o">Risk score</div>
+   <div style="display:grid;place-items:center;flex:1">${D.gauge({ w: 188, pct: 58, color: "var(--ns-status-warning)", label: "58", sub: "Moderate" })}</div>
+   <div class="row sb cap"><span>Low</span><span>Aggressive</span></div>
+ </section>
+
+ <section class="t t--bruise cf">
+   <div class="o">Cash flow <em>6 months</em></div>
+   <div class="row row--b"><div class="d-lg num">+$9.2K</div><span class="cap" style="padding-bottom:5px">avg / month</span></div>
+   <div class="sp1" style="display:flex;align-items:flex-end">${D.stack({ w: 300, h: 150, gap: 8, labels: ["May", "Jun", "Jul", "Aug", "Sep", "Oct"], labelFill: "#ffffffb8", sets: [{ data: [34, 38, 36, 41, 39, 44], color: "#fff" }, { data: [22, 25, 21, 27, 24, 26], color: "#ffffff55" }] })}</div>
+ </section>
+
+</div>` + s.close;
+</script>
+</body>
+</html>

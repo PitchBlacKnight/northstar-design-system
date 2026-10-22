@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=1600">
+<title>Diverging matrix | NorthStar dashboard layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css"><link rel="stylesheet" href="../css/dashboards.css">
+<style>
+
+  .art { background: var(--ns-background-secondary); }
+  .hx { display: grid; grid-template-columns: 1.25fr 1fr; gap: 16px; min-height: 0; }
+  .grid-m { display: grid; grid-template-columns: 150px repeat(7, 1fr); grid-auto-rows: 1fr; gap: 5px; align-items: stretch; flex: 1; min-height: 0; }
+  .grid-m .hd { font: 700 11px/1 var(--ns-font-sans); letter-spacing: 1px; text-transform: uppercase; color: var(--ns-widget-muted); padding: 0 0 4px 4px; display: flex; align-items: flex-end; }
+  .grid-m .rl { font: 600 14px/1 var(--ns-font-sans); display: flex; align-items: center; }
+  .grid-m .c { border-radius: 8px; display: grid; place-items: center; font: 700 14px/1 var(--ns-font-sans); }
+  .ramp { height: 14px; border-radius: 7px; background: linear-gradient(90deg, var(--ns-status-success), var(--ns-widget-track) 50%, var(--ns-status-error)); }
+
+</style>
+</head>
+<body>
+<div class="art" id="a"></div>
+<script src="../js/dashboards.js"></script>
+<script>
+const D = NS.dash;
+
+const s = D.shell({ active: "target", title: "Variance Matrix", sub: "BUDGET VS ACTUAL  /  DEPARTMENT BY MONTH  /  DIVERGING AROUND ZERO", right: D.seg(["Percent", "Dollars"], 0) });
+const depts = ["Engineering", "Sales", "Marketing", "Operations", "Finance", "People", "Legal"];
+const months = ["Apr","May","Jun","Jul","Aug","Sep","Oct"];
+const r = D.rng(88);
+const val = depts.map((_, i) => months.map((_, j) => Math.round((r() - .5) * 40 + (i === 1 && j > 3 ? 12 : 0) + (i === 2 && j === 5 ? -18 : 0))));
+val[1] = [-6, -11, -9, 12, 14, 12, 12];
+const col = v => { const t = Math.min(1, Math.abs(v) / 25); const base = v >= 0 ? "var(--ns-status-error)" : "var(--ns-status-success)"; return `color-mix(in srgb, ${base} ${Math.round(t * 80) + 4}%, var(--ns-widget-track))`; };
+a.innerHTML = s.open + `<div class="hx">
+  <section class="t">
+    <div class="o">Spend against budget <em>% over (red) or under (green)</em></div>
+    <div class="grid-m"><div></div>${months.map(m => `<div class="hd">${m}</div>`).join("")}
+      ${depts.map((d, i) => `<div class="rl">${d}</div>${val[i].map(v => `<div class="c" style="background:${col(v)};color:${Math.abs(v) > 14 ? "#fff" : "var(--ns-text-primary)"}">${v > 0 ? "+" : ""}${v}</div>`).join("")}`).join("")}
+    </div>
+    <div class="row sb" style="align-items:center"><span class="cap">Under budget</span><div class="ramp" style="width:240px"></div><span class="cap">Over budget</span></div>
+  </section>
+  <div style="display:grid;grid-template-rows:1fr 1fr;gap:16px;min-height:0">
+    <section class="t t--paper"><div class="o">Largest overrun</div><div class="d-lg num">Sales, Jul to Oct</div><div class="cap">+12% over budget for four months, driven by event travel.</div><div class="sp1" style="display:flex;align-items:flex-end">${D.bars({ w: 560, h: 190, data: [6, 11, 9, 12, 14, 12, 12], color: ["#05050f33","#05050f33","#05050f33","#d7002f","#d7002f","#d7002f","#d7002f"], gap: 14, r: 5, labels: months, labelFill: "#05050f99", pad: [4, 0, 20, 0], vmax: 16 })}</div></section>
+    <section class="t"><div class="o">Offsets this quarter <em>Net across all departments</em></div><div class="row" style="flex:1;gap:36px;justify-content:center">${D.donut({ size: 210, stroke: 28, center: "-7%", sub: "net under", parts: [{ v: 46, color: "var(--ns-status-success)" }, { v: 24, color: "var(--ns-status-error)" }, { v: 30, color: "var(--ns-widget-track)" }] })}<div class="rl" style="display:grid;gap:16px;font:600 14px/1 var(--ns-font-sans)">${[["Under budget", "46%", "var(--ns-status-success)"], ["Over budget", "24%", "var(--ns-status-error)"], ["On budget", "30%", "var(--ns-widget-track)"]].map(([n, v, c]) => `<div class="row" style="gap:10px"><i class="dot" style="--_c:${c}"></i><span style="width:110px">${n}</span><b class="num">${v}</b></div>`).join("")}</div></div></section>
+  </div>
+</div>` + s.close;
+
+</script>
+</body>
+</html>

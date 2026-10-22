@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=1600">
+<title>Year calendar | NorthStar dashboard layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css"><link rel="stylesheet" href="../css/dashboards.css">
+<style>
+
+  .yc { display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: auto 1fr; gap: 16px; min-height: 0; }
+  .yc .big { grid-column: 1 / 5; padding: 24px 28px; }
+  .yc .t { min-height: 0; }
+  .mo { display: grid; grid-template-columns: repeat(12, 1fr); font: 400 11px/1 var(--ns-font-sans); color: var(--ns-widget-muted); padding-left: 0; }
+
+</style>
+</head>
+<body>
+<div class="art" id="a"></div>
+<script src="../js/dashboards.js"></script>
+<script>
+const D = NS.dash;
+
+const s = D.shell({ active: "wallet", title: "Activity Year", sub: "EVERY SHIPPED CHANGE, 2026  /  TEAM NORTH", right: D.seg(["Commits", "Releases", "Incidents"], 0) });
+const r = D.rng(70); const vals = Array.from({ length: 365 }, (_, i) => { const d = i / 365; const season = .55 + .45 * Math.sin(d * Math.PI * 2 - 1.2); const burst = (i > 240 && i < 262) ? .5 : 0; return Math.min(1, Math.max(0, season * r() + burst * r() * 0.6)); });
+a.innerHTML = s.open + `<div class="yc">
+  <section class="t big"><div class="row sb"><div class="o" style="flex:1">Shipped days <em>One square per day</em></div></div>
+    <div style="display:flex;justify-content:center;padding:14px 0 8px">${D.year({ vals, cell: 22, gap: 4, color: "var(--ns-teal-500)" })}</div>
+    <div class="mo">${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"].map(m => `<span>${m}</span>`).join("")}</div>
+    <div class="row" style="justify-content:flex-end;gap:8px"><span class="cap">Fewer</span>${[.12,.3,.5,.75,1].map(o => `<i style="width:14px;height:14px;border-radius:3px;background:color-mix(in srgb,var(--ns-teal-500) ${o * 100}%,var(--ns-widget-track))"></i>`).join("")}<span class="cap">More</span></div>
+  </section>
+  <section class="t t--bruise"><div class="o">Best week</div><div class="d-xl num">Aug 18</div><div class="cap">31 changes shipped. Two releases, zero rollbacks.</div><div class="sp1"></div><div class="ls" style="--cols:1fr auto"><div><span class="k">Releases</span><b class="num">212</b></div><div><span class="k">Rollbacks</span><b class="num">3</b></div></div></section>
+  <section class="t"><div class="o">Busiest weekday</div><div class="d-md">Tuesday</div><div class="sp1" style="display:flex;align-items:flex-end">${D.bars({ w: 320, h: 230, data: [18, 26, 22, 20, 14, 4, 2], color: "var(--ns-viz-1)", hi: 1, hiColor: "var(--ns-teal-500)", gap: 8, r: 4, labels: ["M","T","W","T","F","S","S"], pad: [4, 0, 20, 0] })}</div></section>
+  <section class="t"><div class="o">Incidents by month</div><div class="d-md num">11</div><div class="sp1" style="display:flex;align-items:flex-end">${D.area({ w: 320, h: 230, ticks: 3, min: 0, max: 5, labels: ["Jan","Apr","Jul","Oct"], fmt: v => Math.round(v), sets: [{ data: [3, 1, 2, 0, 1, 4, 0, 2, 1, 0, 3, 1], color: "var(--ns-status-error)", sw: 2.4 }] })}</div></section>
+  <section class="t"><div class="o">Median time to merge</div><div class="d-md num">4.2 h</div><span class="dl">Down 1.1 h</span><div class="sp1" style="display:flex;align-items:flex-end">${D.spark({ w: 320, h: 160, data: D.series(20, 6, 4.2, .12, 8), color: "var(--ns-viz-2)", sw: 2.6 })}</div></section>
+</div>` + s.close;
+
+</script>
+</body>
+</html>

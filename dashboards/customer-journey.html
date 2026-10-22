@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=1600">
+<title>Customer journey | NorthStar dashboard layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css"><link rel="stylesheet" href="../css/dashboards.css">
+<style>
+
+  .sw { display: grid; grid-template-rows: auto repeat(4, 1fr); gap: 12px; min-height: 0; }
+  .hdr, .lane { display: grid; grid-template-columns: 170px repeat(5, 1fr); gap: 12px; min-height: 0; }
+  .hdr div { font: 700 11px/1 var(--ns-font-sans); letter-spacing: 1.3px; text-transform: uppercase; color: var(--ns-widget-muted); padding-left: 4px; }
+  .lane > .n { font: 700 15px/20px var(--ns-font-sans); align-self: center; }
+  .lane > .n small { display: block; font: 400 11px/14px var(--ns-font-sans); color: var(--ns-widget-muted); }
+  .cell { border-radius: 14px; padding: 14px 16px; display: grid; gap: 8px; align-content: space-between; min-height: 0; background: color-mix(in srgb, var(--_c) var(--_o), var(--ns-widget-bg)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--_c) 40%, transparent); }
+  .cell b { font: 700 13px/17px var(--ns-font-sans); }
+  .cell .d-sm { font-size: 28px; }
+  .cell .bar { height: 5px; background: #ffffff26; } .cell .bar i { background: #fff; }
+
+</style>
+</head>
+<body>
+<div class="art" id="a"></div>
+<script src="../js/dashboards.js"></script>
+<script>
+const D = NS.dash;
+
+const s = D.shell({ active: "users", title: "Customer Journey", sub: "ENTERPRISE ACCOUNTS  /  FIRST CONTACT TO RENEWAL  /  N = 186", right: D.seg(["Satisfaction", "Effort", "Volume"], 0) });
+const stages = ["Discover", "Evaluate", "Buy", "Onboard", "Renew"];
+const lanes = [["Marketing", "Sends, reach", "viz-4", [[62, "Webinar reach", "7.1K"], [58, "Search wins", "+18%"], [44, "Ad fatigue", "-6%"], [70, "Case study reads", "3.2K"], [40, "Nurture drop", "31%"]]], ["Sales", "Calls, proposals", "viz-2", [[76, "Demo rated 4.6", "4.6"], [52, "Price pushback", "38%"], [68, "Cycle 47 days", "47d"], [60, "Champion named", "82%"], [14, "Not measured", "n/a"]]], ["Product", "Setup, use", "viz-1", [[30, "Setup friction", "2.8"], [66, "Activated in week 1", "68%"], [84, "Core feature used", "89%"], [50, "Integration gap", "1 open"], [78, "Usage up", "+22%"]]], ["Support", "Tickets, reply", "viz-3", [[40, "Queue wait", "9 min"], [74, "First contact fix", "78%"], [58, "Escalations", "12"], [80, "CSAT 4.7", "4.7"], [66, "Ticket volume", "-12%"]]]];
+a.innerHTML = s.open + `<div class="sw">
+  <div class="hdr"><div></div>${stages.map(x => `<div>${x}</div>`).join("")}</div>
+  ${lanes.map(([n, sub, c, cells]) => `<div class="lane"><div class="n">${n}<small>${sub}</small></div>${cells.map(([v, t, big]) => `<div class="cell" style="--_c:var(--ns-${c});--_o:${Math.max(10, v * .85)}%"><b>${t}</b><div class="d-sm num">${big}</div><div class="bar"><i style="--_v:${v}%"></i></div></div>`).join("")}</div>`).join("")}
+</div>` + s.close;
+
+</script>
+</body>
+</html>

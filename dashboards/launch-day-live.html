@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=1600">
+<title>Launch day live | NorthStar dashboard layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css"><link rel="stylesheet" href="../css/dashboards.css">
+<style>
+  .g { grid-template-columns: repeat(12, 1fr); grid-template-rows: repeat(3, 1fr); }
+  .map { grid-column: 1 / 8; grid-row: 1 / 3; background: var(--ns-black); box-shadow: inset 0 0 0 1px var(--ns-border-default); }
+  .peak { grid-column: 8 / 10; } .sent { grid-column: 10 / 13; }
+  .rg { grid-column: 8 / 10; grid-row: 2 / 4; } .feed { grid-column: 10 / 13; grid-row: 2 / 4; }
+  .tl { grid-column: 1 / 8; }
+  .fi { display: grid; grid-template-columns: 34px 1fr auto; gap: 12px; align-items: start; padding: 12px 0; border-bottom: 1px solid var(--ns-widget-grid); font: 400 13px/18px var(--ns-font-sans); }
+  .fi:last-child { border: 0; }
+  .fi b { font-weight: 700; } .fi span.t0 { font: 400 11px/18px var(--ns-font-mono); color: var(--ns-widget-muted); }
+  .fa { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font: 800 12px/1 var(--ns-font-sans); color: var(--ns-black); background: var(--_c); }
+  .fi p { margin: 2px 0 0; color: var(--ns-text-secondary); }
+  .rl { display: grid; gap: 12px; font: 400 13px/1 var(--ns-font-sans); }
+  .rl > div { display: grid; grid-template-columns: 10px 1fr auto; gap: 10px; align-items: center; }
+  .rl i { width: 10px; height: 10px; border-radius: 3px; background: var(--_c); }
+</style>
+</head>
+<body>
+<div class="art" id="a"></div>
+<script src="../js/dashboards.js"></script>
+<script>
+const D = NS.dash;
+const s = D.shell({ active: "globe", title: "Launch Day Live", sub: "AUTUMN DROP  /  LIVESTREAM + SOCIAL  /  OCT 21, 7:00 PM ET", right: D.seg(["Total", "By region", "By platform"], 0) + D.live("Live  01:24:08") });
+const feed = [["MK", "var(--ns-teal-500)", "@mara.k", "Colorway 3 just sold out in my size. Worth the wait.", "1m"], ["JT", "var(--ns-viz-3)", "@jtran", "That sole cutaway shot is unreal. Stopped scrolling.", "2m"], ["OA", "var(--ns-viz-2)", "@oluwa", "Checkout is flying. Under ten seconds on mobile.", "2m"], ["SR", "var(--ns-viz-5)", "@sam.reyes", "Who did the score? Need the track.", "4m"], ["LH", "var(--ns-viz-6)", "@lhart", "Waitlist link not loading for me on Android.", "5m"], ["DP", "var(--ns-viz-4)", "@dpatel", "Ordered two. One for the gift drawer.", "6m"]];
+const _r = D.rng(4); const mins = Array.from({ length: 48 }, (_, i) => 70 + 215 * Math.exp(-((i - 30) ** 2) / 260) * (i > 30 ? .92 : 1) + (_r() - .5) * 26);
+a.innerHTML = s.open + `<div class="grid g">
+
+ <section class="t map">
+   <div class="o">Live viewers by region <em>Updated every 5 s</em></div>
+   <div class="row row--b" style="gap:18px"><div class="d-xxl num" style="color:var(--ns-teal-500)">284,917</div><div style="padding-bottom:10px;display:grid;gap:6px"><span class="dl">12.4K in last minute</span><span class="cap">Across 63 countries</span></div></div>
+   <div class="sp1" style="display:grid;place-items:center">${D.dotmap({ w: 810, h: 380, step: 12, seed: 6, spots: [[.2, .36, 1, "New York"], [.5, .3, .8, "London"], [.7, .42, .9, "Seoul"], [.3, .72, .6, "Sao Paulo"], [.15, .42, .5, "Los Angeles"], [.86, .76, .45, "Sydney"], [.53, .6, .35, "Lagos"]] })}</div>
+   <div class="lg"><span><i style="--_c:var(--ns-teal-500)"></i>Viewers (size = volume)</span><span>Top: United States 41%  /  UK 12%  /  South Korea 9%</span></div>
+ </section>
+
+ <section class="t t--bruise peak">
+   <div class="o">Peak concurrent</div>
+   <div class="d-xl num">312<span class="u">K</span></div>
+   <div class="sp1"></div><div class="cap">Hit at 7:52 PM, during the product reveal.</div>
+   ${D.spark({ w: 190, h: 40, data: D.series(20, 40, 100, .35, 11), color: "#fff", sw: 2.4 })}
+ </section>
+
+ <section class="t t--teal sent">
+   <div class="row sb" style="align-items:flex-start"><div class="o">Sentiment</div><span class="tag">Positive 87%</span></div>
+   <div class="row" style="gap:18px;flex:1">
+     <div class="d-xl num" style="flex:none">87</div>
+     <div style="flex:1;display:grid;gap:9px">${[["Positive", 87], ["Neutral", 9], ["Negative", 4]].map(([l, v]) => `<div style="display:grid;gap:5px;font:600 12px/1 var(--ns-font-sans)"><div class="row sb"><span>${l}</span><span class="num">${v}%</span></div><div class="bar"><i style="--_v:${v}%;--_c:var(--ink)"></i></div></div>`).join("")}</div>
+   </div>
+ </section>
+
+ <section class="t rg">
+   <div class="o">Reach by platform <em>vs goal</em></div>
+   <div style="display:grid;place-items:center;margin:6px 0">${D.rings({ size: 184, stroke: 13, gap: 7, items: [{ pct: 94, color: "var(--ns-viz-1)" }, { pct: 76, color: "var(--ns-viz-2)" }, { pct: 63, color: "var(--ns-viz-3)" }, { pct: 41, color: "var(--ns-viz-6)" }] })}</div>
+   <div class="rl">${[["YouTube", "94%", "viz-1"], ["Instagram", "76%", "viz-2"], ["TikTok", "63%", "viz-3"], ["Twitch", "41%", "viz-6"]].map(([n, v, c]) => `<div><i style="--_c:var(--ns-${c})"></i><span>${n}</span><b class="num">${v}</b></div>`).join("")}</div>
+   <div class="sp1"></div><hr class="hr"><div class="ls" style="--cols:1fr auto"><div><span class="k">Shares</span><b class="num">48.2K</b></div><div><span class="k">Saves</span><b class="num">21.7K</b></div></div><div class="cap">Ring length = share of reach goal.</div>
+ </section>
+
+ <section class="t feed">
+   <div class="o">Chat, as it lands <em>412 per min</em></div>
+   <div style="flex:1;overflow:hidden">${feed.map(([i, c, h, t, m]) => `<div class="fi"><div class="fa" style="--_c:${c}">${i}</div><div><b>${h}</b><p>${t}</p></div><span class="t0">${m}</span></div>`).join("")}</div>
+ </section>
+
+ <section class="t tl">
+   <div class="o">Viewers per minute <em>Stream timeline</em></div>
+   <div class="sp1" style="display:flex;align-items:flex-end">${D.bars({ w: 796, h: 150, data: mins, color: "var(--ns-chart-series-3)", hi: 30, hiColor: "var(--ns-teal-500)", gap: 4, r: 3, pad: [4, 0, 22, 0], labels: mins.map((_, i) => i % 8 === 3 ? ["6:58", "7:14", "7:30", "7:46", "8:02", "8:18"][(i - 3) / 8] : "") })}</div>
+   <div class="lg"><span><i style="--_c:var(--ns-teal-500)"></i>Product reveal, 7:52 PM</span><span><i style="--_c:var(--ns-chart-series-3)"></i>Viewers</span></div>
+ </section>
+
+</div>` + s.close;
+</script>
+</body>
+</html>

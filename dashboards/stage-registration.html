@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=1600">
+<title>Stage 4, confirmation | NorthStar dashboard layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css"><link rel="stylesheet" href="../css/dashboards.css">
+<style>
+  .g { grid-template-columns: repeat(12, 1fr); grid-template-rows: 96px 1fr 1fr; }
+  .spine { grid-column: 1 / 13; }
+  .dc { grid-column: 1 / 7; } .cf { grid-column: 7 / 10; } .pt { grid-column: 1 / 5; } .lc { grid-column: 5 / 10; }
+  .rr { display: grid; grid-template-columns: 1.3fr 1fr 82px 112px; gap: 14px; align-items: center; padding: 13px 0; border-bottom: 1px solid var(--ns-widget-grid); font: 400 13px/17px var(--ns-font-sans); } .rr:last-child { border: 0; }
+  .rr.hh { padding-top: 0; padding-bottom: 9px; font: 700 10px/1 var(--ns-font-sans); letter-spacing: 1.3px; text-transform: uppercase; color: var(--ns-widget-muted); }
+  .rr b { font-weight: 700; display: block; } .rr small { color: var(--ns-widget-muted); font-size: 11px; }
+  .alr { background: var(--ns-status-error-bg); box-shadow: inset 0 0 0 1px var(--ns-status-error); }
+  .step { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
+  .step > div { display: grid; justify-items: center; gap: 8px; text-align: center; font: 600 12px/1.2 var(--ns-font-sans); position: relative; }
+  .step > div::before { content: ""; position: absolute; top: 15px; left: -50%; width: 100%; height: 3px; background: var(--_l, var(--ns-widget-track)); z-index: 0; } .step > div:first-child::before { display: none; }
+  .step i { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font: 800 13px/1 var(--ns-font-sans); font-style: normal; background: var(--_c, var(--ns-widget-track)); color: var(--ns-black); position: relative; z-index: 1; }
+  .step small { display: block; color: var(--ns-widget-muted); font: 400 11px/14px var(--ns-font-sans); }
+
+</style>
+</head>
+<body>
+<div class="art" id="a"></div>
+<script src="../js/dashboards.js"></script>
+<script>
+const D = NS.dash;
+
+const s = D.shell({ active: "grid", title: "Deal flow", sub: "BRIGHTWATER DENTAL GROUP  /  CONFIRM WHAT STEP 2 DECIDED  /  STAGE 4 OF 5", right: D.seg(["All", "Needs action"], 1) + `<span class="pill">Export registrations</span>` });
+const ok = "var(--ns-status-success)", bad = "var(--ns-status-error)";
+a.innerHTML = s.open + `<div class="grid g">
+ ${D.spine(3)}
+ <section class="t dc">
+   <div class="o">Decided in step 2, now registering <em>Same providers, same quote v4</em></div>
+   <div style="flex:1;display:grid;align-content:space-between">
+     <div class="rr hh"><span>Provider and product</span><span>Registration</span><span>Monthly</span><span>Status</span></div>
+     ${[["Northline Fiber", "Fiber, 9 sites", "Submitted Oct 21, approved Oct 24", "$4,820", "Approved", ok], ["Kestrel Networks", "SD-WAN, managed", "Submitted Oct 21, approved Oct 23", "$4,310", "Approved", ok], ["Meridian Voice", "UCaaS, 212 seats", "Submitted Oct 21, conflict Oct 22", "$3,780", "Conflict", bad]].map(([n, m, r, v, st, c]) => `<div class="rr"><span><b>${n}</b><small>${m}</small></span><span>${r}</span><b class="num">${v}</b><span class="st-tag" style="--_c:${c}">${st}</span></div>`).join("")}
+   </div>
+   <div class="row sb" style="padding-top:4px"><span class="cap">Quote v4 total, as chosen in step 2</span><b class="d-sm num">$12,910 / mo</b></div>
+ </section>
+
+ <section class="t cf alr">
+   <div class="o" style="color:var(--ns-status-error)">Needs your action</div>
+   <div class="d-md" style="font-size:25px;line-height:1.1">Another partner already holds this client at Meridian Voice.</div>
+   <div class="cap" style="color:var(--ns-text-secondary)">Registered Oct 2 by a different partner. Meridian asks for proof of first contact.</div>
+   <div class="sp1"></div>
+   <div class="row" style="gap:10px"><span class="tag" style="background:var(--ns-interactive-primary);color:#fff;padding:10px 14px;font-size:12px">Send proof of contact</span><span class="tag" style="padding:10px 14px;font-size:12px;box-shadow:inset 0 0 0 1px var(--ns-border-strong);background:transparent">Switch to Summitline</span></div>
+ </section>
+
+ <section class="t pt">
+   <div class="o">Deal protection left <em>Days of 180</em></div>
+   <div class="row" style="flex:1;gap:16px;justify-content:space-around">
+     <figure style="margin:0;display:grid;justify-items:center;gap:8px">${D.ring({ size: 112, stroke: 13, pct: 89, color: "var(--ns-teal-500)", label: "160", fs: 28 })}<figcaption class="cap">Northline</figcaption></figure>
+     <figure style="margin:0;display:grid;justify-items:center;gap:8px">${D.ring({ size: 112, stroke: 13, pct: 94, color: "var(--ns-viz-4)", label: "169", fs: 28 })}<figcaption class="cap">Kestrel</figcaption></figure>
+   </div>
+ </section>
+
+ <section class="t lc">
+   <div class="o">Registration lifecycle <em>Northline Fiber, typical</em></div>
+   <div class="sp1" style="display:grid;align-content:center;gap:24px">
+     <div class="step">${[["&#10003;", "Submitted", "Oct 21", "var(--ns-teal-500)", "var(--ns-teal-500)"], ["&#10003;", "In review", "2 days", "var(--ns-teal-500)", "var(--ns-teal-500)"], ["&#10003;", "Approved", "Oct 24", "var(--ns-teal-500)", "var(--ns-teal-500)"], ["4", "Protected", "180 days", "var(--ns-widget-track)", "var(--ns-widget-track)"]].map(([n, l, d, c, ln]) => `<div style="--_c:${c};--_l:${ln}"><i>${n}</i><span>${l}<small>${d}</small></span></div>`).join("")}</div>
+     <div>${D.bars({ w: 460, h: 96, data: [3, 2, 5, 1], color: ["var(--ns-chart-series-1)","var(--ns-chart-series-2)","var(--ns-status-error)","var(--ns-chart-series-1)"], gap: 20, r: 5, labels: ["Northline: 3 days", "Kestrel: 2 days", "Meridian: conflict, day 5", "Altus: 1 day"], pad: [6, 0, 22, 0], track: true, vmax: 6 })}</div>
+   </div>
+   <div class="cap">Days from submission to decision, this deal and the last 90 days of similar deals.</div>
+ </section>
+ ${D.railPanel()}
+</div>` + s.close;
+
+</script>
+</body>
+</html>

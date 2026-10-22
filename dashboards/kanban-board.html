@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=1600">
+<title>Kanban board | NorthStar dashboard layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css"><link rel="stylesheet" href="../css/dashboards.css">
+<style>
+
+  .kb { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; min-height: 0; }
+  .col { border-radius: 16px; background: var(--ns-widget-band); padding: 14px; display: grid; grid-template-rows: auto auto 1fr auto; gap: 12px; min-height: 0; }
+  .col h4 { margin: 0; font: 700 13px/1 var(--ns-font-sans); display: flex; justify-content: space-between; align-items: center; }
+  .col h4 span { font: 800 12px/1 var(--ns-font-sans); padding: 5px 9px; border-radius: 9999px; background: var(--ns-widget-bg); }
+  .cards { display: grid; gap: 10px; align-content: start; overflow: hidden; }
+  .card { border-radius: 12px; background: var(--ns-widget-bg); padding: 13px 14px; display: grid; gap: 10px; box-shadow: var(--ns-widget-shadow); border-left: 4px solid var(--_c); }
+  .card b { font: 700 13px/18px var(--ns-font-sans); }
+  .card .m { display: flex; justify-content: space-between; align-items: center; font: 400 11px/14px var(--ns-font-sans); color: var(--ns-widget-muted); }
+  .card .av { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font: 800 9px/1 var(--ns-font-sans); color: var(--ns-black); background: var(--_a); }
+  .add { font: 600 12px/1 var(--ns-font-sans); color: var(--ns-widget-muted); padding: 11px 12px; border-radius: 10px; box-shadow: inset 0 0 0 1px var(--ns-widget-grid); text-align: center; }
+
+</style>
+</head>
+<body>
+<div class="art" id="a"></div>
+<script src="../js/dashboards.js"></script>
+<script>
+const D = NS.dash;
+
+const s = D.shell({ active: "grid", title: "Content Board", sub: "EDITORIAL STUDIO  /  OCTOBER ISSUE  /  26 PIECES", right: D.seg(["Board", "Calendar", "List"], 0) + `<span class="pill">Filter: Mine</span>` });
+const A = ["var(--ns-teal-500)", "var(--ns-viz-3)", "var(--ns-viz-2)", "var(--ns-viz-5)", "var(--ns-viz-6)", "var(--ns-viz-4)"];
+const I = ["MK", "JT", "OA", "SR", "LH", "DP"];
+const cols = [["Ideas", "var(--ns-viz-4)", [["Why a lease is a loan", "Finance", "4 votes"], ["Fibre near the coast", "Ops", "2 votes"], ["What a site survey misses", "Field", "6 votes"], ["Reading a renewal clause", "Legal", "3 votes"], ["Five questions for a vendor", "Sales", "1 vote"], ["A year of outage notes", "Ops", "5 votes"]]], ["Drafting", "var(--ns-viz-2)", [["Retail holiday guide", "Marketing", "Due Oct 26"], ["Q3 letter to members", "CEO office", "Due Oct 24"], ["Plain words for pricing", "Content", "Due Oct 28"], ["Install week checklist", "Ops", "Due Oct 29"], ["Customer story: dental group", "Marketing", "Due Oct 30"]]], ["Review", "var(--ns-viz-3)", [["Cover feature, Rhea M.", "Editor", "2 comments"], ["Pricing explainer", "Legal", "Waiting"], ["Contract glossary", "Content", "1 comment"], ["Support desk handbook", "Support", "Waiting"], ["Annual survey results", "Research", "3 comments"]]], ["Approved", "var(--ns-teal-500)", [["Home page refresh", "Design", "Live Oct 28"], ["Partner announcement", "Comms", "Oct 30"], ["Podcast notes", "Audio", "Oct 31"], ["Release notes, Oct", "Product", "Nov 1"]]], ["Published", "var(--ns-viz-5)", [["Autumn lookbook", "Live", "2.1K reads"], ["Ops update, Oct 8", "Live", "640 reads"], ["Leadership letter", "Live", "1.4K reads"]]]];
+a.innerHTML = s.open + `<div class="kb">${cols.map(([n, c, cards], i) => `<div class="col"><h4>${n}<span>${cards.length}</span></h4><div class="bar" style="height:6px"><i style="--_v:${[100, 80, 80, 66, 50][i]}%;--_c:${c}"></i></div><div class="cards">${cards.map(([t, who, meta], j) => `<div class="card" style="--_c:${c}"><b>${t}</b><div class="m"><span>${who}  /  ${meta}</span><span class="av" style="--_a:${A[(i + j) % 6]}">${I[(i * 2 + j) % 6]}</span></div></div>`).join("")}</div><div class="add">+ Add card</div></div>`).join("")}</div>` + s.close;
+
+</script>
+</body>
+</html>
