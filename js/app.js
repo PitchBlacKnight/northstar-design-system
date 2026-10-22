@@ -33,6 +33,22 @@
   /* ---------- flat page order for prev/next + search ---------- */
   const FLAT = NS.NAV.flatMap((g) => g.items.map(([path, label, tag]) => ({ path, label, tag, group: g.group })));
 
+  /* ---------- section icons: 24px stroke icons, one per nav group ---------- */
+  const ICON = {
+    "Getting started": '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/>',
+    "Foundations": '<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/><path d="M3 18l9 5 9-5"/>',
+    "Components": '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M17.5 14v7M14 17.5h7"/>',
+    "Patterns": '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 9v11"/>',
+    "Data visualization": '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+    "Graphics framework": '<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v8.5h8.5"/>',
+    "Floorplans": '<path d="M3 3h8v8H3zM13 3h8v5h-8zM13 10h8v11h-8zM3 13h8v8H3z"/>',
+    "Accessibility": '<circle cx="12" cy="4.5" r="2"/><path d="M5 8.5h14M12 8.5v5l-3 7M12 13.5l3 7"/>',
+    "Live tools": '<path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/>',
+    "Community": '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><path d="M16 4.8a3.5 3.5 0 0 1 0 6.4M18 14.8c2 .6 3.3 2.3 3.6 5.2"/>',
+    "Dashboard layouts": '<rect x="3" y="3" width="8" height="10" rx="1.5"/><rect x="13" y="3" width="8" height="6" rx="1.5"/><rect x="13" y="11" width="8" height="10" rx="1.5"/><rect x="3" y="15" width="8" height="6" rx="1.5"/>',
+  };
+  NS.groupIcon = (name) => ICON[name] ? `<svg class="side__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${ICON[name]}</svg>` : "";
+
   /* ---------- shell ---------- */
   document.getElementById("app").innerHTML = `
 <a class="skip" href="#main-content">Skip to content</a>
@@ -50,7 +66,7 @@
   <a class="hdr__back hide-sm" href="../" title="Back to mikelrosenthal.com">← mikelrosenthal.com</a>
 </header>
 <div class="shell">
-  <nav class="side" id="side" aria-label="Documentation">${NS.NAV.map((g, gi) => `<div class="side__group" data-g="${gi}"><button class="side__head" aria-expanded="true">${g.group}</button><ul class="side__list">${g.items.map(([p, l, tag]) => `<li><a href="#/${p}" data-path="${p}">${l}${tag ? `<span class="ns ns-tag ns-tag--sm ${tag === "New" ? "ns-tag--teal" : tag === "AI" ? "ns-tag--purple" : tag === "Live" ? "ns-tag--green" : "ns-tag--blue"}">${tag}</span>` : ""}</a></li>`).join("")}</ul></div>`).join("")}</nav>
+  <nav class="side" id="side" aria-label="Documentation">${NS.NAV.map((g, gi) => `<div class="side__group" data-g="${gi}"><button class="side__head" aria-expanded="true"><span class="side__title">${NS.groupIcon(g.group)}${g.group}</span></button><ul class="side__list">${g.items.map(([p, l, tag]) => `<li><a href="#/${p}" data-path="${p}">${l}${tag ? `<span class="ns ns-tag ns-tag--sm ${tag === "New" ? "ns-tag--teal" : tag === "AI" ? "ns-tag--purple" : tag === "Live" ? "ns-tag--green" : "ns-tag--blue"}">${tag}</span>` : ""}</a></li>`).join("")}</ul></div>`).join("")}</nav>
   <div class="main" id="main"><main class="content" id="main-content" tabindex="-1"></main><aside class="toc" id="toc" aria-label="On this page"></aside></div>
 </div>
 <div class="palette" id="palette" role="dialog" aria-modal="true" aria-label="Search"><div class="palette__box"><div class="palette__in">${NS.icon.search}<input id="pal-q" placeholder="Search pages, components, sections, tokens" aria-label="Search" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="pal-list"/><kbd>esc</kbd></div><ul class="palette__list" id="pal-list" role="listbox"></ul><div class="palette__foot"><span><kbd>↑</kbd> <kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span><span><kbd>/</kbd> or <kbd>⌘K</kbd> search</span></div></div></div>`;

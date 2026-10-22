@@ -57,6 +57,8 @@ code, pre { font-family: var(--ns-font-mono); }
 .side__head { box-shadow: inset 4px 0 0 var(--_acc), inset 0 0 0 1px var(--ns-border-default); background: color-mix(in srgb, var(--_acc) 12%, var(--ns-background-surface)); }
 .side__head:hover { background: color-mix(in srgb, var(--_acc) 20%, var(--ns-background-surface)); }
 .side__head::after { color: var(--_acc); }
+.side__title { display: flex; align-items: center; gap: var(--ns-space-3); min-width: 0; }
+.side__icon { flex: none; width: 22px; height: 22px; fill: none; stroke: var(--_acc); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .side__group.is-collapsed .side__head { color: var(--ns-text-primary); }
 .side__group.is-collapsed .side__list { display: none; }
 .side__list { list-style: none; margin: var(--ns-space-2) 0 0; padding: 0 0 0 var(--ns-space-3); border-left: 2px solid var(--ns-border-subtle); display: grid; gap: 2px; }
