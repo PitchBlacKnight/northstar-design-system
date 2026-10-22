@@ -41,11 +41,23 @@ code, pre { font-family: var(--ns-font-mono); }
 .side__group { margin-bottom: var(--ns-space-3); border-top: 1px solid var(--ns-border-subtle); padding-top: var(--ns-space-3); }
 .side__group:first-child { border-top: 0; padding-top: 0; }
 .side__head { all: unset; box-sizing: border-box; width: 100%; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: var(--ns-space-3); font: 700 15px/20px var(--ns-font-sans); letter-spacing: 0; color: var(--ns-text-primary); padding: 10px 12px; border-radius: var(--ns-radius-md); background: var(--ns-background-surface); box-shadow: inset 0 0 0 1px var(--ns-border-default); }
-.side__head:hover { background: var(--ns-background-hover); }
 .side__head:focus-visible { outline: 2px solid var(--ns-focus-ring); outline-offset: 2px; }
 .side__head::after { content: ""; flex: none; width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translate(-2px, -2px); transition: transform var(--ns-duration-base) var(--ns-easing-standard); margin-right: 4px; }
 .side__group.is-collapsed .side__head::after { transform: rotate(-45deg); }
 .side__group.is-collapsed .side__head { color: var(--ns-text-secondary); }
+/* Section accents: each nav group gets its own token color, so sections separate at a glance */
+.side__group:nth-child(8n+1) { --_acc: var(--ns-teal-500); }
+.side__group:nth-child(8n+2) { --_acc: var(--ns-blue-500); }
+.side__group:nth-child(8n+3) { --_acc: var(--ns-purple-500); }
+.side__group:nth-child(8n+4) { --_acc: var(--ns-yellow-500); }
+.side__group:nth-child(8n+5) { --_acc: var(--ns-green-500); }
+.side__group:nth-child(8n+6) { --_acc: var(--ns-red-400); }
+.side__group:nth-child(8n+7) { --_acc: var(--ns-cyan-400); }
+.side__group:nth-child(8n+8) { --_acc: var(--ns-persian-500); }
+.side__head { box-shadow: inset 4px 0 0 var(--_acc), inset 0 0 0 1px var(--ns-border-default); background: color-mix(in srgb, var(--_acc) 12%, var(--ns-background-surface)); }
+.side__head:hover { background: color-mix(in srgb, var(--_acc) 20%, var(--ns-background-surface)); }
+.side__head::after { color: var(--_acc); }
+.side__group.is-collapsed .side__head { color: var(--ns-text-primary); }
 .side__group.is-collapsed .side__list { display: none; }
 .side__list { list-style: none; margin: var(--ns-space-2) 0 0; padding: 0 0 0 var(--ns-space-3); border-left: 2px solid var(--ns-border-subtle); display: grid; gap: 2px; }
 .side__list a { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 10px; border-radius: var(--ns-radius-sm); color: var(--ns-text-secondary); text-decoration: none; font: 400 15px/1.3 var(--ns-font-sans); }
