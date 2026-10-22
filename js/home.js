@@ -28,8 +28,50 @@
 
   const patternCount = () => (NS.NAV.find((g) => g.group === "Patterns") || { items: [] }).items.length;
 
+  /* ?layout=deck: Command deck prototype. One color-blocked bento grid, one tile per job. */
+  const deckBody = (comps) => {
+    const T = (span, c, icon, kicker, title, body, href, extra = "", o = {}) =>
+      `<${href ? "a" : "div"} class="hm-tile dk-tile ${o.cls || ""}" style="--c:var(--hm-${c});${span}"${href ? ` href="${href}"` : ""}${o.ext ? ' target="_blank" rel="noopener"' : ""}${o.fa ? ` data-figma-access="${o.fa}"` : ""} data-reveal data-spot><span class="hm-tile__k">${ic(icon, 16)}${kicker}</span>${o.num ? `<b class="dk-num" ${o.num}>0</b>` : ""}<h3>${title}</h3>${body ? `<p>${body}</p>` : ""}${extra}${href ? `<span class="hm-tile__go" aria-hidden="true">${ic("arrow", 16)}</span>` : ""}</${href ? "a" : "div"}>`;
+    const sp = (c, r = 1) => `grid-column:span ${c};grid-row:span ${r}`;
+    return `
+<section class="dk" aria-label="NorthStar command deck">
+  <div class="dk-grid">
+    <div class="hm-tile dk-tile dk-title" style="--c:var(--hm-blue);${sp(7, 2)}" data-reveal>
+      <a class="hm-pill hm-in" href="#/changelog" style="--d:0"><b>${NS.VERSION}</b> Spec tabs synced from Figma · Oct 2026 ${ic("arrow", 14)}</a>
+      <h1 class="hero__brand hm-in" style="--d:1">NORTHSTAR <b>DS</b></h1>
+      <p class="hm-lede hm-in" style="--d:2">The design language and development kit for dense, dark, data-heavy enterprise consoles.</p>
+      <button class="hm-search hm-in" style="--d:3" data-open-search aria-label="Search documentation">${ic("search", 20)}<span class="hm-search__q">Find a <span data-type>component</span><i class="hm-caret"></i></span><kbd>⌘K</kbd></button>
+      <div class="hm-cta ns hm-in" style="--d:4"><a class="ns-btn" href="#/getting-started/about">Get started</a><a class="ns-btn ns-btn--tertiary" href="#/components">Browse components</a></div>
+    </div>
+    ${T(sp(5, 2), "teal", "grid", "Components", "Components, live", "Playgrounds, token tables, code, accessibility notes and Figma specs.", "#/components",
+      `<div class="hm-demo ns" aria-hidden="true"><div><span class="ns-btn ns-btn--sm hm-demo__btn">Deploy</span></div><div><span class="hm-tog"></span><span class="ns-badge ns-badge--positive ns-badge--sm">Active</span></div><div><span class="hm-tabs"><b>Overview</b><b>Syncs</b><i></i></span></div></div>`, { num: `data-to="${comps}"`, cls: "dk-hasnum" })}
+    ${T(sp(4), "teal", "pen", "I design", "Use the Figma library", "Tokens, components, and dark, light and high-contrast modes.", FIGMA, "", { ext: 1, fa: "NorthStar Figma library" })}
+    ${T(sp(4), "purple", "code", "I build", "Install the code", "Framework-free CSS and React. Every value is a token.", "#/getting-started/developers")}
+    ${T(sp(4), "blue", "flag", "I lead a team", "Roll it out", "Adoption steps, governance and contribution rules.", "#/getting-started/adoption")}
+    ${T(sp(3), "teal", "palette", "Foundations", "Color, type, space", "Radius, elevation, motion, icons and themes.", "#/foundations",
+      `<div class="hm-sw" aria-hidden="true">${["blue-500", "teal-500", "purple-500", "navy-900", "yellow-500"].map((v, i) => `<i style="background:var(--ns-${v});--i:${i}"></i>`).join("")}</div>`)}
+    ${T(sp(3), "gray", "token", "Token reference", "Every variable", "Searchable, one click to copy.", "#/foundations/tokens", "", { num: 'data-count="tokens"' })}
+    ${T(sp(3), "blue", "layers", "Patterns", "Forms to errors", "Dialogs, tables, empty states and workflows.", "#/patterns/forms", "", { num: `data-to="${patternCount()}"` })}
+    ${T(sp(3), "yellow", "layout", "Floorplans", "Page templates", "Dashboard, list, detail, wizard and approval queue.", "#/floorplans", "", { num: 'data-to="5"' })}
+    ${T(sp(3), "green", "chart", "Graphics", "60+ dashboard widgets", "", "#/graphics", `<div class="hm-bars" aria-hidden="true">${[40, 70, 55, 90, 65, 82].map((h, i) => `<i style="--h:${h}%;--i:${i}"></i>`).join("")}</div>`)}
+    ${T(sp(3), "red", "access", "Accessibility", "WCAG 2.2 AA", "Checklist, criteria mapping and a contrast checker.", "#/accessibility")}
+    ${T(sp(6), "violet", "spark", "Live Builder", "Watch a UI assemble from real tokens", "Pick a recipe, or describe one and let Claude build it.", "#/tools/live-builder", `<span class="ns-btn hm-live__btn">Launch</span>`, { cls: "hm-tile--live" })}
+    ${T(sp(6), "teal", "clock", "What's new", "Latest changes", "", "", `<ol class="hm-rel">
+      <li><time datetime="2026-10-06">Oct 06</time><a href="#/components/button/spec">Spec tabs for 5 components, synced from Figma</a></li>
+      <li><time datetime="2026-10-06">Oct 06</time><a href="#/components">14 new components in the Figma library</a></li>
+      <li><time datetime="2026-10-06">Oct 06</time><a href="#/patterns/create-account">Create account workflow pattern</a></li>
+      <li><time datetime="2026-09-24">Sep 24</time><a href="#/changelog">${NS.VERSION}: light theme layer and token renames</a></li></ol>`)}
+    ${T(sp(6), "gray", "book", "Resources", "Links", "", "", `<ul class="hm-links">
+      <li><a href="${FIGMA}" target="_blank" rel="noopener" data-figma-access="NorthStar Figma library">Request Figma access</a></li><li><a href="#/changelog">Changelog</a></li>
+      <li><a href="#/tools/embed">Embed mode</a></li><li><a href="#/community/contributing">Contributing</a></li>
+      <li><a href="#/community/governance">Governance</a></li><li><a href="#/community/support">Support</a></li></ul>`)}
+  </div>
+</section>`;
+  };
+
   NS.homeBody = () => {
     const comps = NS.COMPONENTS.length;
+    if (new URLSearchParams(location.search).get("layout") === "deck") return deckBody(comps);
     const roles = [
       ["teal", "pen", "I design", "Use the Figma library", "Tokens, " + comps + " components, and dark, light and high-contrast modes.", ["Request access, then enable NORTHSTAR DS", "Read the component specs"], FIGMA, "Request Figma access", true, "NorthStar Figma library"],
       ["purple", "code", "I build", "Install the code", "Framework-free CSS and React. Every value is a token, so nothing drifts from Figma.", ["Add tokens.css and components.css", "Copy markup from any playground"], "#/getting-started/developers", "Developer guide"],

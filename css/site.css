@@ -608,3 +608,20 @@ body:not(.is-home) .shell::before { content: ""; position: absolute; top: 0; bot
 @media (max-width: 1280px) { .hdr__search kbd { display: none; } }
 @media (max-width: 1400px) { .hdr__nav { margin-left: var(--ns-space-3); } .hdr__nav a { padding: 10px 8px; } }
 .hdr__search .label { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+
+/* ================= ?layout=deck: Command deck bento home (js/home.js deckBody) ================= */
+.dk { padding: var(--ns-space-6) 0 var(--ns-space-10); position: relative; }
+.dk-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-rows: minmax(150px, auto); gap: var(--ns-space-4); }
+.dk-tile { background: color-mix(in srgb, var(--c) 13%, var(--ns-background-surface)); border-color: color-mix(in srgb, var(--c) 32%, var(--ns-border-subtle)); }
+.dk-tile .hm-tile__k { color: color-mix(in srgb, var(--c) 80%, var(--ns-text-primary)); }
+.dk-title { padding: var(--ns-space-8); justify-content: center; background: linear-gradient(150deg, color-mix(in srgb, var(--hm-blue) 24%, var(--ns-background-surface)), var(--ns-background-surface) 75%); }
+.dk-title:hover { transform: none; }
+.dk-title .hero__brand { font: 400 clamp(36px, 4.6vw, 64px)/1.04 var(--ns-font-sans); letter-spacing: 1px; margin: var(--ns-space-5) 0 var(--ns-space-4); }
+.dk-title .hero__brand b { font-weight: 800; }
+.dk-title .hm-search { width: 100%; }
+.dk-num { display: block; margin: var(--ns-space-3) 0 var(--ns-space-2); font: 800 56px/1 var(--ns-font-sans); letter-spacing: -1px; color: color-mix(in srgb, var(--c) 85%, var(--ns-text-primary)); }
+.dk-hasnum .dk-num { font-size: 88px; }
+.dk .hm-tile--live { padding-right: 140px; }
+.dk-tile .hm-rel, .dk-tile .hm-links { margin-top: var(--ns-space-3); }
+@media (max-width: 1280px) { .dk-grid > * { grid-column: span 6 !important; grid-row: auto !important; } .dk-title { grid-column: span 12 !important; } }
+@media (max-width: 640px) { .dk-grid > * { grid-column: span 12 !important; } .dk-title { padding: var(--ns-space-6); } }
