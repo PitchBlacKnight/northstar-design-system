@@ -1845,7 +1845,7 @@
     "blocks": [
      {
       "type": "text",
-      "text": "Data Visualization / Bullet Chart · set 4443:314 · page \"Bullet chart\" under DATA VIZ."
+      "text": "Chart / Bullet · set 4443:314 · page \"Bullet chart\" under DATA VIZ."
      },
      {
       "type": "table",
