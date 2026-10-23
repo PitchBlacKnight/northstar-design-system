@@ -484,6 +484,22 @@
   { name: "Dashboard: Diverging matrix", desc: "A department-by-month matrix colored red over and green under budget.", steps: [["Load layout: Diverging matrix", ["--ns-background-primary", "--ns-widget-bg", "--ns-radius-2xl"], `<div class="lb-layout" style="width:800px;height:500px;overflow:hidden;border-radius:var(--ns-radius-xl);box-shadow:0 0 0 1px var(--ns-border-default)"><iframe src="dashboards/diverging-matrix.html" title="Diverging matrix layout" loading="lazy" style="width:1600px;height:1000px;border:0;transform:scale(0.5);transform-origin:0 0" tabindex="-1"></iframe></div>`]] },
   );
 
+
+  /* AI generator: teach it the dashboard kit. Wraps the existing prompt and preview frame, so tools.js is unchanged. */
+  const DASH_PROMPT = `
+DASHBOARD LAYOUTS (when the user asks for a dashboard, screen or report):
+- Output ONE artboard: <div class="art"> at a fixed 1600 by 1000 px. Inside it, optionally <nav class="rail">, then <div class="main"> holding a <header class="top"> (<h1 class="top__ttl">, <div class="top__sub">, optional <span class="seg"> segmented control and <span class="pill"> live badge) and a <div class="grid"> of tiles.
+- Grid: set inline style grid-template-columns (for example repeat(12, 1fr)) and grid-template-rows, then place each tile with inline grid-column / grid-row.
+- Tiles: <section class="t"> (white-on-dark surface, 16px radius). Fill modifiers: t--blue, t--bruise, t--teal, t--green, t--amber, t--paper (inverse), t--ink (inset), t--line (outline). Use at most three filled tiles per screen.
+- Text inside tiles: <div class="o"> overline label (add <em> for a right-aligned note); numbers in d-mega, d-xxl, d-xl, d-lg, d-md or d-sm (add <span class="u"> for units); <span class="dl"> green delta, add class dn for red; <span class="cap"> caption; <span class="tag">; <hr class="hr">; <div class="sp1"> flexible spacer; <div class="row"> and class "sb" for space-between; <div class="ls"> key/value list (style --cols); <div class="bar"><i style="--_v:NN%;--_c:var(--ns-teal-500)"></i></div> progress bars; <div class="lg"> legend with <span><i style="--_c:..."></i>label</span>.
+- Stepped workflows: <div class="spine"> with five <div class="stp done|cur|todo"> items (<span class="sp__n">, <b>, <small>, <em>).
+- Charts: NO <script>. Draw charts as inline <svg viewBox="0 0 W H"> with paths, rects, circles. Colours ONLY as var(--ns-...) tokens in fill and stroke attributes, for example fill="var(--ns-teal-500)" or stroke="var(--ns-widget-grid)". Area = filled path with fill-opacity; line = path with stroke-width 2.5 and round caps; bar = rect with rx 4; ring = circle with stroke-dasharray; heatmap = grid of <i> with inline background: color-mix(in srgb, var(--ns-viz-1) NN%, var(--ns-widget-track)).
+- Use placeholder data (plausible numbers). Keep to 1600 by 1000 and at most 14 tiles. No raw hex or rgb colours. No markdown fences. Output only the <div class="art"> fragment.`;
+  const basePrompt = NS.systemPrompt;
+  NS.systemPrompt = () => basePrompt() + DASH_PROMPT;
+  const baseFrame = NS.frameDoc;
+  NS.frameDoc = (html) => baseFrame(html).replace("</head>", `<link rel="stylesheet" href="${new URL("css/dashboards.css", location.href)}"></head>`);
+
   /* Nav: a group after the Graphics framework */
   const gi = NS.NAV.findIndex((g) => g.group === "Graphics framework");
   NS.NAV.splice(gi + 1, 0, { group: "Dashboard layouts", items: [["dashboards", "Overview", String(LAYOUTS.length)], ["dashboards/chart-parts", "Chart parts", "New"], ...LAYOUTS.map((d) => ["dashboards/" + d.id, d.name])] });
