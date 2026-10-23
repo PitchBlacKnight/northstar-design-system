@@ -1248,8 +1248,10 @@
       if (c.doc && c.doc.length) body += NS.h3("Guidelines") + c.doc.map(([t, d]) => `<h4>${t}</h4><p>${d}</p>`).join("");
       body += NS.h3("When to use") + `<ul>${c.when.map((w) => `<li>${w}</li>`).join("")}</ul>`;
       body += NS.h3("When not to use") + `<ul>${c.whenNot.map((w) => `<li>${w}</li>`).join("")}</ul>`;
-      if (c.variants.length) { body += NS.h2("Variants"); c.variants.forEach(([n, d, h]) => (body += `${NS.h3(n)}<p>${d}</p>${NS.stage(h, { label: n })}`)); }
+      if (c.variants.length) { body += NS.h2("Variants"); c.variants.forEach(([n, d, h]) => (body += `${NS.h3(n)}<p>${d}</p>${NS.VARIANT_GUIDE?.[c.id]?.[n] ? `<p class="variant-guide"><b>Use when:</b> ${NS.VARIANT_GUIDE[c.id][n]}</p>` : ""}${NS.stage(h, { label: n })}`)); }
       body += NS.h2("Best practices") + NS.dd(...c.dd);
+      const related = NS.COMPONENTS.filter((o) => o.cat === c.cat && o.id !== c.id).slice(0, 4);
+      if (related.length) body += NS.h2("Related") + `<ul>${related.map((o) => `<li><a href="#/components/${o.id}">${o.name}</a></li>`).join("")}</ul>`;
     } else if (tab === "style") {
       body += NS.h2("Tokens") + `<p>Every value below is a CSS custom property. Click a row to copy the token. Open the token editor (${"⚙"} in the header) to change them live.</p>`;
       body += `<div class="dtable-wrap"><table class="dtable"><thead><tr><th>Token</th><th>Role</th><th>Current value</th></tr></thead><tbody>${c.tokens.map(([t, r]) => { const v = t.startsWith("--") && !t.includes(" ") ? NS.tokenValue(t) : ""; return `<tr class="tok-row" data-copy="${t.split(" ")[0]}"><td><code>${t}</code></td><td>${r}</td><td>${v ? `${/^#|rgb/.test(v) ? `<span class="chip" style="background:${v}"></span>` : ""}<code>${x(v)}</code>` : "-"}</td></tr>`; }).join("")}</tbody></table></div>`;

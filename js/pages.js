@@ -216,11 +216,22 @@ ${h2("Brand themes")}<p>Swap primitives to rebrand. Semantic roles and component
     body: () => {
       const cats = [...new Set(NS.COMPONENTS.map((c) => c.cat))];
       return `<div class="ns" style="margin-bottom:24px"><div class="ns-search" style="max-width:420px">${NS.icon.search}<input class="ns-input" id="cmp-filter" type="search" placeholder="Filter components" aria-label="Filter components"/></div></div>
-<div id="cmp-grid" class="grid grid-auto">${NS.COMPONENTS.map((c) => `<a class="rcard" href="#/components/${c.id}" data-name="${c.name.toLowerCase()} ${c.cat.toLowerCase()}"><div class="ns" style="height:88px;display:grid;place-items:center;border-radius:6px;background:var(--ns-background-secondary);overflow:hidden;pointer-events:none"><div style="transform:scale(.72)">${thumb(c)}</div></div><h3 style="font-size:16px;line-height:22px">${c.name}</h3><p>${c.cat}</p></a>`).join("")}</div>
+<div class="ns" id="cmp-cats" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px">${["All", ...cats].map((k) => `<button class="ns-btn ns-btn--sm ns-btn--tertiary" data-cat="${k}" aria-pressed="${k === "All"}">${k}</button>`).join("")}</div>
+<div id="cmp-grid" class="grid grid-auto">${NS.COMPONENTS.map((c) => `<a class="rcard" href="#/components/${c.id}" data-cat="${c.cat}" data-name="${c.name.toLowerCase()} ${c.cat.toLowerCase()}"><div class="ns" style="height:88px;display:grid;place-items:center;border-radius:6px;background:var(--ns-background-secondary);overflow:hidden;pointer-events:none"><div style="transform:scale(.72)">${thumb(c)}</div></div><h3 style="font-size:16px;line-height:22px">${c.name}</h3><p>${c.cat} · ${c.status}</p></a>`).join("")}</div>
 ${h2("Component status")}<div class="dtable-wrap"><table class="dtable"><thead><tr><th>Component</th><th>Category</th><th>Figma</th><th>React</th><th>HTML/CSS</th><th>Status</th></tr></thead><tbody>${NS.COMPONENTS.map((c) => `<tr><td><a href="#/components/${c.id}">${c.name}</a></td><td>${c.cat}</td><td>${c.figma ? "✓" : "Waiting"}</td><td>✓</td><td>✓</td><td><span class="ns ns-tag ns-tag--sm ${c.status === "New" ? "ns-tag--teal" : "ns-tag--green"}">${c.status}</span></td></tr>`).join("")}</tbody></table></div>
 <p style="color:var(--ns-text-tertiary);font-size:13px">${cats.length} categories: ${cats.join(", ")}.</p>`;
     },
-    init: () => { const f = document.getElementById("cmp-filter"); f.addEventListener("input", () => document.querySelectorAll("#cmp-grid .rcard").forEach((c) => (c.style.display = c.dataset.name.includes(f.value.toLowerCase()) ? "" : "none"))); },
+    init: () => {
+      const f = document.getElementById("cmp-filter");
+      let cat = "All";
+      const apply = () => document.querySelectorAll("#cmp-grid .rcard").forEach((c) => (c.style.display = c.dataset.name.includes(f.value.toLowerCase()) && (cat === "All" || c.dataset.cat === cat) ? "" : "none"));
+      f.addEventListener("input", apply);
+      document.querySelectorAll("#cmp-cats [data-cat]").forEach((b) => b.addEventListener("click", () => {
+        cat = b.dataset.cat;
+        document.querySelectorAll("#cmp-cats [data-cat]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+        apply();
+      }));
+    },
   });
   function thumb(c) {
     const d = c.playground.controls ? Object.fromEntries(c.playground.controls.map((k) => [k.key, k.default ?? (k.options ? k.options[0] : k.type === "bool" ? false : "")])) : {};

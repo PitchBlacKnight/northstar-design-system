@@ -62,7 +62,7 @@
       <li><time datetime="2026-10-06">Oct 06</time><a href="#/patterns/create-account">Create account workflow pattern</a></li>
       <li><time datetime="2026-09-24">Sep 24</time><a href="#/changelog">${NS.VERSION}: light theme layer and token renames</a></li></ol>`)}
     ${T(sp(6), "gray", "book", "Resources", "Links", "", "", `<ul class="hm-links">
-      <li><a href="${FIGMA}" target="_blank" rel="noopener" data-figma-access="NorthStar Figma library">Request Figma access</a></li><li><a href="#/changelog">Changelog</a></li>
+      <li><a href="${FIGMA}" target="_blank" rel="noopener" data-figma-access="NorthStar Figma library">Request Figma access</a></li><li><a href="#/changelog">Changelog</a></li><li><a href="#/getting-started/agent-guide">AI agent guide</a></li>
       <li><a href="#/tools/embed">Embed mode</a></li><li><a href="#/community/contributing">Contributing</a></li>
       <li><a href="#/community/governance">Governance</a></li><li><a href="#/community/support">Support</a></li></ul>`)}
   </div>
@@ -145,7 +145,7 @@
   <div data-reveal>
     <h2 class="hm-h">${ic("book", 16)}Resources</h2>
     <ul class="hm-links">
-      <li><a href="${FIGMA}" target="_blank" rel="noopener" data-figma-access="NorthStar Figma library">Request Figma access</a></li><li><a href="#/changelog">Changelog</a></li>
+      <li><a href="${FIGMA}" target="_blank" rel="noopener" data-figma-access="NorthStar Figma library">Request Figma access</a></li><li><a href="#/changelog">Changelog</a></li><li><a href="#/getting-started/agent-guide">AI agent guide</a></li>
       <li><a href="#/tools/embed">Embed mode</a></li><li><a href="#/community/contributing">Contributing</a></li>
       <li><a href="#/community/governance">Governance</a></li><li><a href="#/community/support">Support</a></li>
     </ul>
