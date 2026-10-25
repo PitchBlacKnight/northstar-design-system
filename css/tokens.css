@@ -121,6 +121,29 @@
   --ns-background-hover: #ffffff0d;
   --ns-background-inverse: var(--ns-white);
 
+  /* Layers: each nested surface steps one level lighter. Fields take the next layer up. */
+  --ns-layer-01: #0e0e18;
+  --ns-layer-02: var(--ns-navy-900);
+  --ns-layer-03: #222244;
+  --ns-layer-hover-01: #181826;
+  --ns-layer-hover-02: #212142;
+  --ns-layer-hover-03: #2b2b52;
+  --ns-layer-selected-01: #1a1a3a;
+  --ns-layer-selected-02: #22224a;
+  --ns-layer-selected-03: #2a2a58;
+  --ns-border-subtle-01: var(--ns-gray-8);
+  --ns-border-subtle-02: #2a2a45;
+  --ns-border-subtle-03: #35355a;
+  --ns-border-strong-01: var(--ns-gray-5);
+  --ns-border-strong-02: var(--ns-gray-4);
+  --ns-border-strong-03: var(--ns-gray-4);
+  --ns-field-01: #121216;
+  --ns-field-02: #1f1f3c;
+  --ns-field-03: #28284e;
+  --ns-field-hover-01: #1a1a22;
+  --ns-field-hover-02: #28284a;
+  --ns-field-hover-03: #32325c;
+
   --ns-text-primary: var(--ns-white);
   --ns-text-secondary: var(--ns-gray-2);
   --ns-text-tertiary: var(--ns-gray-3);
@@ -213,6 +236,29 @@
   --ns-background-hover: #05050f0a;
   --ns-background-inverse: var(--ns-black);
 
+  /* Layers: light themes alternate gray and white. Fields take the opposite of their layer. */
+  --ns-layer-01: var(--ns-gray-0);
+  --ns-layer-02: var(--ns-white);
+  --ns-layer-03: var(--ns-gray-0);
+  --ns-layer-hover-01: #e8e8f5;
+  --ns-layer-hover-02: var(--ns-gray-0);
+  --ns-layer-hover-03: #e8e8f5;
+  --ns-layer-selected-01: #e0e7ff;
+  --ns-layer-selected-02: #e8edff;
+  --ns-layer-selected-03: #e0e7ff;
+  --ns-border-subtle-01: var(--ns-gray-1);
+  --ns-border-subtle-02: var(--ns-gray-1);
+  --ns-border-subtle-03: var(--ns-gray-1);
+  --ns-border-strong-01: var(--ns-gray-4);
+  --ns-border-strong-02: var(--ns-gray-4);
+  --ns-border-strong-03: var(--ns-gray-4);
+  --ns-field-01: var(--ns-white);
+  --ns-field-02: var(--ns-gray-0);
+  --ns-field-03: var(--ns-white);
+  --ns-field-hover-01: var(--ns-gray-0);
+  --ns-field-hover-02: #e8e8f5;
+  --ns-field-hover-03: var(--ns-gray-0);
+
   --ns-text-primary: var(--ns-black);
   --ns-text-secondary: var(--ns-gray-6);
   --ns-text-tertiary: var(--ns-gray-5);
@@ -300,6 +346,28 @@
   --ns-background-secondary: #05050f; /* background/secondary */
   --ns-background-surface: #05050f; /* background/surface */
   --ns-background-elevated: #05050f; /* background/elevated */
+  /* Layers collapse to one surface; borders carry the separation */
+  --ns-layer-01: #05050f;
+  --ns-layer-02: #05050f;
+  --ns-layer-03: #05050f;
+  --ns-layer-hover-01: #1e1e24;
+  --ns-layer-hover-02: #1e1e24;
+  --ns-layer-hover-03: #1e1e24;
+  --ns-layer-selected-01: #1e1e24;
+  --ns-layer-selected-02: #1e1e24;
+  --ns-layer-selected-03: #1e1e24;
+  --ns-border-subtle-01: #ffffff;
+  --ns-border-subtle-02: #ffffff;
+  --ns-border-subtle-03: #ffffff;
+  --ns-border-strong-01: #ffffff;
+  --ns-border-strong-02: #ffffff;
+  --ns-border-strong-03: #ffffff;
+  --ns-field-01: #05050f;
+  --ns-field-02: #05050f;
+  --ns-field-03: #05050f;
+  --ns-field-hover-01: #1e1e24;
+  --ns-field-hover-02: #1e1e24;
+  --ns-field-hover-03: #1e1e24;
   --ns-text-primary: #ffffff; /* text/primary */
   --ns-text-secondary: #ffffff; /* text/secondary */
   --ns-text-tertiary: #ffffff; /* text/tertiary */
