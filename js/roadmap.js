@@ -6,7 +6,7 @@
 
   NS.ROADMAP = [
     { phase: "Phase 1: Token architecture", why: "Everything else sits on this.", items: [
-      ["tk-layer", "Layering tokens: layer-01/02/03, layer-hover, layer-selected, layer-accent", "P1", ""],
+      ["tk-layer", "Layering tokens: layer-01/02/03, layer-hover, layer-selected, layer-accent", "P1", "partial"],
       ["tk-field", "Field tokens per layer: field-01/02/03, border-subtle and border-strong per layer", "P1", "partial"],
       ["tk-themes", "Four theme modes instead of two: Light, Light alt, Dark, Dark high contrast", "P1", "partial"],
       ["tk-component", "Component token tier (button-primary-bg etc.) between semantic and component CSS", "P1", ""],
