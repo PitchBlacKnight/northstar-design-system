@@ -9,14 +9,11 @@
   const rng = (seed) => () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
   const fmt = (n) => n.toLocaleString("en-US");
   const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const v = (t) => `var(--ns-${t})`;
+  const v = (t) => NS.viz.c(t); /* palette names and viz tokens resolve to chart series */
   const stop = (o, c, a = 1) => `<stop offset="${o}" style="stop-color:${c};stop-opacity:${a}"/>`;
 
-  /* gradient presets (Figma: Purple gradient, Light Bruise, bubble blue, orange) */
-  const GRAD = {
-    purple: [v("magenta-500"), v("violet-600")], bruise: [v("persian-500"), v("purple-500")], blue: [v("cyan-400"), v("sky-500")],
-    orange: [v("yellow-500"), v("orange-500")], green: [v("green-500"), "#1fbf4a"], teal: [v("teal-500"), "#00b3ff"], red: [v("red-400"), v("red-500")],
-  };
+  /* former gradient presets, now flat chart-series fills (NS.viz): GRAD[name] = [color, color] */
+  const GRAD = Object.fromEntries(["purple", "bruise", "blue", "orange", "green", "teal", "red"].map((k) => [k, [v(k), v(k)]]));
   const lin = (gid, name, dir = "v") => `<linearGradient id="${gid}" x1="0" y1="0" x2="${dir === "h" ? 1 : 0}" y2="${dir === "h" ? 0 : 1}">${stop(0, GRAD[name][0])}${stop(1, GRAD[name][1])}</linearGradient>`;
 
   /* ---------- data ---------- */
@@ -50,7 +47,7 @@
     let defs = "", out = "";
     rings.forEach(([g, pct], i) => { const r = size / 2 - stroke / 2 - i * (stroke + gap) - (rings.length > 2 ? 0 : 0); const c = 2 * Math.PI * r; const gid = id("cg"); defs += `<linearGradient id="${gid}" x1="1" y1="0" x2="0" y2="1">${stop(0, GRAD[g][0])}${stop(1, GRAD[g][1])}</linearGradient>`; out += `<circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" style="stroke:${v("widget-track")}" stroke-width="${stroke}"/><circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="url(#${gid})" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${(pct / 100) * c} ${c}" transform="rotate(${-90 - (pct / 100) * 360 * 0.5 + 90} ${size / 2} ${size / 2}) scale(-1 1) translate(${-size} 0)"/>`; });
     const inner = size / 2 - rings.length * (stroke + gap);
-    return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" role="img" aria-label="${over} ${center}%"><defs>${defs}</defs>${out}${inner > 40 ? `<circle cx="${size / 2}" cy="${size / 2 - inner * 0.42}" r="${inner * 0.22}" style="fill:${v("widget-track")}"/><g transform="translate(${size / 2 - 7} ${size / 2 - inner * 0.42 - 7})" style="fill:${v("orange-500")}"><rect x="0" y="6" width="3" height="8" rx="1"/><rect x="5.5" y="0" width="3" height="14" rx="1"/><rect x="11" y="3" width="3" height="11" rx="1"/></g><text x="50%" y="${size / 2 + inner * 0.02}" text-anchor="middle" style="fill:${v("widget-muted")}" font-size="${Math.max(9, inner * 0.08)}" font-weight="700" letter-spacing="1.5">${over.toUpperCase()}</text>` : ""}<text x="50%" y="${size / 2 + inner * (inner > 40 ? 0.4 : 0.12)}" text-anchor="middle" dominant-baseline="middle" style="fill:${v("text-primary")}" font-size="${inner * (inner > 40 ? 0.46 : 0.6)}" font-weight="700">${center}<tspan font-size="${inner * 0.16}" dy="${-inner * 0.12}">%</tspan></text></svg>`;
+    return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" role="img" aria-label="${over} ${center}%"><defs>${defs}</defs>${out}${inner > 40 ? `<circle cx="${size / 2}" cy="${size / 2 - inner * 0.42}" r="${inner * 0.22}" style="fill:${v("widget-track")}"/><g transform="translate(${size / 2 - 7} ${size / 2 - inner * 0.42 - 7})" style="fill:${v("orange-500")}"><rect x="0" y="6" width="3" height="8" rx="1"/><rect x="5.5" y="0" width="3" height="14" rx="1"/><rect x="11" y="3" width="3" height="11" rx="1"/></g><text x="50%" y="${size / 2 + inner * 0.02}" text-anchor="middle" style="fill:${v("chart-label-text")}" font-size="${Math.max(11, inner * 0.08)}" font-weight="700" letter-spacing="1.5">${over.toUpperCase()}</text>` : ""}<text x="50%" y="${size / 2 + inner * (inner > 40 ? 0.4 : 0.12)}" text-anchor="middle" dominant-baseline="middle" style="fill:${v("text-primary")}" font-size="${inner * (inner > 40 ? 0.46 : 0.6)}" font-weight="700">${center}<tspan font-size="${inner * 0.16}" dy="${-inner * 0.12}">%</tspan></text></svg>`;
   }
 
   /* Smooth path through points (Catmull-Rom -> cubic bezier) */
@@ -61,10 +58,10 @@
   }
   const series = (seed, n, lo = 0.15, hi = 0.95) => { const r = rng(seed); let x = 0.5; return Array.from({ length: n }, () => (x = Math.min(hi, Math.max(lo, x + (r() - 0.5) * 0.5)))); };
 
-  function lines({ w = 240, h = 80, sets = [["purple", 3], ["orange", 7]], n = 8, axis = false, fill = false, glow = true }) {
+  function lines({ w = 240, h = 80, sets = [["purple", 3], ["orange", 7]], n = 8, axis = false, fill = false, glow = false }) {
     const pad = axis ? 36 : 4, ph = axis ? 24 : 4;
     let defs = "", out = "";
-    if (axis) { for (let i = 0; i <= 4; i++) { const y = ph + ((h - ph * 2) * i) / 4; out += `<line x1="${pad}" x2="${w}" y1="${y}" y2="${y}" style="stroke:${v("widget-grid")}" stroke-dasharray="2 4"/><text x="${pad - 8}" y="${y}" text-anchor="end" dominant-baseline="middle" font-size="11" style="fill:${v("widget-muted")}">${["$1k", "$750", "$500", "$250", "0"][i]}</text>`; } MONTHS.forEach((m, i) => (out += `<text x="${pad + ((w - pad) * (i + 0.5)) / 12}" y="${h - 4}" text-anchor="middle" font-size="11" style="fill:${v("widget-muted")}">${m}</text>`)); }
+    if (axis) { for (let i = 0; i <= 4; i++) { const y = ph + ((h - ph * 2) * i) / 4; out += `<line x1="${pad}" x2="${w}" y1="${y}" y2="${y}" style="stroke:${v("widget-grid")}"/><text x="${pad - 8}" y="${y}" text-anchor="end" dominant-baseline="middle" font-size="11" style="fill:${v("chart-label-text")}">${["$1k", "$750", "$500", "$250", "0"][i]}</text>`; } MONTHS.forEach((m, i) => (out += `<text x="${pad + ((w - pad) * (i + 0.5)) / 12}" y="${h - 4}" text-anchor="middle" font-size="11" style="fill:${v("chart-label-text")}">${m}</text>`)); }
     sets.forEach(([g, seed]) => {
       const d = series(seed, n); const pts = d.map((y, i) => [pad + ((w - pad - 4) * i) / (n - 1), ph + (h - ph * 2 - (axis ? 12 : 0)) * (1 - y)]);
       const gid = id("lg"); defs += lin(gid, g, "h");
@@ -78,7 +75,7 @@
   function columns({ w = 240, h = 80, n = 12, seed = 5, bar = 6, gap = 5, axis = false, a = "purple", b = "teal" }) {
     const r = rng(seed), step = w / n; let out = "", defs = ""; const ga = id("ca"), gb = id("cb"); defs += lin(ga, a) + lin(gb, b);
     for (let i = 0; i < n; i++) { const x = i * step + step / 2 - bar / 2; const lo = 0.2 + r() * 0.45, hi = 0.1 + r() * 0.35; const hlo = (h - 8) * lo, hhi = (h - 8) * hi; out += `<rect x="${x}" y="0" width="${bar}" height="${h}" rx="${bar / 2}" style="fill:${v("widget-track")}"/><rect x="${x}" y="${h - hlo}" width="${bar}" height="${hlo}" rx="${bar / 2}" fill="url(#${ga})"/><rect x="${x}" y="${h - hlo - gap - hhi}" width="${bar}" height="${hhi}" rx="${bar / 2}" fill="url(#${gb})"/>`; }
-    return `<svg width="${w}" height="${h + (axis ? 18 : 0)}" viewBox="0 0 ${w} ${h + (axis ? 18 : 0)}" role="img" aria-label="Column chart"><defs>${defs}</defs>${out}${axis ? MONTHS.slice(0, n).map((m, i) => `<text x="${i * step + step / 2}" y="${h + 14}" text-anchor="middle" font-size="10" style="fill:${v("widget-muted")}">${m}</text>`).join("") : ""}</svg>`;
+    return `<svg width="${w}" height="${h + (axis ? 18 : 0)}" viewBox="0 0 ${w} ${h + (axis ? 18 : 0)}" role="img" aria-label="Column chart"><defs>${defs}</defs>${out}${axis ? MONTHS.slice(0, n).map((m, i) => `<text x="${i * step + step / 2}" y="${h + 14}" text-anchor="middle" font-size="11" style="fill:${v("chart-label-text")}">${m}</text>`).join("") : ""}</svg>`;
   }
 
   /* Month grid used by bubble, dots, stacked */
@@ -86,15 +83,15 @@
     let o = ""; const cw = (w - pad) / 12;
     if (bands) for (let i = 0; i < 12; i += 2) o += `<rect x="${pad + i * cw}" y="0" width="${cw}" height="${h - 24}" style="fill:${v("widget-band")}"/>`;
     else for (let i = 0; i < 12; i++) o += `<line x1="${pad + i * cw + cw / 2}" x2="${pad + i * cw + cw / 2}" y1="0" y2="${h - 24}" style="stroke:${v("widget-grid")}"/>`;
-    yl.forEach((t, i) => (o += `<text x="${pad - 10}" y="${8 + ((h - 36) * i) / (yl.length - 1)}" text-anchor="end" dominant-baseline="middle" font-size="12" style="fill:${v("widget-muted")}">${t}</text>`));
-    MONTHS.forEach((m, i) => (o += `<text x="${pad + i * cw + (bands ? 0 : cw / 2)}" y="${h - 4}" text-anchor="middle" font-size="12" style="fill:${v("widget-muted")}">${m}</text>`));
+    yl.forEach((t, i) => (o += `<text x="${pad - 10}" y="${8 + ((h - 36) * i) / (yl.length - 1)}" text-anchor="end" dominant-baseline="middle" font-size="11" style="fill:${v("chart-label-text")}">${t}</text>`));
+    MONTHS.forEach((m, i) => (o += `<text x="${pad + i * cw + (bands ? 0 : cw / 2)}" y="${h - 4}" text-anchor="middle" font-size="11" style="fill:${v("chart-label-text")}">${m}</text>`));
     return o;
   }
 
   function bubbles({ w = 820, h = 250, seed = 11, n = 30, max = 42, axis = true }) {
     const r = rng(seed), pad = axis ? 56 : 6; const gp = id("bp"), gb = id("bb");
     let out = axis ? monthGrid(w, h, pad) : "";
-    for (let i = 0; i < n; i++) { const rad = r() < 0.35 ? 3 + r() * 4 : 8 + r() * (max - 8); const x = pad + 8 + r() * (w - pad - 16), y = rad + r() * (h - (axis ? 36 : 8) - rad * 2); out += `<circle cx="${x}" cy="${y}" r="${rad}" fill="url(#${r() > 0.5 ? gp : gb})"/>`; }
+    for (let i = 0; i < n; i++) { const rad = r() < 0.35 ? 3 + r() * 4 : 8 + r() * (max - 8); const x = pad + 8 + r() * (w - pad - 16), y = rad + r() * (h - (axis ? 36 : 8) - rad * 2); out += `<circle cx="${x}" cy="${y}" r="${rad}" fill="url(#${r() > 0.5 ? gp : gb})" fill-opacity=".85"/>`; }
     return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="Bubble chart"><defs><linearGradient id="${gp}" x1="0" y1="0" x2="0" y2="1">${stop(0, GRAD.purple[0])}${stop(1, GRAD.purple[1])}</linearGradient><linearGradient id="${gb}" x1="0" y1="0" x2="0" y2="1">${stop(0, GRAD.blue[0])}${stop(1, GRAD.blue[1])}</linearGradient></defs>${out}</svg>`;
   }
 
@@ -119,7 +116,7 @@
   function globalBubbles({ w = 1000, h = 400 }) {
     const pad = 40; let out = monthGrid(w, h, pad, false, ["1k", "800", "600", "400", "200", "0"]); let defs = "";
     const B = [[0.13, 0.66, 20, "teal-500", ""], [0.2, 0.55, 7, "purple-500", ""], [0.24, 0.43, 14, "teal-500", ""], [0.3, 0.38, 66, "red-400", "$27,632"], [0.46, 0.28, 110, "periwinkle-500", "$27,632|August"], [0.52, 0.78, 11, "yellow-500", ""], [0.64, 0.6, 10, "teal-500", ""], [0.68, 0.47, 7, "purple-500", ""], [0.78, 0.63, 60, "periwinkle-500", "$27,632"], [0.8, 0.46, 32, "red-400", ""], [0.9, 0.67, 7, "teal-500", ""], [0.94, 0.7, 20, "purple-500", ""]];
-    B.forEach(([x, y, r, c, l]) => { const cx = pad + x * (w - pad), cy = y * (h - 30) - 10; const fid = id("gl"); defs += `<radialGradient id="${fid}">${stop(0, v(c), 0.5)}${stop(1, v(c), 0)}</radialGradient>`; out += `<circle cx="${cx}" cy="${cy + r * 0.4}" r="${r * 1.6}" fill="url(#${fid})"/><circle cx="${cx}" cy="${cy}" r="${r}" style="fill:${v(c)};fill-opacity:.88"/>`; if (l) { const [a, b] = l.split("|"); out += `<text x="${cx}" y="${cy - (b ? 6 : 0)}" text-anchor="middle" dominant-baseline="middle" font-size="15" font-weight="700" style="fill:${v("white")}">${a}</text>${b ? `<text x="${cx}" y="${cy + 14}" text-anchor="middle" font-size="12" style="fill:${v("white")}">${b}</text>` : ""}`; } });
+    B.forEach(([x, y, r, c, l]) => { const cx = pad + x * (w - pad), cy = y * (h - 30) - 10; out += `<circle cx="${cx}" cy="${cy}" r="${r}" style="fill:${v(c)};fill-opacity:.88"/>`; if (l) { const [a, b] = l.split("|"); out += `<text x="${cx}" y="${cy - (b ? 6 : 0)}" text-anchor="middle" dominant-baseline="middle" font-size="15" font-weight="700" style="fill:${v("white")}">${a}</text>${b ? `<text x="${cx}" y="${cy + 14}" text-anchor="middle" font-size="12" style="fill:${v("white")}">${b}</text>` : ""}`; } });
     return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="Sales figures bubble chart"><defs>${defs}</defs>${out}</svg>`;
   }
 
@@ -130,7 +127,7 @@
     return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="width:100%;height:${h}px" role="img" aria-label="Timeline">${out}</svg>`;
   }
 
-  function heat() {
+  function temp() {
     const r = rng(3), rows = 24; let cells = "";
     for (let i = 0; i < rows; i++) { const lbl = { 0: "1500", 6: "1000", 12: "500", 18: "100", 23: "0" }[i] || ""; cells += `<span>${lbl}</span>`; for (let c = 0; c < 4; c++) { const t = r(); const col = t > 0.94 ? v("white") : t > 0.62 ? v("sky-500") : t > 0.3 ? v("persian-500") : v("widget-grid"); cells += `<i style="--_c:${col}"></i>`; } }
     return `<div class="ns-heat" role="img" aria-label="Temperature chart">${cells}</div>`;
@@ -160,7 +157,7 @@
     const pad = axis ? 40 : 0, top = axis ? 8 : 4, bot = axis ? 22 : 0, iw = w - pad, ih = h - top - bot;
     const sets = two ? [["viz-2", series(seed, 12, 0.35, 0.9)], ["viz-1", series(seed + 4, 12, 0.1, 0.45)]] : [["viz-2", series(seed, 12, 0.3, 0.9)]];
     let defs = "", body = "";
-    if (axis) { ["$1k", "$800", "$600", "$400", "$200", "0"].forEach((t, i) => { const y = top + (ih / 5) * i; body += `<line x1="${pad}" x2="${w}" y1="${y}" y2="${y}" style="stroke:${v("widget-grid")}" stroke-dasharray="2 4"/><text x="${pad - 10}" y="${y + 4}" text-anchor="end" font-size="11" style="fill:${v("widget-muted")}">${t}</text>`; }); MONTHS.forEach((m, i) => { body += `<text x="${pad + (iw / 11) * i}" y="${h - 4}" text-anchor="middle" font-size="11" style="fill:${v("widget-muted")}">${m}</text>`; }); }
+    if (axis) { ["$1k", "$800", "$600", "$400", "$200", "0"].forEach((t, i) => { const y = top + (ih / 5) * i; body += `<line x1="${pad}" x2="${w}" y1="${y}" y2="${y}" style="stroke:${v("widget-grid")}"/><text x="${pad - 10}" y="${y + 4}" text-anchor="end" font-size="11" style="fill:${v("chart-label-text")}">${t}</text>`; }); MONTHS.forEach((m, i) => { body += `<text x="${pad + (iw / 11) * i}" y="${h - 4}" text-anchor="middle" font-size="11" style="fill:${v("chart-label-text")}">${m}</text>`; }); }
     sets.forEach(([c, d]) => { const g = id("ag"); defs += `<linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1">${stop(0, v(c), 0.4)}${stop(1, v(c), 0)}</linearGradient>`; const pts = d.map((y, i) => [pad + (iw / (d.length - 1)) * i, top + ih - y * ih]); const line = smooth(pts); body += `<path d="${line} L${pad + iw},${top + ih} L${pad},${top + ih} Z" fill="url(#${g})"/><path d="${line}" fill="none" style="stroke:${v(c)}" stroke-width="2" stroke-linecap="round"/>`; });
     return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="Area chart, ${two ? "two series" : "one series"}, rising trend"><defs>${defs}</defs>${body}</svg>`;
   }
@@ -225,9 +222,9 @@
     "compound-L": () => shell("ns-w--L", `<p class="ns-w__title ns-w__title--bold">Global Statistics</p><div style="display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap"><div style="flex:1;min-width:240px">${concentric({ size: 320 })}</div><div class="ns-wt ns-wt--dot" style="min-width:170px;font-size:12px;gap:6px">${[["Sales", "1 540", "orange-500"], ["Sales Plan", "1 210", "green-500"], ["Weekly limit", "1 113", "teal-500"], ["Monthly limit", "950", "cyan-400"], ["Annual limit", "932", "purple-500"]].map(([l, n, c]) => `<div class="ns-wt__row" style="grid-template-columns:14px 1fr auto"><span class="ns-wt__dot" style="--_c:${v(c)};background:none;border:2px solid ${v(c)};box-shadow:none;width:10px;height:10px"></span><span>${l}</span><span class="ns-wt__num">${n}</span></div>`).join("")}</div></div><div class="ns-wt">${[["Sales", "1 540", "786", 45, "blue"], ["Users", "878", "539", 88, "orange"], ["Products", "878", "532", 35, "red"]].map(([l, a, b, p, g]) => `<div class="ns-wt__row" style="grid-template-columns:1fr 70px 60px 1.4fr"><span>${l}</span><span class="ns-wt__num">${a}</span><span class="ns-wt__num">${b}</span><div class="ns-wt__bar"><i style="--_v:${p}%;--_c:linear-gradient(90deg,${GRAD[g][1]},${GRAD[g][0]})"></i></div></div>`).join("")}</div>`, 539),
     "global-stat": () => shell("ns-w--L", `<p class="ns-w__title ns-w__title--bold">Global Statistics</p>${concentric({ size: 300 })}${tables.progress(3)}`, 573),
     "progress-M": () => shell("ns-w--M", `${kpi({ title: "Progress" })}<div style="justify-self:center">${concentric({ size: 150, rings: [["orange", 70], ["teal", 56], ["purple", 44]], stroke: 8, gap: 5, center: "70" })}</div>`),
-    "temperature-M": () => shell("ns-w--M", `${kpi({ title: "Total earning" })}${heat()}`),
+    "temperature-M": () => shell("ns-w--M", `${kpi({ title: "Total earning" })}${temp()}`),
     "summary-L": () => shell("ns-w--L", `<p class="ns-w__title">Summary</p><table class="ns-sum"><thead><tr><th>Parameter</th><th>Total</th><th>Today</th><th>Status</th><th>Percent</th><th>Dynamics</th></tr></thead><tbody>${[["Views", "597 989", "120 430", 5, "green-500"], ["Sales", "543 409", "120", 4, "yellow-500"], ["Users", "467 320", "3 210", 1, "red-500"], ["Product", "320 210", "90", 3, "yellow-500"]].map(([l, a, b, s, c], i) => `<tr><td><span class="ns-wt__dot" style="--_c:${v(["green-500", "sky-500", "red-500", "orange-500"][i])};display:inline-block;width:6px;height:6px;margin-right:12px;vertical-align:2px"></span>${l}</td><td>${a}</td><td>${b}</td><td><span class="ns-seg" role="img" aria-label="${s} of 5">${Array.from({ length: 5 }, (_, k) => `<i class="${k < s ? "on" : ""}" style="--_c:${v(c)}"></i>`).join("")}</span></td><td>${[438, 321, 210, 198][i]}</td><td class="up">+10%</td></tr>`).join("")}</tbody></table>`, 708),
-    "index-progress": () => shell("ns-w--M2", `${kpi({ title: "Total earning" })}<div class="ns-w__inset"><div style="display:flex;justify-content:space-between;gap:12px;font-size:13px"><span style="color:${v("widget-muted")}">Sales schedule implementation plan</span><span>$ 100 000</span></div><div class="ns-wt__bar"><i style="--_v:74%;--_c:linear-gradient(90deg,${GRAD.blue[1]},${GRAD.teal[0]})"></i></div></div>`),
+    "index-progress": () => shell("ns-w--M2", `${kpi({ title: "Total earning" })}<div class="ns-w__inset"><div style="display:flex;justify-content:space-between;gap:12px;font-size:13px"><span style="color:${v("chart-label-text")}">Sales schedule implementation plan</span><span>$ 100 000</span></div><div class="ns-wt__bar"><i style="--_v:74%;--_c:${v("teal")}"></i></div></div>`),
 
     /* Tables */
     "table-simple": () => shell("ns-w--M", tables.simple(8)),

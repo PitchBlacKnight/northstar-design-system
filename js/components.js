@@ -60,7 +60,7 @@
       const segs = r.segments.map((p, j) => { const sw = Math.max(2, (trackW * p) / 100); const el = `<rect x="${(labelW + x).toFixed(1)}" y="${top}" width="${sw.toFixed(1)}" height="${h}" style="fill:var(--ns-chart-series-${j + 1})"/>`; x += sw + 2; return el; }).join("");
       const label = `${r.label ? r.label + ": " : ""}${r.segments.join(" + ")} of ${r.segments.reduce((a, b) => a + b, 0)}, target ${r.target}`;
       const tick = r.target > 0 ? `<rect x="${(labelW + (trackW * r.target) / 100 - 2).toFixed(1)}" y="${(cy - th / 2).toFixed(1)}" width="2" height="${th}" rx="1" style="fill:var(--ns-chart-target)"/>` : "";
-      return `<g role="listitem" aria-label="${label}">${labelW ? `<text x="0" y="${cy.toFixed(1)}" dominant-baseline="middle" font-size="11" style="fill:var(--ns-widget-muted)">${r.label}</text>` : ""}<clipPath id="${id}-${i}"><rect x="${labelW}" y="${top}" width="${trackW}" height="${h}" rx="${h / 2}"/></clipPath><rect x="${labelW}" y="${top}" width="${trackW}" height="${h}" rx="${h / 2}" style="fill:var(--ns-chart-track)"/><g clip-path="url(#${id}-${i})">${segs}</g>${tick}</g>`;
+      return `<g role="listitem" aria-label="${label}">${labelW ? `<text x="0" y="${cy.toFixed(1)}" dominant-baseline="middle" font-size="11" style="fill:var(--ns-chart-label-text)">${r.label}</text>` : ""}<clipPath id="${id}-${i}"><rect x="${labelW}" y="${top}" width="${trackW}" height="${h}" rx="${h / 2}"/></clipPath><rect x="${labelW}" y="${top}" width="${trackW}" height="${h}" rx="${h / 2}" style="fill:var(--ns-chart-track)"/><g clip-path="url(#${id}-${i})">${segs}</g>${tick}</g>`;
     }).join("");
     const data = NS.esc ? NS.esc(JSON.stringify({ rows, opts: { track: o.track, gap: o.gap, labels: o.labels, label: o.label } })) : "";
     return `<svg class="ns-bullet__rows" width="${w}" height="${H}" viewBox="0 0 ${w} ${H}" style="width:100%;max-width:${w}px" role="list" aria-label="${o.label || "Bullet chart"}" data-w="${w}" data-bullet="${data}">${body}</svg>`;
@@ -90,7 +90,7 @@
       ["Plot only", "The SVG on its own, for use inside another card.", `<div style="width:327px">${NS.chartKit.svg(key, "Medium")}</div>`],
     ],
     dd: o.dd || [`<div style="width:260px">${NS.chartKit.svg(key, "Medium", { width: 260, height: 160 })}</div>`, "Axis labels and gridlines on the Medium plot.", `<div style="width:120px">${NS.chartKit.svg(key, "Small")}</div>`, "The compact plot drops axes and labels."],
-    tokens: [...o.tokens, ["--ns-widget-bg", "Card surface"], ["--ns-border-subtle", "Card stroke and summary divider"], ["--ns-widget-muted", "Axis labels and description"], ["--ns-status-success", "Trend"], ["--ns-radius-xl", "Card radius"]],
+    tokens: [...o.tokens, ["--ns-widget-bg", "Card surface"], ["--ns-border-subtle", "Card stroke and summary divider"], ["--ns-chart-label-text", "Axis labels and description"], ["--ns-status-success", "Trend"], ["--ns-radius-xl", "Card radius"]],
     sizes: CHART_SIZES,
     props: [["size", "'small' | 'vertical-small' | 'medium' | 'large' | 'xl'", "'medium'", "Layout and plot size"], ["title", "string", "-", "Header title"], ["value", "string", "-", "Headline figure"], ["trend", "string", "-", "Signed change, for example +2.4%"], ["data", o.dataType, "[]", o.dataNote], ["showIcon", "boolean", "false", "Icon in the header"]],
     keyboard: [["-", "Not interactive"]],
@@ -967,7 +967,7 @@
         ["Rows only", "The SVG on its own, for use inside another card.", `<div style="width:327px">${NS.bulletSvg(BULLET_ROWS)}</div>`],
       ],
       dd: [`<div style="width:260px">${NS.bulletSvg(BULLET_ROWS.slice(0, 2), { width: 260 })}</div>`, "An axis label and a target tick on every row.", `<div style="width:260px">${NS.bulletSvg([{ label: "", segments: [40, 10, 10, 14], target: 0 }, { label: "", segments: [38, 10, 12, 20], target: 0 }], { width: 260, labels: false })}</div>`, "No label and no target. It reads as a progress bar."],
-      tokens: [["--ns-chart-series-1", "Segment 1 (alias of viz/1)"], ["--ns-chart-series-2", "Segment 2 (alias of viz/4)"], ["--ns-chart-series-3", "Segment 3 (alias of viz/2)"], ["--ns-chart-series-4", "Segment 4 (alias of viz/7)"], ["--ns-chart-series-5", "Segment 5 (alias of widget/muted)"], ["--ns-chart-track", "Track (alias of widget/track)"], ["--ns-chart-target", "Target tick (alias of text/primary)"], ["--ns-widget-bg", "Card surface"], ["--ns-border-subtle", "Card stroke and summary divider"], ["--ns-widget-muted", "Axis labels and description"], ["--ns-status-success", "Trend"], ["--ns-radius-xl", "Card radius"]],
+      tokens: [["--ns-chart-series-1", "Segment 1 (alias of viz/1)"], ["--ns-chart-series-2", "Segment 2 (alias of viz/4)"], ["--ns-chart-series-3", "Segment 3 (alias of viz/2)"], ["--ns-chart-series-4", "Segment 4 (alias of viz/7)"], ["--ns-chart-series-5", "Segment 5 (alias of widget/muted)"], ["--ns-chart-track", "Track (alias of widget/track)"], ["--ns-chart-target", "Target tick (alias of text/primary)"], ["--ns-widget-bg", "Card surface"], ["--ns-border-subtle", "Card stroke and summary divider"], ["--ns-chart-label-text", "Axis labels and description"], ["--ns-status-success", "Trend"], ["--ns-radius-xl", "Card radius"]],
       sizes: [["Small", "100px", "KPI tile, header left and four 6px tracks right"], ["Vertical small", "178px", "Narrow column or sidebar"], ["Medium", "284px", "Default card, five labeled 10px tracks"], ["Large", "341px", "Card with divider and two-KPI summary"], ["XL", "338px", "Wide panel, three KPIs and six rows"]],
       props: [["size", "'small' | 'vertical-small' | 'medium' | 'large' | 'xl'", "'medium'", "Layout and track height"], ["title", "string", "-", "Header title"], ["value", "string", "-", "Headline figure"], ["trend", "string", "-", "Signed change, for example +1.8%"], ["rows", "{ label, segments: number[], target }[]", "[]", "Segments and target as percent of the track"], ["showIcon", "boolean", "false", "Icon in the header"]],
       keyboard: [["-", "Not interactive"]],
@@ -1014,7 +1014,7 @@
       ],
       when: ["Conversion across an ordered process.", "A drop-off story where each stage is a subset of the last.", "A KPI tile that needs the shape of the loss, not only the end count."],
       whenNot: ["Unordered categories. Use Horizontal bar chart.", "Flows between states. Use Sankey chart.", "Parts of a whole. Use Donut chart."],
-      tokens: [["--ns-chart-series-1", "Stage bars (opacity steps by stage)"], ["--ns-widget-muted", "Stage labels"]],
+      tokens: [["--ns-chart-series-1", "Stage bars (opacity steps by stage)"], ["--ns-chart-label-text", "Stage labels"]],
       dataType: "{ label: string, value: number }[]", dataNote: "Stages in order, value as percent of the first stage",
       aria: ["The SVG is <code>role=\"img\"</code> with a label naming the stages. Provide a table of counts and conversion rates nearby.", "Order is carried by position and width, never by color.", "Trend text carries its sign, so the color is a second signal."],
       react: '<FunnelChart size="medium" title="Signups" value="8,420" trend="+3.2%" data={[{ label: "Visits", value: 100 }, { label: "Signups", value: 78 }]} />',
@@ -1044,7 +1044,7 @@
       ],
       when: ["Patterns across two categories at once.", "Activity by weekday and hour, or errors by service and day.", "A KPI tile that needs where the load sits."],
       whenNot: ["Exact values. Use Data table.", "One category. Use Bar chart.", "Trends over time. Use Line chart."],
-      tokens: [["--ns-chart-series-1", "Cell color (opacity carries the value)"], ["--ns-widget-muted", "Row and column labels"]],
+      tokens: [["--ns-chart-series-1", "Cell color (opacity carries the value)"], ["--ns-chart-label-text", "Row and column labels"]],
       dataType: "number[][]", dataNote: "Rows of values from 0 to 1",
       aria: ["The SVG is <code>role=\"img\"</code> with a label naming both categories. Provide a table of the values nearby.", "Intensity is a single-hue ramp; show exact values in a table or on focus.", "Trend text carries its sign, so the color is a second signal."],
       react: '<HeatmapChart size="medium" title="Activity" value="3,260" trend="+5.1%" data={[[0.2, 0.8, 0.5]]} />',

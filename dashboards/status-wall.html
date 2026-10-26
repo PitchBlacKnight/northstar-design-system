@@ -26,7 +26,8 @@
 </head>
 <body>
 <div class="art" id="a"></div>
-<script src="../js/dashboards.js"></script>
+<script src="../js/viz.js"></script>
+  <script src="../js/dashboards.js"></script>
 <script>
 const D = NS.dash;
 const s = D.shell({ active: "pulse", title: "Status Wall", sub: "PLATFORM RELIABILITY  /  PRODUCTION  /  ALL REGIONS", right: D.seg(["1h", "24h", "7d", "60d"], 3) + D.live("Auto-refresh 15 s") });
