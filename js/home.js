@@ -198,18 +198,12 @@
     // Hero film: plays only while on screen, with a pause control (WCAG 2.2.2). Reduced motion keeps the poster and a manual play button.
     const film = main.querySelector("[data-film]"), frame = main.querySelector("[data-film-frame]"), btn = main.querySelector("[data-film-toggle]");
     let filmIO = null, onScroll = null;
-    // The film is a background layer: it moves into the page's rays box so it covers the light mark in the top-right corner.
-    const rays = document.querySelector(".hero-rays");
-    if (rays && frame) rays.insertBefore(frame, rays.querySelector(".hero-rays__mark"));
-    // Top of the film = top of the NORTHSTAR DS heading, measured from offsets so the entrance animation does not skew it.
+    // Top of the film = top of the NORTHSTAR DS heading (plus the capital inset), so the film sits in the grid's first row.
     const heading = main.querySelector(".hero__brand");
-    const offsetWithin = (el, anc) => { let y = 0; for (let n = el; n && n !== anc; n = n.offsetParent) y += n.offsetTop; return y; };
     const alignFilm = () => {
-      if (!rays || !frame || !heading) return;
-      const anc = rays.offsetParent;
-      // The capitals start about 15% of the font size below the line box.
+      if (!frame || !heading) return;
       const capInset = parseFloat(getComputedStyle(heading).fontSize) * 0.15;
-      frame.style.top = offsetWithin(heading, anc) - offsetWithin(rays, anc) + capInset + "px";
+      frame.style.marginTop = heading.offsetTop + capInset + "px";
     };
     alignFilm();
     addEventListener("resize", alignFilm, { passive: true });
@@ -240,7 +234,6 @@
       if (onScroll) removeEventListener("scroll", onScroll);
       removeEventListener("resize", alignFilm);
       if (film) film.pause();
-      if (frame) frame.remove();
     };
   };
 })();
