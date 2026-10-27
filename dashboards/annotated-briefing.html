@@ -33,18 +33,18 @@ const W = 1040, H = 560, PL = 52, PR = 8, PT = 8, PB = 22; const X = i => PL + (
 a.innerHTML = s.open + `<div class="br">
   <section class="t">
     <div class="o">GMV, last 30 days, $K per day <em>Annotated</em></div>
-    <div class="sp1" style="display:flex;align-items:center;justify-content:center"><div style="position:relative;width:${W}px;height:${H}px">${D.area({ w: W, h: H, pad: [PT, PR, PB, PL], ticks: 5, min: 180, max: 340, labels: ["Sep 23","Sep 30","Oct 7","Oct 14","Oct 22"], fmt: v => "$" + Math.round(v) + "K", sets: [{ data: gmv, color: "var(--ns-teal-500)", sw: 3, glow: true, fillTop: .3 }, { data: Array(30).fill(232), color: "var(--ns-widget-muted)", fill: false, dash: "5 6", sw: 1.6, last: false }] })}
+    <div class="sp1" style="display:flex;align-items:center;justify-content:center"><div style="position:relative;width:${W}px;height:${H}px">${D.area({ w: W, h: H, pad: [PT, PR, PB, PL], ticks: 5, min: 180, max: 340, labels: ["Sep 23","Sep 30","Oct 7","Oct 14","Oct 22"], fmt: v => "$" + Math.round(v) + "K", sets: [{ data: gmv, color: "var(--ns-chart-series-1)", sw: 3, glow: true, fillTop: .3 }, { data: Array(30).fill(232), color: "var(--ns-widget-muted)", fill: false, dash: "5 6", sw: 1.6, last: false }] })}
       <div class="pin" style="left:${X(22)}px;top:${H - 560 + 118}px;height:${Y(262) - 118 - H + 560}px"></div>
       <div class="note" style="left:${X(22) - 215}px;top:${H - 560 + 70}px"><b>OCT 15</b>Free shipping test starts on 4 categories.</div>
       <div class="pin" style="left:${X(24)}px;top:${Y(318) - 90}px;height:76px"></div>
       <div class="note" style="left:${X(24) + 12}px;top:${Y(318) - 112}px"><b>OCT 17</b>Bank holiday weekend. Orders up 14%.</div>
     </div></div>
-    <div class="lg"><span><i style="--_c:var(--ns-teal-500)"></i>GMV</span><span><i style="--_c:var(--ns-widget-muted)"></i>Four-week average</span></div>
+    <div class="lg"><span><i style="--_c:var(--ns-chart-series-1)"></i>GMV</span><span><i style="--_c:var(--ns-widget-muted)"></i>Four-week average</span></div>
   </section>
   <aside class="story">
     <section class="t t--ink"><div class="o">The short version</div><h2>Free shipping lifted orders. Take rate held.</h2><p>Four categories ran the test for ten days. Orders rose 9 percent. Margin fell less than the model predicted.</p></section>
     <section class="t"><div class="o">Week total</div><div class="row row--b" style="gap:12px"><div class="d-lg num">$2.11M</div><span class="dl" style="padding-bottom:6px">+6.4%</span></div></section>
-    <section class="t"><div class="o">Take rate</div><div class="row row--b" style="gap:12px"><div class="d-lg num">11.8%</div><span class="cap" style="padding-bottom:6px">Band 11.5 to 12.5</span></div>${D.bullet({ pct: 59, target: 50, color: "var(--ns-teal-500)", h: 8 })}</section>
+    <section class="t"><div class="o">Take rate</div><div class="row row--b" style="gap:12px"><div class="d-lg num">11.8%</div><span class="cap" style="padding-bottom:6px">Band 11.5 to 12.5</span></div>${D.bullet({ pct: 59, target: 50, color: "var(--ns-chart-series-1)", h: 8 })}</section>
     <section class="t t--teal"><div class="o">Decision needed</div><p style="color:var(--ns-black);font:700 17px/23px var(--ns-font-sans);margin:0">Roll free shipping to all categories from Nov 1?</p><span class="cap">Recommend yes for 12 categories, hold on 3.</span></section>
   </aside>
 </div>` + s.close;

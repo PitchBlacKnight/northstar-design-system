@@ -38,7 +38,7 @@ a.innerHTML = s.open + `<div class="ed">
     <div class="o">Revenue, Q3 FY26</div>
     <div class="d-xxl num">$48.2<span class="u" style="font-size:.3em;letter-spacing:0">M</span></div>
     <div class="row" style="gap:12px"><span class="dl">+11% against plan</span><span class="cap">Plan was $43.4M</span></div>
-    <div class="sp1" style="display:flex;align-items:flex-end;margin-top:12px">${D.area({ w: 520, h: 360, ticks: 4, labels: ["Q4 FY25","Q1","Q2","Q3"], fmt: v => "$" + Math.round(v) + "M", sets: [{ data: [30, 33, 38, 41.6, 48.2], color: "var(--ns-teal-500)", sw: 3, glow: true }], min: 20, max: 52 })}</div>
+    <div class="sp1" style="display:flex;align-items:flex-end;margin-top:12px">${D.area({ w: 520, h: 360, ticks: 4, labels: ["Q4 FY25","Q1","Q2","Q3"], fmt: v => "$" + Math.round(v) + "M", sets: [{ data: [30, 33, 38, 41.6, 48.2], color: "var(--ns-chart-series-1)", sw: 3, glow: true }], min: 20, max: 52 })}</div>
   </div>
   <div>
     <div class="o">Four readings</div>
@@ -51,8 +51,8 @@ a.innerHTML = s.open + `<div class="ed">
     <div class="o">Where the growth came from</div>
     <h2>Expansion beat new logos.</h2>
     <p>Existing accounts added $3.1M. New logos added $3.9M after a slow August.</p>
-    <div class="sp1" style="display:flex;align-items:flex-end">${D.stack({ w: 360, h: 190, gap: 26, labels: ["Q1","Q2","Q3"], sets: [{ data: [10, 12, 14], color: "var(--ns-viz-2)" }, { data: [6, 8, 9.5], color: "var(--ns-viz-1)" }] })}</div>
-    <div class="lg"><span><i style="--_c:var(--ns-viz-1)"></i>New logos</span><span><i style="--_c:var(--ns-viz-2)"></i>Expansion</span></div>
+    <div class="sp1" style="display:flex;align-items:flex-end">${D.stack({ w: 360, h: 190, gap: 26, labels: ["Q1","Q2","Q3"], sets: [{ data: [10, 12, 14], color: "var(--ns-chart-series-3)" }, { data: [6, 8, 9.5], color: "var(--ns-chart-series-1)" }] })}</div>
+    <div class="lg"><span><i style="--_c:var(--ns-chart-series-1)"></i>New logos</span><span><i style="--_c:var(--ns-chart-series-3)"></i>Expansion</span></div>
   </div>
   <div class="risks">
     <div class="o">Risks, one line each</div>

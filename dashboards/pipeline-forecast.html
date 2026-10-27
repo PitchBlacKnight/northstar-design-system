@@ -35,13 +35,13 @@ a.innerHTML = s.open + `<div class="grid g">
  <section class="t t--bruise fc">
    <div class="o">Q4 forecast, commit <em>Quota $6.50M</em></div>
    <div class="row row--b" style="gap:20px"><div class="d-xxl num">$6.84M</div><div style="padding-bottom:10px;display:grid;gap:7px"><span class="dl">105% of quota</span><span class="cap">Range $6.31M to $7.20M</span></div></div>
-   <div class="sp1" style="display:flex;align-items:flex-end">${(() => { const act = D.series(8, 0.2, 2.9, .05, 3), fc = D.series(15, 2.9, 6.84, .02, 5); const band = fc.map((v, i) => [v - i * .035 * 1.0, v + i * .026]); return D.area({ w: 790, h: 290, ticks: 5, min: 0, max: 8, n: 22, ink: "#6b2bf0", gridColor: "#ffffff30", labelFill: "#ffffffb8", fmt: v => "$" + Math.round(v) + "M", labels: ["Oct 1", "Oct 22", "Nov 12", "Dec 3", "Dec 31"], sets: [{ data: Array(22).fill(6.5), color: "var(--ns-teal-500)", fill: false, sw: 1.8, dash: "3 5", last: false }, { data: fc, from: 7, n: 22, band, color: "#fff", fill: false, sw: 2.4, dash: "6 5", last: false }, { data: act, n: 22, color: "#fff", fillTop: .3, sw: 3 }] }); })()}</div>
-   <div class="lg" style="--ink2:#ffffffd0"><span><i style="--_c:#fff"></i>Closed won</span><span><i style="--_c:#ffffff66"></i>Forecast band</span><span><i style="--_c:var(--ns-teal-500)"></i>Quota</span></div>
+   <div class="sp1" style="display:flex;align-items:flex-end">${(() => { const act = D.series(8, 0.2, 2.9, .05, 3), fc = D.series(15, 2.9, 6.84, .02, 5); const band = fc.map((v, i) => [v - i * .035 * 1.0, v + i * .026]); return D.area({ w: 790, h: 290, ticks: 5, min: 0, max: 8, n: 22, ink: "#6b2bf0", gridColor: "#ffffff30", labelFill: "#ffffffb8", fmt: v => "$" + Math.round(v) + "M", labels: ["Oct 1", "Oct 22", "Nov 12", "Dec 3", "Dec 31"], sets: [{ data: Array(22).fill(6.5), color: "var(--ns-chart-series-1)", fill: false, sw: 1.8, dash: "3 5", last: false }, { data: fc, from: 7, n: 22, band, color: "#fff", fill: false, sw: 2.4, dash: "6 5", last: false }, { data: act, n: 22, color: "#fff", fillTop: .3, sw: 3 }] }); })()}</div>
+   <div class="lg" style="--ink2:#ffffffd0"><span><i style="--_c:#fff"></i>Closed won</span><span><i style="--_c:#ffffff66"></i>Forecast band</span><span><i style="--_c:var(--ns-chart-series-1)"></i>Quota</span></div>
  </section>
 
  <section class="t lb">
    <div class="o">Rep attainment <em>% of quota</em></div>
-   <div style="flex:1;display:grid;align-content:space-between">${[["Priya N.", 142, "teal-500", "PN"], ["Marcus O.", 128, "green-500", "MO"], ["Elena V.", 117, "yellow-500", "EV"], ["Dev K.", 104, "purple-400", "DK"], ["Hannah L.", 96, "cyan-400", "HL"], ["Tomas R.", 81, "red-400", "TR"], ["Jin S.", 74, "orange-500", "JS"], ["Aisha B.", 63, "magenta-500", "AB"]].map(([n, v, c, i]) => `<div class="rp"><div class="av" style="--_c:var(--ns-${c})">${i}</div><div>${n}</div><b class="num">${v}%</b><div class="bar"><i style="--_v:${Math.min(100, v / 1.45)}%;--_c:${v >= 100 ? "var(--ns-teal-500)" : "var(--ns-widget-muted)"}"></i></div></div>`).join("")}</div>
+   <div style="flex:1;display:grid;align-content:space-between">${[["Priya N.", 142, "teal-500", "PN"], ["Marcus O.", 128, "green-500", "MO"], ["Elena V.", 117, "yellow-500", "EV"], ["Dev K.", 104, "purple-400", "DK"], ["Hannah L.", 96, "cyan-400", "HL"], ["Tomas R.", 81, "red-400", "TR"], ["Jin S.", 74, "orange-500", "JS"], ["Aisha B.", 63, "magenta-500", "AB"]].map(([n, v, c, i]) => `<div class="rp"><div class="av" style="--_c:var(--ns-${c})">${i}</div><div>${n}</div><b class="num">${v}%</b><div class="bar"><i style="--_v:${Math.min(100, v / 1.45)}%;--_c:${v >= 100 ? "var(--ns-chart-series-1)" : "var(--ns-widget-muted)"}"></i></div></div>`).join("")}</div>
  </section>
 
  <section class="t t--teal win">
@@ -57,7 +57,7 @@ a.innerHTML = s.open + `<div class="grid g">
 
  <section class="t cov">
    <div class="o">Pipeline coverage</div>
-   <div style="display:grid;place-items:center;flex:1">${D.gauge({ w: 210, pct: 80, stroke: 17, color: "var(--ns-teal-500)", label: "3.2x", sub: "Target 3.0x" })}</div>
+   <div style="display:grid;place-items:center;flex:1">${D.gauge({ w: 210, pct: 80, stroke: 17, color: "var(--ns-chart-series-1)", label: "3.2x", sub: "Target 3.0x" })}</div>
  </section>
 
  <section class="t risk">

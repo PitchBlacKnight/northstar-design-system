@@ -37,8 +37,8 @@ a.innerHTML = s.open + `<div class="grid g1">
      <div style="padding-bottom:14px;display:grid;gap:8px"><span class="dl">0.61x vs Q3</span><span class="cap">Target 4.00x. Cleared on Oct 6.</span></div></div>
    <div class="sp1"></div>
    ${D.area({ w: 812, h: 268, min: 0, max: 140, ticks: 5, ink: "var(--ns-interactive-primary)", gridColor: "#ffffff30", labelFill: "#ffffffb8", fmt: v => "$" + Math.round(v) + "K",
-     labels: ["Oct 1", "Oct 6", "Oct 11", "Oct 16", "Oct 22"], sets: [{ data: rev, color: "#fff", fillTop: .34, sw: 3 }, { data: spend, color: "var(--ns-teal-500)", fill: false, sw: 2, dash: "5 5", last: false }] })}
-   <div class="lg" style="--ink2:#ffffffd0"><span><i style="--_c:#fff"></i>Revenue</span><span><i style="--_c:var(--ns-teal-500)"></i>Media spend</span></div>
+     labels: ["Oct 1", "Oct 6", "Oct 11", "Oct 16", "Oct 22"], sets: [{ data: rev, color: "#fff", fillTop: .34, sw: 3 }, { data: spend, color: "var(--ns-chart-series-1)", fill: false, sw: 2, dash: "5 5", last: false }] })}
+   <div class="lg" style="--ink2:#ffffffd0"><span><i style="--_c:#fff"></i>Revenue</span><span><i style="--_c:var(--ns-chart-series-1)"></i>Media spend</span></div>
  </section>
 
  <section class="t k-spend">
@@ -59,7 +59,7 @@ a.innerHTML = s.open + `<div class="grid g1">
 
  <section class="t pace">
    <div class="o">Budget pacing</div>
-   <div class="row" style="gap:18px;margin-top:4px">${D.ring({ size: 124, stroke: 14, pct: 79, grad: ["var(--ns-teal-500)", "var(--ns-blue-500)"], label: "79%", fs: 26 })}
+   <div class="row" style="gap:18px;margin-top:4px">${D.ring({ size: 124, stroke: 14, pct: 79, grad: ["var(--ns-chart-series-1)", "var(--ns-chart-series-2)"], label: "79%", fs: 26 })}
      <div class="ls" style="--cols:auto auto;gap:0;flex:1"><div><span class="k">Spent</span><b class="num">$412K</b></div><div><span class="k">Left</span><b class="num">$108K</b></div><div><span class="k">Days</span><b class="num">9</b></div></div></div>
    <div class="sp1"></div>
    <div style="display:grid;gap:10px">${[["Meta", 92, 85], ["Search", 81, 85], ["YouTube", 64, 85]].map(([n, p, t]) => `<div style="display:grid;grid-template-columns:62px 1fr 34px;gap:10px;align-items:center;font:400 12px/1 var(--ns-font-sans)"><span style="color:var(--ns-widget-muted)">${n}</span>${D.bullet({ pct: p, target: t, color: p > 85 ? "var(--ns-status-warning)" : "var(--ns-chart-series-1)", h: 8 })}<b class="num">${p}%</b></div>`).join("")}</div>
@@ -81,7 +81,7 @@ a.innerHTML = s.open + `<div class="grid g1">
    <div class="o">Purchases by hour <em>Peak 8 PM, Thu</em></div>
    <div class="sp1"></div>
    <div class="hlab"><div>${["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(d => `<span>${d}</span>`).join("")}</div>
-   ${D.heat({ rows: 7, cols: 24, cell: 18, ch: 21, gap: 3, seed: 12, color: "var(--ns-viz-1)", fn: (x, y, r) => { const peak = Math.exp(-((x - 20) ** 2) / 14) + .5 * Math.exp(-((x - 12) ** 2) / 10); return (peak * (y === 3 ? 1 : .6 + (y > 4 ? .15 : 0)) * (.7 + r() * .4)); } })}</div>
+   ${D.heat({ rows: 7, cols: 24, cell: 18, ch: 21, gap: 3, seed: 12, color: "var(--ns-chart-series-1)", fn: (x, y, r) => { const peak = Math.exp(-((x - 20) ** 2) / 14) + .5 * Math.exp(-((x - 12) ** 2) / 10); return (peak * (y === 3 ? 1 : .6 + (y > 4 ? .15 : 0)) * (.7 + r() * .4)); } })}</div>
    <div class="hx"><span>12A</span><span>6A</span><span>12P</span><span>6P</span><span>12A</span></div>
  </section>
 

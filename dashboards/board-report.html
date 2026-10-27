@@ -67,7 +67,7 @@ a.innerHTML = s.open + `<div class="grid g">
    <div class="o">Roadmap <em>Oct 2026 - Jun 2027</em></div>
    <div class="sp1" style="position:relative;display:grid;align-content:center">
      <div class="gt"><div></div>${["OCT", "NOV", "DEC", "JAN", "FEB", "MAR", "APR", "MAY", "JUN"].map(m => `<div class="m">${m}</div>`).join("")}</div>
-     ${[["EU hub buildout", 0, 5, "var(--ns-blue-500)", "6 hubs"], ["Routing engine v2", 1, 4, "var(--ns-purple-500)", "Beta Dec"], ["Same-day expansion", 3, 5, "var(--ns-teal-500)", "40 metros", 1], ["Fleet electrification", 2, 7, "var(--ns-persian-500)", "Phase 1 and 2"], ["Partner API", 5, 3, "var(--ns-yellow-500)", "GA Jun", 1]].map(([n, st, ln, c, t, dk]) => `<div class="gt"><div class="n">${n}</div><div class="l"><i class="${dk ? "dk" : ""}" style="--_c:${c};--_s:${st / 9 * 100}%;--_w:${ln / 9 * 100}%" data-t="${t}"></i></div></div>`).join("")}
+     ${[["EU hub buildout", 0, 5, "var(--ns-chart-series-2)", "6 hubs"], ["Routing engine v2", 1, 4, "var(--ns-chart-series-3)", "Beta Dec"], ["Same-day expansion", 3, 5, "var(--ns-chart-series-1)", "40 metros", 1], ["Fleet electrification", 2, 7, "var(--ns-chart-series-4)", "Phase 1 and 2"], ["Partner API", 5, 3, "var(--ns-yellow-500)", "GA Jun", 1]].map(([n, st, ln, c, t, dk]) => `<div class="gt"><div class="n">${n}</div><div class="l"><i class="${dk ? "dk" : ""}" style="--_c:${c};--_s:${st / 9 * 100}%;--_w:${ln / 9 * 100}%" data-t="${t}"></i></div></div>`).join("")}
      <div class="now"></div>
    </div>
  </section>

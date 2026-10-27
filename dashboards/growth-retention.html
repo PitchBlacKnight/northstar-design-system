@@ -48,8 +48,8 @@ a.innerHTML = s.open + `<div class="grid g">
    <div class="o">Weekly active users</div>
    <div class="d-xxl num">1.28<span class="u">M</span></div>
    <div class="row" style="gap:12px"><span class="dl">9.4% vs 4 wks ago</span><span class="cap">Record week, set Oct 13.</span></div>
-   <div class="sp1" style="display:flex;align-items:flex-end">${D.stack({ w: 420, h: 330, gap: 7, r: 4, labels: ["W1","W2","W3","W4","W5","W6","W7","W8","W9","W10","W11","W12"], labelFill: "#ffffffa8", sets: [{ data: [62,64,66,65,68,70,71,73,75,77,80,82], color: "var(--ns-teal-500)" }, { data: [28,30,31,31,33,34,36,37,38,40,41,43], color: "var(--ns-blue-500)" }, { data: [12,13,12,14,15,15,16,16,18,19,19,21], color: "var(--ns-purple-500)" }] })}</div>
-   <div class="lg"><span><i style="--_c:var(--ns-teal-500)"></i>Retained</span><span><i style="--_c:var(--ns-blue-500)"></i>New</span><span><i style="--_c:var(--ns-purple-500)"></i>Resurrected</span></div>
+   <div class="sp1" style="display:flex;align-items:flex-end">${D.stack({ w: 420, h: 330, gap: 7, r: 4, labels: ["W1","W2","W3","W4","W5","W6","W7","W8","W9","W10","W11","W12"], labelFill: "#ffffffa8", sets: [{ data: [62,64,66,65,68,70,71,73,75,77,80,82], color: "var(--ns-chart-series-1)" }, { data: [28,30,31,31,33,34,36,37,38,40,41,43], color: "var(--ns-chart-series-2)" }, { data: [12,13,12,14,15,15,16,16,18,19,19,21], color: "var(--ns-chart-series-3)" }] })}</div>
+   <div class="lg"><span><i style="--_c:var(--ns-chart-series-1)"></i>Retained</span><span><i style="--_c:var(--ns-chart-series-2)"></i>New</span><span><i style="--_c:var(--ns-chart-series-3)"></i>Resurrected</span></div>
  </section>
 
  <section class="t coh">
@@ -80,8 +80,8 @@ a.innerHTML = s.open + `<div class="grid g">
  <section class="t stk">
    <div class="o">Stickiness</div>
    <div class="row" style="gap:16px;flex:1;justify-content:space-around">
-     <figure style="margin:0;display:grid;gap:8px;justify-items:center">${D.ring({ size: 140, stroke: 15, pct: 41, color: "var(--ns-blue-500)", label: "41%", fs: 24 })}<figcaption class="cap">DAU / MAU</figcaption></figure>
-     <figure style="margin:0;display:grid;gap:8px;justify-items:center">${D.ring({ size: 140, stroke: 15, pct: 68, color: "var(--ns-purple-500)", label: "68%", fs: 24 })}<figcaption class="cap">WAU / MAU</figcaption></figure>
+     <figure style="margin:0;display:grid;gap:8px;justify-items:center">${D.ring({ size: 140, stroke: 15, pct: 41, color: "var(--ns-chart-series-2)", label: "41%", fs: 24 })}<figcaption class="cap">DAU / MAU</figcaption></figure>
+     <figure style="margin:0;display:grid;gap:8px;justify-items:center">${D.ring({ size: 140, stroke: 15, pct: 68, color: "var(--ns-chart-series-3)", label: "68%", fs: 24 })}<figcaption class="cap">WAU / MAU</figcaption></figure>
    </div>
  </section>
 

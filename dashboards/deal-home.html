@@ -25,7 +25,7 @@
 const D = NS.dash;
 
 const s = D.shell({ active: "grid", title: "Deal flow", sub: "DEAL HOME  /  24 ACTIVE", right: D.seg(["My deals", "Team", "All"], 0) + `<span class="pill">+ New deal</span>` });
-const sc = ["var(--ns-teal-500)", "#ffffff", "var(--ns-purple-500)", "var(--ns-yellow-500)", "var(--ns-green-500)"];
+const sc = ["var(--ns-chart-series-1)", "#ffffff", "var(--ns-chart-series-3)", "var(--ns-yellow-500)", "var(--ns-green-500)"];
 const cnt = [4, 7, 6, 4, 3];
 const deals = [["Brightwater Dental Group", "14 sites", 1, "Choose three providers", "$12.9K", "3d"], ["Cedar and Vale Logistics", "9 sites", 2, "Kestrel assessment due", "$28.4K", "6d"], ["Harborview Credit Union", "22 sites", 3, "Northline registration reply", "$9.6K", "4d"], ["Ironwood Manufacturing", "5 sites", 4, "Countersign, then deploy", "$41.2K", "1d"], ["Summit Ridge Hotels", "31 sites", 2, "Client site access", "$22.7K", "9d"], ["Larkspur Foods", "11 sites", 1, "Altus quote refresh", "$15.3K", "2d"], ["Tidewater Law Partners", "3 sites", 3, "Registration approved, 1 of 2", "$7.8K", "2d"], ["Pell Street Pediatrics", "4 sites", 0, "Confirm technologies", "$4.1K", "5d"]];
 a.innerHTML = s.open + `<div class="grid g">
@@ -59,7 +59,7 @@ a.innerHTML = s.open + `<div class="grid g">
 
  <section class="t wt">
    <div class="o">Waiting on <em>Status page</em></div>
-   <div>${[["Assessment returned", "Kestrel Networks  /  Cedar and Vale", "6d", "var(--ns-status-warning)", "of 10d"], ["Registration reply", "Northline Fiber  /  Harborview", "4d", "var(--ns-viz-4)", "of 7d"], ["Client site access", "Summit Ridge Hotels", "9d", "var(--ns-status-error)", "overdue"], ["Quote refresh", "Altus Broadband  /  Larkspur", "2d", "var(--ns-viz-4)", "of 5d"]].map(([t, w, d, c, u]) => `<div class="wi" style="--_c:${c}"><i></i><div><b>${t}</b><small>${w}</small></div><div class="d">${d}<small>${u}</small></div></div>`).join("")}</div>
+   <div>${[["Assessment returned", "Kestrel Networks  /  Cedar and Vale", "6d", "var(--ns-status-warning)", "of 10d"], ["Registration reply", "Northline Fiber  /  Harborview", "4d", "var(--ns-chart-series-2)", "of 7d"], ["Client site access", "Summit Ridge Hotels", "9d", "var(--ns-status-error)", "overdue"], ["Quote refresh", "Altus Broadband  /  Larkspur", "2d", "var(--ns-chart-series-2)", "of 5d"]].map(([t, w, d, c, u]) => `<div class="wi" style="--_c:${c}"><i></i><div><b>${t}</b><small>${w}</small></div><div class="d">${d}<small>${u}</small></div></div>`).join("")}</div>
  </section>
 
  <section class="t mr">
