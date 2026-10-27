@@ -213,10 +213,8 @@
         let raf = 0;
         const drift = () => {
           raf = 0;
-          const r = frame.getBoundingClientRect();
-          const p = Math.max(-1, Math.min(1, (r.top + r.height / 2 - innerHeight / 2) / innerHeight));
-          frame.style.setProperty("--py", (p * -24).toFixed(1) + "px");
-          frame.style.setProperty("--rx", (p * 4).toFixed(2) + "deg");
+          // Starts from scroll 0, so the film's top edge meets the header exactly at rest.
+          frame.style.setProperty("--py", (-Math.min(scrollY, 400) * 0.12).toFixed(1) + "px");
         };
         onScroll = () => { if (!raf) raf = requestAnimationFrame(drift); };
         addEventListener("scroll", onScroll, { passive: true });
