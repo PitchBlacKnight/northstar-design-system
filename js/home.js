@@ -201,6 +201,18 @@
     // The film is a background layer: it moves into the page's rays box so it covers the light mark in the top-right corner.
     const rays = document.querySelector(".hero-rays");
     if (rays && frame) rays.insertBefore(frame, rays.querySelector(".hero-rays__mark"));
+    // Top of the film = top of the NORTHSTAR DS heading, measured from offsets so the entrance animation does not skew it.
+    const heading = main.querySelector(".hero__brand");
+    const offsetWithin = (el, anc) => { let y = 0; for (let n = el; n && n !== anc; n = n.offsetParent) y += n.offsetTop; return y; };
+    const alignFilm = () => {
+      if (!rays || !frame || !heading) return;
+      const anc = rays.offsetParent;
+      // The capitals start about 15% of the font size below the line box.
+      const capInset = parseFloat(getComputedStyle(heading).fontSize) * 0.15;
+      frame.style.top = offsetWithin(heading, anc) - offsetWithin(rays, anc) + capInset + "px";
+    };
+    alignFilm();
+    addEventListener("resize", alignFilm, { passive: true });
     if (film && frame && btn) {
       const label = (playing) => { btn.textContent = playing ? "Pause film" : "Play film"; btn.setAttribute("aria-pressed", String(playing)); };
       btn.addEventListener("click", () => (film.paused ? film.play().catch(() => {}) : film.pause()));
@@ -226,6 +238,7 @@
       io.disconnect(); main.removeEventListener("pointermove", onMove); timers.forEach(clearTimeout);
       if (filmIO) filmIO.disconnect();
       if (onScroll) removeEventListener("scroll", onScroll);
+      removeEventListener("resize", alignFilm);
       if (film) film.pause();
       if (frame) frame.remove();
     };
