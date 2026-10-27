@@ -82,6 +82,8 @@
 
     return `
 <section class="hm-hero">
+ <div class="hm-hero__grid">
+ <div class="hm-hero__copy">
   <a class="hm-pill hm-in" href="#/changelog" style="--d:0"><b>${NS.VERSION}</b> Spec tabs synced from Figma · Oct 2026 ${ic("arrow", 14)}</a>
   <h1 class="hero__brand hm-in" style="--d:1">NORTHSTAR <b>DS</b></h1>
   <p class="hm-lede hm-in" style="--d:2">The design language and development kit for dense, dark, data-heavy enterprise consoles.</p>
@@ -93,6 +95,10 @@
     <div>${ic("layers", 18)}<b data-to="${patternCount()}">0</b><span>Patterns</span></div>
     <div>${ic("layout", 18)}<b data-to="5">0</b><span>Floorplans</span></div>
   </div>
+ </div>
+ <div class="hm-film-bg" data-film-frame><video class="hm-film__video" data-film poster="assets/film/poster.jpg" src="assets/film/northstar-assembly.mp4" muted loop playsinline preload="metadata" aria-label="NorthStar film: the design system in 48 seconds"></video></div>
+ <div class="hm-film__ctl hm-in" style="--d:6"><button type="button" class="hm-film__btn" data-film-toggle aria-pressed="false">Pause film</button></div>
+ </div>
 </section>
 
 <section class="hm-band hm-start" aria-labelledby="hm-start">
@@ -189,6 +195,41 @@
       timers.push(setTimeout(step, 2200));
     }
 
-    return () => { io.disconnect(); main.removeEventListener("pointermove", onMove); timers.forEach(clearTimeout); };
+    // Hero film: plays only while on screen, with a pause control (WCAG 2.2.2). Reduced motion keeps the poster and a manual play button.
+    const film = main.querySelector("[data-film]"), frame = main.querySelector("[data-film-frame]"), btn = main.querySelector("[data-film-toggle]");
+    let filmIO = null, onScroll = null;
+    // The film is a background layer: it moves into the page's rays box so it covers the light mark in the top-right corner.
+    const rays = document.querySelector(".hero-rays");
+    if (rays && frame) rays.insertBefore(frame, rays.querySelector(".hero-rays__mark"));
+    if (film && frame && btn) {
+      const label = (playing) => { btn.textContent = playing ? "Pause film" : "Play film"; btn.setAttribute("aria-pressed", String(playing)); };
+      btn.addEventListener("click", () => (film.paused ? film.play().catch(() => {}) : film.pause()));
+      film.addEventListener("play", () => label(true));
+      film.addEventListener("pause", () => label(false));
+      if (!still) {
+        filmIO = new IntersectionObserver(([e]) => (e.isIntersecting ? film.play().catch(() => {}) : film.pause()), { threshold: 0.35 });
+        filmIO.observe(film);
+        // The frame drifts and tilts a little as the hero scrolls past, for depth.
+        let raf = 0;
+        const drift = () => {
+          raf = 0;
+          const r = frame.getBoundingClientRect();
+          const p = Math.max(-1, Math.min(1, (r.top + r.height / 2 - innerHeight / 2) / innerHeight));
+          frame.style.setProperty("--py", (p * -24).toFixed(1) + "px");
+          frame.style.setProperty("--rx", (p * 4).toFixed(2) + "deg");
+        };
+        onScroll = () => { if (!raf) raf = requestAnimationFrame(drift); };
+        addEventListener("scroll", onScroll, { passive: true });
+        drift();
+      }
+    }
+
+    return () => {
+      io.disconnect(); main.removeEventListener("pointermove", onMove); timers.forEach(clearTimeout);
+      if (filmIO) filmIO.disconnect();
+      if (onScroll) removeEventListener("scroll", onScroll);
+      if (film) film.pause();
+      if (frame) frame.remove();
+    };
   };
 })();

@@ -625,3 +625,18 @@ body:not(.is-home) .shell::before { content: ""; position: absolute; top: 0; bot
 .dk-tile .hm-rel, .dk-tile .hm-links { margin-top: var(--ns-space-3); }
 @media (max-width: 1280px) { .dk-grid > * { grid-column: span 6 !important; grid-row: auto !important; } .dk-title { grid-column: span 12 !important; } }
 @media (max-width: 640px) { .dk-grid > * { grid-column: span 12 !important; } .dk-title { padding: var(--ns-space-6); } }
+
+/* Home hero film: a background layer in the top-right corner. It is opaque, so it covers the site's light mark behind it.
+   Only the left and bottom edges fade out, and the copy column is capped so the film's text never sits under page text. */
+.hm-hero__grid { display: block; }
+.hm-hero__copy { min-width: 0; max-width: 600px; }
+.hm-film-bg { position: absolute; top: 0; right: 0; z-index: 0; width: min(1320px, 94%); aspect-ratio: 16 / 9; pointer-events: none; transform: translate3d(0, var(--py, 0px), 0);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, transparent 46%, var(--ns-black) 62%), linear-gradient(to bottom, var(--ns-black) 60%, transparent 96%);
+  -webkit-mask-composite: source-in; mask-image: linear-gradient(to right, transparent 0, transparent 46%, var(--ns-black) 62%), linear-gradient(to bottom, var(--ns-black) 60%, transparent 96%); mask-composite: intersect; }
+.hero-rays:has(.hm-film-bg) .hero-rays__mark { display: none; }
+.hm-film__video { width: 100%; height: 100%; object-fit: cover; display: block; }
+:root[data-theme="light"] .hm-film-bg { display: none; }
+.hm-film__ctl { position: absolute; right: 0; top: var(--ns-space-5); z-index: 2; }
+.hm-film__btn { font: 400 13px/1 var(--ns-font-sans); padding: var(--ns-space-3) var(--ns-space-5); border-radius: 999px; border: 1px solid var(--ns-border-strong); background: color-mix(in srgb, var(--ns-black) 70%, transparent); color: var(--ns-text-primary); cursor: pointer; backdrop-filter: blur(6px); }
+.hm-film__btn:focus-visible { outline: 2px solid var(--ns-focus-ring); outline-offset: 2px; }
+@media (max-width: 900px) { .hm-film-bg, .hm-film__ctl { display: none; } }
