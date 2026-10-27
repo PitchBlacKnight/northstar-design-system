@@ -96,7 +96,7 @@
     <div>${ic("layout", 18)}<b data-to="5">0</b><span>Floorplans</span></div>
   </div>
  </div>
- <div class="hm-film-bg" data-film-frame><video class="hm-film__video" data-film poster="assets/film/poster.jpg" src="assets/film/northstar-assembly.mp4" muted loop playsinline preload="metadata" aria-label="NorthStar film: the design system in 48 seconds"></video></div>
+ <div class="hm-film-bg" data-film-frame><video class="hm-film__video" data-film poster="assets/film/poster.jpg" src="assets/film/northstar-assembly.mp4" muted loop playsinline preload="metadata" aria-label="NorthStar film: the design system in 48 seconds"></video><div class="hm-film-card" aria-hidden="true"><span>Tokens</span><b>215+</b></div></div>
  <div class="hm-film__ctl hm-in" style="--d:6"><button type="button" class="hm-film__btn" data-film-toggle aria-pressed="false">Pause film</button></div>
  </div>
 </section>
