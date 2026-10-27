@@ -630,7 +630,7 @@ body:not(.is-home) .shell::before { content: ""; position: absolute; top: 0; bot
    Only the left and bottom edges fade out, and the copy column is capped so the film's text never sits under page text. */
 .hm-hero__grid { display: block; }
 .hm-hero__copy { min-width: 0; max-width: 600px; }
-.hm-film-bg { position: absolute; top: 0; right: 0; z-index: 0; width: min(1320px, 94%); aspect-ratio: 16 / 9; pointer-events: none; transform: translate3d(0, var(--py, 0px), 0); }
+.hm-film-bg { position: absolute; top: 0; right: 0; z-index: 0; width: min(680px, 46%); aspect-ratio: 16 / 9; pointer-events: none; transform: translate3d(0, var(--py, 0px), 0); }
 .hm-film__video { width: 100%; height: 100%; object-fit: cover; display: block; }
 :root[data-theme="light"] .hm-film-bg { display: none; }
 .hm-film__ctl { position: absolute; right: 0; top: var(--ns-space-5); z-index: 2; }
