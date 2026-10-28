@@ -298,7 +298,7 @@
     if (p.k === "circle") return `<circle cx="${n1(p.cx)}" cy="${n1(p.cy)}" r="${n1(p.r)}" style="${p.f ? fill(p.f, p.o) : "fill:none"}${p.sk ? ";" + stroke(p.sk) + ";stroke-width:" + (p.sw || 1) : ""}"/>`;
     if (p.k === "arc") return `<path d="${arcPath(p)}" fill-rule="evenodd" style="${fill(p.f, p.o)}"/>`;
     if (p.k === "path") return `<path d="${p.d}" stroke-linecap="round" stroke-linejoin="round" style="${p.f ? fill(p.f, p.o) : "fill:none"}${p.sk ? ";" + stroke(p.sk, p.so) + ";stroke-width:" + (p.sw || 1.5) : ""}"/>`;
-    if (p.k === "text") return `<text x="${n1(p.x)}" y="${n1(p.y)}" text-anchor="${p.a === "end" ? "end" : p.a === "middle" ? "middle" : "start"}" dominant-baseline="middle" font-size="${p.size || 11}"${p.w === "Bold" ? ' font-weight="700"' : ""} style="${fill(p.f || "label")}">${p.s}</text>`;
+    if (p.k === "text") return `<text x="${n1(p.x)}" y="${n1(p.y)}" text-anchor="${p.a === "end" ? "end" : p.a === "middle" ? "middle" : "start"}" dominant-baseline="middle" font-size="${p.size || (NS.viz ? NS.viz.m.axis : 11)}"${p.w === "Bold" ? ' font-weight="700"' : ""} style="${fill(p.f || "label")}">${p.s}</text>`;
     return "";
   };
 

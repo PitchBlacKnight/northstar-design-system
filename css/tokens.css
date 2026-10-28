@@ -59,6 +59,7 @@
   --ns-type-body2-size: 14px;  --ns-type-body2-line: 20px;  --ns-type-body2-tracking: 0.25px;
   --ns-type-body3-size: 13px;  --ns-type-body3-line: 18px;
   --ns-type-caption-size: 12px; --ns-type-caption-line: 16px; --ns-type-caption-tracking: 0.4px;
+  --ns-type-chart-size: 11px; --ns-type-chart-line: 16px; /* chart axis and data labels: one step between caption and overline */
   --ns-type-overline-size: 10px; --ns-type-overline-line: 16px; --ns-type-overline-tracking: 1.5px;
   --ns-type-button-size: 14px; --ns-type-button-line: 20px;
 
@@ -194,6 +195,12 @@
   --ns-chart-track: var(--ns-widget-track);
   --ns-chart-target: var(--ns-text-primary);
   --ns-chart-marker: #5050ff; /* chart/marker: spacing guide markers, same in all themes */
+  /* Chart measurements, read by NS.viz (js/viz.js) so every renderer draws with the same numbers */
+  --ns-chart-axis-size: var(--ns-type-chart-size);
+  --ns-chart-stroke: 2px;      /* series lines */
+  --ns-chart-stroke-thin: 1.5px; /* secondary lines, spark lines */
+  --ns-chart-grid-stroke: 1px;
+  --ns-chart-bar-radius: 1px;  /* matches the Figma chart kit bars */
 
   --ns-gradient-brand: linear-gradient(135deg, var(--ns-blue-500), var(--ns-teal-500));
   --ns-gradient-bruise: linear-gradient(135deg, var(--ns-persian-500), var(--ns-purple-500));

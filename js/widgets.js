@@ -61,7 +61,7 @@
   function lines({ w = 240, h = 80, sets = [["purple", 3], ["orange", 7]], n = 8, axis = false, fill = false, glow = false }) {
     const pad = axis ? 36 : 4, ph = axis ? 24 : 4;
     let defs = "", out = "";
-    if (axis) { for (let i = 0; i <= 4; i++) { const y = ph + ((h - ph * 2) * i) / 4; out += `<line x1="${pad}" x2="${w}" y1="${y}" y2="${y}" style="stroke:${v("widget-grid")}"/><text x="${pad - 8}" y="${y}" text-anchor="end" dominant-baseline="middle" font-size="11" style="fill:${v("chart-label-text")}">${["$1k", "$750", "$500", "$250", "0"][i]}</text>`; } MONTHS.forEach((m, i) => (out += `<text x="${pad + ((w - pad) * (i + 0.5)) / 12}" y="${h - 4}" text-anchor="middle" font-size="11" style="fill:${v("chart-label-text")}">${m}</text>`)); }
+    if (axis) { for (let i = 0; i <= 4; i++) { const y = ph + ((h - ph * 2) * i) / 4; out += `<line x1="${pad}" x2="${w}" y1="${y}" y2="${y}" style="stroke:${v("widget-grid")}"/><text x="${pad - 8}" y="${y}" text-anchor="end" dominant-baseline="middle" font-size="${NS.viz.m.axis}" style="fill:${v("chart-label-text")}">${["$1k", "$750", "$500", "$250", "0"][i]}</text>`; } MONTHS.forEach((m, i) => (out += `<text x="${pad + ((w - pad) * (i + 0.5)) / 12}" y="${h - 4}" text-anchor="middle" font-size="${NS.viz.m.axis}" style="fill:${v("chart-label-text")}">${m}</text>`)); }
     sets.forEach(([g, seed]) => {
       const d = series(seed, n); const pts = d.map((y, i) => [pad + ((w - pad - 4) * i) / (n - 1), ph + (h - ph * 2 - (axis ? 12 : 0)) * (1 - y)]);
       const gid = id("lg"); defs += lin(gid, g, "h");
@@ -75,7 +75,7 @@
   function columns({ w = 240, h = 80, n = 12, seed = 5, bar = 6, gap = 5, axis = false, a = "purple", b = "teal" }) {
     const r = rng(seed), step = w / n; let out = "", defs = ""; const ga = id("ca"), gb = id("cb"); defs += lin(ga, a) + lin(gb, b);
     for (let i = 0; i < n; i++) { const x = i * step + step / 2 - bar / 2; const lo = 0.2 + r() * 0.45, hi = 0.1 + r() * 0.35; const hlo = (h - 8) * lo, hhi = (h - 8) * hi; out += `<rect x="${x}" y="0" width="${bar}" height="${h}" rx="${bar / 2}" style="fill:${v("widget-track")}"/><rect x="${x}" y="${h - hlo}" width="${bar}" height="${hlo}" rx="${bar / 2}" fill="url(#${ga})"/><rect x="${x}" y="${h - hlo - gap - hhi}" width="${bar}" height="${hhi}" rx="${bar / 2}" fill="url(#${gb})"/>`; }
-    return `<svg width="${w}" height="${h + (axis ? 18 : 0)}" viewBox="0 0 ${w} ${h + (axis ? 18 : 0)}" role="img" aria-label="Column chart"><defs>${defs}</defs>${out}${axis ? MONTHS.slice(0, n).map((m, i) => `<text x="${i * step + step / 2}" y="${h + 14}" text-anchor="middle" font-size="11" style="fill:${v("chart-label-text")}">${m}</text>`).join("") : ""}</svg>`;
+    return `<svg width="${w}" height="${h + (axis ? 18 : 0)}" viewBox="0 0 ${w} ${h + (axis ? 18 : 0)}" role="img" aria-label="Column chart"><defs>${defs}</defs>${out}${axis ? MONTHS.slice(0, n).map((m, i) => `<text x="${i * step + step / 2}" y="${h + 14}" text-anchor="middle" font-size="${NS.viz.m.axis}" style="fill:${v("chart-label-text")}">${m}</text>`).join("") : ""}</svg>`;
   }
 
   /* Month grid used by bubble, dots, stacked */
@@ -83,8 +83,8 @@
     let o = ""; const cw = (w - pad) / 12;
     if (bands) for (let i = 0; i < 12; i += 2) o += `<rect x="${pad + i * cw}" y="0" width="${cw}" height="${h - 24}" style="fill:${v("widget-band")}"/>`;
     else for (let i = 0; i < 12; i++) o += `<line x1="${pad + i * cw + cw / 2}" x2="${pad + i * cw + cw / 2}" y1="0" y2="${h - 24}" style="stroke:${v("widget-grid")}"/>`;
-    yl.forEach((t, i) => (o += `<text x="${pad - 10}" y="${8 + ((h - 36) * i) / (yl.length - 1)}" text-anchor="end" dominant-baseline="middle" font-size="11" style="fill:${v("chart-label-text")}">${t}</text>`));
-    MONTHS.forEach((m, i) => (o += `<text x="${pad + i * cw + (bands ? 0 : cw / 2)}" y="${h - 4}" text-anchor="middle" font-size="11" style="fill:${v("chart-label-text")}">${m}</text>`));
+    yl.forEach((t, i) => (o += `<text x="${pad - 10}" y="${8 + ((h - 36) * i) / (yl.length - 1)}" text-anchor="end" dominant-baseline="middle" font-size="${NS.viz.m.axis}" style="fill:${v("chart-label-text")}">${t}</text>`));
+    MONTHS.forEach((m, i) => (o += `<text x="${pad + i * cw + (bands ? 0 : cw / 2)}" y="${h - 4}" text-anchor="middle" font-size="${NS.viz.m.axis}" style="fill:${v("chart-label-text")}">${m}</text>`));
     return o;
   }
 
@@ -157,7 +157,7 @@
     const pad = axis ? 40 : 0, top = axis ? 8 : 4, bot = axis ? 22 : 0, iw = w - pad, ih = h - top - bot;
     const sets = two ? [["viz-2", series(seed, 12, 0.35, 0.9)], ["viz-1", series(seed + 4, 12, 0.1, 0.45)]] : [["viz-2", series(seed, 12, 0.3, 0.9)]];
     let defs = "", body = "";
-    if (axis) { ["$1k", "$800", "$600", "$400", "$200", "0"].forEach((t, i) => { const y = top + (ih / 5) * i; body += `<line x1="${pad}" x2="${w}" y1="${y}" y2="${y}" style="stroke:${v("widget-grid")}"/><text x="${pad - 10}" y="${y + 4}" text-anchor="end" font-size="11" style="fill:${v("chart-label-text")}">${t}</text>`; }); MONTHS.forEach((m, i) => { body += `<text x="${pad + (iw / 11) * i}" y="${h - 4}" text-anchor="middle" font-size="11" style="fill:${v("chart-label-text")}">${m}</text>`; }); }
+    if (axis) { ["$1k", "$800", "$600", "$400", "$200", "0"].forEach((t, i) => { const y = top + (ih / 5) * i; body += `<line x1="${pad}" x2="${w}" y1="${y}" y2="${y}" style="stroke:${v("widget-grid")}"/><text x="${pad - 10}" y="${y + 4}" text-anchor="end" font-size="${NS.viz.m.axis}" style="fill:${v("chart-label-text")}">${t}</text>`; }); MONTHS.forEach((m, i) => { body += `<text x="${pad + (iw / 11) * i}" y="${h - 4}" text-anchor="middle" font-size="${NS.viz.m.axis}" style="fill:${v("chart-label-text")}">${m}</text>`; }); }
     sets.forEach(([c, d]) => { const g = id("ag"); defs += `<linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1">${stop(0, v(c), 0.4)}${stop(1, v(c), 0)}</linearGradient>`; const pts = d.map((y, i) => [pad + (iw / (d.length - 1)) * i, top + ih - y * ih]); const line = smooth(pts); body += `<path d="${line} L${pad + iw},${top + ih} L${pad},${top + ih} Z" fill="url(#${g})"/><path d="${line}" fill="none" style="stroke:${v(c)}" stroke-width="2" stroke-linecap="round"/>`; });
     return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="Area chart, ${two ? "two series" : "one series"}, rising trend"><defs>${defs}</defs>${body}</svg>`;
   }

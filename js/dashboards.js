@@ -27,7 +27,7 @@
   };
   D.smooth = smooth;
 
-  const text = (x, y, s, o = {}) => `<text x="${x}" y="${y}" fill="${o.fill || T("chart-label-text")}" font-size="${o.size || 11}" font-weight="${o.weight || 400}" text-anchor="${o.anchor || "start"}" ${o.ls ? `letter-spacing="${o.ls}"` : ""}>${s}</text>`;
+  const text = (x, y, s, o = {}) => `<text x="${x}" y="${y}" fill="${o.fill || T("chart-label-text")}" font-size="${o.size || (NS.viz ? NS.viz.m.axis : 11)}" font-weight="${o.weight || 400}" text-anchor="${o.anchor || "start"}" ${o.ls ? `letter-spacing="${o.ls}"` : ""}>${s}</text>`;
 
   /* ---------- area / line ---------- */
   D.area = ({ w = 600, h = 220, sets, labels = [], ticks = 4, min, max, grid = true, pad = [8, 8, 22, 34], fmt = (v) => v, dots, ink, gridColor, labelFill, last = true, glow = false }) => {
@@ -60,7 +60,7 @@
       const bh = Math.max(2, (v / m) * ih), x = L + i * (bw + gap), y = pt + ih - bh; const c = hi === i ? (hiColor || T("chart-target")) : (Array.isArray(color) ? color[i] : color);
       if (track) o += `<rect x="${x}" y="${pt}" width="${bw}" height="${ih}" rx="${r}" fill="${T("chart-track")}"/>`;
       o += `<rect x="${x}" y="${y}" width="${bw}" height="${bh}" rx="${r}" fill="${c}"/>`;
-      if (labels[i] != null) o += text(x + bw / 2, h - 5, labels[i], { anchor: "middle", size: 11, fill: labelFill });
+      if (labels[i] != null) o += text(x + bw / 2, h - 5, labels[i], { anchor: "middle", fill: labelFill });
     });
     return `<svg viewBox="0 0 ${w} ${h}" width="${w}" role="img">${o}</svg>`;
   };
@@ -69,7 +69,7 @@
   D.stack = ({ w = 600, h = 220, sets, gap = 6, r = 3, labels = [], pad = [8, 4, 22, 4], labelFill, gap2 = 2 }) => {
     const [pt, pr, pb, pl] = pad; const len = sets[0].data.length; const iw = w - pl - pr, ih = h - pt - pb; const bw = (iw - gap * (len - 1)) / len;
     const tot = Array.from({ length: len }, (_, i) => sets.reduce((a, s) => a + s.data[i], 0)); const m = Math.max(...tot); let o = "";
-    for (let i = 0; i < len; i++) { let y = pt + ih; const x = pl + i * (bw + gap); sets.forEach((s, si) => { const bh = (s.data[i] / m) * ih; y -= bh; o += `<rect x="${x}" y="${y}" width="${bw}" height="${Math.max(0, bh - gap2)}" rx="${r}" fill="${s.color}"/>`; }); if (labels[i] != null) o += text(x + bw / 2, h - 5, labels[i], { anchor: "middle", size: 11, fill: labelFill }); }
+    for (let i = 0; i < len; i++) { let y = pt + ih; const x = pl + i * (bw + gap); sets.forEach((s, si) => { const bh = (s.data[i] / m) * ih; y -= bh; o += `<rect x="${x}" y="${y}" width="${bw}" height="${Math.max(0, bh - gap2)}" rx="${r}" fill="${s.color}"/>`; }); if (labels[i] != null) o += text(x + bw / 2, h - 5, labels[i], { anchor: "middle", fill: labelFill }); }
     return `<svg viewBox="0 0 ${w} ${h}" width="${w}" role="img">${o}</svg>`;
   };
 
@@ -142,7 +142,7 @@
   D.waterfall = ({ w = 700, h = 240, steps, labels = [], labelFill, base = 0 }) => {
     let run = 0, o = ""; const pts = steps.map((s) => { const a = run; run = s.total ? s.v : run + s.v; return { a: s.total ? base : a, b: run, s }; });
     const mx = Math.max(...pts.map((p) => Math.max(p.a, p.b))) * 1.08, bw = (w - 8) / steps.length * .64, st = (w - 8) / steps.length; const Y = (v) => 6 + (h - 30) - ((v - base) / (mx - base)) * (h - 30);
-    pts.forEach((p, i) => { const x = 4 + i * st + (st - bw) / 2, y1 = Y(Math.max(p.a, p.b)), y2 = Y(Math.min(p.a, p.b)); const c = p.s.total ? T("chart-series-2") : p.s.v >= 0 ? T("chart-series-1") : T("status-error"); o += `<rect x="${x}" y="${y1}" width="${bw}" height="${Math.max(3, y2 - y1)}" rx="4" fill="${c}"/>`; if (i < pts.length - 1) o += `<line x1="${x + bw}" x2="${x + st}" y1="${Y(p.b)}" y2="${Y(p.b)}" stroke="${T("widget-grid")}" stroke-dasharray="2 3"/>`; o += text(x + bw / 2, h - 6, labels[i] ?? p.s.l, { anchor: "middle", size: 11, fill: labelFill }); o += text(x + bw / 2, y1 - 7, (p.s.v >= 0 && !p.s.total ? "+" : "") + p.s.v, { anchor: "middle", size: 11, weight: 700, fill: T("text-primary") }); });
+    pts.forEach((p, i) => { const x = 4 + i * st + (st - bw) / 2, y1 = Y(Math.max(p.a, p.b)), y2 = Y(Math.min(p.a, p.b)); const c = p.s.total ? T("chart-series-2") : p.s.v >= 0 ? T("chart-series-1") : T("status-error"); o += `<rect x="${x}" y="${y1}" width="${bw}" height="${Math.max(3, y2 - y1)}" rx="4" fill="${c}"/>`; if (i < pts.length - 1) o += `<line x1="${x + bw}" x2="${x + st}" y1="${Y(p.b)}" y2="${Y(p.b)}" stroke="${T("widget-grid")}" stroke-dasharray="2 3"/>`; o += text(x + bw / 2, h - 6, labels[i] ?? p.s.l, { anchor: "middle", fill: labelFill }); o += text(x + bw / 2, y1 - 7, (p.s.v >= 0 && !p.s.total ? "+" : "") + p.s.v, { anchor: "middle", size: 11, weight: 700, fill: T("text-primary") }); });
     return `<svg viewBox="0 0 ${w} ${h}" width="${w}" role="img">${o}</svg>`;
   };
 

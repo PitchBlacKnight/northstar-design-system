@@ -47,3 +47,10 @@ After: 0 glow filters, 0 radial halos, one axis text style, series hues only.
 - Some dashboard layouts pass literal strings such as `"var(--ns-blue-500)"` straight into `NS.dash` calls (20 files). Those skip the alias and keep the raw hue. Swap them for `t("chart-series-2")` file by file when each layout is next touched.
 - Ring and KPI numbers scale with ring size (`size * 0.26`) instead of using type tokens. Acceptable for now; a type step per widget size would be cleaner.
 - Figma: the Widgets page (427:8676) still shows gradients. Sync in the next batch so code and file agree.
+
+## Measurements and lint (step 2)
+
+- `css/tokens.css` adds `--ns-type-chart-size` (11px, the chart step between caption 12 and overline 10) and `--ns-chart-axis-size`, `--ns-chart-stroke` (2px), `--ns-chart-stroke-thin` (1.5px), `--ns-chart-grid-stroke` (1px), `--ns-chart-bar-radius` (1px). Values match what the renderers already drew, so nothing moved.
+- `NS.viz.m` reads them once with `getComputedStyle`. Axis text in the chart kit, widgets, dashboard kit and bullet chart now comes from `NS.viz.m.axis`. Strokes and bar radius are exposed but call sites still pass their own numbers; move them over as each renderer is next touched.
+- `tools/token-lint.mjs` counts raw hex, off-token spacing and px font sizes in every CSS file except tokens.css, and fails when a count rises above `tools/token-lint-baseline.json`. `--fix` swapped 92 spacing declarations already on the scale to `var(--ns-space-N)` (same pixels). The pre-commit hook runs it on CSS changes.
+- Remaining debt at baseline: 217 (65 hex, 105 off-scale spacing such as 22px, 47 px font sizes). Lower the baseline after each cleanup with `--baseline`.

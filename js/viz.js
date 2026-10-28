@@ -21,9 +21,17 @@
   /* categorical order: the five chart series, then the extended viz hues */
   const SERIES = ["chart-series-1", "chart-series-2", "chart-series-3", "chart-series-4", "viz-3", "viz-5", "viz-6", "chart-series-5"];
 
-  const LABEL = { size: 11, weight: 400, fill: "chart-label-text" };
-  const text = (x, y, s, o = {}) => `<text x="${x}" y="${y}" text-anchor="${o.anchor || "start"}"${o.mid === false ? "" : ' dominant-baseline="middle"'} font-size="${o.size || LABEL.size}" font-weight="${o.weight || LABEL.weight}" style="fill:${c(o.fill || LABEL.fill)}">${s}</text>`;
-  const grid = (x1, x2, y1, y2) => `<line x1="${x1}" x2="${x2}" y1="${y1}" y2="${y2}" style="stroke:${c("widget-grid")}" stroke-width="1"/>`;
+  /* measurements come from tokens.css (--ns-chart-*); defaults cover a page that loads without it */
+  const M = { axis: 11, stroke: 2, thin: 1.5, grid: 1, bar: 1 };
+  const VAR = { axis: "chart-axis-size", stroke: "chart-stroke", thin: "chart-stroke-thin", grid: "chart-grid-stroke", bar: "chart-bar-radius" };
+  if (typeof getComputedStyle === "function" && document.documentElement) {
+    const cs = getComputedStyle(document.documentElement);
+    for (const k in VAR) { const n = parseFloat(cs.getPropertyValue(`--ns-${VAR[k]}`)); if (!isNaN(n)) M[k] = n; }
+  }
 
-  NS.viz = { tok, c, series: SERIES, label: LABEL, text, grid };
+  const LABEL = { size: M.axis, weight: 400, fill: "chart-label-text" };
+  const text = (x, y, s, o = {}) => `<text x="${x}" y="${y}" text-anchor="${o.anchor || "start"}"${o.mid === false ? "" : ' dominant-baseline="middle"'} font-size="${o.size || LABEL.size}" font-weight="${o.weight || LABEL.weight}" style="fill:${c(o.fill || LABEL.fill)}">${s}</text>`;
+  const grid = (x1, x2, y1, y2) => `<line x1="${x1}" x2="${x2}" y1="${y1}" y2="${y2}" style="stroke:${c("widget-grid")}" stroke-width="${M.grid}"/>`;
+
+  NS.viz = { tok, c, series: SERIES, label: LABEL, m: M, text, grid };
 })();
