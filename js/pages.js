@@ -85,12 +85,12 @@ ${h2("Migration notes")}${notice("warning", "Renamed in v1.4", "<code>--ns-accen
   P("foundations", {
     title: "Foundations overview", lede: "NorthStar foundations coordinate design intent with technical reality. Every visual decision maps to a token, so themes switch instantly across devices.",
     body: () => `${h2("The foundations")}${cards([
-      { title: "Color", color: "teal", body: "Primitive ramps and semantic roles for Light and Dark themes.", href: "#/foundations/color", go: "View" },
-      { title: "Typography", color: "purple", body: "A compact hierarchy for dense interfaces and dashboard emphasis.", href: "#/foundations/typography", go: "View" },
-      { title: "Spacing and layout", color: "blue", body: "A 15-step spacing scale, 12-column grid, and four breakpoints.", href: "#/foundations/spacing", go: "View" },
-      { title: "Radius", color: "green", body: "From precise technical controls to fully rounded status elements.", href: "#/foundations/radius", go: "View" },
-      { title: "Elevation", color: "yellow", body: "Four levels that clarify hierarchy without noise.", href: "#/foundations/elevation", go: "View" },
-      { title: "Motion", color: "red", body: "Durations and easing that communicate state change.", href: "#/foundations/motion", go: "View" },
+      { title: "Color", icon: NS.fIcon("color"), color: "teal", body: "Primitive ramps and semantic roles for Light and Dark themes.", href: "#/foundations/color", go: "View" },
+      { title: "Typography", icon: NS.fIcon("type"), color: "purple", body: "A compact hierarchy for dense interfaces and dashboard emphasis.", href: "#/foundations/typography", go: "View" },
+      { title: "Spacing and layout", icon: NS.fIcon("spacing"), color: "blue", body: "A 15-step spacing scale, 12-column grid, and four breakpoints.", href: "#/foundations/spacing", go: "View" },
+      { title: "Radius", icon: NS.fIcon("radius"), color: "green", body: "From precise technical controls to fully rounded status elements.", href: "#/foundations/radius", go: "View" },
+      { title: "Elevation", icon: NS.fIcon("elevation"), color: "yellow", body: "Four levels that clarify hierarchy without noise.", href: "#/foundations/elevation", go: "View" },
+      { title: "Motion", icon: NS.fIcon("motion"), color: "red", body: "Durations and easing that communicate state change.", href: "#/foundations/motion", go: "View" },
     ])}
 ${h2("Token architecture")}<p>Primitive tokens hold raw values. Semantic tokens reference primitives and carry meaning. Components consume only semantic tokens.</p>${codeBlock("/* primitive */\n--ns-blue-500: #023aff;\n\n/* semantic (dark) */\n--ns-interactive-primary: var(--ns-blue-500);\n\n/* component */\n.ns-btn { background: var(--ns-interactive-primary); }", "css")}`,
   });

@@ -81,6 +81,26 @@
     `<div class="grid grid-${cols}">${items.map((c) =>
       `<a class="rcard ${c.color ? "c-" + c.color : ""}" href="${c.href}">${c.icon ? `<span class="rcard__icon" aria-hidden="true">${c.icon}</span>` : ""}<h3>${c.title}</h3><p>${c.body}</p>${c.go ? `<span class="go">${c.go} →</span>` : ""}</a>`).join("")}</div>`;
 
+  /* Animated foundation icons. Keys match the Foundations overview cards; motion is in site.css (.fi). */
+  const FI = {
+    color: `<g data-a="hue"><circle cx="12" cy="8.5" r="4.5" fill="currentColor" fill-opacity=".9" stroke="none"/><circle cx="8.5" cy="14.5" r="4.5" fill="currentColor" fill-opacity=".45" stroke="none"/><circle cx="15.5" cy="14.5" r="4.5" fill="currentColor" fill-opacity=".2" stroke="none"/></g>`,
+    type: `<path d="M4 5h6M7 5v8"/><rect data-a="line" x="4" y="15" width="16" height="2.4" rx="1.2" fill="currentColor" stroke="none"/><rect data-a="line" x="4" y="19" width="11" height="1.6" rx=".8" fill="currentColor" fill-opacity=".55" stroke="none"/><rect data-a="line" x="13" y="6" width="7" height="1.6" rx=".8" fill="currentColor" fill-opacity=".55" stroke="none"/>`,
+    spacing: `<rect x="3" y="6" width="6" height="12" rx="1.5"/><g data-a="gap"><rect x="13" y="6" width="6" height="12" rx="1.5"/></g><path d="M9 21h4M9 20v2M13 20v2" stroke-opacity=".6"/>`,
+    radius: `<rect data-a="corner" x="4" y="4" width="16" height="16" rx="1"/><path d="M4 9V4h5" stroke-opacity=".35" stroke-dasharray="1.5 2"/>`,
+    elevation: `<path d="M12 19 4 15.5 12 12l8 3.5z" stroke-opacity=".4"/><path data-a="lift1" d="M12 15.5 4 12l8-3.5 8 3.5z" stroke-opacity=".7"/><path data-a="lift2" d="M12 12 4 8.5 12 5l8 3.5z" fill="currentColor" fill-opacity=".2"/>`,
+    motion: `<path d="M5 12h14" stroke-opacity=".3"/><circle data-a="trail" cx="9" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle data-a="ease" cx="5" cy="12" r="2.6" fill="currentColor" stroke="none"/><path d="M5 18c4 0 4-12 14-12" stroke-opacity=".35"/>`,
+  };
+  NS.fIcon = (k) => `<svg class="fi" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${FI[k]}</svg>`;
+
+  /* Cursor spotlight for resource cards, same as the home tiles. */
+  document.addEventListener("pointermove", (e) => {
+    const t = e.target.closest && e.target.closest(".rcard");
+    if (!t) return;
+    const r = t.getBoundingClientRect();
+    t.style.setProperty("--mx", e.clientX - r.left + "px");
+    t.style.setProperty("--my", e.clientY - r.top + "px");
+  }, { passive: true });
+
   /* Static stage (no controls): render one or more demo snippets with code. */
   NS.stage = (html, opts = {}) =>
     `<div class="stage"><div class="stage__bar"><span class="lbl">${opts.label || "Example"}</span></div>
