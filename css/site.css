@@ -7,6 +7,8 @@ body { margin: 0; background: var(--ns-background-primary); color: var(--ns-text
 a { color: var(--ns-text-link); }
 code, pre { font-family: var(--ns-font-mono); }
 :focus-visible { outline: 2px solid var(--ns-focus-ring); outline-offset: 2px; }
+/* The page container takes focus programmatically after each route change. It is not a control, so it gets no ring. */
+#main-content:focus { outline: none; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .skip { position: absolute; left: 8px; top: -60px; z-index: 2000; background: var(--ns-interactive-primary); color: var(--ns-white); padding: 8px 14px; border-radius: var(--ns-radius-sm); }
 .skip:focus { top: 8px; }
