@@ -23,8 +23,8 @@ body { font-family: var(--ns-font-sans); color: var(--ns-text-primary); -webkit-
 
 /* ---------- Rail ---------- */
 .rail { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 22px 0; border-right: 1px solid var(--ns-border-subtle); background: var(--ns-background-shell); }
-.rail__logo { width: 36px; height: 36px; border-radius: 10px; background: var(--ns-gradient-brand); display: grid; place-items: center; margin-bottom: 22px; }
-.rail__logo svg { width: 20px; height: 20px; fill: var(--ns-black); }
+.rail__logo { width: 36px; height: 36px; display: grid; place-items: center; margin-bottom: 22px; }
+.rail__logo svg { width: 34px; height: 35px; }
 .rail a { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; color: var(--ns-text-tertiary); position: relative; }
 .rail a svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .rail a.on { background: var(--ns-background-selected); color: var(--ns-text-primary); }

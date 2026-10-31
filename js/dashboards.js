@@ -161,12 +161,12 @@
     star: '<path d="M12 2.5l2.7 6.2 6.8.6-5.1 4.5 1.5 6.7L12 17l-5.9 3.5 1.5-6.7L2.5 9.3l6.8-.6z"/>',
   };
   D.icon = (k) => `<svg viewBox="0 0 24 24" aria-hidden="true">${IC[k]}</svg>`;
-  D.star = '<svg viewBox="0 0 24 24"><path d="M12 1.5l2.9 7.6 8.1.5-6.3 5.1 2.1 7.8L12 18l-6.8 4.5 2.1-7.8L1 9.6l8.1-.5z"/></svg>';
+  D.logo = '<svg viewBox="40 30 374 390" role="img" aria-label="NorthStar"><path d="M227 46.1094L393.703 328.086L290.844 281.977L227 170.25L163.156 281.977L60.2969 328.086L227 46.1094Z" fill="#C5C5C5"/><path d="M227 255.375L289.07 360.008L227 404.344L164.93 360.008L227 255.375Z" fill="#27BDFA"/></svg>';
 
   /* shell: rail + top bar. active = icon key. Returns {open, close} strings. */
   D.shell = ({ active = "grid", title, sub, right = "" }) => {
     const items = ["grid", "chart", "users", "globe", "bolt", "wallet", "pulse"]; if (!items.includes(active)) items[4] = active;
-    const rail = `<nav class="rail" aria-label="Primary"><div class="rail__logo">${D.star}</div>${items.map((k) => `<a class="${k === active ? "on" : ""}">${D.icon(k)}</a>`).join("")}<span class="sp"></span><a>${D.icon("cog")}</a><div class="av">MR</div></nav>`;
+    const rail = `<nav class="rail" aria-label="Primary"><div class="rail__logo">${D.logo}</div>${items.map((k) => `<a class="${k === active ? "on" : ""}">${D.icon(k)}</a>`).join("")}<span class="sp"></span><a>${D.icon("cog")}</a><div class="av">MR</div></nav>`;
     return { open: `${rail}<div class="main"><header class="top"><div><h1 class="top__ttl">${title}</h1><div class="top__sub">${sub}</div></div><span class="top__sp"></span>${right}</header>`, close: `</div>` };
   };
   D.seg = (items, on = 0) => `<div class="seg">${items.map((s, i) => `<b class="${i === on ? "on" : ""}">${s}</b>`).join("")}</div>`;
