@@ -611,9 +611,9 @@
    "html": "<span class=\"ns-badge\">Live</span>\n<span class=\"ns-status-dot ns-status-dot--positive\">Active</span>",
    "react": "<Badge type=\"positive\" variant=\"outline\" icon={<Check />}>Approved</Badge>",
    "reactKit": {
-    "code": "<div className=\"flex gap-2\">\n  <Pill status=\"success\">Active</Pill>\n  <Pill status=\"warning\">Pending</Pill>\n  <Pill status=\"error\">Failed</Pill>\n</div>",
+    "code": "<div className=\"flex gap-2\">\n  <Badge status=\"success\">Active</Badge>\n  <Badge status=\"warning\">Pending</Badge>\n  <Badge status=\"error\">Failed</Badge>\n  <Badge status=\"info\">Beta</Badge>\n</div>",
     "uses": [
-     "Pill"
+     "Badge"
     ]
    },
    "parts": [
@@ -2267,9 +2267,10 @@
    "html": "<div class=\"ns-cmdk\" role=\"dialog\" aria-label=\"Command palette\"><div class=\"ns-cmdk__query\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"m20 20-3.5-3.5\"/></svg><input role=\"combobox\" aria-expanded=\"true\" aria-controls=\"cmdk-list\" aria-label=\"Search\" placeholder=\"Search accounts, pages and actions\" value=\"\"/><kbd>Esc</kbd></div><div class=\"ns-cmdk__list\" id=\"cmdk-list\" role=\"listbox\"><div class=\"ns-cmdk__group\" role=\"presentation\">Accounts</div><div class=\"ns-cmdk__item\" role=\"option\" aria-selected=\"false\"><span>Acme Corp</span><span class=\"ns-cmdk__meta\">Account</span></div><div class=\"ns-cmdk__item\" role=\"option\" aria-selected=\"false\"><span>Acme Holdings</span><span class=\"ns-cmdk__meta\">Account</span></div><div class=\"ns-cmdk__item\" role=\"option\" aria-selected=\"false\"><span>Globex</span><span class=\"ns-cmdk__meta\">Account</span></div><div class=\"ns-cmdk__item\" role=\"option\" aria-selected=\"false\"><span>Northwind</span><span class=\"ns-cmdk__meta\">Account</span></div><div class=\"ns-cmdk__group\" role=\"presentation\">Pages</div><div class=\"ns-cmdk__item\" role=\"option\" aria-selected=\"false\"><span>Billing history</span><span class=\"ns-cmdk__meta\">Page</span></div><div class=\"ns-cmdk__item\" role=\"option\" aria-selected=\"false\"><span>Usage reports</span><span class=\"ns-cmdk__meta\">Page</span></div><div class=\"ns-cmdk__item\" role=\"option\" aria-selected=\"false\"><span>Team settings</span><span class=\"ns-cmdk__meta\">Page</span></div><div class=\"ns-cmdk__group\" role=\"presentation\">Actions</div><div class=\"ns-cmdk__item\" role=\"option\" aria-selected=\"false\"><span>Create account</span><span class=\"ns-cmdk__meta\">Action</span></div><div class=\"ns-cmdk__item\" role=\"option\" aria-selected=\"false\"><span>Invite teammate</span><span class=\"ns-cmdk__meta\">Action</span></div><div class=\"ns-cmdk__item\" role=\"option\" aria-selected=\"false\"><span>Export accounts</span><span class=\"ns-cmdk__meta\">Action</span></div></div><div class=\"ns-cmdk__foot\"><span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span><span><kbd>↵</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div></div>",
    "react": "<CommandPalette items={items} onSelect={openItem} />",
    "reactKit": {
-    "code": "const [open, setOpen] = React.useState(false);\nReact.useEffect(() => {\n  const on = (e: KeyboardEvent) => { if (e.key.toLowerCase() === \"k\" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); setOpen((o) => !o); } };\n  addEventListener(\"keydown\", on); return () => removeEventListener(\"keydown\", on);\n}, []);\nreturn (\n  <CommandDialog open={open} onOpenChange={setOpen} title=\"Search\" description=\"Search accounts and pages\">\n    <Command>\n      <CommandInput placeholder=\"Search accounts, pages and actions\" />\n      <CommandList>\n        <CommandEmpty>No results.</CommandEmpty>\n        <CommandGroup heading=\"Accounts\">\n          <CommandItem onSelect={() => setOpen(false)}>Acme Corp</CommandItem>\n        </CommandGroup>\n      </CommandList>\n    </Command>\n  </CommandDialog>\n);",
+    "code": "const [open, setOpen] = React.useState(false);\nReact.useEffect(() => {\n  const on = (e: KeyboardEvent) => { if (e.key.toLowerCase() === \"k\" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); setOpen((o) => !o); } };\n  addEventListener(\"keydown\", on); return () => removeEventListener(\"keydown\", on);\n}, []);\nreturn (\n  <CommandPalette open={open} onOpenChange={setOpen} placeholder=\"Search accounts, pages and actions\"\n    groups={[{ heading: \"Accounts\", items: [{ id: \"acme\", label: \"Acme Corp\", meta: \"Account\" }] }, { heading: \"Actions\", items: [{ id: \"new\", label: \"Create account\", meta: \"Action\" }] }]}\n    onSelect={(item) => { setOpen(false); toast.success(\"Opened \" + item.label); }} />\n);",
     "uses": [
-     "CommandDialog"
+     "CommandPalette",
+     "toast"
     ]
    },
    "parts": []
@@ -4236,7 +4237,7 @@
    "html": "<div style=\"display:grid;gap:16px;justify-items:center;width:100%\"><div class=\"ns-notice ns-notice--info\" role=\"status\" style=\"width:440px\"><span class=\"ns-notice__icon\">i</span><div><p class=\"ns-notice__title\">Portal update available</p><p class=\"ns-notice__body\">v1.4.0 is ready to deploy.</p></div><button class=\"ns-notice__close\" aria-label=\"Dismiss\">×</button></div><button class=\"ns-btn ns-btn--tertiary ns-btn--sm\" data-toast=\"Portal update available\" data-kind=\"info\">Fire as toast</button></div>\n<div class=\"ns-notice ns-notice--toast ns-notice--success\" role=\"status\" style=\"width:360px\"><span class=\"ns-notice__icon\" aria-hidden=\"true\">✓</span><div><p class=\"ns-notice__title\">Account archived</p><p class=\"ns-notice__body\">Acme Corp moved to the archive.</p></div><button class=\"ns-btn ns-btn--ghost ns-btn--sm\">Undo</button></div>",
    "react": "<InlineNotification kind=\"warning\" title=\"Quota at 85%\" subtitle=\"Upgrade before the next billing cycle.\" />",
    "reactKit": {
-    "code": "// Mount <Toaster theme=\"dark\" position=\"bottom-right\" /> once at the app root, then call toast() anywhere:\n<Button variant=\"outline\" size=\"sm\" onClick={() => toast.success(\"Account archived\", { description: \"Acme Corp moved to the archive.\", action: { label: \"Undo\", onClick: () => {} } })}>Archive</Button>",
+    "code": "// Mount <Toaster theme=\"dark\" position=\"bottom-right\" /> once at the app root, then call toast() anywhere:\n<Button variant=\"secondary\" size=\"sm\" onClick={() => toast.success(\"Account archived\", { description: \"Acme Corp moved to the archive.\", action: { label: \"Undo\", onClick: () => {} } })}>Archive</Button>",
     "uses": [
      "Toaster",
      "toast"
@@ -7792,7 +7793,7 @@
    "html": "<span class=\"ns-tooltip\" role=\"tooltip\" data-place=\"nw\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 16v-4M12 8h.01\"/></svg>This is a tooltip on the North West side</span>",
    "react": "<Tooltip label=\"Refresh telemetry\" placement=\"nw\" icon>\n  <IconButton icon={<Renew />} />\n</Tooltip>",
    "reactKit": {
-    "code": "<Hint content=\"Export accounts as CSV\">\n  <Button variant=\"outline\" size=\"sm\">Export</Button>\n</Hint>",
+    "code": "<Hint content=\"Export accounts as CSV\">\n  <Button variant=\"secondary\" size=\"sm\">Export</Button>\n</Hint>",
     "uses": [
      "Hint"
     ]

@@ -10,9 +10,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
     <!-- The site's token sheet. In dev the Vite server proxies ../../css; built output sits at dashboards/live/ next to the docs. -->
-    <link rel="stylesheet" href="../../css/tokens.css" />
+    <link rel="stylesheet" href="../../css/tokens.css" vite-ignore />
+    <!-- NorthStar component styles: the kit renders these classes, so React and the docs look the same -->
+    <link rel="stylesheet" href="../../css/components.css" vite-ignore />
   </head>
-  <body>
+  <body class="ns">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

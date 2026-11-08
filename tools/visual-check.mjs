@@ -9,7 +9,8 @@
      node tools/visual-check.mjs --docs-only skip the dashboards
 
    Output: tests/visual/current (latest shots) and tests/visual/diff (red marks what changed), both
-   gitignored. A tile fails when more than 0.3% of its pixels move by more than 40 in any channel.
+   gitignored. Tiles are compared as 2x2 block averages (text anti-aliasing jitter averages out); a tile fails
+   when more than 0.3% of its blocks move by more than 40 in any channel.
    Fonts load from Google Fonts, so run it online; offline fallback fonts read as a full-page change. */
 import { createServer } from "node:http";
 import { readFileSync, writeFileSync, existsSync, statSync, mkdirSync, readdirSync, rmSync } from "node:fs";

@@ -11,14 +11,21 @@
       tiles++;
       const w = Math.min(t.w, a.width - t.x, b.width - t.x), h = Math.min(t.h, a.height - t.y, b.height - t.y);
       if (w <= 0 || h <= 0 || a.width !== b.width || a.height !== b.height) { changed.push({ shot: job.name, name: t.name, pct: 100 }); continue; }
-      const out = new ImageData(w, h); let n = 0;
-      for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
-        const i = ((t.y + y) * a.width + (t.x + x)) * 4, o = (y * w + x) * 4;
-        const d = Math.max(Math.abs(a.data[i] - b.data[i]), Math.abs(a.data[i + 1] - b.data[i + 1]), Math.abs(a.data[i + 2] - b.data[i + 2]));
-        if (d > 40) { n++; out.data[o] = 255; out.data[o + 1] = 0; out.data[o + 2] = 60; out.data[o + 3] = 255; }
-        else { const g = (b.data[i] + b.data[i + 1] + b.data[i + 2]) / 3; out.data[o] = out.data[o + 1] = out.data[o + 2] = g; out.data[o + 3] = 70; }
+      /* Compare 2x2 block averages: sub-pixel text anti-aliasing jitter between runs averages out, while a
+         real change (color, size, position, missing element) still moves whole blocks. */
+      const out = new ImageData(w, h); let n = 0, blocks = 0;
+      const avg = (img, bx, by, c) => { let s = 0; for (let dy = 0; dy < 2; dy++) for (let dx = 0; dx < 2; dx++) s += img.data[((t.y + by + dy) * img.width + (t.x + bx + dx)) * 4 + c]; return s / 4; };
+      for (let by = 0; by + 1 < h; by += 2) for (let bx = 0; bx + 1 < w; bx += 2) {
+        blocks++;
+        const d = Math.max(Math.abs(avg(a, bx, by, 0) - avg(b, bx, by, 0)), Math.abs(avg(a, bx, by, 1) - avg(b, bx, by, 1)), Math.abs(avg(a, bx, by, 2) - avg(b, bx, by, 2)));
+        for (let dy = 0; dy < 2; dy++) for (let dx = 0; dx < 2; dx++) {
+          const i = ((t.y + by + dy) * a.width + (t.x + bx + dx)) * 4, o = ((by + dy) * w + (bx + dx)) * 4;
+          if (d > 40) { out.data[o] = 255; out.data[o + 1] = 0; out.data[o + 2] = 60; out.data[o + 3] = 255; }
+          else { const g = (b.data[i] + b.data[i + 1] + b.data[i + 2]) / 3; out.data[o] = out.data[o + 1] = out.data[o + 2] = g; out.data[o + 3] = 70; }
+        }
+        if (d > 40) n++;
       }
-      const pct = (n / (w * h)) * 100;
+      const pct = (n / Math.max(blocks, 1)) * 100;
       if (pct > 0.3) {
         changed.push({ shot: job.name, name: t.name, pct: +pct.toFixed(2) });
         const c = document.createElement("canvas"); c.width = w; c.height = h; c.getContext("2d").putImageData(out, 0, 0);

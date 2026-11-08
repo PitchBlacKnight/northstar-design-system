@@ -4,11 +4,9 @@ import * as React from "react";
 import { MoonIcon, SearchIcon, SunIcon, Rows3Icon, Rows4Icon } from "lucide-react";
 import { views, findView } from "@/views/registry";
 import type { ViewMeta } from "@/views/types";
-import { Toaster } from "@/components/ui/sonner";
-import { Button } from "@/components/ui/button";
-import { Kbd } from "@/components/ui/kbd";
+import { Toaster } from "sonner";
+import { Button, CommandPalette } from "@/kit";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandShortcut } from "@/components/ui/command";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 
 const slugFromHash = () => decodeURIComponent(location.hash.replace(/^#\/?/, "")) || views[0]?.meta.slug || "";
@@ -105,16 +103,16 @@ export default function App() {
             </BreadcrumbList>
           </Breadcrumb>
           <div className="ml-auto flex items-center gap-1.5">
-            <Button variant="outline" size="sm" onClick={() => setPalette(true)} className="gap-2 text-muted-foreground" aria-label="Jump to a dashboard">
-              <SearchIcon className="size-3.5" />
+            <Button variant="secondary" size="sm" onClick={() => setPalette(true)} aria-label="Jump to a dashboard">
+              <SearchIcon className="size-3.5" aria-hidden />
               <span className="hidden md:inline">Jump to</span>
-              <Kbd className="hidden md:inline-flex">⌘K</Kbd>
+              <kbd className="hidden md:inline-grid">⌘K</kbd>
             </Button>
-            <Button variant="ghost" size="icon-sm" onClick={() => setCompact((c) => !c)} aria-pressed={compact} aria-label={compact ? "Comfortable density" : "Compact density"} title="Density">
-              {compact ? <Rows4Icon /> : <Rows3Icon />}
+            <Button variant="ghost" size="sm" icon onClick={() => setCompact((c) => !c)} aria-pressed={compact} aria-label={compact ? "Comfortable density" : "Compact density"} title="Density">
+              {compact ? <Rows4Icon aria-hidden /> : <Rows3Icon aria-hidden />}
             </Button>
-            <Button variant="ghost" size="icon-sm" onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))} aria-label={theme === "dark" ? "Light theme" : "Dark theme"} title="Theme">
-              {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+            <Button variant="ghost" size="sm" icon onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))} aria-label={theme === "dark" ? "Light theme" : "Dark theme"} title="Theme">
+              {theme === "dark" ? <SunIcon aria-hidden /> : <MoonIcon aria-hidden />}
             </Button>
           </div>
         </header>
@@ -122,25 +120,13 @@ export default function App() {
           <View key={current.meta.slug} />
         </main>
       </SidebarInset>
-      <CommandDialog open={palette} onOpenChange={setPalette} title="Jump to a dashboard" description="Search the dashboards by name or product">
-        <Command className="bg-ns-elevated">
-          <CommandInput placeholder="Search dashboards" />
-          <CommandList>
-            <CommandEmpty>No dashboard matches.</CommandEmpty>
-            {groups().map(([cat, items]) => (
-              <CommandGroup key={cat} heading={cat}>
-                {items.map(({ meta }) => (
-                  <CommandItem key={meta.slug} value={`${meta.title} ${meta.modeledOn} ${meta.category}`} onSelect={() => go(meta.slug)}>
-                    <span>{meta.title}</span>
-                    <CommandShortcut className="tracking-normal">{meta.modeledOn.split(",")[0]}</CommandShortcut>
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            ))}
-          </CommandList>
-        </Command>
-      </CommandDialog>
-      <Toaster theme={theme} position="bottom-right" />
+      <CommandPalette open={palette} onOpenChange={setPalette} label="Jump to a dashboard" placeholder="Search dashboards"
+        groups={groups().map(([cat, items]) => ({ heading: cat, items: items.map(({ meta }) => ({ id: meta.slug, label: meta.title, meta: meta.modeledOn.split(",")[0], keywords: meta.category })) }))}
+        onSelect={(it) => go(it.id)} />
+      {/* Toasts render as NorthStar notices (ns-notice--toast); Sonner keeps stacking, timing and swipe */}
+      <Toaster theme={theme} position="bottom-right" visibleToasts={3}
+        icons={{ success: "✓", info: "i", warning: "!", error: "×" }}
+        toastOptions={{ unstyled: true, classNames: { toast: "ns ns-notice ns-notice--toast ns-notice--info w-[360px]", title: "ns-notice__title", description: "ns-notice__body", icon: "ns-notice__icon", success: "ns-notice--success", error: "ns-notice--error", warning: "ns-notice--warning", info: "ns-notice--info", actionButton: "ns-btn ns-btn--ghost ns-btn--sm", cancelButton: "ns-btn ns-btn--ghost ns-btn--sm" } }} />
     </SidebarProvider>
   );
 }

@@ -1,17 +1,9 @@
-/* NorthStar React kit: form controls, tabs and tooltip. Thin wrappers over the shadcn/ui (Base UI) parts
-   that wire a visible label, helper text and error text to the control with ids, aria-describedby and
-   aria-invalid, and style them only from NorthStar roles. */
+/* NorthStar React kit: form controls, tabs and tooltip, rendered with NorthStar's own markup and classes
+   from css/components.css (ns-field, ns-input, ns-select, ns-check, ns-toggle, ns-tabs, ns-tip). Native
+   inputs carry the semantics; React wires the label, helper and error text with ids, aria-describedby
+   and aria-invalid, and adds the keyboard behavior the docs get from ui.js. */
 import * as React from "react";
-import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox";
-import { CheckIcon, MinusIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-
-const FIELD = "h-[var(--ns-density-control)] border-ns-default bg-[var(--ns-field-bg)] text-sm aria-invalid:border-[var(--ns-status-error)]";
 
 function useFieldIds(helper?: React.ReactNode, error?: React.ReactNode) {
   const id = React.useId();
@@ -20,61 +12,47 @@ function useFieldIds(helper?: React.ReactNode, error?: React.ReactNode) {
 }
 function Message({ id, helper, error }: { id: string; helper?: React.ReactNode; error?: React.ReactNode }) {
   if (!error && !helper) return null;
-  return <p id={id} className={cn("text-xs", error ? "text-status-error" : "text-muted-foreground")}>{error || helper}</p>;
-}
-function Label({ htmlFor, id, children, required }: { htmlFor?: string; id?: string; children: React.ReactNode; required?: boolean }) {
-  return (
-    <label htmlFor={htmlFor} id={id} className="text-sm font-semibold text-foreground">
-      {children}{required && <span className="ml-0.5 text-status-error" aria-hidden>*</span>}
-    </label>
-  );
+  return <span id={id} className="ns-helper">{error || helper}</span>;
 }
 
-/* Text input with a visible label, helper text, and an error that replaces the helper and sets aria-invalid */
-export function TextField({ label, value, onChange, helper, error, required, placeholder, type = "text", disabled, className }: { label: string; value: string; onChange: (value: string) => void; helper?: React.ReactNode; error?: React.ReactNode; required?: boolean; placeholder?: string; type?: "text" | "email" | "search" | "password" | "url" | "tel"; disabled?: boolean; className?: string }) {
+/* Text input (ns-field, ns-input): visible label, helper text, and an error that replaces the helper and sets aria-invalid */
+export function TextField({ label, value, onChange, helper, error, required, placeholder, type = "text", disabled, size = "md", className }: { label: string; value: string; onChange: (value: string) => void; helper?: React.ReactNode; error?: React.ReactNode; required?: boolean; placeholder?: string; type?: "text" | "email" | "search" | "password" | "url" | "tel"; disabled?: boolean; size?: "sm" | "md" | "lg"; className?: string }) {
   const { id, msgId, describedBy } = useFieldIds(helper, error);
   return (
-    <div className={cn("flex flex-col gap-1.5", className)}>
-      <Label htmlFor={id} required={required}>{label}</Label>
-      <Input id={id} type={type} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} disabled={disabled} required={required}
-        aria-invalid={error ? true : undefined} aria-describedby={describedBy} className={FIELD} />
+    <div className={cn("ns-field", error && "is-error", className)}>
+      <label className="ns-label" htmlFor={id}>{label}{required && <span aria-hidden> *</span>}</label>
+      <input id={id} className={cn("ns-input", size !== "md" && `ns-input--${size}`)} type={type} value={value} onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder} disabled={disabled} required={required} aria-invalid={error ? true : undefined} aria-describedby={describedBy} />
       <Message id={msgId} helper={helper} error={error} />
     </div>
   );
 }
 
-/* Single choice from a short list (Base UI Select): label, helper and error wired like TextField */
+/* Select (ns-select): the native select NorthStar documents, with label, helper and error wired like TextField */
 export function SelectField<T extends string>({ label, value, onChange, options, helper, error, placeholder = "Select", disabled, className }: { label: string; value: T | null; onChange: (value: T) => void; options: readonly { id: T; label: string }[]; helper?: React.ReactNode; error?: React.ReactNode; placeholder?: string; disabled?: boolean; className?: string }) {
   const { id, msgId, describedBy } = useFieldIds(helper, error);
-  const labelId = id + "-label";
   return (
-    <div className={cn("flex flex-col gap-1.5", className)}>
-      <Label id={labelId}>{label}</Label>
-      <Select items={options.map((o) => ({ value: o.id, label: o.label }))} value={value} onValueChange={(v) => { if (v) onChange(v as T); }} disabled={disabled}>
-        <SelectTrigger aria-labelledby={labelId} aria-invalid={error ? true : undefined} aria-describedby={describedBy} className={cn(FIELD, "w-full justify-between")}>
-          <SelectValue placeholder={placeholder} />
-        </SelectTrigger>
-        <SelectContent className="border-ns-default bg-ns-elevated">
-          {options.map((o) => <SelectItem key={o.id} value={o.id}>{o.label}</SelectItem>)}
-        </SelectContent>
-      </Select>
+    <div className={cn("ns-field", error && "is-error", className)}>
+      <label className="ns-label" htmlFor={id}>{label}</label>
+      <select id={id} className="ns-select" value={value ?? ""} onChange={(e) => onChange(e.target.value as T)} disabled={disabled}
+        aria-invalid={error ? true : undefined} aria-describedby={describedBy}>
+        {value === null && <option value="" disabled>{placeholder}</option>}
+        {options.map((o) => <option key={o.id} value={o.id}>{o.label}</option>)}
+      </select>
       <Message id={msgId} helper={helper} error={error} />
     </div>
   );
 }
 
-/* Checkbox with its label as the click target; supports the indeterminate (select all) state */
+/* Checkbox (ns-check): a native checkbox inside its label; supports the indeterminate (select all) state */
 export function CheckboxField({ label, checked, onChange, indeterminate, helper, disabled }: { label: string; checked: boolean; onChange: (checked: boolean) => void; indeterminate?: boolean; helper?: React.ReactNode; disabled?: boolean }) {
-  const { id, msgId, describedBy } = useFieldIds(helper);
+  const { msgId, describedBy } = useFieldIds(helper);
+  const ref = React.useRef<HTMLInputElement>(null);
+  React.useEffect(() => { if (ref.current) ref.current.indeterminate = !!indeterminate; }, [indeterminate]);
   return (
-    <div className="flex flex-col gap-1">
-      <label htmlFor={id} className={cn("inline-flex cursor-pointer items-center gap-2.5 text-sm", disabled && "cursor-not-allowed opacity-50")}>
-        <CheckboxPrimitive.Root id={id} checked={checked} indeterminate={indeterminate} disabled={disabled} onCheckedChange={(c) => onChange(c)} aria-describedby={describedBy}
-          className="grid size-4 shrink-0 place-items-center rounded-[var(--ns-radius-xs)] border border-ns-strong bg-[var(--ns-field-bg)] outline-none focus-visible:ring-3 focus-visible:ring-ring/50 data-[checked]:border-primary data-[checked]:bg-primary data-[indeterminate]:border-primary data-[indeterminate]:bg-primary">
-          <CheckboxPrimitive.Indicator className="text-primary-foreground">
-            {indeterminate ? <MinusIcon className="size-3" strokeWidth={3} /> : <CheckIcon className="size-3" strokeWidth={3} />}
-          </CheckboxPrimitive.Indicator>
-        </CheckboxPrimitive.Root>
+    <div className="ns-field">
+      <label className="ns-check">
+        <input ref={ref} type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} disabled={disabled} aria-describedby={describedBy} />
         {label}
       </label>
       <Message id={msgId} helper={helper} />
@@ -82,40 +60,52 @@ export function CheckboxField({ label, checked, onChange, indeterminate, helper,
   );
 }
 
-/* On and off setting that applies immediately (role=switch), label on the left */
-export function SwitchField({ label, checked, onChange, helper, disabled }: { label: string; checked: boolean; onChange: (checked: boolean) => void; helper?: React.ReactNode; disabled?: boolean }) {
-  const { id, msgId, describedBy } = useFieldIds(helper);
+/* Switch (ns-toggle): a native checkbox with role=switch for settings that apply immediately */
+export function SwitchField({ label, checked, onChange, helper, disabled, size = "md" }: { label: string; checked: boolean; onChange: (checked: boolean) => void; helper?: React.ReactNode; disabled?: boolean; size?: "sm" | "md" }) {
+  const { msgId, describedBy } = useFieldIds(helper);
   return (
-    <div className="flex flex-col gap-1">
-      <div className="flex items-center justify-between gap-4">
-        <label htmlFor={id} className="text-sm">{label}</label>
-        <Switch id={id} checked={checked} onCheckedChange={(c) => onChange(c)} disabled={disabled} aria-describedby={describedBy} />
-      </div>
+    <div className="ns-field">
+      <label className={cn("ns-toggle", size === "sm" && "ns-toggle--sm")}>
+        <input type="checkbox" role="switch" checked={checked} onChange={(e) => onChange(e.target.checked)} disabled={disabled} aria-describedby={describedBy} />
+        {label}
+      </label>
       <Message id={msgId} helper={helper} />
     </div>
   );
 }
 
-/* Two to four peer views of one object; arrow keys move between tabs (Base UI Tabs) */
-export function ViewTabs<T extends string>({ label, value, onChange, tabs }: { label: string; value: T; onChange: (value: T) => void; tabs: readonly { id: T; label: string; content: React.ReactNode }[] }) {
+/* Tabs (ns-tabs): two to four peer views of one object; arrow keys, Home and End move and select */
+export function ViewTabs<T extends string>({ label, value, onChange, tabs, pill }: { label: string; value: T; onChange: (value: T) => void; tabs: readonly { id: T; label: string; content: React.ReactNode }[]; pill?: boolean }) {
+  const base = React.useId();
+  const refs = React.useRef<(HTMLButtonElement | null)[]>([]);
+  const move = (e: React.KeyboardEvent, i: number) => {
+    const n = tabs.length;
+    const j = e.key === "ArrowRight" ? (i + 1) % n : e.key === "ArrowLeft" ? (i - 1 + n) % n : e.key === "Home" ? 0 : e.key === "End" ? n - 1 : -1;
+    if (j < 0) return;
+    e.preventDefault(); onChange(tabs[j].id); refs.current[j]?.focus();
+  };
   return (
-    <Tabs value={value} onValueChange={(v) => onChange(v as T)}>
-      <TabsList variant="line" aria-label={label}>
-        {tabs.map((t) => <TabsTrigger key={t.id} value={t.id} className="data-active:text-foreground">{t.label}</TabsTrigger>)}
-      </TabsList>
-      {tabs.map((t) => <TabsContent key={t.id} value={t.id} className="pt-3">{t.content}</TabsContent>)}
-    </Tabs>
+    <div>
+      <div className={cn("ns-tabs", pill && "ns-tabs--pill")} role="tablist" aria-label={label}>
+        {tabs.map((t, i) => (
+          <button key={t.id} ref={(el) => { refs.current[i] = el; }} type="button" role="tab" className="ns-tab" id={`${base}-t${i}`} aria-controls={`${base}-p${i}`}
+            aria-selected={t.id === value} tabIndex={t.id === value ? 0 : -1} onClick={() => onChange(t.id)} onKeyDown={(e) => move(e, i)}>{t.label}</button>
+        ))}
+      </div>
+      {tabs.map((t, i) => (
+        <div key={t.id} role="tabpanel" id={`${base}-p${i}`} aria-labelledby={`${base}-t${i}`} hidden={t.id !== value} tabIndex={0} style={{ paddingTop: "var(--ns-space-5)" }}>{t.content}</div>
+      ))}
+    </div>
   );
 }
 
-/* Short help on hover and focus for one control, for example an icon-only button; never essential info */
-export function Hint({ content, children, side = "top" }: { content: React.ReactNode; children: React.ReactElement; side?: "top" | "bottom" | "left" | "right" }) {
+/* Tooltip (ns-tip): short help shown on hover and focus, described by aria-describedby; never essential info */
+export function Hint({ content, children }: { content: React.ReactNode; children: React.ReactElement<{ "aria-describedby"?: string }> }) {
+  const id = React.useId();
   return (
-    <TooltipProvider delay={300}>
-      <Tooltip>
-        <TooltipTrigger render={children} />
-        <TooltipContent side={side}>{content}</TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+    <span className="ns-tip">
+      {React.cloneElement(children, { "aria-describedby": id })}
+      <span className="ns-tip__bubble" role="tooltip" id={id}>{content}</span>
+    </span>
   );
 }

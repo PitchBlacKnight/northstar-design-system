@@ -3,9 +3,7 @@
    here first (npx tsc --noEmit -p tsconfig.app.json). Not rendered by the app. */
 import * as React from "react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import { Bento, BarList, CheckboxField, ConfirmAction, DataTable, Facts, Figure, Hint, Pill, Segmented, SelectField, Spark, Stat, SwitchField, TextField, Tile, ViewTabs, type Col } from "@/kit";
+import { Badge, Bento, BarList, Button, CheckboxField, CommandPalette, ConfirmAction, DataTable, Facts, Figure, Hint, Pill, Segmented, SelectField, Spark, Stat, SwitchField, TextField, Tile, ViewTabs, type Col } from "@/kit";
 
 type Account = { id: string; name: string; plan: string; mrr: number; status: "Active" | "Past due" };
 const accounts: Account[] = [
@@ -49,9 +47,10 @@ export function BadgeExample() {
   return (
     // @example badge
     <div className="flex gap-2">
-      <Pill status="success">Active</Pill>
-      <Pill status="warning">Pending</Pill>
-      <Pill status="error">Failed</Pill>
+      <Badge status="success">Active</Badge>
+      <Badge status="warning">Pending</Badge>
+      <Badge status="error">Failed</Badge>
+      <Badge status="info">Beta</Badge>
     </div>
     // @end
   );
@@ -79,7 +78,7 @@ export function NotificationExample() {
   return (
     // @example notification
     // Mount <Toaster theme="dark" position="bottom-right" /> once at the app root, then call toast() anywhere:
-    <Button variant="outline" size="sm" onClick={() => toast.success("Account archived", { description: "Acme Corp moved to the archive.", action: { label: "Undo", onClick: () => {} } })}>Archive</Button>
+    <Button variant="secondary" size="sm" onClick={() => toast.success("Account archived", { description: "Acme Corp moved to the archive.", action: { label: "Undo", onClick: () => {} } })}>Archive</Button>
     // @end
   );
 }
@@ -100,17 +99,9 @@ export function PaletteExample() {
     addEventListener("keydown", on); return () => removeEventListener("keydown", on);
   }, []);
   return (
-    <CommandDialog open={open} onOpenChange={setOpen} title="Search" description="Search accounts and pages">
-      <Command>
-        <CommandInput placeholder="Search accounts, pages and actions" />
-        <CommandList>
-          <CommandEmpty>No results.</CommandEmpty>
-          <CommandGroup heading="Accounts">
-            <CommandItem onSelect={() => setOpen(false)}>Acme Corp</CommandItem>
-          </CommandGroup>
-        </CommandList>
-      </Command>
-    </CommandDialog>
+    <CommandPalette open={open} onOpenChange={setOpen} placeholder="Search accounts, pages and actions"
+      groups={[{ heading: "Accounts", items: [{ id: "acme", label: "Acme Corp", meta: "Account" }] }, { heading: "Actions", items: [{ id: "new", label: "Create account", meta: "Action" }] }]}
+      onSelect={(item) => { setOpen(false); toast.success("Opened " + item.label); }} />
   );
   // @end
 }
@@ -175,7 +166,7 @@ export function TooltipExample() {
   return (
     // @example tooltip
     <Hint content="Export accounts as CSV">
-      <Button variant="outline" size="sm">Export</Button>
+      <Button variant="secondary" size="sm">Export</Button>
     </Hint>
     // @end
   );

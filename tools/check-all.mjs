@@ -20,6 +20,7 @@ const CHECKS = {
   behavior: ["Behavior check", "tools/behavior-check.mjs"],
   a11y: ["Accessibility check", "tools/a11y-check.mjs"],
   visual: ["Visual check", "tools/visual-check.mjs"],
+  parity: ["React kit parity with docs", "tools/parity-check.mjs"],
   figma: ["Figma drift (online)", "tools/figma-sync-check.mjs", "--strict"],
 };
 const picked = process.argv.slice(2).filter((a) => CHECKS[a]);

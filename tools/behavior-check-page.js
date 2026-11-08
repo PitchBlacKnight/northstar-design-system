@@ -31,8 +31,10 @@
         }
         if (!act) return "no row in the first six has an action";
         act.click(); await W(400);
-        const dlg = $("[data-slot=dialog-content]"); if (!dlg) return "action did not open a dialog";
-        const confirm = $$("[data-slot=dialog-footer] button", dlg).pop(); /* footer: Cancel, then the confirm */
+        const dlg = $(".ns-modal"); if (!dlg) return "action did not open a dialog";
+        /* Focus moving into the dialog is Base UI's job and was checked in a real browser; headless Chrome
+           does not run its deferred focus, so it is not asserted here. */
+        const confirm = [...dlg.querySelectorAll(".ns-modal__foot button")].pop(); /* footer: Cancel, then the confirm */
         if (!confirm) return "dialog has no confirm button";
         confirm.click(); await W(500);
         const ok = !!$("[data-sonner-toast]");
@@ -45,18 +47,18 @@
       const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set;
       const email = $("main input[type=email]"); setter.call(email, "bad"); email.dispatchEvent(new Event("input", { bubbles: true })); await W(150);
       if (email.getAttribute("aria-invalid") !== "true" || !document.getElementById(email.getAttribute("aria-describedby"))?.textContent) return "error not wired to the field";
-      const boxes = () => [...document.querySelectorAll("main [role=checkbox]")].map((b) => b.getAttribute("aria-checked"));
+      const cbs = () => [...document.querySelectorAll("main .ns-check input[type=checkbox]")];
+      const boxes = () => cbs().map((b) => (b.indeterminate ? "mixed" : String(b.checked)));
       if (boxes()[0] !== "mixed") return "select-all is not mixed";
-      document.querySelectorAll("main [role=checkbox]")[2].click(); await W(150);
+      cbs()[2].click(); await W(150);
       if (boxes().join() !== "true,true,true") return "checking the last box did not check all: " + boxes();
-      const sw = $("main [role=switch]"), before = sw.getAttribute("aria-checked"); sw.click(); await W(150);
-      if (sw.getAttribute("aria-checked") === before) return "switch did not toggle";
+      const sw = $("main input[role=switch]"), before = sw.checked; sw.click(); await W(150);
+      if (sw.checked === before) return "switch did not toggle";
       document.querySelectorAll("main [role=tab]")[1].click(); await W(150);
       if (!/Billing/.test($("main [role=tab][aria-selected=true]")?.textContent || "")) return "tab did not select";
-      const trig = $("main button[aria-labelledby]"); trig.click(); await W(300);
-      const opt = [...document.querySelectorAll("[role=option]")].find((o) => /European/.test(o.textContent)); if (!opt) return "select did not open";
-      opt.click(); await W(300);
-      return expect(/European Union/.test(trig.textContent), "select did not take the value");
+      const sel = $("main select.ns-select"); if (!sel) return "no select";
+      const set = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, "value").set; set.call(sel, "eu"); sel.dispatchEvent(new Event("change", { bubbles: true })); await W(200);
+      return expect(sel.value === "eu" && sel.labels && sel.labels.length === 1, "select did not take the value or has no label");
     });
     await check("app: period control changes the data", async () => {
       await go("finance", 700);

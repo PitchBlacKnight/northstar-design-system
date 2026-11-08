@@ -2,7 +2,7 @@
    NORTHSTAR components - every value comes from tokens.css
    ============================================================ */
 
-.ns { font-family: var(--ns-font-sans); color: var(--ns-text-primary); }
+.ns { font-family: var(--ns-font-sans); color: var(--ns-text-primary); letter-spacing: 0.2px; }
 .ns *, .ns *::before, .ns *::after { box-sizing: border-box; }
 
 /* ---------- Button (Figma: Hierarchy x Content x State x Size x Shape) ---------- */
@@ -11,7 +11,7 @@
   --_hover: var(--ns-interactive-primary-hover); --_press: var(--ns-interactive-primary-active); --_h: var(--ns-density-control);
   display: inline-flex; align-items: center; justify-content: center; gap: var(--ns-space-3);
   min-height: var(--_h); padding: 0 var(--ns-space-6);
-  font: 600 var(--ns-type-button-size)/var(--ns-type-button-line) var(--ns-font-sans);
+  font: 600 var(--ns-type-button-size)/var(--ns-type-button-line) var(--ns-font-sans); letter-spacing: normal;
   color: var(--_fg); background: var(--_bg); border: 1px solid var(--_bd); border-radius: var(--ns-radius-md);
   cursor: pointer; white-space: nowrap; text-decoration: none;
   transition: background var(--ns-duration-fast) var(--ns-easing-standard), border-color var(--ns-duration-fast) var(--ns-easing-standard), transform var(--ns-duration-fast) var(--ns-easing-standard);
@@ -43,7 +43,7 @@
 .ns-helper { font: 400 var(--ns-type-caption-size)/var(--ns-type-caption-line) var(--ns-font-sans); color: var(--ns-text-tertiary); }
 .ns-input, .ns-select, .ns-textarea {
   width: 100%; min-height: var(--ns-density-control); padding: 0 var(--ns-space-4);
-  font: 400 var(--ns-type-body2-size)/var(--ns-type-body2-line) var(--ns-font-sans);
+  font: 400 var(--ns-type-body2-size)/var(--ns-type-body2-line) var(--ns-font-sans); letter-spacing: normal;
   color: var(--ns-text-primary); background: var(--ns-field, var(--ns-field-bg));
   border: 1px solid transparent; border-radius: var(--ns-radius-sm);
   transition: border-color var(--ns-duration-fast) var(--ns-easing-standard), box-shadow var(--ns-duration-fast) var(--ns-easing-standard);
@@ -234,7 +234,7 @@
 
 /* ---------- Tabs (Figma: Icon x Items) ---------- */
 .ns-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--ns-gray-8); overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
-.ns-tab { all: unset; box-sizing: border-box; cursor: pointer; padding: var(--ns-space-5) var(--ns-space-6); font: 600 var(--ns-type-body2-size)/1 var(--ns-font-sans); color: var(--ns-gray-4); border-bottom: 3px solid transparent; margin-bottom: -1px; white-space: nowrap; display: inline-flex; gap: var(--ns-space-3); align-items: center; transition: color var(--ns-duration-fast) var(--ns-easing-standard), border-color var(--ns-duration-fast) var(--ns-easing-standard); }
+.ns-tab { all: unset; box-sizing: border-box; cursor: pointer; padding: var(--ns-space-5) var(--ns-space-6); font: 600 var(--ns-type-body2-size)/1 var(--ns-font-sans); color: var(--ns-text-secondary); border-bottom: 3px solid transparent; margin-bottom: -1px; white-space: nowrap; display: inline-flex; gap: var(--ns-space-3); align-items: center; transition: color var(--ns-duration-fast) var(--ns-easing-standard), border-color var(--ns-duration-fast) var(--ns-easing-standard); }
 .ns-tab svg { width: 18px; height: 18px; }
 .ns-tab:hover { color: var(--ns-text-primary); }
 .ns-tab[aria-selected="true"] { color: var(--ns-text-primary); border-bottom-color: var(--ns-blue-700); }

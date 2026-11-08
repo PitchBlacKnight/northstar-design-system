@@ -3,16 +3,12 @@
 import * as React from "react";
 import NumberFlow, { type Format } from "@number-flow/react";
 import { toast } from "sonner";
-import { ArrowDownIcon, ArrowUpIcon, ChevronsUpDownIcon, SearchIcon } from "lucide-react";
+import { ArrowDownIcon, ArrowUpIcon, ChevronsUpDownIcon } from "lucide-react";
 import { Area, AreaChart } from "recharts";
 import { cn } from "@/lib/utils";
 import { ChartContainer, type ChartConfig } from "@/components/ui/chart";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Button, Modal, ModalClose } from "./ns";
 
 /* ---------- grid and tiles ---------- */
 /* 12-column bento on wide screens, 6 at tablet, 1 on phones. Pass span classes on each Tile. */
@@ -111,16 +107,22 @@ export function Spark({ data, id, color = "var(--chart-1)", className }: { data:
 }
 
 /* ---------- controls ---------- */
-/* Single-choice segmented control for periods and views (Base UI toggle group) */
+/* Segmented control (ns-segmented): single choice for periods and views; arrow keys, Home and End move and select */
 export function Segmented<T extends string>({ value, onChange, options, label }: { value: T; onChange: (v: T) => void; options: readonly { id: T; label: string }[]; label: string }) {
+  const refs = React.useRef<(HTMLButtonElement | null)[]>([]);
+  const key = (e: React.KeyboardEvent, i: number) => {
+    const n = options.length;
+    const j = e.key === "ArrowRight" || e.key === "ArrowDown" ? (i + 1) % n : e.key === "ArrowLeft" || e.key === "ArrowUp" ? (i - 1 + n) % n : e.key === "Home" ? 0 : e.key === "End" ? n - 1 : -1;
+    if (j < 0) return;
+    e.preventDefault(); onChange(options[j].id); refs.current[j]?.focus();
+  };
   return (
-    <ToggleGroup aria-label={label} value={[value]} onValueChange={(v: string[]) => v[0] && onChange(v[0] as T)} variant="outline" size="sm">
-      {options.map((o) => (
-        <ToggleGroupItem key={o.id} value={o.id} className="tnum px-2.5 text-xs data-[pressed]:bg-ns-selected data-[pressed]:text-foreground">
-          {o.label}
-        </ToggleGroupItem>
+    <div className="ns-segmented" role="radiogroup" aria-label={label}>
+      {options.map((o, i) => (
+        <button key={o.id} ref={(el) => { refs.current[i] = el; }} type="button" role="radio" aria-checked={o.id === value} tabIndex={o.id === value ? 0 : -1}
+          className="tnum" onClick={() => onChange(o.id)} onKeyDown={(e) => key(e, i)}>{o.label}</button>
       ))}
-    </ToggleGroup>
+    </div>
   );
 }
 
@@ -169,7 +171,7 @@ export function BarList({ items, fmt = (n: number) => n.toLocaleString("en-US") 
 /* ---------- table with sort, filter and a detail sheet ---------- */
 export type Col<R> = { key: string; label: string; align?: "left" | "right"; sort?: (r: R) => number | string; cell: (r: R) => React.ReactNode; hideBelow?: "sm" | "md" | "lg" };
 const HIDE = { sm: "hidden sm:table-cell", md: "hidden md:table-cell", lg: "hidden lg:table-cell" };
-/* Sortable, filterable table; selecting a row (click, Enter or Space) opens a Sheet with detail(row) */
+/* Sortable, filterable table (ns-table); selecting a row (click, Enter or Space) opens a Sheet with detail(row) */
 export function DataTable<R>({ rows, cols, rowKey, filterText, filterPlaceholder = "Filter", detail, detailTitle, detailDescription, initialSort, maxRows }: {
   rows: R[]; cols: Col<R>[]; rowKey: (r: R) => string; filterText?: (r: R) => string; filterPlaceholder?: string;
   detail: (r: R) => React.ReactNode; detailTitle: (r: R) => string; detailDescription?: (r: R) => string; initialSort?: { key: string; dir: "asc" | "desc" }; maxRows?: number;
@@ -187,46 +189,42 @@ export function DataTable<R>({ rows, cols, rowKey, filterText, filterPlaceholder
   return (
     <div className="flex min-w-0 flex-col gap-2">
       {filterText && (
-        <label className="relative block max-w-64">
-          <span className="sr-only">{filterPlaceholder}</span>
-          <SearchIcon className="pointer-events-none absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-ns-tertiary" aria-hidden />
-          <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder={filterPlaceholder} className="h-8 bg-ns-inset pl-8 text-sm" />
-        </label>
+        <input className="ns-input ns-input--sm max-w-64" type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder={filterPlaceholder} aria-label={filterPlaceholder} />
       )}
       <div className="-mx-[var(--ns-density-pad-x)] overflow-x-auto">
-        <Table className="text-sm">
-          <TableHeader>
-            <TableRow className="border-border hover:bg-transparent">
+        <table className="ns-table">
+          <thead>
+            <tr>
               {cols.map((c, i) => (
-                <TableHead key={c.key} className={cn("h-9 text-[length:var(--ns-type-chart-size)] font-bold uppercase tracking-wider text-ns-chart-label", c.align === "right" && "text-right", i === 0 && "pl-[var(--ns-density-pad-x)]", i === cols.length - 1 && "pr-[var(--ns-density-pad-x)]", c.hideBelow && HIDE[c.hideBelow])}
+                <th key={c.key} style={c.align === "right" ? { textAlign: "right" } : undefined} className={cn(i === 0 && "pl-[var(--ns-density-pad-x)]", i === cols.length - 1 && "pr-[var(--ns-density-pad-x)]", c.hideBelow && HIDE[c.hideBelow])}
                   aria-sort={sort?.key === c.key ? (sort.dir === "asc" ? "ascending" : "descending") : undefined}>
                   {c.sort ? (
-                    <button type="button" onClick={() => toggle(c.key)} className={cn("inline-flex items-center gap-1 uppercase hover:text-foreground", c.align === "right" && "flex-row-reverse")}>
+                    <button type="button" onClick={() => toggle(c.key)} style={{ all: "unset", cursor: "pointer", display: "inline-flex", alignItems: "center", verticalAlign: "top", gap: 4, flexDirection: c.align === "right" ? "row-reverse" : "row" }}>
                       {c.label}
                       {sort?.key === c.key ? (sort.dir === "asc" ? <ArrowUpIcon className="size-3" /> : <ArrowDownIcon className="size-3" />) : <ChevronsUpDownIcon className="size-3 opacity-50" />}
                     </button>
                   ) : c.label}
-                </TableHead>
+                </th>
               ))}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
+            </tr>
+          </thead>
+          <tbody>
             {view.map((r) => (
-              <TableRow key={rowKey(r)} tabIndex={0} onClick={() => setOpen(r)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setOpen(r); } }}
-                className="cursor-pointer border-border hover:bg-[var(--ns-interactive-ghost-hover)] focus-visible:bg-[var(--ns-interactive-ghost-hover)] focus-visible:outline-none" style={{ height: "calc(var(--ns-density-row-y) * 2 + 20px)" }}>
+              <tr key={rowKey(r)} tabIndex={0} onClick={() => setOpen(r)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setOpen(r); } }}
+                className="cursor-pointer focus-visible:bg-[var(--ns-interactive-ghost-hover)] focus-visible:outline-none">
                 {cols.map((c, i) => (
-                  <TableCell key={c.key} className={cn("py-0", c.align === "right" && "tnum text-right", i === 0 && "pl-[var(--ns-density-pad-x)]", i === cols.length - 1 && "pr-[var(--ns-density-pad-x)]", c.hideBelow && HIDE[c.hideBelow])}>{c.cell(r)}</TableCell>
+                  <td key={c.key} style={c.align === "right" ? { textAlign: "right" } : undefined} className={cn(c.align === "right" && "tnum", i === 0 && "pl-[var(--ns-density-pad-x)]", i === cols.length - 1 && "pr-[var(--ns-density-pad-x)]", c.hideBelow && HIDE[c.hideBelow])}>{c.cell(r)}</td>
                 ))}
-              </TableRow>
+              </tr>
             ))}
             {!view.length && (
-              <TableRow><TableCell colSpan={cols.length} className="py-6 text-center text-muted-foreground">No rows match "{q}"</TableCell></TableRow>
+              <tr><td colSpan={cols.length} className="py-6 text-center text-muted-foreground">No rows match "{q}"</td></tr>
             )}
-          </TableBody>
-        </Table>
+          </tbody>
+        </table>
       </div>
       <Sheet open={!!open} onOpenChange={(o) => !o && setOpen(null)}>
-        <SheetContent className="w-full gap-0 border-border bg-ns-elevated sm:max-w-md">
+        <SheetContent className="ns w-full gap-0 border-border bg-ns-elevated sm:max-w-md">
           {open && (
             <>
               <SheetHeader className="border-b border-border">
@@ -257,28 +255,24 @@ export function Facts({ rows }: { rows: [string, React.ReactNode][] }) {
 }
 
 /* ---------- action: dialog that confirms with a toast ---------- */
-/* Button that opens a confirm Dialog; confirming calls onConfirm and shows a success toast */
-export function ConfirmAction({ trigger, title, description, confirm, success, successDescription, destructive, children, size = "sm", variant = "outline", onConfirm }: {
+/* Button that opens a confirm dialog (ns-modal); confirming calls onConfirm and shows a success toast */
+export function ConfirmAction({ trigger, title, description, confirm, success, successDescription, destructive, children, size = "sm", variant = "outline", onConfirm, label }: {
   trigger: React.ReactNode; title: string; description: string; confirm: string; success: string; successDescription?: string; destructive?: boolean; children?: React.ReactNode; onConfirm?: () => void;
-  size?: "sm" | "default"; variant?: "outline" | "default" | "secondary" | "ghost";
+  size?: "sm" | "default"; variant?: "outline" | "default" | "secondary" | "ghost"; label?: string;
 }) {
   const [open, setOpen] = React.useState(false);
+  const v = variant === "default" ? "primary" : variant === "ghost" ? "ghost" : "secondary";
   return (
     <>
-      <Button size={size} variant={variant} onClick={() => setOpen(true)}>{trigger}</Button>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="border-border bg-ns-elevated sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>{title}</DialogTitle>
-            <DialogDescription>{description}</DialogDescription>
-          </DialogHeader>
-          {children}
-          <DialogFooter>
-            <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
-            <Button variant={destructive ? "destructive" : "default"} onClick={() => { setOpen(false); onConfirm?.(); toast.success(success, { description: successDescription }); }}>{confirm}</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <Button size={size === "sm" ? "sm" : "md"} variant={destructive && variant === "outline" ? "secondary" : v} onClick={() => setOpen(true)}>{trigger}</Button>
+      <Modal open={open} onOpenChange={setOpen} label={label} title={title}
+        footer={<>
+          <ModalClose render={<Button variant="ghost" />}>Cancel</ModalClose>
+          <Button variant={destructive ? "danger" : "primary"} onClick={() => { setOpen(false); onConfirm?.(); toast.success(success, { description: successDescription }); }}>{confirm}</Button>
+        </>}>
+        <p style={{ margin: 0 }}>{description}</p>
+        {children}
+      </Modal>
     </>
   );
 }

@@ -3,10 +3,10 @@ import { Area, AreaChart, CartesianGrid, Line, LineChart, PolarAngleAxis, Radial
 import { RefreshCwIcon } from "lucide-react";
 import { toast } from "sonner";
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart";
-import { Button } from "@/components/ui/button";
 import type { ViewMeta } from "./types";
 import { type Period, labels, num, pct, pick, rng, seedOf, series, sum } from "@/kit/data";
 import { Bento, ConfirmAction, DataTable, Facts, Figure, Pill, SampleNote, Segmented, Spark, Stat, Tile, ViewHeader, type Col, type Status } from "@/kit/ui";
+import { Button } from "@/kit/ns";
 
 export const meta: ViewMeta = {
   slug: "observe", title: "Service health", modeledOn: "Grafana and Datadog, service overview", category: "Observability", order: 30,
@@ -124,7 +124,7 @@ export default function Observe() {
     <>
       <ViewHeader title="Service health" sub={<>Modeled on {meta.modeledOn}. <SampleNote /></>}>
         <Segmented label="Time range" value={pid} onChange={setPid} options={PERIODS.map((x) => ({ id: x.id, label: x.label }))} />
-        <Button size="sm" variant="outline" onClick={() => { setRefresh((n) => n + 1); toast.success("Refreshed"); }}>
+        <Button size="sm" variant="secondary" onClick={() => { setRefresh((n) => n + 1); toast.success("Refreshed"); }}>
           <RefreshCwIcon aria-hidden /> Refresh
         </Button>
       </ViewHeader>
