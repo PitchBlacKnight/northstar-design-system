@@ -484,21 +484,10 @@
   { name: "Dashboard: Diverging matrix", desc: "A department-by-month matrix colored red over and green under budget.", steps: [["Load layout: Diverging matrix", ["--ns-background-primary", "--ns-widget-bg", "--ns-radius-2xl"], `<div class="lb-layout" style="width:800px;height:500px;overflow:hidden;border-radius:var(--ns-radius-xl);box-shadow:0 0 0 1px var(--ns-border-default)"><iframe src="dashboards/diverging-matrix.html" title="Diverging matrix layout" loading="lazy" style="width:1600px;height:1000px;border:0;transform:scale(0.5);transform-origin:0 0" tabindex="-1"></iframe></div>`]] },
   );
 
-  /* Working apps: eight React dashboards (dashboards/app, built to dashboards/live) on shadcn, Base UI,
-     Recharts, Sonner, cmdk and NumberFlow, themed only from NorthStar tokens. Data is seeded sample data. */
-  const APPS = [
-    ["finance", "Payments", "Stripe Dashboard, Home", "Finance", "Gross and net volume against the previous period, balance and next payout, failed payments, new customers and recent payments."],
-    ["commerce", "Store", "Shopify admin, Home", "Commerce", "Total sales, sessions, conversion and order value, sales by channel, top products, orders to fulfill and inventory alerts."],
-    ["observe", "Service health", "Grafana and Datadog, service overview", "Observability", "Time picker and refresh, a stat row with sparklines, request rate by status, latency percentiles, error budget, services, alerts and a log tail."],
-    ["projects", "Cycle", "Linear, cycle view", "Projects", "Cycle progress, issues by status, assignee load, a triage list and velocity across cycles."],
-    ["crm", "Sales pipeline", "HubSpot, Sales dashboard", "CRM", "Deal stages, forecast against quota, an activity feed and a deals table."],
-    ["deployments", "Deployments", "Vercel, project overview", "Deployments", "Deployment list with status, build times, requests and edge traffic, and error rate."],
-    ["support", "Inbox", "Intercom, inbox overview", "Support", "Open conversations, SLA breaches, CSAT, agent load and a conversation table."],
-    ["people", "People", "Lattice, people analytics", "People", "Headcount, attrition, engagement trend, review cycle completion and a team table."],
-  ];
-  const appSrc = (slug) => `dashboards/live/?embed#${slug}`;
-  NS.RECIPES.push(...APPS.map(([slug, name, model, , desc]) => ({ name: `App: ${name}`, desc: `${desc} Modeled on ${model}.`, steps: [[`Load app: ${name}`, ["--ns-background-primary", "--ns-widget-bg", "--ns-chart-series-1"], `<div class="lb-layout" style="width:800px;height:500px;overflow:hidden;border-radius:var(--ns-radius-xl);box-shadow:0 0 0 1px var(--ns-border-default)"><iframe src="${appSrc(slug)}" title="${name} dashboard" loading="lazy" style="width:1600px;height:1000px;border:0;transform:scale(0.5);transform-origin:0 0" tabindex="-1"></iframe></div>`]] })));
-
+  /* The eight React "Working apps" (dashboards/app, built to dashboards/live) are kept in the repo but not
+     published: no nav entry, pages, recipes or rsync. Restore them from commit d497034 when they fit the system. */
+  const unapp = () => { if (/^#\/dashboards\/app(s|-[\w-]+)\/?$/.test(location.hash)) location.replace("#/dashboards"); };
+  unapp(); addEventListener("hashchange", unapp);
 
   /* AI generator: teach it the dashboard kit. Wraps the existing prompt and preview frame, so tools.js is unchanged. */
   const DASH_PROMPT = `
@@ -517,7 +506,7 @@ DASHBOARD LAYOUTS (when the user asks for a dashboard, screen or report):
 
   /* Nav: a group after the Graphics framework */
   const gi = NS.NAV.findIndex((g) => g.group === "Graphics framework");
-  NS.NAV.splice(gi + 1, 0, { group: "Dashboard layouts", items: [["dashboards", "Overview", String(LAYOUTS.length)], ["dashboards/chart-parts", "Chart parts", "New"], ["dashboards/apps", "Working apps", String(APPS.length)], ...APPS.map(([slug, name]) => ["dashboards/app-" + slug, name]), ...LAYOUTS.map((d) => ["dashboards/" + d.id, d.name])] });
+  NS.NAV.splice(gi + 1, 0, { group: "Dashboard layouts", items: [["dashboards", "Overview", String(LAYOUTS.length)], ["dashboards/chart-parts", "Chart parts", "New"], ...LAYOUTS.map((d) => ["dashboards/" + d.id, d.name])] });
 
   const frame = (src, title, h = 1000) => `<div class="dl-frame" style="aspect-ratio:1600/${h}"><iframe src="${src}" title="${title}" loading="lazy" width="1600" height="${h}" style="height:${h}px" tabindex="-1"></iframe></div>`;
   const STYLE = `<style>
@@ -574,27 +563,4 @@ ${d.theme === "light" ? notice("info", "Light theme", "This layout sets data-the
     });
   });
 
-  /* ---------- Working apps ---------- */
-  P("dashboards/apps", {
-    title: "Working apps", status: "New", wide: true,
-    lede: `${APPS.length} working dashboards modeled on the home screens of category leaders. Built with shadcn on Base UI, Recharts, Sonner, cmdk and NumberFlow, with every color, radius and density value read from NorthStar tokens.`,
-    body: () => `${STYLE}<div class="dl-actions"><a class="ns ns-btn ns-btn--secondary ns-btn--sm" href="dashboards/live/" target="_blank" rel="noopener">Open the app</a></div>
-<div class="dl-grid">${APPS.map(([slug, name, model]) => `<a class="dl-card" href="#/dashboards/app-${slug}"><img src="assets/dashboards/app-${slug}.jpg" alt="${name} dashboard" loading="lazy"/><b>${name}</b><span>Modeled on ${model}</span></a>`).join("")}</div>
-${h2("What each one does")}<ul><li>Period or time controls that change the data.</li><li>Headline figures that animate with NumberFlow and use tabular numbers.</li><li>A sortable, filterable table. Selecting a row opens a sheet with the detail.</li><li>At least one action that opens a dialog and confirms with a toast.</li><li>Theme and density toggles in the top bar, and Cmd K to jump between dashboards.</li></ul>
-${h2("Rules they follow")}<ul><li>One color-blocked bento grid per screen. One tile, one job, detail inside the tile.</li><li>At most three filled tiles on a screen.</li><li>Charts only through the chart component, with series colors from the chart tokens.</li><li>No raw colors and no font names in the source.</li></ul>
-${notice("info", "Sample data", "Every figure is seeded sample data, so it stays the same on each load. Replace the data hooks before use.")}
-${h2("Source")}<p>The source is in <code>dashboards/app</code> (Vite, React, TypeScript). Each dashboard is one file in <code>src/views</code>, discovered by a registry, and the shared tile, table and action parts are in <code>src/kit</code>. The built output in <code>dashboards/live</code> is what this site serves.</p>`,
-    init,
-  });
-  APPS.forEach(([slug, name, model, cat, desc]) => {
-    P("dashboards/app-" + slug, {
-      title: name, status: "New", wide: true,
-      lede: desc,
-      body: () => `${STYLE}<div class="dl-actions"><a class="ns ns-btn ns-btn--secondary ns-btn--sm" href="dashboards/live/#${slug}" target="_blank" rel="noopener">Open full size</a><a class="ns ns-btn ns-btn--ghost ns-btn--sm" href="#/dashboards/apps">All working apps</a></div>
-${frame(appSrc(slug), name + " dashboard")}
-${h2("Recipe")}${table(["Property", "Value"], [["Modeled on", model], ["Category", cat], ["Source", "<code>dashboards/app/src/views/" + slug + ".tsx</code>"], ["Route", "<code>dashboards/live/#" + slug + "</code>"]])}
-${notice("info", "Interactive", "The frame is a scaled preview. Open it full size to use the controls, the table and the actions.")}`,
-      init,
-    });
-  });
 })();

@@ -20,7 +20,7 @@ ${h2("Set up")}${codeBlock(`npm install @base-ui/react @number-flow/react rechar
 ${codeBlock(`import { Bento, Tile, Figure, DataTable, ConfirmAction, toast } from "@/kit";`, "js")}
 ${h2("Components")}${table(["Component", "Props", "What it does"], K.api.map((a) => [`<code>${a.name}${x(a.generic)}</code>`, `<code>${a.props.map(x).join("<br>")}</code>`, x(a.note)]))}
 ${h2("Docs components it implements")}<p>These docs pages show real kit code on their Code tab. The rest still show the HTML and CSS implementation with an illustrative React shape.</p><ul>${covered.map((id) => `<li><a href="#/components/${NS.componentById(id).id}/code">${NS.componentById(id).name}</a>: ${K.examples[id].uses.map((u) => `<code>${u}</code>`).join(", ")}</li>`).join("")}</ul>
-${h2("See it running")}<p>The <a href="dashboards/live/#kit" target="_blank" rel="noopener">Kit gallery</a> runs every example above, the same code the Code tabs show. The <a href="#/dashboards/apps">eight working dashboards</a> are built only from this kit. Their source is one file each in <code>dashboards/app/src/views</code>.</p>`,
+${h2("Source")}<p>The kit lives in <code>dashboards/app/src/kit</code> in the repository. Every example above is typechecked there, and the Code tabs show the same code.</p>`,
   };
   const g = NS.NAV.find((n) => n.group === "Getting started");
   if (g) g.items.push(["getting-started/react", "React kit", "New"]);
