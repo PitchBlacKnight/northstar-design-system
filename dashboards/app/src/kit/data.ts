@@ -27,7 +27,7 @@ export const pick = <T,>(r: () => number, arr: readonly T[]) => arr[Math.floor(r
 export const sum = (a: number[]) => a.reduce((s, x) => s + x, 0);
 export const pct = (now: number, prev: number) => (prev ? (now - prev) / prev : 0);
 
-export type Period = { id: string; label: string; points: number; unit: "day" | "week" | "month" | "hour" | "minute" };
+export type Period = { id: string; label: string; points: number; unit: "day" | "week" | "month" | "hour" | "minute"; step?: number };
 export const PERIODS_STRIPE: Period[] = [
   { id: "7d", label: "7d", points: 7, unit: "day" },
   { id: "4w", label: "4w", points: 28, unit: "day" },
@@ -46,7 +46,7 @@ export function labels(p: Period) {
     else if (p.unit === "week") d.setDate(d.getDate() - back * 7);
     else if (p.unit === "month") d.setMonth(d.getMonth() - back);
     else if (p.unit === "hour") return `${String((24 + 14 - back) % 24).padStart(2, "0")}:00`;
-    else return `${String(14 - Math.floor(back / 60)).padStart(2, "0")}:${String((60 - (back % 60)) % 60).padStart(2, "0")}`;
+    else { const m = (24 * 60 + 14 * 60 - back * (p.step ?? 1)) % (24 * 60); return `${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`; }
     return p.unit === "month" ? MONTHS[d.getMonth()] : `${MONTHS[d.getMonth()]} ${d.getDate()}`;
   });
 }

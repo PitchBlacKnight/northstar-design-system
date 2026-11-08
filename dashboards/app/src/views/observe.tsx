@@ -16,7 +16,7 @@ export const meta: ViewMeta = {
 const PERIODS = [
   { id: "15m", label: "15m", points: 15, unit: "minute" },
   { id: "1h", label: "1h", points: 60, unit: "minute" },
-  { id: "6h", label: "6h", points: 6, unit: "hour" },
+  { id: "6h", label: "6h", points: 36, unit: "minute", step: 10 },
   { id: "24h", label: "24h", points: 24, unit: "hour" },
 ] as const satisfies readonly Period[];
 type PeriodId = (typeof PERIODS)[number]["id"];

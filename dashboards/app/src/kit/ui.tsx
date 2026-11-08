@@ -248,8 +248,8 @@ export function Facts({ rows }: { rows: [string, React.ReactNode][] }) {
 }
 
 /* ---------- action: dialog that confirms with a toast ---------- */
-export function ConfirmAction({ trigger, title, description, confirm, success, successDescription, destructive, children, size = "sm", variant = "outline" }: {
-  trigger: React.ReactNode; title: string; description: string; confirm: string; success: string; successDescription?: string; destructive?: boolean; children?: React.ReactNode;
+export function ConfirmAction({ trigger, title, description, confirm, success, successDescription, destructive, children, size = "sm", variant = "outline", onConfirm }: {
+  trigger: React.ReactNode; title: string; description: string; confirm: string; success: string; successDescription?: string; destructive?: boolean; children?: React.ReactNode; onConfirm?: () => void;
   size?: "sm" | "default"; variant?: "outline" | "default" | "secondary" | "ghost";
 }) {
   const [open, setOpen] = React.useState(false);
@@ -265,7 +265,7 @@ export function ConfirmAction({ trigger, title, description, confirm, success, s
           {children}
           <DialogFooter>
             <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
-            <Button variant={destructive ? "destructive" : "default"} onClick={() => { setOpen(false); toast.success(success, { description: successDescription }); }}>{confirm}</Button>
+            <Button variant={destructive ? "destructive" : "default"} onClick={() => { setOpen(false); onConfirm?.(); toast.success(success, { description: successDescription }); }}>{confirm}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

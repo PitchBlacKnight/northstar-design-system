@@ -81,7 +81,10 @@ export default function Crm() {
   const [pid, setPid] = React.useState<PeriodId>("quarter");
   const period = PERIODS.find((x) => x.id === pid)!;
   const d = useCrm(period);
-  const deals = d.deals;
+  /* Stage moves made in this session, per period; the table, sheet and pill all read from them. */
+  const [moved, setMoved] = React.useState<Record<string, number>>({});
+  React.useEffect(() => setMoved({}), [pid]);
+  const deals = React.useMemo(() => d.deals.map((r) => (moved[r.id] !== undefined ? { ...r, stage: moved[r.id] } : r)), [d.deals, moved]);
   const chart = d.labels.map((l, i) => ({ l, won: Math.round(d.cum[i]), pace: Math.round((d.quota * (i + 1)) / d.labels.length) }));
   const maxCount = d.stages[0].count;
   const openValue = d.stages.slice(0, 5).reduce((s, x) => s + x.value, 0);
@@ -170,16 +173,17 @@ export default function Crm() {
           <DataTable rows={deals} cols={cols} rowKey={(r) => r.id} filterText={(r) => `${r.name} ${r.owner} ${STAGES[r.stage]} ${r.contact}`} filterPlaceholder="Filter deals" maxRows={8}
             initialSort={{ key: "amount", dir: "desc" }}
             detailTitle={(r) => r.name} detailDescription={(r) => `${r.id} · closes ${r.close}`}
-            detail={(r) => (
+            detail={(row) => { const r = deals.find((x) => x.id === row.id) ?? row; return (
               <>
                 <Pill status={STAGE_STATUS[r.stage]}>{STAGES[r.stage]}</Pill>
                 <Facts rows={[["Amount", money(r.amount)], ["Weighted", money(r.amount * PROB[r.stage])], ["Probability", `${Math.round(PROB[r.stage] * 100)}%`], ["Owner", r.owner], ["Primary contact", r.contact], ["Next step", r.next]]} />
                 {r.stage < 5 && (
                   <ConfirmAction trigger="Move to next stage" variant="default" title={`Move to ${STAGES[r.stage + 1]}?`} description={`${r.name} goes from ${STAGES[r.stage]} to ${STAGES[r.stage + 1]}. Win probability rises to ${Math.round(PROB[r.stage + 1] * 100)}%.`}
-                    confirm="Move deal" success="Deal moved" successDescription={`${r.company} is now ${STAGES[r.stage + 1]}`} />
+                    confirm="Move deal" success="Deal moved" successDescription={`${r.company} is now ${STAGES[r.stage + 1]}`}
+                    onConfirm={() => setMoved((m) => ({ ...m, [r.id]: r.stage + 1 }))} />
                 )}
               </>
-            )} />
+            ); }} />
         </Tile>
 
         <Tile label="Recent activity" className="md:col-span-6 xl:col-span-4">
