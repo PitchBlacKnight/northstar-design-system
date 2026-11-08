@@ -1,6 +1,7 @@
 #!/bin/sh
-# NorthStar pre-commit: copy lint on staged site files; token lint on CSS; the fit probe when CSS or components change;
-# the behavior check when component behavior or the dashboards change.
+# NorthStar pre-commit. Copy lint first (fast), then only the checks the staged files touch, run in
+# parallel by tools/check-all.mjs: token lint and drift, fit probe, behavior, accessibility and visual.
+# Before publishing, run everything (including the online Figma drift check): node tools/check-all.mjs
 # Enable once per clone: git config core.hooksPath tools/hooks
 cd "$(git rev-parse --show-toplevel)" || exit 1
 staged=$(git diff --cached --name-only --diff-filter=ACM)
@@ -11,40 +12,21 @@ if [ -n "$sitefiles" ]; then
   node tools/copy-lint.mjs $sitefiles || { echo "Commit blocked by copy lint."; exit 1; }
 fi
 
-if echo "$staged" | grep -qE '^css/'; then
-  node tools/token-lint.mjs > /dev/null || { echo "Commit blocked by token lint. Run: node tools/token-lint.mjs --list"; exit 1; }
-fi
+checks=""
+has() { echo "$staged" | grep -qE "$1"; }
+has '^css/' && checks="$checks tokens"
+has '^(css/tokens\.css|tokens/)' && checks="$checks drift"
+has '^(css/|js/components\.js|js/charts\.js|tools/fit-probe)' && checks="$checks fit"
+has '^(css/components\.css|js/(ui|components)\.js|dashboards/live/|tools/behavior-check)' && checks="$checks behavior"
+has '^(css/(tokens|components)\.css|js/components\.js|dashboards/live/|tools/a11y-check)' && checks="$checks a11y"
+has '^(css/|js/(ui|components|charts|viz)\.js|dashboards/live/|tests/visual/baseline/|tools/visual-)' && checks="$checks visual"
 
-# Token drift: css/tokens.css against the Figma variables snapshot (no network).
-if echo "$staged" | grep -qE '^(css/tokens\.css|tokens/)'; then
-  node tools/token-drift.mjs > /tmp/ns-drift.log 2>&1 || { cat /tmp/ns-drift.log; echo "Commit blocked by token drift. Fix the side that is wrong or add an allow entry."; exit 1; }
-fi
-
-if echo "$staged" | grep -qE '^(css/|js/components\.js|js/charts\.js|tools/fit-probe)'; then
-  node tools/fit-probe.mjs > /dev/null
-  code=$?
-  if [ "$code" -eq 1 ]; then echo "Commit blocked by the fit probe. Run: node tools/fit-probe.mjs"; exit 1; fi
-  [ "$code" -eq 2 ] && echo "Fit probe skipped (no Chrome found). Run node tools/fit-probe.mjs before pushing."
-fi
-
-# Behavior check: combobox, palette, dropdown, toasts, modal, tabs, table, folded routes and the eight dashboards.
-if echo "$staged" | grep -qE '^(css/components\.css|js/(ui|components)\.js|dashboards/live/|tools/behavior-check)'; then
-  node tools/behavior-check.mjs > /tmp/ns-behavior.log 2>&1
-  code=$?
-  if [ "$code" -eq 1 ]; then cat /tmp/ns-behavior.log; echo "Commit blocked by the behavior check. Run: node tools/behavior-check.mjs"; exit 1; fi
-  [ "$code" -eq 2 ] && echo "Behavior check skipped (no Chrome found). Run node tools/behavior-check.mjs before pushing."
-fi
-
-# Accessibility check: text contrast and accessible names in dark and light when colors or markup change.
-if echo "$staged" | grep -qE '^(css/(tokens|components)\.css|js/components\.js|dashboards/live/|tools/a11y-check)'; then
-  node tools/a11y-check.mjs > /tmp/ns-a11y.log 2>&1
-  code=$?
-  if [ "$code" -eq 1 ]; then cat /tmp/ns-a11y.log; echo "Commit blocked by the a11y check. Run: node tools/a11y-check.mjs"; exit 1; fi
-  [ "$code" -eq 2 ] && echo "A11y check skipped (no Chrome found). Run node tools/a11y-check.mjs before pushing."
+if [ -n "$checks" ]; then
+  node tools/check-all.mjs $checks || { echo "Commit blocked. Fix the failures above (an intended visual change: node tools/visual-check.mjs --update)."; exit 1; }
 fi
 
 # Agent export: regenerate llms.txt and agent/ when the catalog, tokens or page registry change, and stage the result.
-if echo "$staged" | grep -qE '^(css/tokens\.css|js/(components|charts|pages|guides|ui)\.js|tools/agent-export)'; then
+if has '^(css/tokens\.css|js/(components|charts|pages|guides|ui)\.js|tools/agent-export)'; then
   node tools/agent-export.mjs > /dev/null && git add llms.txt agent/ || echo "Agent export skipped. Run node tools/agent-export.mjs before pushing."
 fi
 exit 0

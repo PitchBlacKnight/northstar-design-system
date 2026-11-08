@@ -69,10 +69,13 @@ function Nav({ slug }: { slug: string }) {
 
 export default function App() {
   const [slug, setSlug] = React.useState(slugFromHash);
-  const [theme, setTheme] = React.useState<"dark" | "light">(() => (store.get("theme") === "light" ? "light" : "dark"));
+  /* ?theme=light|dark overrides the saved choice; ?still turns off motion (used by the visual check) */
+  const params = React.useMemo(() => new URLSearchParams(location.search), []);
+  const [theme, setTheme] = React.useState<"dark" | "light">(() => { const t = params.get("theme") || store.get("theme"); return t === "light" ? "light" : "dark"; });
+  React.useEffect(() => { if (!params.has("still")) return; const s = document.createElement("style"); s.textContent = "*,*::before,*::after{animation:none!important;transition:none!important}"; document.head.appendChild(s); }, [params]);
   const [compact, setCompact] = React.useState(() => store.get("density") === "compact");
   const [palette, setPalette] = React.useState(false);
-  const embed = React.useMemo(() => new URLSearchParams(location.search).has("embed"), []);
+  const embed = params.has("embed");
 
   React.useEffect(() => { const on = () => setSlug(slugFromHash()); addEventListener("hashchange", on); return () => removeEventListener("hashchange", on); }, []);
   React.useEffect(() => { document.documentElement.dataset.theme = theme; store.set("theme", theme); }, [theme]);

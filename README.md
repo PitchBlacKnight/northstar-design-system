@@ -55,7 +55,11 @@ The docs render with JavaScript, so an agent that fetches a route gets an empty 
 
 **Sync gaps.** `node tools/figma-sync-check.mjs` also lists work for the next Figma batch without failing: folded components still published as their own sets, sets whose text is not Open Sans, gradient fills on the Widgets page, and components with no specification frame. `--strict` fails on them.
 
-The pre-commit hook runs all of these on the files they cover.
+**Token drift.** `node tools/token-drift.mjs` compares `css/tokens.css` with the Figma variables snapshot in `tokens/figma-variables.json`, mode by mode (Dark, Light, High Contrast, spacing, radius, type, motion). Figma's REST variables API needs an Enterprise plan, so refresh the snapshot during a sync by running `tools/figma-variables-dump.js` through the Figma MCP. Intended differences live in `tokens/drift-allow.json` with a reason.
+
+**Visual check.** `node tools/visual-check.mjs` screenshots every component demo and its first two variants on fixed tiles, plus the eight dashboards, in dark and light, and compares them with the PNG baselines in `tests/visual/baseline`, tile by tile. Changed tiles get a diff image in `tests/visual/diff`. After an intended visual change, run it with `--update` and commit the new baselines. It needs network for Open Sans.
+
+**All checks.** `node tools/check-all.mjs` runs everything above in parallel (about 40 seconds) and warns if the Figma token has expired. Run it before publishing. The pre-commit hook runs the same runner with only the checks the staged files touch.
 
 Links run both ways: every component in `js/components.js` has a `figma` node ID, and every component in the NORTHSTAR DS Figma file (VZxmDNQiosTN6gqnvEQ65Z) has a documentation link to its page here. Nothing updates automatically, so check for drift by hand:
 

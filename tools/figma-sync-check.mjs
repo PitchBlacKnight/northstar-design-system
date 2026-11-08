@@ -96,7 +96,12 @@ async function online() {
   if (!token) { console.error("FIGMA_TOKEN is not set. Add it to .env or the environment, or run with --offline."); process.exit(2); }
   const api = async (path) => {
     const r = await fetch("https://api.figma.com/v1/" + path, { headers: { "X-Figma-Token": token } });
-    if (!r.ok) { console.error(`Figma API ${r.status} on ${path}: ${await r.text()}`); process.exit(2); }
+    if (!r.ok) {
+      const body = await r.text();
+      if (r.status === 403 && /expired|invalid/i.test(body)) console.error("The Figma token in .env has expired or is invalid. Replace it in a real terminal: sh tools/set-figma-token.sh");
+      else console.error(`Figma API ${r.status} on ${path}: ${body}`);
+      process.exit(2);
+    }
     return r.json();
   };
 
