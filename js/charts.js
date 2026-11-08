@@ -327,6 +327,8 @@
   /* Plots redraw at the width of their tile, so labels stay at their real size instead of scaling down.
      Works for chart plots (data-chart) and bullet rows (data-bullet); height stays fixed. */
   const redraw = (el) => {
+    /* A transformed ancestor (a scaled thumbnail or embed) shrinks the bounding box; leave those plots at their drawn size. */
+    for (let p = el.parentElement; p; p = p.parentElement) if (getComputedStyle(p).transform !== "none") return;
     const w = Math.max(96, Math.round(el.getBoundingClientRect().width));
     if (!w || String(w) === el.dataset.w) return;
     if (el.dataset.chart && DEFS[el.dataset.chart]) {

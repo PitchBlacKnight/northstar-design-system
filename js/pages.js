@@ -263,8 +263,7 @@ ${h2("Component status")}<div class="dtable-wrap"><table class="dtable"><thead><
     },
   });
   /* Card previews sit inside an anchor, so anchors in a demo become spans (nested anchors split the card). */
-  /* Plots keep their fixed size: the chart redraw observer must not measure them through the thumbnail's transform. */
-  const thumb = (c) => thumbHtml(c).replace(/<a\b([^>]*)>/g, "<span data-a$1>").replace(/<\/a>/g, "</span>").replace(/ data-(chart|bullet)=/g, " data-static-$1=");
+  const thumb = (c) => thumbHtml(c).replace(/<a\b([^>]*)>/g, "<span data-a$1>").replace(/<\/a>/g, "</span>");
   function thumbHtml(c) {
     const d = c.playground.controls ? Object.fromEntries(c.playground.controls.map((k) => [k.key, k.default ?? (k.options ? k.options[0] : k.type === "bool" ? false : "")])) : {};
     if (c.id === "bullet-chart") return c.playground.render({ size: "Small", icon: false });
