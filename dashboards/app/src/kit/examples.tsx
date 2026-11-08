@@ -3,6 +3,7 @@
    here first (npx tsc --noEmit -p tsconfig.app.json). Not rendered by the app. */
 import * as React from "react";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Bento, BarList, CheckboxField, ConfirmAction, DataTable, Facts, Figure, Hint, Pill, Segmented, SelectField, Spark, Stat, SwitchField, TextField, Tile, ViewTabs, type Col } from "@/kit";
 
@@ -78,7 +79,7 @@ export function NotificationExample() {
   return (
     // @example notification
     // Mount <Toaster theme="dark" position="bottom-right" /> once at the app root, then call toast() anywhere:
-    <button onClick={() => toast.success("Account archived", { description: "Acme Corp moved to the archive.", action: { label: "Undo", onClick: () => {} } })}>Archive</button>
+    <Button variant="outline" size="sm" onClick={() => toast.success("Account archived", { description: "Acme Corp moved to the archive.", action: { label: "Undo", onClick: () => {} } })}>Archive</Button>
     // @end
   );
 }
@@ -174,7 +175,7 @@ export function TooltipExample() {
   return (
     // @example tooltip
     <Hint content="Export accounts as CSV">
-      <button type="button" aria-label="Export accounts">Export</button>
+      <Button variant="outline" size="sm">Export</Button>
     </Hint>
     // @end
   );

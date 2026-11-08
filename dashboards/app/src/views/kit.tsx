@@ -19,8 +19,8 @@ const ITEMS: [string, string, () => React.ReactNode, string][] = [
   ["Badge", "badge", Ex.BadgeExample, "md:col-span-3 xl:col-span-3"],
   ["Modal", "modal", Ex.ModalExample, "md:col-span-3 xl:col-span-2"],
   ["Notification", "notification", Ex.NotificationExample, "md:col-span-3 xl:col-span-2"],
-  ["Progress", "progress", Ex.ProgressExample, "md:col-span-6 xl:col-span-6"],
-  ["Command palette (press Cmd K)", "command-palette", Ex.PaletteExample, "md:col-span-6 xl:col-span-6"],
+  ["Progress", "progress", Ex.ProgressExample, "md:col-span-6 xl:col-span-8"],
+  ["Command palette (press Cmd K)", "command-palette", Ex.PaletteExample, "md:col-span-6 xl:col-span-12"],
   ["Data table", "data-table", Ex.TableExample, "md:col-span-6 xl:col-span-12"],
 ];
 

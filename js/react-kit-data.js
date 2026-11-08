@@ -290,7 +290,7 @@
    ]
   },
   "notification": {
-   "code": "// Mount <Toaster theme=\"dark\" position=\"bottom-right\" /> once at the app root, then call toast() anywhere:\n<button onClick={() => toast.success(\"Account archived\", { description: \"Acme Corp moved to the archive.\", action: { label: \"Undo\", onClick: () => {} } })}>Archive</button>",
+   "code": "// Mount <Toaster theme=\"dark\" position=\"bottom-right\" /> once at the app root, then call toast() anywhere:\n<Button variant=\"outline\" size=\"sm\" onClick={() => toast.success(\"Account archived\", { description: \"Acme Corp moved to the archive.\", action: { label: \"Undo\", onClick: () => {} } })}>Archive</Button>",
    "uses": [
     "Toaster",
     "toast"
@@ -339,7 +339,7 @@
    ]
   },
   "tooltip": {
-   "code": "<Hint content=\"Export accounts as CSV\">\n  <button type=\"button\" aria-label=\"Export accounts\">Export</button>\n</Hint>",
+   "code": "<Hint content=\"Export accounts as CSV\">\n  <Button variant=\"outline\" size=\"sm\">Export</Button>\n</Hint>",
    "uses": [
     "Hint"
    ]
