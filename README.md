@@ -49,6 +49,14 @@ The docs render with JavaScript, so an agent that fetches a route gets an empty 
 
 **Fit probe.** `node tools/fit-probe.mjs` renders every component state at 320, 240 and 192px tiles in headless Chrome (no npm install; it finds Chrome or `$CHROME`) and reports overflow, targets under 24px, unnamed controls and chart labels under 9px. `node tools/figma-sync-check.mjs --offline --fit` adds the result to the drift report. It also loads nine routes at window widths of 1920, 1440, 1280, 1024, 768 and 390px and fails if the page scrolls sideways. By-design exceptions (modal, side navigation, XL sizes, full-width alert) are listed at the top of `tools/fit-probe-page.js`.
 
+**Behavior check.** `node tools/behavior-check.mjs` drives the live behaviors in headless Chrome: combobox filtering and tags, command palette filtering and arrows, dropdown keyboard and Escape, toast stacking and pause, the modal focus trap, tab arrows, table sort and select all, redirects for folded components, and on all eight dashboards a row sheet, a confirm dialog with its toast, filter, period, Cmd K, theme and density (at 1440 and 390px).
+
+**Accessibility check.** `node tools/a11y-check.mjs` measures WCAG 2.2 AA text contrast against the composited background and finds controls with no accessible name, for every component state and variant and every dashboard, in dark and light themes. `--list` prints every location.
+
+**Sync gaps.** `node tools/figma-sync-check.mjs` also lists work for the next Figma batch without failing: folded components still published as their own sets, sets whose text is not Open Sans, gradient fills on the Widgets page, and components with no specification frame. `--strict` fails on them.
+
+The pre-commit hook runs all of these on the files they cover.
+
 Links run both ways: every component in `js/components.js` has a `figma` node ID, and every component in the NORTHSTAR DS Figma file (VZxmDNQiosTN6gqnvEQ65Z) has a documentation link to its page here. Nothing updates automatically, so check for drift by hand:
 
 ```bash

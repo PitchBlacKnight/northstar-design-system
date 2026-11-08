@@ -27,7 +27,7 @@
 .ns-btn--outline[disabled], .ns-btn--tertiary[disabled] { --_bg: transparent; --_bd: var(--ns-gray-6); color: var(--ns-text-disabled); }
 .ns-btn--ghost { --_bg: transparent; --_fg: var(--ns-text-link); --_hover: var(--ns-interactive-ghost-hover); --_press: var(--ns-interactive-ghost-hover); }
 .ns-btn--ghost[disabled] { --_bg: transparent; color: var(--ns-text-disabled); }
-.ns-btn--danger { --_bg: var(--ns-status-error); --_hover: color-mix(in srgb, var(--ns-status-error) 82%, var(--ns-white)); --_press: var(--ns-red-500); }
+.ns-btn--danger { --_bg: color-mix(in srgb, var(--ns-status-error) 80%, var(--ns-black)); --_hover: color-mix(in srgb, var(--ns-status-error) 72%, var(--ns-black)); --_press: color-mix(in srgb, var(--ns-status-error) 64%, var(--ns-black)); }
 .ns-btn--sm { --_h: var(--ns-density-control-sm); padding: 0 var(--ns-space-5); font-size: var(--ns-type-body3-size); }
 .ns-btn--lg { --_h: 48px; padding: 0 var(--ns-space-7); font-size: var(--ns-type-body1-size); }
 .ns-btn--xl { --_h: 52px; padding: 0 var(--ns-space-8); font: 700 16px/24px var(--ns-font-sans); }
@@ -133,15 +133,15 @@
 .ns-badge--outline { background: transparent; color: var(--_c); }
 .ns-badge--icon { padding: 0; }
 .ns-badge svg { width: 12px; height: 12px; }
-.ns-badge--positive, .ns-badge--success { --_c: var(--ns-status-success); } .ns-badge--positive:not(.ns-badge--outline), .ns-badge--success:not(.ns-badge--outline) { color: var(--ns-black); }
-.ns-badge--negative, .ns-badge--error { --_c: var(--ns-status-error); }
-.ns-badge--warning { --_c: var(--ns-status-warning); } .ns-badge--warning:not(.ns-badge--outline) { color: var(--ns-black); }
+.ns-badge--positive, .ns-badge--success { --_c: var(--ns-status-success); } .ns-badge--positive:not(.ns-badge--outline), .ns-badge--success:not(.ns-badge--outline) { color: var(--ns-text-inverse); }
+.ns-badge--negative, .ns-badge--error { --_c: var(--ns-status-error); } .ns-badge--negative:not(.ns-badge--outline), .ns-badge--error:not(.ns-badge--outline) { color: var(--ns-text-inverse); }
+.ns-badge--warning { --_c: var(--ns-status-warning); } .ns-badge--warning:not(.ns-badge--outline) { color: var(--ns-text-inverse); }
 .ns-badge--neutral { --_c: var(--ns-gray-5); }
 /* Status dot indicator (tables, headers) */
 .ns-dot { --_c: var(--ns-status-info); display: inline-flex; align-items: center; gap: var(--ns-space-2); font: 700 var(--ns-type-overline-size)/1 var(--ns-font-sans); letter-spacing: 1px; text-transform: uppercase; color: var(--_c); }
 .ns-dot::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 8px currentColor; }
 .ns-dot--success { --_c: var(--ns-status-success); } .ns-dot--warning { --_c: var(--ns-status-warning); } .ns-dot--error { --_c: var(--ns-status-error); } .ns-dot--neutral { --_c: var(--ns-text-tertiary); }
-.ns-count { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 var(--ns-space-2); border-radius: var(--ns-radius-full); background: var(--ns-status-error); color: var(--ns-white); font: 700 var(--ns-type-chart-size)/1 var(--ns-font-sans); }
+.ns-count { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 var(--ns-space-2); border-radius: var(--ns-radius-full); background: var(--ns-status-error); color: var(--ns-text-inverse); font: 700 var(--ns-type-chart-size)/1 var(--ns-font-sans); }
 
 /* ---------- Layers: nesting sets which layer, field and border tokens apply ---------- */
 /* A layer is .ns-layer, or a card, modal or table inside one. Each level of nesting moves to the next layer. Outside .ns-layer nothing changes. */
@@ -177,7 +177,7 @@
 .ns-table th { text-align: left; padding: var(--ns-space-3) var(--ns-space-5); font: 700 var(--ns-type-overline-size)/var(--ns-type-overline-line) var(--ns-font-sans); letter-spacing: 1px; text-transform: uppercase; color: var(--ns-text-tertiary); background: var(--ns-background-secondary); border-bottom: 1px solid var(--ns-border-subtle); white-space: nowrap; }
 .ns-table th[data-sort] { cursor: pointer; user-select: none; }
 .ns-table th[data-sort]:hover { color: var(--ns-text-primary); }
-.ns-table th .ns-sort { margin-left: var(--ns-space-2); opacity: .5; }
+.ns-table th .ns-sort { margin-left: var(--ns-space-2); color: var(--ns-text-secondary); }
 .ns-table th.is-sorted .ns-sort { opacity: 1; color: var(--ns-text-accent); }
 .ns-table td { padding: var(--ns-density-row-y) var(--ns-density-pad-x); border-bottom: 1px solid var(--ns-layer-border, var(--ns-border-subtle)); }
 .ns-table tr:last-child td { border-bottom: 0; }
@@ -203,7 +203,7 @@
 .ns-avatar-group { display: inline-flex; }
 .ns-avatar-group .ns-avatar { margin-left: -8px; box-shadow: 0 0 0 2px var(--ns-background-primary); }
 .ns-avatar-group .ns-avatar:first-child { margin-left: 0; }
-.ns-avatar--more { background: var(--ns-gray-7); color: var(--ns-text-secondary); }
+.ns-avatar--more { background: var(--ns-background-selected); color: var(--ns-text-primary); }
 
 /* ---------- Progress ---------- */
 .ns-progress { display: grid; gap: var(--ns-space-2); }
@@ -265,7 +265,7 @@
 
 /* ---------- Notification / alert ---------- */
 .ns-notice { --_c: var(--ns-status-info); display: grid; grid-template-columns: auto 1fr auto; gap: var(--ns-space-4); align-items: start; padding: var(--ns-space-5); border-radius: var(--ns-radius-md); border: 1px solid color-mix(in srgb, var(--_c) 45%, transparent); border-left: 3px solid var(--_c); background: color-mix(in srgb, var(--_c) 9%, var(--ns-background-surface)); font: 400 var(--ns-type-body2-size)/var(--ns-type-body2-line) var(--ns-font-sans); }
-.ns-notice__icon { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: var(--_c); color: var(--ns-black); font: 800 12px/1 var(--ns-font-sans); }
+.ns-notice__icon { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: var(--_c); color: var(--ns-text-inverse); font: 800 12px/1 var(--ns-font-sans); }
 .ns-notice__title { font-weight: 700; margin: 0 0 var(--ns-space-1); }
 .ns-notice__body { margin: 0; color: var(--ns-text-secondary); }
 .ns-notice__close { all: unset; cursor: pointer; color: var(--ns-text-tertiary); font-size: 18px; line-height: 20px; padding: 0 var(--ns-space-2); border-radius: var(--ns-radius-xs); }
@@ -393,7 +393,7 @@
 .ns-dd.is-open .ns-dd__menu, .ns-dd__menu.is-static { display: block; position: static; animation: ns-rise var(--ns-duration-base) var(--ns-easing-enter); }
 .ns-dd.is-open .ns-dd__menu { position: absolute; }
 .ns-dd__menu.is-static { max-width: 100%; box-sizing: border-box; }
-.ns-dd__item { all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; gap: var(--ns-space-3); width: 100%; height: 40px; padding: 0 var(--ns-space-5); font: 600 var(--ns-type-body2-size)/1 var(--ns-font-sans); color: var(--ns-gray-2); }
+.ns-dd__item { all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; gap: var(--ns-space-3); width: 100%; height: 40px; padding: 0 var(--ns-space-5); font: 600 var(--ns-type-body2-size)/1 var(--ns-font-sans); color: var(--ns-text-secondary); }
 .ns-dd__item svg { width: 16px; height: 16px; }
 .ns-dd__item:hover, .ns-dd__item.is-hover, .ns-dd__item:focus-visible { background: var(--ns-interactive-secondary-hover); color: var(--ns-text-primary); }
 .ns-dd__item[aria-selected="true"] { color: var(--ns-text-primary); box-shadow: inset 3px 0 0 var(--ns-blue-700); }

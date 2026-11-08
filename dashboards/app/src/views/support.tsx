@@ -139,7 +139,7 @@ export default function Inbox() {
             {d.breached.map((b) => (
               <li key={b.id} className="flex items-center justify-between gap-3">
                 <span className="min-w-0 truncate"><span className="tnum font-semibold">{b.id}</span> <span className="text-muted-foreground">{b.company}</span></span>
-                <span className="tnum whitespace-nowrap text-xs font-semibold text-ns-error">{mins(b.over)} over</span>
+                <span className="tnum whitespace-nowrap text-xs font-semibold text-status-error">{mins(b.over)} over</span>
               </li>
             ))}
           </ul>

@@ -25,14 +25,14 @@ export type Tone = "plain" | "accent" | "info" | "alert";
 const TONES: Record<Tone, string> = {
   plain: "bg-ns-widget border-border",
   accent: "bg-[color-mix(in_srgb,var(--ns-text-accent)_13%,var(--ns-widget-bg))] border-[color-mix(in_srgb,var(--ns-text-accent)_35%,transparent)]",
-  info: "bg-[color-mix(in_srgb,var(--ns-chart-series-2)_22%,var(--ns-widget-bg))] border-[color-mix(in_srgb,var(--ns-chart-series-2)_40%,transparent)]",
-  alert: "bg-[color-mix(in_srgb,var(--ns-status-error)_12%,var(--ns-widget-bg))] border-[color-mix(in_srgb,var(--ns-status-error)_35%,transparent)]",
+  info: "bg-[color-mix(in_srgb,var(--ns-chart-series-2)_16%,var(--ns-widget-bg))] border-[color-mix(in_srgb,var(--ns-chart-series-2)_40%,transparent)]",
+  alert: "bg-[color-mix(in_srgb,var(--ns-status-error)_9%,var(--ns-widget-bg))] border-[color-mix(in_srgb,var(--ns-status-error)_35%,transparent)]",
 };
 export function Tile({ label, action, tone = "plain", className, children, bodyClass }: { label: React.ReactNode; action?: React.ReactNode; tone?: Tone; className?: string; children: React.ReactNode; bodyClass?: string }) {
   return (
     <section className={cn("flex min-w-0 flex-col rounded-[var(--ns-widget-radius)] border shadow-[var(--ns-widget-shadow)]", TONES[tone], className)}>
       <header className="flex min-h-11 items-center justify-between gap-2 px-[var(--ns-density-pad-x)] pt-3">
-        <h2 className="ns-overline">{label}</h2>
+        <h2 className={cn("ns-overline", tone !== "plain" && "text-ns-secondary!")}>{label}</h2>
         {action}
       </header>
       <div className={cn("flex min-w-0 flex-1 flex-col gap-3 px-[var(--ns-density-pad-x)] pb-[var(--ns-density-pad-x)] pt-1", bodyClass)}>{children}</div>
@@ -65,7 +65,7 @@ export function Delta({ value, good = "up", label }: { value: number; good?: "up
   const up = value >= 0, positive = good === "up" ? up : !up;
   const Icon = up ? ArrowUpIcon : ArrowDownIcon;
   return (
-    <span className={cn("tnum inline-flex items-center gap-1 text-xs font-semibold", positive ? "text-ns-success" : "text-ns-error")}>
+    <span className={cn("tnum inline-flex items-center gap-1 text-xs font-semibold", positive ? "text-status-success" : "text-status-error")}>
       <Icon className="size-3" aria-hidden />
       {Math.abs(value * 100).toFixed(1)}%
       {label && <span className="font-normal text-muted-foreground">{label}</span>}
@@ -125,9 +125,9 @@ export function SampleNote({ children }: { children?: React.ReactNode }) {
 /* Status pill: role colors only, word always visible */
 export type Status = "success" | "warning" | "error" | "info" | "neutral";
 const PILL: Record<Status, string> = {
-  success: "bg-ns-success-bg text-ns-success",
-  warning: "bg-ns-warning-bg text-ns-warning",
-  error: "bg-ns-error-bg text-ns-error",
+  success: "bg-ns-success-bg text-status-success",
+  warning: "bg-ns-warning-bg text-status-warning",
+  error: "bg-ns-error-bg text-status-error",
   info: "bg-ns-info-bg text-ns-link",
   neutral: "bg-secondary text-muted-foreground",
 };

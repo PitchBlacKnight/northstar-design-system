@@ -131,3 +131,8 @@
 
 /* ns-overline labels (not Tailwind's overline decoration utility): uppercase, 11px, tracked (NorthStar overline role at chart size) */
 .ns-overline { margin: 0; font-size: var(--ns-type-chart-size); line-height: var(--ns-type-chart-line); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ns-chart-label-text); }
+
+/* Status text that holds 4.5:1 on tinted tiles in both themes: the status hue leaned toward the primary text color */
+.text-status-success { color: color-mix(in srgb, var(--ns-status-success) 78%, var(--ns-text-primary)); }
+.text-status-warning { color: color-mix(in srgb, var(--ns-status-warning) 78%, var(--ns-text-primary)); }
+.text-status-error { color: color-mix(in srgb, var(--ns-status-error) 78%, var(--ns-text-primary)); }

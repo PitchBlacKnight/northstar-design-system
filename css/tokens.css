@@ -272,7 +272,7 @@
   --ns-text-disabled: var(--ns-gray-2);
   --ns-text-inverse: var(--ns-white);
   --ns-text-link: var(--ns-blue-500);
-  --ns-text-accent: #007f78;
+  --ns-text-accent: #006b65; /* was #007f78: 4.2:1 on the selected surface, now 5.5:1 */
 
   --ns-border-subtle: var(--ns-gray-1);
   --ns-border-default: var(--ns-gray-2);
@@ -284,9 +284,9 @@
   --ns-field-bg: var(--ns-gray-0);
   --ns-focus-ring: var(--ns-blue-500);
 
-  --ns-status-success: #2f8a00;
-  --ns-status-warning: #b35f00;
-  --ns-status-error: #d7002f;
+  --ns-status-success: #267000; /* was #2f8a00 (4.4:1 on white) */
+  --ns-status-warning: #944e00; /* was #b35f00 (3.9:1 on tinted tiles) */
+  --ns-status-error: #b80028; /* was #d7002f (4.3:1 on tinted tiles) */
   --ns-status-info: var(--ns-blue-500);
   --ns-status-success-bg: #73be031a;
   --ns-status-warning-bg: #ffa63f1f;

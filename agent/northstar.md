@@ -291,20 +291,20 @@ Use these roles in components. Values are the dark theme; light overrides are in
 
 | Token | Dark | Light |
 |---|---|---|
-| `--ns-status-error` | #ff2069 | #d7002f |
+| `--ns-status-error` | #ff2069 | #b80028 |
 | `--ns-status-error-bg` | #ff206914 | #ff2d2e14 |
 | `--ns-status-info` | #4d7cff | #023aff |
 | `--ns-status-info-bg` | #023aff1f | #023aff12 |
-| `--ns-status-success` | #5eff5a | #2f8a00 |
+| `--ns-status-success` | #5eff5a | #267000 |
 | `--ns-status-success-bg` | #5eff5a14 | #73be031a |
-| `--ns-status-warning` | #ffa63f | #b35f00 |
+| `--ns-status-warning` | #ffa63f | #944e00 |
 | `--ns-status-warning-bg` | #ffa63f14 | #ffa63f1f |
 
 ### text
 
 | Token | Dark | Light |
 |---|---|---|
-| `--ns-text-accent` | #01f1e3 | #007f78 |
+| `--ns-text-accent` | #01f1e3 | #006b65 |
 | `--ns-text-disabled` | #5b5b65 | #a9a9b7 |
 | `--ns-text-inverse` | #05050f | #ffffff |
 | `--ns-text-link` | #01f1e3 | #023aff |

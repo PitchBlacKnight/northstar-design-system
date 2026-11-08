@@ -7,6 +7,11 @@
      node tools/copy-lint.mjs                   em dashes and banned claims in site copy (runs here too)
      node tools/figma-sync-check.mjs --queue    list components waiting for a Figma sync
      node tools/figma-sync-check.mjs --fit      also run the narrow-width fit probe (needs Chrome; add --offline to skip Figma)
+     node tools/figma-sync-check.mjs --strict   treat sync gaps (below) as failures too
+
+   Drift is a broken link between the two sides and always fails. Sync gaps are known work for the next
+   Figma batch: folded components still published as their own sets, component sets whose text is not
+   Open Sans, gradient fills on the Widgets page, and components with no specification frame.
 
    FIGMA_TOKEN comes from the environment or a gitignored .env file in the repo root
    (a Figma personal access token with file_content:read). Exit code 1 means drift. */
@@ -24,15 +29,17 @@ const SCAN_PAGE = (name) => !SKIP_PAGE.test(name.trim());
 const offline = process.argv.includes("--offline");
 
 const read = (p) => readFileSync(join(ROOT, p), "utf8");
-const problems = [], notes = [];
-const bad = (m) => problems.push(m), note = (m) => notes.push(m);
+const problems = [], notes = [], gaps = [];
+const bad = (m) => problems.push(m), note = (m) => notes.push(m), gap = (m) => gaps.push(m);
+const strict = process.argv.includes("--strict");
 
 /* ---------- site side ---------- */
 const compSrc = read("js/components.js");
 /* Components folded into a parent (NS.MERGED in components.js) are parts, not catalog entries: their
    routes still resolve, but they do not count as components. */
 const mergedSrc = (compSrc.match(/NS\.MERGED = \{([^}]*)\}/) || [])[1] || "";
-const merged = new Set([...mergedSrc.matchAll(/"?([\w-]+)"?\s*:/g)].map((m) => m[1]));
+const mergedPairs = [...mergedSrc.matchAll(/"?([\w-]+)"?\s*:\s*"([\w-]+)"/g)].map((m) => [m[1], m[2]]);
+const merged = new Set(mergedPairs.map(([c]) => c));
 const allSite = [
   ...[...compSrc.matchAll(/id: "([\w-]+)", name: "([^"]+)", cat: "[^"]+", status: "[^"]+"(?:, figma: "([\d:]+)")?/g)].map(([, id, name, figma]) => ({ id, name, figma })),
   ...[...compSrc.matchAll(/chartEntry\("([\w-]+)", "\w+", \{\s*name: "([^"]+)", figma: (?:"([\d:]+)"|null)/g)].map(([, id, name, figma]) => ({ id, name, figma })),
@@ -49,6 +56,11 @@ const routes = new Set([...allSite.map((c) => "components/" + c.id), ...[...page
 const specSrc = read("js/specs.js");
 const specs = JSON.parse(specSrc.slice(specSrc.indexOf("NS.SPECS = ") + 11, specSrc.indexOf(";\n  NS.WORKFLOWS")));
 const syncedOn = (specSrc.match(/on (\d{4}-\d{2}-\d{2})/) || [])[1];
+
+/* Sync gaps visible from the site side alone */
+const childFigma = Object.fromEntries(allSite.filter((c) => merged.has(c.id)).map((c) => [c.id, c.figma]));
+const noSpec = site.filter((c) => !specs[c.id] && !mergedPairs.some(([ch, par]) => par === c.id && specs[ch]));
+if (noSpec.length) gap(`Spec frames: ${site.length - noSpec.length} of ${site.length} components have one. Missing: ${noSpec.map((c) => c.id).join(", ")}.`);
 
 if (!site.length) bad("Could not parse any components from js/components.js; the regex needs updating.");
 if (waiting.length) note(`${waiting.length} component(s) built in code and waiting for Figma sync: ${waiting.map((c) => c.name).join(", ")}. Sync them, then set figma: "<node id>" in js/components.js.`);
@@ -126,6 +138,27 @@ async function online() {
     if (!n || !n.document) bad(`Site "${c.name}" points at Figma node ${c.figma}, which no longer exists.`);
   }
 
+  // Sync gap: folded components still published as their own Figma sets.
+  const childIds = Object.values(childFigma).filter(Boolean);
+  if (childIds.length) {
+    const cn = (await api(`files/${FILE_KEY}/nodes?ids=${encodeURIComponent(childIds.join(","))}&depth=1`)).nodes;
+    mergedPairs.forEach(([ch, par]) => { const id = childFigma[ch]; const n = id && cn[id]?.document; if (n && n.type === "COMPONENT_SET") gap(`Folded: "${n.name}" (${id}) is still its own set. Move it under ${par} as a variant or nested part.`); });
+  }
+
+  // Sync gaps: fonts per component set, gradients on the Widgets page.
+  const fonts = new Map();
+  const textWalk = (n, owner) => {
+    const o = n.type === "COMPONENT_SET" || (n.type === "COMPONENT" && !owner) ? n.name : owner;
+    if (n.type === "TEXT" && o && n.style?.fontFamily && n.style.fontFamily !== "Open Sans") fonts.set(o, (fonts.get(o) || new Set()).add(n.style.fontFamily));
+    (n.children || []).forEach((c) => textWalk(c, o));
+  };
+  file.document.children.filter((p) => SCAN_PAGE(p.name)).forEach((p) => textWalk(p, null));
+  if (fonts.size) gap(`Fonts: ${fonts.size} component set(s) use a font other than Open Sans: ${[...fonts].map(([k, v]) => `${k} (${[...v].join(", ")})`).join("; ")}.`);
+  let grads = 0;
+  const gradWalk = (n) => { if ((n.fills || []).some((f) => /^GRADIENT_/.test(f.type) && f.visible !== false)) grads++; (n.children || []).forEach(gradWalk); };
+  file.document.children.filter((p) => p.name.trim() === "Widgets").forEach(gradWalk);
+  if (grads) gap(`Widgets page: ${grads} layer(s) still use gradient fills; the code uses flat chart-series fills since 2026-10-26.`);
+
   // Spec frames vs Spec tabs.
   for (const f of specFrames) {
     const id = f.name.toLowerCase().replace(/\s+/g, "-");
@@ -143,7 +176,8 @@ function report(figmaCount, siteCount = site.length) {
   console.log(`Site components: ${siteCount}${figmaCount != null ? ` | Figma components scanned: ${figmaCount}` : ""} | Spec tabs: ${Object.keys(specs).length}\n`);
   notes.forEach((m) => console.log("  note  " + m));
   if (notes.length) console.log("");
-  if (!problems.length) console.log("In sync. No drift found.");
+  if (gaps.length) { console.log(`${gaps.length} sync gap(s) for the next Figma batch${strict ? "" : " (not failures; --strict fails on them)"}:`); gaps.forEach((m) => console.log("  gap   " + m)); console.log(""); }
+  if (!problems.length) console.log("No drift found.");
   else { console.log(`${problems.length} issue(s):`); problems.forEach((m) => console.log("  drift " + m)); }
-  process.exit(problems.length ? 1 : 0);
+  process.exit(problems.length || (strict && gaps.length) ? 1 : 0);
 }

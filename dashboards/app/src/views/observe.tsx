@@ -29,7 +29,7 @@ const SVC_P95 = [96, 54, 240, 180, 88, 130, 210, 340];
 
 type Level = "INFO" | "WARN" | "ERROR";
 type LogLine = { t: string; level: Level; svc: string; msg: string };
-const LEVEL_CLASS: Record<Level, string> = { INFO: "text-ns-link", WARN: "text-ns-warning", ERROR: "text-ns-error" };
+const LEVEL_CLASS: Record<Level, string> = { INFO: "text-ns-link", WARN: "text-status-warning", ERROR: "text-status-error" };
 const MSGS: Record<Level, string[]> = {
   INFO: ["GET /v2/products 200 38ms", "POST /v2/sessions 201 112ms", "GET /v2/cart 200 41ms", "cache refreshed, 1,204 keys", "health check passed", "GET /v2/search?q=lamp 200 96ms"],
   WARN: ["upstream timeout after 2000ms, retrying (1/3)", "connection pool at 87% capacity", "slow query 1,420ms on orders_by_user", "retry budget low, 14% remaining"],
@@ -116,7 +116,7 @@ export default function Observe() {
     { key: "name", label: "Service", sort: (r) => r.name, cell: (r) => <span className="font-mono text-[13px] font-semibold">{r.name}</span> },
     { key: "rps", label: "Req/s", align: "right", sort: (r) => r.rps, cell: (r) => num(r.rps) },
     { key: "p95", label: "p95", align: "right", sort: (r) => r.p95, cell: (r) => `${num(r.p95)} ms` },
-    { key: "err", label: "Errors", align: "right", hideBelow: "sm", sort: (r) => r.err, cell: (r) => <span className={r.err > 0.01 ? "font-semibold text-ns-error" : undefined}>{(r.err * 100).toFixed(2)}%</span> },
+    { key: "err", label: "Errors", align: "right", hideBelow: "sm", sort: (r) => r.err, cell: (r) => <span className={r.err > 0.01 ? "font-semibold text-status-error" : undefined}>{(r.err * 100).toFixed(2)}%</span> },
     { key: "status", label: "Status", sort: (r) => r.status, cell: (r) => <Pill status={SVC_STATUS[r.status]}>{r.status}</Pill> },
   ];
 
@@ -148,7 +148,7 @@ export default function Observe() {
           <div className="flex min-w-0 flex-col gap-1">
             <span className="text-xs text-muted-foreground">Ready of desired</span>
             <Figure value={readyNow} size="md" suffix={` / ${d.desired}`} />
-            <span className={readyNow < d.desired ? "tnum text-xs font-semibold text-ns-warning" : "tnum text-xs text-muted-foreground"}>{readyNow < d.desired ? `${d.desired - readyNow} pod restarting` : "All pods ready"}</span>
+            <span className={readyNow < d.desired ? "tnum text-xs font-semibold text-status-warning" : "tnum text-xs text-muted-foreground"}>{readyNow < d.desired ? `${d.desired - readyNow} pod restarting` : "All pods ready"}</span>
             <Spark data={d.ready} id="pods" color="var(--chart-3)" />
           </div>
         </Tile>
