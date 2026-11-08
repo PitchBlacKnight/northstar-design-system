@@ -1258,7 +1258,7 @@
       if (c.sizes) body += NS.h2("Sizes") + NS.table(["Size", "Height", "Use"], c.sizes);
       body += NS.h2("Theming") + `<p>${c.name} reads only semantic roles, so switching the theme (header toggle) swaps its colors without any class changes.</p>`;
     } else if (tab === "code") {
-      body += NS.h2("React") + NS.codeBlock(c.react, "js");
+      body += NS.h2("React") + `<p class="ns-helper">Illustrative only. There is no published NorthStar React package; the HTML and CSS above is the shipped implementation, and the props table is the contract a wrapper would follow.</p>` + NS.codeBlock(c.react, "js");
       body += NS.h2("HTML + CSS") + `<p>Framework-free markup using <code>components.css</code> classes and <code>tokens.css</code> variables.</p>` + NS.codeBlock(c.playground.render(Object.fromEntries((c.playground.controls || []).map((k) => [k.key, k.default ?? (k.options ? k.options[0] : k.type === "bool" ? false : "")]))), "html");
       body += NS.h2("Props") + NS.table(["Prop", "Type", "Default", "Description"], c.props.map((p) => [`<code>${p[0]}</code>`, `<code>${x(p[1])}</code>`, `<code>${x(p[2])}</code>`, p[3]]));
     } else if (tab === "spec") {

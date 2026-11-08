@@ -138,7 +138,7 @@ const llms = [
 const files = {
   "llms.txt": llms + "\n",
   "agent/northstar.md": markdown + "\n",
-  "agent/components.json": JSON.stringify({ version: data.version, generated: data.generated, site: SITE, components: data.components }, null, 1) + "\n",
+  "agent/components.json": JSON.stringify({ version: data.version, generated: data.generated, site: SITE, note: "html is the shipped implementation; react is illustrative, there is no published NorthStar React package", components: data.components }, null, 1) + "\n",
   "agent/tokens.json": JSON.stringify({ version: data.version, generated: data.generated, note: "dark is the default theme; light lists only the values that change", tokens: data.tokens }, null, 1) + "\n",
 };
 const stale = [];

@@ -2,6 +2,7 @@
  "version": "v1.4.1",
  "generated": "2026-11-08",
  "site": "https://mikelrosenthal.com/northstar/",
+ "note": "html is the shipped implementation; react is illustrative, there is no published NorthStar React package",
  "components": [
   {
    "id": "accordion",
