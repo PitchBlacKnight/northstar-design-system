@@ -138,12 +138,16 @@ async function online() {
     if (!n || !n.document) bad(`Site "${c.name}" points at Figma node ${c.figma}, which no longer exists.`);
   }
 
-  // Sync gap: folded components still published as their own Figma sets.
-  const childIds = Object.values(childFigma).filter(Boolean);
-  if (childIds.length) {
-    const cn = (await api(`files/${FILE_KEY}/nodes?ids=${encodeURIComponent(childIds.join(","))}&depth=1`)).nodes;
-    mergedPairs.forEach(([ch, par]) => { const id = childFigma[ch]; const n = id && cn[id]?.document; if (n && n.type === "COMPONENT_SET") gap(`Folded: "${n.name}" (${id}) is still its own set. Move it under ${par} as a variant or nested part.`); });
-  }
+  // Sync gap: a folded component still sits on a page of its own instead of its parent's page,
+  // or its documentation link does not point at the parent's docs page.
+  mergedPairs.forEach(([ch, par]) => {
+    const f = figma.find((x) => x.id === childFigma[ch]);
+    if (!f) return;
+    const name = allSite.find((s) => s.id === ch)?.name || ch;
+    const uri = (meta[f.id]?.documentationLinks || [])[0]?.uri || "";
+    if (f.page.toLowerCase() === name.toLowerCase()) gap(`Folded: "${f.name}" (${f.id}) is still on its own page "${f.page}". Move it onto the ${par} page.`);
+    else if (uri !== SITE + "components/" + par) gap(`Folded: "${f.name}" (${f.id}) links to ${uri || "nothing"}; point it at #/components/${par}.`);
+  });
 
   // Sync gaps: fonts per component set, gradients on the Widgets page.
   const fonts = new Map();

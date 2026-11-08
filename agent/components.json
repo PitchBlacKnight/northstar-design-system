@@ -6245,7 +6245,7 @@
     {
      "id": "dropdown",
      "name": "Dropdown",
-     "figma": "1840:22807",
+     "figma": "4706:8145",
      "description": "Dropdowns present a list of options from which a user can select one option, or several. A selected option can represent a value in a form, or can be used as an action to filter or sort existing content.",
      "react": "<Dropdown label=\"Sort by\" icon={<Settings />} items={sorts} onChange={setSort} />"
     }

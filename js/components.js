@@ -185,7 +185,7 @@
       react: "<Select id=\"region\" label=\"Region\" value={region} onChange={setRegion}>\n  <SelectItem value=\"us-east-1\" />\n  <SelectItem value=\"eu-central-1\" />\n</Select>",
     },
     {
-      id: "dropdown", name: "Dropdown", cat: "Inputs", status: "New", figma: "1840:22807",
+      id: "dropdown", name: "Dropdown", cat: "Inputs", status: "New", figma: "4706:8145",
       desc: "Dropdowns present a list of options from which a user can select one option, or several. A selected option can represent a value in a form, or can be used as an action to filter or sort existing content.",
       axes: [["Trigger / Content", "Text (150x42), Icon (36x36), Two icons (176x42)"], ["Trigger / State", "Default, Hover, Disabled"], ["Menu / Items", "4, 5, 6, 7 (200 wide, +42 per item)"], ["List item", "Icon: No, Yes · Hovered: No, Yes (200x40)"]],
       doc: [["Placeholder", "A drop-down list should always have a label."], ["Width", "The width of the button can be customized appropriately for its context."], ["Icon", "Sometimes the icon next to the placeholder can be used to enhance the effect."], ["Disabled", "Button in a disabled state shows that an input field exists, but is not available in that circumstance. Usually this state is used to show the user that the action may become available later."]],
