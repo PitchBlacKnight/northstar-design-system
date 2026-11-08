@@ -54,7 +54,7 @@ a.innerHTML = s.open + `<div class="grid g1">
    <div class="row row--b"><div class="d-xl num">31,204</div><span class="dl" style="padding-bottom:8px">18.4%</span></div>
    <div class="sp1"></div>
    ${D.bars({ w: 330, h: 70, data: D.series(24, 40, 100, .25, 9), color: "var(--ink)", r: 3, gap: 4, pad: [2, 0, 2, 0] })}
-   <div class="row sb"><span class="cap">CPA $13.20</span><span class="cap">AOV $96.40</span></div>
+   <div class="row sb"><span class="cap">CPA $13.20</span><span class="cap">AOV $63.64</span></div>
  </section>
 
  <section class="t pace">
@@ -68,13 +68,13 @@ a.innerHTML = s.open + `<div class="grid g1">
  <section class="t chan">
    <div class="o">ROAS by channel <em>Oct 1 - 22</em></div>
    <div style="display:grid;gap:34px;margin-top:16px">${ch.map(([n, v, c], i) => `<div style="display:grid;gap:7px"><div class="row sb" style="font:600 13px/1 var(--ns-font-sans)"><span>${n}</span><span class="num">${v.toFixed(1)}x</span></div><div class="bar" style="height:10px;border-radius:5px"><i style="--_v:${v / 6 * 100}%;--_c:var(--ns-${c})"></i></div></div>`).join("")}</div>
-   <div class="sp1"></div><hr class="hr"><div class="cap">Target 4.00x. Podcast and retail media sit under.</div>
+   <div class="sp1"></div><hr class="hr"><div class="cap">Target 4.00x. Programmatic, retail media and podcast sit under.</div>
  </section>
 
  <section class="t fun">
    <div class="o">Conversion funnel <em>Flight to date</em></div>
    <div style="display:grid;gap:11px;flex:1;align-content:space-around">
-   ${[["Impressions", 100, "18.4M"], ["Clicks", 74, "612K"], ["Sessions", 58, "498K"], ["Add to cart", 36, "84K"], ["Purchases", 20, "31.2K"]].map(([l, w, v]) => `<div class="frow"><span>${l}</span><div><i style="width:${w}%"></i></div><b class="num">${v}</b></div>`).join("")}</div>
+   ${[["Clicks", 100, "612K"], ["Sessions", 81, "498K"], ["Add to cart", 14, "84K"], ["Purchases", 5, "31.2K"]].map(([l, w, v]) => `<div class="frow"><span>${l}</span><div><i style="width:${w}%"></i></div><b class="num">${v}</b></div>`).join("")}</div>
  </section>
 
  <section class="t heat">

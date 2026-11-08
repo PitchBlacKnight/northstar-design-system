@@ -45,13 +45,13 @@ a.innerHTML = s.open + `<div class="ed">
     <h2>Churn is at a three-year low.</h2>
     <p>Logo churn fell to 1.9 percent. Most of the gain came from accounts that had been at risk in Q1.</p>
     <div class="sp1" style="display:grid;align-content:end;gap:18px">
-    ${kpis.map(([n, v, u, lo, hi, c]) => `<div style="display:grid;grid-template-columns:130px 1fr 78px;gap:14px;align-items:center;font:600 13px/1 var(--ns-font-sans)"><span>${n}</span><div class="ruler" style="--_v:${(v - lo) / (hi - lo) * 100}%;--_c:var(--ns-${c})"><i></i></div><span class="num" style="text-align:right;font-size:20px;font-weight:800">${v}${u}</span></div>`).join("")}</div>
+    ${kpis.map(([n, v, u, lo, hi, c]) => `<div style="display:grid;grid-template-columns:130px 1fr 78px;gap:14px;align-items:center;font:600 13px/1 var(--ns-font-sans)"><span>${n}</span><div style="display:grid;gap:5px"><div class="ruler" style="--_v:${(v - lo) / (hi - lo) * 100}%;--_c:var(--ns-${c})" role="img" aria-label="${n} ${v}${u} on a ${lo} to ${hi}${u} range"><i></i></div><span style="display:flex;justify-content:space-between;font:400 11px/1 var(--ns-font-sans);color:var(--ns-chart-label-text)"><span>${lo}${u}</span><span>${hi}${u}</span></span></div><span class="num" style="text-align:right;font-size:20px;font-weight:800">${v}${u}</span></div>`).join("")}</div>
   </div>
   <div>
     <div class="o">Where the growth came from</div>
-    <h2>Expansion beat new logos.</h2>
-    <p>Existing accounts added $3.1M. New logos added $3.9M after a slow August.</p>
-    <div class="sp1" style="display:flex;align-items:flex-end">${D.stack({ w: 360, h: 190, gap: 26, labels: ["Q1","Q2","Q3"], sets: [{ data: [10, 12, 14], color: "var(--ns-chart-series-3)" }, { data: [6, 8, 9.5], color: "var(--ns-chart-series-1)" }] })}</div>
+    <h2>New logos beat expansion.</h2>
+    <p>New logos added $3.9M after a slow August. Existing accounts added $3.1M.</p>
+    <div class="sp1" style="display:flex;align-items:flex-end">${D.stack({ w: 360, h: 190, gap: 26, labels: ["Q1","Q2","Q3"], sets: [{ data: [2.4, 2.8, 3.1], color: "var(--ns-chart-series-3)" }, { data: [3, 3.4, 3.9], color: "var(--ns-chart-series-1)" }] })}</div>
     <div class="lg"><span><i style="--_c:var(--ns-chart-series-1)"></i>New logos</span><span><i style="--_c:var(--ns-chart-series-3)"></i>Expansion</span></div>
   </div>
   <div class="risks">

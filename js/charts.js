@@ -20,7 +20,7 @@
     name: "Bubble",
     alt: "Bubble chart: eight points, bubble size shows the third measure",
     kpi: ["Accounts", "1,240", "+2.4%", "Bubble size shows active seats", "Size is seats"],
-    sum: [["Largest", "312", "+1.2%", "Top account", "Top account"], ["Smallest", "18", "+0.4%", "Lowest tier", "Lowest tier"]],
+    sum: [["Largest", "312", "+1.2%", "Top account", "Top account"], ["Smallest", "32", "+0.4%", "Lowest tier", "Lowest tier"]],
     prims: (w, h, o) => {
       const c = o.compact, ml = c ? 0 : 30, mb = c ? 0 : 22, pw = w - ml, ph = h - mb, R = Math.min(pw, ph) * 0.16;
       const P = [[0.10, 0.62, 0.28, "s1"], [0.22, 0.30, 0.5, "s2"], [0.35, 0.72, 0.2, "s1"], [0.47, 0.46, 0.62, "s3"], [0.60, 0.22, 0.34, "s2"], [0.70, 0.60, 0.42, "s1"], [0.82, 0.32, 0.26, "s3"], [0.92, 0.68, 0.5, "s2"]];
@@ -31,13 +31,13 @@
   DEFS.candle = {
     name: "Candlestick",
     alt: "Candlestick chart: ten sessions, green candles close higher and red candles close lower",
-    kpi: ["Index", "4,820", "+0.8%", "Open, close, high and low", "Daily range"],
+    kpi: ["Index", "4,880", "+0.8%", "Open, close, high and low", "Daily range"],
     sum: [["Highest", "4,910", "+1.1%", "Session high", "Session high"], ["Lowest", "4,610", "+0.2%", "Session low", "Session low"]],
     prims: (w, h, o) => {
       const c = o.compact, ml = c ? 0 : 30, mb = c ? 0 : 22, pw = w - ml, ph = h - mb;
       const D = [[0.40, 0.52, 0.34, 0.58], [0.52, 0.46, 0.40, 0.60], [0.46, 0.60, 0.42, 0.66], [0.60, 0.70, 0.55, 0.74], [0.70, 0.62, 0.56, 0.78], [0.62, 0.55, 0.50, 0.68], [0.55, 0.68, 0.50, 0.72], [0.68, 0.80, 0.64, 0.86], [0.80, 0.74, 0.70, 0.88], [0.74, 0.84, 0.70, 0.90]].slice(0, c ? 8 : 10);
       const step = pw / D.length, bw = Math.max(4, step * 0.5), Y = (v) => ph - 4 - v * (ph - 8);
-      const g = c ? [] : [...H.hgrid(ml, w, 0, ph, 4), ...H.ylab(ml - 8, 0, ph, ["120", "110", "100", "90"]), ...H.xlab(ml + step / 2, w - step / 2, h - 8, ["Mon", "Wed", "Fri"])];
+      const g = c ? [] : [...H.hgrid(ml, w, 0, ph, 4), ...H.ylab(ml - 8, 0, ph, ["5.0k", "4.8k", "4.6k", "4.4k"]), ...H.xlab(ml + step / 2, w - step / 2, h - 8, ["Mon", "Wed", "Fri"])];
       const out = [];
       D.forEach((d, i) => {
         const cx = ml + step * (i + 0.5), f = d[1] >= d[0] ? "ok" : "err", top = Y(Math.max(d[0], d[1])), bot = Y(Math.min(d[0], d[1]));
@@ -51,7 +51,7 @@
     name: "Funnel",
     alt: "Funnel chart: five stages from visits to active, each narrower than the last",
     kpi: ["Signups", "8,420", "+3.2%", "From first visit to active", "Visit to active"],
-    sum: [["Trial", "2,100", "+1.4%", "Started a trial", "Started trial"], ["Active", "640", "+0.9%", "Active at day 30", "Active day 30"]],
+    sum: [["Trial", "6,045", "+1.4%", "Started a trial", "Started trial"], ["Active", "2,376", "+0.9%", "Active at day 30", "Active day 30"]],
     prims: (w, h, o) => {
       const c = o.compact, ml = c ? 0 : 72, pw = w - ml, n = 5, gap = c ? 3 : 6, bh = (h - gap * (n - 1)) / n;
       const V = [1, 0.78, 0.56, 0.38, 0.22], L = ["Visits", "Signups", "Trial", "Paid", "Active"], out = [];
@@ -67,7 +67,7 @@
     name: "Dumbbell",
     alt: "Dumbbell chart: five rows, each joining a before value and an after value",
     kpi: ["Satisfaction", "4.6", "+0.3%", "Before and after the change", "Before vs after"],
-    sum: [["Largest gap", "0.7", "+0.2%", "Biggest improvement", "Biggest gain"], ["Smallest gap", "0.1", "+0.1%", "Least movement", "Least movement"]],
+    sum: [["Largest gap", "0.65", "+0.2%", "Biggest improvement", "Biggest gain"], ["Smallest gap", "0.30", "+0.1%", "Least movement", "Least movement"]],
     prims: (w, h, o) => {
       const c = o.compact, ml = c ? 0 : 64, n = c ? 4 : 5, pw = w - ml - 8, rh = h / n;
       const V = [[0.20, 0.62], [0.35, 0.80], [0.10, 0.45], [0.40, 0.70], [0.25, 0.90]].slice(0, n), L = ["North", "South", "East", "West", "Central"], out = [];
@@ -85,14 +85,14 @@
     name: "Heatmap",
     alt: "Heatmap: activity by weekday and time, darker cells mean more events",
     kpi: ["Activity", "3,260", "+5.1%", "Events by weekday and hour", "By day and hour"],
-    sum: [["Busiest", "Wed", "+2.0%", "Peak weekday", "Peak weekday"], ["Quietest", "Fri", "+0.6%", "Lowest weekday", "Lowest weekday"]],
+    sum: [["Busiest", "Wed", "+2.0%", "Peak weekday", "Peak weekday"], ["Quietest", "Mon", "+0.6%", "Lowest weekday", "Lowest weekday"]],
     prims: (w, h, o) => {
       const c = o.compact, ml = c ? 0 : 34, mb = c ? 0 : 22, cols = c ? 8 : 12, rows = c ? 4 : 5, gap = c ? 2 : 3, pw = w - ml, ph = h - mb;
       const cw = (pw - gap * (cols - 1)) / cols, ch = (ph - gap * (rows - 1)) / rows, D = ["Mon", "Tue", "Wed", "Thu", "Fri"], out = [];
       for (let r = 0; r < rows; r++) {
         if (!c) out.push({ k: "text", x: ml - 8, y: r * (ch + gap) + ch / 2, s: D[r], a: "end", n: "Row label" });
         for (let k = 0; k < cols; k++) {
-          const v = ((r * 7 + k * 5 + r * k) % 10) / 9;
+          const v = ((r * 4 + k * 5 + r * k) % 10) / 9;
           out.push({ k: "rect", x: ml + k * (cw + gap), y: r * (ch + gap), w: cw, h: ch, r: c ? 1 : 3, f: "s1", o: 0.12 + 0.88 * v, n: "Cell " + (r + 1) + "-" + (k + 1) });
         }
       }
@@ -104,7 +104,7 @@
     name: "Parallel coordinates",
     alt: "Parallel coordinates: four profiles across five measures, one line per profile",
     kpi: ["Profiles", "128", "+4.0%", "Five measures per profile", "Five measures"],
-    sum: [["Strongest", "Reach", "+1.2%", "Highest average", "Highest avg"], ["Weakest", "Cost", "+0.5%", "Lowest average", "Lowest avg"]],
+    sum: [["Strongest", "Cost", "+1.2%", "Highest average", "Highest avg"], ["Weakest", "Reach", "+0.5%", "Lowest average", "Lowest avg"]],
     prims: (w, h, o) => {
       const c = o.compact, ml = c ? 6 : 16, mb = c ? 0 : 22, pw = w - ml * 2, ph = h - mb, n = c ? 4 : 5;
       const D = [[0.20, 0.70, 0.40, 0.80, 0.50], [0.60, 0.30, 0.70, 0.20, 0.60], [0.80, 0.50, 0.20, 0.60, 0.90], [0.40, 0.90, 0.60, 0.40, 0.20]];
@@ -119,10 +119,10 @@
     name: "Stepped line",
     alt: "Stepped line chart: two series that change only at set points in time",
     kpi: ["Plan limit", "2,400", "+2.0%", "Changes only on a date", "Changes by date"],
-    sum: [["Previous", "2,000", "+1.0%", "Before the last change", "Before change"], ["Next", "2,800", "+1.5%", "Planned change", "Planned"]],
+    sum: [["Previous", "2,000", "+1.0%", "Before the last change", "Before change"], ["Second plan", "1,950", "+1.5%", "Current limit of series 2", "Series 2"]],
     prims: (w, h, o) => {
       const c = o.compact, ml = c ? 0 : 30, mb = c ? 0 : 22, pw = w - ml, ph = h - mb;
-      const A = [0.30, 0.30, 0.50, 0.45, 0.70, 0.60, 0.80, 0.75], B = [0.20, 0.35, 0.30, 0.50, 0.40, 0.55, 0.50, 0.65];
+      const A = [0.30, 0.30, 0.50, 0.45, 0.70, 0.60, 0.67, 0.80], B = [0.20, 0.35, 0.30, 0.50, 0.40, 0.55, 0.50, 0.65];
       const dx = pw / (A.length - 1), Y = (v) => ph - 4 - v * (ph - 8);
       const step = (V) => { let d = "M" + ml + " " + Y(V[0]).toFixed(1); for (let i = 1; i < V.length; i++) { const x = (ml + dx * i).toFixed(1); d += "L" + x + " " + Y(V[i - 1]).toFixed(1) + "L" + x + " " + Y(V[i]).toFixed(1); } return d; };
       const g = c ? [] : [...H.hgrid(ml, w, 0, ph, 4), ...H.ylab(ml - 8, 0, ph, ["3k", "2k", "1k", "0"]), ...H.xlab(ml + 12, w - 12, h - 8, ["Jan", "Apr", "Jul", "Oct"])];
@@ -133,7 +133,7 @@
     name: "Scatter",
     alt: "Scatter plot: samples on two measures with a rising trend line",
     kpi: ["Samples", "240", "+6.2%", "Two measures per sample", "Two measures"],
-    sum: [["Trend", "Up", "+1.0%", "Positive relationship", "Positive"], ["Outliers", "7", "+0.3%", "Far from the trend", "Far from trend"]],
+    sum: [["Trend", "Up", "+1.0%", "Positive relationship", "Positive"], ["Outliers", "6", "+0.3%", "Far from the trend", "Far from trend"]],
     prims: (w, h, o) => {
       const c = o.compact, ml = c ? 0 : 30, mb = c ? 0 : 22, pw = w - ml, ph = h - mb;
       const g = c ? [] : [...H.hgrid(ml, w, 0, ph, 4), ...H.ylab(ml - 8, 0, ph, ["100", "75", "50", "25"]), ...H.xlab(ml + 6, w - 6, h - 8, ["0", "5", "10"])];
@@ -158,7 +158,7 @@
   DEFS.radialbar = {
     name: "Radial bar",
     alt: "Radial bar chart: four goals, each a ring filled toward a target",
-    kpi: ["Progress", "78%", "+5.0%", "Four goals toward a target", "Four goals"],
+    kpi: ["Progress", "54%", "+5.0%", "Average of four goals", "Goal average"],
     sum: [["Closest", "Goal A", "+2.0%", "Nearest to target", "Nearest"], ["Furthest", "Goal D", "+0.8%", "Furthest from target", "Furthest"]],
     prims: (w, h, o) => {
       const c = o.compact, cx = w / 2, cy = h / 2, R0 = Math.min(w, h) / 2 - 2, t = R0 * (c ? 0.14 : 0.11), gap = R0 * 0.05, V = [0.80, 0.62, 0.45, 0.30], out = [];
@@ -178,7 +178,7 @@
     prims: (w, h, o) => {
       const c = o.compact, cx = w / 2, cy = h / 2, R = Math.min(w, h) / 2 - 2, r0 = R * 0.28, N = 24, out = [];
       for (let i = 0; i < N; i++) {
-        const v = 0.3 + 0.7 * Math.abs(Math.sin(i * 0.9 + 0.4));
+        const a = (i - 14 + 24) % 24, t = a <= 14 ? a / 14 : (24 - a) / 10, v = 0.3 + 0.7 * (0.5 + 0.5 * Math.cos(Math.PI * t));
         out.push({ k: "arc", cx, cy, ro: r0 + (R - r0) * v, ri: r0, a0: i * 15 + 1, a1: (i + 1) * 15 - 1, f: i % 6 === 0 ? "s2" : "s1", n: "Bar " + (i + 1) });
       }
       return out;
@@ -187,8 +187,8 @@
   DEFS.radar = {
     name: "Radar",
     alt: "Radar chart: two series across six measures",
-    kpi: ["Coverage", "86%", "+3.0%", "Six skills against the target", "Six skills"],
-    sum: [["Strongest", "Reach", "+1.1%", "Highest score", "Highest"], ["Weakest", "Trust", "+0.4%", "Lowest score", "Lowest"]],
+    kpi: ["Coverage", "68%", "+3.0%", "Average of series 1 across six skills", "Series 1 average"],
+    sum: [["Strongest", "Score", "+1.1%", "Highest score", "Highest"], ["Weakest", "Trust", "+0.4%", "Lowest score", "Lowest"]],
     prims: (w, h, o) => {
       const c = o.compact, cx = w / 2, cy = h / 2, R = Math.min(w, h) / 2 - (c ? 4 : 18), N = 6, out = [];
       const P = (r, i) => [cx + r * Math.sin((i * 360 / N * Math.PI) / 180), cy - r * Math.cos((i * 360 / N * Math.PI) / 180)];
@@ -204,12 +204,12 @@
   DEFS.convergence = {
     name: "Radial convergence",
     alt: "Radial convergence chart: twelve nodes on a ring joined by eight links",
-    kpi: ["Links", "12", "+2.0%", "Nodes joined across a ring", "Nodes joined"],
-    sum: [["Most linked", "Node 4", "+1.0%", "Most connections", "Most links"], ["Least linked", "Node 9", "+0.2%", "Fewest connections", "Fewest links"]],
+    kpi: ["Links", "8", "+2.0%", "Twelve nodes joined across a ring", "Nodes joined"],
+    sum: [["Most linked", "Node 3", "+1.0%", "Three connections", "Most links"], ["Least linked", "8 nodes", "+0.2%", "One connection each", "Fewest links"]],
     prims: (w, h, o) => {
       const c = o.compact, cx = w / 2, cy = h / 2, R = Math.min(w, h) / 2 - 6, N = 12, out = [];
       const P = (i) => [cx + R * Math.sin((i * 30 * Math.PI) / 180), cy - R * Math.cos((i * 30 * Math.PI) / 180)];
-      [[0, 5], [1, 7], [2, 9], [3, 10], [4, 8], [6, 11], [0, 8], [2, 6]].forEach((e, i) => out.push({ k: "path", d: H.poly([P(e[0]), P(e[1])]), sk: i % 2 ? "s2" : "s1", sw: 1.5, n: "Link " + (i + 1) }));
+      [[0, 5], [1, 7], [2, 9], [3, 10], [4, 8], [6, 11], [0, 2], [2, 6]].forEach((e, i) => out.push({ k: "path", d: H.poly([P(e[0]), P(e[1])]), sk: i % 2 ? "s2" : "s1", sw: 1.5, n: "Link " + (i + 1) }));
       for (let i = 0; i < N; i++) { const p = P(i); out.push({ k: "circle", cx: p[0], cy: p[1], r: c ? 2.5 : 4, f: "text", n: "Node " + (i + 1) }); }
       return out;
     },
@@ -262,9 +262,9 @@
   };
   DEFS.calendar = {
     name: "Calendar",
-    alt: "Calendar heatmap: one month by weekday, darker days had more activity",
-    kpi: ["Active days", "19", "+3.0%", "Days with activity this month", "This month"],
-    sum: [["Longest streak", "6", "+1.0%", "Days in a row", "In a row"], ["Quiet days", "12", "+0.5%", "Days without activity", "Quiet"]],
+    alt: "Calendar heatmap: five weeks of days by weekday, darker days had more activity",
+    kpi: ["Active days", "31", "+3.0%", "Days with activity in five weeks", "Five weeks"],
+    sum: [["Longest streak", "12", "+1.0%", "Days in a row", "In a row"], ["Quiet days", "4", "+0.5%", "Days without activity", "Quiet"]],
     prims: (w, h, o) => {
       const c = o.compact, hdr = c ? 0 : 18, gap = c ? 2 : 3, cw = (w - gap * 6) / 7, ch = (h - hdr - gap * 4) / 5, out = [];
       for (let r = 0; r < 5; r++) for (let k = 0; k < 7; k++) {

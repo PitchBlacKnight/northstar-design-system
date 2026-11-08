@@ -19,8 +19,8 @@ type PeriodId = (typeof PERIODS)[number]["id"];
 
 type Team = { name: string; lead: string; headcount: number; open: number; engagement: number; attrition: number; pending: number; completion: number };
 const TEAMS: { name: string; share: number }[] = [
-  { name: "Engineering", share: 0.3 }, { name: "Product", share: 0.08 }, { name: "Design", share: 0.07 }, { name: "Data", share: 0.06 },
-  { name: "Sales", share: 0.16 }, { name: "Customer success", share: 0.12 }, { name: "Marketing", share: 0.08 }, { name: "People", share: 0.05 }, { name: "Finance", share: 0.04 },
+  { name: "Engineering", share: 0.32 }, { name: "Product", share: 0.08 }, { name: "Design", share: 0.07 }, { name: "Data", share: 0.06 },
+  { name: "Sales", share: 0.18 }, { name: "Customer success", share: 0.12 }, { name: "Marketing", share: 0.08 }, { name: "People", share: 0.05 }, { name: "Finance", share: 0.04 },
 ];
 const CYCLE = ["Self review", "Peer review", "Manager review", "Calibration"] as const;
 
@@ -104,7 +104,7 @@ export default function People() {
             <Figure value={d.attr} fmt="pct" size="xl" />
             <span className="text-sm text-muted-foreground">annualized</span>
           </div>
-          <BarList fmt={num} items={[{ label: "Regretted", value: d.regretted, color: "var(--ns-status-error)" }, { label: "Non-regretted", value: departuresNonRegretted, color: "var(--chart-5)" }]} />
+          <BarList fmt={num} items={[{ label: "Regretted", value: d.regretted, color: "var(--ns-status-error)" }, { label: "Non-regretted", value: departuresNonRegretted, color: "var(--chart-5)" }]} max={d.departures} />
           <p className="tnum text-xs text-muted-foreground">{num(d.departures)} departures over {period.days} days</p>
         </Tile>
 
@@ -163,7 +163,7 @@ export default function People() {
         </Tile>
         <Tile label="Open roles" className="md:col-span-6 xl:col-span-4">
           <Stat label="Approved and hiring" value={openTotal} sub={`${num(d.hires)} filled this period`} />
-          <BarList items={openByTeam} fmt={num} />
+          <BarList items={openByTeam} fmt={num} max={openTotal} />
         </Tile>
       </Bento>
     </>

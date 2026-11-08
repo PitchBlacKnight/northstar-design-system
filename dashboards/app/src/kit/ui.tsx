@@ -150,16 +150,18 @@ export function Pill({ status, children }: { status: Status; children: React.Rea
   );
 }
 
-/* Horizontal share bar list: label, bar, value. Bars use chart tokens. */
-export function BarList({ items, fmt = (n: number) => n.toLocaleString("en-US") }: { items: { label: string; value: number; color?: string }[]; fmt?: (n: number) => string }) {
-  const max = Math.max(...items.map((i) => i.value), 1);
+/* Horizontal bar list: label, bar, value. Bars use chart tokens; set max for percentages or shares of a total */
+export function BarList({ items, fmt = (n: number) => n.toLocaleString("en-US"), max }: { items: { label: string; value: number; color?: string }[]; fmt?: (n: number) => string; max?: number }) {
+  /* Bars are scaled to max: pass 100 for percentages or the true total for parts of a whole. Without it they
+     compare with each other (the largest bar fills the track). */
+  const top = Math.max(max ?? Math.max(...items.map((i) => i.value)), 1e-9);
   return (
     <ul className="flex flex-col gap-2.5">
       {items.map((it, i) => (
         <li key={it.label} className="grid grid-cols-[minmax(0,7rem)_1fr_auto] items-center gap-3 text-sm">
           <span className="truncate text-muted-foreground">{it.label}</span>
           <span className="h-2 rounded-full bg-[var(--ns-chart-track)]">
-            <span className="block h-full rounded-full" style={{ width: `${(it.value / max) * 100}%`, background: it.color ?? `var(--chart-${(i % 4) + 1})` }} />
+            <span className="block h-full rounded-full" role="presentation" style={{ width: `${Math.max(0, Math.min(100, (it.value / top) * 100))}%`, background: it.color ?? `var(--chart-${(i % 4) + 1})` }} />
           </span>
           <span className="tnum text-right font-semibold">{fmt(it.value)}</span>
         </li>

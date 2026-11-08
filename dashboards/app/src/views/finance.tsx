@@ -43,7 +43,7 @@ export default function Finance() {
   const [pid, setPid] = React.useState<PeriodId>("4w");
   const period = PERIODS_STRIPE.find((x) => x.id === pid)!;
   const d = useFinance(period);
-  const grossNow = sum(d.gross), grossPrev = sum(d.prev), netNow = sum(d.net), netPrev = sum(d.prev.map((g) => g * 0.968));
+  const grossNow = sum(d.gross), grossPrev = sum(d.prev), netNow = sum(d.net), netPrev = sum(d.prev.map((g) => g * 0.968 - 0.3 * (period.unit === "day" ? 1 : period.unit === "week" ? 7 : 30) * 40));
   const chart = d.labels.map((l, i) => ({ l, now: Math.round(d.gross[i]), prev: Math.round(d.prev[i]) }));
   const balance = 48210.37 + (pid === "7d" ? 0 : 0), incoming = Math.round(d.gross[d.gross.length - 1] * 0.94 * (period.unit === "day" ? 2 : 0.3));
   const methods = METHODS.slice(0, 5).map((m, i) => ({ label: m.split(" ")[0], value: Math.round(grossNow * [0.46, 0.21, 0.12, 0.13, 0.08][i]) }));
@@ -104,7 +104,7 @@ export default function Finance() {
         </Tile>
         <Tile tone="alert" label="Failed payments" className="md:col-span-6 xl:col-span-4">
           <Stat label="Declined or errored" value={d.failed} delta={pct(d.failed, d.failedPrev)} good="down" sub="vs previous" />
-          <BarList items={[{ label: "Card declined", value: Math.round(d.failed * 0.52), color: "var(--ns-status-error)" }, { label: "Insufficient funds", value: Math.round(d.failed * 0.29), color: "var(--ns-status-warning)" }, { label: "Expired card", value: Math.round(d.failed * 0.19), color: "var(--chart-5)" }]} fmt={num} />
+          <BarList items={[{ label: "Card declined", value: Math.round(d.failed * 0.52), color: "var(--ns-status-error)" }, { label: "Insufficient funds", value: Math.round(d.failed * 0.29), color: "var(--ns-status-warning)" }, { label: "Expired card", value: Math.round(d.failed * 0.19), color: "var(--chart-5)" }]} fmt={num} max={d.failed} />
         </Tile>
 
         <Tile label="Recent payments" className="md:col-span-6 xl:col-span-8" action={<span className="text-xs text-muted-foreground">Select a row for details</span>}>
@@ -121,7 +121,7 @@ export default function Finance() {
             )} />
         </Tile>
         <Tile label="Volume by method" className="md:col-span-6 xl:col-span-4">
-          <BarList items={methods} fmt={(n) => money(n)} />
+          <BarList items={methods} fmt={(n) => money(n)} max={grossNow} />
         </Tile>
       </Bento>
     </>

@@ -139,7 +139,7 @@ export default function Cycle() {
 
         <Tile label="Issues by status" className="md:col-span-6 xl:col-span-4">
           <Stat label="Issues in cycle" value={d.n} sub={`${d.status[4].value} done`} />
-          <BarList items={d.status} />
+          <BarList items={d.status} max={d.n} />
         </Tile>
 
         <Tile label="Velocity" className="md:col-span-3 xl:col-span-7" action={<span className="tnum text-xs text-muted-foreground">Average {d.avg} pts</span>}>
@@ -187,7 +187,7 @@ export default function Cycle() {
 
         <Tile tone="alert" label="Awaiting triage" className="md:col-span-6 xl:col-span-4">
           <Stat label="Incoming issues" value={d.issues.length} sub={`Oldest waiting ${oldest} days`} />
-          <BarList items={byPri} />
+          <BarList items={byPri} max={d.issues.length} />
         </Tile>
       </Bento>
     </>

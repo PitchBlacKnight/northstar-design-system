@@ -62,7 +62,7 @@ a.innerHTML = s.open + `<div class="grid g">
    <div class="o">Registration lifecycle <em>Northline Fiber, typical</em></div>
    <div class="sp1" style="display:grid;align-content:center;gap:24px">
      <div class="step">${[["&#10003;", "Submitted", "Oct 21", "var(--ns-chart-series-1)", "var(--ns-chart-series-1)"], ["&#10003;", "In review", "2 days", "var(--ns-chart-series-1)", "var(--ns-chart-series-1)"], ["&#10003;", "Approved", "Oct 24", "var(--ns-chart-series-1)", "var(--ns-chart-series-1)"], ["4", "Protected", "180 days", "var(--ns-widget-track)", "var(--ns-widget-track)"]].map(([n, l, d, c, ln]) => `<div style="--_c:${c};--_l:${ln}"><i>${n}</i><span>${l}<small>${d}</small></span></div>`).join("")}</div>
-     <div>${D.bars({ w: 460, h: 96, data: [3, 2, 5, 1], color: ["var(--ns-chart-series-1)","var(--ns-chart-series-2)","var(--ns-status-error)","var(--ns-chart-series-1)"], gap: 20, r: 5, labels: ["Northline: 3 days", "Kestrel: 2 days", "Meridian: conflict, day 5", "Altus: 1 day"], pad: [6, 0, 22, 0], track: true, vmax: 6 })}</div>
+     <div>${D.bars({ w: 460, h: 96, data: [3, 2, 1, 1], color: ["var(--ns-chart-series-1)","var(--ns-chart-series-2)","var(--ns-status-error)","var(--ns-chart-series-1)"], gap: 20, r: 5, labels: ["Northline: 3 days", "Kestrel: 2 days", "Meridian: conflict, day 1", "Altus: 1 day"], pad: [6, 0, 22, 0], track: true, vmax: 6 })}</div>
    </div>
    <div class="cap">Days from submission to decision, this deal and the last 90 days of similar deals.</div>
  </section>

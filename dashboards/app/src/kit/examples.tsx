@@ -86,7 +86,7 @@ export function NotificationExample() {
 export function ProgressExample() {
   return (
     // @example progress
-    <BarList items={[{ label: "Self review", value: 94 }, { label: "Peer review", value: 89 }, { label: "Calibration", value: 51 }]} fmt={(n) => n + "%"} />
+    <BarList max={100} items={[{ label: "Self review", value: 94 }, { label: "Peer review", value: 89 }, { label: "Calibration", value: 51 }]} fmt={(n) => n + "%"} />
     // @end
   );
 }

@@ -55,7 +55,7 @@ a.innerHTML = s.open + `<div class="grid g">
 
  <section class="t tr">
    <div class="o">Brand funnel, 12 waves <em>% of US adults</em></div>
-   <div class="row" style="gap:28px;margin:2px 0 4px"><div><div class="d-md num" style="color:var(--ns-chart-series-1)">72%</div><span class="cap">Aided awareness</span></div><div><div class="d-md num" style="color:var(--ns-chart-series-3)">44%</div><span class="cap">Consideration</span></div><div><div class="d-md num" style="color:var(--ns-viz-3)">23%</div><span class="cap">Preference</span></div></div>
+   <div class="row" style="gap:28px;margin:2px 0 4px"><div><div class="d-md num" style="color:var(--ns-chart-series-1)">71%</div><span class="cap">Aided awareness</span></div><div><div class="d-md num" style="color:var(--ns-chart-series-3)">44%</div><span class="cap">Consideration</span></div><div><div class="d-md num" style="color:var(--ns-viz-3)">23%</div><span class="cap">Preference</span></div></div>
    <div class="sp1" style="display:flex;align-items:flex-end">${D.area({ w: 436, h: 410, ticks: 5, min: 0, max: 80, fmt: v => Math.round(v) + "%", labels: ["W3", "W5", "W7", "W9", "W11", "W14"], sets: [{ data: D.series(12, 58, 71, .04, 2), color: "var(--ns-chart-series-1)", sw: 2.6 }, { data: D.series(12, 33, 44, .05, 6), color: "var(--ns-chart-series-3)", sw: 2.6, fillTop: .25 }, { data: D.series(12, 17, 23, .06, 9), color: "var(--ns-viz-3)", sw: 2.6, fillTop: .2 }] })}</div>
  </section>
 

@@ -8,6 +8,12 @@
   const uid = (p) => `${p}${++n}`;
   const T = (t) => (NS.viz ? NS.viz.c(t) : `var(--ns-${t})`); /* js/viz.js routes palette names to chart series */
   D.T = T;
+  /* Value arcs use round caps, and each cap reaches stroke/2 past the end of the dash. Shorten the dash by
+     the stroke and start it stroke/2 in, so the drawn arc (caps included) covers exactly pct of the track.
+     0 draws nothing; values clamp to 0..100. */
+  const clampPct = (p) => Math.max(0, Math.min(100, Number(p) || 0));
+  const arcDash = (total, pct, stroke) => { const p = clampPct(pct); if (!p) return `stroke-dasharray="0 ${total * 2}" opacity="0"`; const len = p >= 100 ? total - stroke : Math.max(0, (total * p) / 100 - stroke); return `stroke-dasharray="${len.toFixed(2)} ${(total * 2).toFixed(2)}" stroke-dashoffset="${(-stroke / 2).toFixed(2)}"`; };
+  D.clampPct = clampPct; D.arcDash = arcDash;
 
   D.rng = (seed) => () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
 
@@ -33,7 +39,7 @@
   D.area = ({ w = 600, h = 220, sets, labels = [], ticks = 4, min, max, grid = true, pad = [8, 8, 22, 34], fmt = (v) => v, dots, ink, gridColor, labelFill, last = true, glow = false }) => {
     const [pt, pr, pb, pl] = pad; const iw = w - pl - pr, ih = h - pt - pb;
     const all = sets.flatMap((s) => s.data); const lo = min ?? Math.min(...all), hi = max ?? Math.max(...all);
-    const X = (i, len) => pl + (iw * i) / (len - 1), Y = (v) => pt + ih - ((v - lo) / (hi - lo || 1)) * ih;
+    const X = (i, len) => pl + (len > 1 ? (iw * i) / (len - 1) : iw / 2), Y = (v) => pt + ih - ((v - lo) / (hi - lo || 1)) * ih;
     const gc = gridColor || T("widget-grid"); const lf = labelFill || T("chart-label-text");
     let defs = "", out = "";
     if (grid) for (let i = 0; i < ticks; i++) { const y = pt + (ih * i) / (ticks - 1); out += `<line x1="${pl}" x2="${w - pr}" y1="${y}" y2="${y}" stroke="${gc}" stroke-width="1" ${i === ticks - 1 ? "" : 'stroke-dasharray="2 5"'} opacity="${i === ticks - 1 ? 1 : .8}"/>`; out += text(pl - 8, y + 4, fmt(hi - ((hi - lo) * i) / (ticks - 1)), { anchor: "end", size: 11, fill: lf }); }
@@ -53,11 +59,11 @@
 
   /* ---------- bars ---------- */
   D.bars = ({ w = 600, h = 220, data, color = T("chart-series-1"), hi, hiColor, gap = 6, r = 4, labels = [], pad = [8, 4, 22, 4], track = false, vmax, fmt, labelFill, gridColor, grid = false, ticks = 4, pl }) => {
-    const [pt, pr, pb, pl0] = pad; const L = pl ?? pl0; const iw = w - L - pr, ih = h - pt - pb; const m = vmax ?? Math.max(...data); const bw = (iw - gap * (data.length - 1)) / data.length;
+    const [pt, pr, pb, pl0] = pad; const L = pl ?? pl0; const iw = w - L - pr, ih = h - pt - pb; const m = Math.max(vmax ?? Math.max(...data, 0), 1e-9); const bw = (iw - gap * (data.length - 1)) / data.length;
     let o = "";
     if (grid) for (let i = 0; i < ticks; i++) { const y = pt + (ih * i) / (ticks - 1); o += `<line x1="${L}" x2="${w - pr}" y1="${y}" y2="${y}" stroke="${gridColor || T("widget-grid")}" stroke-dasharray="2 5"/>`; if (fmt) o += text(L - 8, y + 4, fmt(m - (m * i) / (ticks - 1)), { anchor: "end", size: 11, fill: labelFill }); }
     data.forEach((v, i) => {
-      const bh = Math.max(2, (v / m) * ih), x = L + i * (bw + gap), y = pt + ih - bh; const c = hi === i ? (hiColor || T("chart-target")) : (Array.isArray(color) ? color[i] : color);
+      const bh = v > 0 ? Math.max(2, (Math.min(v, m) / m) * ih) : 0, x = L + i * (bw + gap), y = pt + ih - bh; const c = hi === i ? (hiColor || T("chart-target")) : (Array.isArray(color) ? color[i] : color);
       if (track) o += `<rect x="${x}" y="${pt}" width="${bw}" height="${ih}" rx="${r}" fill="${T("chart-track")}"/>`;
       o += `<rect x="${x}" y="${y}" width="${bw}" height="${bh}" rx="${r}" fill="${c}"/>`;
       if (labels[i] != null) o += text(x + bw / 2, h - 5, labels[i], { anchor: "middle", fill: labelFill });
@@ -68,7 +74,7 @@
   /* stacked bars: sets = [{data,color}] */
   D.stack = ({ w = 600, h = 220, sets, gap = 6, r = 3, labels = [], pad = [8, 4, 22, 4], labelFill, gap2 = 2 }) => {
     const [pt, pr, pb, pl] = pad; const len = sets[0].data.length; const iw = w - pl - pr, ih = h - pt - pb; const bw = (iw - gap * (len - 1)) / len;
-    const tot = Array.from({ length: len }, (_, i) => sets.reduce((a, s) => a + s.data[i], 0)); const m = Math.max(...tot); let o = "";
+    const tot = Array.from({ length: len }, (_, i) => sets.reduce((a, s) => a + s.data[i], 0)); const m = Math.max(...tot, 1e-9); let o = "";
     for (let i = 0; i < len; i++) { let y = pt + ih; const x = pl + i * (bw + gap); sets.forEach((s, si) => { const bh = (s.data[i] / m) * ih; y -= bh; o += `<rect x="${x}" y="${y}" width="${bw}" height="${Math.max(0, bh - gap2)}" rx="${r}" fill="${s.color}"/>`; }); if (labels[i] != null) o += text(x + bw / 2, h - 5, labels[i], { anchor: "middle", fill: labelFill }); }
     return `<svg viewBox="0 0 ${w} ${h}" width="${w}" role="img">${o}</svg>`;
   };
@@ -78,24 +84,25 @@
     if (grad) { color = grad[0]; grad = null; } /* gradients retired: flat fill keeps rings in step with the chart kit */
     const r = (size - stroke) / 2, c = 2 * Math.PI * r, g = uid("rg");
     const def = grad ? `<defs><linearGradient id="${g}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${grad[0]}"/><stop offset="1" stop-color="${grad[1]}"/></linearGradient></defs>` : "";
-    return `<svg viewBox="0 0 ${size} ${size}" width="${size}" role="img" aria-label="${label ?? pct}">${def}<circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${track}" stroke-width="${stroke}"/><circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${grad ? `url(#${g})` : color}" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${(c * pct) / 100} ${c}" transform="rotate(-90 ${size / 2} ${size / 2})"/>${label != null ? text(size / 2, size / 2 + (sub ? 2 : (fs || size * .22) * .36), label, { anchor: "middle", size: fs || size * .22, weight: 800, fill: labelFill || T("text-primary") }) : ""}${sub ? text(size / 2, size / 2 + 16, sub, { anchor: "middle", size: 11, fill: subFill }) : ""}</svg>`;
+    return `<svg viewBox="0 0 ${size} ${size}" width="${size}" role="img" aria-label="${label ?? pct}">${def}<circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${track}" stroke-width="${stroke}"/><circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${grad ? `url(#${g})` : color}" stroke-width="${stroke}" stroke-linecap="round" ${arcDash(c, pct, stroke)} transform="rotate(-90 ${size / 2} ${size / 2})"/>${label != null ? text(size / 2, size / 2 + (sub ? 2 : (fs || size * .22) * .36), label, { anchor: "middle", size: fs || size * .22, weight: 800, fill: labelFill || T("text-primary") }) : ""}${sub ? text(size / 2, size / 2 + 16, sub, { anchor: "middle", size: 11, fill: subFill }) : ""}</svg>`;
   };
 
   D.rings = ({ size = 260, stroke = 14, gap = 8, items }) => {
     let o = "";
-    items.forEach((it, i) => { const r = size / 2 - stroke / 2 - i * (stroke + gap), c = 2 * Math.PI * r; o += `<circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${it.track || T("chart-track")}" stroke-width="${stroke}"/><circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${it.color}" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${(c * it.pct * .75) / 100} ${c}" transform="rotate(135 ${size / 2} ${size / 2})" opacity="1"/>`; });
+    items.forEach((it, i) => { const r = size / 2 - stroke / 2 - i * (stroke + gap), c = 2 * Math.PI * r; const arc = c * .75; /* values read on a 270 degree scale, so the track spans the same 270 degrees */
+      o += `<circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${it.track || T("chart-track")}" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${(arc - stroke).toFixed(2)} ${c * 2}" stroke-dashoffset="${-stroke / 2}" transform="rotate(135 ${size / 2} ${size / 2})"/><circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${it.color}" stroke-width="${stroke}" stroke-linecap="round" ${arcDash(arc, it.pct, stroke)} transform="rotate(135 ${size / 2} ${size / 2})"/>`; });
     return `<svg viewBox="0 0 ${size} ${size}" width="${size}" role="img">${o}</svg>`;
   };
 
   D.donut = ({ size = 180, stroke = 26, parts, gap = 3, center, sub, centerFill }) => {
-    const r = (size - stroke) / 2, c = 2 * Math.PI * r, tot = parts.reduce((a, p) => a + p.v, 0); let off = 0, o = "";
-    parts.forEach((p) => { const len = (p.v / tot) * c; o += `<circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${p.color}" stroke-width="${stroke}" stroke-dasharray="${Math.max(0, len - gap)} ${c}" stroke-dashoffset="${-off}" transform="rotate(-90 ${size / 2} ${size / 2})"/>`; off += len; });
+    const r = (size - stroke) / 2, c = 2 * Math.PI * r, tot = parts.reduce((a, p) => a + Math.max(0, p.v), 0); let off = 0, o = tot ? "" : `<circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${T("chart-track")}" stroke-width="${stroke}"/>`;
+    parts.forEach((p) => { if (!tot || p.v <= 0) return; const len = (p.v / tot) * c; o += `<circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${p.color}" stroke-width="${stroke}" stroke-dasharray="${Math.max(0, len - gap)} ${c}" stroke-dashoffset="${-off}" transform="rotate(-90 ${size / 2} ${size / 2})"/>`; off += len; });
     return `<svg viewBox="0 0 ${size} ${size}" width="${size}" role="img">${o}${center ? text(size / 2, size / 2 + (sub ? 2 : 9), center, { anchor: "middle", size: 26, weight: 800, fill: centerFill || T("text-primary") }) : ""}${sub ? text(size / 2, size / 2 + 20, sub, { anchor: "middle", size: 11 }) : ""}</svg>`;
   };
 
   D.gauge = ({ w = 220, pct = 60, color = T("chart-series-1"), stroke = 16, label, sub, track = T("chart-track"), labelFill, bands }) => {
     const r = (w - stroke) / 2, cx = w / 2, cy = w / 2 + 4, len = Math.PI * r; const arc = `M${stroke / 2},${cy} A${r},${r} 0 0 1 ${w - stroke / 2},${cy}`;
-    return `<svg viewBox="0 0 ${w} ${cy + 22}" width="${w}" role="img"><path d="${arc}" fill="none" stroke="${track}" stroke-width="${stroke}" stroke-linecap="round"/><path d="${arc}" fill="none" stroke="${color}" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${(len * pct) / 100} ${len}"/>${label != null ? text(cx, cy - 4, label, { anchor: "middle", size: w * .2, weight: 800, fill: labelFill || T("text-primary") }) : ""}${sub ? text(cx, cy + 16, sub, { anchor: "middle", size: 11 }) : ""}</svg>`;
+    return `<svg viewBox="0 0 ${w} ${cy + 22}" width="${w}" role="img"><path d="${arc}" fill="none" stroke="${track}" stroke-width="${stroke}" stroke-linecap="round"/><path d="${arc}" fill="none" stroke="${color}" stroke-width="${stroke}" stroke-linecap="round" ${arcDash(len, pct, stroke)}/>${label != null ? text(cx, cy - 4, label, { anchor: "middle", size: w * .2, weight: 800, fill: labelFill || T("text-primary") }) : ""}${sub ? text(cx, cy + 16, sub, { anchor: "middle", size: 11 }) : ""}</svg>`;
   };
 
   /* ---------- radar ---------- */
@@ -136,13 +143,13 @@
   };
 
   /* ---------- bullet / progress ---------- */
-  D.bullet = ({ pct = 70, target = 85, color = T("chart-series-1"), h = 10 }) => `<div style="position:relative;height:${h}px;border-radius:${h / 2}px;background:var(--faint,var(--ns-chart-track))"><i style="position:absolute;inset:0 auto 0 0;width:${pct}%;border-radius:inherit;background:${color}"></i><b style="position:absolute;left:${target}%;top:-4px;bottom:-4px;width:2px;background:var(--ink,var(--ns-chart-target));border-radius:1px"></b></div>`;
+  D.bullet = ({ pct = 70, target = 85, color = T("chart-series-1"), h = 10 }) => { pct = clampPct(pct); target = clampPct(target); return `<div style="position:relative;height:${h}px;border-radius:${h / 2}px;background:var(--faint,var(--ns-chart-track))"><i style="position:absolute;inset:0 auto 0 0;width:${pct}%;border-radius:inherit;background:${color}"></i><b style="position:absolute;left:${target}%;top:-4px;bottom:-4px;width:2px;background:var(--ink,var(--ns-chart-target));border-radius:1px"></b></div>`; };
 
   /* ---------- waterfall ---------- */
   D.waterfall = ({ w = 700, h = 240, steps, labels = [], labelFill, base = 0 }) => {
     let run = 0, o = ""; const pts = steps.map((s) => { const a = run; run = s.total ? s.v : run + s.v; return { a: s.total ? base : a, b: run, s }; });
-    const mx = Math.max(...pts.map((p) => Math.max(p.a, p.b))) * 1.08, bw = (w - 8) / steps.length * .64, st = (w - 8) / steps.length; const Y = (v) => 6 + (h - 30) - ((v - base) / (mx - base)) * (h - 30);
-    pts.forEach((p, i) => { const x = 4 + i * st + (st - bw) / 2, y1 = Y(Math.max(p.a, p.b)), y2 = Y(Math.min(p.a, p.b)); const c = p.s.total ? T("chart-series-2") : p.s.v >= 0 ? T("chart-series-1") : T("status-error"); o += `<rect x="${x}" y="${y1}" width="${bw}" height="${Math.max(3, y2 - y1)}" rx="4" fill="${c}"/>`; if (i < pts.length - 1) o += `<line x1="${x + bw}" x2="${x + st}" y1="${Y(p.b)}" y2="${Y(p.b)}" stroke="${T("widget-grid")}" stroke-dasharray="2 3"/>`; o += text(x + bw / 2, h - 6, labels[i] ?? p.s.l, { anchor: "middle", fill: labelFill }); o += text(x + bw / 2, y1 - 7, (p.s.v >= 0 && !p.s.total ? "+" : "") + p.s.v, { anchor: "middle", size: 11, weight: 700, fill: T("text-primary") }); });
+    const mx = Math.max(base + 1e-9, Math.max(...pts.map((p) => Math.max(p.a, p.b))) * 1.08), bw = (w - 8) / steps.length * .64, st = (w - 8) / steps.length; const Y = (v) => 6 + (h - 30) - ((v - base) / (mx - base)) * (h - 30);
+    pts.forEach((p, i) => { const x = 4 + i * st + (st - bw) / 2, y1 = Y(Math.max(p.a, p.b)), y2 = Y(Math.min(p.a, p.b)); const c = p.s.total ? T("chart-series-2") : p.s.v >= 0 ? T("chart-series-1") : T("status-error"); o += `<rect x="${x}" y="${y1}" width="${bw}" height="${Math.max(3, y2 - y1)}" rx="4" fill="${c}"/>`; if (i < pts.length - 1) o += `<line x1="${x + bw}" x2="${x + st}" y1="${Y(p.b)}" y2="${Y(p.b)}" stroke="${T("widget-grid")}" stroke-dasharray="2 3"/>`; if ((labels[i] ?? p.s.l) != null) o += text(x + bw / 2, h - 6, labels[i] ?? p.s.l, { anchor: "middle", fill: labelFill }); o += text(x + bw / 2, y1 - 7, (p.s.v >= 0 && !p.s.total ? "+" : "") + p.s.v, { anchor: "middle", size: 11, weight: 700, fill: T("text-primary") }); });
     return `<svg viewBox="0 0 ${w} ${h}" width="${w}" role="img">${o}</svg>`;
   };
 

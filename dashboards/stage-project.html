@@ -47,13 +47,13 @@ a.innerHTML = s.open + `<div class="grid g">
 
  <section class="t tc">
    <div class="o">Technologies <em>What the client asked for</em></div>
-   <div style="display:grid;gap:16px;flex:1;align-content:space-around">${[["Business internet", "14 sites", 100, "viz-1"], ["SD-WAN", "14 sites", 100, "viz-4"], ["Cloud voice (UCaaS)", "212 seats", 76, "viz-2"], ["Backup connectivity", "14 sites", 54, "viz-3"]].map(([n, q, p, c]) => `<div style="display:grid;gap:7px"><div class="row sb" style="font:600 13px/1 var(--ns-font-sans)"><span>${n}</span><span class="num" style="font-weight:400;color:var(--ns-text-secondary)">${q}</span></div><div class="bar" style="height:10px;border-radius:5px"><i style="--_v:${p}%;--_c:var(--ns-${c})"></i></div></div>`).join("")}</div>
+   <div style="display:grid;gap:16px;flex:1;align-content:space-around">${[["Business internet", "14 sites", 100, "viz-1"], ["SD-WAN", "14 sites", 100, "viz-4"], ["Cloud voice (UCaaS)", "11 of 14 sites", 79, "viz-2"], ["Backup connectivity", "8 of 14 sites", 57, "viz-3"]].map(([n, q, p, c]) => `<div style="display:grid;gap:7px"><div class="row sb" style="font:600 13px/1 var(--ns-font-sans)"><span>${n}</span><span class="num" style="font-weight:400;color:var(--ns-text-secondary)">${q}</span></div><div class="bar" style="height:10px;border-radius:5px"><i style="--_v:${p}%;--_c:var(--ns-${c})"></i></div></div>`).join("")}</div>
  </section>
 
  <section class="t tl">
    <div class="o">Demand by site <em>Bandwidth need, Mbps</em></div>
    <div class="sp1" style="display:flex;align-items:flex-end">${D.bars({ w: 600, h: 200, data: [900, 600, 600, 500, 500, 400, 400, 300, 300, 300, 200, 200, 200, 100], color: ["var(--ns-chart-series-1)","var(--ns-chart-series-1)","var(--ns-chart-series-1)","var(--ns-chart-series-2)","var(--ns-chart-series-2)","var(--ns-chart-series-2)","var(--ns-chart-series-2)","var(--ns-chart-series-3)","var(--ns-chart-series-3)","var(--ns-chart-series-3)","var(--ns-chart-series-3)","var(--ns-chart-series-3)","var(--ns-chart-series-3)","var(--ns-chart-series-3)"], gap: 9, r: 5, labels: ["HQ","S2","S3","S4","S5","S6","S7","S8","S9","S10","S11","S12","S13","S14"], grid: true, ticks: 4, pad: [8, 4, 22, 34], fmt: v => Math.round(v) })}</div>
-   <div class="lg"><span><i style="--_c:var(--ns-chart-series-1)"></i>Hub, 500+</span><span><i style="--_c:var(--ns-chart-series-2)"></i>Clinic, 400 to 500</span><span><i style="--_c:var(--ns-chart-series-3)"></i>Satellite, under 400</span></div>
+   <div class="lg"><span><i style="--_c:var(--ns-chart-series-1)"></i>Hub, 600+</span><span><i style="--_c:var(--ns-chart-series-2)"></i>Clinic, 400 to 500</span><span><i style="--_c:var(--ns-chart-series-3)"></i>Satellite, under 400</span></div>
  </section>
  ${D.railPanel()}
 </div>` + s.close;

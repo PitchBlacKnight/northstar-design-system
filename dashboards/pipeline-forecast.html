@@ -40,8 +40,8 @@ a.innerHTML = s.open + `<div class="grid g">
  </section>
 
  <section class="t lb">
-   <div class="o">Rep attainment <em>% of quota</em></div>
-   <div style="flex:1;display:grid;align-content:space-between">${[["Priya N.", 142, "teal-500", "PN"], ["Marcus O.", 128, "green-500", "MO"], ["Elena V.", 117, "yellow-500", "EV"], ["Dev K.", 104, "purple-400", "DK"], ["Hannah L.", 96, "cyan-400", "HL"], ["Tomas R.", 81, "red-400", "TR"], ["Jin S.", 74, "orange-500", "JS"], ["Aisha B.", 63, "magenta-500", "AB"]].map(([n, v, c, i]) => `<div class="rp"><div class="av" style="--_c:var(--ns-${c})">${i}</div><div>${n}</div><b class="num">${v}%</b><div class="bar"><i style="--_v:${Math.min(100, v / 1.45)}%;--_c:${v >= 100 ? "var(--ns-chart-series-1)" : "var(--ns-widget-muted)"}"></i></div></div>`).join("")}</div>
+   <div class="o">Rep attainment <em>% of quota, bar spans 0 to 150%</em></div>
+   <div style="flex:1;display:grid;align-content:space-between">${[["Priya N.", 142, "teal-500", "PN"], ["Marcus O.", 128, "green-500", "MO"], ["Elena V.", 117, "yellow-500", "EV"], ["Dev K.", 104, "purple-400", "DK"], ["Hannah L.", 96, "cyan-400", "HL"], ["Tomas R.", 81, "red-400", "TR"], ["Jin S.", 74, "orange-500", "JS"], ["Aisha B.", 63, "magenta-500", "AB"]].map(([n, v, c, i]) => `<div class="rp"><div class="av" style="--_c:var(--ns-${c})">${i}</div><div>${n}</div><b class="num">${v}%</b><div class="bar"><i style="--_v:${Math.min(100, v / 1.5)}%;--_c:${v >= 100 ? "var(--ns-chart-series-1)" : "var(--ns-widget-muted)"}"></i></div></div>`).join("")}</div>
  </section>
 
  <section class="t t--teal win">
@@ -52,16 +52,16 @@ a.innerHTML = s.open + `<div class="grid g">
 
  <section class="t st">
    <div class="o">Open pipeline by stage <em>$14.2M total</em></div>
-   <div class="stg">${[["Discovery", 100, "$5.1M", "viz-1", "142 deals"], ["Evaluation", 74, "$3.8M", "viz-2", "88 deals"], ["Proposal", 51, "$2.6M", "viz-3", "47 deals"], ["Negotiation", 36, "$1.9M", "viz-5", "21 deals"], ["Closing", 16, "$0.8M", "viz-6", "9 deals"]].map(([n, w, v, c, d]) => `<div><div>${n}<small>${d}</small></div><div class="b" style="--_c:var(--ns-${c});--_w:${Math.max(w, 28)}%">${v}</div></div>`).join("")}</div>
+   <div class="stg">${[["Discovery", 100, "$5.1M", "viz-1", "142 deals"], ["Evaluation", 74, "$3.8M", "viz-2", "88 deals"], ["Proposal", 51, "$2.6M", "viz-3", "47 deals"], ["Negotiation", 36, "$1.9M", "viz-5", "21 deals"], ["Closing", 16, "$0.8M", "viz-6", "9 deals"]].map(([n, w, v, c, d]) => `<div><div>${n}<small>${d}</small></div><div class="b" style="--_c:var(--ns-${c});--_w:${w}%">${v}</div></div>`).join("")}</div>
  </section>
 
  <section class="t cov">
    <div class="o">Pipeline coverage</div>
-   <div style="display:grid;place-items:center;flex:1">${D.gauge({ w: 210, pct: 80, stroke: 17, color: "var(--ns-chart-series-1)", label: "3.2x", sub: "Target 3.0x" })}</div>
+   <div style="display:grid;place-items:center;flex:1">${D.gauge({ w: 210, pct: 80, stroke: 17, color: "var(--ns-chart-series-1)", label: "3.2x", sub: "Target 3.0x, gauge 0 to 4x" })}</div>
  </section>
 
  <section class="t risk">
-   <div class="o">Deals at risk <em>5 flagged</em></div>
+   <div class="o">Deals at risk <em>Top 4 of 5 flagged</em></div>
    <div>${[["Cobalt Freight renewal", "Priya N.  /  Stalled 19 days", "$420K"], ["Larch and Pine Group", "Marcus O.  /  No exec sponsor", "$385K"], ["Ardent Health", "Elena V.  /  Legal redlines", "$310K"], ["Tidewater Foods", "Dev K.  /  Slipped to Q1", "$275K"]].map(([n, m, v]) => `<div class="dr"><div><b>${n}</b><small>${m}</small></div><b class="num">${v}</b><span class="tag" style="color:var(--ns-status-warning);background:var(--ns-status-warning-bg)">At risk</span></div>`).join("")}</div>
  </section>
 </div>` + s.close;

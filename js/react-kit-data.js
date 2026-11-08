@@ -233,9 +233,10 @@
     "items: { label: string",
     "value: number",
     "color?: string }[]",
-    "fmt?: (n: number) => string"
+    "fmt?: (n: number) => string",
+    "max?: number"
    ],
-   "note": "Horizontal share bar list: label, bar, value. Bars use chart tokens."
+   "note": "Horizontal bar list: label, bar, value. Bars use chart tokens; set max for percentages or shares of a total"
   },
   {
    "name": "DataTable",
@@ -339,7 +340,7 @@
    ]
   },
   "progress": {
-   "code": "<BarList items={[{ label: \"Self review\", value: 94 }, { label: \"Peer review\", value: 89 }, { label: \"Calibration\", value: 51 }]} fmt={(n) => n + \"%\"} />",
+   "code": "<BarList max={100} items={[{ label: \"Self review\", value: 94 }, { label: \"Peer review\", value: 89 }, { label: \"Calibration\", value: 51 }]} fmt={(n) => n + \"%\"} />",
    "uses": [
     "BarList"
    ]

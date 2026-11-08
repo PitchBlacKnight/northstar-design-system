@@ -21,6 +21,7 @@ has '^(css/components\.css|js/(ui|components)\.js|dashboards/live/|tools/behavio
 has '^(css/(tokens|components)\.css|js/components\.js|dashboards/live/|tools/a11y-check)' && checks="$checks a11y"
 has '^(css/|js/(ui|components|charts|viz)\.js|dashboards/live/|tests/visual/baseline/|tools/visual-)' && checks="$checks visual"
 has '^(css/components\.css|dashboards/live/|dashboards/app/src/kit/|tools/parity-)' && checks="$checks parity"
+has '^(js/(charts|widgets|dashboards|viz|pages|components)\.js|dashboards/[^/]+\.html|dashboards/live/|tools/chart-check)' && checks="$checks charts"
 
 if [ -n "$checks" ]; then
   node tools/check-all.mjs $checks || { echo "Commit blocked. Fix the failures above (an intended visual change: node tools/visual-check.mjs --update)."; exit 1; }

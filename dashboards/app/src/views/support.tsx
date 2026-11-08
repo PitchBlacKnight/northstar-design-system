@@ -85,7 +85,10 @@ export default function Inbox() {
   const csatNow = d.avg(d.csat), csatPrev = d.avg(d.csatPrev);
   const waiting = d.open - d.snoozed;
   const maxOpen = Math.max(...d.agents.map((a) => a.open), 1);
-  const stars = d.stars.map((s, i) => ({ label: `${5 - i} stars`, value: Math.round(s * 100), color: i < 2 ? "var(--ns-status-success)" : i === 2 ? "var(--chart-5)" : "var(--ns-status-error)" }));
+  /* Rating split is derived from the CSAT figure above, so 5 stars plus 4 stars equals the headline and the five rows sum to 100. */
+  const topStars = Math.round(csatNow * 100), fiveStars = Math.round(topStars * 0.74), restStars = 100 - topStars, threeStars = Math.round(restStars * 0.5), twoStars = Math.round(restStars * 0.25);
+  const starShare = [fiveStars, topStars - fiveStars, threeStars, twoStars, restStars - threeStars - twoStars];
+  const stars = starShare.map((v, i) => ({ label: `${5 - i} stars`, value: v, color: i < 2 ? "var(--ns-status-success)" : i === 2 ? "var(--chart-5)" : "var(--ns-status-error)" }));
 
   const cols: Col<Convo>[] = [
     { key: "customer", label: "Customer", sort: (r) => r.customer, cell: (r) => <div className="max-w-44 truncate"><span className="font-semibold">{r.customer}</span> <span className="text-muted-foreground">{r.company}</span></div> },
@@ -136,7 +139,7 @@ export default function Inbox() {
         <Tile tone="alert" label="SLA breaches" className="md:col-span-3 xl:col-span-4">
           <Stat label="Past target" value={d.breaches} delta={pct(d.breaches, d.breachesPrev)} good="down" sub="vs previous" />
           <ul className="flex flex-col gap-2 text-sm">
-            {d.breached.map((b) => (
+            {d.breached.slice(0, d.breaches).map((b) => (
               <li key={b.id} className="flex items-center justify-between gap-3">
                 <span className="min-w-0 truncate"><span className="tnum font-semibold">{b.id}</span> <span className="text-muted-foreground">{b.company}</span></span>
                 <span className="tnum whitespace-nowrap text-xs font-semibold text-status-error">{mins(b.over)} over</span>
@@ -148,7 +151,7 @@ export default function Inbox() {
         <Tile label="CSAT" className="md:col-span-6 xl:col-span-4">
           <Stat label="Rated 4 or 5 stars" value={csatNow} fmt="pct" delta={pct(csatNow, csatPrev)} sub="vs previous" />
           <Spark data={d.csat} id="csat" color="var(--chart-3)" />
-          <BarList items={stars} fmt={(n) => n + "%"} />
+          <BarList items={stars} fmt={(n) => n + "%"} max={100} />
         </Tile>
 
         <Tile label="Conversations" className="md:col-span-6 xl:col-span-8" action={<span className="text-xs text-muted-foreground">Select a row for details</span>}>

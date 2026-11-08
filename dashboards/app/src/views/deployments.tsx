@@ -62,7 +62,7 @@ function useDeployments(p: Period, pid: PeriodId) {
     const cache = series("dep-cache-" + pid, p.points, 0.93, { drift: 0, noise: 0.04 }).map((v) => Math.min(v, 0.985));
     const e4 = series("dep-4xx-" + pid, p.points, 0.0112, { drift: 0, noise: 0.4 });
     const e5 = series("dep-5xx-" + pid, p.points, 0.0013, { drift: 0, noise: 0.7 });
-    const perBucket = series("dep-count-" + pid, p.points, p.unit === "hour" ? 0.4 : 3.1, { drift: 0, noise: 0.5 }).map(Math.round);
+    const perBucket = series("dep-count-" + pid, p.points, n / p.points, { drift: 0, noise: 0.5 }).map(Math.round); /* buckets sum to the deploy count in the headline */
     const dplDelta = rng(seedOf("dep-delta-" + pid))() * 0.3 - 0.08;
     const ls = labels(p);
     return { deploys, edge, fn, cache, e4, e5, perBucket, dplDelta, ls };
@@ -219,7 +219,7 @@ export default function Deployments() {
             <Delta value={half(d.cache)} label="vs first half" />
           </div>
           <Spark data={d.cache} id="cache" color="var(--chart-2)" />
-          <BarList items={[{ label: "Hit", value: Math.round(edgeTotal * cacheNow), color: "var(--ns-status-success)" }, { label: "Stale", value: Math.round(edgeTotal * (1 - cacheNow) * 0.4), color: "var(--ns-status-warning)" }, { label: "Miss", value: Math.round(edgeTotal * (1 - cacheNow) * 0.6), color: "var(--chart-5)" }]} fmt={compact} />
+          <BarList items={[{ label: "Hit", value: Math.round(edgeTotal * cacheNow), color: "var(--ns-status-success)" }, { label: "Stale", value: Math.round(edgeTotal * (1 - cacheNow) * 0.4), color: "var(--ns-status-warning)" }, { label: "Miss", value: Math.round(edgeTotal * (1 - cacheNow) * 0.6), color: "var(--chart-5)" }]} fmt={compact} max={edgeTotal} />
         </Tile>
 
         <Tile label="Error rate" className="md:col-span-6 xl:col-span-8" action={<Delta value={half(errTotal)} good="down" label="vs first half" />}>

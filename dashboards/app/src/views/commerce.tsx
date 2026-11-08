@@ -115,7 +115,7 @@ export default function Commerce() {
         </Tile>
 
         <Tile label="Sales by channel" className="md:col-span-6 xl:col-span-4">
-          <BarList items={d.channels} fmt={(n) => money(n)} />
+          <BarList items={d.channels} fmt={(n) => money(n)} max={salesNow} />
           <p className="tnum mt-auto text-xs text-muted-foreground">{num(ordersNow)} orders across {CHANNELS.length} channels</p>
         </Tile>
 
@@ -169,7 +169,7 @@ export default function Commerce() {
 
 
         <Tile label="Top products" className="md:col-span-6 xl:col-span-4" action={<span className="text-xs text-muted-foreground">By sales</span>}>
-          <BarList items={d.products} fmt={(n) => money(n)} />
+          <BarList items={d.products} fmt={(n) => money(n)} max={salesNow} />
         </Tile>
       </Bento>
     </>

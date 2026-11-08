@@ -89,7 +89,8 @@ export default function Crm() {
   const maxCount = d.stages[0].count;
   const openValue = d.stages.slice(0, 5).reduce((s, x) => s + x.value, 0);
   const avgDeal = d.won / d.stages[5].count;
-  const span = Math.max(d.quota, d.forecast);
+  /* The bar reads on the quota scale: full width is 100% of quota, so each width matches its stated percent. */
+  const wonPct = (d.won / d.quota) * 100, fcPct = (d.forecast / d.quota) * 100;
 
   const cols: Col<Deal>[] = [
     { key: "name", label: "Deal", sort: (r) => r.name, cell: (r) => <span className="block max-w-56 truncate font-medium">{r.name}</span> },
@@ -129,13 +130,14 @@ export default function Crm() {
           </div>
           <div className="flex flex-col gap-1.5" role="img" aria-label={`Closed won ${money(d.won)}, forecast ${money(d.forecast)}, quota ${money(d.quota)}`}>
             <div className="relative h-2.5 rounded-full bg-[var(--ns-chart-track)]">
-              <span className="absolute inset-y-0 left-0 rounded-full opacity-45" style={{ width: `${(d.forecast / span) * 100}%`, background: "var(--chart-3)" }} />
-              <span className="absolute inset-y-0 left-0 rounded-full" style={{ width: `${(d.won / span) * 100}%`, background: "var(--chart-1)" }} />
-              <span className="absolute -inset-y-1 w-0.5 rounded-full bg-foreground" style={{ left: `${(d.quota / span) * 100}%` }} />
+              <span className="absolute inset-y-0 left-0 rounded-full opacity-45" style={{ width: `${Math.min(100, fcPct)}%`, background: "var(--chart-3)" }} />
+              <span className="absolute inset-y-0 left-0 rounded-full" style={{ width: `${Math.min(100, wonPct)}%`, background: "var(--chart-1)" }} />
+              <span className="absolute -inset-y-1 w-0.5 rounded-full bg-foreground" style={{ left: "calc(100% - 2px)" }} />
             </div>
             <div className="tnum flex flex-wrap justify-between gap-x-4 text-xs text-muted-foreground">
-              <span>Closed won {money(d.won)} ({((d.won / d.quota) * 100).toFixed(0)}%)</span>
-              <span>Quota {money(d.quota)}</span>
+              <span>Closed won {money(d.won)} ({wonPct.toFixed(0)}%)</span>
+              <span>Forecast {money(d.forecast)} ({fcPct.toFixed(0)}%)</span>
+              <span>Quota {money(d.quota)} (100%)</span>
             </div>
           </div>
           <ChartContainer config={fcCfg} className="aspect-auto h-44 w-full">
