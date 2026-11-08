@@ -59,7 +59,7 @@
 
   const themes = ["dark", "light"];
   if (window.__a11yMode === "app") {
-    const views = ["finance", "commerce", "observe", "crm", "projects", "deployments", "support", "people"];
+    const views = ["finance", "commerce", "observe", "crm", "projects", "deployments", "support", "people", "kit"];
     for (const t of themes) {
       const btn = document.querySelector(t === "light" ? "button[aria-label='Light theme']" : "button[aria-label='Dark theme']"); if (btn) { btn.click(); await W(600); } /* let color transitions finish */
       for (const v of views) { location.hash = v; await W(700); scan(document.body, `app ${v} (${t})`); }

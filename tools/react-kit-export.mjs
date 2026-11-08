@@ -6,13 +6,14 @@
 
      node tools/react-kit-export.mjs          write js/react-kit-data.js
      node tools/react-kit-export.mjs --check  exit 1 if js/react-kit-data.js is out of date */
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const KIT = join(ROOT, "dashboards/app/src/kit");
-const ui = readFileSync(join(KIT, "ui.tsx"), "utf8");
+/* every kit source file except the examples, in a stable order */
+const ui = readdirSync(KIT).filter((f) => f.endsWith(".tsx") && f !== "examples.tsx").sort().map((f) => readFileSync(join(KIT, f), "utf8")).join("\n");
 const ex = readFileSync(join(KIT, "examples.tsx"), "utf8");
 
 /* API: export function Name<...>({ ... }: { props }) */

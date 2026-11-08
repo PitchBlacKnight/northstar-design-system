@@ -5,6 +5,88 @@
  "source": "dashboards/app/src/kit",
  "api": [
   {
+   "name": "TextField",
+   "generic": "",
+   "props": [
+    "label: string",
+    "value: string",
+    "onChange: (value: string) => void",
+    "helper?: React.ReactNode",
+    "error?: React.ReactNode",
+    "required?: boolean",
+    "placeholder?: string",
+    "type?: \"text\" | \"email\" | \"search\" | \"password\" | \"url\" | \"tel\"",
+    "disabled?: boolean",
+    "className?: string"
+   ],
+   "note": "Text input with a visible label, helper text, and an error that replaces the helper and sets aria-invalid"
+  },
+  {
+   "name": "SelectField",
+   "generic": "<T extends string>",
+   "props": [
+    "label: string",
+    "value: T | null",
+    "onChange: (value: T) => void",
+    "options: readonly { id: T",
+    "label: string }[]",
+    "helper?: React.ReactNode",
+    "error?: React.ReactNode",
+    "placeholder?: string",
+    "disabled?: boolean",
+    "className?: string"
+   ],
+   "note": "Single choice from a short list (Base UI Select): label, helper and error wired like TextField"
+  },
+  {
+   "name": "CheckboxField",
+   "generic": "",
+   "props": [
+    "label: string",
+    "checked: boolean",
+    "onChange: (checked: boolean) => void",
+    "indeterminate?: boolean",
+    "helper?: React.ReactNode",
+    "disabled?: boolean"
+   ],
+   "note": "Checkbox with its label as the click target; supports the indeterminate (select all) state"
+  },
+  {
+   "name": "SwitchField",
+   "generic": "",
+   "props": [
+    "label: string",
+    "checked: boolean",
+    "onChange: (checked: boolean) => void",
+    "helper?: React.ReactNode",
+    "disabled?: boolean"
+   ],
+   "note": "On and off setting that applies immediately (role=switch), label on the left"
+  },
+  {
+   "name": "ViewTabs",
+   "generic": "<T extends string>",
+   "props": [
+    "label: string",
+    "value: T",
+    "onChange: (value: T) => void",
+    "tabs: readonly { id: T",
+    "label: string",
+    "content: React.ReactNode }[]"
+   ],
+   "note": "Two to four peer views of one object; arrow keys move between tabs (Base UI Tabs)"
+  },
+  {
+   "name": "Hint",
+   "generic": "",
+   "props": [
+    "content: React.ReactNode",
+    "children: React.ReactElement",
+    "side?: \"top\" | \"bottom\" | \"left\" | \"right\""
+   ],
+   "note": "Short help on hover and focus for one control, for example an icon-only button; never essential info"
+  },
+  {
    "name": "Bento",
    "generic": "",
    "props": [
@@ -208,7 +290,7 @@
    ]
   },
   "notification": {
-   "code": "<>\n  <Toaster theme=\"dark\" position=\"bottom-right\" />\n  <button onClick={() => toast.success(\"Account archived\", { description: \"Acme Corp moved to the archive.\", action: { label: \"Undo\", onClick: () => {} } })}>Archive</button>\n</>",
+   "code": "// Mount <Toaster theme=\"dark\" position=\"bottom-right\" /> once at the app root, then call toast() anywhere:\n<button onClick={() => toast.success(\"Account archived\", { description: \"Acme Corp moved to the archive.\", action: { label: \"Undo\", onClick: () => {} } })}>Archive</button>",
    "uses": [
     "Toaster",
     "toast"
@@ -224,6 +306,42 @@
    "code": "const [open, setOpen] = React.useState(false);\nReact.useEffect(() => {\n  const on = (e: KeyboardEvent) => { if (e.key.toLowerCase() === \"k\" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); setOpen((o) => !o); } };\n  addEventListener(\"keydown\", on); return () => removeEventListener(\"keydown\", on);\n}, []);\nreturn (\n  <CommandDialog open={open} onOpenChange={setOpen} title=\"Search\" description=\"Search accounts and pages\">\n    <Command>\n      <CommandInput placeholder=\"Search accounts, pages and actions\" />\n      <CommandList>\n        <CommandEmpty>No results.</CommandEmpty>\n        <CommandGroup heading=\"Accounts\">\n          <CommandItem onSelect={() => setOpen(false)}>Acme Corp</CommandItem>\n        </CommandGroup>\n      </CommandList>\n    </Command>\n  </CommandDialog>\n);",
    "uses": [
     "CommandDialog"
+   ]
+  },
+  "text-input": {
+   "code": "const [email, setEmail] = React.useState(\"\");\nconst invalid = email.length > 0 && !email.includes(\"@\");\nreturn (\n  <TextField label=\"Billing email\" type=\"email\" required value={email} onChange={setEmail}\n    helper=\"Invoices go to this address.\" error={invalid ? \"Enter an email address, like name@company.com.\" : undefined} />\n);",
+   "uses": [
+    "TextField"
+   ]
+  },
+  "select": {
+   "code": "const [region, setRegion] = React.useState<\"us\" | \"eu\" | \"apac\" | null>(null);\nreturn (\n  <SelectField label=\"Data region\" value={region} onChange={setRegion} placeholder=\"Choose a region\"\n    options={[{ id: \"us\", label: \"United States\" }, { id: \"eu\", label: \"European Union\" }, { id: \"apac\", label: \"Asia Pacific\" }]}\n    helper=\"Where account data is stored.\" />\n);",
+   "uses": [
+    "SelectField"
+   ]
+  },
+  "checkbox": {
+   "code": "const [picked, setPicked] = React.useState({ email: true, slack: false });\nconst all = picked.email && picked.slack, some = picked.email || picked.slack;\nreturn (\n  <div className=\"flex flex-col gap-2\">\n    <CheckboxField label=\"All channels\" checked={all} indeterminate={some && !all} onChange={(c) => setPicked({ email: c, slack: c })} />\n    <CheckboxField label=\"Email\" checked={picked.email} onChange={(c) => setPicked((p) => ({ ...p, email: c }))} />\n    <CheckboxField label=\"Slack\" checked={picked.slack} onChange={(c) => setPicked((p) => ({ ...p, slack: c }))} />\n  </div>\n);",
+   "uses": [
+    "CheckboxField"
+   ]
+  },
+  "toggle": {
+   "code": "const [alerts, setAlerts] = React.useState(true);\nreturn <SwitchField label=\"Usage alerts\" checked={alerts} onChange={setAlerts} helper=\"Email me when usage passes 80%.\" />;",
+   "uses": [
+    "SwitchField"
+   ]
+  },
+  "tabs": {
+   "code": "const [tab, setTab] = React.useState<\"overview\" | \"billing\" | \"activity\">(\"overview\");\nreturn (\n  <ViewTabs label=\"Account\" value={tab} onChange={setTab} tabs={[\n    { id: \"overview\", label: \"Overview\", content: <p>Plan, owner and health.</p> },\n    { id: \"billing\", label: \"Billing\", content: <p>Invoices and payment method.</p> },\n    { id: \"activity\", label: \"Activity\", content: <p>The last 30 days of events.</p> },\n  ]} />\n);",
+   "uses": [
+    "ViewTabs"
+   ]
+  },
+  "tooltip": {
+   "code": "<Hint content=\"Export accounts as CSV\">\n  <button type=\"button\" aria-label=\"Export accounts\">Export</button>\n</Hint>",
+   "uses": [
+    "Hint"
    ]
   }
  }

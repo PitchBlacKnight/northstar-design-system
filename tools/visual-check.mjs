@@ -75,7 +75,7 @@ for (const theme of ["dark", "light"]) {
   }
 }
 if (!docsOnly && existsSync(join(ROOT, "dashboards/live/index.html"))) {
-  for (const theme of ["dark", "light"]) for (const v of ["finance", "commerce", "observe", "crm", "projects", "deployments", "support", "people"]) {
+  for (const theme of ["dark", "light"]) for (const v of ["finance", "commerce", "observe", "crm", "projects", "deployments", "support", "people", "kit"]) {
     const name = `app-${v}-${theme}`;
     await shot(`${URLB}dashboards/live/index.html?embed&theme=${theme}&still#${v}`, join(OUT, name + ".png"), 1440, 1100, 8000);
     writeFileSync(join(OUT, name + ".json"), JSON.stringify([{ name: `${v} (${theme})`, x: 0, y: 0, w: 1440, h: 1100 }]));

@@ -3,9 +3,8 @@
    here first (npx tsc --noEmit -p tsconfig.app.json). Not rendered by the app. */
 import * as React from "react";
 import { toast } from "sonner";
-import { Toaster } from "@/components/ui/sonner";
 import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import { Bento, BarList, ConfirmAction, DataTable, Facts, Figure, Pill, Segmented, Spark, Stat, Tile, type Col } from "@/kit";
+import { Bento, BarList, CheckboxField, ConfirmAction, DataTable, Facts, Figure, Hint, Pill, Segmented, SelectField, Spark, Stat, SwitchField, TextField, Tile, ViewTabs, type Col } from "@/kit";
 
 type Account = { id: string; name: string; plan: string; mrr: number; status: "Active" | "Past due" };
 const accounts: Account[] = [
@@ -78,10 +77,8 @@ export function ModalExample() {
 export function NotificationExample() {
   return (
     // @example notification
-    <>
-      <Toaster theme="dark" position="bottom-right" />
-      <button onClick={() => toast.success("Account archived", { description: "Acme Corp moved to the archive.", action: { label: "Undo", onClick: () => {} } })}>Archive</button>
-    </>
+    // Mount <Toaster theme="dark" position="bottom-right" /> once at the app root, then call toast() anywhere:
+    <button onClick={() => toast.success("Account archived", { description: "Acme Corp moved to the archive.", action: { label: "Undo", onClick: () => {} } })}>Archive</button>
     // @end
   );
 }
@@ -115,4 +112,70 @@ export function PaletteExample() {
     </CommandDialog>
   );
   // @end
+}
+
+export function TextInputExample() {
+  // @example text-input
+  const [email, setEmail] = React.useState("");
+  const invalid = email.length > 0 && !email.includes("@");
+  return (
+    <TextField label="Billing email" type="email" required value={email} onChange={setEmail}
+      helper="Invoices go to this address." error={invalid ? "Enter an email address, like name@company.com." : undefined} />
+  );
+  // @end
+}
+
+export function SelectExample() {
+  // @example select
+  const [region, setRegion] = React.useState<"us" | "eu" | "apac" | null>(null);
+  return (
+    <SelectField label="Data region" value={region} onChange={setRegion} placeholder="Choose a region"
+      options={[{ id: "us", label: "United States" }, { id: "eu", label: "European Union" }, { id: "apac", label: "Asia Pacific" }]}
+      helper="Where account data is stored." />
+  );
+  // @end
+}
+
+export function CheckboxExample() {
+  // @example checkbox
+  const [picked, setPicked] = React.useState({ email: true, slack: false });
+  const all = picked.email && picked.slack, some = picked.email || picked.slack;
+  return (
+    <div className="flex flex-col gap-2">
+      <CheckboxField label="All channels" checked={all} indeterminate={some && !all} onChange={(c) => setPicked({ email: c, slack: c })} />
+      <CheckboxField label="Email" checked={picked.email} onChange={(c) => setPicked((p) => ({ ...p, email: c }))} />
+      <CheckboxField label="Slack" checked={picked.slack} onChange={(c) => setPicked((p) => ({ ...p, slack: c }))} />
+    </div>
+  );
+  // @end
+}
+
+export function ToggleExample() {
+  // @example toggle
+  const [alerts, setAlerts] = React.useState(true);
+  return <SwitchField label="Usage alerts" checked={alerts} onChange={setAlerts} helper="Email me when usage passes 80%." />;
+  // @end
+}
+
+export function TabsExample() {
+  // @example tabs
+  const [tab, setTab] = React.useState<"overview" | "billing" | "activity">("overview");
+  return (
+    <ViewTabs label="Account" value={tab} onChange={setTab} tabs={[
+      { id: "overview", label: "Overview", content: <p>Plan, owner and health.</p> },
+      { id: "billing", label: "Billing", content: <p>Invoices and payment method.</p> },
+      { id: "activity", label: "Activity", content: <p>The last 30 days of events.</p> },
+    ]} />
+  );
+  // @end
+}
+
+export function TooltipExample() {
+  return (
+    // @example tooltip
+    <Hint content="Export accounts as CSV">
+      <button type="button" aria-label="Export accounts">Export</button>
+    </Hint>
+    // @end
+  );
 }
