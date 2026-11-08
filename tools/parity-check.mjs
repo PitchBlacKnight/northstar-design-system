@@ -28,6 +28,11 @@ const PAIRS = [
   ["badge success", ".ns-badge.ns-badge--positive:not(.ns-badge--sm):not(.ns-badge--lg):not(.ns-badge--outline)", "main .ns-badge.ns-badge--success"],
   ["table header cell", ".ns-table th", "main .ns-table th"],
   ["field label", ".ns-field > .ns-label", "main .ns-field > .ns-label"],
+  ["textarea", ".ns-field > .ns-textarea", "main .ns-field > .ns-textarea"],
+  ["radio (selected)", ".ns-check--radio input[type=radio]:checked:not(:disabled)", "main .ns-check--radio input[type=radio]:checked"],
+  ["page (current)", ".ns-pagination .ns-page[aria-current=page]", "main .ns-pagination .ns-page[aria-current=page]"],
+  ["breadcrumb link", ".ns-breadcrumb a", "main .ns-breadcrumb a"],
+  ["accordion summary", ".ns-accordion summary", "main .ns-accordion summary"],
 ];
 const PROPS = ["height", "font-size", "font-weight", "font-family", "line-height", "border-top-left-radius", "background-color", "color", "border-top-color", "border-top-width", "padding-left", "padding-top", "letter-spacing", "text-transform"];
 
@@ -77,9 +82,9 @@ const diffs = [], missing = [];
 for (const [n] of PAIRS) {
   if (!docs[n] || !kit[n]) { missing.push(`${n}: ${!docs[n] ? "not found in docs" : "not found in kit"}`); continue; }
   const skip = new Set((PAIRS.find((x) => x[0] === n) || [])[3] || []);
-  const noText = /checkbox|switch/.test(n), noBorder = docs[n]["border-top-width"] === "0px" && kit[n]["border-top-width"] === "0px";
+  const noText = /checkbox|switch|radio/.test(n), noBorder = docs[n]["border-top-width"] === "0px" && kit[n]["border-top-width"] === "0px";
   for (const p of PROPS) {
-    if (noText && /^(font|line-height|letter-spacing|text-transform)/.test(p)) continue; /* text styles on a control that shows no text */
+    if (noText && /^(font|line-height|letter-spacing|text-transform|color$)/.test(p)) continue; /* text styles on a control that shows no text */
     if (noBorder && p === "border-top-color") continue; /* invisible: no border drawn */
     if (skip.has(p)) continue; /* this pair compares size only, or color only */
     if (docs[n][p] !== kit[n][p]) diffs.push(`${n}  ${p}: docs ${docs[n][p]}  |  kit ${kit[n][p]}`);

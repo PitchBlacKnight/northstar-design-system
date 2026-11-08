@@ -109,3 +109,42 @@ export function Hint({ content, children }: { content: React.ReactNode; children
     </span>
   );
 }
+
+/* Radio group (ns-check--radio in a fieldset): one choice from two to five visible options; arrow keys move
+   and select, as native radios do */
+export function RadioGroupField<T extends string>({ label, value, onChange, options, helper, horizontal, disabled }: { label: string; value: T; onChange: (value: T) => void; options: readonly { id: T; label: string }[]; helper?: React.ReactNode; horizontal?: boolean; disabled?: boolean }) {
+  const name = React.useId();
+  const { msgId, describedBy } = useFieldIds(helper);
+  return (
+    <fieldset className="ns-field" style={{ border: 0, padding: 0, margin: 0 }} aria-describedby={describedBy}>
+      <legend className="ns-label" style={{ marginBottom: 10 }}>{label}</legend>
+      <div style={{ display: "flex", flexDirection: horizontal ? "row" : "column", flexWrap: "wrap", gap: horizontal ? 24 : 12 }}>
+        {options.map((o) => (
+          <label key={o.id} className="ns-check ns-check--radio">
+            <input type="radio" name={name} value={o.id} checked={o.id === value} disabled={disabled} onChange={() => onChange(o.id)} />
+            {o.label}
+          </label>
+        ))}
+      </div>
+      <Message id={msgId} helper={helper} />
+    </fieldset>
+  );
+}
+
+/* Multi-line text (ns-textarea) with label, helper or error, and an optional character counter tied to maxLength */
+export function TextAreaField({ label, value, onChange, helper, error, maxLength, placeholder, required, disabled, rows }: { label: string; value: string; onChange: (value: string) => void; helper?: React.ReactNode; error?: React.ReactNode; maxLength?: number; placeholder?: string; required?: boolean; disabled?: boolean; rows?: number }) {
+  const { id, msgId } = useFieldIds(helper, error);
+  const countId = id + "-count";
+  const described = [error || helper ? msgId : null, maxLength ? countId : null].filter(Boolean).join(" ") || undefined;
+  return (
+    <div className={cn("ns-field", error && "is-error")}>
+      <label className="ns-label" htmlFor={id}>{label}{required && <span aria-hidden> *</span>}</label>
+      <textarea id={id} className="ns-textarea" rows={rows} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} maxLength={maxLength}
+        required={required} disabled={disabled} aria-invalid={error ? true : undefined} aria-describedby={described} />
+      <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
+        <Message id={msgId} helper={helper} error={error} />
+        {maxLength && <span id={countId} className="ns-helper tnum" style={{ marginLeft: "auto" }}>{value.length} / {maxLength}</span>}
+      </div>
+    </div>
+  );
+}

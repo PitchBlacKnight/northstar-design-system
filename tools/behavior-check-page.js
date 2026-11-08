@@ -58,7 +58,14 @@
       if (!/Billing/.test($("main [role=tab][aria-selected=true]")?.textContent || "")) return "tab did not select";
       const sel = $("main select.ns-select"); if (!sel) return "no select";
       const set = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, "value").set; set.call(sel, "eu"); sel.dispatchEvent(new Event("change", { bubbles: true })); await W(200);
-      return expect(sel.value === "eu" && sel.labels && sel.labels.length === 1, "select did not take the value or has no label");
+      if (!(sel.value === "eu" && sel.labels && sel.labels.length === 1)) return "select did not take the value or has no label";
+      /* pagination moves, accordion toggles, the textarea counter counts */
+      const next = $("main .ns-pagination [aria-label='Next page']"); next.click(); await W(150);
+      if ($("main .ns-pagination [aria-current=page]")?.textContent !== "2") return "pagination did not move to page 2";
+      const det = [...document.querySelectorAll("main .ns-accordion details")][1]; det.querySelector("summary").click(); await W(100);
+      if (!det.open) return "accordion did not open";
+      const ta = $("main textarea.ns-textarea"); const tset = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, "value").set; tset.call(ta, "hello"); ta.dispatchEvent(new Event("input", { bubbles: true })); await W(150);
+      return expect(/5 \/ 500/.test(ta.closest(".ns-field").textContent), "textarea counter did not update");
     });
     await check("app: period control changes the data", async () => {
       await go("finance", 700);

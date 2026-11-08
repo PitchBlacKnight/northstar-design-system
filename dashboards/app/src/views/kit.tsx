@@ -9,17 +9,23 @@ export const meta: ViewMeta = {
 
 /* Each tile runs one example from src/kit/examples.tsx, the file the docs copy their snippets from */
 const ITEMS: [string, string, () => React.ReactNode, string][] = [
+  /* each row fills the 12-column grid */
   ["Text input", "text-input", Ex.TextInputExample, "md:col-span-3 xl:col-span-4"],
   ["Select", "select", Ex.SelectExample, "md:col-span-3 xl:col-span-4"],
   ["Checkbox", "checkbox", Ex.CheckboxExample, "md:col-span-3 xl:col-span-2"],
   ["Switch", "toggle", Ex.ToggleExample, "md:col-span-3 xl:col-span-2"],
   ["Tabs", "tabs", Ex.TabsExample, "md:col-span-3 xl:col-span-4"],
-  ["Tooltip", "tooltip", Ex.TooltipExample, "md:col-span-3 xl:col-span-2"],
+  ["Radio button", "radio-button", Ex.RadioExample, "md:col-span-3 xl:col-span-3"],
+  ["Textarea", "textarea", Ex.TextAreaExample, "md:col-span-6 xl:col-span-5"],
+  ["Breadcrumb", "breadcrumb", Ex.BreadcrumbExample, "md:col-span-3 xl:col-span-4"],
+  ["Accordion", "accordion", Ex.AccordionExample, "md:col-span-3 xl:col-span-6"],
+  ["Tooltip", "tooltip", Ex.TooltipExample, "md:col-span-6 xl:col-span-2"],
+  ["Pagination", "pagination", Ex.PaginationExample, "md:col-span-6 xl:col-span-6"],
   ["Segmented control", "segmented-control", Ex.SegmentedExample, "md:col-span-3 xl:col-span-3"],
   ["Badge", "badge", Ex.BadgeExample, "md:col-span-3 xl:col-span-3"],
-  ["Modal", "modal", Ex.ModalExample, "md:col-span-3 xl:col-span-2"],
-  ["Notification", "notification", Ex.NotificationExample, "md:col-span-3 xl:col-span-2"],
-  ["Progress", "progress", Ex.ProgressExample, "md:col-span-6 xl:col-span-8"],
+  ["Modal", "modal", Ex.ModalExample, "md:col-span-3 xl:col-span-3"],
+  ["Notification", "notification", Ex.NotificationExample, "md:col-span-3 xl:col-span-3"],
+  ["Progress", "progress", Ex.ProgressExample, "md:col-span-6 xl:col-span-6"],
   ["Command palette (press Cmd K)", "command-palette", Ex.PaletteExample, "md:col-span-6 xl:col-span-12"],
   ["Data table", "data-table", Ex.TableExample, "md:col-span-6 xl:col-span-12"],
 ];

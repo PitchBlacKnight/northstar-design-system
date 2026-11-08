@@ -89,6 +89,38 @@
    "note": "Tooltip (ns-tip): short help shown on hover and focus, described by aria-describedby; never essential info"
   },
   {
+   "name": "RadioGroupField",
+   "generic": "<T extends string>",
+   "props": [
+    "label: string",
+    "value: T",
+    "onChange: (value: T) => void",
+    "options: readonly { id: T",
+    "label: string }[]",
+    "helper?: React.ReactNode",
+    "horizontal?: boolean",
+    "disabled?: boolean"
+   ],
+   "note": "Radio group (ns-check--radio in a fieldset): one choice from two to five visible options; arrow keys move and select, as native radios do"
+  },
+  {
+   "name": "TextAreaField",
+   "generic": "",
+   "props": [
+    "label: string",
+    "value: string",
+    "onChange: (value: string) => void",
+    "helper?: React.ReactNode",
+    "error?: React.ReactNode",
+    "maxLength?: number",
+    "placeholder?: string",
+    "required?: boolean",
+    "disabled?: boolean",
+    "rows?: number"
+   ],
+   "note": "Multi-line text (ns-textarea) with label, helper or error, and an optional character counter tied to maxLength"
+  },
+  {
    "name": "Badge",
    "generic": "",
    "props": [
@@ -126,6 +158,45 @@
     "size?: \"sm\" | \"md\" | \"lg\""
    ],
    "note": "Confirm dialog (ns-modal) with focus trap and Escape from Base UI; confirming calls onConfirm"
+  },
+  {
+   "name": "Accordion",
+   "generic": "",
+   "props": [
+    "items: readonly { id: string",
+    "title: string",
+    "content: React.ReactNode",
+    "open?: boolean }[]",
+    "single?: boolean"
+   ],
+   "note": "Accordion (ns-accordion): native details and summary, so expanded state and keyboard come from the browser"
+  },
+  {
+   "name": "Pagination",
+   "generic": "",
+   "props": [
+    "page: number",
+    "pageCount: number",
+    "onChange: (page: number) => void",
+    "total?: number",
+    "pageSize?: number",
+    "pageSizes?: readonly number[]",
+    "onPageSize?: (size: number) => void",
+    "label?: string"
+   ],
+   "note": "Pagination (ns-pagination, ns-page): numbered pages with ellipses, previous and next, optional rows per page"
+  },
+  {
+   "name": "Breadcrumb",
+   "generic": "",
+   "props": [
+    "items: readonly { label: string",
+    "href?: string",
+    "onClick?: () => void }[]",
+    "chevron?: boolean",
+    "label?: string"
+   ],
+   "note": "Breadcrumb (ns-breadcrumb): the path to the current page; the last item is the page itself (aria-current)"
   },
   {
    "name": "Bento",
@@ -386,6 +457,36 @@
    "code": "<Hint content=\"Export accounts as CSV\">\n  <Button variant=\"secondary\" size=\"sm\">Export</Button>\n</Hint>",
    "uses": [
     "Hint"
+   ]
+  },
+  "radio-button": {
+   "code": "const [strategy, setStrategy] = React.useState<\"rolling\" | \"bluegreen\" | \"canary\">(\"rolling\");\nreturn (\n  <RadioGroupField label=\"Deployment strategy\" value={strategy} onChange={setStrategy} helper=\"Applies to the next release.\"\n    options={[{ id: \"rolling\", label: \"Rolling\" }, { id: \"bluegreen\", label: \"Blue / green\" }, { id: \"canary\", label: \"Canary\" }]} />\n);",
+   "uses": [
+    "RadioGroupField"
+   ]
+  },
+  "textarea": {
+   "code": "const [notes, setNotes] = React.useState(\"\");\nreturn (\n  <TextAreaField label=\"Scope notes\" value={notes} onChange={setNotes} maxLength={500} placeholder=\"Services, regions and size\"\n    helper=\"Visible to the account team.\" />\n);",
+   "uses": [
+    "TextAreaField"
+   ]
+  },
+  "accordion": {
+   "code": "<Accordion items={[\n  { id: \"active\", title: \"What counts as an active account?\", content: \"Any account with at least one integration that synced in the last 30 days.\", open: true },\n  { id: \"tiers\", title: \"How are tiers calculated?\", content: \"Tier is based on trailing twelve-month revenue, recalculated nightly.\" },\n]} />",
+   "uses": [
+    "Accordion"
+   ]
+  },
+  "pagination": {
+   "code": "const [page, setPage] = React.useState(1);\nconst [size, setSize] = React.useState(25);\nconst total = 288;\nreturn <Pagination page={page} pageCount={Math.ceil(total / size)} onChange={setPage} total={total} pageSize={size} pageSizes={[25, 50]} onPageSize={(n) => { setSize(n); setPage(1); }} />;",
+   "uses": [
+    "Pagination"
+   ]
+  },
+  "breadcrumb": {
+   "code": "<Breadcrumb items={[{ label: \"Accounts\", href: \"#accounts\" }, { label: \"Acme Corp\", href: \"#acme\" }, { label: \"Integrations\", href: \"#integrations\" }, { label: \"CRM sync\" }]} />",
+   "uses": [
+    "Breadcrumb"
    ]
   }
  }

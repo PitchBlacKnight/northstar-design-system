@@ -76,8 +76,9 @@ a.innerHTML = s.open + `<div class="grid g">
 
  <section class="t t--bruise cf">
    <div class="o">Cash flow <em>6 months</em></div>
-   <div class="row row--b"><div class="d-lg num">+$9.2K</div><span class="cap" style="padding-bottom:5px">avg / month</span></div>
+   <div class="row row--b"><div class="d-lg num">+$14.5K</div><span class="cap" style="padding-bottom:5px">avg / month, in minus out ($K)</span></div>
    <div class="sp1" style="display:flex;align-items:flex-end">${D.stack({ w: 300, h: 150, gap: 8, labels: ["May", "Jun", "Jul", "Aug", "Sep", "Oct"], labelFill: "#ffffffb8", sets: [{ data: [34, 38, 36, 41, 39, 44], color: "#fff" }, { data: [22, 25, 21, 27, 24, 26], color: "#ffffff55" }] })}</div>
+   <div class="row cap" style="gap:14px"><span><i style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#fff;margin-right:6px"></i>In</span><span><i style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#ffffff55;margin-right:6px"></i>Out</span></div>
  </section>
 
 </div>` + s.close;

@@ -3,7 +3,7 @@
    here first (npx tsc --noEmit -p tsconfig.app.json). Not rendered by the app. */
 import * as React from "react";
 import { toast } from "sonner";
-import { Badge, Bento, BarList, Button, CheckboxField, CommandPalette, ConfirmAction, DataTable, Facts, Figure, Hint, Pill, Segmented, SelectField, Spark, Stat, SwitchField, TextField, Tile, ViewTabs, type Col } from "@/kit";
+import { Accordion, Badge, Bento, BarList, Breadcrumb, Button, CheckboxField, CommandPalette, ConfirmAction, Pagination, RadioGroupField, TextAreaField, DataTable, Facts, Figure, Hint, Pill, Segmented, SelectField, Spark, Stat, SwitchField, TextField, Tile, ViewTabs, type Col } from "@/kit";
 
 type Account = { id: string; name: string; plan: string; mrr: number; status: "Active" | "Past due" };
 const accounts: Account[] = [
@@ -168,6 +168,54 @@ export function TooltipExample() {
     <Hint content="Export accounts as CSV">
       <Button variant="secondary" size="sm">Export</Button>
     </Hint>
+    // @end
+  );
+}
+
+export function RadioExample() {
+  // @example radio-button
+  const [strategy, setStrategy] = React.useState<"rolling" | "bluegreen" | "canary">("rolling");
+  return (
+    <RadioGroupField label="Deployment strategy" value={strategy} onChange={setStrategy} helper="Applies to the next release."
+      options={[{ id: "rolling", label: "Rolling" }, { id: "bluegreen", label: "Blue / green" }, { id: "canary", label: "Canary" }]} />
+  );
+  // @end
+}
+
+export function TextAreaExample() {
+  // @example textarea
+  const [notes, setNotes] = React.useState("");
+  return (
+    <TextAreaField label="Scope notes" value={notes} onChange={setNotes} maxLength={500} placeholder="Services, regions and size"
+      helper="Visible to the account team." />
+  );
+  // @end
+}
+
+export function AccordionExample() {
+  return (
+    // @example accordion
+    <Accordion items={[
+      { id: "active", title: "What counts as an active account?", content: "Any account with at least one integration that synced in the last 30 days.", open: true },
+      { id: "tiers", title: "How are tiers calculated?", content: "Tier is based on trailing twelve-month revenue, recalculated nightly." },
+    ]} />
+    // @end
+  );
+}
+
+export function PaginationExample() {
+  // @example pagination
+  const [page, setPage] = React.useState(1);
+  const [size, setSize] = React.useState(25);
+  const total = 288;
+  return <Pagination page={page} pageCount={Math.ceil(total / size)} onChange={setPage} total={total} pageSize={size} pageSizes={[25, 50]} onPageSize={(n) => { setSize(n); setPage(1); }} />;
+  // @end
+}
+
+export function BreadcrumbExample() {
+  return (
+    // @example breadcrumb
+    <Breadcrumb items={[{ label: "Accounts", href: "#accounts" }, { label: "Acme Corp", href: "#acme" }, { label: "Integrations", href: "#integrations" }, { label: "CRM sync" }]} />
     // @end
   );
 }

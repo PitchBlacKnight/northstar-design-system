@@ -18,8 +18,8 @@
   /* @defs-start */
   DEFS.bubble = {
     name: "Bubble",
-    alt: "Bubble chart: eight points, bubble size shows the third measure",
-    kpi: ["Accounts", "1,240", "+2.4%", "Bubble size shows active seats", "Size is seats"],
+    alt: "Bubble chart: the top eight of 1,240 accounts, bubble size shows active seats",
+    kpi: ["Accounts", "1,240", "+2.4%", "Top 8 accounts shown, size is active seats", "Top 8 shown"],
     sum: [["Largest", "312", "+1.2%", "Top account", "Top account"], ["Smallest", "32", "+0.4%", "Lowest tier", "Lowest tier"]],
     prims: (w, h, o) => {
       const c = o.compact, ml = c ? 0 : 30, mb = c ? 0 : 22, pw = w - ml, ph = h - mb, R = Math.min(pw, ph) * 0.16;
@@ -102,8 +102,8 @@
   };
   DEFS.parallel = {
     name: "Parallel coordinates",
-    alt: "Parallel coordinates: four profiles across five measures, one line per profile",
-    kpi: ["Profiles", "128", "+4.0%", "Five measures per profile", "Five measures"],
+    alt: "Parallel coordinates: four of 128 profiles across five measures, one line per profile",
+    kpi: ["Profiles", "128", "+4.0%", "4 of 128 profiles shown across five measures", "4 shown"],
     sum: [["Strongest", "Cost", "+1.2%", "Highest average", "Highest avg"], ["Weakest", "Reach", "+0.5%", "Lowest average", "Lowest avg"]],
     prims: (w, h, o) => {
       const c = o.compact, ml = c ? 6 : 16, mb = c ? 0 : 22, pw = w - ml * 2, ph = h - mb, n = c ? 4 : 5;
@@ -131,8 +131,8 @@
   };
   DEFS.scatter = {
     name: "Scatter",
-    alt: "Scatter plot: samples on two measures with a rising trend line",
-    kpi: ["Samples", "240", "+6.2%", "Two measures per sample", "Two measures"],
+    alt: "Scatter plot: 18 of 240 samples on two measures with a rising trend line",
+    kpi: ["Samples", "240", "+6.2%", "18 of 240 samples shown, two measures each", "18 shown"],
     sum: [["Trend", "Up", "+1.0%", "Positive relationship", "Positive"], ["Outliers", "6", "+0.3%", "Far from the trend", "Far from trend"]],
     prims: (w, h, o) => {
       const c = o.compact, ml = c ? 0 : 30, mb = c ? 0 : 22, pw = w - ml, ph = h - mb;
@@ -188,7 +188,7 @@
     name: "Radar",
     alt: "Radar chart: two series across six measures",
     kpi: ["Coverage", "68%", "+3.0%", "Average of series 1 across six skills", "Series 1 average"],
-    sum: [["Strongest", "Score", "+1.1%", "Highest score", "Highest"], ["Weakest", "Trust", "+0.4%", "Lowest score", "Lowest"]],
+    sum: [["Strongest", "Score", "+1.1%", "Highest in series 1", "Highest"], ["Weakest", "Rate", "+0.4%", "Lowest in series 1", "Lowest"]],
     prims: (w, h, o) => {
       const c = o.compact, cx = w / 2, cy = h / 2, R = Math.min(w, h) / 2 - (c ? 4 : 18), N = 6, out = [];
       const P = (r, i) => [cx + r * Math.sin((i * 360 / N * Math.PI) / 180), cy - r * Math.cos((i * 360 / N * Math.PI) / 180)];
