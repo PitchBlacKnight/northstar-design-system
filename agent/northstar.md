@@ -2,7 +2,7 @@
 
 > Machine-readable guide for AI coding and design agents. Generated 2026-11-08 from the live catalog by tools/agent-export.mjs; do not edit by hand. Site: https://mikelrosenthal.com/northstar/ · Figma file VZxmDNQiosTN6gqnvEQ65Z.
 
-NorthStar is a design language and development kit for dense, dark, data-heavy enterprise consoles: 60 components, 215 tokens, dark and light themes, comfortable and compact density. Markup is framework-free HTML with ns- classes; style comes only from CSS custom properties.
+NorthStar is a design language and development kit for dense, dark, data-heavy enterprise consoles: 53 components, 215 tokens, dark and light themes, comfortable and compact density. Markup is framework-free HTML with ns- classes; style comes only from CSS custom properties.
 
 ## Files
 
@@ -506,68 +506,44 @@ Accessibility:
 
 #### Notification (Stable)
 
-Notifications communicate system messages: inline in context, or as toasts that appear and dismiss themselves.
+Notifications communicate system messages: inline in context, or as toasts that appear and dismiss themselves. Includes toast.
 
 Page: https://mikelrosenthal.com/northstar/#/components/notification · Figma node 4209:150
 
-Classes: `ns-btn`, `ns-btn--sm`, `ns-btn--tertiary`, `ns-helper`, `ns-notice`, `ns-notice--info`, `ns-notice__body`, `ns-notice__close`, `ns-notice__icon`, `ns-notice__title`
+Classes: `ns-btn`, `ns-btn--ghost`, `ns-btn--sm`, `ns-btn--tertiary`, `ns-helper`, `ns-notice`, `ns-notice--error`, `ns-notice--info`, `ns-notice--success`, `ns-notice--toast`, `ns-notice__body`, `ns-notice__close`, `ns-notice__icon`, `ns-notice__title`
+
+Variants: Toast / Status: Information, Success, Warning, Error; Toast / Action: None or one button; Toast / Message: Shown or hidden
 
 Use:
 - Inline: messages tied to a section.
 - Toast: confirmation of a completed action.
+- Toast: Confirming the result of an action the person just took.
+- Toast: Offering Undo instead of a confirm dialog for reversible changes.
+- Toast: Keeping titles under 40 characters.
 
 Avoid:
 - Critical, blocking issues: use a modal.
+- Toast: Do not use for errors the person must fix. Show those inline.
+- Toast: Do not put more than one action in a toast.
+- Toast: Do not auto-dismiss error toasts.
 
 - Do: Say what happened and what to do next.
 - Do not: Show raw error codes alone.
 
 ```html
 <div style="display:grid;gap:16px;justify-items:center;width:100%"><div class="ns-notice ns-notice--info" role="status" style="width:440px"><span class="ns-notice__icon">i</span><div><p class="ns-notice__title">Portal update available</p><p class="ns-notice__body">v1.4.0 is ready to deploy.</p></div><button class="ns-notice__close" aria-label="Dismiss">×</button></div><button class="ns-btn ns-btn--tertiary ns-btn--sm" data-toast="Portal update available" data-kind="info">Fire as toast</button></div>
-```
-
-Tokens: `--ns-status-info / success / warning / error` (Accent, border, tint), `--ns-elevation-03` (Toast shadow)
-
-Keyboard: Tab: Focus dismiss or action; Enter: Dismiss
-
-Accessibility:
-- Errors use role="alert"; others use role="status" so they are announced politely.
-
-#### Toast (New)
-
-A short message after an action, such as Account archived. Toasts stack in a corner and clear on their own. Errors the person must fix belong inline, not in a toast.
-
-Page: https://mikelrosenthal.com/northstar/#/components/toast · Figma node 4465:138
-
-Classes: `ns-btn`, `ns-btn--ghost`, `ns-btn--sm`, `ns-notice`, `ns-notice--error`, `ns-notice--success`, `ns-notice--toast`, `ns-notice__body`, `ns-notice__close`, `ns-notice__icon`, `ns-notice__title`
-
-Variants: Status: Information, Success, Warning, Error; Action: None or one button; Message: Shown or hidden
-
-Use:
-- Confirming the result of an action the person just took.
-- Offering Undo instead of a confirm dialog for reversible changes.
-- Keeping titles under 40 characters.
-
-Avoid:
-- Do not use for errors the person must fix. Show those inline.
-- Do not put more than one action in a toast.
-- Do not auto-dismiss error toasts.
-
-- Do: Undo for a reversible change, one action only.
-- Do not: The person must fix this. Show it inline next to the field, and do not stack two actions.
-
-```html
 <div class="ns-notice ns-notice--toast ns-notice--success" role="status" style="width:360px"><span class="ns-notice__icon" aria-hidden="true">✓</span><div><p class="ns-notice__title">Account archived</p><p class="ns-notice__body">Acme Corp moved to the archive.</p></div><button class="ns-btn ns-btn--ghost ns-btn--sm">Undo</button></div>
 ```
 
-Tokens: `--ns-background-elevated` (Toast surface), `--ns-elevation-03` (Toast shadow), `--ns-status-success` (Success icon), `--ns-status-error` (Error icon)
+Tokens: `--ns-status-info / success / warning / error` (Accent, border, tint), `--ns-elevation-03` (Toast shadow), `--ns-background-elevated` (Toast surface), `--ns-status-success` (Success icon), `--ns-status-error` (Error icon)
 
-Keyboard: Tab: Moves to the action or close button; Enter / Space: Activates the focused button
+Keyboard: Tab: Focus dismiss or action; Enter: Dismiss; Tab: Toast: Moves to the action or close button; Enter / Space: Toast: Activates the focused button
 
 Accessibility:
-- Information and success use role=status, which announces politely without interrupting.
-- Error uses role=alert, so it interrupts the screen reader.
-- Give the close button a name, such as Dismiss notification.
+- Errors use role="alert"; others use role="status" so they are announced politely.
+- Toast: Information and success use role=status, which announces politely without interrupting.
+- Toast: Error uses role=alert, so it interrupts the screen reader.
+- Toast: Give the close button a name, such as Dismiss notification.
 
 ### Data
 
@@ -603,18 +579,26 @@ Accessibility:
 
 #### Data table (Stable)
 
-Data tables organize large sets of records into rows and columns with sorting, selection, and batch actions.
+Data tables organize large sets of records into rows and columns with sorting, selection, and batch actions. Includes bulk action bar.
 
 Page: https://mikelrosenthal.com/northstar/#/components/data-table · Figma node 4213:46
 
-Classes: `ns-btn`, `ns-btn--sm`, `ns-btn--tertiary`, `ns-check`, `ns-dot`, `ns-dot--error`, `ns-dot--success`, `ns-dot--warning`, `ns-helper`, `ns-sort`, `ns-table`, `ns-table--compact`, `ns-table-bar`, `ns-table-wrap` · helper classes in the examples: `num`
+Classes: `ns-btn`, `ns-btn--danger`, `ns-btn--ghost`, `ns-btn--sm`, `ns-btn--tertiary`, `ns-bulkbar`, `ns-bulkbar__count`, `ns-bulkbar__sep`, `ns-check`, `ns-dot`, `ns-dot--error`, `ns-dot--success`, `ns-dot--warning`, `ns-helper`, `ns-sort`, `ns-table`, `ns-table--compact`, `ns-table-bar`, `ns-table-wrap` · helper classes in the examples: `num`
+
+Variants: Bulk action bar / Count: Text, such as 3 selected; Bulk action bar / Actions: Up to four buttons. Extras move into a Menu; Bulk action bar / State: Hidden, Visible
 
 Use:
 - Comparing many records across the same attributes.
 - Bulk actions across selected rows.
+- Bulk action bar: Show it when at least one row is selected.
+- Bulk action bar: Keep the count visible, and announce it when it changes.
+- Bulk action bar: Put destructive actions last, and confirm them.
 
 Avoid:
 - A handful of items with rich content: use cards.
+- Bulk action bar: Do not show more than four actions. Move extras into a Menu.
+- Bulk action bar: Do not hide the selection after an action. Show a Toast with the result.
+- Bulk action bar: Do not cover the last table row. Add bottom padding to the table.
 
 - Do: Right-align numbers so magnitudes line up.
 - Do not: Center numeric columns.
@@ -625,143 +609,97 @@ Avoid:
   <thead><tr><th><label class="ns-check"><input type="checkbox" data-select-all aria-label="Select all rows"/></label></th><th data-sort>Account <span class="ns-sort">↕</span></th><th data-sort>Tier <span class="ns-sort">↕</span></th><th data-sort class="num">Revenue <span class="ns-sort">↕</span></th><th>Status</th></tr></thead>
   <tbody><tr><td><label class="ns-check"><input type="checkbox" data-row-select aria-label="Select Acme Corp"/></label></td><td>Acme Corp</td><td>Gold</td><td class="num">$12,400</td><td><span class="ns-dot ns-dot--success">active</span></td></tr><tr><td><label class="ns-check"><input type="checkbox" data-row-select aria-label="Select Beta LLC"/></label></td><td>Beta LLC</td><td>Silver</td><td class="num">$5,200</td><td><span class="ns-dot ns-dot--warning">pending</span></td></tr><tr><td><label class="ns-check"><input type="checkbox" data-row-select aria-label="Select Zeta Inc"/></label></td><td>Zeta Inc</td><td>Platinum</td><td class="num">$38,900</td><td><span class="ns-dot ns-dot--success">active</span></td></tr><tr><td><label class="ns-check"><input type="checkbox" data-row-select aria-label="Select Northwind"/></label></td><td>Northwind</td><td>Silver</td><td class="num">$7,300</td><td><span class="ns-dot ns-dot--error">error</span></td></tr><tr><td><label class="ns-check"><input type="checkbox" data-row-select aria-label="Select Globex"/></label></td><td>Globex</td><td>Gold</td><td class="num">$19,850</td><td><span class="ns-dot ns-dot--success">active</span></td></tr></tbody>
 </table></div>
+<div class="ns-bulkbar" role="region" aria-label="Bulk actions"><span class="ns-bulkbar__count" aria-live="polite">3 selected</span><span class="ns-bulkbar__sep"></span><button class="ns-btn ns-btn--ghost ns-btn--sm">Approve</button><button class="ns-btn ns-btn--ghost ns-btn--sm">Export</button><span class="ns-bulkbar__sep"></span><button class="ns-btn ns-btn--ghost ns-btn--sm">Clear</button><button class="ns-btn ns-btn--danger ns-btn--sm">Delete</button></div>
 ```
 
-Tokens: `--ns-background-secondary` (Header row), `--ns-background-hover` (Row hover), `--ns-background-selected` (Selected row), `--ns-interactive-primary` (Batch action bar), `--ns-font-mono` (Numeric cells)
+Tokens: `--ns-background-secondary` (Header row), `--ns-background-hover` (Row hover), `--ns-background-selected` (Selected row), `--ns-interactive-primary` (Batch action bar), `--ns-font-mono` (Numeric cells), `--ns-background-elevated` (Bar surface), `--ns-elevation-03` (Bar shadow), `--ns-border-default` (Bar border), `--ns-density-control-sm` (Button height)
 
-Keyboard: Tab: Moves between interactive cells; Enter / Space on header: Sorts the column; Space on row checkbox: Selects the row
+Keyboard: Tab: Moves between interactive cells; Enter / Space on header: Sorts the column; Space on row checkbox: Selects the row; Tab: Bulk action bar: Moves through the bar's actions; Escape: Bulk action bar: Clears the selection when focus is in the table
 
 Accessibility:
 - Sortable headers set aria-sort.
 - Select-all checkbox is labeled and reflects mixed state.
 - Batch bar announces the selected count.
+- Bulk action bar: The bar is a named region, such as Bulk actions.
+- Bulk action bar: The count sits in a polite live region, so changes are announced without interrupting.
+- Bulk action bar: Each action is a button with its full label, such as Delete 3 accounts.
 
 ### Status
 
 #### Badge (Stable)
 
-Badges are designed to display a small amount of information for statuses and labels with color categorization.
+Badges are designed to display a small amount of information for statuses and labels with color categorization. Includes status dot.
 
 Page: https://mikelrosenthal.com/northstar/#/components/badge · Figma node 1840:21692
 
-Classes: `ns-badge`, `ns-badge--icon`, `ns-badge--lg`, `ns-badge--negative`, `ns-badge--outline`, `ns-badge--positive`, `ns-badge--sm`, `ns-count`, `ns-dot`, `ns-dot--error`, `ns-dot--success`, `ns-dot--warning`
+Classes: `ns-badge`, `ns-badge--icon`, `ns-badge--lg`, `ns-badge--negative`, `ns-badge--outline`, `ns-badge--positive`, `ns-badge--sm`, `ns-count`, `ns-dot`, `ns-dot--error`, `ns-dot--success`, `ns-dot--warning`, `ns-status-dot`, `ns-status-dot--critical`, `ns-status-dot--informative`, `ns-status-dot--negative`, `ns-status-dot--neutral`, `ns-status-dot--positive`, `ns-table` · helper classes in the examples: `sr-only`
 
-Variants: Size: Small (20), Medium (24), Large (28); Icon: Icon only, Icon left, Icon right, None; Type: Informative (violet), Positive (green), Negative (red); State: Solid, Outline with icon, Outline
+Variants: Size: Small (20), Medium (24), Large (28); Icon: Icon only, Icon left, Icon right, None; Type: Informative (violet), Positive (green), Negative (red); State: Solid, Outline with icon, Outline; Status dot / Status: Positive, Critical, Negative, Informative, Neutral; Status dot / Label: Shown or hidden
 
 Use:
 - Object status in tables, cards, and headers.
 - Short labels with semantic meaning.
+- Status dot: Dense tables and maps.
+- Status dot: The same status words as Badge.
+- Status dot: Keeping the label visible unless a header names the status.
 
 Avoid:
 - Categories and filters: use a tag.
+- Status dot: Do not rely on color alone.
+- Status dot: Do not use for counts. Use Badge.
+- Status dot: Do not hide the label in a table with no header that names the status.
 
 - Do: Pair color with a clear word.
 - Do not: Use an empty colored badge to carry status.
 
 ```html
 <span class="ns-badge">Live</span>
+<span class="ns-status-dot ns-status-dot--positive">Active</span>
 ```
 
-Tokens: `--ns-purple-400` (Informative), `--ns-status-success` (Positive), `--ns-status-error` (Negative), `--ns-radius-sm` (Radius)
+Tokens: `--ns-purple-400` (Informative), `--ns-status-success` (Positive), `--ns-status-error` (Negative), `--ns-radius-sm` (Radius), `--ns-status-warning` (Critical dot), `--ns-status-info` (Informative dot)
 
 Keyboard: -: Not interactive
 
 Accessibility:
 - Badges are text, so screen readers read the label. Icon-only badges need role="img" and aria-label.
-
-#### Loading (Stable)
-
-Spinners and skeletons show that content is loading and keep layout stable while it arrives.
-
-Page: https://mikelrosenthal.com/northstar/#/components/loading · Figma node 4038:31327
-
-Classes: `ns-skel`, `ns-spin`
-
-Use:
-- Skeletons for page and card loads; spinners for small, local waits.
-
-Avoid:
-- Waits under 300ms: show nothing.
-
-- Do: Match the skeleton to the real layout.
-- Do not: Show a spinner in every card at once.
-
-```html
-<div style="width:360px;display:grid;gap:10px" aria-busy="true" aria-label="Loading accounts"><div class="ns-skel" style="height:20px;width:60%"></div><div class="ns-skel" style="height:12px"></div><div class="ns-skel" style="height:12px;width:85%"></div><div class="ns-skel" style="height:80px;margin-top:6px"></div></div>
-```
-
-Tokens: `--ns-background-elevated` (Skeleton base), `--ns-teal-500` (Spinner arc)
-
-Keyboard: -: Not interactive
-
-Accessibility:
-- Containers set aria-busy="true" while loading.
-- Spinners use role="status" with a label.
+- Status dot: The label is text, so screen readers read it. A hidden label stays in the DOM as screen-reader-only text.
+- Status dot: Do not use color alone to show status.
 
 #### Progress (Stable)
 
-Progress indicators show completion of a task: linear bars, rings for single metrics, and step indicators for flows.
+Progress indicators show completion of a task: linear bars, rings for single metrics, and step indicators for flows. Includes loading.
 
 Page: https://mikelrosenthal.com/northstar/#/components/progress · Figma node 4038:31350
 
-Classes: `ns-helper`, `ns-progress`, `ns-progress--purple`, `ns-progress--warning`, `ns-progress__bar`, `ns-progress__meta`, `ns-progress__track`
+Classes: `ns-helper`, `ns-progress`, `ns-progress--purple`, `ns-progress--warning`, `ns-progress__bar`, `ns-progress__meta`, `ns-progress__track`, `ns-skel`
 
 Use:
 - Operations that take more than about a second.
 - Multi-step flows.
+- Loading: Skeletons for page and card loads; spinners for small, local waits.
 
 Avoid:
 - Instant actions.
+- Loading: Waits under 300ms: show nothing.
 
 - Do: Say what is progressing.
 - Do not: Leave people guessing.
 
 ```html
 <div class="ns-progress" style="width:360px"><div class="ns-progress__meta"><span>Migrating records</span><span>30%</span></div><div class="ns-progress__track" role="progressbar" aria-label="Migrating records" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"><div class="ns-progress__bar" style="--_v:30%"></div></div></div>
+<div style="width:360px;display:grid;gap:10px" aria-busy="true" aria-label="Loading accounts"><div class="ns-skel" style="height:20px;width:60%"></div><div class="ns-skel" style="height:12px"></div><div class="ns-skel" style="height:12px;width:85%"></div><div class="ns-skel" style="height:80px;margin-top:6px"></div></div>
 ```
 
-Tokens: `--ns-gradient-brand` (Bar fill), `--ns-border-default` (Track), `--ns-duration-slow` (Fill transition)
+Tokens: `--ns-gradient-brand` (Bar fill), `--ns-border-default` (Track), `--ns-duration-slow` (Fill transition), `--ns-background-elevated` (Skeleton base), `--ns-teal-500` (Spinner arc)
 
 Keyboard: -: Not interactive
 
 Accessibility:
 - Use role="progressbar" with value attributes; omit values when indeterminate.
 - Step indicators mark the current step with aria-current="step".
-
-#### Status dot (New)
-
-A colored dot with a label, for dense tables and maps where a badge would take too much space. Keep the label visible, or name the status in a column header or tooltip.
-
-Page: https://mikelrosenthal.com/northstar/#/components/status-dot · Figma node 4465:39
-
-Classes: `ns-status-dot`, `ns-status-dot--critical`, `ns-status-dot--informative`, `ns-status-dot--negative`, `ns-status-dot--neutral`, `ns-status-dot--positive`, `ns-table` · helper classes in the examples: `sr-only`
-
-Variants: Status: Positive, Critical, Negative, Informative, Neutral; Label: Shown or hidden
-
-Use:
-- Dense tables and maps.
-- The same status words as Badge.
-- Keeping the label visible unless a header names the status.
-
-Avoid:
-- Do not rely on color alone.
-- Do not use for counts. Use Badge.
-- Do not hide the label in a table with no header that names the status.
-
-- Do: A dot with its word, the same as Badge.
-- Do not: A dot with no visible word. Color alone is not enough without a header that names the status.
-
-```html
-<span class="ns-status-dot ns-status-dot--positive">Active</span>
-```
-
-Tokens: `--ns-status-success` (Positive dot), `--ns-status-warning` (Critical dot), `--ns-status-error` (Negative dot), `--ns-status-info` (Informative dot)
-
-Keyboard: -: Not focusable. A static indicator
-
-Accessibility:
-- The label is text, so screen readers read it. A hidden label stays in the DOM as screen-reader-only text.
-- Do not use color alone to show status.
+- Loading: Containers set aria-busy="true" while loading.
+- Loading: Spinners use role="status" with a label.
 
 #### Tag (Stable)
 
@@ -849,12 +787,12 @@ Avoid:
 - Do not: Mixed results with no group or type label leave people guessing what each row opens.
 
 ```html
-<div class="ns-cmdk" role="dialog" aria-label="Command palette"><div class="ns-cmdk__query"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input role="combobox" aria-expanded="true" aria-controls="cmdk-list" aria-label="Search" placeholder="Search accounts, pages and actions" value=""/><kbd>Esc</kbd></div><div class="ns-cmdk__list" id="cmdk-list" role="listbox"><div class="ns-cmdk__group">Recent</div><div class="ns-cmdk__item" role="option" aria-selected="true"><span>Acme Corp</span><span class="ns-cmdk__meta">Account</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Billing history</span><span class="ns-cmdk__meta">Page</span></div></div><div class="ns-cmdk__foot"><span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span><span><kbd>↵</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div></div>
+<div class="ns-cmdk" role="dialog" aria-label="Command palette"><div class="ns-cmdk__query"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input role="combobox" aria-expanded="true" aria-controls="cmdk-list" aria-label="Search" placeholder="Search accounts, pages and actions" value=""/><kbd>Esc</kbd></div><div class="ns-cmdk__list" id="cmdk-list" role="listbox"><div class="ns-cmdk__group" role="presentation">Accounts</div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Acme Corp</span><span class="ns-cmdk__meta">Account</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Acme Holdings</span><span class="ns-cmdk__meta">Account</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Globex</span><span class="ns-cmdk__meta">Account</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Northwind</span><span class="ns-cmdk__meta">Account</span></div><div class="ns-cmdk__group" role="presentation">Pages</div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Billing history</span><span class="ns-cmdk__meta">Page</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Usage reports</span><span class="ns-cmdk__meta">Page</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Team settings</span><span class="ns-cmdk__meta">Page</span></div><div class="ns-cmdk__group" role="presentation">Actions</div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Create account</span><span class="ns-cmdk__meta">Action</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Invite teammate</span><span class="ns-cmdk__meta">Action</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Export accounts</span><span class="ns-cmdk__meta">Action</span></div></div><div class="ns-cmdk__foot"><span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span><span><kbd>↵</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div></div>
 ```
 
 Tokens: `--ns-background-elevated` (Palette surface), `--ns-elevation-04` (Palette shadow), `--ns-background-selected` (Active row), `--ns-text-accent` (Matched text)
 
-Keyboard: Specimen: The demo is static. These keys are the behavior to build.; Cmd K / Ctrl K: Opens the palette from anywhere; Arrow up / down: Moves the active row; Enter: Opens the active result; Escape: Closes the palette and returns focus to the previous element
+Keyboard: Cmd K / Ctrl K: Opens the palette from anywhere; Arrow up / down: Moves the active row; Enter: Opens the active result; Escape: Closes the palette and returns focus to the previous element
 
 Accessibility:
 - The palette is a dialog with a name. The input is a combobox that points at the list with aria-controls.
@@ -1636,112 +1574,50 @@ Accessibility:
 
 ### Actions
 
-#### Bulk action bar (New)
-
-A toolbar that appears above a table when rows are selected. It shows the count and the actions that apply to every selected row.
-
-Page: https://mikelrosenthal.com/northstar/#/components/bulk-action-bar · Figma node 4466:131
-
-Classes: `ns-btn`, `ns-btn--danger`, `ns-btn--ghost`, `ns-btn--sm`, `ns-bulkbar`, `ns-bulkbar__count`, `ns-bulkbar__sep`
-
-Variants: Count: Text, such as 3 selected; Actions: Up to four buttons. Extras move into a Menu; State: Hidden, Visible
-
-Use:
-- Show it when at least one row is selected.
-- Keep the count visible, and announce it when it changes.
-- Put destructive actions last, and confirm them.
-
-Avoid:
-- Do not show more than four actions. Move extras into a Menu.
-- Do not hide the selection after an action. Show a Toast with the result.
-- Do not cover the last table row. Add bottom padding to the table.
-
-- Do: Only actions valid for every selected row, with destructive last.
-- Do not: Five actions crowd the bar. Keep four and move the rest into a Menu.
-
-```html
-<div class="ns-bulkbar" role="region" aria-label="Bulk actions"><span class="ns-bulkbar__count" aria-live="polite">3 selected</span><span class="ns-bulkbar__sep"></span><button class="ns-btn ns-btn--ghost ns-btn--sm">Approve</button><button class="ns-btn ns-btn--ghost ns-btn--sm">Export</button><span class="ns-bulkbar__sep"></span><button class="ns-btn ns-btn--ghost ns-btn--sm">Clear</button><button class="ns-btn ns-btn--danger ns-btn--sm">Delete</button></div>
-```
-
-Tokens: `--ns-background-elevated` (Bar surface), `--ns-elevation-03` (Bar shadow), `--ns-border-default` (Bar border), `--ns-density-control-sm` (Button height)
-
-Keyboard: Tab: Moves through the bar's actions; Escape: Clears the selection when focus is in the table
-
-Accessibility:
-- The bar is a named region, such as Bulk actions.
-- The count sits in a polite live region, so changes are announced without interrupting.
-- Each action is a button with its full label, such as Delete 3 accounts.
-
 #### Button (Stable)
 
-The button component gives users the ability to perform an action or navigate to another page. They have multiple styles and states for different needs.
+The button component gives users the ability to perform an action or navigate to another page. They have multiple styles and states for different needs. Includes icon button.
 
 Page: https://mikelrosenthal.com/northstar/#/components/button · Figma node 4038:31741
 
-Classes: `is-focus`, `is-hover`, `is-pressed`, `ns-btn`, `ns-btn--ghost`, `ns-btn--lg`, `ns-btn--outline`, `ns-btn--secondary`, `ns-btn--sm`
+Classes: `is-focus`, `is-hover`, `is-pressed`, `ns-btn`, `ns-btn--danger`, `ns-btn--ghost`, `ns-btn--icon`, `ns-btn--lg`, `ns-btn--outline`, `ns-btn--secondary`, `ns-btn--sm`
 
-Variants: Hierarchy: Primary, Secondary, Outline, Ghost; State: Default, Hover, Pressed, Focus, Disabled; Size: S (32), M (40), L (48); Icons: Show leading icon, Show trailing icon (booleans with instance swaps); Label: Text property
+Variants: Hierarchy: Primary, Secondary, Outline, Ghost; State: Default, Hover, Pressed, Focus, Disabled; Size: S (32), M (40), L (48); Icons: Show leading icon, Show trailing icon (booleans with instance swaps); Label: Text property; Icon button / Hierarchy: Primary, Secondary, Ghost, Danger; Icon button / Size: S (32), M (40), L (48); Icon button / Icon: Swap the glyph; Icon button / State: Default, Hover, Pressed, Focus, Disabled
 
 Use:
 - Primary: actions that require maximum attention. Use only one per page.
 - Secondary: secondary actions, or interfaces with low contrast.
 - Outline and Ghost: actions that need the least attention on the page.
 - Danger (NorthStar extension): destructive actions, always confirmed.
+- Icon button: Use Ghost in table rows and toolbars where space is tight.
+- Icon button: Show a tooltip with the action name on hover and focus.
+- Icon button: Use the L size on touch surfaces so the target stays at 48px.
 
 Avoid:
 - Do not use a button for navigation to another page. Use a link.
 - Avoid three or more button sizes on one page.
+- Icon button: Do not use for primary page actions. Use a Button with a label.
+- Icon button: Do not drop the accessible name. Icon-only buttons need aria-label.
 
 - Do: Pair one primary action with an outline action, primary on the right.
 - Do not: Stack several primary buttons. Users cannot tell which action matters.
 
 ```html
 <button class="ns-btn">Button</button>
+<button class="ns-btn ns-btn--icon" aria-label="More action"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01" stroke-width="3"/></svg></button>
 ```
 
-Tokens: `--ns-interactive-primary` (Primary default (blue/500)), `--ns-interactive-primary-hover` (Primary hover (blue/700)), `--ns-interactive-primary-active` (Primary pressed (purple/500)), `--ns-interactive-secondary-bg` (Secondary fill (gray/8)), `--ns-interactive-secondary-hover` (Secondary hover (gray/7)), `--ns-gray-4` (Disabled fill), `--ns-radius-lg` (Corner radius (8px)), `--ns-focus-ring` (Focus ring, 2px with 2px offset)
+Tokens: `--ns-interactive-primary` (Primary default (blue/500)), `--ns-interactive-primary-hover` (Primary hover (blue/700)), `--ns-interactive-primary-active` (Primary pressed (purple/500)), `--ns-interactive-secondary-bg` (Secondary fill (gray/8)), `--ns-interactive-secondary-hover` (Secondary hover (gray/7)), `--ns-gray-4` (Disabled fill), `--ns-radius-lg` (Corner radius (8px)), `--ns-focus-ring` (Focus ring, 2px with 2px offset), `--ns-interactive-ghost-hover` (Ghost hover), `--ns-status-error` (Danger background), `--ns-density-control` (Height in compact density)
 
-Keyboard: Tab: Moves focus to the button; Enter / Space: Activates the button
+Keyboard: Tab: Moves focus to the button; Enter / Space: Activates the button; Tab: Icon button: Moves focus to the button; Enter / Space: Icon button: Activates the button
 
 Accessibility:
 - Use a native <button>. Icon-only buttons need aria-label.
 - Disabled buttons use the disabled attribute so they leave the tab order.
 - Focus shows a 2px ring with a 2px offset. Never remove it.
-
-#### Icon button (New)
-
-A square, icon-only button for toolbars, table rows and dense headers. Every icon button needs an accessible name. Add a tooltip for any icon that is not widely understood.
-
-Page: https://mikelrosenthal.com/northstar/#/components/icon-button · Figma node 4466:661
-
-Classes: `ns-btn`, `ns-btn--danger`, `ns-btn--ghost`, `ns-btn--icon`, `ns-btn--lg`, `ns-btn--secondary`, `ns-btn--sm`
-
-Variants: Hierarchy: Primary, Secondary, Ghost, Danger; Size: S (32), M (40), L (48); Icon: Swap the glyph; State: Default, Hover, Pressed, Focus, Disabled
-
-Use:
-- Use Ghost in table rows and toolbars where space is tight.
-- Show a tooltip with the action name on hover and focus.
-- Use the L size on touch surfaces so the target stays at 48px.
-
-Avoid:
-- Do not use for primary page actions. Use a Button with a label.
-- Do not drop the accessible name. Icon-only buttons need aria-label.
-
-- Do: Use Ghost for row actions, with a tooltip that names the action.
-- Do not: A primary icon-only button in a page header leaves the action unclear.
-
-```html
-<button class="ns-btn ns-btn--icon" aria-label="More action"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01" stroke-width="3"/></svg></button>
-```
-
-Tokens: `--ns-interactive-primary` (Primary background), `--ns-interactive-ghost-hover` (Ghost hover), `--ns-status-error` (Danger background), `--ns-density-control` (Height in compact density)
-
-Keyboard: Tab: Moves focus to the button; Enter / Space: Activates the button
-
-Accessibility:
-- Use a native button. Icon-only buttons need an aria-label that names the action, such as Edit contact.
-- Pair the icon with a tooltip so sighted users hear the same name.
-- Disabled buttons use the disabled attribute so they leave the tab order.
+- Icon button: Use a native button. Icon-only buttons need an aria-label that names the action, such as Edit contact.
+- Icon button: Pair the icon with a tooltip so sighted users hear the same name.
+- Icon button: Disabled buttons use the disabled attribute so they leave the tab order.
 
 #### Link (New)
 
@@ -1872,12 +1748,12 @@ Avoid:
 - Do not: Two options are better as Radio buttons or a Toggle.
 
 ```html
-<div class="ns-combobox" style="width:340px"><div class="ns-combobox__control"><span class="ns-tag ns-tag--sm">Analytics <button type="button" aria-label="Remove Analytics">×</button></span><input role="combobox" aria-expanded="false" aria-label="Add tag" placeholder="Add tag"/></div></div>
+<div class="ns-combobox" style="width:340px"><div class="ns-combobox__control"><span class="ns-tag ns-tag--sm">Analytics <button type="button" aria-label="Remove Analytics">×</button></span><input role="combobox" aria-expanded="false" aria-label="Add tag" placeholder="Add tag"/></div><div class="ns-menu ns-menu--panel ns-combobox__list" role="listbox" aria-multiselectable="true" aria-label="Tags"><button type="button" tabindex="-1" role="option" aria-selected="true">Analytics</button><button type="button" tabindex="-1" role="option" aria-selected="false">Billing</button><button type="button" tabindex="-1" role="option" aria-selected="false">Compliance</button><button type="button" tabindex="-1" role="option" aria-selected="false">Customer success</button><button type="button" tabindex="-1" role="option" aria-selected="false">Data export</button><button type="button" tabindex="-1" role="option" aria-selected="false">Finance</button><button type="button" tabindex="-1" role="option" aria-selected="false">Onboarding</button><button type="button" tabindex="-1" role="option" aria-selected="false">Reporting</button><button type="button" tabindex="-1" role="option" aria-selected="false">Security</button><button type="button" tabindex="-1" role="option" aria-selected="false">Support</button><span class="ns-helper ns-combobox__count">10 of 10 match</span></div></div>
 ```
 
 Tokens: `--ns-border-default` (Control border), `--ns-focus-field` (Focus ring), `--ns-background-elevated` (List surface), `--ns-background-selected` (Selected option)
 
-Keyboard: Specimen: The demo is static. These keys are the behavior to build.; Arrow up / down: Moves the active option; Enter: Toggles the active option; Backspace: On an empty query, removes the last tag; Escape: Closes the list and keeps the query
+Keyboard: Arrow up / down: Moves the active option; Enter: Toggles the active option; Backspace: On an empty query, removes the last tag; Escape: Closes the list and keeps the query
 
 Accessibility:
 - The input has role=combobox, aria-expanded, and aria-controls pointing at the list.
@@ -1912,39 +1788,6 @@ Keyboard: Arrow keys: Move between days; Page up / down: Previous / next month; 
 Accessibility:
 - Calendar grid uses role="grid"; days are buttons with full date labels.
 - The typed input is always available, so the calendar is never the only path.
-
-#### Dropdown (New)
-
-Dropdowns present a list of options from which a user can select one option, or several. A selected option can represent a value in a form, or can be used as an action to filter or sort existing content.
-
-Page: https://mikelrosenthal.com/northstar/#/components/dropdown · Figma node 1840:22807
-
-Classes: `is-hover`, `is-static`, `ns-dd`, `ns-dd__item`, `ns-dd__menu`, `ns-dd__trigger` · helper classes in the examples: `caret`
-
-Variants: Trigger / Content: Text (150x42), Icon (36x36), Two icons (176x42); Trigger / State: Default, Hover, Disabled; Menu / Items: 4, 5, 6, 7 (200 wide, +42 per item); List item: Icon: No, Yes · Hovered: No, Yes (200x40)
-
-Use:
-- Sorting, filtering, and choosing one value from 4 to 7 options.
-- Toolbars where a visible radio group would take too much room.
-
-Avoid:
-- Two or three options: use radio buttons.
-- Long lists: use a searchable combo box.
-
-- Do: Always show a label on the trigger.
-- Do not: Show an empty trigger with only a caret.
-
-```html
-<div style="display:grid;gap:6px;justify-items:start"><button class="ns-dd__trigger" aria-haspopup="listbox" aria-expanded="true" style="min-width:150px">Sort by<span class="caret"></span></button><ul class="ns-dd__menu is-static" role="listbox" aria-label="Sort by"><li><button class="ns-dd__item" role="option" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Newest first</button></li><li><button class="ns-dd__item is-hover" role="option" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Oldest first</button></li><li><button class="ns-dd__item" role="option" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Highest load</button></li><li><button class="ns-dd__item" role="option" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Lowest load</button></li></ul></div>
-```
-
-Tokens: `--ns-interactive-secondary-bg` (Trigger and menu fill (gray/8)), `--ns-interactive-secondary-hover` (Hover (gray/7)), `--ns-blue-700` (Selected item indicator), `--ns-radius-sm` (Radius)
-
-Keyboard: Specimen: The demo is static. These keys are the behavior to build.; Enter / Space: Open menu; Arrow up / down: Move between items; Enter: Select item; Esc: Close and return focus
-
-Accessibility:
-- Trigger has aria-haspopup="listbox" and aria-expanded.
-- Menu uses role="listbox", items role="option" with aria-selected.
 
 #### File uploader (New)
 
@@ -2079,36 +1922,6 @@ Accessibility:
 - Group with <fieldset> and <legend>.
 - All radios in a group share one name.
 
-#### Search (Stable)
-
-Search lets people find content by keyword, inline in a page or globally from the header.
-
-Page: https://mikelrosenthal.com/northstar/#/components/search · Figma node 4207:1033
-
-Classes: `ns-input`, `ns-search` · helper classes in the examples: `hdr__search`, `label`
-
-Use:
-- Large collections where browsing is slow.
-- Filtering a table or list in place.
-
-Avoid:
-- Fewer than ~10 items: show them all.
-
-- Do: Say what is searchable in the placeholder.
-- Do not: Use a generic placeholder when scope is narrow.
-
-```html
-<div class="ns-search" role="search" style="width:360px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input class="ns-input" type="search" placeholder="Search accounts, nodes, tickets" aria-label="Search"/><kbd>/</kbd></div>
-```
-
-Tokens: `--ns-radius-full` (Pill shape), `--ns-text-tertiary` (Icon), `--ns-focus-ring` (Focus)
-
-Keyboard: / or ⌘K: Open global search; Esc: Clear or close; Arrow keys + Enter: Pick a result
-
-Accessibility:
-- Wrap in role="search" and give the input an aria-label.
-- Announce result counts in a polite live region.
-
 #### Segmented control (New)
 
 Switches between two to five views of the same content. Exactly one segment is selected at a time, and arrow keys move the selection.
@@ -2147,34 +1960,43 @@ Accessibility:
 
 #### Select (Stable)
 
-Select lets people choose one option from a list of 4 to 15 predefined values.
+Select lets people choose one option from a list of 4 to 15 predefined values. Includes dropdown.
 
 Page: https://mikelrosenthal.com/northstar/#/components/select · Figma node 4207:955
 
-Classes: `ns-field`, `ns-helper`, `ns-input--sm`, `ns-label`, `ns-select`
+Classes: `is-hover`, `is-static`, `ns-dd`, `ns-dd__item`, `ns-dd__menu`, `ns-dd__trigger`, `ns-field`, `ns-helper`, `ns-input--sm`, `ns-label`, `ns-select` · helper classes in the examples: `caret`
+
+Variants: Dropdown / Trigger / Content: Text (150x42), Icon (36x36), Two icons (176x42); Dropdown / Trigger / State: Default, Hover, Disabled; Dropdown / Menu / Items: 4, 5, 6, 7 (200 wide, +42 per item); Dropdown / List item: Icon: No, Yes · Hovered: No, Yes (200x40)
 
 Use:
 - Choose one option from a medium-length list.
 - Space is tight and options do not need comparison.
+- Dropdown: Sorting, filtering, and choosing one value from 4 to 7 options.
+- Dropdown: Toolbars where a visible radio group would take too much room.
 
 Avoid:
 - Two or three options: use radio buttons.
 - Over 15 options: use a searchable combo box.
+- Dropdown: Two or three options: use radio buttons.
+- Dropdown: Long lists: use a searchable combo box.
 
 - Do: Order options logically: severity, alphabetical, or frequency.
 - Do not: Use select for a binary choice. Use a toggle.
 
 ```html
 <div class="ns-field" style="width:300px"><label class="ns-label" for="sel-1">Region</label><select class="ns-select" id="sel-1"><option>us-east-1</option><option>us-west-2</option><option>eu-central-1</option><option>ap-south-1</option></select><span class="ns-helper">Where new workloads are scheduled.</span></div>
+<div style="display:grid;grid-template-columns:minmax(0,1fr);gap:6px;justify-items:start"><button class="ns-dd__trigger" aria-haspopup="listbox" aria-expanded="true" style="min-width:150px">Sort by<span class="caret"></span></button><ul class="ns-dd__menu is-static" role="listbox" aria-label="Sort by"><li><button class="ns-dd__item" role="option" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Newest first</button></li><li><button class="ns-dd__item is-hover" role="option" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Oldest first</button></li><li><button class="ns-dd__item" role="option" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Highest load</button></li><li><button class="ns-dd__item" role="option" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>Lowest load</button></li></ul></div>
 ```
 
-Tokens: `--ns-background-surface` (Field background), `--ns-border-default` (Border), `--ns-focus-ring` (Focus)
+Tokens: `--ns-background-surface` (Field background), `--ns-border-default` (Border), `--ns-focus-ring` (Focus), `--ns-interactive-secondary-bg` (Trigger and menu fill (gray/8)), `--ns-interactive-secondary-hover` (Hover (gray/7)), `--ns-blue-700` (Selected item indicator), `--ns-radius-sm` (Radius)
 
-Keyboard: Space / Enter: Opens the list; Arrow up / down: Moves through options; Type-ahead: Jumps to matching option
+Keyboard: Space / Enter: Opens the list; Arrow up / down: Moves through options; Type-ahead: Jumps to matching option; Enter / Space: Dropdown: Open menu; Arrow up / down: Dropdown: Move between items; Enter: Dropdown: Select item; Esc: Dropdown: Close and return focus
 
 Accessibility:
 - Native <select> gives full screen reader support for free.
 - Associate the label with for / id.
+- Dropdown: Trigger has aria-haspopup="listbox" and aria-expanded.
+- Dropdown: Menu uses role="listbox", items role="option" with aria-selected.
 
 #### Slider (Stable)
 
@@ -2237,37 +2059,43 @@ Accessibility:
 
 #### Text input (Stable)
 
-Text inputs enable the user to interact with and input content and data. This component can be used for long and short form entries.
+Text inputs enable the user to interact with and input content and data. This component can be used for long and short form entries. Includes search.
 
 Page: https://mikelrosenthal.com/northstar/#/components/text-input · Figma node 1846:24421
 
-Classes: `is-error`, `is-focus`, `is-warning`, `ns-field`, `ns-helper`, `ns-input`, `ns-input--lg`, `ns-input--md`, `ns-input--sm`, `ns-label`, `ns-textarea`
+Classes: `is-error`, `is-focus`, `is-warning`, `ns-field`, `ns-helper`, `ns-input`, `ns-input--lg`, `ns-input--md`, `ns-input--sm`, `ns-label`, `ns-search`, `ns-textarea` · helper classes in the examples: `hdr__search`, `label`
 
 Variants: Size: Small (32), Medium (36), Large (48); State: Default, Focus, Error, Warning, Disabled
 
 Use:
 - Collect short free-form text such as names, IDs, and hostnames.
 - Use helper text to set format expectations before an error happens.
+- Search: Large collections where browsing is slow.
+- Search: Filtering a table or list in place.
 
 Avoid:
 - Long text: use a textarea.
 - A fixed set of values: use a dropdown or radio group.
+- Search: Fewer than ~10 items: show them all.
 
 - Do: Keep a visible label above the field at all times.
 - Do not: Rely on placeholder text as the only label. It disappears on input.
 
 ```html
 <div class="ns-field" style="width:220px"><label class="ns-label" for="ti-1">Cluster name</label><input class="ns-input ns-input--md" id="ti-1" placeholder="Placeholder" aria-describedby="ti-1-h"/><span class="ns-helper" id="ti-1-h">Lowercase, 3 to 24 characters.</span></div>
+<div class="ns-search" role="search" style="width:360px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input class="ns-input" type="search" placeholder="Search accounts, nodes, tickets" aria-label="Search"/><kbd>/</kbd></div>
 ```
 
-Tokens: `--ns-field-bg` (Field fill (no border at rest)), `--ns-focus-field` (Focus border + 3px glow (blue/700)), `--ns-status-error` (Error border and placeholder), `--ns-status-warning` (Warning border and placeholder), `--ns-radius-sm` (Corner radius)
+Tokens: `--ns-field-bg` (Field fill (no border at rest)), `--ns-focus-field` (Focus border + 3px glow (blue/700)), `--ns-status-error` (Error border and placeholder), `--ns-status-warning` (Warning border and placeholder), `--ns-radius-sm` (Corner radius), `--ns-radius-full` (Pill shape), `--ns-text-tertiary` (Icon), `--ns-focus-ring` (Focus)
 
-Keyboard: Tab: Moves focus into the field; Esc: Clears the field when a clear button is present
+Keyboard: Tab: Moves focus into the field; Esc: Clears the field when a clear button is present; / or ⌘K: Search: Open global search; Esc: Search: Clear or close; Arrow keys + Enter: Search: Pick a result
 
 Accessibility:
 - Link helper and error text with aria-describedby.
 - Set aria-invalid="true" on error.
 - Never remove the visible label. Placeholders are not labels.
+- Search: Wrap in role="search" and give the input an aria-label.
+- Search: Announce result counts in a polite live region.
 
 #### Textarea (New)
 

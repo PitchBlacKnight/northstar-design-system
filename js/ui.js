@@ -50,16 +50,35 @@
     else NS.toast(label, text.length > 48 ? text.slice(0, 48) + "..." : text, "success");
   };
 
-  NS.toast = function (title, body = "", kind = "info") {
+  /* Toasts follow Sonner: newest on top, three visible at most, timers pause while hovered or focused,
+     errors stay until dismissed and use role=alert. */
+  NS.toast = function (title, body = "", kind = "info", o = {}) {
     let stack = document.querySelector(".ns-toast-stack");
-    if (!stack) { stack = document.createElement("div"); stack.className = "ns-toast-stack"; stack.setAttribute("role", "status"); stack.setAttribute("aria-live", "polite"); document.body.appendChild(stack); }
+    if (!stack) {
+      stack = document.createElement("div"); stack.className = "ns ns-toast-stack"; stack.setAttribute("aria-label", "Notifications");
+      stack.addEventListener("pointerenter", () => stack.classList.add("is-paused"));
+      stack.addEventListener("pointerleave", () => stack.classList.remove("is-paused"));
+      stack.addEventListener("focusin", () => stack.classList.add("is-paused"));
+      stack.addEventListener("focusout", (e) => { if (!stack.contains(e.relatedTarget)) stack.classList.remove("is-paused"); });
+      document.body.appendChild(stack);
+    }
     const el = document.createElement("div");
     const glyph = { success: "✓", warning: "!", error: "×", info: "i" }[kind];
-    el.className = `ns ns-notice ns-notice--toast ns-notice--${kind}`;
-    el.innerHTML = `<span class="ns-notice__icon">${glyph}</span><div><p class="ns-notice__title">${NS.esc(title)}</p>${body ? `<p class="ns-notice__body">${NS.esc(body)}</p>` : ""}</div><button class="ns-notice__close" aria-label="Dismiss">×</button>`;
-    el.querySelector("button").onclick = () => el.remove();
-    stack.appendChild(el);
-    setTimeout(() => el.remove(), 3200);
+    el.className = `ns-notice ns-notice--toast ns-notice--${kind}`;
+    el.setAttribute("role", kind === "error" ? "alert" : "status");
+    el.innerHTML = `<span class="ns-notice__icon" aria-hidden="true">${glyph}</span><div><p class="ns-notice__title">${NS.esc(title)}</p>${body ? `<p class="ns-notice__body">${NS.esc(body)}</p>` : ""}</div><button class="ns-notice__close" aria-label="Dismiss notification">×</button>`;
+    const close = () => { if (el.classList.contains("is-leaving")) return; el.classList.add("is-leaving"); const done = () => el.remove(); matchMedia("(prefers-reduced-motion: reduce)").matches ? done() : (el.addEventListener("animationend", done, { once: true }), setTimeout(done, 400)); };
+    el.querySelector("button").onclick = close;
+    stack.prepend(el);
+    [...stack.children].slice(3).forEach((x) => x.remove());
+    if (kind !== "error") {
+      let left = o.duration || 4000, last = Date.now();
+      const tick = setInterval(() => {
+        const now = Date.now(); if (!stack.classList.contains("is-paused")) left -= now - last; last = now;
+        if (left <= 0 || !el.isConnected) { clearInterval(tick); close(); }
+      }, 100);
+    }
+    return el;
   };
 
   /* ---------- doc building blocks ---------- */
@@ -147,7 +166,7 @@
     rows.forEach((r) => (r.tabIndex = r === start ? 0 : -1));
   });
   if (typeof MutationObserver !== "undefined") {
-    new MutationObserver((ms) => ms.forEach((m) => m.addedNodes.forEach((n) => { if (n.nodeType === 1) initTrees(n.matches("[role=tree]") ? n.parentNode : n); }))).observe(document.documentElement, { childList: true, subtree: true });
+    new MutationObserver((ms) => ms.forEach((m) => m.addedNodes.forEach((n) => { if (n.nodeType === 1) { initTrees(n.matches("[role=tree]") ? n.parentNode : n); if (n.querySelector && n.querySelector(".ns-cmdk input, .ns-combobox.is-open input")) NS.initListboxes(n); } }))).observe(document.documentElement, { childList: true, subtree: true });
     document.addEventListener("DOMContentLoaded", () => initTrees(document));
   }
   const treeSelect = (tree, row) => tree.querySelectorAll("[role=treeitem]").forEach((x) => x.setAttribute("aria-selected", String(x === row)));
@@ -232,6 +251,8 @@
     const bg = t.closest("[data-bg]");
     if (bg) { const c = document.querySelector(`#${bg.dataset.bg} [data-canvas]`); const on = bg.getAttribute("aria-pressed") !== "true"; bg.setAttribute("aria-pressed", on); c.style.backgroundImage = on ? "none" : ""; return; }
     // demo behaviors
+    const comboTag = t.closest(".ns-combobox .ns-tag button");
+    if (comboTag) { NS.comboRemove(comboTag.closest(".ns-tag")); return; }
     const dismiss = t.closest(".ns-tag button, .ns-notice__close, .ns-alert__close");
     if (dismiss && dismiss.closest(".stage, .dd")) { dismiss.parentElement.style.opacity = ".25"; return; }
     const tab = t.closest(".ns-tabs .ns-tab");
@@ -241,7 +262,7 @@
     const ddItem = t.closest("[data-dd] .ns-dd__item");
     if (ddItem) { const dd = ddItem.closest("[data-dd]"); dd.querySelectorAll(".ns-dd__item").forEach((i) => i.setAttribute("aria-selected", i === ddItem)); dd.querySelector(".ns-dd__trigger").firstChild.textContent = ddItem.textContent; dd.classList.remove("is-open"); return; }
     const pop = t.closest("[data-popover]");
-    if (pop) { pop.closest(".ns-popover").classList.toggle("is-open"); return; }
+    if (pop) { const o = pop.closest(".ns-popover").classList.toggle("is-open"); pop.setAttribute("aria-expanded", o); return; }
     const openModal = t.closest("[data-open-modal]");
     if (openModal) { NS.demoModal(); return; }
     const toastBtn = t.closest("[data-toast]");
@@ -252,8 +273,9 @@
     if (day && !day.classList.contains("is-muted")) { day.closest(".ns-cal").querySelectorAll(".is-selected").forEach((d) => d.classList.remove("is-selected")); day.classList.add("is-selected"); return; }
     const sortTh = t.closest("th[data-sort]");
     if (sortTh) { NS.sortTable(sortTh); return; }
-    if (!t.closest("[data-dd]")) document.querySelectorAll("[data-dd].is-open").forEach((d) => d.classList.remove("is-open"));
-    if (!t.closest(".ns-popover")) document.querySelectorAll(".ns-popover.is-open").forEach((p) => p.classList.remove("is-open"));
+    if (!t.closest("[data-dd]")) document.querySelectorAll("[data-dd].is-open").forEach((d) => NS.closeLayer(d));
+    if (!t.closest(".ns-popover")) document.querySelectorAll(".ns-popover.is-open").forEach((p) => NS.closeLayer(p));
+    if (!t.closest(".ns-combobox")) document.querySelectorAll(".ns-combobox.is-open[data-live]").forEach((c) => NS.comboOpen(c, false));
   });
 
   document.addEventListener("input", (e) => {
@@ -292,11 +314,140 @@
     bd.addEventListener("click", (e) => { if (e.target === bd || e.target.closest("[data-close], .icon-btn")) close(); });
     bd.addEventListener("keydown", (e) => {
       if (e.key === "Escape") close();
-      if (e.key === "Tab") { const f = [...bd.querySelectorAll("button")]; const i = f.indexOf(document.activeElement); if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); } else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus(); } }
+      if (e.key === "Tab") { const f = [...bd.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])')]; const i = f.indexOf(document.activeElement); if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); } else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus(); } }
     });
     document.body.appendChild(bd); document.body.style.overflow = "hidden";
     bd.querySelector("[data-close]").focus();
   };
+
+
+  /* ---------- layers: dropdown, popover (Radix behavior) ---------- */
+  NS.closeLayer = function (layer, refocus) {
+    layer.classList.remove("is-open");
+    const trig = layer.querySelector(".ns-dd__trigger, [data-popover]");
+    if (trig) { trig.setAttribute("aria-expanded", "false"); if (refocus) trig.focus(); }
+  };
+  document.addEventListener("keydown", (e) => {
+    const t = e.target; if (!t.closest) return;
+    if (e.key === "Escape") {
+      const layer = t.closest("[data-dd].is-open, .ns-popover.is-open") || document.querySelector("[data-dd].is-open, .ns-popover.is-open");
+      if (layer) { e.preventDefault(); NS.closeLayer(layer, true); return; }
+    }
+    const dd = t.closest("[data-dd]"); if (!dd) return;
+    const items = [...dd.querySelectorAll(".ns-dd__item:not([disabled])")];
+    if (t.matches(".ns-dd__trigger") && ["ArrowDown", "ArrowUp", "Enter", " "].includes(e.key)) {
+      e.preventDefault(); dd.classList.add("is-open"); t.setAttribute("aria-expanded", "true");
+      const sel = items.find((i) => i.getAttribute("aria-selected") === "true");
+      (sel || (e.key === "ArrowUp" ? items[items.length - 1] : items[0]))?.focus();
+    } else if (t.matches(".ns-dd__item")) {
+      const i = items.indexOf(t); let j = null;
+      if (e.key === "ArrowDown") j = Math.min(i + 1, items.length - 1);
+      else if (e.key === "ArrowUp") j = Math.max(i - 1, 0);
+      else if (e.key === "Home") j = 0;
+      else if (e.key === "End") j = items.length - 1;
+      else if (e.key === "Tab") NS.closeLayer(dd);
+      if (j !== null) { e.preventDefault(); items[j].focus(); }
+    }
+  });
+
+  /* ---------- listbox engine: combobox and command palette (cmdk behavior) ----------
+     Typing filters options and marks the match, arrows move the active option, Enter picks it.
+     The active option is announced through aria-activedescendant, so focus stays in the input. */
+  let lbId = 0;
+  const optText = (o) => (o.dataset.label || (o.dataset.label = (o.querySelector("span") || o).textContent.trim()));
+  const visible = (list) => [...list.querySelectorAll("[role=option]")].filter((o) => !o.hidden);
+  const setActive = (input, list, opt) => {
+    list.querySelectorAll("[role=option].is-active").forEach((o) => o.classList.remove("is-active"));
+    if (!opt) { input.removeAttribute("aria-activedescendant"); return; }
+    if (!opt.id) opt.id = "ns-opt-" + ++lbId;
+    opt.classList.add("is-active"); input.setAttribute("aria-activedescendant", opt.id);
+    if (list.closest(".ns-cmdk")) list.querySelectorAll("[role=option]").forEach((o) => o.setAttribute("aria-selected", String(o === opt)));
+    opt.scrollIntoView({ block: "nearest" });
+  };
+  const highlight = (o, q) => {
+    const label = optText(o), host = o.querySelector("span") || o, i = q ? label.toLowerCase().indexOf(q) : -1;
+    host.innerHTML = i < 0 ? NS.esc(label) : NS.esc(label.slice(0, i)) + "<mark>" + NS.esc(label.slice(i, i + q.length)) + "</mark>" + NS.esc(label.slice(i + q.length));
+  };
+  NS.filterList = function (input) {
+    const box = input.closest(".ns-combobox, .ns-cmdk"); const list = box.querySelector("[role=listbox]"); if (!list) return;
+    const q = input.value.trim().toLowerCase();
+    const opts = [...list.querySelectorAll("[role=option]")];
+    opts.forEach((o) => { o.hidden = !!q && !optText(o).toLowerCase().includes(q); highlight(o, q); });
+    list.querySelectorAll(".ns-cmdk__group").forEach((g) => {
+      let n = g.nextElementSibling, any = false;
+      while (n && !n.matches(".ns-cmdk__group")) { if (n.matches("[role=option]") && !n.hidden) any = true; n = n.nextElementSibling; }
+      g.hidden = !any;
+    });
+    const shown = visible(list);
+    let empty = list.querySelector(".ns-list-empty");
+    if (!shown.length && !empty) { empty = document.createElement("p"); empty.className = "ns-helper ns-list-empty"; list.prepend(empty); }
+    if (empty) { empty.hidden = !!shown.length; empty.textContent = `No results for "${input.value.trim()}"`; }
+    const count = box.querySelector(".ns-combobox__count"); if (count) count.textContent = `${shown.length} of ${opts.length} match`;
+    if (box.matches(".ns-cmdk")) setActive(input, list, shown[0]);
+    else setActive(input, list, shown.includes(list.querySelector(".is-active")) ? list.querySelector(".is-active") : shown[0]);
+  };
+  NS.comboOpen = function (box, open) {
+    box.classList.toggle("is-open", open);
+    const input = box.querySelector("input"); input.setAttribute("aria-expanded", String(open));
+    if (open) NS.filterList(input); else setActive(input, box.querySelector("[role=listbox]") || box, null);
+  };
+  const comboSync = (box) => {
+    const picked = [...box.querySelectorAll(".ns-combobox__control .ns-tag")].map((g) => g.dataset.value || g.firstChild.textContent.trim());
+    box.querySelectorAll("[role=option]").forEach((o) => o.setAttribute("aria-selected", String(picked.includes(optText(o)))));
+  };
+  NS.comboRemove = function (tag) { const box = tag.closest(".ns-combobox"); const input = box.querySelector("input"); tag.remove(); comboSync(box); input.focus(); };
+  const comboToggle = (box, opt) => {
+    const label = optText(opt), ctrl = box.querySelector(".ns-combobox__control"), input = ctrl.querySelector("input");
+    const existing = [...ctrl.querySelectorAll(".ns-tag")].find((g) => (g.dataset.value || g.firstChild.textContent.trim()) === label);
+    if (existing) existing.remove();
+    else input.insertAdjacentHTML("beforebegin", `<span class="ns-tag ns-tag--sm" data-value="${NS.esc(label)}">${NS.esc(label)} <button type="button" aria-label="Remove ${NS.esc(label)}">×</button></span>`);
+    comboSync(box);
+  };
+  const pick = (box, opt) => {
+    if (!opt) return;
+    if (box.matches(".ns-combobox")) { comboToggle(box, opt); return; }
+    NS.toast("Opened " + optText(opt), "Command palette demo", "success");
+  };
+  document.addEventListener("focusin", (e) => {
+    const box = e.target.closest && e.target.closest(".ns-combobox");
+    if (box && e.target.matches("input")) { box.dataset.live = ""; comboSync(box); NS.comboOpen(box, true); }
+  });
+  document.addEventListener("input", (e) => {
+    const t = e.target; if (!t.closest) return;
+    const box = t.closest(".ns-combobox, .ns-cmdk"); if (!box || !t.matches("input")) return;
+    if (box.matches(".ns-combobox") && !box.classList.contains("is-open")) NS.comboOpen(box, true); else NS.filterList(t);
+  });
+  document.addEventListener("keydown", (e) => {
+    const t = e.target; if (!t.closest || !t.matches("input")) return;
+    const box = t.closest(".ns-combobox, .ns-cmdk"); if (!box) return;
+    const list = box.querySelector("[role=listbox]");
+    if (box.matches(".ns-combobox") && e.key === "Backspace" && !t.value) { const tags = box.querySelectorAll(".ns-combobox__control .ns-tag"); if (tags.length) { e.preventDefault(); NS.comboRemove(tags[tags.length - 1]); } return; }
+    if (e.key === "Escape") {
+      if (box.matches(".ns-combobox") && box.classList.contains("is-open")) { e.preventDefault(); NS.comboOpen(box, false); }
+      else if (t.value) { e.preventDefault(); t.value = ""; NS.filterList(t); }
+      return;
+    }
+    if (!list) return;
+    if (box.matches(".ns-combobox") && !box.classList.contains("is-open") && (e.key === "ArrowDown" || e.key === "ArrowUp")) { e.preventDefault(); NS.comboOpen(box, true); return; }
+    const shown = visible(list), cur = shown.indexOf(list.querySelector(".is-active"));
+    let j = null;
+    if (e.key === "ArrowDown") j = Math.min(cur + 1, shown.length - 1);
+    else if (e.key === "ArrowUp") j = Math.max(cur - 1, 0);
+    else if (e.key === "Home" && box.matches(".ns-cmdk")) j = 0;
+    else if (e.key === "End" && box.matches(".ns-cmdk")) j = shown.length - 1;
+    else if (e.key === "Enter") { e.preventDefault(); pick(box, shown[cur]); return; }
+    else return;
+    e.preventDefault(); if (shown[j]) setActive(t, list, shown[j]);
+  });
+  document.addEventListener("mousedown", (e) => {
+    const opt = e.target.closest && e.target.closest(".ns-combobox [role=option], .ns-cmdk [role=option]");
+    if (!opt) return;
+    e.preventDefault();
+    const box = opt.closest(".ns-combobox, .ns-cmdk"); const input = box.querySelector("input");
+    if (input) setActive(input, box.querySelector("[role=listbox]"), opt);
+    pick(box, opt);
+  });
+  NS.initListboxes = (root) => root.querySelectorAll(".ns-cmdk input, .ns-combobox.is-open input").forEach((i) => NS.filterList(i));
 
   /* Read a computed token value */
   NS.tokenValue = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();

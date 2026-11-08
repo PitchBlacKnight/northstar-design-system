@@ -1,8 +1,8 @@
 {
   "components.css": {
-    "hex": 8,
-    "space": 12,
-    "font-size": 18
+    "hex": 7,
+    "space": 7,
+    "font-size": 1
   },
   "dashboards.css": {
     "hex": 32,

@@ -12,6 +12,7 @@
   const components = NS.COMPONENTS.map((c) => {
     let html = "";
     try { html = c.playground?.render ? c.playground.render(defaults(c)) : ""; } catch (e) { html = ""; }
+    (c.parts || []).forEach((pc) => { try { html += "\n" + pc.playground.render(defaults(pc)); } catch (e) {} });
     const helpers = new Set();
     const cls = classesIn(html, helpers);
     (c.variants || []).forEach((v) => classesIn(v[2], helpers).forEach((k) => cls.add(k)));
@@ -35,6 +36,7 @@
       accessibility: (c.aria || []).map(text),
       html: html.trim(),
       react: c.react || null,
+      parts: (c.parts || []).map((pc) => ({ id: pc.id, name: pc.name, figma: pc.figma || null, description: text(pc.desc), react: pc.react || null })),
     };
   });
 

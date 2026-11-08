@@ -42,7 +42,7 @@
   let checked = 0;
   for (const c of NS.COMPONENTS) {
     const jobs = [];
-    if (c.playground && c.playground.render) states(c.playground).forEach(([lab, st]) => { try { jobs.push([lab, c.playground.render(st)]); } catch (e) { add(c.id, lab, 0, "render-error", String(e).slice(0, 80)); } });
+    [c, ...(c.parts || [])].forEach((pc) => { if (pc.playground && pc.playground.render) states(pc.playground).forEach(([lab, st]) => { const L = pc === c ? lab : pc.name + " " + lab; try { jobs.push([L, pc.playground.render(st)]); } catch (e) { add(c.id, L, 0, "render-error", String(e).slice(0, 80)); } }); });
     (c.variants || []).forEach((v, i) => { if (typeof v[2] === "string") jobs.push(["variant " + (i + 1), v[2]]); });
     for (const [lab, html0] of jobs) {
       const html = fluid(html0);

@@ -78,7 +78,8 @@
     "Native <details>/<summary> exposes expanded state automatically."
    ],
    "html": "<div class=\"ns-accordion\" style=\"max-width:640px;margin:0 auto\"><details open><summary>What counts as an active account?</summary><div class=\"ns-accordion__body\">Any account with at least one integration that synced in the last 30 days.</div></details><details><summary>How are tiers calculated?</summary><div class=\"ns-accordion__body\">Tier is based on trailing twelve-month revenue, recalculated nightly.</div></details><details><summary>Can I export audit logs?</summary><div class=\"ns-accordion__body\">Yes. Admins can export CSV or stream to a SIEM.</div></details></div>",
-   "react": "<Accordion>\n  <AccordionItem title=\"How are tiers calculated?\">...</AccordionItem>\n</Accordion>"
+   "react": "<Accordion>\n  <AccordionItem title=\"How are tiers calculated?\">...</AccordionItem>\n</Accordion>",
+   "parts": []
   },
   {
    "id": "alert-banner",
@@ -239,7 +240,8 @@
     "Errors use role=\"alert\"; others use role=\"status\"."
    ],
    "html": "<div class=\"ns-alert ns-alert--default\" role=\"status\" style=\"max-width:1152px\"><span class=\"ns-alert__icon\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M12 16v-4M12 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z\"/></svg></span><div><p class=\"ns-alert__title\">The title identifies what happened</p><p class=\"ns-alert__desc\">The body content lets the user know why, and how to remedy or proceed.</p><div class=\"ns-alert__actions\"><button class=\"ns-btn ns-btn--outline\">Button example</button><button class=\"ns-btn ns-btn--ghost\">Button example</button></div></div><div class=\"ns-alert__end\"><button class=\"ns-alert__close\" aria-label=\"Dismiss\">×</button></div></div>",
-   "react": "<AlertBanner type=\"error\" title=\"The title identifies what happened\"\n  description=\"The body content lets the user know why, and how to remedy or proceed.\"\n  actions={[{ label: 'Retry' }, { label: 'Details', kind: 'ghost' }]} onClose={dismiss} />"
+   "react": "<AlertBanner type=\"error\" title=\"The title identifies what happened\"\n  description=\"The body content lets the user know why, and how to remedy or proceed.\"\n  actions={[{ label: 'Retry' }, { label: 'Details', kind: 'ghost' }]} onClose={dismiss} />",
+   "parts": []
   },
   {
    "id": "avatar",
@@ -390,7 +392,8 @@
     "Use role=\"img\" with an aria-label that includes presence."
    ],
    "html": "<span class=\"ns-avatar ns-avatar--64\" data-status=\"online\" role=\"img\" aria-label=\"Alex Park, online\">AP</span>",
-   "react": "<Avatar name=\"Alex Park\" shape=\"round\" size={40} status=\"online\" />"
+   "react": "<Avatar name=\"Alex Park\" shape=\"round\" size={40} status=\"online\" />",
+   "parts": []
   },
   {
    "id": "badge",
@@ -398,7 +401,7 @@
    "category": "Status",
    "status": "Stable",
    "figma": "1840:21692",
-   "description": "Badges are designed to display a small amount of information for statuses and labels with color categorization.",
+   "description": "Badges are designed to display a small amount of information for statuses and labels with color categorization. Includes status dot.",
    "classes": [
     "ns-badge",
     "ns-badge--icon",
@@ -411,9 +414,18 @@
     "ns-dot",
     "ns-dot--error",
     "ns-dot--success",
-    "ns-dot--warning"
+    "ns-dot--warning",
+    "ns-status-dot",
+    "ns-status-dot--critical",
+    "ns-status-dot--informative",
+    "ns-status-dot--negative",
+    "ns-status-dot--neutral",
+    "ns-status-dot--positive",
+    "ns-table"
    ],
-   "helperClasses": [],
+   "helperClasses": [
+    "sr-only"
+   ],
    "axes": [
     {
      "axis": "Size",
@@ -430,14 +442,28 @@
     {
      "axis": "State",
      "values": "Solid, Outline with icon, Outline"
+    },
+    {
+     "axis": "Status dot / Status",
+     "values": "Positive, Critical, Negative, Informative, Neutral"
+    },
+    {
+     "axis": "Status dot / Label",
+     "values": "Shown or hidden"
     }
    ],
    "use": [
     "Object status in tables, cards, and headers.",
-    "Short labels with semantic meaning."
+    "Short labels with semantic meaning.",
+    "Status dot: Dense tables and maps.",
+    "Status dot: The same status words as Badge.",
+    "Status dot: Keeping the label visible unless a header names the status."
    ],
    "avoid": [
-    "Categories and filters: use a tag."
+    "Categories and filters: use a tag.",
+    "Status dot: Do not rely on color alone.",
+    "Status dot: Do not use for counts. Use Badge.",
+    "Status dot: Do not hide the label in a table with no header that names the status."
    ],
    "guidance": [
     {
@@ -469,6 +495,16 @@
      "name": "Count",
      "note": "Numeric.",
      "html": "<span style=\"display:inline-flex;gap:8px;align-items:center\">Alerts <span class=\"ns-count\">12</span></span>"
+    },
+    {
+     "name": "Status dot: All statuses",
+     "note": "Five statuses with labels.",
+     "html": "<div style=\"display:flex;gap:16px;flex-wrap:wrap\"><span class=\"ns-status-dot ns-status-dot--positive\">Active</span><span class=\"ns-status-dot ns-status-dot--critical\">At risk</span><span class=\"ns-status-dot ns-status-dot--negative\">Down</span><span class=\"ns-status-dot ns-status-dot--informative\">Provisioning</span><span class=\"ns-status-dot ns-status-dot--neutral\">Inactive</span></div>"
+    },
+    {
+     "name": "Status dot: Label in a header",
+     "note": "The column header names the status, so the visible label can go. The label stays for screen readers.",
+     "html": "<table class=\"ns-table\" style=\"width:240px\"><thead><tr><th>Status</th></tr></thead><tbody><tr><td><span class=\"ns-status-dot ns-status-dot--positive\"><span class=\"sr-only\">Active</span></span></td></tr><tr><td><span class=\"ns-status-dot ns-status-dot--negative\"><span class=\"sr-only\">Down</span></span></td></tr></tbody></table>"
     }
    ],
    "tokens": [
@@ -487,6 +523,14 @@
     {
      "token": "--ns-radius-sm",
      "role": "Radius"
+    },
+    {
+     "token": "--ns-status-warning",
+     "role": "Critical dot"
+    },
+    {
+     "token": "--ns-status-info",
+     "role": "Informative dot"
     }
    ],
    "sizes": [
@@ -530,6 +574,24 @@
      "type": "ReactNode",
      "default": "-",
      "note": "Optional icon"
+    },
+    {
+     "prop": "status (Status dot)",
+     "type": "'positive' | 'critical' | 'negative' | 'informative' | 'neutral'",
+     "default": "'neutral'",
+     "note": "Color and meaning"
+    },
+    {
+     "prop": "label (Status dot)",
+     "type": "string",
+     "default": "-",
+     "note": "Visible text"
+    },
+    {
+     "prop": "showLabel (Status dot)",
+     "type": "boolean",
+     "default": "true",
+     "note": "When false, the label is kept for screen readers only"
     }
    ],
    "keyboard": [
@@ -539,10 +601,21 @@
     }
    ],
    "accessibility": [
-    "Badges are text, so screen readers read the label. Icon-only badges need role=\"img\" and aria-label."
+    "Badges are text, so screen readers read the label. Icon-only badges need role=\"img\" and aria-label.",
+    "Status dot: The label is text, so screen readers read it. A hidden label stays in the DOM as screen-reader-only text.",
+    "Status dot: Do not use color alone to show status."
    ],
-   "html": "<span class=\"ns-badge\">Live</span>",
-   "react": "<Badge type=\"positive\" variant=\"outline\" icon={<Check />}>Approved</Badge>"
+   "html": "<span class=\"ns-badge\">Live</span>\n<span class=\"ns-status-dot ns-status-dot--positive\">Active</span>",
+   "react": "<Badge type=\"positive\" variant=\"outline\" icon={<Check />}>Approved</Badge>",
+   "parts": [
+    {
+     "id": "status-dot",
+     "name": "Status dot",
+     "figma": "4465:39",
+     "description": "A colored dot with a label, for dense tables and maps where a badge would take too much space. Keep the label visible, or name the status in a column header or tooltip.",
+     "react": "<StatusDot status=\"positive\" label=\"Active\" />"
+    }
+   ]
   },
   {
    "id": "breadcrumb",
@@ -608,7 +681,8 @@
     "Wrap in <nav aria-label=\"Breadcrumb\">; mark the last item aria-current=\"page\"."
    ],
    "html": "<nav aria-label=\"Breadcrumb\"><ol class=\"ns-breadcrumb\"><li><a href=\"#/\">Accounts</a></li><li><a href=\"#/\">Acme Corp</a></li><li><a href=\"#/\">Integrations</a></li><li aria-current=\"page\">CRM sync</li></ol></nav>",
-   "react": "<Breadcrumb>\n  <BreadcrumbItem href=\"/accounts\">Accounts</BreadcrumbItem>\n  <BreadcrumbItem isCurrentPage>Acme Corp</BreadcrumbItem>\n</Breadcrumb>"
+   "react": "<Breadcrumb>\n  <BreadcrumbItem href=\"/accounts\">Accounts</BreadcrumbItem>\n  <BreadcrumbItem isCurrentPage>Acme Corp</BreadcrumbItem>\n</Breadcrumb>",
+   "parts": []
   },
   {
    "id": "bubble-chart",
@@ -808,127 +882,8 @@
     "Trend text carries its sign, so the color is a second signal."
    ],
    "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Accounts</span><span class=\"ns-chart__value\">1,240<span class=\"ns-chart__trend\">+2.4%</span></span><span class=\"ns-chart__desc\">Bubble size shows active seats</span></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Bubble chart: eight points, bubble size shows the third measure\" data-chart=\"bubble\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><rect x=\"30\" y=\"-0.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"58.8\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"118.2\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"177.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><text x=\"22\" y=\"0\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">40</text><text x=\"22\" y=\"59.3\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">30</text><text x=\"22\" y=\"118.7\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">20</text><text x=\"22\" y=\"178\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">10</text><text x=\"40\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jan</text><text x=\"132.3\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Mar</text><text x=\"224.7\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">May</text><text x=\"317\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jul</text><circle cx=\"59.7\" cy=\"110.4\" r=\"8\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.85\"/><circle cx=\"95.3\" cy=\"53.4\" r=\"14.2\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.85\"/><circle cx=\"133.9\" cy=\"128.2\" r=\"5.7\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.85\"/><circle cx=\"169.6\" cy=\"81.9\" r=\"17.7\" style=\"fill:var(--ns-chart-series-3);fill-opacity:0.85\"/><circle cx=\"208.2\" cy=\"39.2\" r=\"9.7\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.85\"/><circle cx=\"237.9\" cy=\"106.8\" r=\"12\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.85\"/><circle cx=\"273.5\" cy=\"57\" r=\"7.4\" style=\"fill:var(--ns-chart-series-3);fill-opacity:0.85\"/><circle cx=\"303.2\" cy=\"121\" r=\"14.2\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.85\"/></svg></div>",
-   "react": "<BubbleChart size=\"medium\" title=\"Accounts\" value=\"1,240\" trend=\"+2.4%\" data={[{ x: 10, y: 62, r: 28, series: 1 }]} />"
-  },
-  {
-   "id": "bulk-action-bar",
-   "name": "Bulk action bar",
-   "category": "Actions",
-   "status": "New",
-   "figma": "4466:131",
-   "description": "A toolbar that appears above a table when rows are selected. It shows the count and the actions that apply to every selected row.",
-   "classes": [
-    "ns-btn",
-    "ns-btn--danger",
-    "ns-btn--ghost",
-    "ns-btn--sm",
-    "ns-bulkbar",
-    "ns-bulkbar__count",
-    "ns-bulkbar__sep"
-   ],
-   "helperClasses": [],
-   "axes": [
-    {
-     "axis": "Count",
-     "values": "Text, such as 3 selected"
-    },
-    {
-     "axis": "Actions",
-     "values": "Up to four buttons. Extras move into a Menu"
-    },
-    {
-     "axis": "State",
-     "values": "Hidden, Visible"
-    }
-   ],
-   "use": [
-    "Show it when at least one row is selected.",
-    "Keep the count visible, and announce it when it changes.",
-    "Put destructive actions last, and confirm them."
-   ],
-   "avoid": [
-    "Do not show more than four actions. Move extras into a Menu.",
-    "Do not hide the selection after an action. Show a Toast with the result.",
-    "Do not cover the last table row. Add bottom padding to the table."
-   ],
-   "guidance": [
-    {
-     "verdict": "do",
-     "note": "Only actions valid for every selected row, with destructive last."
-    },
-    {
-     "verdict": "do not",
-     "note": "Five actions crowd the bar. Keep four and move the rest into a Menu."
-    }
-   ],
-   "variants": [
-    {
-     "name": "Default",
-     "note": "Count, three actions and a clear control.",
-     "html": "<div class=\"ns-bulkbar\" role=\"region\" aria-label=\"Bulk actions\"><span class=\"ns-bulkbar__count\">3 selected</span><span class=\"ns-bulkbar__sep\"></span><button class=\"ns-btn ns-btn--ghost ns-btn--sm\">Approve</button><button class=\"ns-btn ns-btn--ghost ns-btn--sm\">Export</button><span class=\"ns-bulkbar__sep\"></span><button class=\"ns-btn ns-btn--ghost ns-btn--sm\">Clear</button></div>"
-    },
-    {
-     "name": "Destructive",
-     "note": "Adds a danger action after the neutral ones.",
-     "html": "<div class=\"ns-bulkbar\" role=\"region\" aria-label=\"Bulk actions\"><span class=\"ns-bulkbar__count\">3 selected</span><span class=\"ns-bulkbar__sep\"></span><button class=\"ns-btn ns-btn--ghost ns-btn--sm\">Approve</button><button class=\"ns-btn ns-btn--danger ns-btn--sm\">Delete</button></div>"
-    }
-   ],
-   "tokens": [
-    {
-     "token": "--ns-background-elevated",
-     "role": "Bar surface"
-    },
-    {
-     "token": "--ns-elevation-03",
-     "role": "Bar shadow"
-    },
-    {
-     "token": "--ns-border-default",
-     "role": "Bar border"
-    },
-    {
-     "token": "--ns-density-control-sm",
-     "role": "Button height"
-    }
-   ],
-   "sizes": [],
-   "props": [
-    {
-     "prop": "count",
-     "type": "number",
-     "default": "0",
-     "note": "Selected rows. Announced politely"
-    },
-    {
-     "prop": "actions",
-     "type": "{ label, onClick, destructive }[]",
-     "default": "[]",
-     "note": "Up to four actions"
-    },
-    {
-     "prop": "onClear",
-     "type": "() => void",
-     "default": "-",
-     "note": "Clears the selection"
-    }
-   ],
-   "keyboard": [
-    {
-     "key": "Tab",
-     "action": "Moves through the bar's actions"
-    },
-    {
-     "key": "Escape",
-     "action": "Clears the selection when focus is in the table"
-    }
-   ],
-   "accessibility": [
-    "The bar is a named region, such as Bulk actions.",
-    "The count sits in a polite live region, so changes are announced without interrupting.",
-    "Each action is a button with its full label, such as Delete 3 accounts."
-   ],
-   "html": "<div class=\"ns-bulkbar\" role=\"region\" aria-label=\"Bulk actions\"><span class=\"ns-bulkbar__count\" aria-live=\"polite\">3 selected</span><span class=\"ns-bulkbar__sep\"></span><button class=\"ns-btn ns-btn--ghost ns-btn--sm\">Approve</button><button class=\"ns-btn ns-btn--ghost ns-btn--sm\">Export</button><span class=\"ns-bulkbar__sep\"></span><button class=\"ns-btn ns-btn--ghost ns-btn--sm\">Clear</button><button class=\"ns-btn ns-btn--danger ns-btn--sm\">Delete</button></div>",
-   "react": "<BulkActionBar count={3} actions={[{ label: \"Approve\" }, { label: \"Delete\", destructive: true }]} onClear={clear} />"
+   "react": "<BubbleChart size=\"medium\" title=\"Accounts\" value=\"1,240\" trend=\"+2.4%\" data={[{ x: 10, y: 62, r: 28, series: 1 }]} />",
+   "parts": []
   },
   {
    "id": "bullet-chart",
@@ -1139,7 +1094,8 @@
     "Trend text carries its sign, so the color is a second signal."
    ],
    "html": "<div class=\"ns-bullet\" style=\"width:100%;max-width:375px\"><div class=\"ns-bullet__head\"><div class=\"ns-bullet__text\"><span class=\"ns-bullet__title\">Income</span><span class=\"ns-bullet__value\">$18,420<span class=\"ns-bullet__trend\">+1.8%</span></span><span class=\"ns-bullet__desc\">Compared with $18,090 last month</span></div><span class=\"ns-bullet__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-bullet__rows\" width=\"327\" height=\"134\" viewBox=\"0 0 327 134\" style=\"width:100%;max-width:327px\" role=\"list\" aria-label=\"Bullet chart\" data-w=\"327\" data-bullet=\"{&quot;rows&quot;:[{&quot;label&quot;:&quot;500&quot;,&quot;segments&quot;:[40,10,10,14],&quot;target&quot;:98},{&quot;label&quot;:&quot;400&quot;,&quot;segments&quot;:[38,10,12,20],&quot;target&quot;:88},{&quot;label&quot;:&quot;300&quot;,&quot;segments&quot;:[15,8,8,10],&quot;target&quot;:50},{&quot;label&quot;:&quot;200&quot;,&quot;segments&quot;:[15,10,12,12],&quot;target&quot;:64},{&quot;label&quot;:&quot;100&quot;,&quot;segments&quot;:[40,14,15,15],&quot;target&quot;:98}],&quot;opts&quot;:{}}\"><g role=\"listitem\" aria-label=\"500: 40 + 10 + 10 + 14 of 74, target 98\"><text x=\"0\" y=\"7.0\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">500</text><clipPath id=\"nsb9-0\"><rect x=\"40\" y=\"2.0\" width=\"287\" height=\"10\" rx=\"5\"/></clipPath><rect x=\"40\" y=\"2.0\" width=\"287\" height=\"10\" rx=\"5\" style=\"fill:var(--ns-chart-track)\"/><g clip-path=\"url(#nsb9-0)\"><rect x=\"40.0\" y=\"2.0\" width=\"114.8\" height=\"10\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"156.8\" y=\"2.0\" width=\"28.7\" height=\"10\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"187.5\" y=\"2.0\" width=\"28.7\" height=\"10\" style=\"fill:var(--ns-chart-series-3)\"/><rect x=\"218.2\" y=\"2.0\" width=\"40.2\" height=\"10\" style=\"fill:var(--ns-chart-series-4)\"/></g><rect x=\"319.3\" y=\"4.0\" width=\"2\" height=\"6\" rx=\"1\" style=\"fill:var(--ns-chart-target)\"/></g><g role=\"listitem\" aria-label=\"400: 38 + 10 + 12 + 20 of 80, target 88\"><text x=\"0\" y=\"37.0\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">400</text><clipPath id=\"nsb9-1\"><rect x=\"40\" y=\"32.0\" width=\"287\" height=\"10\" rx=\"5\"/></clipPath><rect x=\"40\" y=\"32.0\" width=\"287\" height=\"10\" rx=\"5\" style=\"fill:var(--ns-chart-track)\"/><g clip-path=\"url(#nsb9-1)\"><rect x=\"40.0\" y=\"32.0\" width=\"109.1\" height=\"10\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"151.1\" y=\"32.0\" width=\"28.7\" height=\"10\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"181.8\" y=\"32.0\" width=\"34.4\" height=\"10\" style=\"fill:var(--ns-chart-series-3)\"/><rect x=\"218.2\" y=\"32.0\" width=\"57.4\" height=\"10\" style=\"fill:var(--ns-chart-series-4)\"/></g><rect x=\"290.6\" y=\"34.0\" width=\"2\" height=\"6\" rx=\"1\" style=\"fill:var(--ns-chart-target)\"/></g><g role=\"listitem\" aria-label=\"300: 15 + 8 + 8 + 10 of 41, target 50\"><text x=\"0\" y=\"67.0\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">300</text><clipPath id=\"nsb9-2\"><rect x=\"40\" y=\"62.0\" width=\"287\" height=\"10\" rx=\"5\"/></clipPath><rect x=\"40\" y=\"62.0\" width=\"287\" height=\"10\" rx=\"5\" style=\"fill:var(--ns-chart-track)\"/><g clip-path=\"url(#nsb9-2)\"><rect x=\"40.0\" y=\"62.0\" width=\"43.0\" height=\"10\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"85.0\" y=\"62.0\" width=\"23.0\" height=\"10\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"110.0\" y=\"62.0\" width=\"23.0\" height=\"10\" style=\"fill:var(--ns-chart-series-3)\"/><rect x=\"135.0\" y=\"62.0\" width=\"28.7\" height=\"10\" style=\"fill:var(--ns-chart-series-4)\"/></g><rect x=\"181.5\" y=\"64.0\" width=\"2\" height=\"6\" rx=\"1\" style=\"fill:var(--ns-chart-target)\"/></g><g role=\"listitem\" aria-label=\"200: 15 + 10 + 12 + 12 of 49, target 64\"><text x=\"0\" y=\"97.0\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">200</text><clipPath id=\"nsb9-3\"><rect x=\"40\" y=\"92.0\" width=\"287\" height=\"10\" rx=\"5\"/></clipPath><rect x=\"40\" y=\"92.0\" width=\"287\" height=\"10\" rx=\"5\" style=\"fill:var(--ns-chart-track)\"/><g clip-path=\"url(#nsb9-3)\"><rect x=\"40.0\" y=\"92.0\" width=\"43.0\" height=\"10\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"85.0\" y=\"92.0\" width=\"28.7\" height=\"10\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"115.8\" y=\"92.0\" width=\"34.4\" height=\"10\" style=\"fill:var(--ns-chart-series-3)\"/><rect x=\"152.2\" y=\"92.0\" width=\"34.4\" height=\"10\" style=\"fill:var(--ns-chart-series-4)\"/></g><rect x=\"221.7\" y=\"94.0\" width=\"2\" height=\"6\" rx=\"1\" style=\"fill:var(--ns-chart-target)\"/></g><g role=\"listitem\" aria-label=\"100: 40 + 14 + 15 + 15 of 84, target 98\"><text x=\"0\" y=\"127.0\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">100</text><clipPath id=\"nsb9-4\"><rect x=\"40\" y=\"122.0\" width=\"287\" height=\"10\" rx=\"5\"/></clipPath><rect x=\"40\" y=\"122.0\" width=\"287\" height=\"10\" rx=\"5\" style=\"fill:var(--ns-chart-track)\"/><g clip-path=\"url(#nsb9-4)\"><rect x=\"40.0\" y=\"122.0\" width=\"114.8\" height=\"10\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"156.8\" y=\"122.0\" width=\"40.2\" height=\"10\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"199.0\" y=\"122.0\" width=\"43.0\" height=\"10\" style=\"fill:var(--ns-chart-series-3)\"/><rect x=\"244.0\" y=\"122.0\" width=\"43.0\" height=\"10\" style=\"fill:var(--ns-chart-series-4)\"/></g><rect x=\"319.3\" y=\"124.0\" width=\"2\" height=\"6\" rx=\"1\" style=\"fill:var(--ns-chart-target)\"/></g></svg></div>",
-   "react": "<BulletChart size=\"medium\" title=\"Income\" value=\"$18,420\" trend=\"+1.8%\" rows={[{ label: \"500\", segments: [40, 10, 10, 14], target: 98 }]} />"
+   "react": "<BulletChart size=\"medium\" title=\"Income\" value=\"$18,420\" trend=\"+1.8%\" rows={[{ label: \"500\", segments: [40, 10, 10, 14], target: 98 }]} />",
+   "parts": []
   },
   {
    "id": "button",
@@ -1147,13 +1103,15 @@
    "category": "Actions",
    "status": "Stable",
    "figma": "4038:31741",
-   "description": "The button component gives users the ability to perform an action or navigate to another page. They have multiple styles and states for different needs.",
+   "description": "The button component gives users the ability to perform an action or navigate to another page. They have multiple styles and states for different needs. Includes icon button.",
    "classes": [
     "is-focus",
     "is-hover",
     "is-pressed",
     "ns-btn",
+    "ns-btn--danger",
     "ns-btn--ghost",
+    "ns-btn--icon",
     "ns-btn--lg",
     "ns-btn--outline",
     "ns-btn--secondary",
@@ -1180,17 +1138,38 @@
     {
      "axis": "Label",
      "values": "Text property"
+    },
+    {
+     "axis": "Icon button / Hierarchy",
+     "values": "Primary, Secondary, Ghost, Danger"
+    },
+    {
+     "axis": "Icon button / Size",
+     "values": "S (32), M (40), L (48)"
+    },
+    {
+     "axis": "Icon button / Icon",
+     "values": "Swap the glyph"
+    },
+    {
+     "axis": "Icon button / State",
+     "values": "Default, Hover, Pressed, Focus, Disabled"
     }
    ],
    "use": [
     "Primary: actions that require maximum attention. Use only one per page.",
     "Secondary: secondary actions, or interfaces with low contrast.",
     "Outline and Ghost: actions that need the least attention on the page.",
-    "Danger (NorthStar extension): destructive actions, always confirmed."
+    "Danger (NorthStar extension): destructive actions, always confirmed.",
+    "Icon button: Use Ghost in table rows and toolbars where space is tight.",
+    "Icon button: Show a tooltip with the action name on hover and focus.",
+    "Icon button: Use the L size on touch surfaces so the target stays at 48px."
    ],
    "avoid": [
     "Do not use a button for navigation to another page. Use a link.",
-    "Avoid three or more button sizes on one page."
+    "Avoid three or more button sizes on one page.",
+    "Icon button: Do not use for primary page actions. Use a Button with a label.",
+    "Icon button: Do not drop the accessible name. Icon-only buttons need aria-label."
    ],
    "guidance": [
     {
@@ -1222,6 +1201,16 @@
      "name": "Icons",
      "note": "Leading, trailing, or both. Swap the icon instance.",
      "html": "<button class=\"ns-btn\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/></svg>Leading</button><button class=\"ns-btn\">Trailing<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/></svg></button><button class=\"ns-btn\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/></svg>Both<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/></svg></button>"
+    },
+    {
+     "name": "Icon button: Hierarchy",
+     "note": "Primary, Secondary, Ghost and Danger share one square shape.",
+     "html": "<div style=\"display:flex;gap:8px;align-items:center\"><button class=\"ns-btn ns-btn--icon\" aria-label=\"Edit\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z\"/></svg></button><button class=\"ns-btn ns-btn--secondary ns-btn--icon\" aria-label=\"Edit\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z\"/></svg></button><button class=\"ns-btn ns-btn--ghost ns-btn--icon\" aria-label=\"Edit\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z\"/></svg></button><button class=\"ns-btn ns-btn--danger ns-btn--icon\" aria-label=\"Delete\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M18 6 6 18M6 6l12 12\"/></svg></button></div>"
+    },
+    {
+     "name": "Icon button: Sizes",
+     "note": "S 32, M 40, L 48. Square at every size.",
+     "html": "<div style=\"display:flex;gap:8px;align-items:center\"><button class=\"ns-btn ns-btn--secondary ns-btn--icon ns-btn--sm\" aria-label=\"More actions\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h.01M12 12h.01M19 12h.01\" stroke-width=\"3\"/></svg></button><button class=\"ns-btn ns-btn--secondary ns-btn--icon\" aria-label=\"More actions\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h.01M12 12h.01M19 12h.01\" stroke-width=\"3\"/></svg></button><button class=\"ns-btn ns-btn--secondary ns-btn--icon ns-btn--lg\" aria-label=\"More actions\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h.01M12 12h.01M19 12h.01\" stroke-width=\"3\"/></svg></button></div>"
     }
    ],
    "tokens": [
@@ -1256,6 +1245,18 @@
     {
      "token": "--ns-focus-ring",
      "role": "Focus ring, 2px with 2px offset"
+    },
+    {
+     "token": "--ns-interactive-ghost-hover",
+     "role": "Ghost hover"
+    },
+    {
+     "token": "--ns-status-error",
+     "role": "Danger background"
+    },
+    {
+     "token": "--ns-density-control",
+     "role": "Height in compact density"
     }
    ],
    "sizes": [
@@ -1299,6 +1300,36 @@
      "type": "boolean",
      "default": "false",
      "note": "Prevents interaction"
+    },
+    {
+     "prop": "icon (Icon button)",
+     "type": "ReactNode",
+     "default": "-",
+     "note": "Glyph. Required"
+    },
+    {
+     "prop": "hierarchy (Icon button)",
+     "type": "'primary' | 'secondary' | 'ghost' | 'danger'",
+     "default": "'secondary'",
+     "note": "Visual emphasis"
+    },
+    {
+     "prop": "size (Icon button)",
+     "type": "'s' | 'm' | 'l'",
+     "default": "'m'",
+     "note": "Square height"
+    },
+    {
+     "prop": "aria-label (Icon button)",
+     "type": "string",
+     "default": "-",
+     "note": "Required. Names the action"
+    },
+    {
+     "prop": "disabled (Icon button)",
+     "type": "boolean",
+     "default": "false",
+     "note": "Removes the button from the tab order"
     }
    ],
    "keyboard": [
@@ -1309,15 +1340,35 @@
     {
      "key": "Enter / Space",
      "action": "Activates the button"
+    },
+    {
+     "key": "Tab",
+     "action": "Icon button: Moves focus to the button"
+    },
+    {
+     "key": "Enter / Space",
+     "action": "Icon button: Activates the button"
     }
    ],
    "accessibility": [
     "Use a native <button>. Icon-only buttons need aria-label.",
     "Disabled buttons use the disabled attribute so they leave the tab order.",
-    "Focus shows a 2px ring with a 2px offset. Never remove it."
+    "Focus shows a 2px ring with a 2px offset. Never remove it.",
+    "Icon button: Use a native button. Icon-only buttons need an aria-label that names the action, such as Edit contact.",
+    "Icon button: Pair the icon with a tooltip so sighted users hear the same name.",
+    "Icon button: Disabled buttons use the disabled attribute so they leave the tab order."
    ],
-   "html": "<button class=\"ns-btn\">Button</button>",
-   "react": "import { Button } from '@northstar/react';\n\n<Button hierarchy=\"primary\" size=\"m\" onClick={deploy}>\n  Deploy pipeline\n</Button>"
+   "html": "<button class=\"ns-btn\">Button</button>\n<button class=\"ns-btn ns-btn--icon\" aria-label=\"More action\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h.01M12 12h.01M19 12h.01\" stroke-width=\"3\"/></svg></button>",
+   "react": "import { Button } from '@northstar/react';\n\n<Button hierarchy=\"primary\" size=\"m\" onClick={deploy}>\n  Deploy pipeline\n</Button>",
+   "parts": [
+    {
+     "id": "icon-button",
+     "name": "Icon button",
+     "figma": "4466:661",
+     "description": "A square, icon-only button for toolbars, table rows and dense headers. Every icon button needs an accessible name. Add a tooltip for any icon that is not widely understood.",
+     "react": "<IconButton icon={<MoreIcon />} hierarchy=\"ghost\" aria-label=\"More actions\" />"
+    }
+   ]
   },
   {
    "id": "calendar-chart",
@@ -1509,7 +1560,8 @@
     "Trend text carries its sign, so the color is a second signal."
    ],
    "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Active days</span><span class=\"ns-chart__value\">19<span class=\"ns-chart__trend\">+3.0%</span></span><span class=\"ns-chart__desc\">Days with activity this month</span></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Calendar heatmap: one month by weekday, darker days had more activity\" data-chart=\"calendar\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><rect x=\"0\" y=\"18\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.1\"/><rect x=\"47.1\" y=\"18\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.55\"/><rect x=\"94.3\" y=\"18\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"141.4\" y=\"18\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.4\"/><rect x=\"188.6\" y=\"18\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.85\"/><rect x=\"235.7\" y=\"18\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.25\"/><rect x=\"282.9\" y=\"18\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.7\"/><rect x=\"0\" y=\"55\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.85\"/><rect x=\"47.1\" y=\"55\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.4\"/><rect x=\"94.3\" y=\"55\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"141.4\" y=\"55\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.55\"/><rect x=\"188.6\" y=\"55\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.1\"/><rect x=\"235.7\" y=\"55\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.7\"/><rect x=\"282.9\" y=\"55\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.25\"/><rect x=\"0\" y=\"92\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.55\"/><rect x=\"47.1\" y=\"92\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.25\"/><rect x=\"94.3\" y=\"92\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"141.4\" y=\"92\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.7;stroke:var(--ns-chart-target);stroke-width:2\"/><rect x=\"188.6\" y=\"92\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.4\"/><rect x=\"235.7\" y=\"92\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.1\"/><rect x=\"282.9\" y=\"92\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.85\"/><rect x=\"0\" y=\"129\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.25\"/><rect x=\"47.1\" y=\"129\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.1\"/><rect x=\"94.3\" y=\"129\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"141.4\" y=\"129\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.85\"/><rect x=\"188.6\" y=\"129\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.7\"/><rect x=\"235.7\" y=\"129\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.55\"/><rect x=\"282.9\" y=\"129\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.4\"/><rect x=\"0\" y=\"166\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"47.1\" y=\"166\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"94.3\" y=\"166\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"141.4\" y=\"166\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"188.6\" y=\"166\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"235.7\" y=\"166\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"282.9\" y=\"166\" width=\"44.1\" height=\"34\" rx=\"4\" style=\"fill:var(--ns-chart-series-1)\"/><text x=\"22.1\" y=\"6\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">M</text><text x=\"69.2\" y=\"6\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">T</text><text x=\"116.4\" y=\"6\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">W</text><text x=\"163.5\" y=\"6\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">T</text><text x=\"210.6\" y=\"6\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">F</text><text x=\"257.8\" y=\"6\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">S</text><text x=\"304.9\" y=\"6\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">S</text></svg></div>",
-   "react": "<CalendarChart size=\"medium\" title=\"Active days\" value=\"19\" trend=\"+3.0%\" data={[0.2, 0.8, 0.5]} />"
+   "react": "<CalendarChart size=\"medium\" title=\"Active days\" value=\"19\" trend=\"+3.0%\" data={[0.2, 0.8, 0.5]} />",
+   "parts": []
   },
   {
    "id": "candlestick-chart",
@@ -1705,7 +1757,8 @@
     "Trend text carries its sign, so the color is a second signal."
    ],
    "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Index</span><span class=\"ns-chart__value\">4,820<span class=\"ns-chart__trend\">+0.8%</span></span><span class=\"ns-chart__desc\">Open, close, high and low</span></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Candlestick chart: ten sessions, green candles close higher and red candles close lower\" data-chart=\"candle\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><rect x=\"30\" y=\"-0.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"58.8\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"118.2\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"177.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><text x=\"22\" y=\"0\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">120</text><text x=\"22\" y=\"59.3\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">110</text><text x=\"22\" y=\"118.7\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">100</text><text x=\"22\" y=\"178\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">90</text><text x=\"44.9\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Mon</text><text x=\"178.5\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Wed</text><text x=\"312.1\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Fri</text><rect x=\"44.4\" y=\"75.4\" width=\"1\" height=\"40.8\" style=\"fill:var(--ns-status-success)\"/><rect x=\"37.4\" y=\"85.6\" width=\"14.8\" height=\"20.4\" rx=\"1\" style=\"fill:var(--ns-status-success)\"/><rect x=\"74\" y=\"72\" width=\"1\" height=\"34\" style=\"fill:var(--ns-status-error)\"/><rect x=\"67.1\" y=\"85.6\" width=\"14.8\" height=\"10.2\" rx=\"1\" style=\"fill:var(--ns-status-error)\"/><rect x=\"103.8\" y=\"61.8\" width=\"1\" height=\"40.8\" style=\"fill:var(--ns-status-success)\"/><rect x=\"96.8\" y=\"72\" width=\"14.8\" height=\"23.8\" rx=\"1\" style=\"fill:var(--ns-status-success)\"/><rect x=\"133.4\" y=\"48.2\" width=\"1\" height=\"32.3\" style=\"fill:var(--ns-status-success)\"/><rect x=\"126.5\" y=\"55\" width=\"14.8\" height=\"17\" rx=\"1\" style=\"fill:var(--ns-status-success)\"/><rect x=\"163.2\" y=\"41.4\" width=\"1\" height=\"37.4\" style=\"fill:var(--ns-status-error)\"/><rect x=\"156.2\" y=\"55\" width=\"14.8\" height=\"13.6\" rx=\"1\" style=\"fill:var(--ns-status-error)\"/><rect x=\"192.8\" y=\"58.4\" width=\"1\" height=\"30.6\" style=\"fill:var(--ns-status-error)\"/><rect x=\"185.9\" y=\"68.6\" width=\"14.8\" height=\"11.9\" rx=\"1\" style=\"fill:var(--ns-status-error)\"/><rect x=\"222.5\" y=\"51.6\" width=\"1\" height=\"37.4\" style=\"fill:var(--ns-status-success)\"/><rect x=\"215.6\" y=\"58.4\" width=\"14.8\" height=\"22.1\" rx=\"1\" style=\"fill:var(--ns-status-success)\"/><rect x=\"252.3\" y=\"27.8\" width=\"1\" height=\"37.4\" style=\"fill:var(--ns-status-success)\"/><rect x=\"245.3\" y=\"38\" width=\"14.8\" height=\"20.4\" rx=\"1\" style=\"fill:var(--ns-status-success)\"/><rect x=\"281.9\" y=\"24.4\" width=\"1\" height=\"30.6\" style=\"fill:var(--ns-status-error)\"/><rect x=\"275\" y=\"38\" width=\"14.8\" height=\"10.2\" rx=\"1\" style=\"fill:var(--ns-status-error)\"/><rect x=\"311.6\" y=\"21\" width=\"1\" height=\"34\" style=\"fill:var(--ns-status-success)\"/><rect x=\"304.7\" y=\"31.2\" width=\"14.8\" height=\"17\" rx=\"1\" style=\"fill:var(--ns-status-success)\"/></svg></div>",
-   "react": "<CandlestickChart size=\"medium\" title=\"Index\" value=\"4,820\" trend=\"+0.8%\" data={[{ open: 40, close: 52, low: 34, high: 58 }]} />"
+   "react": "<CandlestickChart size=\"medium\" title=\"Index\" value=\"4,820\" trend=\"+0.8%\" data={[{ open: 40, close: 52, low: 34, high: 58 }]} />",
+   "parts": []
   },
   {
    "id": "card",
@@ -1805,7 +1858,8 @@
     "A clickable card is one <a>. Do not nest other interactive elements inside it."
    ],
    "html": "<div class=\"ns-card\" style=\"width:320px\"><h3 class=\"ns-card__title\">Acme Corp</h3><p class=\"ns-card__body\">Gold tier. 14 active integrations across 3 regions. Renewal in 42 days.</p><div style=\"display:flex;gap:8px\"><span class=\"ns-dot ns-dot--success\">Active</span></div><div><button class=\"ns-btn ns-btn--sm ns-btn--tertiary\">View details</button></div></div>",
-   "react": "<Card kind=\"elevated\">\n  <CardTitle>Acme Corp</CardTitle>\n  <CardBody>Gold tier.</CardBody>\n</Card>"
+   "react": "<Card kind=\"elevated\">\n  <CardTitle>Acme Corp</CardTitle>\n  <CardBody>Gold tier.</CardBody>\n</Card>",
+   "parts": []
   },
   {
    "id": "checkbox",
@@ -1910,7 +1964,8 @@
     "Indeterminate is set via the DOM property, exposed as aria-checked=\"mixed\"."
    ],
    "html": "<fieldset style=\"border:0;padding:0;margin:0;display:grid;gap:10px\"><legend class=\"ns-label\" style=\"margin-bottom:10px\">Alert channels</legend><label class=\"ns-check\"><input type=\"checkbox\" checked/> Email</label><label class=\"ns-check\"><input type=\"checkbox\"/> Slack</label><label class=\"ns-check\"><input type=\"checkbox\" checked/> PagerDuty</label></fieldset>",
-   "react": "<Checkbox id=\"email\" labelText=\"Email\" checked={email} onChange={setEmail} />"
+   "react": "<Checkbox id=\"email\" labelText=\"Email\" checked={email} onChange={setEmail} />",
+   "parts": []
   },
   {
    "id": "combobox",
@@ -2021,10 +2076,6 @@
    ],
    "keyboard": [
     {
-     "key": "Specimen",
-     "action": "The demo is static. These keys are the behavior to build."
-    },
-    {
      "key": "Arrow up / down",
      "action": "Moves the active option"
     },
@@ -2046,8 +2097,9 @@
     "The list has role=listbox with aria-multiselectable=true, and each option has aria-selected.",
     "Announce the match count in a polite live region as the query changes."
    ],
-   "html": "<div class=\"ns-combobox\" style=\"width:340px\"><div class=\"ns-combobox__control\"><span class=\"ns-tag ns-tag--sm\">Analytics <button type=\"button\" aria-label=\"Remove Analytics\">×</button></span><input role=\"combobox\" aria-expanded=\"false\" aria-label=\"Add tag\" placeholder=\"Add tag\"/></div></div>",
-   "react": "<Combobox label=\"Tags\" options={tags} value={chosen} onChange={setPicked} placeholder=\"Add tag\" />"
+   "html": "<div class=\"ns-combobox\" style=\"width:340px\"><div class=\"ns-combobox__control\"><span class=\"ns-tag ns-tag--sm\">Analytics <button type=\"button\" aria-label=\"Remove Analytics\">×</button></span><input role=\"combobox\" aria-expanded=\"false\" aria-label=\"Add tag\" placeholder=\"Add tag\"/></div><div class=\"ns-menu ns-menu--panel ns-combobox__list\" role=\"listbox\" aria-multiselectable=\"true\" aria-label=\"Tags\"><button type=\"button\" tabindex=\"-1\" role=\"option\" aria-selected=\"true\">Analytics</button><button type=\"button\" tabindex=\"-1\" role=\"option\" aria-selected=\"false\">Billing</button><button type=\"button\" tabindex=\"-1\" role=\"option\" aria-selected=\"false\">Compliance</button><button type=\"button\" tabindex=\"-1\" role=\"option\" aria-selected=\"false\">Customer success</button><button type=\"button\" tabindex=\"-1\" role=\"option\" aria-selected=\"false\">Data export</button><button type=\"button\" tabindex=\"-1\" role=\"option\" aria-selected=\"false\">Finance</button><button type=\"button\" tabindex=\"-1\" role=\"option\" aria-selected=\"false\">Onboarding</button><button type=\"button\" tabindex=\"-1\" role=\"option\" aria-selected=\"false\">Reporting</button><button type=\"button\" tabindex=\"-1\" role=\"option\" aria-selected=\"false\">Security</button><button type=\"button\" tabindex=\"-1\" role=\"option\" aria-selected=\"false\">Support</button><span class=\"ns-helper ns-combobox__count\">10 of 10 match</span></div></div>",
+   "react": "<Combobox label=\"Tags\" options={tags} value={chosen} onChange={setPicked} placeholder=\"Add tag\" />",
+   "parts": []
   },
   {
    "id": "command-palette",
@@ -2159,10 +2211,6 @@
    ],
    "keyboard": [
     {
-     "key": "Specimen",
-     "action": "The demo is static. These keys are the behavior to build."
-    },
-    {
      "key": "Cmd K / Ctrl K",
      "action": "Opens the palette from anywhere"
     },
@@ -2184,8 +2232,9 @@
     "Results form a listbox, and the active row is set with aria-activedescendant.",
     "Announce the result count in a polite live region as the query changes."
    ],
-   "html": "<div class=\"ns-cmdk\" role=\"dialog\" aria-label=\"Command palette\"><div class=\"ns-cmdk__query\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"m20 20-3.5-3.5\"/></svg><input role=\"combobox\" aria-expanded=\"true\" aria-controls=\"cmdk-list\" aria-label=\"Search\" placeholder=\"Search accounts, pages and actions\" value=\"\"/><kbd>Esc</kbd></div><div class=\"ns-cmdk__list\" id=\"cmdk-list\" role=\"listbox\"><div class=\"ns-cmdk__group\">Recent</div><div class=\"ns-cmdk__item\" role=\"option\" aria-selected=\"true\"><span>Acme Corp</span><span class=\"ns-cmdk__meta\">Account</span></div><div class=\"ns-cmdk__item\" role=\"option\" aria-selected=\"false\"><span>Billing history</span><span class=\"ns-cmdk__meta\">Page</span></div></div><div class=\"ns-cmdk__foot\"><span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span><span><kbd>↵</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div></div>",
-   "react": "<CommandPalette items={items} onSelect={openItem} />"
+   "html": "<div class=\"ns-cmdk\" role=\"dialog\" aria-label=\"Command palette\"><div class=\"ns-cmdk__query\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"m20 20-3.5-3.5\"/></svg><input role=\"combobox\" aria-expanded=\"true\" aria-controls=\"cmdk-list\" aria-label=\"Search\" placeholder=\"Search accounts, pages and actions\" value=\"\"/><kbd>Esc</kbd></div><div class=\"ns-cmdk__list\" id=\"cmdk-list\" role=\"listbox\"><div class=\"ns-cmdk__group\" role=\"presentation\">Accounts</div><div class=\"ns-cmdk__item\" role=\"option\" aria-selected=\"false\"><span>Acme Corp</span><span class=\"ns-cmdk__meta\">Account</span></div><div class=\"ns-cmdk__item\" role=\"option\" aria-selected=\"false\"><span>Acme Holdings</span><span class=\"ns-cmdk__meta\">Account</span></div><div class=\"ns-cmdk__item\" role=\"option\" aria-selected=\"false\"><span>Globex</span><span class=\"ns-cmdk__meta\">Account</span></div><div class=\"ns-cmdk__item\" role=\"option\" aria-selected=\"false\"><span>Northwind</span><span class=\"ns-cmdk__meta\">Account</span></div><div class=\"ns-cmdk__group\" role=\"presentation\">Pages</div><div class=\"ns-cmdk__item\" role=\"option\" aria-selected=\"false\"><span>Billing history</span><span class=\"ns-cmdk__meta\">Page</span></div><div class=\"ns-cmdk__item\" role=\"option\" aria-selected=\"false\"><span>Usage reports</span><span class=\"ns-cmdk__meta\">Page</span></div><div class=\"ns-cmdk__item\" role=\"option\" aria-selected=\"false\"><span>Team settings</span><span class=\"ns-cmdk__meta\">Page</span></div><div class=\"ns-cmdk__group\" role=\"presentation\">Actions</div><div class=\"ns-cmdk__item\" role=\"option\" aria-selected=\"false\"><span>Create account</span><span class=\"ns-cmdk__meta\">Action</span></div><div class=\"ns-cmdk__item\" role=\"option\" aria-selected=\"false\"><span>Invite teammate</span><span class=\"ns-cmdk__meta\">Action</span></div><div class=\"ns-cmdk__item\" role=\"option\" aria-selected=\"false\"><span>Export accounts</span><span class=\"ns-cmdk__meta\">Action</span></div></div><div class=\"ns-cmdk__foot\"><span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span><span><kbd>↵</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div></div>",
+   "react": "<CommandPalette items={items} onSelect={openItem} />",
+   "parts": []
   },
   {
    "id": "data-table",
@@ -2193,11 +2242,16 @@
    "category": "Data",
    "status": "Stable",
    "figma": "4213:46",
-   "description": "Data tables organize large sets of records into rows and columns with sorting, selection, and batch actions.",
+   "description": "Data tables organize large sets of records into rows and columns with sorting, selection, and batch actions. Includes bulk action bar.",
    "classes": [
     "ns-btn",
+    "ns-btn--danger",
+    "ns-btn--ghost",
     "ns-btn--sm",
     "ns-btn--tertiary",
+    "ns-bulkbar",
+    "ns-bulkbar__count",
+    "ns-bulkbar__sep",
     "ns-check",
     "ns-dot",
     "ns-dot--error",
@@ -2213,13 +2267,32 @@
    "helperClasses": [
     "num"
    ],
-   "axes": [],
+   "axes": [
+    {
+     "axis": "Bulk action bar / Count",
+     "values": "Text, such as 3 selected"
+    },
+    {
+     "axis": "Bulk action bar / Actions",
+     "values": "Up to four buttons. Extras move into a Menu"
+    },
+    {
+     "axis": "Bulk action bar / State",
+     "values": "Hidden, Visible"
+    }
+   ],
    "use": [
     "Comparing many records across the same attributes.",
-    "Bulk actions across selected rows."
+    "Bulk actions across selected rows.",
+    "Bulk action bar: Show it when at least one row is selected.",
+    "Bulk action bar: Keep the count visible, and announce it when it changes.",
+    "Bulk action bar: Put destructive actions last, and confirm them."
    ],
    "avoid": [
-    "A handful of items with rich content: use cards."
+    "A handful of items with rich content: use cards.",
+    "Bulk action bar: Do not show more than four actions. Move extras into a Menu.",
+    "Bulk action bar: Do not hide the selection after an action. Show a Toast with the result.",
+    "Bulk action bar: Do not cover the last table row. Add bottom padding to the table."
    ],
    "guidance": [
     {
@@ -2236,6 +2309,16 @@
      "name": "Simple table",
      "note": "No toolbar or selection.",
      "html": "<div class=\"ns-table-wrap\" style=\"width:100%\">\n<table class=\"ns-table ns-table--compact \">\n  <thead><tr><th data-sort>Account <span class=\"ns-sort\">↕</span></th><th data-sort>Tier <span class=\"ns-sort\">↕</span></th><th data-sort class=\"num\">Revenue <span class=\"ns-sort\">↕</span></th><th>Status</th></tr></thead>\n  <tbody><tr><td>Acme Corp</td><td>Gold</td><td class=\"num\">$12,400</td><td><span class=\"ns-dot ns-dot--success\">active</span></td></tr><tr><td>Beta LLC</td><td>Silver</td><td class=\"num\">$5,200</td><td><span class=\"ns-dot ns-dot--warning\">pending</span></td></tr><tr><td>Zeta Inc</td><td>Platinum</td><td class=\"num\">$38,900</td><td><span class=\"ns-dot ns-dot--success\">active</span></td></tr><tr><td>Northwind</td><td>Silver</td><td class=\"num\">$7,300</td><td><span class=\"ns-dot ns-dot--error\">error</span></td></tr><tr><td>Globex</td><td>Gold</td><td class=\"num\">$19,850</td><td><span class=\"ns-dot ns-dot--success\">active</span></td></tr></tbody>\n</table></div>"
+    },
+    {
+     "name": "Bulk action bar: Default",
+     "note": "Count, three actions and a clear control.",
+     "html": "<div class=\"ns-bulkbar\" role=\"region\" aria-label=\"Bulk actions\"><span class=\"ns-bulkbar__count\">3 selected</span><span class=\"ns-bulkbar__sep\"></span><button class=\"ns-btn ns-btn--ghost ns-btn--sm\">Approve</button><button class=\"ns-btn ns-btn--ghost ns-btn--sm\">Export</button><span class=\"ns-bulkbar__sep\"></span><button class=\"ns-btn ns-btn--ghost ns-btn--sm\">Clear</button></div>"
+    },
+    {
+     "name": "Bulk action bar: Destructive",
+     "note": "Adds a danger action after the neutral ones.",
+     "html": "<div class=\"ns-bulkbar\" role=\"region\" aria-label=\"Bulk actions\"><span class=\"ns-bulkbar__count\">3 selected</span><span class=\"ns-bulkbar__sep\"></span><button class=\"ns-btn ns-btn--ghost ns-btn--sm\">Approve</button><button class=\"ns-btn ns-btn--danger ns-btn--sm\">Delete</button></div>"
     }
    ],
    "tokens": [
@@ -2258,6 +2341,22 @@
     {
      "token": "--ns-font-mono",
      "role": "Numeric cells"
+    },
+    {
+     "token": "--ns-background-elevated",
+     "role": "Bar surface"
+    },
+    {
+     "token": "--ns-elevation-03",
+     "role": "Bar shadow"
+    },
+    {
+     "token": "--ns-border-default",
+     "role": "Bar border"
+    },
+    {
+     "token": "--ns-density-control-sm",
+     "role": "Button height"
     }
    ],
    "sizes": [
@@ -2302,6 +2401,24 @@
      "type": "'compact' | 'default'",
      "default": "'default'",
      "note": "Row height"
+    },
+    {
+     "prop": "count (Bulk action bar)",
+     "type": "number",
+     "default": "0",
+     "note": "Selected rows. Announced politely"
+    },
+    {
+     "prop": "actions (Bulk action bar)",
+     "type": "{ label, onClick, destructive }[]",
+     "default": "[]",
+     "note": "Up to four actions"
+    },
+    {
+     "prop": "onClear (Bulk action bar)",
+     "type": "() => void",
+     "default": "-",
+     "note": "Clears the selection"
     }
    ],
    "keyboard": [
@@ -2316,15 +2433,35 @@
     {
      "key": "Space on row checkbox",
      "action": "Selects the row"
+    },
+    {
+     "key": "Tab",
+     "action": "Bulk action bar: Moves through the bar's actions"
+    },
+    {
+     "key": "Escape",
+     "action": "Bulk action bar: Clears the selection when focus is in the table"
     }
    ],
    "accessibility": [
     "Sortable headers set aria-sort.",
     "Select-all checkbox is labeled and reflects mixed state.",
-    "Batch bar announces the selected count."
+    "Batch bar announces the selected count.",
+    "Bulk action bar: The bar is a named region, such as Bulk actions.",
+    "Bulk action bar: The count sits in a polite live region, so changes are announced without interrupting.",
+    "Bulk action bar: Each action is a button with its full label, such as Delete 3 accounts."
    ],
-   "html": "<div class=\"ns-table-wrap\" style=\"width:100%\"><div class=\"ns-table-bar\"><b data-batch-label data-default=\"Accounts\">Accounts</b><div style=\"display:flex;gap:8px\"><button class=\"ns-btn ns-btn--sm ns-btn--tertiary\">Export</button><button class=\"ns-btn ns-btn--sm\">Add account</button></div></div>\n<table class=\"ns-table  \">\n  <thead><tr><th><label class=\"ns-check\"><input type=\"checkbox\" data-select-all aria-label=\"Select all rows\"/></label></th><th data-sort>Account <span class=\"ns-sort\">↕</span></th><th data-sort>Tier <span class=\"ns-sort\">↕</span></th><th data-sort class=\"num\">Revenue <span class=\"ns-sort\">↕</span></th><th>Status</th></tr></thead>\n  <tbody><tr><td><label class=\"ns-check\"><input type=\"checkbox\" data-row-select aria-label=\"Select Acme Corp\"/></label></td><td>Acme Corp</td><td>Gold</td><td class=\"num\">$12,400</td><td><span class=\"ns-dot ns-dot--success\">active</span></td></tr><tr><td><label class=\"ns-check\"><input type=\"checkbox\" data-row-select aria-label=\"Select Beta LLC\"/></label></td><td>Beta LLC</td><td>Silver</td><td class=\"num\">$5,200</td><td><span class=\"ns-dot ns-dot--warning\">pending</span></td></tr><tr><td><label class=\"ns-check\"><input type=\"checkbox\" data-row-select aria-label=\"Select Zeta Inc\"/></label></td><td>Zeta Inc</td><td>Platinum</td><td class=\"num\">$38,900</td><td><span class=\"ns-dot ns-dot--success\">active</span></td></tr><tr><td><label class=\"ns-check\"><input type=\"checkbox\" data-row-select aria-label=\"Select Northwind\"/></label></td><td>Northwind</td><td>Silver</td><td class=\"num\">$7,300</td><td><span class=\"ns-dot ns-dot--error\">error</span></td></tr><tr><td><label class=\"ns-check\"><input type=\"checkbox\" data-row-select aria-label=\"Select Globex\"/></label></td><td>Globex</td><td>Gold</td><td class=\"num\">$19,850</td><td><span class=\"ns-dot ns-dot--success\">active</span></td></tr></tbody>\n</table></div>",
-   "react": "<DataTable rows={rows} headers={headers} isSortable>\n  {({ rows, headers, getTableProps }) => (\n    <Table {...getTableProps()}>...</Table>\n  )}\n</DataTable>"
+   "html": "<div class=\"ns-table-wrap\" style=\"width:100%\"><div class=\"ns-table-bar\"><b data-batch-label data-default=\"Accounts\">Accounts</b><div style=\"display:flex;gap:8px\"><button class=\"ns-btn ns-btn--sm ns-btn--tertiary\">Export</button><button class=\"ns-btn ns-btn--sm\">Add account</button></div></div>\n<table class=\"ns-table  \">\n  <thead><tr><th><label class=\"ns-check\"><input type=\"checkbox\" data-select-all aria-label=\"Select all rows\"/></label></th><th data-sort>Account <span class=\"ns-sort\">↕</span></th><th data-sort>Tier <span class=\"ns-sort\">↕</span></th><th data-sort class=\"num\">Revenue <span class=\"ns-sort\">↕</span></th><th>Status</th></tr></thead>\n  <tbody><tr><td><label class=\"ns-check\"><input type=\"checkbox\" data-row-select aria-label=\"Select Acme Corp\"/></label></td><td>Acme Corp</td><td>Gold</td><td class=\"num\">$12,400</td><td><span class=\"ns-dot ns-dot--success\">active</span></td></tr><tr><td><label class=\"ns-check\"><input type=\"checkbox\" data-row-select aria-label=\"Select Beta LLC\"/></label></td><td>Beta LLC</td><td>Silver</td><td class=\"num\">$5,200</td><td><span class=\"ns-dot ns-dot--warning\">pending</span></td></tr><tr><td><label class=\"ns-check\"><input type=\"checkbox\" data-row-select aria-label=\"Select Zeta Inc\"/></label></td><td>Zeta Inc</td><td>Platinum</td><td class=\"num\">$38,900</td><td><span class=\"ns-dot ns-dot--success\">active</span></td></tr><tr><td><label class=\"ns-check\"><input type=\"checkbox\" data-row-select aria-label=\"Select Northwind\"/></label></td><td>Northwind</td><td>Silver</td><td class=\"num\">$7,300</td><td><span class=\"ns-dot ns-dot--error\">error</span></td></tr><tr><td><label class=\"ns-check\"><input type=\"checkbox\" data-row-select aria-label=\"Select Globex\"/></label></td><td>Globex</td><td>Gold</td><td class=\"num\">$19,850</td><td><span class=\"ns-dot ns-dot--success\">active</span></td></tr></tbody>\n</table></div>\n<div class=\"ns-bulkbar\" role=\"region\" aria-label=\"Bulk actions\"><span class=\"ns-bulkbar__count\" aria-live=\"polite\">3 selected</span><span class=\"ns-bulkbar__sep\"></span><button class=\"ns-btn ns-btn--ghost ns-btn--sm\">Approve</button><button class=\"ns-btn ns-btn--ghost ns-btn--sm\">Export</button><span class=\"ns-bulkbar__sep\"></span><button class=\"ns-btn ns-btn--ghost ns-btn--sm\">Clear</button><button class=\"ns-btn ns-btn--danger ns-btn--sm\">Delete</button></div>",
+   "react": "<DataTable rows={rows} headers={headers} isSortable>\n  {({ rows, headers, getTableProps }) => (\n    <Table {...getTableProps()}>...</Table>\n  )}\n</DataTable>",
+   "parts": [
+    {
+     "id": "bulk-action-bar",
+     "name": "Bulk action bar",
+     "figma": "4466:131",
+     "description": "A toolbar that appears above a table when rows are selected. It shows the count and the actions that apply to every selected row.",
+     "react": "<BulkActionBar count={3} actions={[{ label: \"Approve\" }, { label: \"Delete\", destructive: true }]} onClear={clear} />"
+    }
+   ]
   },
   {
    "id": "date-picker",
@@ -2436,7 +2573,8 @@
     "The typed input is always available, so the calendar is never the only path."
    ],
    "html": "<div style=\"display:grid;gap:12px\"><div class=\"ns-field\" style=\"width:280px\"><label class=\"ns-label\">Reporting window</label><input class=\"ns-input\" aria-label=\"Reporting window\" value=\"09/10/2026 - 09/16/2026\"/></div><div class=\"ns-cal\" role=\"group\" aria-label=\"September 2026\"><div class=\"ns-cal__head\"><button class=\"icon-btn\" aria-label=\"Previous month\">‹</button>September 2026<button class=\"icon-btn\" aria-label=\"Next month\">›</button></div><div class=\"ns-cal__grid\"><span class=\"ns-cal__dow\">Mo</span><span class=\"ns-cal__dow\">Tu</span><span class=\"ns-cal__dow\">We</span><span class=\"ns-cal__dow\">Th</span><span class=\"ns-cal__dow\">Fr</span><span class=\"ns-cal__dow\">Sa</span><span class=\"ns-cal__dow\">Su</span><button class=\"ns-cal__day is-muted\" tabindex=\"-1\">29</button><button class=\"ns-cal__day is-muted\" tabindex=\"-1\">30</button><button class=\"ns-cal__day is-muted\" tabindex=\"-1\">31</button><button class=\"ns-cal__day   \">1</button><button class=\"ns-cal__day   \">2</button><button class=\"ns-cal__day   \">3</button><button class=\"ns-cal__day   \">4</button><button class=\"ns-cal__day   \">5</button><button class=\"ns-cal__day   \">6</button><button class=\"ns-cal__day   \">7</button><button class=\"ns-cal__day   \">8</button><button class=\"ns-cal__day   \">9</button><button class=\"ns-cal__day  is-selected \">10</button><button class=\"ns-cal__day   is-range\">11</button><button class=\"ns-cal__day   is-range\">12</button><button class=\"ns-cal__day   is-range\">13</button><button class=\"ns-cal__day   is-range\">14</button><button class=\"ns-cal__day   is-range\">15</button><button class=\"ns-cal__day  is-selected \">16</button><button class=\"ns-cal__day   \">17</button><button class=\"ns-cal__day   \">18</button><button class=\"ns-cal__day   \">19</button><button class=\"ns-cal__day   \">20</button><button class=\"ns-cal__day   \">21</button><button class=\"ns-cal__day   \">22</button><button class=\"ns-cal__day   \">23</button><button class=\"ns-cal__day is-today  \">24</button><button class=\"ns-cal__day   \">25</button><button class=\"ns-cal__day   \">26</button><button class=\"ns-cal__day   \">27</button><button class=\"ns-cal__day   \">28</button><button class=\"ns-cal__day   \">29</button><button class=\"ns-cal__day   \">30</button><button class=\"ns-cal__day is-muted\" tabindex=\"-1\">1</button><button class=\"ns-cal__day is-muted\" tabindex=\"-1\">2</button></div></div></div>",
-   "react": "<DatePicker datePickerType=\"range\" onChange={setRange}>\n  <DatePickerInput id=\"start\" labelText=\"Start\" />\n  <DatePickerInput id=\"end\" labelText=\"End\" />\n</DatePicker>"
+   "react": "<DatePicker datePickerType=\"range\" onChange={setRange}>\n  <DatePickerInput id=\"start\" labelText=\"Start\" />\n  <DatePickerInput id=\"end\" labelText=\"End\" />\n</DatePicker>",
+   "parts": []
   },
   {
    "id": "divider",
@@ -2497,169 +2635,8 @@
     "Use <hr> for semantic breaks; purely visual lines can be CSS borders."
    ],
    "html": "<div style=\"max-width:480px;margin:0 auto\"><p style=\"margin:0\">Section one</p><hr class=\"ns-divider\"/><p style=\"margin:0\">Section two</p></div>",
-   "react": "<Divider />"
-  },
-  {
-   "id": "dropdown",
-   "name": "Dropdown",
-   "category": "Inputs",
-   "status": "New",
-   "figma": "1840:22807",
-   "description": "Dropdowns present a list of options from which a user can select one option, or several. A selected option can represent a value in a form, or can be used as an action to filter or sort existing content.",
-   "classes": [
-    "is-hover",
-    "is-static",
-    "ns-dd",
-    "ns-dd__item",
-    "ns-dd__menu",
-    "ns-dd__trigger"
-   ],
-   "helperClasses": [
-    "caret"
-   ],
-   "axes": [
-    {
-     "axis": "Trigger / Content",
-     "values": "Text (150x42), Icon (36x36), Two icons (176x42)"
-    },
-    {
-     "axis": "Trigger / State",
-     "values": "Default, Hover, Disabled"
-    },
-    {
-     "axis": "Menu / Items",
-     "values": "4, 5, 6, 7 (200 wide, +42 per item)"
-    },
-    {
-     "axis": "List item",
-     "values": "Icon: No, Yes · Hovered: No, Yes (200x40)"
-    }
-   ],
-   "use": [
-    "Sorting, filtering, and choosing one value from 4 to 7 options.",
-    "Toolbars where a visible radio group would take too much room."
-   ],
-   "avoid": [
-    "Two or three options: use radio buttons.",
-    "Long lists: use a searchable combo box."
-   ],
-   "guidance": [
-    {
-     "verdict": "do",
-     "note": "Always show a label on the trigger."
-    },
-    {
-     "verdict": "do not",
-     "note": "Show an empty trigger with only a caret."
-    }
-   ],
-   "variants": [
-    {
-     "name": "Trigger states",
-     "note": "Default, Hover, Disabled.",
-     "html": "<button class=\"ns-dd__trigger\">Label<span class=\"caret\"></span></button><button class=\"ns-dd__trigger is-hover\">Label<span class=\"caret\"></span></button><button class=\"ns-dd__trigger\" disabled>Label<span class=\"caret\"></span></button>"
-    },
-    {
-     "name": "Live",
-     "note": "Click to open.",
-     "html": "<div class=\"ns-dd\" data-dd><button class=\"ns-dd__trigger\" aria-haspopup=\"listbox\" aria-expanded=\"false\">Region<span class=\"caret\"></span></button><ul class=\"ns-dd__menu\" role=\"listbox\"><li><button class=\"ns-dd__item\" role=\"option\" aria-selected=\"true\">us-east-1</button></li><li><button class=\"ns-dd__item\" role=\"option\">eu-central-1</button></li><li><button class=\"ns-dd__item\" role=\"option\">ap-south-1</button></li><li><button class=\"ns-dd__item\" role=\"option\">sa-east-1</button></li></ul></div>"
-    }
-   ],
-   "tokens": [
-    {
-     "token": "--ns-interactive-secondary-bg",
-     "role": "Trigger and menu fill (gray/8)"
-    },
-    {
-     "token": "--ns-interactive-secondary-hover",
-     "role": "Hover (gray/7)"
-    },
-    {
-     "token": "--ns-blue-700",
-     "role": "Selected item indicator"
-    },
-    {
-     "token": "--ns-radius-sm",
-     "role": "Radius"
-    }
-   ],
-   "sizes": [
-    {
-     "size": "Trigger",
-     "value": "42px",
-     "use": "Text and two-icon triggers"
-    },
-    {
-     "size": "Icon trigger",
-     "value": "36px",
-     "use": "Toolbars"
-    },
-    {
-     "size": "List item",
-     "value": "40px",
-     "use": "Menu rows"
-    }
-   ],
-   "props": [
-    {
-     "prop": "label",
-     "type": "string",
-     "default": "-",
-     "note": "Trigger text"
-    },
-    {
-     "prop": "items",
-     "type": "Item[]",
-     "default": "[]",
-     "note": "Options"
-    },
-    {
-     "prop": "icon",
-     "type": "ReactNode",
-     "default": "-",
-     "note": "Leading icon"
-    },
-    {
-     "prop": "multiple",
-     "type": "boolean",
-     "default": "false",
-     "note": "Multi-select"
-    },
-    {
-     "prop": "onChange",
-     "type": "(v) => void",
-     "default": "-",
-     "note": "Handler"
-    }
-   ],
-   "keyboard": [
-    {
-     "key": "Specimen",
-     "action": "The demo is static. These keys are the behavior to build."
-    },
-    {
-     "key": "Enter / Space",
-     "action": "Open menu"
-    },
-    {
-     "key": "Arrow up / down",
-     "action": "Move between items"
-    },
-    {
-     "key": "Enter",
-     "action": "Select item"
-    },
-    {
-     "key": "Esc",
-     "action": "Close and return focus"
-    }
-   ],
-   "accessibility": [
-    "Trigger has aria-haspopup=\"listbox\" and aria-expanded.",
-    "Menu uses role=\"listbox\", items role=\"option\" with aria-selected."
-   ],
-   "html": "<div style=\"display:grid;gap:6px;justify-items:start\"><button class=\"ns-dd__trigger\" aria-haspopup=\"listbox\" aria-expanded=\"true\" style=\"min-width:150px\">Sort by<span class=\"caret\"></span></button><ul class=\"ns-dd__menu is-static\" role=\"listbox\" aria-label=\"Sort by\"><li><button class=\"ns-dd__item\" role=\"option\" aria-selected=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1\"/></svg>Newest first</button></li><li><button class=\"ns-dd__item is-hover\" role=\"option\" aria-selected=\"false\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1\"/></svg>Oldest first</button></li><li><button class=\"ns-dd__item\" role=\"option\" aria-selected=\"false\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1\"/></svg>Highest load</button></li><li><button class=\"ns-dd__item\" role=\"option\" aria-selected=\"false\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1\"/></svg>Lowest load</button></li></ul></div>",
-   "react": "<Dropdown label=\"Sort by\" icon={<Settings />} items={sorts} onChange={setSort} />"
+   "react": "<Divider />",
+   "parts": []
   },
   {
    "id": "dumbbell-chart",
@@ -2855,7 +2832,8 @@
     "Trend text carries its sign, so the color is a second signal."
    ],
    "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Satisfaction</span><span class=\"ns-chart__value\">4.6<span class=\"ns-chart__trend\">+0.3%</span></span><span class=\"ns-chart__desc\">Before and after the change</span></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Dumbbell chart: five rows, each joining a before value and an after value\" data-chart=\"dumbbell\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><text x=\"0\" y=\"20\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">North</text><rect x=\"119\" y=\"19\" width=\"107.1\" height=\"2\" rx=\"1\" style=\"fill:var(--ns-widget-grid)\"/><circle cx=\"119\" cy=\"20\" r=\"6\" style=\"fill:var(--ns-chart-series-2)\"/><circle cx=\"226.1\" cy=\"20\" r=\"6\" style=\"fill:var(--ns-chart-series-1)\"/><text x=\"0\" y=\"60\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">South</text><rect x=\"157.3\" y=\"59\" width=\"114.8\" height=\"2\" rx=\"1\" style=\"fill:var(--ns-widget-grid)\"/><circle cx=\"157.3\" cy=\"60\" r=\"6\" style=\"fill:var(--ns-chart-series-2)\"/><circle cx=\"272\" cy=\"60\" r=\"6\" style=\"fill:var(--ns-chart-series-1)\"/><text x=\"0\" y=\"100\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">East</text><rect x=\"93.5\" y=\"99\" width=\"89.3\" height=\"2\" rx=\"1\" style=\"fill:var(--ns-widget-grid)\"/><circle cx=\"93.5\" cy=\"100\" r=\"6\" style=\"fill:var(--ns-chart-series-2)\"/><circle cx=\"182.8\" cy=\"100\" r=\"6\" style=\"fill:var(--ns-chart-series-1)\"/><text x=\"0\" y=\"140\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">West</text><rect x=\"170\" y=\"139\" width=\"76.5\" height=\"2\" rx=\"1\" style=\"fill:var(--ns-widget-grid)\"/><circle cx=\"170\" cy=\"140\" r=\"6\" style=\"fill:var(--ns-chart-series-2)\"/><circle cx=\"246.5\" cy=\"140\" r=\"6\" style=\"fill:var(--ns-chart-series-1)\"/><text x=\"0\" y=\"180\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Central</text><rect x=\"131.8\" y=\"179\" width=\"165.8\" height=\"2\" rx=\"1\" style=\"fill:var(--ns-widget-grid)\"/><circle cx=\"131.8\" cy=\"180\" r=\"6\" style=\"fill:var(--ns-chart-series-2)\"/><circle cx=\"297.5\" cy=\"180\" r=\"6\" style=\"fill:var(--ns-chart-series-1)\"/></svg></div>",
-   "react": "<DumbbellChart size=\"medium\" title=\"Satisfaction\" value=\"4.6\" trend=\"+0.3%\" data={[{ label: \"North\", from: 20, to: 62 }]} />"
+   "react": "<DumbbellChart size=\"medium\" title=\"Satisfaction\" value=\"4.6\" trend=\"+0.3%\" data={[{ label: \"North\", from: 20, to: 62 }]} />",
+   "parts": []
   },
   {
    "id": "file-uploader",
@@ -2951,7 +2929,8 @@
     "Announce upload completion through a live region."
    ],
    "html": "<div style=\"display:grid;gap:12px;max-width:460px;margin:0 auto\"><label class=\"ns-drop\" id=\"drop-demo\"><span style=\"font-size:22px\">↑</span><span>Drag files here or <b>browse</b></span><span class=\"ns-helper\">CSV, JSON up to 25 MB</span><input type=\"file\" class=\"sr-only\" multiple/></label><div class=\"ns-file\"><span class=\"ns-file__ext\">CSV</span><div><b>accounts-q3.csv</b><div class=\"ns-progress\" style=\"margin-top:6px\"><div class=\"ns-progress__track\"><div class=\"ns-progress__bar\" style=\"--_v:72%\"></div></div></div></div><span class=\"ns-helper\">72%</span></div><div class=\"ns-file\"><span class=\"ns-file__ext\" style=\"color:var(--ns-status-error)\">PDF</span><div><b>contract.pdf</b><div class=\"ns-helper\" style=\"color:var(--ns-status-error)\">File type not supported</div></div><button class=\"ns-notice__close\" aria-label=\"Remove\">×</button></div></div>",
-   "react": "<FileUploaderDropContainer accept={['.csv','.json']} multiple onAddFiles={upload} />"
+   "react": "<FileUploaderDropContainer accept={['.csv','.json']} multiple onAddFiles={upload} />",
+   "parts": []
   },
   {
    "id": "funnel-chart",
@@ -3143,7 +3122,8 @@
     "Trend text carries its sign, so the color is a second signal."
    ],
    "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Signups</span><span class=\"ns-chart__value\">8,420<span class=\"ns-chart__trend\">+3.2%</span></span><span class=\"ns-chart__desc\">From first visit to active</span></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Funnel chart: five stages from visits to active, each narrower than the last\" data-chart=\"funnel\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><rect x=\"72\" y=\"0\" width=\"255\" height=\"35.2\" rx=\"4\" style=\"fill:var(--ns-chart-series-1)\"/><text x=\"0\" y=\"17.6\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Visits</text><rect x=\"100\" y=\"41.2\" width=\"198.9\" height=\"35.2\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.84\"/><text x=\"0\" y=\"58.8\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Signups</text><rect x=\"128.1\" y=\"82.4\" width=\"142.8\" height=\"35.2\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.6799999999999999\"/><text x=\"0\" y=\"100\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Trial</text><rect x=\"151.1\" y=\"123.6\" width=\"96.9\" height=\"35.2\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.52\"/><text x=\"0\" y=\"141.2\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Paid</text><rect x=\"171.4\" y=\"164.8\" width=\"56.1\" height=\"35.2\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.36\"/><text x=\"0\" y=\"182.4\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Active</text></svg></div>",
-   "react": "<FunnelChart size=\"medium\" title=\"Signups\" value=\"8,420\" trend=\"+3.2%\" data={[{ label: \"Visits\", value: 100 }, { label: \"Signups\", value: 78 }]} />"
+   "react": "<FunnelChart size=\"medium\" title=\"Signups\" value=\"8,420\" trend=\"+3.2%\" data={[{ label: \"Visits\", value: 100 }, { label: \"Signups\", value: 78 }]} />",
+   "parts": []
   },
   {
    "id": "gauge-chart",
@@ -3339,7 +3319,8 @@
     "Trend text carries its sign, so the color is a second signal."
    ],
    "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Capacity</span><span class=\"ns-chart__value\">72%<span class=\"ns-chart__trend\">+4.0%</span></span><span class=\"ns-chart__desc\">Share of the limit used</span></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Gauge: 72 percent of the limit is used\" data-chart=\"gauge\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><path d=\"M4 182A159.5 159.5 0 0 1 323 182L278.3 182A114.83999999999999 114.83999999999999 0 0 0 48.7 182Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-track)\"/><path d=\"M4 182A159.5 159.5 0 0 1 265.2 59.1L236.7 93.5A114.83999999999999 114.83999999999999 0 0 0 48.7 182Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><text x=\"163.5\" y=\"134.2\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"24\" font-weight=\"700\" style=\"fill:var(--ns-text-primary)\">72%</text><text x=\"26.3\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">0</text><text x=\"300.7\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">100</text></svg></div>",
-   "react": "<GaugeChart size=\"medium\" title=\"Capacity\" value=\"72%\" trend=\"+4.0%\" data={{ value: 72, max: 100 }} />"
+   "react": "<GaugeChart size=\"medium\" title=\"Capacity\" value=\"72%\" trend=\"+4.0%\" data={{ value: 72, max: 100 }} />",
+   "parts": []
   },
   {
    "id": "heatmap-chart",
@@ -3531,158 +3512,8 @@
     "Trend text carries its sign, so the color is a second signal."
    ],
    "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Activity</span><span class=\"ns-chart__value\">3,260<span class=\"ns-chart__trend\">+5.1%</span></span><span class=\"ns-chart__desc\">Events by weekday and hour</span></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Heatmap: activity by weekday and time, darker cells mean more events\" data-chart=\"heatmap\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><text x=\"26\" y=\"16.6\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Mon</text><rect x=\"34\" y=\"0\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.12\"/><rect x=\"58.7\" y=\"0\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.6088888888888889\"/><rect x=\"83.3\" y=\"0\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.12\"/><rect x=\"108\" y=\"0\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.6088888888888889\"/><rect x=\"132.7\" y=\"0\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.12\"/><rect x=\"157.3\" y=\"0\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.6088888888888889\"/><rect x=\"182\" y=\"0\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.12\"/><rect x=\"206.7\" y=\"0\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.6088888888888889\"/><rect x=\"231.3\" y=\"0\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.12\"/><rect x=\"256\" y=\"0\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.6088888888888889\"/><rect x=\"280.7\" y=\"0\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.12\"/><rect x=\"305.3\" y=\"0\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.6088888888888889\"/><text x=\"26\" y=\"52.8\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Tue</text><rect x=\"34\" y=\"36.2\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.8044444444444444\"/><rect x=\"58.7\" y=\"36.2\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.41333333333333333\"/><rect x=\"83.3\" y=\"36.2\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"108\" y=\"36.2\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.6088888888888889\"/><rect x=\"132.7\" y=\"36.2\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.21777777777777776\"/><rect x=\"157.3\" y=\"36.2\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.8044444444444444\"/><rect x=\"182\" y=\"36.2\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.41333333333333333\"/><rect x=\"206.7\" y=\"36.2\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"231.3\" y=\"36.2\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.6088888888888889\"/><rect x=\"256\" y=\"36.2\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.21777777777777776\"/><rect x=\"280.7\" y=\"36.2\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.8044444444444444\"/><rect x=\"305.3\" y=\"36.2\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.41333333333333333\"/><text x=\"26\" y=\"89\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Wed</text><rect x=\"34\" y=\"72.4\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.5111111111111111\"/><rect x=\"58.7\" y=\"72.4\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.21777777777777776\"/><rect x=\"83.3\" y=\"72.4\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.9022222222222221\"/><rect x=\"108\" y=\"72.4\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.6088888888888889\"/><rect x=\"132.7\" y=\"72.4\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.31555555555555553\"/><rect x=\"157.3\" y=\"72.4\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"182\" y=\"72.4\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.7066666666666667\"/><rect x=\"206.7\" y=\"72.4\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.41333333333333333\"/><rect x=\"231.3\" y=\"72.4\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.12\"/><rect x=\"256\" y=\"72.4\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.8044444444444444\"/><rect x=\"280.7\" y=\"72.4\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.5111111111111111\"/><rect x=\"305.3\" y=\"72.4\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.21777777777777776\"/><text x=\"26\" y=\"125.2\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Thu</text><rect x=\"34\" y=\"108.6\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.21777777777777776\"/><rect x=\"58.7\" y=\"108.6\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"83.3\" y=\"108.6\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.8044444444444444\"/><rect x=\"108\" y=\"108.6\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.6088888888888889\"/><rect x=\"132.7\" y=\"108.6\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.41333333333333333\"/><rect x=\"157.3\" y=\"108.6\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.21777777777777776\"/><rect x=\"182\" y=\"108.6\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"206.7\" y=\"108.6\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.8044444444444444\"/><rect x=\"231.3\" y=\"108.6\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.6088888888888889\"/><rect x=\"256\" y=\"108.6\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.41333333333333333\"/><rect x=\"280.7\" y=\"108.6\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.21777777777777776\"/><rect x=\"305.3\" y=\"108.6\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1)\"/><text x=\"26\" y=\"161.4\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Fri</text><rect x=\"34\" y=\"144.8\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.9022222222222221\"/><rect x=\"58.7\" y=\"144.8\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.8044444444444444\"/><rect x=\"83.3\" y=\"144.8\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.7066666666666667\"/><rect x=\"108\" y=\"144.8\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.6088888888888889\"/><rect x=\"132.7\" y=\"144.8\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.5111111111111111\"/><rect x=\"157.3\" y=\"144.8\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.41333333333333333\"/><rect x=\"182\" y=\"144.8\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.31555555555555553\"/><rect x=\"206.7\" y=\"144.8\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.21777777777777776\"/><rect x=\"231.3\" y=\"144.8\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.12\"/><rect x=\"256\" y=\"144.8\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"280.7\" y=\"144.8\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.9022222222222221\"/><rect x=\"305.3\" y=\"144.8\" width=\"21.7\" height=\"33.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.8044444444444444\"/><text x=\"44.8\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">6a</text><text x=\"180.5\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">12p</text><text x=\"316.2\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">6p</text></svg></div>",
-   "react": "<HeatmapChart size=\"medium\" title=\"Activity\" value=\"3,260\" trend=\"+5.1%\" data={[[0.2, 0.8, 0.5]]} />"
-  },
-  {
-   "id": "icon-button",
-   "name": "Icon button",
-   "category": "Actions",
-   "status": "New",
-   "figma": "4466:661",
-   "description": "A square, icon-only button for toolbars, table rows and dense headers. Every icon button needs an accessible name. Add a tooltip for any icon that is not widely understood.",
-   "classes": [
-    "ns-btn",
-    "ns-btn--danger",
-    "ns-btn--ghost",
-    "ns-btn--icon",
-    "ns-btn--lg",
-    "ns-btn--secondary",
-    "ns-btn--sm"
-   ],
-   "helperClasses": [],
-   "axes": [
-    {
-     "axis": "Hierarchy",
-     "values": "Primary, Secondary, Ghost, Danger"
-    },
-    {
-     "axis": "Size",
-     "values": "S (32), M (40), L (48)"
-    },
-    {
-     "axis": "Icon",
-     "values": "Swap the glyph"
-    },
-    {
-     "axis": "State",
-     "values": "Default, Hover, Pressed, Focus, Disabled"
-    }
-   ],
-   "use": [
-    "Use Ghost in table rows and toolbars where space is tight.",
-    "Show a tooltip with the action name on hover and focus.",
-    "Use the L size on touch surfaces so the target stays at 48px."
-   ],
-   "avoid": [
-    "Do not use for primary page actions. Use a Button with a label.",
-    "Do not drop the accessible name. Icon-only buttons need aria-label."
-   ],
-   "guidance": [
-    {
-     "verdict": "do",
-     "note": "Use Ghost for row actions, with a tooltip that names the action."
-    },
-    {
-     "verdict": "do not",
-     "note": "A primary icon-only button in a page header leaves the action unclear."
-    }
-   ],
-   "variants": [
-    {
-     "name": "Hierarchy",
-     "note": "Primary, Secondary, Ghost and Danger share one square shape.",
-     "html": "<div style=\"display:flex;gap:8px;align-items:center\"><button class=\"ns-btn ns-btn--icon\" aria-label=\"Edit\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z\"/></svg></button><button class=\"ns-btn ns-btn--secondary ns-btn--icon\" aria-label=\"Edit\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z\"/></svg></button><button class=\"ns-btn ns-btn--ghost ns-btn--icon\" aria-label=\"Edit\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z\"/></svg></button><button class=\"ns-btn ns-btn--danger ns-btn--icon\" aria-label=\"Delete\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M18 6 6 18M6 6l12 12\"/></svg></button></div>"
-    },
-    {
-     "name": "Sizes",
-     "note": "S 32, M 40, L 48. Square at every size.",
-     "html": "<div style=\"display:flex;gap:8px;align-items:center\"><button class=\"ns-btn ns-btn--secondary ns-btn--icon ns-btn--sm\" aria-label=\"More actions\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h.01M12 12h.01M19 12h.01\" stroke-width=\"3\"/></svg></button><button class=\"ns-btn ns-btn--secondary ns-btn--icon\" aria-label=\"More actions\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h.01M12 12h.01M19 12h.01\" stroke-width=\"3\"/></svg></button><button class=\"ns-btn ns-btn--secondary ns-btn--icon ns-btn--lg\" aria-label=\"More actions\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h.01M12 12h.01M19 12h.01\" stroke-width=\"3\"/></svg></button></div>"
-    }
-   ],
-   "tokens": [
-    {
-     "token": "--ns-interactive-primary",
-     "role": "Primary background"
-    },
-    {
-     "token": "--ns-interactive-ghost-hover",
-     "role": "Ghost hover"
-    },
-    {
-     "token": "--ns-status-error",
-     "role": "Danger background"
-    },
-    {
-     "token": "--ns-density-control",
-     "role": "Height in compact density"
-    }
-   ],
-   "sizes": [
-    {
-     "size": "S",
-     "value": "32px",
-     "use": "Dense toolbars and table rows"
-    },
-    {
-     "size": "M",
-     "value": "40px",
-     "use": "Default"
-    },
-    {
-     "size": "L",
-     "value": "48px",
-     "use": "Touch surfaces and dialogs"
-    }
-   ],
-   "props": [
-    {
-     "prop": "icon",
-     "type": "ReactNode",
-     "default": "-",
-     "note": "Glyph. Required"
-    },
-    {
-     "prop": "hierarchy",
-     "type": "'primary' | 'secondary' | 'ghost' | 'danger'",
-     "default": "'secondary'",
-     "note": "Visual emphasis"
-    },
-    {
-     "prop": "size",
-     "type": "'s' | 'm' | 'l'",
-     "default": "'m'",
-     "note": "Square height"
-    },
-    {
-     "prop": "aria-label",
-     "type": "string",
-     "default": "-",
-     "note": "Required. Names the action"
-    },
-    {
-     "prop": "disabled",
-     "type": "boolean",
-     "default": "false",
-     "note": "Removes the button from the tab order"
-    }
-   ],
-   "keyboard": [
-    {
-     "key": "Tab",
-     "action": "Moves focus to the button"
-    },
-    {
-     "key": "Enter / Space",
-     "action": "Activates the button"
-    }
-   ],
-   "accessibility": [
-    "Use a native button. Icon-only buttons need an aria-label that names the action, such as Edit contact.",
-    "Pair the icon with a tooltip so sighted users hear the same name.",
-    "Disabled buttons use the disabled attribute so they leave the tab order."
-   ],
-   "html": "<button class=\"ns-btn ns-btn--icon\" aria-label=\"More action\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h.01M12 12h.01M19 12h.01\" stroke-width=\"3\"/></svg></button>",
-   "react": "<IconButton icon={<MoreIcon />} hierarchy=\"ghost\" aria-label=\"More actions\" />"
+   "react": "<HeatmapChart size=\"medium\" title=\"Activity\" value=\"3,260\" trend=\"+5.1%\" data={[[0.2, 0.8, 0.5]]} />",
+   "parts": []
   },
   {
    "id": "inline-edit",
@@ -3798,7 +3629,8 @@
     "Announce the save result in a polite live region."
    ],
    "html": "<div style=\"width:280px\"><span class=\"ns-label\">Account manager</span><div class=\"ns-inline-edit\" tabindex=\"0\" role=\"button\" aria-label=\"Edit account manager\">Sara Kim</div></div>",
-   "react": "<InlineEdit label=\"Account manager\" value={manager} onSave={saveManager} />"
+   "react": "<InlineEdit label=\"Account manager\" value={manager} onSave={saveManager} />",
+   "parts": []
   },
   {
    "id": "link",
@@ -3912,69 +3744,8 @@
     "Disabled links use aria-disabled and lose their href."
    ],
    "html": "<a class=\"ns-link\" href=\"#\">View billing history</a>",
-   "react": "<Link href=\"/billing\">View billing history</Link>"
-  },
-  {
-   "id": "loading",
-   "name": "Loading",
-   "category": "Status",
-   "status": "Stable",
-   "figma": "4038:31327",
-   "description": "Spinners and skeletons show that content is loading and keep layout stable while it arrives.",
-   "classes": [
-    "ns-skel",
-    "ns-spin"
-   ],
-   "helperClasses": [],
-   "axes": [],
-   "use": [
-    "Skeletons for page and card loads; spinners for small, local waits."
-   ],
-   "avoid": [
-    "Waits under 300ms: show nothing."
-   ],
-   "guidance": [
-    {
-     "verdict": "do",
-     "note": "Match the skeleton to the real layout."
-    },
-    {
-     "verdict": "do not",
-     "note": "Show a spinner in every card at once."
-    }
-   ],
-   "variants": [],
-   "tokens": [
-    {
-     "token": "--ns-background-elevated",
-     "role": "Skeleton base"
-    },
-    {
-     "token": "--ns-teal-500",
-     "role": "Spinner arc"
-    }
-   ],
-   "sizes": [],
-   "props": [
-    {
-     "prop": "kind",
-     "type": "'skeleton' | 'spinner'",
-     "default": "'skeleton'",
-     "note": "Type"
-    }
-   ],
-   "keyboard": [
-    {
-     "key": "-",
-     "action": "Not interactive"
-    }
-   ],
-   "accessibility": [
-    "Containers set aria-busy=\"true\" while loading.",
-    "Spinners use role=\"status\" with a label."
-   ],
-   "html": "<div style=\"width:360px;display:grid;gap:10px\" aria-busy=\"true\" aria-label=\"Loading accounts\"><div class=\"ns-skel\" style=\"height:20px;width:60%\"></div><div class=\"ns-skel\" style=\"height:12px\"></div><div class=\"ns-skel\" style=\"height:12px;width:85%\"></div><div class=\"ns-skel\" style=\"height:80px;margin-top:6px\"></div></div>",
-   "react": "<SkeletonText lines={3} />\n<Loading small withOverlay={false} />"
+   "react": "<Link href=\"/billing\">View billing history</Link>",
+   "parts": []
   },
   {
    "id": "menu",
@@ -4095,7 +3866,8 @@
     "Disabled items keep aria-disabled so screen readers can announce them."
    ],
    "html": "<div class=\"ns-menu ns-menu--panel\" role=\"menu\" aria-label=\"Row actions\" style=\"width:240px\"><button role=\"menuitem\">Edit details<kbd>⌘E</kbd></button><button role=\"menuitem\">Duplicate</button><button role=\"menuitem\" aria-disabled=\"true\">Archive</button><div class=\"ns-menu__sep\" role=\"separator\"></div><button role=\"menuitem\" class=\"is-destructive\">Delete</button></div>",
-   "react": "<Menu trigger={<IconButton icon={<MoreIcon />} aria-label=\"Row actions\" />} items={[{ id: \"edit\", label: \"Edit details\", shortcut: \"⌘E\" }, { id: \"delete\", label: \"Delete\", destructive: true }]} />"
+   "react": "<Menu trigger={<IconButton icon={<MoreIcon />} aria-label=\"Row actions\" />} items={[{ id: \"edit\", label: \"Edit details\", shortcut: \"⌘E\" }, { id: \"delete\", label: \"Delete\", destructive: true }]} />",
+   "parts": []
   },
   {
    "id": "modal",
@@ -4219,7 +3991,8 @@
     "Focus moves in on open and returns to the trigger on close. Try the live modal."
    ],
    "html": "<div style=\"display:grid;gap:20px;justify-items:center;width:100%\"><div class=\"ns-modal ns-modal--inline\" role=\"dialog\" aria-labelledby=\"mdl-t\"><div class=\"ns-modal__head\"><div><p class=\"ns-modal__label\">Account access</p><h2 class=\"ns-modal__title\" id=\"mdl-t\">Revoke API credentials?</h2></div><button class=\"icon-btn\" aria-label=\"Close\">×</button></div><div class=\"ns-modal__body\">Revoking credentials for Acme Corp stops 14 active integrations immediately.</div><div class=\"ns-modal__foot\"><button class=\"ns-btn ns-btn--tertiary\">Cancel</button><button class=\"ns-btn ns-btn--danger\">Revoke</button></div></div><button class=\"ns-btn ns-btn--tertiary\" data-open-modal>Open live modal</button></div>",
-   "react": "<Modal open={open} danger modalHeading=\"Revoke API credentials?\" primaryButtonText=\"Revoke\" secondaryButtonText=\"Cancel\" onRequestClose={close} />"
+   "react": "<Modal open={open} danger modalHeading=\"Revoke API credentials?\" primaryButtonText=\"Revoke\" secondaryButtonText=\"Cancel\" onRequestClose={close} />",
+   "parts": []
   },
   {
    "id": "notification",
@@ -4227,27 +4000,50 @@
    "category": "Feedback",
    "status": "Stable",
    "figma": "4209:150",
-   "description": "Notifications communicate system messages: inline in context, or as toasts that appear and dismiss themselves.",
+   "description": "Notifications communicate system messages: inline in context, or as toasts that appear and dismiss themselves. Includes toast.",
    "classes": [
     "ns-btn",
+    "ns-btn--ghost",
     "ns-btn--sm",
     "ns-btn--tertiary",
     "ns-helper",
     "ns-notice",
+    "ns-notice--error",
     "ns-notice--info",
+    "ns-notice--success",
+    "ns-notice--toast",
     "ns-notice__body",
     "ns-notice__close",
     "ns-notice__icon",
     "ns-notice__title"
    ],
    "helperClasses": [],
-   "axes": [],
+   "axes": [
+    {
+     "axis": "Toast / Status",
+     "values": "Information, Success, Warning, Error"
+    },
+    {
+     "axis": "Toast / Action",
+     "values": "None or one button"
+    },
+    {
+     "axis": "Toast / Message",
+     "values": "Shown or hidden"
+    }
+   ],
    "use": [
     "Inline: messages tied to a section.",
-    "Toast: confirmation of a completed action."
+    "Toast: confirmation of a completed action.",
+    "Toast: Confirming the result of an action the person just took.",
+    "Toast: Offering Undo instead of a confirm dialog for reversible changes.",
+    "Toast: Keeping titles under 40 characters."
    ],
    "avoid": [
-    "Critical, blocking issues: use a modal."
+    "Critical, blocking issues: use a modal.",
+    "Toast: Do not use for errors the person must fix. Show those inline.",
+    "Toast: Do not put more than one action in a toast.",
+    "Toast: Do not auto-dismiss error toasts."
    ],
    "guidance": [
     {
@@ -4259,7 +4055,18 @@
      "note": "Show raw error codes alone."
     }
    ],
-   "variants": [],
+   "variants": [
+    {
+     "name": "Toast: Success",
+     "note": "Confirms a finished action, with Undo.",
+     "html": "<div class=\"ns-notice ns-notice--toast ns-notice--success\" role=\"status\" style=\"width:360px\"><span class=\"ns-notice__icon\" aria-hidden=\"true\">✓</span><div><p class=\"ns-notice__title\">Account archived</p><p class=\"ns-notice__body\">Acme Corp moved to the archive.</p></div><button class=\"ns-btn ns-btn--ghost ns-btn--sm\">Undo</button></div>"
+    },
+    {
+     "name": "Toast: Error",
+     "note": "Uses role=alert and stays until dismissed.",
+     "html": "<div class=\"ns-notice ns-notice--toast ns-notice--error\" role=\"alert\" style=\"width:360px\"><span class=\"ns-notice__icon\" aria-hidden=\"true\">!</span><div><p class=\"ns-notice__title\">Account not saved</p><p class=\"ns-notice__body\">Check the billing email and try again.</p></div><button class=\"ns-notice__close\" aria-label=\"Dismiss notification\">×</button></div>"
+    }
+   ],
    "tokens": [
     {
      "token": "--ns-status-info / success / warning / error",
@@ -4268,6 +4075,18 @@
     {
      "token": "--ns-elevation-03",
      "role": "Toast shadow"
+    },
+    {
+     "token": "--ns-background-elevated",
+     "role": "Toast surface"
+    },
+    {
+     "token": "--ns-status-success",
+     "role": "Success icon"
+    },
+    {
+     "token": "--ns-status-error",
+     "role": "Error icon"
     }
    ],
    "sizes": [],
@@ -4295,6 +4114,36 @@
      "type": "number",
      "default": "0",
      "note": "Auto-dismiss (toast)"
+    },
+    {
+     "prop": "status (Toast)",
+     "type": "'info' | 'success' | 'warning' | 'error'",
+     "default": "'info'",
+     "note": "Sets color, icon and role"
+    },
+    {
+     "prop": "title (Toast)",
+     "type": "string",
+     "default": "-",
+     "note": "Short result, under 40 characters"
+    },
+    {
+     "prop": "message (Toast)",
+     "type": "string",
+     "default": "-",
+     "note": "Optional detail"
+    },
+    {
+     "prop": "action (Toast)",
+     "type": "{ label, onClick }",
+     "default": "-",
+     "note": "Optional single action"
+    },
+    {
+     "prop": "onDismiss (Toast)",
+     "type": "() => void",
+     "default": "-",
+     "note": "Close control"
     }
    ],
    "keyboard": [
@@ -4305,13 +4154,33 @@
     {
      "key": "Enter",
      "action": "Dismiss"
+    },
+    {
+     "key": "Tab",
+     "action": "Toast: Moves to the action or close button"
+    },
+    {
+     "key": "Enter / Space",
+     "action": "Toast: Activates the focused button"
     }
    ],
    "accessibility": [
-    "Errors use role=\"alert\"; others use role=\"status\" so they are announced politely."
+    "Errors use role=\"alert\"; others use role=\"status\" so they are announced politely.",
+    "Toast: Information and success use role=status, which announces politely without interrupting.",
+    "Toast: Error uses role=alert, so it interrupts the screen reader.",
+    "Toast: Give the close button a name, such as Dismiss notification."
    ],
-   "html": "<div style=\"display:grid;gap:16px;justify-items:center;width:100%\"><div class=\"ns-notice ns-notice--info\" role=\"status\" style=\"width:440px\"><span class=\"ns-notice__icon\">i</span><div><p class=\"ns-notice__title\">Portal update available</p><p class=\"ns-notice__body\">v1.4.0 is ready to deploy.</p></div><button class=\"ns-notice__close\" aria-label=\"Dismiss\">×</button></div><button class=\"ns-btn ns-btn--tertiary ns-btn--sm\" data-toast=\"Portal update available\" data-kind=\"info\">Fire as toast</button></div>",
-   "react": "<InlineNotification kind=\"warning\" title=\"Quota at 85%\" subtitle=\"Upgrade before the next billing cycle.\" />"
+   "html": "<div style=\"display:grid;gap:16px;justify-items:center;width:100%\"><div class=\"ns-notice ns-notice--info\" role=\"status\" style=\"width:440px\"><span class=\"ns-notice__icon\">i</span><div><p class=\"ns-notice__title\">Portal update available</p><p class=\"ns-notice__body\">v1.4.0 is ready to deploy.</p></div><button class=\"ns-notice__close\" aria-label=\"Dismiss\">×</button></div><button class=\"ns-btn ns-btn--tertiary ns-btn--sm\" data-toast=\"Portal update available\" data-kind=\"info\">Fire as toast</button></div>\n<div class=\"ns-notice ns-notice--toast ns-notice--success\" role=\"status\" style=\"width:360px\"><span class=\"ns-notice__icon\" aria-hidden=\"true\">✓</span><div><p class=\"ns-notice__title\">Account archived</p><p class=\"ns-notice__body\">Acme Corp moved to the archive.</p></div><button class=\"ns-btn ns-btn--ghost ns-btn--sm\">Undo</button></div>",
+   "react": "<InlineNotification kind=\"warning\" title=\"Quota at 85%\" subtitle=\"Upgrade before the next billing cycle.\" />",
+   "parts": [
+    {
+     "id": "toast",
+     "name": "Toast",
+     "figma": "4465:138",
+     "description": "A short message after an action, such as Account archived. Toasts stack in a corner and clear on their own. Errors the person must fix belong inline, not in a toast.",
+     "react": "<Toast status=\"success\" title=\"Account archived\" action={{ label: \"Undo\", onClick: undo }} />"
+    }
+   ]
   },
   {
    "id": "number-stepper",
@@ -4435,7 +4304,8 @@
     "The group has a name, such as Sites, so the buttons are announced in context."
    ],
    "html": "<div class=\"ns-stepper\" role=\"group\" aria-label=\"Sites\"><button type=\"button\" aria-label=\"Decrease\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/></svg></button><input type=\"number\" inputmode=\"numeric\" value=\"3\" min=\"1\" max=\"50\" aria-label=\"Sites\"/><button type=\"button\" aria-label=\"Increase\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/></svg></button></div>",
-   "react": "<NumberStepper label=\"Sites\" min={1} max={50} value={sites} onChange={setSites} />"
+   "react": "<NumberStepper label=\"Sites\" min={1} max={50} value={sites} onChange={setSites} />",
+   "parts": []
   },
   {
    "id": "pagination",
@@ -4514,7 +4384,8 @@
     "Wrap in <nav aria-label=\"Pagination\">; current page uses aria-current=\"page\"."
    ],
    "html": "<nav class=\"ns-pagination\" aria-label=\"Pagination\"><span style=\"margin-right:12px\">Rows <select class=\"ns-select\" style=\"width:72px;min-height:32px;display:inline-block\"><option>25</option><option>50</option></select></span><button class=\"ns-page\" disabled aria-label=\"Previous page\">‹</button><button class=\"ns-page\" aria-current=\"page\">1</button><button class=\"ns-page\">2</button><button class=\"ns-page\">3</button><span>…</span><button class=\"ns-page\">12</button><button class=\"ns-page\" aria-label=\"Next page\">›</button><span style=\"margin-left:12px\">1-25 of 288</span></nav>",
-   "react": "<Pagination page={1} pageSize={25} pageSizes={[25, 50, 100]} totalItems={288} />"
+   "react": "<Pagination page={1} pageSize={25} pageSizes={[25, 50, 100]} totalItems={288} />",
+   "parts": []
   },
   {
    "id": "parallel-coordinates-chart",
@@ -4718,7 +4589,8 @@
     "Trend text carries its sign, so the color is a second signal."
    ],
    "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Profiles</span><span class=\"ns-chart__value\">128<span class=\"ns-chart__trend\">+4.0%</span></span><span class=\"ns-chart__desc\">Five measures per profile</span></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Parallel coordinates: four profiles across five measures, one line per profile\" data-chart=\"parallel\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><rect x=\"15.5\" y=\"0\" width=\"1\" height=\"178\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"89.3\" y=\"0\" width=\"1\" height=\"178\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"163\" y=\"0\" width=\"1\" height=\"178\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"236.8\" y=\"0\" width=\"1\" height=\"178\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"310.5\" y=\"0\" width=\"1\" height=\"178\" style=\"fill:var(--ns-widget-grid)\"/><path d=\"M16.0 140.0 L89.8 55.0 L163.5 106.0 L237.3 38.0 L311.0 89.0\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-1);stroke-width:2\"/><path d=\"M16.0 72.0 L89.8 123.0 L163.5 55.0 L237.3 140.0 L311.0 72.0\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-2);stroke-width:2\"/><path d=\"M16.0 38.0 L89.8 89.0 L163.5 140.0 L237.3 72.0 L311.0 21.0\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-3);stroke-width:2\"/><path d=\"M16.0 106.0 L89.8 21.0 L163.5 72.0 L237.3 106.0 L311.0 140.0\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-4);stroke-width:2\"/><text x=\"16\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Speed</text><text x=\"89.8\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Cost</text><text x=\"163.5\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Reach</text><text x=\"237.3\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Rate</text><text x=\"311\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Score</text></svg></div>",
-   "react": "<ParallelCoordinatesChart size=\"medium\" title=\"Profiles\" value=\"128\" trend=\"+4.0%\" data={[[0.2, 0.7, 0.4, 0.8, 0.5]]} />"
+   "react": "<ParallelCoordinatesChart size=\"medium\" title=\"Profiles\" value=\"128\" trend=\"+4.0%\" data={[[0.2, 0.7, 0.4, 0.8, 0.5]]} />",
+   "parts": []
   },
   {
    "id": "popover",
@@ -4801,7 +4673,8 @@
     "Trigger has aria-haspopup and aria-expanded; menus use role=\"menu\"."
    ],
    "html": "<div class=\"ns-popover\"><button class=\"ns-btn ns-btn--tertiary\" data-popover aria-haspopup=\"menu\">Actions ▾</button><div class=\"ns-popover__panel\" style=\"padding:4px\"><ul class=\"ns-menu\" role=\"menu\"><li><button role=\"menuitem\">Duplicate</button></li><li><button role=\"menuitem\">Export CSV</button></li><li><button role=\"menuitem\" style=\"color:var(--ns-status-error)\">Archive</button></li></ul></div></div>",
-   "react": "<OverflowMenu>\n  <OverflowMenuItem itemText=\"Duplicate\" />\n  <OverflowMenuItem itemText=\"Archive\" isDelete />\n</OverflowMenu>"
+   "react": "<OverflowMenu>\n  <OverflowMenuItem itemText=\"Duplicate\" />\n  <OverflowMenuItem itemText=\"Archive\" isDelete />\n</OverflowMenu>",
+   "parts": []
   },
   {
    "id": "progress",
@@ -4809,7 +4682,7 @@
    "category": "Status",
    "status": "Stable",
    "figma": "4038:31350",
-   "description": "Progress indicators show completion of a task: linear bars, rings for single metrics, and step indicators for flows.",
+   "description": "Progress indicators show completion of a task: linear bars, rings for single metrics, and step indicators for flows. Includes loading.",
    "classes": [
     "ns-helper",
     "ns-progress",
@@ -4817,16 +4690,19 @@
     "ns-progress--warning",
     "ns-progress__bar",
     "ns-progress__meta",
-    "ns-progress__track"
+    "ns-progress__track",
+    "ns-skel"
    ],
    "helperClasses": [],
    "axes": [],
    "use": [
     "Operations that take more than about a second.",
-    "Multi-step flows."
+    "Multi-step flows.",
+    "Loading: Skeletons for page and card loads; spinners for small, local waits."
    ],
    "avoid": [
-    "Instant actions."
+    "Instant actions.",
+    "Loading: Waits under 300ms: show nothing."
    ],
    "guidance": [
     {
@@ -4857,6 +4733,14 @@
     {
      "token": "--ns-duration-slow",
      "role": "Fill transition"
+    },
+    {
+     "token": "--ns-background-elevated",
+     "role": "Skeleton base"
+    },
+    {
+     "token": "--ns-teal-500",
+     "role": "Spinner arc"
     }
    ],
    "sizes": [],
@@ -4878,6 +4762,12 @@
      "type": "'bar' | 'ring' | 'steps'",
      "default": "'bar'",
      "note": "Type"
+    },
+    {
+     "prop": "kind (Loading)",
+     "type": "'skeleton' | 'spinner'",
+     "default": "'skeleton'",
+     "note": "Type"
     }
    ],
    "keyboard": [
@@ -4888,10 +4778,21 @@
    ],
    "accessibility": [
     "Use role=\"progressbar\" with value attributes; omit values when indeterminate.",
-    "Step indicators mark the current step with aria-current=\"step\"."
+    "Step indicators mark the current step with aria-current=\"step\".",
+    "Loading: Containers set aria-busy=\"true\" while loading.",
+    "Loading: Spinners use role=\"status\" with a label."
    ],
-   "html": "<div class=\"ns-progress\" style=\"width:360px\"><div class=\"ns-progress__meta\"><span>Migrating records</span><span>30%</span></div><div class=\"ns-progress__track\" role=\"progressbar\" aria-label=\"Migrating records\" aria-valuenow=\"30\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"ns-progress__bar\" style=\"--_v:30%\"></div></div></div>",
-   "react": "<ProgressBar label=\"Migrating records\" value={65} />"
+   "html": "<div class=\"ns-progress\" style=\"width:360px\"><div class=\"ns-progress__meta\"><span>Migrating records</span><span>30%</span></div><div class=\"ns-progress__track\" role=\"progressbar\" aria-label=\"Migrating records\" aria-valuenow=\"30\" aria-valuemin=\"0\" aria-valuemax=\"100\"><div class=\"ns-progress__bar\" style=\"--_v:30%\"></div></div></div>\n<div style=\"width:360px;display:grid;gap:10px\" aria-busy=\"true\" aria-label=\"Loading accounts\"><div class=\"ns-skel\" style=\"height:20px;width:60%\"></div><div class=\"ns-skel\" style=\"height:12px\"></div><div class=\"ns-skel\" style=\"height:12px;width:85%\"></div><div class=\"ns-skel\" style=\"height:80px;margin-top:6px\"></div></div>",
+   "react": "<ProgressBar label=\"Migrating records\" value={65} />",
+   "parts": [
+    {
+     "id": "loading",
+     "name": "Loading",
+     "figma": "4038:31327",
+     "description": "Spinners and skeletons show that content is loading and keep layout stable while it arrives.",
+     "react": "<SkeletonText lines={3} />\n<Loading small withOverlay={false} />"
+    }
+   ]
   },
   {
    "id": "radar-chart",
@@ -5087,7 +4988,8 @@
     "Trend text carries its sign, so the color is a second signal."
    ],
    "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Coverage</span><span class=\"ns-chart__value\">86%<span class=\"ns-chart__trend\">+3.0%</span></span><span class=\"ns-chart__desc\">Six skills against the target</span></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Radar chart: two series across six measures\" data-chart=\"radar\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><path d=\"M163.5 18.0 L234.5 59.0 L234.5 141.0 L163.5 182.0 L92.5 141.0 L92.5 59.0Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-widget-grid);stroke-width:1\"/><path d=\"M163.5 45.9 L210.4 72.9 L210.4 127.1 L163.5 154.1 L116.6 127.1 L116.6 72.9Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-widget-grid);stroke-width:1\"/><path d=\"M163.5 72.9 L186.9 86.5 L186.9 113.5 L163.5 127.1 L140.1 113.5 L140.1 86.5Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-widget-grid);stroke-width:1\"/><path d=\"M163.5 100.0 L163.5 18.0\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-widget-grid);stroke-width:1\"/><path d=\"M163.5 100.0 L234.5 59.0\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-widget-grid);stroke-width:1\"/><path d=\"M163.5 100.0 L234.5 141.0\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-widget-grid);stroke-width:1\"/><path d=\"M163.5 100.0 L163.5 182.0\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-widget-grid);stroke-width:1\"/><path d=\"M163.5 100.0 L92.5 141.0\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-widget-grid);stroke-width:1\"/><path d=\"M163.5 100.0 L92.5 59.0\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-widget-grid);stroke-width:1\"/><path d=\"M163.5 34.4 L206.1 75.4 L213.2 128.7 L163.5 141.0 L99.6 136.9 L120.9 75.4Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-3);fill-opacity:0.22;stroke:var(--ns-chart-series-3);stroke-width:2\"/><path d=\"M163.5 59.0 L220.3 67.2 L191.9 116.4 L163.5 157.4 L128.0 120.5 L135.1 83.6Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.22;stroke:var(--ns-chart-series-1);stroke-width:2\"/><text x=\"163.5\" y=\"6\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Speed</text><text x=\"244.9\" y=\"53\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Cost</text><text x=\"244.9\" y=\"147\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Reach</text><text x=\"163.5\" y=\"194\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Rate</text><text x=\"82.1\" y=\"147\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Score</text><text x=\"82.1\" y=\"53\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Trust</text></svg></div>",
-   "react": "<RadarChart size=\"medium\" title=\"Coverage\" value=\"86%\" trend=\"+3.0%\" data={[[0.8, 0.6, 0.7, 0.5, 0.9, 0.6]]} />"
+   "react": "<RadarChart size=\"medium\" title=\"Coverage\" value=\"86%\" trend=\"+3.0%\" data={[[0.8, 0.6, 0.7, 0.5, 0.9, 0.6]]} />",
+   "parts": []
   },
   {
    "id": "radial-bar-chart",
@@ -5291,7 +5193,8 @@
     "Trend text carries its sign, so the color is a second signal."
    ],
    "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Progress</span><span class=\"ns-chart__value\">78%<span class=\"ns-chart__trend\">+5.0%</span></span><span class=\"ns-chart__desc\">Four goals toward a target</span></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Radial bar chart: four goals, each a ring filled toward a target\" data-chart=\"radialbar\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><path d=\"M163.5 2A98 98 0 1 1 65.5 100L76.3 100A87.22 87.22 0 1 0 163.5 12.8Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-track)\"/><path d=\"M163.5 2A98 98 0 1 1 105.9 179.3L112.2 170.6A87.22 87.22 0 1 0 163.5 12.8Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M163.5 17.7A82.32 82.32 0 1 1 81.2 100L92 100A71.53999999999999 71.53999999999999 0 1 0 163.5 28.5Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-track)\"/><path d=\"M163.5 17.7A82.32 82.32 0 0 1 181.5 180.3L179.1 169.8A71.53999999999999 71.53999999999999 0 0 0 163.5 28.5Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-2)\"/><path d=\"M163.5 33.4A66.64 66.64 0 1 1 96.9 100L107.6 100A55.86 55.86 0 1 0 163.5 44.1Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-track)\"/><path d=\"M163.5 33.4A66.64 66.64 0 0 1 220.3 134.8L211.1 129.2A55.86 55.86 0 0 0 163.5 44.1Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-3)\"/><path d=\"M163.5 49A50.96 50.96 0 1 1 112.5 100L123.3 100A40.18 40.18 0 1 0 163.5 59.8Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-track)\"/><path d=\"M163.5 49A50.96 50.96 0 0 1 213.8 92L203.2 93.7A40.18 40.18 0 0 0 163.5 59.8Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-4)\"/></svg></div>",
-   "react": "<RadialBarChart size=\"medium\" title=\"Progress\" value=\"78%\" trend=\"+5.0%\" data={[0.8, 0.62, 0.45, 0.3]} />"
+   "react": "<RadialBarChart size=\"medium\" title=\"Progress\" value=\"78%\" trend=\"+5.0%\" data={[0.8, 0.62, 0.45, 0.3]} />",
+   "parts": []
   },
   {
    "id": "radial-convergence-chart",
@@ -5487,7 +5390,8 @@
     "Trend text carries its sign, so the color is a second signal."
    ],
    "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Links</span><span class=\"ns-chart__value\">12<span class=\"ns-chart__trend\">+2.0%</span></span><span class=\"ns-chart__desc\">Nodes joined across a ring</span></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Radial convergence chart: twelve nodes on a ring joined by eight links\" data-chart=\"convergence\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><path d=\"M163.5 6.0 L210.5 181.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-1);stroke-width:1.5\"/><path d=\"M210.5 18.6 L116.5 181.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-2);stroke-width:1.5\"/><path d=\"M244.9 53.0 L69.5 100.0\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-1);stroke-width:1.5\"/><path d=\"M257.5 100.0 L82.1 53.0\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-2);stroke-width:1.5\"/><path d=\"M244.9 147.0 L82.1 147.0\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-1);stroke-width:1.5\"/><path d=\"M163.5 194.0 L116.5 18.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-2);stroke-width:1.5\"/><path d=\"M163.5 6.0 L82.1 147.0\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-1);stroke-width:1.5\"/><path d=\"M244.9 53.0 L163.5 194.0\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-2);stroke-width:1.5\"/><circle cx=\"163.5\" cy=\"6\" r=\"4\" style=\"fill:var(--ns-text-primary)\"/><circle cx=\"210.5\" cy=\"18.6\" r=\"4\" style=\"fill:var(--ns-text-primary)\"/><circle cx=\"244.9\" cy=\"53\" r=\"4\" style=\"fill:var(--ns-text-primary)\"/><circle cx=\"257.5\" cy=\"100\" r=\"4\" style=\"fill:var(--ns-text-primary)\"/><circle cx=\"244.9\" cy=\"147\" r=\"4\" style=\"fill:var(--ns-text-primary)\"/><circle cx=\"210.5\" cy=\"181.4\" r=\"4\" style=\"fill:var(--ns-text-primary)\"/><circle cx=\"163.5\" cy=\"194\" r=\"4\" style=\"fill:var(--ns-text-primary)\"/><circle cx=\"116.5\" cy=\"181.4\" r=\"4\" style=\"fill:var(--ns-text-primary)\"/><circle cx=\"82.1\" cy=\"147\" r=\"4\" style=\"fill:var(--ns-text-primary)\"/><circle cx=\"69.5\" cy=\"100\" r=\"4\" style=\"fill:var(--ns-text-primary)\"/><circle cx=\"82.1\" cy=\"53\" r=\"4\" style=\"fill:var(--ns-text-primary)\"/><circle cx=\"116.5\" cy=\"18.6\" r=\"4\" style=\"fill:var(--ns-text-primary)\"/></svg></div>",
-   "react": "<RadialConvergenceChart size=\"medium\" title=\"Links\" value=\"12\" trend=\"+2.0%\" data={[[0, 5], [1, 7]]} />"
+   "react": "<RadialConvergenceChart size=\"medium\" title=\"Links\" value=\"12\" trend=\"+2.0%\" data={[[0, 5], [1, 7]]} />",
+   "parts": []
   },
   {
    "id": "radial-histogram-chart",
@@ -5679,7 +5583,8 @@
     "Trend text carries its sign, so the color is a second signal."
    ],
    "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Requests</span><span class=\"ns-chart__value\">1,860<span class=\"ns-chart__trend\">+2.2%</span></span><span class=\"ns-chart__desc\">By hour, around the clock</span></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Radial histogram: 24 bars around a circle, one per hour of the day\" data-chart=\"radialhist\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><path d=\"M164.7 32.2A67.84215076330887 67.84215076330887 0 0 1 179.9 34.2L170.1 73.4A27.44 27.44 0 0 0 164 72.6Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-2)\"/><path d=\"M190 7.5A96.200065894126 96.200065894126 0 0 1 210.1 15.9L176.8 76A27.44 27.44 0 0 0 171.1 73.6Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M209.1 24.1A88.5412543774572 88.5412543774572 0 0 1 225 36.3L182.6 80.3A27.44 27.44 0 0 0 177.6 76.5Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M199.9 64.8A50.66175207890508 50.66175207890508 0 0 1 206.9 73.9L187 85.9A27.44 27.44 0 0 0 183.2 80.9Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M238.7 58.3A85.98798884824919 85.98798884824919 0 0 1 246.2 76.3L189.9 92.4A27.44 27.44 0 0 0 187.5 86.7Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M257.7 76.5A97.13329944274102 97.13329944274102 0 0 1 260.6 98.3L190.9 99.5A27.44 27.44 0 0 0 190.1 93.4Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M235 101.2A71.55563084560427 71.55563084560427 0 0 1 232.9 117.3L190.1 106.6A27.44 27.44 0 0 0 190.9 100.5Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-2)\"/><path d=\"M229.4 118.9A68.60434727909502 68.60434727909502 0 0 1 223.5 133.3L187.5 113.3A27.44 27.44 0 0 0 189.9 107.6Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M246.1 149.7A96.41548844097917 96.41548844097917 0 0 1 232.9 167L183.2 119.1A27.44 27.44 0 0 0 187 114.1Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M224.7 163.3A88.04687546669942 88.04687546669942 0 0 1 208.8 175.5L177.6 123.5A27.44 27.44 0 0 0 182.6 119.7Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M187.7 143.6A49.83170781399225 49.83170781399225 0 0 1 177.2 147.9L171.1 126.4A27.44 27.44 0 0 0 176.8 124Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M184.4 184A86.52553751584287 86.52553751584287 0 0 1 165 186.5L164 127.4A27.44 27.44 0 0 0 170.1 126.6Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M161.8 197A96.97154639824184 96.97154639824184 0 0 1 140 194.1L156.9 126.6A27.44 27.44 0 0 0 163 127.4Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-2)\"/><path d=\"M144 168.1A70.81698756829296 70.81698756829296 0 0 1 129.2 161.9L150.2 124A27.44 27.44 0 0 0 155.9 126.4Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M127.8 159.5A69.36089028294145 69.36089028294145 0 0 1 115.3 149.9L144.4 119.7A27.44 27.44 0 0 0 149.4 123.5Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M94 167.1A96.61739450890065 96.61739450890065 0 0 1 80.7 149.8L140 114.1A27.44 27.44 0 0 0 143.8 119.1Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M86.9 142.4A87.54134611180163 87.54134611180163 0 0 1 79.3 124.1L137.1 107.6A27.44 27.44 0 0 0 139.5 113.3Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M116 111.9A49.00131757355493 49.00131757355493 0 0 1 114.5 100.9L136.1 100.5A27.44 27.44 0 0 0 136.9 106.6Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M76.5 98.5A87.05236586296596 87.05236586296596 0 0 1 79 78.9L136.9 93.4A27.44 27.44 0 0 0 136.1 99.5Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-2)\"/><path d=\"M70.5 73.3A96.79611966208324 96.79611966208324 0 0 1 78.8 53.1L139.5 86.7A27.44 27.44 0 0 0 137.1 92.4Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M103.4 63.9A70.07206520537513 70.07206520537513 0 0 1 113.1 51.3L143.8 80.9A27.44 27.44 0 0 0 140 85.9Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M114.8 49.6A70.11156587953793 70.11156587953793 0 0 1 127.4 39.9L149.4 76.5A27.44 27.44 0 0 0 144.4 80.3Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M116.6 15.3A96.80572701354644 96.80572701354644 0 0 1 136.8 6.9L155.9 73.6A27.44 27.44 0 0 0 150.2 76Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M142.4 15.6A87.02480923967968 87.02480923967968 0 0 1 162 13L163 72.6A27.44 27.44 0 0 0 156.9 73.4Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/></svg></div>",
-   "react": "<RadialHistogramChart size=\"medium\" title=\"Requests\" value=\"1,860\" trend=\"+2.2%\" data={[0.3, 0.7, 0.5]} />"
+   "react": "<RadialHistogramChart size=\"medium\" title=\"Requests\" value=\"1,860\" trend=\"+2.2%\" data={[0.3, 0.7, 0.5]} />",
+   "parts": []
   },
   {
    "id": "radio-button",
@@ -5796,7 +5701,8 @@
     "All radios in a group share one name."
    ],
    "html": "<fieldset style=\"border:0;padding:0;margin:0\"><legend class=\"ns-label\" style=\"margin-bottom:10px\">Deployment strategy</legend><div style=\"display:flex;gap:12px;flex-direction:column;flex-wrap:wrap\"><label class=\"ns-check ns-check--radio\"><input type=\"radio\" name=\"rb\" checked/> Rolling</label><label class=\"ns-check ns-check--radio\"><input type=\"radio\" name=\"rb\"/> Blue / green</label><label class=\"ns-check ns-check--radio\"><input type=\"radio\" name=\"rb\"/> Canary</label></div></fieldset>",
-   "react": "<RadioGroup legend=\"Deployment strategy\" name=\"strategy\" defaultValue=\"rolling\">\n  <Radio label=\"Rolling\" value=\"rolling\" />\n  <Radio label=\"Canary\" value=\"canary\" />\n</RadioGroup>"
+   "react": "<RadioGroup legend=\"Deployment strategy\" name=\"strategy\" defaultValue=\"rolling\">\n  <Radio label=\"Rolling\" value=\"rolling\" />\n  <Radio label=\"Canary\" value=\"canary\" />\n</RadioGroup>",
+   "parts": []
   },
   {
    "id": "scatter-chart",
@@ -5996,103 +5902,8 @@
     "Trend text carries its sign, so the color is a second signal."
    ],
    "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Samples</span><span class=\"ns-chart__value\">240<span class=\"ns-chart__trend\">+6.2%</span></span><span class=\"ns-chart__desc\">Two measures per sample</span></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Scatter plot: samples on two measures with a rising trend line\" data-chart=\"scatter\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><rect x=\"30\" y=\"-0.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"58.8\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"118.2\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"177.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><text x=\"22\" y=\"0\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">100</text><text x=\"22\" y=\"59.3\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">75</text><text x=\"22\" y=\"118.7\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">50</text><text x=\"22\" y=\"178\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">25</text><text x=\"36\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">0</text><text x=\"178.5\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">5</text><text x=\"321\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">10</text><path d=\"M34 142.4L323 35.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-target);stroke-width:1.5\"/><circle cx=\"34\" cy=\"167.3\" r=\"4\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.85\"/><circle cx=\"140.9\" cy=\"126.7\" r=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.85\"/><circle cx=\"247.9\" cy=\"79.9\" r=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.85\"/><circle cx=\"65.8\" cy=\"139.8\" r=\"4\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.85\"/><circle cx=\"172.7\" cy=\"93\" r=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.85\"/><circle cx=\"279.6\" cy=\"46.1\" r=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.85\"/><circle cx=\"97.6\" cy=\"106.1\" r=\"4\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.85\"/><circle cx=\"204.5\" cy=\"59.2\" r=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.85\"/><circle cx=\"311.4\" cy=\"12.4\" r=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.85\"/><circle cx=\"129.4\" cy=\"134.6\" r=\"4\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.85\"/><circle cx=\"236.3\" cy=\"87.8\" r=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.85\"/><circle cx=\"54.2\" cy=\"147.8\" r=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.85\"/><circle cx=\"161.2\" cy=\"100.9\" r=\"4\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.85\"/><circle cx=\"268.1\" cy=\"54.1\" r=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.85\"/><circle cx=\"86\" cy=\"114\" r=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.85\"/><circle cx=\"193\" cy=\"67.2\" r=\"4\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.85\"/><circle cx=\"299.9\" cy=\"20.3\" r=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.85\"/><circle cx=\"117.8\" cy=\"142.6\" r=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.85\"/></svg></div>",
-   "react": "<ScatterChart size=\"medium\" title=\"Samples\" value=\"240\" trend=\"+6.2%\" data={[{ x: 20, y: 38, series: 1 }]} />"
-  },
-  {
-   "id": "search",
-   "name": "Search",
-   "category": "Inputs",
-   "status": "Stable",
-   "figma": "4207:1033",
-   "description": "Search lets people find content by keyword, inline in a page or globally from the header.",
-   "classes": [
-    "ns-input",
-    "ns-search"
-   ],
-   "helperClasses": [
-    "hdr__search",
-    "label"
-   ],
-   "axes": [],
-   "use": [
-    "Large collections where browsing is slow.",
-    "Filtering a table or list in place."
-   ],
-   "avoid": [
-    "Fewer than ~10 items: show them all."
-   ],
-   "guidance": [
-    {
-     "verdict": "do",
-     "note": "Say what is searchable in the placeholder."
-    },
-    {
-     "verdict": "do not",
-     "note": "Use a generic placeholder when scope is narrow."
-    }
-   ],
-   "variants": [
-    {
-     "name": "Global",
-     "note": "Opens a command palette. Try ⌘K on this site.",
-     "html": "<button class=\"hdr__search\" style=\"min-width:260px\" data-open-search><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"m20 20-3.5-3.5\"/></svg><span class=\"label\">Search docs</span><kbd>⌘K</kbd></button>"
-    }
-   ],
-   "tokens": [
-    {
-     "token": "--ns-radius-full",
-     "role": "Pill shape"
-    },
-    {
-     "token": "--ns-text-tertiary",
-     "role": "Icon"
-    },
-    {
-     "token": "--ns-focus-ring",
-     "role": "Focus"
-    }
-   ],
-   "sizes": [],
-   "props": [
-    {
-     "prop": "placeholder",
-     "type": "string",
-     "default": "-",
-     "note": "Hint"
-    },
-    {
-     "prop": "size",
-     "type": "'sm' | 'md' | 'lg'",
-     "default": "'md'",
-     "note": "Height"
-    },
-    {
-     "prop": "onSearch",
-     "type": "(q) => void",
-     "default": "-",
-     "note": "Handler"
-    }
-   ],
-   "keyboard": [
-    {
-     "key": "/ or ⌘K",
-     "action": "Open global search"
-    },
-    {
-     "key": "Esc",
-     "action": "Clear or close"
-    },
-    {
-     "key": "Arrow keys + Enter",
-     "action": "Pick a result"
-    }
-   ],
-   "accessibility": [
-    "Wrap in role=\"search\" and give the input an aria-label.",
-    "Announce result counts in a polite live region."
-   ],
-   "html": "<div class=\"ns-search\" role=\"search\" style=\"width:360px\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"m20 20-3.5-3.5\"/></svg><input class=\"ns-input\" type=\"search\" placeholder=\"Search accounts, nodes, tickets\" aria-label=\"Search\"/><kbd>/</kbd></div>",
-   "react": "<Search size=\"md\" labelText=\"Search\" placeholder=\"Search accounts\" onChange={filter} />"
+   "react": "<ScatterChart size=\"medium\" title=\"Samples\" value=\"240\" trend=\"+6.2%\" data={[{ x: 20, y: 38, series: 1 }]} />",
+   "parts": []
   },
   {
    "id": "segmented-control",
@@ -6206,7 +6017,8 @@
     "Disabled segments keep aria-disabled so screen readers can announce them."
    ],
    "html": "<div class=\"ns-segmented\" role=\"radiogroup\" aria-label=\"View\"><button type=\"button\" role=\"radio\" aria-checked=\"true\" tabindex=\"0\">Table</button><button type=\"button\" role=\"radio\" aria-checked=\"false\" tabindex=\"-1\">Board</button><button type=\"button\" role=\"radio\" aria-checked=\"false\" tabindex=\"-1\">Map</button></div>",
-   "react": "<SegmentedControl label=\"View\" items={[{ label: \"Table\" }, { label: \"Board\" }]} value={view} onChange={setView} />"
+   "react": "<SegmentedControl label=\"View\" items={[{ label: \"Table\" }, { label: \"Board\" }]} value={view} onChange={setView} />",
+   "parts": []
   },
   {
    "id": "select",
@@ -6214,23 +6026,52 @@
    "category": "Inputs",
    "status": "Stable",
    "figma": "4207:955",
-   "description": "Select lets people choose one option from a list of 4 to 15 predefined values.",
+   "description": "Select lets people choose one option from a list of 4 to 15 predefined values. Includes dropdown.",
    "classes": [
+    "is-hover",
+    "is-static",
+    "ns-dd",
+    "ns-dd__item",
+    "ns-dd__menu",
+    "ns-dd__trigger",
     "ns-field",
     "ns-helper",
     "ns-input--sm",
     "ns-label",
     "ns-select"
    ],
-   "helperClasses": [],
-   "axes": [],
+   "helperClasses": [
+    "caret"
+   ],
+   "axes": [
+    {
+     "axis": "Dropdown / Trigger / Content",
+     "values": "Text (150x42), Icon (36x36), Two icons (176x42)"
+    },
+    {
+     "axis": "Dropdown / Trigger / State",
+     "values": "Default, Hover, Disabled"
+    },
+    {
+     "axis": "Dropdown / Menu / Items",
+     "values": "4, 5, 6, 7 (200 wide, +42 per item)"
+    },
+    {
+     "axis": "Dropdown / List item",
+     "values": "Icon: No, Yes · Hovered: No, Yes (200x40)"
+    }
+   ],
    "use": [
     "Choose one option from a medium-length list.",
-    "Space is tight and options do not need comparison."
+    "Space is tight and options do not need comparison.",
+    "Dropdown: Sorting, filtering, and choosing one value from 4 to 7 options.",
+    "Dropdown: Toolbars where a visible radio group would take too much room."
    ],
    "avoid": [
     "Two or three options: use radio buttons.",
-    "Over 15 options: use a searchable combo box."
+    "Over 15 options: use a searchable combo box.",
+    "Dropdown: Two or three options: use radio buttons.",
+    "Dropdown: Long lists: use a searchable combo box."
    ],
    "guidance": [
     {
@@ -6252,6 +6093,16 @@
      "name": "Inline",
      "note": "Label beside field for toolbars.",
      "html": "<label class=\"ns-label\" style=\"display:flex;gap:8px;align-items:center\">Show <select class=\"ns-select ns-input--sm\" style=\"width:90px;min-height:32px\"><option>25</option><option>50</option></select></label>"
+    },
+    {
+     "name": "Dropdown: Trigger states",
+     "note": "Default, Hover, Disabled.",
+     "html": "<button class=\"ns-dd__trigger\">Label<span class=\"caret\"></span></button><button class=\"ns-dd__trigger is-hover\">Label<span class=\"caret\"></span></button><button class=\"ns-dd__trigger\" disabled>Label<span class=\"caret\"></span></button>"
+    },
+    {
+     "name": "Dropdown: Live",
+     "note": "Click to open.",
+     "html": "<div class=\"ns-dd\" data-dd><button class=\"ns-dd__trigger\" aria-haspopup=\"listbox\" aria-expanded=\"false\">Region<span class=\"caret\"></span></button><ul class=\"ns-dd__menu\" role=\"listbox\"><li><button class=\"ns-dd__item\" role=\"option\" aria-selected=\"true\">us-east-1</button></li><li><button class=\"ns-dd__item\" role=\"option\">eu-central-1</button></li><li><button class=\"ns-dd__item\" role=\"option\">ap-south-1</button></li><li><button class=\"ns-dd__item\" role=\"option\">sa-east-1</button></li></ul></div>"
     }
    ],
    "tokens": [
@@ -6266,6 +6117,22 @@
     {
      "token": "--ns-focus-ring",
      "role": "Focus"
+    },
+    {
+     "token": "--ns-interactive-secondary-bg",
+     "role": "Trigger and menu fill (gray/8)"
+    },
+    {
+     "token": "--ns-interactive-secondary-hover",
+     "role": "Hover (gray/7)"
+    },
+    {
+     "token": "--ns-blue-700",
+     "role": "Selected item indicator"
+    },
+    {
+     "token": "--ns-radius-sm",
+     "role": "Radius"
     }
    ],
    "sizes": [
@@ -6304,6 +6171,36 @@
      "type": "(v) => void",
      "default": "-",
      "note": "Change handler"
+    },
+    {
+     "prop": "label (Dropdown)",
+     "type": "string",
+     "default": "-",
+     "note": "Trigger text"
+    },
+    {
+     "prop": "items (Dropdown)",
+     "type": "Item[]",
+     "default": "[]",
+     "note": "Options"
+    },
+    {
+     "prop": "icon (Dropdown)",
+     "type": "ReactNode",
+     "default": "-",
+     "note": "Leading icon"
+    },
+    {
+     "prop": "multiple (Dropdown)",
+     "type": "boolean",
+     "default": "false",
+     "note": "Multi-select"
+    },
+    {
+     "prop": "onChange (Dropdown)",
+     "type": "(v) => void",
+     "default": "-",
+     "note": "Handler"
     }
    ],
    "keyboard": [
@@ -6318,14 +6215,41 @@
     {
      "key": "Type-ahead",
      "action": "Jumps to matching option"
+    },
+    {
+     "key": "Enter / Space",
+     "action": "Dropdown: Open menu"
+    },
+    {
+     "key": "Arrow up / down",
+     "action": "Dropdown: Move between items"
+    },
+    {
+     "key": "Enter",
+     "action": "Dropdown: Select item"
+    },
+    {
+     "key": "Esc",
+     "action": "Dropdown: Close and return focus"
     }
    ],
    "accessibility": [
     "Native <select> gives full screen reader support for free.",
-    "Associate the label with for / id."
+    "Associate the label with for / id.",
+    "Dropdown: Trigger has aria-haspopup=\"listbox\" and aria-expanded.",
+    "Dropdown: Menu uses role=\"listbox\", items role=\"option\" with aria-selected."
    ],
-   "html": "<div class=\"ns-field\" style=\"width:300px\"><label class=\"ns-label\" for=\"sel-1\">Region</label><select class=\"ns-select\" id=\"sel-1\"><option>us-east-1</option><option>us-west-2</option><option>eu-central-1</option><option>ap-south-1</option></select><span class=\"ns-helper\">Where new workloads are scheduled.</span></div>",
-   "react": "<Select id=\"region\" label=\"Region\" value={region} onChange={setRegion}>\n  <SelectItem value=\"us-east-1\" />\n  <SelectItem value=\"eu-central-1\" />\n</Select>"
+   "html": "<div class=\"ns-field\" style=\"width:300px\"><label class=\"ns-label\" for=\"sel-1\">Region</label><select class=\"ns-select\" id=\"sel-1\"><option>us-east-1</option><option>us-west-2</option><option>eu-central-1</option><option>ap-south-1</option></select><span class=\"ns-helper\">Where new workloads are scheduled.</span></div>\n<div style=\"display:grid;grid-template-columns:minmax(0,1fr);gap:6px;justify-items:start\"><button class=\"ns-dd__trigger\" aria-haspopup=\"listbox\" aria-expanded=\"true\" style=\"min-width:150px\">Sort by<span class=\"caret\"></span></button><ul class=\"ns-dd__menu is-static\" role=\"listbox\" aria-label=\"Sort by\"><li><button class=\"ns-dd__item\" role=\"option\" aria-selected=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1\"/></svg>Newest first</button></li><li><button class=\"ns-dd__item is-hover\" role=\"option\" aria-selected=\"false\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1\"/></svg>Oldest first</button></li><li><button class=\"ns-dd__item\" role=\"option\" aria-selected=\"false\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1\"/></svg>Highest load</button></li><li><button class=\"ns-dd__item\" role=\"option\" aria-selected=\"false\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1\"/></svg>Lowest load</button></li></ul></div>",
+   "react": "<Select id=\"region\" label=\"Region\" value={region} onChange={setRegion}>\n  <SelectItem value=\"us-east-1\" />\n  <SelectItem value=\"eu-central-1\" />\n</Select>",
+   "parts": [
+    {
+     "id": "dropdown",
+     "name": "Dropdown",
+     "figma": "1840:22807",
+     "description": "Dropdowns present a list of options from which a user can select one option, or several. A selected option can represent a value in a form, or can be used as an action to filter or sort existing content.",
+     "react": "<Dropdown label=\"Sort by\" icon={<Settings />} items={sorts} onChange={setSort} />"
+    }
+   ]
   },
   {
    "id": "side-navigation",
@@ -6405,7 +6329,8 @@
     "Use <nav> with a label; current link sets aria-current=\"page\"."
    ],
    "html": "<nav class=\"ns-sidenav\" aria-label=\"App\"><div class=\"brand\" style=\"padding:6px 12px 10px\"><span class=\"brand__dot\"></span>NORTHSTAR</div><div class=\"ns-sidenav__group\">Operate</div><a href=\"#/\" aria-current=\"page\">Dashboard</a><a href=\"#/\">Accounts <span class=\"ns-count\">3</span></a><a href=\"#/\">Approvals</a><div class=\"ns-sidenav__group\">Configure</div><a href=\"#/\">Integrations</a><a href=\"#/\">Access</a><a href=\"#/\">Settings</a></nav>",
-   "react": "<SideNav aria-label=\"App\">\n  <SideNavLink href=\"/\" isActive>Dashboard</SideNavLink>\n</SideNav>"
+   "react": "<SideNav aria-label=\"App\">\n  <SideNavLink href=\"/\" isActive>Dashboard</SideNavLink>\n</SideNav>",
+   "parts": []
   },
   {
    "id": "slider",
@@ -6501,120 +6426,8 @@
     "Add aria-valuetext when units matter, e.g. \"60 percent\"."
    ],
    "html": "<div class=\"ns-field\" style=\"width:360px\"><label class=\"ns-label\" for=\"sl-1\">Alert threshold: <output>60</output>%</label><input class=\"ns-slider\" id=\"sl-1\" type=\"range\" min=\"0\" max=\"100\" step=\"1\" value=\"60\" style=\"--_pct:60%\"/><div class=\"ns-slider-ticks\"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div></div>",
-   "react": "<Slider labelText=\"Alert threshold\" min={0} max={100} step={1} value={60} />"
-  },
-  {
-   "id": "status-dot",
-   "name": "Status dot",
-   "category": "Status",
-   "status": "New",
-   "figma": "4465:39",
-   "description": "A colored dot with a label, for dense tables and maps where a badge would take too much space. Keep the label visible, or name the status in a column header or tooltip.",
-   "classes": [
-    "ns-status-dot",
-    "ns-status-dot--critical",
-    "ns-status-dot--informative",
-    "ns-status-dot--negative",
-    "ns-status-dot--neutral",
-    "ns-status-dot--positive",
-    "ns-table"
-   ],
-   "helperClasses": [
-    "sr-only"
-   ],
-   "axes": [
-    {
-     "axis": "Status",
-     "values": "Positive, Critical, Negative, Informative, Neutral"
-    },
-    {
-     "axis": "Label",
-     "values": "Shown or hidden"
-    }
-   ],
-   "use": [
-    "Dense tables and maps.",
-    "The same status words as Badge.",
-    "Keeping the label visible unless a header names the status."
-   ],
-   "avoid": [
-    "Do not rely on color alone.",
-    "Do not use for counts. Use Badge.",
-    "Do not hide the label in a table with no header that names the status."
-   ],
-   "guidance": [
-    {
-     "verdict": "do",
-     "note": "A dot with its word, the same as Badge."
-    },
-    {
-     "verdict": "do not",
-     "note": "A dot with no visible word. Color alone is not enough without a header that names the status."
-    }
-   ],
-   "variants": [
-    {
-     "name": "All statuses",
-     "note": "Five statuses with labels.",
-     "html": "<div style=\"display:flex;gap:16px;flex-wrap:wrap\"><span class=\"ns-status-dot ns-status-dot--positive\">Active</span><span class=\"ns-status-dot ns-status-dot--critical\">At risk</span><span class=\"ns-status-dot ns-status-dot--negative\">Down</span><span class=\"ns-status-dot ns-status-dot--informative\">Provisioning</span><span class=\"ns-status-dot ns-status-dot--neutral\">Inactive</span></div>"
-    },
-    {
-     "name": "Label in a header",
-     "note": "The column header names the status, so the visible label can go. The label stays for screen readers.",
-     "html": "<table class=\"ns-table\" style=\"width:240px\"><thead><tr><th>Status</th></tr></thead><tbody><tr><td><span class=\"ns-status-dot ns-status-dot--positive\"><span class=\"sr-only\">Active</span></span></td></tr><tr><td><span class=\"ns-status-dot ns-status-dot--negative\"><span class=\"sr-only\">Down</span></span></td></tr></tbody></table>"
-    }
-   ],
-   "tokens": [
-    {
-     "token": "--ns-status-success",
-     "role": "Positive dot"
-    },
-    {
-     "token": "--ns-status-warning",
-     "role": "Critical dot"
-    },
-    {
-     "token": "--ns-status-error",
-     "role": "Negative dot"
-    },
-    {
-     "token": "--ns-status-info",
-     "role": "Informative dot"
-    }
-   ],
-   "sizes": [],
-   "props": [
-    {
-     "prop": "status",
-     "type": "'positive' | 'critical' | 'negative' | 'informative' | 'neutral'",
-     "default": "'neutral'",
-     "note": "Color and meaning"
-    },
-    {
-     "prop": "label",
-     "type": "string",
-     "default": "-",
-     "note": "Visible text"
-    },
-    {
-     "prop": "showLabel",
-     "type": "boolean",
-     "default": "true",
-     "note": "When false, the label is kept for screen readers only"
-    }
-   ],
-   "keyboard": [
-    {
-     "key": "-",
-     "action": "Not focusable. A static indicator"
-    }
-   ],
-   "accessibility": [
-    "The label is text, so screen readers read it. A hidden label stays in the DOM as screen-reader-only text.",
-    "Do not use color alone to show status."
-   ],
-   "html": "<span class=\"ns-status-dot ns-status-dot--positive\">Active</span>",
-   "react": "<StatusDot status=\"positive\" label=\"Active\" />"
+   "react": "<Slider labelText=\"Alert threshold\" min={0} max={100} step={1} value={60} />",
+   "parts": []
   },
   {
    "id": "stepped-line-chart",
@@ -6810,7 +6623,8 @@
     "Trend text carries its sign, so the color is a second signal."
    ],
    "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Plan limit</span><span class=\"ns-chart__value\">2,400<span class=\"ns-chart__trend\">+2.0%</span></span><span class=\"ns-chart__desc\">Changes only on a date</span></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Stepped line chart: two series that change only at set points in time\" data-chart=\"stepped\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><rect x=\"30\" y=\"-0.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"58.8\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"118.2\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"177.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><text x=\"22\" y=\"0\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">3k</text><text x=\"22\" y=\"59.3\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">2k</text><text x=\"22\" y=\"118.7\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">1k</text><text x=\"22\" y=\"178\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">0</text><text x=\"42\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jan</text><text x=\"133\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Apr</text><text x=\"224\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jul</text><text x=\"315\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Oct</text><path d=\"M30 140.0L72.4 140.0L72.4 114.5L114.9 114.5L114.9 123.0L157.3 123.0L157.3 89.0L199.7 89.0L199.7 106.0L242.1 106.0L242.1 80.5L284.6 80.5L284.6 89.0L327.0 89.0L327.0 63.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-3);stroke-width:2\"/><path d=\"M30 123.0L72.4 123.0L72.4 123.0L114.9 123.0L114.9 89.0L157.3 89.0L157.3 97.5L199.7 97.5L199.7 55.0L242.1 55.0L242.1 72.0L284.6 72.0L284.6 38.0L327.0 38.0L327.0 46.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-1);stroke-width:2\"/></svg></div>",
-   "react": "<SteppedLineChart size=\"medium\" title=\"Plan limit\" value=\"2,400\" trend=\"+2.0%\" data={[[0.3, 0.3, 0.5, 0.45]]} />"
+   "react": "<SteppedLineChart size=\"medium\" title=\"Plan limit\" value=\"2,400\" trend=\"+2.0%\" data={[[0.3, 0.3, 0.5, 0.45]]} />",
+   "parts": []
   },
   {
    "id": "sunburst-chart",
@@ -7006,7 +6820,8 @@
     "Trend text carries its sign, so the color is a second signal."
    ],
    "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Categories</span><span class=\"ns-chart__value\">11<span class=\"ns-chart__trend\">+2.0%</span></span><span class=\"ns-chart__desc\">Two levels, one ring each</span></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Sunburst chart: three groups in the inner ring, eight items in the outer ring\" data-chart=\"sunburst\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><path d=\"M164.3 46.1A53.900000000000006 53.900000000000006 0 0 1 191.1 146.3L173.5 116.8A19.6 19.6 0 0 0 163.8 80.4Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M189.8 147.1A53.900000000000006 53.900000000000006 0 0 1 110.6 110.1L144.2 103.7A19.6 19.6 0 0 0 173.1 117.1Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-2)\"/><path d=\"M110.3 108.6A53.900000000000006 53.900000000000006 0 0 1 162.7 46.1L163.2 80.4A19.6 19.6 0 0 0 144.2 103.1Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-3)\"/><path d=\"M164.9 2A98 98 0 0 1 255.1 65.2L216.6 79.8A56.839999999999996 56.839999999999996 0 0 0 164.3 43.2Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.6\"/><path d=\"M256 67.8A98 98 0 0 1 256 132.2L217.2 118.7A56.839999999999996 56.839999999999996 0 0 0 217.2 81.3Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.6\"/><path d=\"M255.1 134.8A98 98 0 0 1 213.7 184.2L192.6 148.8A56.839999999999996 56.839999999999996 0 0 0 216.6 120.2Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.6\"/><path d=\"M211.3 185.5A98 98 0 0 1 108.4 181.1L131.6 147A56.839999999999996 56.839999999999996 0 0 0 191.2 149.6Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.6\"/><path d=\"M106.2 179.5A98 98 0 0 1 67.2 118.4L107.7 110.7A56.839999999999996 56.839999999999996 0 0 0 130.3 146.1Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.6\"/><path d=\"M66.8 115.7A98 98 0 0 1 78 52.2L113.9 72.3A56.839999999999996 56.839999999999996 0 0 0 107.4 109.1Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-3);fill-opacity:0.6\"/><path d=\"M79.3 49.8A98 98 0 0 1 113.3 15.8L134.4 51.2A56.839999999999996 56.839999999999996 0 0 0 114.7 70.9Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-3);fill-opacity:0.6\"/><path d=\"M115.7 14.5A98 98 0 0 1 162.1 2L162.7 43.2A56.839999999999996 56.839999999999996 0 0 0 135.8 50.4Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-3);fill-opacity:0.6\"/></svg></div>",
-   "react": "<SunburstChart size=\"medium\" title=\"Categories\" value=\"11\" trend=\"+2.0%\" data={[{ label: \"Group A\", value: 150, children: [] }]} />"
+   "react": "<SunburstChart size=\"medium\" title=\"Categories\" value=\"11\" trend=\"+2.0%\" data={[{ label: \"Group A\", value: 150, children: [] }]} />",
+   "parts": []
   },
   {
    "id": "toggle",
@@ -7111,7 +6926,8 @@
     "Use role=\"switch\" so screen readers say on/off."
    ],
    "html": "<label class=\"ns-toggle ns-toggle--xs\"><input type=\"checkbox\" role=\"switch\" checked/> Real-time telemetry</label>",
-   "react": "<Switch label=\"Real-time telemetry\" checked={on} onChange={setOn} />"
+   "react": "<Switch label=\"Real-time telemetry\" checked={on} onChange={setOn} />",
+   "parts": []
   },
   {
    "id": "tabs",
@@ -7218,7 +7034,8 @@
     "role=\"tablist\", role=\"tab\", aria-selected, and aria-controls pointing at each role=\"tabpanel\"."
    ],
    "html": "<div class=\"ns-tabs ns-tabs--fill\" role=\"tablist\" style=\"width:375px\"><button class=\"ns-tab\" role=\"tab\" aria-selected=\"true\">Overview</button><button class=\"ns-tab\" role=\"tab\" aria-selected=\"false\">Nodes</button><button class=\"ns-tab\" role=\"tab\" aria-selected=\"false\">Access</button></div>",
-   "react": "<Tabs items={[{ label: 'Overview', icon: <Star /> }, { label: 'Nodes' }]} />"
+   "react": "<Tabs items={[{ label: 'Overview', icon: <Star /> }, { label: 'Nodes' }]} />",
+   "parts": []
   },
   {
    "id": "tag",
@@ -7385,7 +7202,8 @@
     "The indicator color is never the only signal; the label carries meaning."
    ],
    "html": "<span class=\"ns-tag\"><span class=\"ns-tag__ind\"></span>Training <b>$650</b><button aria-label=\"More actions\">⋮</button></span>",
-   "react": "<Tag emphasis=\"primary\" shape=\"rounded\" value=\"$650\" onAction={openMenu}>Training</Tag>"
+   "react": "<Tag emphasis=\"primary\" shape=\"rounded\" value=\"$650\" onAction={openMenu}>Training</Tag>",
+   "parts": []
   },
   {
    "id": "text-input",
@@ -7393,7 +7211,7 @@
    "category": "Inputs",
    "status": "Stable",
    "figma": "1846:24421",
-   "description": "Text inputs enable the user to interact with and input content and data. This component can be used for long and short form entries.",
+   "description": "Text inputs enable the user to interact with and input content and data. This component can be used for long and short form entries. Includes search.",
    "classes": [
     "is-error",
     "is-focus",
@@ -7405,9 +7223,13 @@
     "ns-input--md",
     "ns-input--sm",
     "ns-label",
+    "ns-search",
     "ns-textarea"
    ],
-   "helperClasses": [],
+   "helperClasses": [
+    "hdr__search",
+    "label"
+   ],
    "axes": [
     {
      "axis": "Size",
@@ -7420,11 +7242,14 @@
    ],
    "use": [
     "Collect short free-form text such as names, IDs, and hostnames.",
-    "Use helper text to set format expectations before an error happens."
+    "Use helper text to set format expectations before an error happens.",
+    "Search: Large collections where browsing is slow.",
+    "Search: Filtering a table or list in place."
    ],
    "avoid": [
     "Long text: use a textarea.",
-    "A fixed set of values: use a dropdown or radio group."
+    "A fixed set of values: use a dropdown or radio group.",
+    "Search: Fewer than ~10 items: show them all."
    ],
    "guidance": [
     {
@@ -7451,6 +7276,11 @@
      "name": "Textarea",
      "note": "Multi-line text.",
      "html": "<div class=\"ns-field\" style=\"width:260px\"><label class=\"ns-label\">Notes</label><textarea class=\"ns-textarea\">Rotating keys on Friday.</textarea></div>"
+    },
+    {
+     "name": "Search: Global",
+     "note": "Opens a command palette. Try ⌘K on this site.",
+     "html": "<button class=\"hdr__search\" style=\"min-width:min(260px, 100%);max-width:100%;box-sizing:border-box\" data-open-search><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"m20 20-3.5-3.5\"/></svg><span class=\"label\">Search docs</span><kbd>⌘K</kbd></button>"
     }
    ],
    "tokens": [
@@ -7473,6 +7303,18 @@
     {
      "token": "--ns-radius-sm",
      "role": "Corner radius"
+    },
+    {
+     "token": "--ns-radius-full",
+     "role": "Pill shape"
+    },
+    {
+     "token": "--ns-text-tertiary",
+     "role": "Icon"
+    },
+    {
+     "token": "--ns-focus-ring",
+     "role": "Focus"
     }
    ],
    "sizes": [
@@ -7522,6 +7364,24 @@
      "type": "boolean",
      "default": "false",
      "note": "Disable"
+    },
+    {
+     "prop": "placeholder (Search)",
+     "type": "string",
+     "default": "-",
+     "note": "Hint"
+    },
+    {
+     "prop": "size (Search)",
+     "type": "'sm' | 'md' | 'lg'",
+     "default": "'md'",
+     "note": "Height"
+    },
+    {
+     "prop": "onSearch (Search)",
+     "type": "(q) => void",
+     "default": "-",
+     "note": "Handler"
     }
    ],
    "keyboard": [
@@ -7532,15 +7392,38 @@
     {
      "key": "Esc",
      "action": "Clears the field when a clear button is present"
+    },
+    {
+     "key": "/ or ⌘K",
+     "action": "Search: Open global search"
+    },
+    {
+     "key": "Esc",
+     "action": "Search: Clear or close"
+    },
+    {
+     "key": "Arrow keys + Enter",
+     "action": "Search: Pick a result"
     }
    ],
    "accessibility": [
     "Link helper and error text with aria-describedby.",
     "Set aria-invalid=\"true\" on error.",
-    "Never remove the visible label. Placeholders are not labels."
+    "Never remove the visible label. Placeholders are not labels.",
+    "Search: Wrap in role=\"search\" and give the input an aria-label.",
+    "Search: Announce result counts in a polite live region."
    ],
-   "html": "<div class=\"ns-field\" style=\"width:220px\"><label class=\"ns-label\" for=\"ti-1\">Cluster name</label><input class=\"ns-input ns-input--md\" id=\"ti-1\" placeholder=\"Placeholder\" aria-describedby=\"ti-1-h\"/><span class=\"ns-helper\" id=\"ti-1-h\">Lowercase, 3 to 24 characters.</span></div>",
-   "react": "<TextInput id=\"cluster\" label=\"Cluster name\" size=\"m\" state={exists ? 'error' : 'default'}\n  helperText={exists ? 'Name already exists in this region.' : 'Lowercase, 3 to 24 characters.'} />"
+   "html": "<div class=\"ns-field\" style=\"width:220px\"><label class=\"ns-label\" for=\"ti-1\">Cluster name</label><input class=\"ns-input ns-input--md\" id=\"ti-1\" placeholder=\"Placeholder\" aria-describedby=\"ti-1-h\"/><span class=\"ns-helper\" id=\"ti-1-h\">Lowercase, 3 to 24 characters.</span></div>\n<div class=\"ns-search\" role=\"search\" style=\"width:360px\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"m20 20-3.5-3.5\"/></svg><input class=\"ns-input\" type=\"search\" placeholder=\"Search accounts, nodes, tickets\" aria-label=\"Search\"/><kbd>/</kbd></div>",
+   "react": "<TextInput id=\"cluster\" label=\"Cluster name\" size=\"m\" state={exists ? 'error' : 'default'}\n  helperText={exists ? 'Name already exists in this region.' : 'Lowercase, 3 to 24 characters.'} />",
+   "parts": [
+    {
+     "id": "search",
+     "name": "Search",
+     "figma": "4207:1033",
+     "description": "Search lets people find content by keyword, inline in a page or globally from the header.",
+     "react": "<Search size=\"md\" labelText=\"Search\" placeholder=\"Search accounts\" onChange={filter} />"
+    }
+   ]
   },
   {
    "id": "textarea",
@@ -7676,143 +7559,8 @@
     "Set aria-invalid=true on error. Announce the counter at the limit, not on every key press."
    ],
    "html": "<div class=\"ns-field\" style=\"width:360px\"><label class=\"ns-label\" for=\"pg-ta\">Description</label><textarea class=\"ns-textarea\" id=\"pg-ta\" placeholder=\"Services, regions and size\" maxlength=\"1000\"></textarea><span class=\"ns-helper\">0 / 1000</span></div>",
-   "react": "<Textarea label=\"Description\" maxLength={1000} helper=\"Services, regions and size\" />"
-  },
-  {
-   "id": "toast",
-   "name": "Toast",
-   "category": "Feedback",
-   "status": "New",
-   "figma": "4465:138",
-   "description": "A short message after an action, such as Account archived. Toasts stack in a corner and clear on their own. Errors the person must fix belong inline, not in a toast.",
-   "classes": [
-    "ns-btn",
-    "ns-btn--ghost",
-    "ns-btn--sm",
-    "ns-notice",
-    "ns-notice--error",
-    "ns-notice--success",
-    "ns-notice--toast",
-    "ns-notice__body",
-    "ns-notice__close",
-    "ns-notice__icon",
-    "ns-notice__title"
-   ],
-   "helperClasses": [],
-   "axes": [
-    {
-     "axis": "Status",
-     "values": "Information, Success, Warning, Error"
-    },
-    {
-     "axis": "Action",
-     "values": "None or one button"
-    },
-    {
-     "axis": "Message",
-     "values": "Shown or hidden"
-    }
-   ],
-   "use": [
-    "Confirming the result of an action the person just took.",
-    "Offering Undo instead of a confirm dialog for reversible changes.",
-    "Keeping titles under 40 characters."
-   ],
-   "avoid": [
-    "Do not use for errors the person must fix. Show those inline.",
-    "Do not put more than one action in a toast.",
-    "Do not auto-dismiss error toasts."
-   ],
-   "guidance": [
-    {
-     "verdict": "do",
-     "note": "Undo for a reversible change, one action only."
-    },
-    {
-     "verdict": "do not",
-     "note": "The person must fix this. Show it inline next to the field, and do not stack two actions."
-    }
-   ],
-   "variants": [
-    {
-     "name": "Success",
-     "note": "Confirms a finished action, with Undo.",
-     "html": "<div class=\"ns-notice ns-notice--toast ns-notice--success\" role=\"status\" style=\"width:360px\"><span class=\"ns-notice__icon\" aria-hidden=\"true\">✓</span><div><p class=\"ns-notice__title\">Account archived</p><p class=\"ns-notice__body\">Acme Corp moved to the archive.</p></div><button class=\"ns-btn ns-btn--ghost ns-btn--sm\">Undo</button></div>"
-    },
-    {
-     "name": "Error",
-     "note": "Uses role=alert and stays until dismissed.",
-     "html": "<div class=\"ns-notice ns-notice--toast ns-notice--error\" role=\"alert\" style=\"width:360px\"><span class=\"ns-notice__icon\" aria-hidden=\"true\">!</span><div><p class=\"ns-notice__title\">Account not saved</p><p class=\"ns-notice__body\">Check the billing email and try again.</p></div><button class=\"ns-notice__close\" aria-label=\"Dismiss notification\">×</button></div>"
-    }
-   ],
-   "tokens": [
-    {
-     "token": "--ns-background-elevated",
-     "role": "Toast surface"
-    },
-    {
-     "token": "--ns-elevation-03",
-     "role": "Toast shadow"
-    },
-    {
-     "token": "--ns-status-success",
-     "role": "Success icon"
-    },
-    {
-     "token": "--ns-status-error",
-     "role": "Error icon"
-    }
-   ],
-   "sizes": [],
-   "props": [
-    {
-     "prop": "status",
-     "type": "'info' | 'success' | 'warning' | 'error'",
-     "default": "'info'",
-     "note": "Sets color, icon and role"
-    },
-    {
-     "prop": "title",
-     "type": "string",
-     "default": "-",
-     "note": "Short result, under 40 characters"
-    },
-    {
-     "prop": "message",
-     "type": "string",
-     "default": "-",
-     "note": "Optional detail"
-    },
-    {
-     "prop": "action",
-     "type": "{ label, onClick }",
-     "default": "-",
-     "note": "Optional single action"
-    },
-    {
-     "prop": "onDismiss",
-     "type": "() => void",
-     "default": "-",
-     "note": "Close control"
-    }
-   ],
-   "keyboard": [
-    {
-     "key": "Tab",
-     "action": "Moves to the action or close button"
-    },
-    {
-     "key": "Enter / Space",
-     "action": "Activates the focused button"
-    }
-   ],
-   "accessibility": [
-    "Information and success use role=status, which announces politely without interrupting.",
-    "Error uses role=alert, so it interrupts the screen reader.",
-    "Give the close button a name, such as Dismiss notification."
-   ],
-   "html": "<div class=\"ns-notice ns-notice--toast ns-notice--success\" role=\"status\" style=\"width:360px\"><span class=\"ns-notice__icon\" aria-hidden=\"true\">✓</span><div><p class=\"ns-notice__title\">Account archived</p><p class=\"ns-notice__body\">Acme Corp moved to the archive.</p></div><button class=\"ns-btn ns-btn--ghost ns-btn--sm\">Undo</button></div>",
-   "react": "<Toast status=\"success\" title=\"Account archived\" action={{ label: \"Undo\", onClick: undo }} />"
+   "react": "<Textarea label=\"Description\" maxLength={1000} helper=\"Services, regions and size\" />",
+   "parts": []
   },
   {
    "id": "tooltip",
@@ -7920,7 +7668,8 @@
     "Trigger references the bubble with aria-describedby; bubble has role=\"tooltip\"."
    ],
    "html": "<span class=\"ns-tooltip\" role=\"tooltip\" data-place=\"nw\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 16v-4M12 8h.01\"/></svg>This is a tooltip on the North West side</span>",
-   "react": "<Tooltip label=\"Refresh telemetry\" placement=\"nw\" icon>\n  <IconButton icon={<Renew />} />\n</Tooltip>"
+   "react": "<Tooltip label=\"Refresh telemetry\" placement=\"nw\" icon>\n  <IconButton icon={<Renew />} />\n</Tooltip>",
+   "parts": []
   },
   {
    "id": "tree-chart",
@@ -8120,7 +7869,8 @@
     "Trend text carries its sign, so the color is a second signal."
    ],
    "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Teams</span><span class=\"ns-chart__value\">7<span class=\"ns-chart__trend\">+1.0%</span></span><span class=\"ns-chart__desc\">One root, two levels</span></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Tree chart: one root, two branches and four leaves\" data-chart=\"tree\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><path d=\"M12 89.0L87.75 89.0L87.75 49.8L163.5 49.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-widget-grid);stroke-width:1.5\"/><path d=\"M12 89.0L87.75 89.0L87.75 128.2L163.5 128.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-widget-grid);stroke-width:1.5\"/><path d=\"M163.5 49.8L239.25 49.8L239.25 24.9L315 24.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-widget-grid);stroke-width:1.5\"/><path d=\"M163.5 49.8L239.25 49.8L239.25 67.6L315 67.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-widget-grid);stroke-width:1.5\"/><path d=\"M163.5 128.2L239.25 128.2L239.25 110.4L315 110.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-widget-grid);stroke-width:1.5\"/><path d=\"M163.5 128.2L239.25 128.2L239.25 153.1L315 153.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-widget-grid);stroke-width:1.5\"/><circle cx=\"12\" cy=\"89\" r=\"6\" style=\"fill:var(--ns-chart-series-1)\"/><circle cx=\"163.5\" cy=\"49.8\" r=\"6\" style=\"fill:var(--ns-chart-series-2)\"/><circle cx=\"163.5\" cy=\"128.2\" r=\"6\" style=\"fill:var(--ns-chart-series-2)\"/><circle cx=\"315\" cy=\"24.9\" r=\"6\" style=\"fill:var(--ns-chart-series-3)\"/><circle cx=\"315\" cy=\"67.6\" r=\"6\" style=\"fill:var(--ns-chart-series-3)\"/><circle cx=\"315\" cy=\"110.4\" r=\"6\" style=\"fill:var(--ns-chart-series-3)\"/><circle cx=\"315\" cy=\"153.1\" r=\"6\" style=\"fill:var(--ns-chart-series-3)\"/><text x=\"12\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Root</text><text x=\"163.5\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Group</text><text x=\"315\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Item</text></svg></div>",
-   "react": "<TreeChart size=\"medium\" title=\"Teams\" value=\"7\" trend=\"+1.0%\" data={{ label: \"Root\", children: [] }} />"
+   "react": "<TreeChart size=\"medium\" title=\"Teams\" value=\"7\" trend=\"+1.0%\" data={{ label: \"Root\", children: [] }} />",
+   "parts": []
   },
   {
    "id": "tree-view",
@@ -8252,7 +8002,8 @@
     "The selected row sets aria-selected=true."
    ],
    "html": "<ul class=\"ns-tree\" role=\"tree\" aria-label=\"Locations\" style=\"width:320px\"><li role=\"none\"><div class=\"ns-tree__row\" role=\"treeitem\" aria-level=\"1\" aria-expanded=\"true\" aria-selected=\"false\" style=\"--ns-tree-level:0\"><span class=\"ns-tree__chev\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m9 18 6-6-6-6\"/></svg></span><span>Acme Corp</span><span class=\"ns-tree__count\">2</span></div><ul role=\"group\"><li role=\"none\"><div class=\"ns-tree__row\" role=\"treeitem\" aria-level=\"2\" aria-expanded=\"true\" aria-selected=\"false\" style=\"--ns-tree-level:1\"><span class=\"ns-tree__chev\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m9 18 6-6-6-6\"/></svg></span><span>Chicago, IL</span><span class=\"ns-tree__count\">2</span></div><ul role=\"group\"><li role=\"none\"><div class=\"ns-tree__row\" role=\"treeitem\" aria-level=\"3\" aria-selected=\"true\" style=\"--ns-tree-level:2\"><span class=\"ns-tree__chev is-leaf\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m9 18 6-6-6-6\"/></svg></span><span>Site 0042</span></div></li><li role=\"none\"><div class=\"ns-tree__row\" role=\"treeitem\" aria-level=\"3\" aria-selected=\"false\" style=\"--ns-tree-level:2\"><span class=\"ns-tree__chev is-leaf\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m9 18 6-6-6-6\"/></svg></span><span>Site 0187</span></div></li></ul></li></ul></li></ul>",
-   "react": "<TreeView label=\"Locations\" items={locations} selected={selected} onSelect={setSelected} />"
+   "react": "<TreeView label=\"Locations\" items={locations} selected={selected} onSelect={setSelected} />",
+   "parts": []
   },
   {
    "id": "treemap-chart",
@@ -8456,7 +8207,8 @@
     "Trend text carries its sign, so the color is a second signal."
    ],
    "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Storage</span><span class=\"ns-chart__value\">640 GB<span class=\"ns-chart__trend\">+3.0%</span></span><span class=\"ns-chart__desc\">Tile size is its share</span></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Treemap: five tiles, each sized by its share of the whole\" data-chart=\"treemap\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><rect x=\"0\" y=\"0\" width=\"178.4\" height=\"118.5\" rx=\"4\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.9\"/><rect x=\"0\" y=\"121.5\" width=\"178.4\" height=\"78.5\" rx=\"4\" style=\"fill:var(--ns-chart-series-3);fill-opacity:0.9\"/><rect x=\"181.4\" y=\"0\" width=\"145.6\" height=\"77.6\" rx=\"4\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.9\"/><rect x=\"181.4\" y=\"80.6\" width=\"145.6\" height=\"67.9\" rx=\"4\" style=\"fill:var(--ns-chart-series-4);fill-opacity:0.9\"/><rect x=\"181.4\" y=\"151.5\" width=\"145.6\" height=\"48.5\" rx=\"4\" style=\"fill:var(--ns-chart-series-5);fill-opacity:0.9\"/></svg></div>",
-   "react": "<TreemapChart size=\"medium\" title=\"Storage\" value=\"640 GB\" trend=\"+3.0%\" data={[{ label: \"Photos\", value: 40 }]} />"
+   "react": "<TreemapChart size=\"medium\" title=\"Storage\" value=\"640 GB\" trend=\"+3.0%\" data={[{ label: \"Photos\", value: 40 }]} />",
+   "parts": []
   }
  ]
 }

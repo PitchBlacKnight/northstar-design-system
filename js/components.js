@@ -23,6 +23,10 @@
     return `<div class="ns-cal" role="group" aria-label="September 2026"><div class="ns-cal__head"><button class="icon-btn" aria-label="Previous month">‹</button>September 2026<button class="icon-btn" aria-label="Next month">›</button></div><div class="ns-cal__grid">${d}</div></div>`;
   };
 
+  const COMBO_TAGS = ["Analytics", "Billing", "Compliance", "Customer success", "Data export", "Finance", "Onboarding", "Reporting", "Security", "Support"];
+  const CMDK_ITEMS = [["Accounts", [["Acme Corp", "Account"], ["Acme Holdings", "Account"], ["Globex", "Account"], ["Northwind", "Account"]]], ["Pages", [["Billing history", "Page"], ["Usage reports", "Page"], ["Team settings", "Page"]]], ["Actions", [["Create account", "Action"], ["Invite teammate", "Action"], ["Export accounts", "Action"]]]];
+  const cmdkList = () => CMDK_ITEMS.map(([g, items]) => `<div class="ns-cmdk__group" role="presentation">${g}</div>` + items.map(([l, m]) => `<div class="ns-cmdk__item" role="option" aria-selected="false"><span>${l}</span><span class="ns-cmdk__meta">${m}</span></div>`).join("")).join("");
+
   const CMP_ICON_PATHS = {
     more: '<path d="M5 12h.01M12 12h.01M19 12h.01" stroke-width="3"/>',
     edit: '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
@@ -191,7 +195,7 @@
           const gear = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>';
           const items = ["Newest first", "Oldest first", "Highest load", "Lowest load", "Region A to Z", "Status", "Owner"].slice(0, +s.items);
           const trig = s.content === "Icon" ? `<button class="ns-dd__trigger ns-dd__trigger--icon${s.state === "Hover" ? " is-hover" : ""}" aria-haspopup="listbox" aria-expanded="true" aria-label="Sort"${s.state === "Disabled" ? " disabled" : ""}>${gear}</button>` : `<button class="ns-dd__trigger${s.state === "Hover" ? " is-hover" : ""}" aria-haspopup="listbox" aria-expanded="true"${s.state === "Disabled" ? " disabled" : ""} style="min-width:${s.content === "Two icons" ? 176 : 150}px">${s.content === "Two icons" ? gear : ""}Sort by<span class="caret"></span></button>`;
-          return `<div style="display:grid;gap:6px;justify-items:start">${trig}<ul class="ns-dd__menu is-static" role="listbox" aria-label="Sort by">${items.map((t, i) => `<li><button class="ns-dd__item${i === 1 ? " is-hover" : ""}" role="option" aria-selected="${i === 0}">${s.icons ? gear : ""}${t}</button></li>`).join("")}</ul></div>`;
+          return `<div style="display:grid;grid-template-columns:minmax(0,1fr);gap:6px;justify-items:start">${trig}<ul class="ns-dd__menu is-static" role="listbox" aria-label="Sort by">${items.map((t, i) => `<li><button class="ns-dd__item${i === 1 ? " is-hover" : ""}" role="option" aria-selected="${i === 0}">${s.icons ? gear : ""}${t}</button></li>`).join("")}</ul></div>`;
         },
       },
       when: ["Sorting, filtering, and choosing one value from 4 to 7 options.", "Toolbars where a visible radio group would take too much room."],
@@ -201,7 +205,7 @@
       tokens: [["--ns-interactive-secondary-bg", "Trigger and menu fill (gray/8)"], ["--ns-interactive-secondary-hover", "Hover (gray/7)"], ["--ns-blue-700", "Selected item indicator"], ["--ns-radius-sm", "Radius"]],
       sizes: [["Trigger", "42px", "Text and two-icon triggers"], ["Icon trigger", "36px", "Toolbars"], ["List item", "40px", "Menu rows"]],
       props: [["label", "string", "-", "Trigger text"], ["items", "Item[]", "[]", "Options"], ["icon", "ReactNode", "-", "Leading icon"], ["multiple", "boolean", "false", "Multi-select"], ["onChange", "(v) => void", "-", "Handler"]],
-      keyboard: [["Specimen", "The demo is static. These keys are the behavior to build."], ["Enter / Space", "Open menu"], ["Arrow up / down", "Move between items"], ["Enter", "Select item"], ["Esc", "Close and return focus"]],
+      keyboard: [["Enter / Space", "Open menu"], ["Arrow up / down", "Move between items"], ["Enter", "Select item"], ["Esc", "Close and return focus"]],
       aria: ["Trigger has <code>aria-haspopup=\"listbox\"</code> and <code>aria-expanded</code>.", "Menu uses <code>role=\"listbox\"</code>, items <code>role=\"option\"</code> with <code>aria-selected</code>."],
       react: "<Dropdown label=\"Sort by\" icon={<Settings />} items={sorts} onChange={setSort} />",
     },
@@ -313,7 +317,7 @@
       playground: { controls: [{ key: "size", label: "Size", options: ["Medium", "Large", "Small"] }], render: (s) => `<div class="ns-search" role="search" style="width:360px">${NS.icon.search}<input class="ns-input${s.size === "Large" ? " ns-input--lg" : s.size === "Small" ? " ns-input--sm" : ""}" type="search" placeholder="Search accounts, nodes, tickets" aria-label="Search"/><kbd>/</kbd></div>` },
       when: ["Large collections where browsing is slow.", "Filtering a table or list in place."],
       whenNot: ["Fewer than ~10 items: show them all."],
-      variants: [["Global", "Opens a command palette. Try ⌘K on this site.", '<button class="hdr__search" style="min-width:260px" data-open-search>' + NS.icon.search + '<span class="label">Search docs</span><kbd>⌘K</kbd></button>']],
+      variants: [["Global", "Opens a command palette. Try ⌘K on this site.", '<button class="hdr__search" style="min-width:min(260px, 100%);max-width:100%;box-sizing:border-box" data-open-search>' + NS.icon.search + '<span class="label">Search docs</span><kbd>⌘K</kbd></button>']],
       dd: ['<div class="ns-search" style="width:220px">' + NS.icon.search + '<input class="ns-input" placeholder="Search nodes" aria-label="Search nodes"/></div>', "Say what is searchable in the placeholder.", '<div class="ns-search" style="width:220px">' + NS.icon.search + '<input class="ns-input" placeholder="Search" aria-label="Search"/></div>', "Use a generic placeholder when scope is narrow."],
       tokens: [["--ns-radius-full", "Pill shape"], ["--ns-text-tertiary", "Icon"], ["--ns-focus-ring", "Focus"]],
       props: [["placeholder", "string", "-", "Hint"], ["size", "'sm' | 'md' | 'lg'", "'md'", "Height"], ["onSearch", "(q) => void", "-", "Handler"]],
@@ -727,7 +731,7 @@
         render: (s) => {
           const open = s.state === "Open";
           const dis = s.state === "Disabled";
-          return `<div class="ns-combobox${open ? " is-open" : ""}${dis ? " is-disabled" : ""}" style="width:340px"><div class="ns-combobox__control"><span class="ns-tag ns-tag--sm">Analytics <button type="button" aria-label="Remove Analytics">×</button></span><input role="combobox" aria-expanded="${open}" aria-label="Add tag" placeholder="Add tag"${dis ? " disabled" : ""}/></div>${open ? '<div class="ns-menu ns-menu--panel ns-combobox__list" role="listbox" aria-multiselectable="true"><button role="option" aria-selected="false">Billing</button><button role="option" aria-selected="true">Analytics</button><button role="option" aria-selected="false">Compliance</button><span class="ns-helper ns-combobox__count">3 of 32 match</span></div>' : ""}</div>`;
+          return `<div class="ns-combobox${open ? " is-open" : ""}${dis ? " is-disabled" : ""}" style="width:340px"><div class="ns-combobox__control"><span class="ns-tag ns-tag--sm">Analytics <button type="button" aria-label="Remove Analytics">×</button></span><input role="combobox" aria-expanded="${open}" aria-label="Add tag" placeholder="Add tag"${dis ? " disabled" : ""}/></div><div class="ns-menu ns-menu--panel ns-combobox__list" role="listbox" aria-multiselectable="true" aria-label="Tags">${COMBO_TAGS.map((t) => `<button type="button" tabindex="-1" role="option" aria-selected="${t === "Analytics"}">${t}</button>`).join("")}<span class="ns-helper ns-combobox__count">${COMBO_TAGS.length} of ${COMBO_TAGS.length} match</span></div></div>`;
         },
       },
       when: ["Use for lists longer than about ten items.", "Show the match count while the user filters.", "Keep chosen values visible as removable tags."],
@@ -739,7 +743,7 @@
       dd: ['<div class="ns-combobox is-open" style="width:300px"><div class="ns-combobox__control"><span class="ns-tag ns-tag--sm">Analytics <button type="button" aria-label="Remove Analytics">×</button></span><input role="combobox" aria-expanded="true" aria-label="Add tag"/></div></div>', "Filters as you type, keeps picks as tags, and shows the match count.", '<div class="ns-combobox" style="width:300px"><div class="ns-combobox__control"><input aria-label="Approved" placeholder="Yes or no"/></div></div>', "Two options are better as Radio buttons or a Toggle."],
       tokens: [["--ns-border-default", "Control border"], ["--ns-focus-field", "Focus ring"], ["--ns-background-elevated", "List surface"], ["--ns-background-selected", "Selected option"]],
       props: [["options", "{ value, label }[]", "[]", "Full list, filtered by the query"], ["value", "string[]", "[]", "Picked values, shown as tags"], ["onChange", "(value[]) => void", "-", "Called on every pick or removal"], ["placeholder", "string", "-", "Shown when nothing is chosen"]],
-      keyboard: [["Specimen", "The demo is static. These keys are the behavior to build."], ["Arrow up / down", "Moves the active option"], ["Enter", "Toggles the active option"], ["Backspace", "On an empty query, removes the last tag"], ["Escape", "Closes the list and keeps the query"]],
+      keyboard: [["Arrow up / down", "Moves the active option"], ["Enter", "Toggles the active option"], ["Backspace", "On an empty query, removes the last tag"], ["Escape", "Closes the list and keeps the query"]],
       aria: ["The input has role=combobox, aria-expanded, and aria-controls pointing at the list.", "The list has role=listbox with aria-multiselectable=true, and each option has aria-selected.", "Announce the match count in a polite live region as the query changes."],
       react: '<Combobox label="Tags" options={tags} value={chosen} onChange={setPicked} placeholder="Add tag" />',
     },
@@ -866,10 +870,7 @@
         controls: [{ key: "query", label: "Query", options: ["Empty", "acme"] }],
         render: (s) => {
           const q = s.query === "acme";
-          const results = q
-            ? '<div class="ns-cmdk__group">Accounts</div><div class="ns-cmdk__item" role="option" aria-selected="true"><span><mark>Acme</mark> Corp</span><span class="ns-cmdk__meta">Account</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span><mark>Acme</mark> Holdings</span><span class="ns-cmdk__meta">Account</span></div><div class="ns-cmdk__group">Actions</div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Create account</span><span class="ns-cmdk__meta">Action</span></div>'
-            : '<div class="ns-cmdk__group">Recent</div><div class="ns-cmdk__item" role="option" aria-selected="true"><span>Acme Corp</span><span class="ns-cmdk__meta">Account</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Billing history</span><span class="ns-cmdk__meta">Page</span></div>';
-          return `<div class="ns-cmdk" role="dialog" aria-label="Command palette"><div class="ns-cmdk__query">${NS.icon.search}<input role="combobox" aria-expanded="true" aria-controls="cmdk-list" aria-label="Search" placeholder="Search accounts, pages and actions" value="${q ? "acme" : ""}"/><kbd>Esc</kbd></div><div class="ns-cmdk__list" id="cmdk-list" role="listbox">${results}</div><div class="ns-cmdk__foot"><span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span><span><kbd>↵</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div></div>`;
+          return `<div class="ns-cmdk" role="dialog" aria-label="Command palette"><div class="ns-cmdk__query">${NS.icon.search}<input role="combobox" aria-expanded="true" aria-controls="cmdk-list" aria-label="Search" placeholder="Search accounts, pages and actions" value="${q ? "acme" : ""}"/><kbd>Esc</kbd></div><div class="ns-cmdk__list" id="cmdk-list" role="listbox">${cmdkList()}</div><div class="ns-cmdk__foot"><span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span><span><kbd>↵</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div></div>`;
         },
       },
       when: ["Finding records, pages and actions across the product.", "Showing recent items before the person types.", "Keeping each result to one line."],
@@ -881,7 +882,7 @@
       dd: ['<div class="ns-cmdk" role="dialog" aria-label="Command palette"><div class="ns-cmdk__list" role="listbox"><div class="ns-cmdk__group">Accounts</div><div class="ns-cmdk__item" role="option" aria-selected="true"><span><mark>Acme</mark> Corp</span><span class="ns-cmdk__meta">Account</span></div><div class="ns-cmdk__group">Actions</div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Create account</span><span class="ns-cmdk__meta">Action</span></div></div></div>', "Results grouped by type, with a meta label on each row.", '<div class="ns-cmdk" role="dialog" aria-label="Command palette"><div class="ns-cmdk__list" role="listbox"><div class="ns-cmdk__item" role="option" aria-selected="true"><span>Acme Corp</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Create account</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Billing history</span></div></div></div>', "Mixed results with no group or type label leave people guessing what each row opens."],
       tokens: [["--ns-background-elevated", "Palette surface"], ["--ns-elevation-04", "Palette shadow"], ["--ns-background-selected", "Active row"], ["--ns-text-accent", "Matched text"]],
       props: [["items", "{ id, label, group, meta, icon, shortcut }[]", "[]", "Results, grouped"], ["query", "string", "''", "Controlled query"], ["onSelect", "(id) => void", "-", "Called with the chosen result"], ["open", "boolean", "false", "Shows or hides the palette"]],
-      keyboard: [["Specimen", "The demo is static. These keys are the behavior to build."], ["Cmd K / Ctrl K", "Opens the palette from anywhere"], ["Arrow up / down", "Moves the active row"], ["Enter", "Opens the active result"], ["Escape", "Closes the palette and returns focus to the previous element"]],
+      keyboard: [["Cmd K / Ctrl K", "Opens the palette from anywhere"], ["Arrow up / down", "Moves the active row"], ["Enter", "Opens the active result"], ["Escape", "Closes the palette and returns focus to the previous element"]],
       aria: ["The palette is a dialog with a name. The input is a combobox that points at the list with aria-controls.", "Results form a listbox, and the active row is set with aria-activedescendant.", "Announce the result count in a polite live region as the query changes."],
       react: '<CommandPalette items={items} onSelect={openItem} />',
     },
@@ -1231,25 +1232,51 @@
     }),
   ];
 
+  /* Consolidation (2026-11-08): small components that are a variant of a bigger one live on the parent's
+     page as a "part". The part keeps its own live demo, variants, Figma node and spec; its old route
+     redirects. Figma still holds separate sets until the next sync. */
+  NS.MERGED = { toast: "notification", "status-dot": "badge", loading: "progress", search: "text-input", dropdown: "select", "icon-button": "button", "bulk-action-bar": "data-table" };
+  Object.entries(NS.MERGED).forEach(([childId, parentId]) => {
+    const ci = NS.COMPONENTS.findIndex((c) => c.id === childId), parent = NS.COMPONENTS.find((c) => c.id === parentId);
+    if (ci < 0 || !parent) return;
+    const c = NS.COMPONENTS.splice(ci, 1)[0];
+    (parent.parts = parent.parts || []).push(c);
+    parent.variants = [...parent.variants, ...(c.variants || []).map(([n, d, h]) => [`${c.name}: ${n}`, d, h, c.id, n])];
+    const tag = (arr) => (arr || []).map((w) => `${c.name}: ${w}`);
+    parent.when = [...parent.when, ...tag(c.when)];
+    parent.whenNot = [...parent.whenNot, ...tag(c.whenNot)];
+    const seen = new Set(parent.tokens.map((t) => t[0]));
+    parent.tokens = [...parent.tokens, ...(c.tokens || []).filter((t) => !seen.has(t[0]))];
+    parent.props = [...parent.props, ...(c.props || []).map(([n, ...r]) => [`${n} (${c.name})`, ...r])];
+    parent.keyboard = [...parent.keyboard, ...(c.keyboard || []).filter((k) => k[0] !== "-").map(([k, a]) => [k, `${c.name}: ${a}`])];
+    parent.aria = [...parent.aria, ...tag(c.aria)];
+    if (c.axes) parent.axes = [...(parent.axes || []), ...c.axes.map(([a, b]) => [`${c.name} / ${a}`, b])];
+    if (c.doc) parent.doc = [...(parent.doc || []), ...c.doc.map(([t, d]) => [`${c.name}: ${t}`, d])];
+    parent.desc = parent.desc.replace(/\s*$/, "") + ` Includes ${c.name.toLowerCase()}.`;
+  });
+
   NS.COMPONENTS.sort((a, b) => a.name.localeCompare(b.name));
-  NS.componentById = (id) => NS.COMPONENTS.find((c) => c.id === id);
+  NS.componentById = (id) => NS.COMPONENTS.find((c) => c.id === (NS.MERGED[id] || id));
 
   /* ---------- page renderer ---------- */
   NS.renderComponent = function (c, tab) {
-    const spec = NS.SPECS && NS.SPECS[c.id];
+    const partSpecs = (c.parts || []).filter((p) => NS.SPECS && NS.SPECS[p.id]);
+    const spec = (NS.SPECS && NS.SPECS[c.id]) || (partSpecs[0] && NS.SPECS[partSpecs[0].id]);
     const tabs = ["usage", "style", "code", "accessibility", ...(spec ? ["spec"] : [])];
     tab = tabs.includes(tab) ? tab : "usage";
     let body = "";
     if (tab === "usage") {
       body += NS.h2("Live demo") + NS.playground(c.playground);
+      (c.parts || []).forEach((p) => (body += NS.h2(`Live demo: ${p.name}`) + `<p>${p.desc}</p>` + NS.playground(p.playground)));
       body += NS.h2("Overview") + `<p>${c.desc}</p>`;
       if (c.axes) body += NS.h3("Figma variants") + NS.table(["Property", "Values"], c.axes.map(([a, b]) => [`<code>${a}</code>`, b]));
-      if (c.figma) body += `<p><a href="${NS.FIGMA}?node-id=${c.figma.replace(":", "-")}" target="_blank" rel="noopener">Open ${c.name} in Figma \u2197</a></p>`;
+      [c, ...(c.parts || [])].filter((p) => p.figma).forEach((p) => (body += `<p><a href="${NS.FIGMA}?node-id=${p.figma.replace(":", "-")}" target="_blank" rel="noopener">Open ${p.name} in Figma \u2197</a></p>`));
       if (c.doc && c.doc.length) body += NS.h3("Guidelines") + c.doc.map(([t, d]) => `<h4>${t}</h4><p>${d}</p>`).join("");
       body += NS.h3("When to use") + `<ul>${c.when.map((w) => `<li>${w}</li>`).join("")}</ul>`;
       body += NS.h3("When not to use") + `<ul>${c.whenNot.map((w) => `<li>${w}</li>`).join("")}</ul>`;
-      if (c.variants.length) { body += NS.h2("Variants"); c.variants.forEach(([n, d, h]) => (body += `${NS.h3(n)}<p>${d}</p>${NS.VARIANT_GUIDE?.[c.id]?.[n] ? `<p class="variant-guide"><b>Use when:</b> ${NS.VARIANT_GUIDE[c.id][n]}</p>` : ""}${NS.stage(h, { label: n })}`)); }
+      if (c.variants.length) { body += NS.h2("Variants"); c.variants.forEach(([n, d, h, vid = c.id, vn = n]) => (body += `${NS.h3(n)}<p>${d}</p>${NS.VARIANT_GUIDE?.[vid]?.[vn] ? `<p class="variant-guide"><b>Use when:</b> ${NS.VARIANT_GUIDE[vid][vn]}</p>` : ""}${NS.stage(h, { label: n })}`)); }
       body += NS.h2("Best practices") + NS.dd(...c.dd);
+      (c.parts || []).forEach((p) => (body += NS.h3(p.name) + NS.dd(...p.dd)));
       const related = NS.COMPONENTS.filter((o) => o.cat === c.cat && o.id !== c.id).slice(0, 4);
       if (related.length) body += NS.h2("Related") + `<ul>${related.map((o) => `<li><a href="#/components/${o.id}">${o.name}</a></li>`).join("")}</ul>`;
     } else if (tab === "style") {
@@ -1260,9 +1287,11 @@
     } else if (tab === "code") {
       body += NS.h2("React") + `<p class="ns-helper">Illustrative only. There is no published NorthStar React package; the HTML and CSS above is the shipped implementation, and the props table is the contract a wrapper would follow.</p>` + NS.codeBlock(c.react, "js");
       body += NS.h2("HTML + CSS") + `<p>Framework-free markup using <code>components.css</code> classes and <code>tokens.css</code> variables.</p>` + NS.codeBlock(c.playground.render(Object.fromEntries((c.playground.controls || []).map((k) => [k.key, k.default ?? (k.options ? k.options[0] : k.type === "bool" ? false : "")]))), "html");
+      (c.parts || []).forEach((p) => (body += NS.h3(p.name) + NS.codeBlock(p.playground.render(Object.fromEntries((p.playground.controls || []).map((k) => [k.key, k.default ?? (k.options ? k.options[0] : k.type === "bool" ? false : "")]))), "html")));
       body += NS.h2("Props") + NS.table(["Prop", "Type", "Default", "Description"], c.props.map((p) => [`<code>${p[0]}</code>`, `<code>${x(p[1])}</code>`, `<code>${x(p[2])}</code>`, p[3]]));
     } else if (tab === "spec") {
       body += NS.renderSpec(spec);
+      partSpecs.filter((p) => NS.SPECS[p.id] !== spec).forEach((p) => (body += NS.h2(p.name + " specification") + NS.renderSpec(NS.SPECS[p.id])));
     } else {
       body += NS.h2("What NorthStar provides") + `<ul>${c.aria.map((a) => `<li>${a}</li>`).join("")}</ul>`;
       body += NS.h2("Keyboard interactions") + NS.table(["Key", "Interaction"], c.keyboard.map(([k, a]) => [k === "-" ? "-" : k.split(" / ").map((s) => `<kbd>${s}</kbd>`).join(" / "), a]));
