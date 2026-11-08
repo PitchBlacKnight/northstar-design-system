@@ -125,6 +125,12 @@ a.rcard:hover .go { letter-spacing: .3px; }
 .rcard h3 { margin: 0; font: 700 var(--ns-type-h6-size)/var(--ns-type-h6-line) var(--ns-font-sans); color: var(--_c, var(--ns-text-primary)); }
 .rcard p { margin: 0; color: var(--ns-text-secondary); font: 400 var(--ns-type-body2-size)/var(--ns-type-body2-line) var(--ns-font-sans); }
 .rcard .go { font: 600 var(--ns-type-body3-size)/1 var(--ns-font-sans); color: var(--_c, var(--ns-text-link)); margin-top: auto; }
+/* Component overview previews: a fixed frame, the demo scaled from its measured size (--_s set in pages.js) and centered. */
+.cthumb { position: relative; height: 120px; border-radius: 6px; background: var(--ns-background-secondary); overflow: hidden; pointer-events: none; }
+.cthumb__in { position: absolute; left: 50%; top: 50%; width: max-content; max-width: none; transform: translate(-50%, -50%) scale(var(--_s, .72)); }
+.cthumb .ns-sidenav [data-a] { color: var(--ns-text-secondary); padding: var(--ns-space-3); border-radius: var(--ns-radius-sm); display: flex; justify-content: space-between; }
+.cthumb .ns-sidenav [data-a][aria-current] { background: var(--ns-background-selected); color: var(--ns-text-accent); font-weight: 600; }
+.cthumb .ns-breadcrumb [data-a] { color: var(--ns-text-link); }
 .rcard__icon { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: color-mix(in srgb, var(--_k) 12%, transparent); border: 1px solid color-mix(in srgb, var(--_k) 30%, transparent); color: var(--_k); font-size: 18px; transition: transform .35s cubic-bezier(.2, .7, .2, 1); }
 a.rcard:hover .rcard__icon { transform: rotate(-6deg) scale(1.06); }
 a.rcard:hover .rcard__icon:has(.fi) { transform: scale(1.06); }

@@ -83,7 +83,7 @@
   /* Chart entries share one shell: five sizes, Title / Value / Show icon, plots from NS.chartKit */
   const CHART_SIZES = [["Small", "100px", "KPI tile: text left, mini plot right, no axes"], ["Vertical small", "256px", "Narrow column or sidebar, no axes"], ["Medium", "350px", "Default card with axis labels"], ["Large", "465px", "Card with divider and two-KPI summary"], ["XL", "390px", "Wide panel, three KPIs"]];
   const chartEntry = (id, key, o) => ({
-    id, name: o.name, cat: "Data viz", status: "New", figma: o.figma, desc: o.desc,
+    id, chart: key, name: o.name, cat: "Data viz", status: "New", figma: o.figma, desc: o.desc,
     axes: [["Size", "Small, Vertical small, Medium, Large, XL"], ["Title", "Text"], ["Value", "Text"], ["Show icon", "Boolean"]],
     doc: o.doc,
     playground: { controls: [{ key: "size", label: "Size", options: ["Medium", "Small", "Vertical small", "Large", "XL"] }, { key: "icon", label: "Show icon", type: "bool", default: true }], render: (s) => NS.chartKit.card(key, s.size, s.icon) },

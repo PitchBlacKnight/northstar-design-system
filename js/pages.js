@@ -233,11 +233,24 @@ ${h2("Brand themes")}<p>Swap primitives to rebrand. Semantic roles and component
       const cats = [...new Set(NS.COMPONENTS.map((c) => c.cat))];
       return `<div class="ns" style="margin-bottom:24px"><div class="ns-search" style="max-width:420px">${NS.icon.search}<input class="ns-input" id="cmp-filter" type="search" placeholder="Filter components" aria-label="Filter components"/></div></div>
 <div class="ns" id="cmp-cats" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px">${["All", ...cats].map((k) => `<button class="ns-btn ns-btn--sm ns-btn--tertiary" data-cat="${k}" aria-pressed="${k === "All"}">${k}</button>`).join("")}</div>
-<div id="cmp-grid" class="grid grid-auto">${NS.COMPONENTS.map((c) => `<a class="rcard" href="#/components/${c.id}" data-cat="${c.cat}" data-name="${c.name.toLowerCase()} ${c.cat.toLowerCase()}"><div class="ns" style="height:88px;display:grid;place-items:center;border-radius:6px;background:var(--ns-background-secondary);overflow:hidden;pointer-events:none"><div style="transform:scale(.72)">${thumb(c)}</div></div><h3 style="font-size:16px;line-height:22px">${c.name}</h3><p>${c.cat} · ${c.status}</p></a>`).join("")}</div>
+<div id="cmp-grid" class="grid grid-auto">${NS.COMPONENTS.map((c) => `<a class="rcard" href="#/components/${c.id}" data-cat="${c.cat}" data-name="${c.name.toLowerCase()} ${c.cat.toLowerCase()}"><div class="ns cthumb"><div class="cthumb__in">${thumb(c)}</div></div><h3 style="font-size:16px;line-height:22px">${c.name}</h3><p>${c.cat} · ${c.status}</p></a>`).join("")}</div>
 ${h2("Component status")}<div class="dtable-wrap"><table class="dtable"><thead><tr><th>Component</th><th>Category</th><th>Figma</th><th>React</th><th>HTML/CSS</th><th>Status</th></tr></thead><tbody>${NS.COMPONENTS.map((c) => `<tr><td><a href="#/components/${c.id}">${c.name}</a></td><td>${c.cat}</td><td>${c.figma ? "✓" : "Waiting"}</td><td>✓</td><td>✓</td><td><span class="ns ns-tag ns-tag--sm ${c.status === "New" ? "ns-tag--teal" : "ns-tag--green"}">${c.status}</span></td></tr>`).join("")}</tbody></table></div>
 <p style="color:var(--ns-text-tertiary);font-size:13px">${cats.length} categories: ${cats.join(", ")}.</p>`;
     },
     init: () => {
+      /* Scale each preview to fit its thumbnail from its measured size, centered, never cropped. */
+      const fit = () => document.querySelectorAll("#cmp-grid .cthumb").forEach((box) => {
+        const inner = box.firstElementChild;
+        if (!inner || !box.offsetWidth) return;
+        const s = Math.min(.8, (box.clientWidth - 24) / inner.offsetWidth, (box.clientHeight - 20) / inner.offsetHeight);
+        inner.style.setProperty("--_s", s.toFixed(3));
+      });
+      fit();
+      if (window.ResizeObserver) {
+        const ro = new ResizeObserver(fit);
+        ro.observe(document.getElementById("cmp-grid"));
+        document.querySelectorAll("#cmp-grid .cthumb__in").forEach((n) => ro.observe(n));
+      }
       const f = document.getElementById("cmp-filter");
       let cat = "All";
       const apply = () => document.querySelectorAll("#cmp-grid .rcard").forEach((c) => (c.style.display = c.dataset.name.includes(f.value.toLowerCase()) && (cat === "All" || c.dataset.cat === cat) ? "" : "none"));
@@ -249,8 +262,20 @@ ${h2("Component status")}<div class="dtable-wrap"><table class="dtable"><thead><
       }));
     },
   });
-  function thumb(c) {
+  /* Card previews sit inside an anchor, so anchors in a demo become spans (nested anchors split the card). */
+  /* Plots keep their fixed size: the chart redraw observer must not measure them through the thumbnail's transform. */
+  const thumb = (c) => thumbHtml(c).replace(/<a\b([^>]*)>/g, "<span data-a$1>").replace(/<\/a>/g, "</span>").replace(/ data-(chart|bullet)=/g, " data-static-$1=");
+  function thumbHtml(c) {
     const d = c.playground.controls ? Object.fromEntries(c.playground.controls.map((k) => [k.key, k.default ?? (k.options ? k.options[0] : k.type === "bool" ? false : "")])) : {};
+    if (c.id === "bullet-chart") return c.playground.render({ size: "Small", icon: false });
+    if (c.chart) return `<div style="width:260px">${NS.chartKit.svg(c.chart, "Medium", { width: 260, height: 150 })}</div>`;
+    const small = {
+      "alert-banner": `<div class="ns-alert ns-alert--default ns-alert--compact" role="status" style="width:300px"><span class="ns-alert__icon">${NS.svgIcon("alert", 16)}</span><div><p class="ns-alert__title">Scheduled maintenance tonight</p></div><div class="ns-alert__end"><button class="ns-alert__close" aria-label="Dismiss">×</button></div></div>`,
+      notification: '<div class="ns-notice ns-notice--success" role="status" style="width:300px"><span class="ns-notice__icon">✓</span><div><p class="ns-notice__title">Sync complete</p><p class="ns-notice__body">2,418 records updated.</p></div><button class="ns-notice__close" aria-label="Dismiss">×</button></div>',
+      "command-palette": `<div class="ns-cmdk" role="dialog" aria-label="Command palette" style="width:300px"><div class="ns-cmdk__query">${NS.icon.search}<input role="combobox" aria-expanded="true" aria-label="Search" value="acme" readonly/></div><div class="ns-cmdk__list" role="listbox"><div class="ns-cmdk__group">Accounts</div><div class="ns-cmdk__item" role="option" aria-selected="true"><span><mark>Acme</mark> Corp</span><span class="ns-cmdk__meta">Account</span></div></div></div>`,
+      pagination: '<nav class="ns-pagination" aria-label="Pagination"><button class="ns-page" disabled aria-label="Previous page">‹</button><button class="ns-page" aria-current="page">1</button><button class="ns-page">2</button><button class="ns-page">3</button><span>…</span><button class="ns-page">12</button><button class="ns-page" aria-label="Next page">›</button></nav>',
+    }[c.id];
+    if (small) return small;
     if (["data-table", "accordion", "date-picker", "file-uploader", "side-navigation", "modal"].includes(c.id)) return { "data-table": '<div class="ns-table-wrap" style="width:260px"><table class="ns-table ns-table--compact"><tr><th>Account</th><th>Revenue</th></tr><tr><td>Acme</td><td class="num">$12k</td></tr><tr><td>Zeta</td><td class="num">$38k</td></tr></table></div>', accordion: '<div class="ns-accordion" style="width:240px"><details open><summary>Section</summary></details><details><summary>Section</summary></details></div>', "date-picker": '<div class="ns-cal" style="width:220px;padding:10px;transform:scale(.9)"><div class="ns-cal__grid">' + Array.from({ length: 14 }, (_, i) => `<span class="ns-cal__day ${i === 5 ? "is-selected" : ""}">${i + 1}</span>`).join("") + "</div></div>", "file-uploader": '<div class="ns-drop" style="width:240px;padding:16px">↑ Drop files</div>', "side-navigation": '<div class="ns-sidenav" style="width:180px;padding:6px"><a aria-current="page">Dashboard</a><a>Accounts</a></div>', modal: '<div class="ns-modal ns-modal--inline" style="width:240px"><div class="ns-modal__head" style="padding:14px"><b style="font-size:14px">Revoke access?</b></div><div class="ns-modal__foot" style="padding:10px"><button class="ns-btn ns-btn--sm ns-btn--danger">Revoke</button></div></div>' }[c.id];
     return c.playground.render(d);
   }
