@@ -24,7 +24,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const FILE_KEY = "VZxmDNQiosTN6gqnvEQ65Z";
 const SITE = "https://mikelrosenthal.com/northstar/#/";
 // Scan every page except section dividers, docs and utility pages, and the widget/icon libraries.
-const SKIP_PAGE = /^———|^(Cover|Getting Started|Component Status|Changelog|Icons|Widgets|Informers.*|Dashboards|Dashboards \(original\)|Archive|Doc template)$/;
+const SKIP_PAGE = /^———|^(Cover|Getting Started|Component Status|Changelog|Icons|Widgets|Informers.*|Dashboards|Dashboards \(original\)|Archive|Doc template|Chart kit)$/; /* Chart kit is a reference copy, never imported */
 const SCAN_PAGE = (name) => !SKIP_PAGE.test(name.trim());
 const offline = process.argv.includes("--offline");
 
@@ -51,7 +51,7 @@ if (process.argv.includes("--queue")) {
   console.log(waiting.length ? `Waiting for Figma sync (${waiting.length}):\n` + waiting.map((c) => `  ${c.id}  ${c.name}`).join("\n") : "Nothing waiting for Figma sync.");
   process.exit(0);
 }
-const pages = new Set([...read("js/pages.js").matchAll(/\b(?:P|pattern)\("([\w/-]*)"/g)].map((m) => m[1]));
+const pages = new Set(["js/pages.js", "js/dashboard-layouts.js", "js/guides.js", "js/tools.js", "js/roadmap.js"].filter((f) => existsSync(join(ROOT, f))).flatMap((f) => [...read(f).matchAll(/\b(?:P|pattern)\("([\w/-]*)"|NS\.PAGES\["([\w/-]+)"\]\s*=/g)].map((m) => m[1] ?? m[2])));
 const routes = new Set([...allSite.map((c) => "components/" + c.id), ...[...pages].map((p) => (p.includes("/") || p === "" ? p : "patterns/" + p))]);
 const specSrc = read("js/specs.js");
 const specs = JSON.parse(specSrc.slice(specSrc.indexOf("NS.SPECS = ") + 11, specSrc.indexOf(";\n  NS.WORKFLOWS")));
