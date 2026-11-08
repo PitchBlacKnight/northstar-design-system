@@ -28,6 +28,7 @@ const TONES: Record<Tone, string> = {
   info: "bg-[color-mix(in_srgb,var(--ns-chart-series-2)_16%,var(--ns-widget-bg))] border-[color-mix(in_srgb,var(--ns-chart-series-2)_40%,transparent)]",
   alert: "bg-[color-mix(in_srgb,var(--ns-status-error)_9%,var(--ns-widget-bg))] border-[color-mix(in_srgb,var(--ns-status-error)_35%,transparent)]",
 };
+/* One bento tile, one job: overline label, optional action, body. tone picks a color block (three per screen at most) */
 export function Tile({ label, action, tone = "plain", className, children, bodyClass }: { label: React.ReactNode; action?: React.ReactNode; tone?: Tone; className?: string; children: React.ReactNode; bodyClass?: string }) {
   return (
     <section className={cn("flex min-w-0 flex-col rounded-[var(--ns-widget-radius)] border shadow-[var(--ns-widget-shadow)]", TONES[tone], className)}>
@@ -51,6 +52,7 @@ const FORMATS: Record<Fmt, Format> = {
   compact: { notation: "compact", maximumFractionDigits: 1 },
   dec1: { maximumFractionDigits: 1, minimumFractionDigits: 1 },
 };
+/* Headline number that animates between values with NumberFlow; tabular figures, sizes xl, lg, md */
 export function Figure({ value, fmt = "int", suffix, size = "lg", className }: { value: number; fmt?: Fmt; suffix?: string; size?: "xl" | "lg" | "md"; className?: string }) {
   const sz = size === "xl" ? "text-[length:var(--ns-type-h4-size)] leading-[var(--ns-type-h4-line)]" : size === "lg" ? "text-[length:var(--ns-type-h5-size)] leading-8" : "text-[length:var(--ns-type-title-size)] leading-7";
   return (
@@ -61,6 +63,7 @@ export function Figure({ value, fmt = "int", suffix, size = "lg", className }: {
 }
 
 /* good: which direction is good news. Most metrics: up. Errors, latency, churn: down. */
+/* Change against the previous period with an arrow; good sets which direction reads as success */
 export function Delta({ value, good = "up", label }: { value: number; good?: "up" | "down"; label?: string }) {
   const up = value >= 0, positive = good === "up" ? up : !up;
   const Icon = up ? ArrowUpIcon : ArrowDownIcon;
@@ -73,6 +76,7 @@ export function Delta({ value, good = "up", label }: { value: number; good?: "up
   );
 }
 
+/* One metric: caption, Figure, optional Delta, helper text and sparkline */
 export function Stat({ label, value, fmt, delta, good, sub, spark, sparkKey = "a" }: { label: string; value: number; fmt?: Fmt; delta?: number; good?: "up" | "down"; sub?: React.ReactNode; spark?: number[]; sparkKey?: string }) {
   return (
     <div className="flex min-w-0 flex-col gap-1">
@@ -88,6 +92,7 @@ export function Stat({ label, value, fmt, delta, good, sub, spark, sparkKey = "a
 }
 
 const sparkCfg = { v: { label: "Value", color: "var(--chart-1)" } } satisfies ChartConfig;
+/* Area sparkline through the chart component; color defaults to chart series 1 */
 export function Spark({ data, id, color = "var(--chart-1)", className }: { data: number[]; id: string; color?: string; className?: string }) {
   const gid = "sp-" + id.replace(/[^a-z0-9]/gi, "");
   return (
@@ -106,6 +111,7 @@ export function Spark({ data, id, color = "var(--chart-1)", className }: { data:
 }
 
 /* ---------- controls ---------- */
+/* Single-choice segmented control for periods and views (Base UI toggle group) */
 export function Segmented<T extends string>({ value, onChange, options, label }: { value: T; onChange: (v: T) => void; options: readonly { id: T; label: string }[]; label: string }) {
   return (
     <ToggleGroup aria-label={label} value={[value]} onValueChange={(v: string[]) => v[0] && onChange(v[0] as T)} variant="outline" size="sm">
@@ -118,6 +124,7 @@ export function Segmented<T extends string>({ value, onChange, options, label }:
   );
 }
 
+/* The "Sample data" helper line every dashboard shows */
 export function SampleNote({ children }: { children?: React.ReactNode }) {
   return <p className="text-xs text-ns-tertiary">Sample data, seeded so it stays the same on every load.{children ? <> {children}</> : null}</p>;
 }
@@ -131,6 +138,7 @@ const PILL: Record<Status, string> = {
   info: "bg-ns-info-bg text-ns-link",
   neutral: "bg-secondary text-muted-foreground",
 };
+/* Status pill: role colors only, the word always visible */
 export function Pill({ status, children }: { status: Status; children: React.ReactNode }) {
   return (
     <span className={cn("inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-semibold", PILL[status])}>
@@ -161,6 +169,7 @@ export function BarList({ items, fmt = (n: number) => n.toLocaleString("en-US") 
 /* ---------- table with sort, filter and a detail sheet ---------- */
 export type Col<R> = { key: string; label: string; align?: "left" | "right"; sort?: (r: R) => number | string; cell: (r: R) => React.ReactNode; hideBelow?: "sm" | "md" | "lg" };
 const HIDE = { sm: "hidden sm:table-cell", md: "hidden md:table-cell", lg: "hidden lg:table-cell" };
+/* Sortable, filterable table; selecting a row (click, Enter or Space) opens a Sheet with detail(row) */
 export function DataTable<R>({ rows, cols, rowKey, filterText, filterPlaceholder = "Filter", detail, detailTitle, detailDescription, initialSort, maxRows }: {
   rows: R[]; cols: Col<R>[]; rowKey: (r: R) => string; filterText?: (r: R) => string; filterPlaceholder?: string;
   detail: (r: R) => React.ReactNode; detailTitle: (r: R) => string; detailDescription?: (r: R) => string; initialSort?: { key: string; dir: "asc" | "desc" }; maxRows?: number;
@@ -248,6 +257,7 @@ export function Facts({ rows }: { rows: [string, React.ReactNode][] }) {
 }
 
 /* ---------- action: dialog that confirms with a toast ---------- */
+/* Button that opens a confirm Dialog; confirming calls onConfirm and shows a success toast */
 export function ConfirmAction({ trigger, title, description, confirm, success, successDescription, destructive, children, size = "sm", variant = "outline", onConfirm }: {
   trigger: React.ReactNode; title: string; description: string; confirm: string; success: string; successDescription?: string; destructive?: boolean; children?: React.ReactNode; onConfirm?: () => void;
   size?: "sm" | "default"; variant?: "outline" | "default" | "secondary" | "ghost";

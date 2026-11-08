@@ -36,6 +36,7 @@
       accessibility: (c.aria || []).map(text),
       html: html.trim(),
       react: c.react || null,
+      reactKit: (NS.REACT_KIT && NS.REACT_KIT.examples[c.id]) || null,
       parts: (c.parts || []).map((pc) => ({ id: pc.id, name: pc.name, figma: pc.figma || null, description: text(pc.desc), react: pc.react || null })),
     };
   });

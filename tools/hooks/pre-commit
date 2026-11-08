@@ -25,8 +25,13 @@ if [ -n "$checks" ]; then
   node tools/check-all.mjs $checks || { echo "Commit blocked. Fix the failures above (an intended visual change: node tools/visual-check.mjs --update)."; exit 1; }
 fi
 
+# React kit: regenerate js/react-kit-data.js when the kit or its examples change, and stage it.
+if has '^(dashboards/app/src/kit/|tools/react-kit-export)'; then
+  node tools/react-kit-export.mjs > /dev/null && git add js/react-kit-data.js || { echo "React kit export failed. Run node tools/react-kit-export.mjs"; exit 1; }
+fi
+
 # Agent export: regenerate llms.txt and agent/ when the catalog, tokens or page registry change, and stage the result.
-if has '^(css/tokens\.css|js/(components|charts|pages|guides|ui)\.js|tools/agent-export)'; then
+if has '^(css/tokens\.css|js/(components|charts|pages|guides|ui|react-kit-data|react-page)\.js|dashboards/app/src/kit/|tools/agent-export)'; then
   node tools/agent-export.mjs > /dev/null && git add llms.txt agent/ || echo "Agent export skipped. Run node tools/agent-export.mjs before pushing."
 fi
 exit 0

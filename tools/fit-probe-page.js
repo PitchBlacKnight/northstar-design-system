@@ -7,7 +7,7 @@
   await new Promise((r) => setTimeout(r, 600));
   /* Page mode: does the page itself scroll sideways at this window width? Run once per width by tools/fit-probe.mjs. */
   if (window.__fitMode === "page") {
-    const ROUTES = ["", "foundations/color", "foundations/logo", "components/button", "components/bubble-chart", "floorplans/dashboard", "floorplans/learner-progress", "floorplans/enrollment-health", "getting-started/downloads"];
+    const ROUTES = ["", "foundations/color", "foundations/logo", "components/button", "components/bubble-chart", "floorplans/dashboard", "floorplans/learner-progress", "floorplans/enrollment-health", "getting-started/downloads", "getting-started/react", "dashboards/apps"];
     const de = document.documentElement, rows = [];
     for (const r of ROUTES) {
       location.hash = "#/" + r;
