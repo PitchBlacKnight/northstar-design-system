@@ -1,0 +1,130 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/* NorthStar tokens drive every shadcn variable. The token sheet itself is loaded by index.html
+   from the site's css/ folder, so the dashboards and the docs read the same values. */
+@custom-variant dark (&:is([data-theme="dark"] *, :root:not([data-theme="light"]) *));
+
+:root, [data-theme="dark"], [data-theme="light"] {
+  --background: var(--ns-background-primary);
+  --foreground: var(--ns-text-primary);
+  --card: var(--ns-background-surface);
+  --card-foreground: var(--ns-text-primary);
+  --popover: var(--ns-background-elevated);
+  --popover-foreground: var(--ns-text-primary);
+  --primary: var(--ns-interactive-primary);
+  --primary-foreground: var(--ns-text-on-color);
+  --secondary: var(--ns-interactive-secondary-bg);
+  --secondary-foreground: var(--ns-text-primary);
+  --muted: var(--ns-background-secondary);
+  --muted-foreground: var(--ns-text-secondary);
+  --accent: var(--ns-background-hover);
+  --accent-foreground: var(--ns-text-primary);
+  --destructive: var(--ns-status-error);
+  --destructive-foreground: var(--ns-text-on-color);
+  --border: var(--ns-border-subtle);
+  --input: var(--ns-border-default);
+  --ring: var(--ns-focus-ring);
+  --chart-1: var(--ns-chart-series-1);
+  --chart-2: var(--ns-chart-series-2);
+  --chart-3: var(--ns-chart-series-3);
+  --chart-4: var(--ns-chart-series-4);
+  --chart-5: var(--ns-chart-series-5);
+  --sidebar: var(--ns-background-shell);
+  --sidebar-foreground: var(--ns-text-secondary);
+  --sidebar-primary: var(--ns-interactive-primary);
+  --sidebar-primary-foreground: var(--ns-text-on-color);
+  --sidebar-accent: var(--ns-background-selected);
+  --sidebar-accent-foreground: var(--ns-text-primary);
+  --sidebar-border: var(--ns-border-subtle);
+  --sidebar-ring: var(--ns-focus-ring);
+  --radius: var(--ns-radius-lg);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  /* NorthStar roles exposed as utilities: text-ns-tertiary, bg-ns-elevated, border-ns-default, text-ns-success ... */
+  --color-ns-tertiary: var(--ns-text-tertiary);
+  --color-ns-secondary: var(--ns-text-secondary);
+  --color-ns-link: var(--ns-text-link);
+  --color-ns-accent: var(--ns-text-accent);
+  --color-ns-elevated: var(--ns-background-elevated);
+  --color-ns-shell: var(--ns-background-shell);
+  --color-ns-selected: var(--ns-background-selected);
+  --color-ns-surface: var(--ns-background-surface);
+  --color-ns-default: var(--ns-border-default);
+  --color-ns-strong: var(--ns-border-strong);
+  --color-ns-success: var(--ns-status-success);
+  --color-ns-success-bg: var(--ns-status-success-bg);
+  --color-ns-warning: var(--ns-status-warning);
+  --color-ns-warning-bg: var(--ns-status-warning-bg);
+  --color-ns-error: var(--ns-status-error);
+  --color-ns-error-bg: var(--ns-status-error-bg);
+  --color-ns-info: var(--ns-status-info);
+  --color-ns-info-bg: var(--ns-status-info-bg);
+  --color-ns-widget: var(--ns-widget-bg);
+  --color-ns-inset: var(--ns-widget-inset);
+  --color-ns-grid: var(--ns-widget-grid);
+  --color-ns-chart-label: var(--ns-chart-label-text);
+  --font-sans: 'Geist Variable', sans-serif;
+  --font-mono: var(--ns-font-mono);
+  --radius-sm: var(--ns-radius-sm);
+  --radius-md: var(--ns-radius-md);
+  --radius-lg: var(--ns-radius-lg);
+  --radius-xl: var(--ns-radius-xl);
+  --radius-2xl: var(--ns-radius-2xl);
+  --shadow-ns-1: var(--ns-elevation-01);
+  --shadow-ns-2: var(--ns-elevation-02);
+  --shadow-ns-3: var(--ns-elevation-03);
+  --font-heading: var(--font-sans);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+@layer base {
+  * { @apply border-border outline-ring/50; }
+  html { color-scheme: dark;
+    @apply font-sans; }
+  html[data-theme="light"] { color-scheme: light; }
+  body { @apply font-sans antialiased bg-background text-foreground; font-size: var(--ns-type-body2-size); line-height: var(--ns-type-body2-line); }
+  ::selection { background: color-mix(in srgb, var(--ns-interactive-primary) 45%, transparent); }
+  button:not(:disabled), [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+/* Display numerals: tabular figures everywhere a number sits in a column */
+.tnum { font-variant-numeric: tabular-nums; }
+
