@@ -36,7 +36,7 @@
   const text = (x, y, s, o = {}) => `<text x="${x}" y="${y}" fill="${o.fill || T("chart-label-text")}" font-size="${o.size || (NS.viz ? NS.viz.m.axis : 11)}" font-weight="${o.weight || 400}" text-anchor="${o.anchor || "start"}" ${o.ls ? `letter-spacing="${o.ls}"` : ""}>${s}</text>`;
 
   /* ---------- area / line ---------- */
-  D.area = ({ w = 600, h = 220, sets, labels = [], ticks = 4, min, max, grid = true, pad = [8, 8, 22, 34], fmt = (v) => v, dots, ink, gridColor, labelFill, last = true, glow = false }) => {
+  D.area = ({ w = 600, h = 220, sets, labels = [], ticks = 4, min, max, grid = true, pad = [8, 8, 22, 34], fmt = (v) => v, dots, ink, gridColor, labelFill, last = true }) => {
     const [pt, pr, pb, pl] = pad; const iw = w - pl - pr, ih = h - pt - pb;
     const all = sets.flatMap((s) => s.data); const lo = min ?? Math.min(...all), hi = max ?? Math.max(...all);
     const X = (i, len) => pl + (len > 1 ? (iw * i) / (len - 1) : iw / 2), Y = (v) => pt + ih - ((v - lo) / (hi - lo || 1)) * ih;
@@ -46,10 +46,10 @@
     sets.forEach((s, si) => {
       const N = s.n || s.data.length, F = s.from || 0; const pts = s.data.map((v, i) => [X(i + F, N), Y(v)]);
       const c = s.color || T("chart-series-1"); const line = s.step ? "M" + pts.map((p) => p.join(",")).join(" L") : smooth(pts);
-      if (s.fill !== false) { const g = uid("ag"); defs += `<linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c}" stop-opacity="${s.fillTop ?? .38}"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></linearGradient>`; out += `<path d="${line} L${pts.at(-1)[0]},${pt + ih} L${pts[0][0]},${pt + ih} Z" fill="url(#${g})"/>`; }
+      if (s.fill !== false) { out += `<path d="${line} L${pts.at(-1)[0]},${pt + ih} L${pts[0][0]},${pt + ih} Z" fill="${c}" opacity="${s.fillTop ?? .16}"/>`; }
       if (s.band) { const hi2 = s.band.map((b, i) => [X(i + F, N), Y(b[1])]), lo2 = s.band.map((b, i) => [X(i + F, N), Y(b[0])]).reverse(); out += `<path d="${smooth(hi2)} L${lo2[0][0]},${lo2[0][1]} ${smooth(lo2).replace(/^M[^C]*/, "")} Z" fill="${c}" opacity=".16"/>`; }
       out += `<path d="${line}" fill="none" stroke="${c}" stroke-width="${s.sw || 2.5}" ${s.dash ? `stroke-dasharray="${s.dash}"` : ""} stroke-linecap="round" stroke-linejoin="round"/>`;
-      if (last && s.last !== false) { const p = pts.at(-1); out += `<circle cx="${p[0]}" cy="${p[1]}" r="9" fill="${c}" opacity=".18"/><circle cx="${p[0]}" cy="${p[1]}" r="4.5" fill="${ink || T("widget-bg")}" stroke="${c}" stroke-width="2.5"/>`; }
+      if (last && s.last !== false) { const p = pts.at(-1); out += `<circle cx="${p[0]}" cy="${p[1]}" r="4.5" fill="${ink || T("widget-bg")}" stroke="${c}" stroke-width="2.5"/>`; }
     });
     labels.forEach((l, i) => { out += text(pl + (iw * i) / (labels.length - 1), h - 4, l, { anchor: i === 0 ? "start" : i === labels.length - 1 ? "end" : "middle", size: 11, fill: lf }); });
     return `<svg viewBox="0 0 ${w} ${h}" width="${w}" role="img"><defs>${defs}</defs>${out}</svg>`;
@@ -81,10 +81,9 @@
 
   /* ---------- rings ---------- */
   D.ring = ({ size = 120, stroke = 12, pct = 60, color = T("chart-series-1"), track = T("chart-track"), label, sub, labelFill, subFill, fs, grad }) => {
-    if (grad) { color = grad[0]; grad = null; } /* gradients retired: flat fill keeps rings in step with the chart kit */
-    const r = (size - stroke) / 2, c = 2 * Math.PI * r, g = uid("rg");
-    const def = grad ? `<defs><linearGradient id="${g}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${grad[0]}"/><stop offset="1" stop-color="${grad[1]}"/></linearGradient></defs>` : "";
-    return `<svg viewBox="0 0 ${size} ${size}" width="${size}" role="img" aria-label="${label ?? pct}">${def}<circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${track}" stroke-width="${stroke}"/><circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${grad ? `url(#${g})` : color}" stroke-width="${stroke}" stroke-linecap="round" ${arcDash(c, pct, stroke)} transform="rotate(-90 ${size / 2} ${size / 2})"/>${label != null ? text(size / 2, size / 2 + (sub ? 2 : (fs || size * .22) * .36), label, { anchor: "middle", size: fs || size * .22, weight: 800, fill: labelFill || T("text-primary") }) : ""}${sub ? text(size / 2, size / 2 + 16, sub, { anchor: "middle", size: 11, fill: subFill }) : ""}</svg>`;
+    if (grad) color = grad[0]; /* a gradient pair resolves to its first stop: flat fills only */
+    const r = (size - stroke) / 2, c = 2 * Math.PI * r;
+    return `<svg viewBox="0 0 ${size} ${size}" width="${size}" role="img" aria-label="${label ?? pct}"><circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${track}" stroke-width="${stroke}"/><circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${color}" stroke-width="${stroke}" stroke-linecap="round" ${arcDash(c, pct, stroke)} transform="rotate(-90 ${size / 2} ${size / 2})"/>${label != null ? text(size / 2, size / 2 + (sub ? 2 : (fs || size * .22) * .36), label, { anchor: "middle", size: fs || size * .22, weight: 800, fill: labelFill || T("text-primary") }) : ""}${sub ? text(size / 2, size / 2 + 16, sub, { anchor: "middle", size: 11, fill: subFill }) : ""}</svg>`;
   };
 
   D.rings = ({ size = 260, stroke = 14, gap = 8, items }) => {

@@ -200,7 +200,7 @@ Use these roles in components. Values are the dark theme; light overrides are in
 | Token | Dark | Light |
 |---|---|---|
 | `--ns-focus-field` | #3506ef | same |
-| `--ns-focus-ring` | #01f1e3 | #023aff |
+| `--ns-focus-ring` | #01f1e3 | #006b65 |
 
 ### font
 
@@ -236,7 +236,7 @@ Use these roles in components. Values are the dark theme; light overrides are in
 | `--ns-interactive-danger-hover` | #b8174c | #84001d |
 | `--ns-interactive-ghost-hover` | #ffffff12 | #05050f0d |
 | `--ns-interactive-primary` | #023aff | same |
-| `--ns-interactive-primary-active` | #991bfa | same |
+| `--ns-interactive-primary-active` | #022ecc | same |
 | `--ns-interactive-primary-hover` | #3506ef | same |
 | `--ns-interactive-secondary` | #991bfa | same |
 | `--ns-interactive-secondary-bg` | #1e1e24 | #f5f5ff |
@@ -310,7 +310,7 @@ Use these roles in components. Values are the dark theme; light overrides are in
 | `--ns-text-accent` | #01f1e3 | #006b65 |
 | `--ns-text-disabled` | #5b5b65 | #a9a9b7 |
 | `--ns-text-inverse` | #05050f | #ffffff |
-| `--ns-text-link` | #01f1e3 | #023aff |
+| `--ns-text-link` | #01f1e3 | #006b65 |
 | `--ns-text-on-color` | #ffffff | same |
 | `--ns-text-primary` | #ffffff | #05050f |
 | `--ns-text-secondary` | #a9a9b7 | #40404a |

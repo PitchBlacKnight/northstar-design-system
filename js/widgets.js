@@ -10,11 +10,9 @@
   const fmt = (n) => n.toLocaleString("en-US");
   const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const v = (t) => NS.viz.c(t); /* palette names and viz tokens resolve to chart series */
-  const stop = (o, c, a = 1) => `<stop offset="${o}" style="stop-color:${c};stop-opacity:${a}"/>`;
 
   /* former gradient presets, now flat chart-series fills (NS.viz): GRAD[name] = [color, color] */
   const GRAD = Object.fromEntries(["purple", "bruise", "blue", "orange", "green", "teal", "red"].map((k) => [k, [v(k), v(k)]]));
-  const lin = (gid, name, dir = "v") => `<linearGradient id="${gid}" x1="0" y1="0" x2="${dir === "h" ? 1 : 0}" y2="${dir === "h" ? 0 : 1}">${stop(0, GRAD[name][0])}${stop(1, GRAD[name][1])}</linearGradient>`;
 
   /* ---------- data ---------- */
   const TABLE = [["Finance", 324, 1540, "green-500"], ["Travel", 311, 1320, "orange-500"], ["Presentation", 300, 1201, "purple-500"], ["Startup", 288, 989, "teal-500"], ["Development", 276, 944, "red-400"], ["Design", 273, 897, "yellow-500"], ["Product", 233, 843, "periwinkle-500"], ["Research", 184, 765, "blue-500"], ["Other", 143, 565, "text-primary"]];
@@ -37,7 +35,7 @@
   function ring({ size = 72, stroke = 8, arcs = [{ v: 32, g: "purple" }], label, unit = "%", icon = true, gap = 0 }) {
     const r = (size - stroke) / 2, c = 2 * Math.PI * r;
     let off = 0, defs = "", paths = "";
-    arcs.forEach((a) => { const g = id("g"); defs += lin(g, a.g, "h"); const len = (a.v / 100) * c; paths += `<circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="url(#${g})" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${Math.max(len - gap - stroke, 0.01)} ${c}" stroke-dashoffset="${-(off + stroke / 2)}" transform="rotate(-90 ${size / 2} ${size / 2})"/>`; off += len; }); /* round caps add stroke/2 at each end: shorten by the stroke and start stroke/2 in, so each arc draws exactly its share */
+    arcs.forEach((a) => { const len = (a.v / 100) * c; paths += `<circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" style="stroke:${GRAD[a.g][0]}" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${Math.max(len - gap - stroke, 0.01)} ${c}" stroke-dashoffset="${-(off + stroke / 2)}" transform="rotate(-90 ${size / 2} ${size / 2})"/>`; off += len; }); /* round caps add stroke/2 at each end: shorten by the stroke and start stroke/2 in, so each arc draws exactly its share */
     const fs = size * 0.26;
     return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" role="img" aria-label="${label ?? arcs[0].v}${unit}"><defs>${defs}</defs><circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" style="stroke:${v("widget-track")}" stroke-width="${stroke}"/>${paths}${icon ? `<g transform="translate(${size / 2 - 5} ${size * 0.28})" style="fill:${v("widget-muted")}"><rect x="0" y="4" width="2" height="6" rx="1"/><rect x="4" y="0" width="2" height="10" rx="1"/><rect x="8" y="2" width="2" height="8" rx="1"/></g>` : ""}<text x="50%" y="${size * 0.62}" text-anchor="middle" dominant-baseline="middle" style="fill:${v("text-primary")}" font-size="${fs}" font-weight="800">${label ?? arcs[0].v}<tspan font-size="${fs * 0.45}" font-weight="400" dx="1" dy="${-fs * 0.3}">${unit}</tspan></text></svg>`;
   }
@@ -45,7 +43,7 @@
   /* Concentric rings (compound circular / combined) */
   function concentric({ size = 300, rings = [["orange", 78], ["green", 70], ["teal", 66], ["blue", 58], ["purple", 52]], stroke = 9, gap = 6, center = "64,8", over = "Dynamics today" }) {
     let defs = "", out = "";
-    rings.forEach(([g, pct], i) => { const r = size / 2 - stroke / 2 - i * (stroke + gap) - (rings.length > 2 ? 0 : 0); const c = 2 * Math.PI * r; const gid = id("cg"); defs += `<linearGradient id="${gid}" x1="1" y1="0" x2="0" y2="1">${stop(0, GRAD[g][0])}${stop(1, GRAD[g][1])}</linearGradient>`; out += `<circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" style="stroke:${v("widget-track")}" stroke-width="${stroke}"/><circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="url(#${gid})" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${Math.max((pct / 100) * c - stroke, 0.01)} ${c}" stroke-dashoffset="${-stroke / 2}" transform="rotate(${-90 - (pct / 100) * 360 * 0.5 + 90} ${size / 2} ${size / 2}) scale(-1 1) translate(${-size} 0)"/>`; });
+    rings.forEach(([g, pct], i) => { const r = size / 2 - stroke / 2 - i * (stroke + gap) - (rings.length > 2 ? 0 : 0); const c = 2 * Math.PI * r; out += `<circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" style="stroke:${v("widget-track")}" stroke-width="${stroke}"/><circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" style="stroke:${GRAD[g][0]}" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${Math.max((pct / 100) * c - stroke, 0.01)} ${c}" stroke-dashoffset="${-stroke / 2}" transform="rotate(${-90 - (pct / 100) * 360 * 0.5 + 90} ${size / 2} ${size / 2}) scale(-1 1) translate(${-size} 0)"/>`; });
     const inner = size / 2 - rings.length * (stroke + gap);
     return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" role="img" aria-label="${over} ${center}%"><defs>${defs}</defs>${out}${inner > 40 ? `<circle cx="${size / 2}" cy="${size / 2 - inner * 0.42}" r="${inner * 0.22}" style="fill:${v("widget-track")}"/><g transform="translate(${size / 2 - 7} ${size / 2 - inner * 0.42 - 7})" style="fill:${v("orange-500")}"><rect x="0" y="6" width="3" height="8" rx="1"/><rect x="5.5" y="0" width="3" height="14" rx="1"/><rect x="11" y="3" width="3" height="11" rx="1"/></g><text x="50%" y="${size / 2 + inner * 0.02}" text-anchor="middle" style="fill:${v("chart-label-text")}" font-size="${Math.max(11, inner * 0.08)}" font-weight="700" letter-spacing="1.5">${over.toUpperCase()}</text>` : ""}<text x="50%" y="${size / 2 + inner * (inner > 40 ? 0.4 : 0.12)}" text-anchor="middle" dominant-baseline="middle" style="fill:${v("text-primary")}" font-size="${inner * (inner > 40 ? 0.46 : 0.6)}" font-weight="700">${center}<tspan font-size="${inner * 0.16}" dy="${-inner * 0.12}">%</tspan></text></svg>`;
   }
@@ -58,23 +56,22 @@
   }
   const series = (seed, n, lo = 0.15, hi = 0.95) => { const r = rng(seed); let x = 0.5; return Array.from({ length: n }, () => (x = Math.min(hi, Math.max(lo, x + (r() - 0.5) * 0.5)))); };
 
-  function lines({ w = 240, h = 80, sets = [["purple", 3], ["orange", 7]], n = 8, axis = false, fill = false, glow = false }) {
+  function lines({ w = 240, h = 80, sets = [["purple", 3], ["orange", 7]], n = 8, axis = false, fill = false }) {
     const pad = axis ? 36 : 4, ph = axis ? 24 : 4;
     let defs = "", out = "";
     if (axis) { for (let i = 0; i <= 4; i++) { const y = ph + ((h - ph * 2) * i) / 4; out += `<line x1="${pad}" x2="${w}" y1="${y}" y2="${y}" style="stroke:${v("widget-grid")}"/><text x="${pad - 8}" y="${y}" text-anchor="end" dominant-baseline="middle" font-size="${NS.viz.m.axis}" style="fill:${v("chart-label-text")}">${["$1k", "$750", "$500", "$250", "0"][i]}</text>`; } MONTHS.forEach((m, i) => (out += `<text x="${pad + ((w - pad) * (i + 0.5)) / 12}" y="${h - 4}" text-anchor="middle" font-size="${NS.viz.m.axis}" style="fill:${v("chart-label-text")}">${m}</text>`)); }
     sets.forEach(([g, seed]) => {
       const d = series(seed, n); const pts = d.map((y, i) => [pad + ((w - pad - 4) * i) / (n - 1), ph + (h - ph * 2 - (axis ? 12 : 0)) * (1 - y)]);
-      const gid = id("lg"); defs += lin(gid, g, "h");
-      if (fill) { const fid = id("lf"); defs += `<linearGradient id="${fid}" x1="0" y1="0" x2="0" y2="1">${stop(0, GRAD[g][0], 0.35)}${stop(1, GRAD[g][0], 0)}</linearGradient>`; out += `<path d="${smooth(pts)} L${pts[pts.length - 1][0]},${h - ph} L${pts[0][0]},${h - ph} Z" fill="url(#${fid})"/>`; }
-      out += `<path d="${smooth(pts)}" fill="none" stroke="url(#${gid})" stroke-width="${axis ? 3 : 2.5}" stroke-linecap="round"${glow ? ` style="filter:drop-shadow(0 4px 8px ${GRAD[g][1]})"` : ""}/>`;
+      if (fill) { out += `<path d="${smooth(pts)} L${pts[pts.length - 1][0]},${h - ph} L${pts[0][0]},${h - ph} Z" style="fill:${GRAD[g][0]}" fill-opacity=".16"/>`; }
+      out += `<path d="${smooth(pts)}" fill="none" style="stroke:${GRAD[g][0]}" stroke-width="${axis ? 3 : 2.5}" stroke-linecap="round"/>`;
     });
     return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="Line chart"><defs>${defs}</defs>${out}</svg>`;
   }
 
   /* Column chart: paired capsules (purple bottom, teal top) */
   function columns({ w = 240, h = 80, n = 12, seed = 5, bar = 6, gap = 5, axis = false, a = "purple", b = "teal" }) {
-    const r = rng(seed), step = w / n; let out = "", defs = ""; const ga = id("ca"), gb = id("cb"); defs += lin(ga, a) + lin(gb, b);
-    for (let i = 0; i < n; i++) { const x = i * step + step / 2 - bar / 2; const lo = 0.2 + r() * 0.45, hi = 0.1 + r() * 0.35; const hlo = (h - 8) * lo, hhi = (h - 8) * hi; out += `<rect x="${x}" y="0" width="${bar}" height="${h}" rx="${bar / 2}" style="fill:${v("widget-track")}"/><rect x="${x}" y="${h - hlo}" width="${bar}" height="${hlo}" rx="${bar / 2}" fill="url(#${ga})"/><rect x="${x}" y="${h - hlo - gap - hhi}" width="${bar}" height="${hhi}" rx="${bar / 2}" fill="url(#${gb})"/>`; }
+    const r = rng(seed), step = w / n; let out = "", defs = ""; const ca = GRAD[a][0], cb = GRAD[b][0];
+    for (let i = 0; i < n; i++) { const x = i * step + step / 2 - bar / 2; const lo = 0.2 + r() * 0.45, hi = 0.1 + r() * 0.35; const hlo = (h - 8) * lo, hhi = (h - 8) * hi; out += `<rect x="${x}" y="0" width="${bar}" height="${h}" rx="${bar / 2}" style="fill:${v("widget-track")}"/><rect x="${x}" y="${h - hlo}" width="${bar}" height="${hlo}" rx="${bar / 2}" style="fill:${ca}"/><rect x="${x}" y="${h - hlo - gap - hhi}" width="${bar}" height="${hhi}" rx="${bar / 2}" style="fill:${cb}"/>`; }
     return `<svg width="${w}" height="${h + (axis ? 18 : 0)}" viewBox="0 0 ${w} ${h + (axis ? 18 : 0)}" role="img" aria-label="Column chart"><defs>${defs}</defs>${out}${axis ? MONTHS.slice(0, n).map((m, i) => `<text x="${i * step + step / 2}" y="${h + 14}" text-anchor="middle" font-size="${NS.viz.m.axis}" style="fill:${v("chart-label-text")}">${m}</text>`).join("") : ""}</svg>`;
   }
 
@@ -89,10 +86,10 @@
   }
 
   function bubbles({ w = 820, h = 250, seed = 11, n = 30, max = 42, axis = true }) {
-    const r = rng(seed), pad = axis ? 56 : 6; const gp = id("bp"), gb = id("bb");
+    const r = rng(seed), pad = axis ? 56 : 6;
     let out = axis ? monthGrid(w, h, pad) : "";
-    for (let i = 0; i < n; i++) { const rad = r() < 0.35 ? 3 + r() * 4 : 8 + r() * (max - 8); const x = pad + 8 + r() * (w - pad - 16), y = rad + r() * (h - (axis ? 36 : 8) - rad * 2); out += `<circle cx="${x}" cy="${y}" r="${rad}" fill="url(#${r() > 0.5 ? gp : gb})" fill-opacity=".85"/>`; }
-    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="Bubble chart"><defs><linearGradient id="${gp}" x1="0" y1="0" x2="0" y2="1">${stop(0, GRAD.purple[0])}${stop(1, GRAD.purple[1])}</linearGradient><linearGradient id="${gb}" x1="0" y1="0" x2="0" y2="1">${stop(0, GRAD.blue[0])}${stop(1, GRAD.blue[1])}</linearGradient></defs>${out}</svg>`;
+    for (let i = 0; i < n; i++) { const rad = r() < 0.35 ? 3 + r() * 4 : 8 + r() * (max - 8); const x = pad + 8 + r() * (w - pad - 16), y = rad + r() * (h - (axis ? 36 : 8) - rad * 2); out += `<circle cx="${x}" cy="${y}" r="${rad}" style="fill:${r() > 0.5 ? GRAD.purple[0] : GRAD.blue[0]}" fill-opacity=".85"/>`; }
+    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="Bubble chart">${out}</svg>`;
   }
 
   function dots({ w = 820, h = 250 }) {
@@ -152,13 +149,13 @@
     return `<svg width="${w}" height="${h + (thresholds ? sw : 0)}" viewBox="${thresholds ? -sw : 0} ${thresholds ? -sw : 0} ${w + (thresholds ? sw * 2 : 0)} ${h + (thresholds ? sw : 0)}" role="img" aria-label="${pct}% of capacity">${arc(0.5, 99.5, v("widget-track"))}${arc(0.5, Math.min(pct, 99.5), v(tone))}${thresholds ? band(70, 90, "status-warning") + band(90, 100, "status-error") : ""}</svg>`;
   }
 
-  /* Filled trend with a fading gradient; axis=true adds gridlines, y ticks and months */
+  /* Filled trend with a flat 16% fill; axis=true adds gridlines, y ticks and months */
   function area({ w = 230, h = 72, two = false, axis = false, seed = 3 }) {
     const pad = axis ? 40 : 0, top = axis ? 8 : 4, bot = axis ? 22 : 0, iw = w - pad, ih = h - top - bot;
     const sets = two ? [["viz-2", series(seed, 12, 0.35, 0.9)], ["viz-1", series(seed + 4, 12, 0.1, 0.45)]] : [["viz-2", series(seed, 12, 0.3, 0.9)]];
     let defs = "", body = "";
     if (axis) { ["$1k", "$800", "$600", "$400", "$200", "0"].forEach((t, i) => { const y = top + (ih / 5) * i; body += `<line x1="${pad}" x2="${w}" y1="${y}" y2="${y}" style="stroke:${v("widget-grid")}"/><text x="${pad - 10}" y="${y + 4}" text-anchor="end" font-size="${NS.viz.m.axis}" style="fill:${v("chart-label-text")}">${t}</text>`; }); MONTHS.forEach((m, i) => { body += `<text x="${pad + (iw / 11) * i}" y="${h - 4}" text-anchor="middle" font-size="${NS.viz.m.axis}" style="fill:${v("chart-label-text")}">${m}</text>`; }); }
-    sets.forEach(([c, d]) => { const g = id("ag"); defs += `<linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1">${stop(0, v(c), 0.4)}${stop(1, v(c), 0)}</linearGradient>`; const pts = d.map((y, i) => [pad + (iw / (d.length - 1)) * i, top + ih - y * ih]); const line = smooth(pts); body += `<path d="${line} L${pad + iw},${top + ih} L${pad},${top + ih} Z" fill="url(#${g})"/><path d="${line}" fill="none" style="stroke:${v(c)}" stroke-width="2" stroke-linecap="round"/>`; });
+    sets.forEach(([c, d]) => { const pts = d.map((y, i) => [pad + (iw / (d.length - 1)) * i, top + ih - y * ih]); const line = smooth(pts); body += `<path d="${line} L${pad + iw},${top + ih} L${pad},${top + ih} Z" style="fill:${v(c)}" fill-opacity=".16"/><path d="${line}" fill="none" style="stroke:${v(c)}" stroke-width="2" stroke-linecap="round"/>`; });
     return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="Area chart, ${two ? "two series" : "one series"}"><defs>${defs}</defs>${body}</svg>`;
   }
 

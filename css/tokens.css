@@ -160,7 +160,7 @@
 
   --ns-interactive-primary: var(--ns-blue-500);
   --ns-interactive-primary-hover: var(--ns-blue-700);
-  --ns-interactive-primary-active: var(--ns-purple-500);
+  --ns-interactive-primary-active: #022ecc; /* interactive/primary at 80% toward black; pressed stays blue, never purple */
   --ns-interactive-danger: #cc1a54; /* interactive/danger: status error at 80% toward black, so white text holds 5.5:1 */
   --ns-interactive-danger-hover: #b8174c;
   --ns-interactive-danger-active: #a31443;
@@ -274,7 +274,7 @@
   --ns-text-tertiary: var(--ns-gray-5);
   --ns-text-disabled: var(--ns-gray-2);
   --ns-text-inverse: var(--ns-white);
-  --ns-text-link: var(--ns-blue-500);
+  --ns-text-link: #006b65; /* links are the teal accent in both modes */
   --ns-text-accent: #006b65; /* was #007f78: 4.2:1 on the selected surface, now 5.5:1 */
 
   --ns-border-subtle: var(--ns-gray-1);
@@ -285,7 +285,7 @@
   --ns-interactive-secondary-bg: var(--ns-gray-0);
   --ns-interactive-secondary-hover: var(--ns-gray-1);
   --ns-field-bg: var(--ns-gray-0);
-  --ns-focus-ring: var(--ns-blue-500);
+  --ns-focus-ring: #006b65; /* teal in both modes; 6.5:1 on white */
 
   --ns-status-success: #267000; /* was #2f8a00 (4.4:1 on white) */
   --ns-status-warning: #944e00; /* was #b35f00 (3.9:1 on tinted tiles) */

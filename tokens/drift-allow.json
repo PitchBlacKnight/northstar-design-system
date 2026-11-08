@@ -10,5 +10,10 @@
  "--ns-space-11|Compact": "Code compact density changes control heights and row padding through --ns-density-*; the spacing scale stays fixed. Figma's Compact mode scales spacing for mockups.",
  "--ns-space-12|Compact": "Code compact density changes control heights and row padding through --ns-density-*; the spacing scale stays fixed. Figma's Compact mode scales spacing for mockups.",
  "--ns-space-13|Compact": "Code compact density changes control heights and row padding through --ns-density-*; the spacing scale stays fixed. Figma's Compact mode scales spacing for mockups.",
- "--ns-space-14|Compact": "Code compact density changes control heights and row padding through --ns-density-*; the spacing scale stays fixed. Figma's Compact mode scales spacing for mockups."
+ "--ns-space-14|Compact": "Code compact density changes control heights and row padding through --ns-density-*; the spacing scale stays fixed. Figma's Compact mode scales spacing for mockups.",
+ "--ns-interactive-primary-active|Dark": "PENDING FIGMA SYNC (STYLE-RULES.md, 2026-11-08): code is right, update the Figma variable and delete this entry.",
+ "--ns-interactive-primary-active|Light": "PENDING FIGMA SYNC (STYLE-RULES.md, 2026-11-08): code is right, update the Figma variable and delete this entry.",
+ "--ns-interactive-primary-active|High Contrast": "PENDING FIGMA SYNC (STYLE-RULES.md, 2026-11-08): code is right, update the Figma variable and delete this entry.",
+ "--ns-focus-ring|Light": "PENDING FIGMA SYNC (STYLE-RULES.md, 2026-11-08): code is right, update the Figma variable and delete this entry.",
+ "--ns-text-link|Light": "PENDING FIGMA SYNC (STYLE-RULES.md, 2026-11-08): code is right, update the Figma variable and delete this entry."
 }
