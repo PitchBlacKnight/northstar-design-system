@@ -2,7 +2,7 @@
 
 > Machine-readable guide for AI coding and design agents. Generated 2026-11-08 from the live catalog by tools/agent-export.mjs; do not edit by hand. Site: https://mikelrosenthal.com/northstar/ · Figma file VZxmDNQiosTN6gqnvEQ65Z.
 
-NorthStar is a design language and development kit for dense, dark, data-heavy enterprise consoles: 53 components, 218 tokens, dark and light themes, comfortable and compact density. Markup is framework-free HTML with ns- classes; style comes only from CSS custom properties.
+NorthStar is a design language and development kit for dense, dark, data-heavy enterprise consoles: 57 components, 218 tokens, dark and light themes, comfortable and compact density. Markup is framework-free HTML with ns- classes; style comes only from CSS custom properties.
 
 ## Files
 
@@ -736,196 +736,40 @@ Accessibility:
 - Trailing buttons need a label that names the tag, e.g. aria-label="Remove Region: EU".
 - The indicator color is never the only signal; the label carries meaning.
 
-### Navigation
-
-#### Breadcrumb (Stable)
-
-Breadcrumbs show where the current page sits in the hierarchy and let people move up levels.
-
-Page: https://mikelrosenthal.com/northstar/#/components/breadcrumb · Figma node 4208:1020
-
-Classes: `ns-breadcrumb`
-
-Use:
-- Hierarchies three or more levels deep.
-
-Avoid:
-- Flat sites or single-level apps.
-
-- Do: End with the current page, not a link.
-- Do not: Show a breadcrumb with one item.
-
-```html
-<nav aria-label="Breadcrumb"><ol class="ns-breadcrumb"><li><a href="#/">Accounts</a></li><li><a href="#/">Acme Corp</a></li><li><a href="#/">Integrations</a></li><li aria-current="page">CRM sync</li></ol></nav>
-```
-
-Tokens: `--ns-text-link` (Links), `--ns-text-disabled` (Separator)
-
-Keyboard: Tab: Moves between links
-
-Accessibility:
-- Wrap in <nav aria-label="Breadcrumb">; mark the last item aria-current="page".
-
-#### Command palette (New)
-
-A global launcher for finding records, pages and actions. Open it with Cmd K or Ctrl K. Results group by type, and the active row follows the keyboard.
-
-Page: https://mikelrosenthal.com/northstar/#/components/command-palette · Figma node 4466:359
-
-Classes: `ns-cmdk`, `ns-cmdk__foot`, `ns-cmdk__group`, `ns-cmdk__item`, `ns-cmdk__list`, `ns-cmdk__meta`, `ns-cmdk__query`
-
-Variants: Result: Label, meta, icon, shortcut; Group: Up to four groups; State: Empty query, Results, Active row
-
-Use:
-- Finding records, pages and actions across the product.
-- Showing recent items before the person types.
-- Keeping each result to one line.
-
-Avoid:
-- Do not make it the only way to reach a feature.
-- Do not open it when a page search field gets focus.
-- Do not show more than four groups.
-
-- Do: Results grouped by type, with a meta label on each row.
-- Do not: Mixed results with no group or type label leave people guessing what each row opens.
-
-```html
-<div class="ns-cmdk" role="dialog" aria-label="Command palette"><div class="ns-cmdk__query"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input role="combobox" aria-expanded="true" aria-controls="cmdk-list" aria-label="Search" placeholder="Search accounts, pages and actions" value=""/><kbd>Esc</kbd></div><div class="ns-cmdk__list" id="cmdk-list" role="listbox"><div class="ns-cmdk__group" role="presentation">Accounts</div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Acme Corp</span><span class="ns-cmdk__meta">Account</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Acme Holdings</span><span class="ns-cmdk__meta">Account</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Globex</span><span class="ns-cmdk__meta">Account</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Northwind</span><span class="ns-cmdk__meta">Account</span></div><div class="ns-cmdk__group" role="presentation">Pages</div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Billing history</span><span class="ns-cmdk__meta">Page</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Usage reports</span><span class="ns-cmdk__meta">Page</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Team settings</span><span class="ns-cmdk__meta">Page</span></div><div class="ns-cmdk__group" role="presentation">Actions</div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Create account</span><span class="ns-cmdk__meta">Action</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Invite teammate</span><span class="ns-cmdk__meta">Action</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Export accounts</span><span class="ns-cmdk__meta">Action</span></div></div><div class="ns-cmdk__foot"><span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span><span><kbd>↵</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div></div>
-```
-
-Tokens: `--ns-background-elevated` (Palette surface), `--ns-elevation-04` (Palette shadow), `--ns-background-selected` (Active row), `--ns-text-accent` (Matched text)
-
-Keyboard: Cmd K / Ctrl K: Opens the palette from anywhere; Arrow up / down: Moves the active row; Enter: Opens the active result; Escape: Closes the palette and returns focus to the previous element
-
-Accessibility:
-- The palette is a dialog with a name. The input is a combobox that points at the list with aria-controls.
-- Results form a listbox, and the active row is set with aria-activedescendant.
-- Announce the result count in a polite live region as the query changes.
-
-#### Pagination (Stable)
-
-Pagination splits long collections into pages with page size control and position feedback.
-
-Page: https://mikelrosenthal.com/northstar/#/components/pagination · Figma node 4038:31293
-
-Classes: `ns-helper`, `ns-page`, `ns-pagination`, `ns-select`
-
-Use:
-- Tables and lists over ~50 items.
-
-Avoid:
-- Feeds where infinite scroll fits better.
-
-- Do: Show position and total.
-- Do not: Hide how much content exists.
-
-```html
-<nav class="ns-pagination" aria-label="Pagination"><span style="margin-right:12px">Rows <select class="ns-select" style="width:72px;min-height:32px;display:inline-block"><option>25</option><option>50</option></select></span><button class="ns-page" disabled aria-label="Previous page">‹</button><button class="ns-page" aria-current="page">1</button><button class="ns-page">2</button><button class="ns-page">3</button><span>…</span><button class="ns-page">12</button><button class="ns-page" aria-label="Next page">›</button><span style="margin-left:12px">1-25 of 288</span></nav>
-```
-
-Tokens: `--ns-interactive-primary` (Current page), `--ns-background-hover` (Hover)
-
-Keyboard: Tab: Moves across controls; Enter: Go to page
-
-Accessibility:
-- Wrap in <nav aria-label="Pagination">; current page uses aria-current="page".
-
-#### Side navigation (Stable)
-
-Side navigation is the primary way to move through an app, with collapsible groups for large information spaces.
-
-Page: https://mikelrosenthal.com/northstar/#/components/side-navigation · Figma node 4212:37
-
-Classes: `ns-count`, `ns-helper`, `ns-sidenav`, `ns-sidenav__group` · helper classes in the examples: `brand`, `brand__dot`
-
-Use:
-- Apps with five or more top-level destinations.
-
-Avoid:
-- Two or three destinations: use tabs or header links.
-
-- Do: Group items by task.
-- Do not: Use vague group names.
-
-```html
-<nav class="ns-sidenav" aria-label="App"><div class="brand" style="padding:6px 12px 10px"><span class="brand__dot"></span>NORTHSTAR</div><div class="ns-sidenav__group">Operate</div><a href="#/" aria-current="page">Dashboard</a><a href="#/">Accounts <span class="ns-count">3</span></a><a href="#/">Approvals</a><div class="ns-sidenav__group">Configure</div><a href="#/">Integrations</a><a href="#/">Access</a><a href="#/">Settings</a></nav>
-```
-
-Tokens: `--ns-background-shell` (Rail), `--ns-background-selected` (Current item), `--ns-text-accent` (Current label)
-
-Keyboard: Tab: Moves through links; Enter: Opens link or toggles group
-
-Accessibility:
-- Use <nav> with a label; current link sets aria-current="page".
-
-#### Tabs (Stable)
-
-Use tabs to allow users to navigate easily between views within the same context.
-
-Page: https://mikelrosenthal.com/northstar/#/components/tabs · Figma node 1842:24465
-
-Classes: `ns-count`, `ns-tab`, `ns-tabs`, `ns-tabs--fill`
-
-Variants: Icon: Without, With; Items: 2, 3, 4
-
-Use:
-- Two to four peer views of the same object.
-
-Avoid:
-- Sequential steps: use a progress indicator.
-- Top-level navigation: use side navigation.
-
-- Do: Use short, parallel nouns.
-- Do not: Write long or action-style tab labels.
-
-```html
-<div class="ns-tabs ns-tabs--fill" role="tablist" style="width:375px"><button class="ns-tab" role="tab" aria-selected="true">Overview</button><button class="ns-tab" role="tab" aria-selected="false">Nodes</button><button class="ns-tab" role="tab" aria-selected="false">Access</button></div>
-```
-
-Tokens: `--ns-blue-700` (Selection indicator (3px)), `--ns-gray-8` (Divider), `--ns-gray-4` (Inactive label), `--ns-text-primary` (Selected label)
-
-Keyboard: Arrow left / right: Move between tabs; Home / End: First / last tab; Tab: Moves into the panel
-
-Accessibility:
-- role="tablist", role="tab", aria-selected, and aria-controls pointing at each role="tabpanel".
-
-#### Tree view (New)
-
-Browses a hierarchy such as account, location and device. Each level indents 20px. Parents expand and collapse, and leaves keep the chevron space so labels line up.
-
-Page: https://mikelrosenthal.com/northstar/#/components/tree-view · Figma node 4466:335
-
-Classes: `is-leaf`, `ns-tree`, `ns-tree__chev`, `ns-tree__count`, `ns-tree__row`
-
-Variants: Depth: Up to four levels; Row: Collapsed, Expanded, Leaf; State: Default, Hover, Selected, Focus
-
-Use:
-- Real hierarchies two to four levels deep.
-- Child counts on parents, so people know what is inside before they open it.
-- Remembering the expanded state for each person.
-
-Avoid:
-- Do not use for flat lists. Use a plain list.
-- Do not put actions on every row. Use a Menu on hover or focus.
-- Do not go deeper than four levels.
-
-- Do: Parents show child counts, so the contents are known before opening.
-- Do not: A flat list has no hierarchy. Use a plain list.
-
-```html
-<ul class="ns-tree" role="tree" aria-label="Locations" style="width:320px"><li role="none"><div class="ns-tree__row" role="treeitem" aria-level="1" aria-expanded="true" aria-selected="false" style="--ns-tree-level:0"><span class="ns-tree__chev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span><span>Acme Corp</span><span class="ns-tree__count">2</span></div><ul role="group"><li role="none"><div class="ns-tree__row" role="treeitem" aria-level="2" aria-expanded="true" aria-selected="false" style="--ns-tree-level:1"><span class="ns-tree__chev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span><span>Chicago, IL</span><span class="ns-tree__count">2</span></div><ul role="group"><li role="none"><div class="ns-tree__row" role="treeitem" aria-level="3" aria-selected="true" style="--ns-tree-level:2"><span class="ns-tree__chev is-leaf" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span><span>Site 0042</span></div></li><li role="none"><div class="ns-tree__row" role="treeitem" aria-level="3" aria-selected="false" style="--ns-tree-level:2"><span class="ns-tree__chev is-leaf" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span><span>Site 0187</span></div></li></ul></li></ul></li></ul>
-```
-
-Tokens: `--ns-background-hover` (Row hover), `--ns-background-selected` (Selected row), `--ns-text-tertiary` (Chevron and count), `--ns-focus-field` (Focus ring)
-
-Keyboard: Arrow down / up: Moves to the next or previous visible row; Arrow right: Expands a parent, or moves into its first child; Arrow left: Collapses a parent, or moves to its parent; Enter: Selects the focused row
-
-Accessibility:
-- The list has role=tree with a name. Each row is a treeitem with aria-level.
-- Parents set aria-expanded. Children sit in a group inside the parent.
-- The selected row sets aria-selected=true.
-
 ### Data viz
+
+#### Bar chart (New)
+
+A bar chart compares one value across categories or time periods by bar height. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.
+
+Page: https://mikelrosenthal.com/northstar/#/components/bar-chart
+
+Classes: `ns-chart`, `ns-chart--small`, `ns-chart--vertical`, `ns-chart__desc`, `ns-chart__desc--sm`, `ns-chart__dot`, `ns-chart__head`, `ns-chart__icon`, `ns-chart__kpi`, `ns-chart__kpis`, `ns-chart__plot`, `ns-chart__summary`, `ns-chart__title`, `ns-chart__title--lg`, `ns-chart__title--sm`, `ns-chart__trend`, `ns-chart__value`, `ns-chart__value--sm`
+
+Variants: Size: Small, Vertical small, Medium, Large, XL; Title: Text; Value: Text; Show icon: Boolean
+
+Use:
+- Comparing totals across months or categories.
+- A ranked list of a dozen items or fewer.
+
+Avoid:
+- A trend over many points. Use Line chart.
+- Parts of one whole. Use Pie chart.
+
+- Do: Axis labels and gridlines on the Medium plot.
+- Do not: The compact plot drops axes and labels.
+
+```html
+<div class="ns-chart" style="width:100%;max-width:375px"><div class="ns-chart__head"><div class="ns-chart__kpi"><span class="ns-chart__title">Orders</span><span class="ns-chart__value">12,480<span class="ns-chart__trend">+4.2%</span></span><span class="ns-chart__desc">Monthly orders over twelve months</span></div><span class="ns-chart__icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="0" y="6" width="3" height="8" rx="1"/><rect x="5.5" y="1" width="3" height="13" rx="1"/><rect x="11" y="4" width="3" height="10" rx="1"/></svg></span></div><svg class="ns-chart__plot" width="327" height="200" viewBox="0 0 327 200" role="img" aria-label="Bar chart: monthly orders for twelve months, the latest month is the tallest" data-chart="bar" data-size="Medium" data-h="200" data-w="327"><rect x="30" y="-0.5" width="297" height="1" style="fill:var(--ns-widget-grid)"/><rect x="30" y="58.8" width="297" height="1" style="fill:var(--ns-widget-grid)"/><rect x="30" y="118.2" width="297" height="1" style="fill:var(--ns-widget-grid)"/><rect x="30" y="177.5" width="297" height="1" style="fill:var(--ns-widget-grid)"/><text x="22" y="0" text-anchor="end" dominant-baseline="middle" font-size="11" style="fill:var(--ns-chart-label-text)">1.5k</text><text x="22" y="59.3" text-anchor="end" dominant-baseline="middle" font-size="11" style="fill:var(--ns-chart-label-text)">1k</text><text x="22" y="118.7" text-anchor="end" dominant-baseline="middle" font-size="11" style="fill:var(--ns-chart-label-text)">500</text><text x="22" y="178" text-anchor="end" dominant-baseline="middle" font-size="11" style="fill:var(--ns-chart-label-text)">0</text><text x="42.4" y="192" text-anchor="middle" dominant-baseline="middle" font-size="11" style="fill:var(--ns-chart-label-text)">Jan</text><text x="110.4" y="192" text-anchor="middle" dominant-baseline="middle" font-size="11" style="fill:var(--ns-chart-label-text)">Apr</text><text x="178.5" y="192" text-anchor="middle" dominant-baseline="middle" font-size="11" style="fill:var(--ns-chart-label-text)">Jul</text><text x="246.6" y="192" text-anchor="middle" dominant-baseline="middle" font-size="11" style="fill:var(--ns-chart-label-text)">Oct</text><text x="314.6" y="192" text-anchor="middle" dominant-baseline="middle" font-size="11" style="fill:var(--ns-chart-label-text)">Dec</text><rect x="35.4" y="104.9" width="13.9" height="73.1" rx="3" style="fill:var(--ns-chart-series-2)"/><rect x="60.2" y="82.3" width="13.9" height="95.7" rx="3" style="fill:var(--ns-chart-series-2)"/><rect x="84.9" y="94.5" width="13.9" height="83.5" rx="3" style="fill:var(--ns-chart-series-2)"/><rect x="109.7" y="70.1" width="13.9" height="107.9" rx="3" style="fill:var(--ns-chart-series-2)"/><rect x="134.4" y="77.1" width="13.9" height="100.9" rx="3" style="fill:var(--ns-chart-series-2)"/><rect x="159.2" y="56.2" width="13.9" height="121.8" rx="3" style="fill:var(--ns-chart-series-2)"/><rect x="183.9" y="87.5" width="13.9" height="90.5" rx="3" style="fill:var(--ns-chart-series-2)"/><rect x="208.7" y="63.2" width="13.9" height="114.8" rx="3" style="fill:var(--ns-chart-series-2)"/><rect x="233.4" y="49.2" width="13.9" height="128.8" rx="3" style="fill:var(--ns-chart-series-2)"/><rect x="258.2" y="59.7" width="13.9" height="118.3" rx="3" style="fill:var(--ns-chart-series-2)"/><rect x="282.9" y="38.8" width="13.9" height="139.2" rx="3" style="fill:var(--ns-chart-series-2)"/><rect x="307.7" y="17.9" width="13.9" height="160.1" rx="3" style="fill:var(--ns-chart-series-1)"/></svg></div>
+```
+
+Tokens: `--ns-chart-series-1` (Highlighted bar), `--ns-chart-series-2` (Other bars), `--ns-widget-grid` (Gridlines), `--ns-widget-bg` (Card surface), `--ns-border-subtle` (Card stroke and summary divider), `--ns-chart-label-text` (Axis labels and description), `--ns-status-success` (Trend), `--ns-radius-xl` (Card radius)
+
+Keyboard: -: Not interactive
+
+Accessibility:
+- The SVG is role="img" with a label stating the range and the highest bar. Provide a table nearby.
+- Trend text carries its sign, so the color is a second signal.
 
 #### Bubble chart (New)
 
@@ -1215,6 +1059,39 @@ Accessibility:
 - Intensity is a single-hue ramp; show exact values in a table or on focus.
 - Trend text carries its sign, so the color is a second signal.
 
+#### Line chart (New)
+
+A line chart shows how a value moves over time, here against the same period last year. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.
+
+Page: https://mikelrosenthal.com/northstar/#/components/line-chart
+
+Classes: `ns-chart`, `ns-chart--small`, `ns-chart--vertical`, `ns-chart__desc`, `ns-chart__desc--sm`, `ns-chart__dot`, `ns-chart__head`, `ns-chart__icon`, `ns-chart__kpi`, `ns-chart__kpis`, `ns-chart__plot`, `ns-chart__summary`, `ns-chart__title`, `ns-chart__title--lg`, `ns-chart__title--sm`, `ns-chart__trend`, `ns-chart__value`, `ns-chart__value--sm`
+
+Variants: Size: Small, Vertical small, Medium, Large, XL; Title: Text; Value: Text; Show icon: Boolean
+
+Use:
+- A trend over time.
+- Comparing this period with the last one.
+
+Avoid:
+- Few categories. Use Bar chart.
+- Values that change only on set dates. Use Stepped line chart.
+
+- Do: Axis labels and gridlines on the Medium plot.
+- Do not: The compact plot drops axes and labels.
+
+```html
+<div class="ns-chart" style="width:100%;max-width:375px"><div class="ns-chart__head"><div class="ns-chart__kpi"><span class="ns-chart__title">Revenue</span><span class="ns-chart__value">$84,200<span class="ns-chart__trend">+6.1%</span></span><span class="ns-chart__desc">This year against last year</span></div><span class="ns-chart__icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="0" y="6" width="3" height="8" rx="1"/><rect x="5.5" y="1" width="3" height="13" rx="1"/><rect x="11" y="4" width="3" height="10" rx="1"/></svg></span></div><svg class="ns-chart__plot" width="327" height="200" viewBox="0 0 327 200" role="img" aria-label="Line chart: revenue this year against last year, this year ends higher" data-chart="line" data-size="Medium" data-h="200" data-w="327"><rect x="30" y="-0.5" width="297" height="1" style="fill:var(--ns-widget-grid)"/><rect x="30" y="58.8" width="297" height="1" style="fill:var(--ns-widget-grid)"/><rect x="30" y="118.2" width="297" height="1" style="fill:var(--ns-widget-grid)"/><rect x="30" y="177.5" width="297" height="1" style="fill:var(--ns-widget-grid)"/><text x="22" y="0" text-anchor="end" dominant-baseline="middle" font-size="11" style="fill:var(--ns-chart-label-text)">$12k</text><text x="22" y="59.3" text-anchor="end" dominant-baseline="middle" font-size="11" style="fill:var(--ns-chart-label-text)">$8k</text><text x="22" y="118.7" text-anchor="end" dominant-baseline="middle" font-size="11" style="fill:var(--ns-chart-label-text)">$4k</text><text x="22" y="178" text-anchor="end" dominant-baseline="middle" font-size="11" style="fill:var(--ns-chart-label-text)">0</text><text x="42" y="192" text-anchor="middle" dominant-baseline="middle" font-size="11" style="fill:var(--ns-chart-label-text)">Jan</text><text x="133" y="192" text-anchor="middle" dominant-baseline="middle" font-size="11" style="fill:var(--ns-chart-label-text)">Apr</text><text x="224" y="192" text-anchor="middle" dominant-baseline="middle" font-size="11" style="fill:var(--ns-chart-label-text)">Jul</text><text x="315" y="192" text-anchor="middle" dominant-baseline="middle" font-size="11" style="fill:var(--ns-chart-label-text)">Oct</text><path d="M30.0 123.0 L72.4 102.6 L114.9 109.4 L157.3 80.5 L199.7 89.0 L242.1 65.2 L284.6 72.0 L327.0 44.8 L327.0 178.0 L30.0 178.0 Z" stroke-linecap="round" stroke-linejoin="round" style="fill:var(--ns-chart-series-1);fill-opacity:0.12"/><path d="M30.0 126.4 L72.4 123.0 L114.9 106.0 L157.3 112.8 L199.7 95.8 L242.1 99.2 L284.6 85.6 L327.0 78.8" stroke-linecap="round" stroke-linejoin="round" style="fill:none;stroke:var(--ns-chart-series-3);stroke-width:2"/><path d="M30.0 123.0 L72.4 102.6 L114.9 109.4 L157.3 80.5 L199.7 89.0 L242.1 65.2 L284.6 72.0 L327.0 44.8" stroke-linecap="round" stroke-linejoin="round" style="fill:none;stroke:var(--ns-chart-series-1);stroke-width:2"/><circle cx="323" cy="44.8" r="4" style="fill:var(--ns-chart-series-1)"/></svg></div>
+```
+
+Tokens: `--ns-chart-series-1` (This year line, area and latest point), `--ns-chart-series-3` (Comparison line), `--ns-widget-grid` (Gridlines), `--ns-widget-bg` (Card surface), `--ns-border-subtle` (Card stroke and summary divider), `--ns-chart-label-text` (Axis labels and description), `--ns-status-success` (Trend), `--ns-radius-xl` (Card radius)
+
+Keyboard: -: Not interactive
+
+Accessibility:
+- The SVG is role="img" with a label naming both series and which ends higher. Provide a table nearby.
+- Trend text carries its sign, so the color is a second signal.
+
 #### Parallel coordinates chart (New)
 
 A parallel coordinates chart compares several measures across profiles, one line per profile, so you can see which profiles move together. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.
@@ -1249,6 +1126,39 @@ Keyboard: -: Not interactive
 Accessibility:
 - The SVG is role="img" with a label naming the measures. Provide a table of the values per profile nearby.
 - Lines are told apart by label or by highlighting, never by color alone.
+- Trend text carries its sign, so the color is a second signal.
+
+#### Pie chart (New)
+
+A donut chart shows how one whole splits into four or fewer parts. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.
+
+Page: https://mikelrosenthal.com/northstar/#/components/pie-chart
+
+Classes: `ns-chart`, `ns-chart--small`, `ns-chart--vertical`, `ns-chart__desc`, `ns-chart__desc--sm`, `ns-chart__dot`, `ns-chart__head`, `ns-chart__icon`, `ns-chart__kpi`, `ns-chart__kpis`, `ns-chart__plot`, `ns-chart__summary`, `ns-chart__title`, `ns-chart__title--lg`, `ns-chart__title--sm`, `ns-chart__trend`, `ns-chart__value`, `ns-chart__value--sm`
+
+Variants: Size: Small, Vertical small, Medium, Large, XL; Title: Text; Value: Text; Show icon: Boolean
+
+Use:
+- Share of a whole with four parts or fewer.
+- A KPI tile that needs a mix, not a trend.
+
+Avoid:
+- More than four parts. Use Bar chart.
+- Change over time. Use Line chart.
+
+- Do: Axis labels and gridlines on the Medium plot.
+- Do not: The compact plot drops axes and labels.
+
+```html
+<div class="ns-chart" style="width:100%;max-width:375px"><div class="ns-chart__head"><div class="ns-chart__kpi"><span class="ns-chart__title">Visits</span><span class="ns-chart__value">48,300<span class="ns-chart__trend">+3.4%</span></span><span class="ns-chart__desc">Share of visits by channel</span></div><span class="ns-chart__icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="0" y="6" width="3" height="8" rx="1"/><rect x="5.5" y="1" width="3" height="13" rx="1"/><rect x="11" y="4" width="3" height="10" rx="1"/></svg></span></div><svg class="ns-chart__plot" width="327" height="200" viewBox="0 0 327 200" role="img" aria-label="Donut chart: traffic by channel, search 42%, direct 28%, social 18%, email 12%" data-chart="pie" data-size="Medium" data-h="200" data-w="327"><path d="M104.8 2A98 98 0 0 1 151.8 185.3L133.5 152.9A60.76 60.76 0 0 0 104.3 39.2Z" fill-rule="evenodd" style="fill:var(--ns-chart-series-1)"/><path d="M149.6 186.5A98 98 0 0 1 10.7 131.5L46 119.5A60.76 60.76 0 0 0 132.1 153.6Z" fill-rule="evenodd" style="fill:var(--ns-chart-series-2)"/><path d="M9.9 129.1A98 98 0 0 1 35.5 29.4L61.3 56.3A60.76 60.76 0 0 0 45.5 118Z" fill-rule="evenodd" style="fill:var(--ns-chart-series-3)"/><path d="M37.4 27.7A98 98 0 0 1 102.2 2L102.7 39.2A60.76 60.76 0 0 0 62.5 55.2Z" fill-rule="evenodd" style="fill:var(--ns-chart-series-4)"/><text x="103.5" y="100" text-anchor="middle" dominant-baseline="middle" font-size="18" font-weight="700" style="fill:var(--ns-text-primary)">42%</text><rect x="215" y="63" width="8" height="8" rx="2" style="fill:var(--ns-chart-series-1)"/><text x="229" y="67" text-anchor="start" dominant-baseline="middle" font-size="11" style="fill:var(--ns-chart-label-text)">Search 42%</text><rect x="215" y="85" width="8" height="8" rx="2" style="fill:var(--ns-chart-series-2)"/><text x="229" y="89" text-anchor="start" dominant-baseline="middle" font-size="11" style="fill:var(--ns-chart-label-text)">Direct 28%</text><rect x="215" y="107" width="8" height="8" rx="2" style="fill:var(--ns-chart-series-3)"/><text x="229" y="111" text-anchor="start" dominant-baseline="middle" font-size="11" style="fill:var(--ns-chart-label-text)">Social 18%</text><rect x="215" y="129" width="8" height="8" rx="2" style="fill:var(--ns-chart-series-4)"/><text x="229" y="133" text-anchor="start" dominant-baseline="middle" font-size="11" style="fill:var(--ns-chart-label-text)">Email 12%</text></svg></div>
+```
+
+Tokens: `--ns-chart-series-1` (Largest segment), `--ns-chart-series-2` (Second segment), `--ns-chart-series-3` (Third segment), `--ns-chart-series-4` (Fourth segment), `--ns-widget-bg` (Card surface), `--ns-border-subtle` (Card stroke and summary divider), `--ns-chart-label-text` (Axis labels and description), `--ns-status-success` (Trend), `--ns-radius-xl` (Card radius)
+
+Keyboard: -: Not interactive
+
+Accessibility:
+- The SVG is role="img" with a label listing every part and its percent.
 - Trend text carries its sign, so the color is a second signal.
 
 #### Radar chart (New)
@@ -1393,6 +1303,39 @@ Keyboard: -: Not interactive
 Accessibility:
 - The SVG is role="img" with a label that names the cycle. Provide a table of the values per slot nearby.
 - The start of the cycle is stated in text.
+- Trend text carries its sign, so the color is a second signal.
+
+#### Sankey chart (New)
+
+A sankey diagram shows how volume flows from sources to outcomes; band width carries the amount. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.
+
+Page: https://mikelrosenthal.com/northstar/#/components/sankey-chart
+
+Classes: `ns-chart`, `ns-chart--small`, `ns-chart--vertical`, `ns-chart__desc`, `ns-chart__desc--sm`, `ns-chart__dot`, `ns-chart__head`, `ns-chart__icon`, `ns-chart__kpi`, `ns-chart__kpis`, `ns-chart__plot`, `ns-chart__summary`, `ns-chart__title`, `ns-chart__title--lg`, `ns-chart__title--sm`, `ns-chart__trend`, `ns-chart__value`, `ns-chart__value--sm`
+
+Variants: Size: Small, Vertical small, Medium, Large, XL; Title: Text; Value: Text; Show icon: Boolean
+
+Use:
+- Where volume comes from and where it goes.
+- Conversion between two stages.
+
+Avoid:
+- A single sequence of steps. Use Funnel chart.
+- Exact values. Use Data table.
+
+- Do: Axis labels and gridlines on the Medium plot.
+- Do not: The compact plot drops axes and labels.
+
+```html
+<div class="ns-chart" style="width:100%;max-width:375px"><div class="ns-chart__head"><div class="ns-chart__kpi"><span class="ns-chart__title">New accounts</span><span class="ns-chart__value">6,200<span class="ns-chart__trend">+2.8%</span></span><span class="ns-chart__desc">Where accounts came from and which plan they chose</span></div><span class="ns-chart__icon" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><rect x="0" y="6" width="3" height="8" rx="1"/><rect x="5.5" y="1" width="3" height="13" rx="1"/><rect x="11" y="4" width="3" height="10" rx="1"/></svg></span></div><svg class="ns-chart__plot" width="327" height="200" viewBox="0 0 327 200" role="img" aria-label="Sankey diagram: three sources flow into paid and free plans, band width shows volume" data-chart="sankey" data-size="Medium" data-h="200" data-w="327"><path d="M10 0.0C163.5 0.0 163.5 0.0 317 0.0L317 57.6C163.5 57.6 163.5 55.2 10 55.2Z" stroke-linecap="round" stroke-linejoin="round" style="fill:var(--ns-chart-series-1);fill-opacity:0.35"/><path d="M10 55.2C163.5 55.2 163.5 123.2 317 123.2L317 152.0C163.5 152.0 163.5 82.8 10 82.8Z" stroke-linecap="round" stroke-linejoin="round" style="fill:var(--ns-chart-series-1);fill-opacity:0.35"/><path d="M10 90.8C163.5 90.8 163.5 57.6 317 57.6L317 96.0C163.5 96.0 163.5 127.6 10 127.6Z" stroke-linecap="round" stroke-linejoin="round" style="fill:var(--ns-chart-series-2);fill-opacity:0.35"/><path d="M10 127.6C163.5 127.6 163.5 152.0 317 152.0L317 180.8C163.5 180.8 163.5 155.2 10 155.2Z" stroke-linecap="round" stroke-linejoin="round" style="fill:var(--ns-chart-series-2);fill-opacity:0.35"/><path d="M10 163.2C163.5 163.2 163.5 96.0 317 96.0L317 115.2C163.5 115.2 163.5 181.6 10 181.6Z" stroke-linecap="round" stroke-linejoin="round" style="fill:var(--ns-chart-series-3);fill-opacity:0.35"/><path d="M10 181.6C163.5 181.6 163.5 180.8 317 180.8L317 200.0C163.5 200.0 163.5 200.0 10 200.0Z" stroke-linecap="round" stroke-linejoin="round" style="fill:var(--ns-chart-series-3);fill-opacity:0.35"/><rect x="0" y="0" width="10" height="82.8" rx="2" style="fill:var(--ns-chart-series-1)"/><rect x="0" y="90.8" width="10" height="64.4" rx="2" style="fill:var(--ns-chart-series-2)"/><rect x="0" y="163.2" width="10" height="36.8" rx="2" style="fill:var(--ns-chart-series-3)"/><rect x="317" y="0" width="10" height="115.2" rx="2" style="fill:var(--ns-chart-target)"/><rect x="317" y="123.2" width="10" height="76.8" rx="2" style="fill:var(--ns-chart-target)"/><text x="16" y="41.4" text-anchor="start" dominant-baseline="middle" font-size="11" style="fill:var(--ns-text-primary)">Search</text><text x="16" y="123" text-anchor="start" dominant-baseline="middle" font-size="11" style="fill:var(--ns-text-primary)">Referral</text><text x="16" y="181.6" text-anchor="start" dominant-baseline="middle" font-size="11" style="fill:var(--ns-text-primary)">Ads</text><text x="311" y="57.6" text-anchor="end" dominant-baseline="middle" font-size="11" style="fill:var(--ns-text-primary)">Paid</text><text x="311" y="161.6" text-anchor="end" dominant-baseline="middle" font-size="11" style="fill:var(--ns-text-primary)">Free</text></svg></div>
+```
+
+Tokens: `--ns-chart-series-1` (First source and its flows), `--ns-chart-series-2` (Second source), `--ns-chart-series-3` (Third source), `--ns-chart-target` (Outcome nodes), `--ns-widget-bg` (Card surface), `--ns-border-subtle` (Card stroke and summary divider), `--ns-chart-label-text` (Axis labels and description), `--ns-status-success` (Trend), `--ns-radius-xl` (Card radius)
+
+Keyboard: -: Not interactive
+
+Accessibility:
+- The SVG is role="img" with a label naming the sources and outcomes. Provide a table of the flows nearby.
 - Trend text carries its sign, so the color is a second signal.
 
 #### Scatter chart (New)
@@ -1574,6 +1517,195 @@ Accessibility:
 - The SVG is role="img" with a label naming the tiles and their shares. Provide a table nearby.
 - Tiles are told apart by position and label, never by color alone.
 - Trend text carries its sign, so the color is a second signal.
+
+### Navigation
+
+#### Breadcrumb (Stable)
+
+Breadcrumbs show where the current page sits in the hierarchy and let people move up levels.
+
+Page: https://mikelrosenthal.com/northstar/#/components/breadcrumb · Figma node 4208:1020
+
+Classes: `ns-breadcrumb`
+
+Use:
+- Hierarchies three or more levels deep.
+
+Avoid:
+- Flat sites or single-level apps.
+
+- Do: End with the current page, not a link.
+- Do not: Show a breadcrumb with one item.
+
+```html
+<nav aria-label="Breadcrumb"><ol class="ns-breadcrumb"><li><a href="#/">Accounts</a></li><li><a href="#/">Acme Corp</a></li><li><a href="#/">Integrations</a></li><li aria-current="page">CRM sync</li></ol></nav>
+```
+
+Tokens: `--ns-text-link` (Links), `--ns-text-disabled` (Separator)
+
+Keyboard: Tab: Moves between links
+
+Accessibility:
+- Wrap in <nav aria-label="Breadcrumb">; mark the last item aria-current="page".
+
+#### Command palette (New)
+
+A global launcher for finding records, pages and actions. Open it with Cmd K or Ctrl K. Results group by type, and the active row follows the keyboard.
+
+Page: https://mikelrosenthal.com/northstar/#/components/command-palette · Figma node 4466:359
+
+Classes: `ns-cmdk`, `ns-cmdk__foot`, `ns-cmdk__group`, `ns-cmdk__item`, `ns-cmdk__list`, `ns-cmdk__meta`, `ns-cmdk__query`
+
+Variants: Result: Label, meta, icon, shortcut; Group: Up to four groups; State: Empty query, Results, Active row
+
+Use:
+- Finding records, pages and actions across the product.
+- Showing recent items before the person types.
+- Keeping each result to one line.
+
+Avoid:
+- Do not make it the only way to reach a feature.
+- Do not open it when a page search field gets focus.
+- Do not show more than four groups.
+
+- Do: Results grouped by type, with a meta label on each row.
+- Do not: Mixed results with no group or type label leave people guessing what each row opens.
+
+```html
+<div class="ns-cmdk" role="dialog" aria-label="Command palette"><div class="ns-cmdk__query"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input role="combobox" aria-expanded="true" aria-controls="cmdk-list" aria-label="Search" placeholder="Search accounts, pages and actions" value=""/><kbd>Esc</kbd></div><div class="ns-cmdk__list" id="cmdk-list" role="listbox"><div class="ns-cmdk__group" role="presentation">Accounts</div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Acme Corp</span><span class="ns-cmdk__meta">Account</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Acme Holdings</span><span class="ns-cmdk__meta">Account</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Globex</span><span class="ns-cmdk__meta">Account</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Northwind</span><span class="ns-cmdk__meta">Account</span></div><div class="ns-cmdk__group" role="presentation">Pages</div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Billing history</span><span class="ns-cmdk__meta">Page</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Usage reports</span><span class="ns-cmdk__meta">Page</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Team settings</span><span class="ns-cmdk__meta">Page</span></div><div class="ns-cmdk__group" role="presentation">Actions</div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Create account</span><span class="ns-cmdk__meta">Action</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Invite teammate</span><span class="ns-cmdk__meta">Action</span></div><div class="ns-cmdk__item" role="option" aria-selected="false"><span>Export accounts</span><span class="ns-cmdk__meta">Action</span></div></div><div class="ns-cmdk__foot"><span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span><span><kbd>↵</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div></div>
+```
+
+Tokens: `--ns-background-elevated` (Palette surface), `--ns-elevation-04` (Palette shadow), `--ns-background-selected` (Active row), `--ns-text-accent` (Matched text)
+
+Keyboard: Cmd K / Ctrl K: Opens the palette from anywhere; Arrow up / down: Moves the active row; Enter: Opens the active result; Escape: Closes the palette and returns focus to the previous element
+
+Accessibility:
+- The palette is a dialog with a name. The input is a combobox that points at the list with aria-controls.
+- Results form a listbox, and the active row is set with aria-activedescendant.
+- Announce the result count in a polite live region as the query changes.
+
+#### Pagination (Stable)
+
+Pagination splits long collections into pages with page size control and position feedback.
+
+Page: https://mikelrosenthal.com/northstar/#/components/pagination · Figma node 4038:31293
+
+Classes: `ns-helper`, `ns-page`, `ns-pagination`, `ns-select`
+
+Use:
+- Tables and lists over ~50 items.
+
+Avoid:
+- Feeds where infinite scroll fits better.
+
+- Do: Show position and total.
+- Do not: Hide how much content exists.
+
+```html
+<nav class="ns-pagination" aria-label="Pagination"><span style="margin-right:12px">Rows <select class="ns-select" style="width:72px;min-height:32px;display:inline-block"><option>25</option><option>50</option></select></span><button class="ns-page" disabled aria-label="Previous page">‹</button><button class="ns-page" aria-current="page">1</button><button class="ns-page">2</button><button class="ns-page">3</button><span>…</span><button class="ns-page">12</button><button class="ns-page" aria-label="Next page">›</button><span style="margin-left:12px">1-25 of 288</span></nav>
+```
+
+Tokens: `--ns-interactive-primary` (Current page), `--ns-background-hover` (Hover)
+
+Keyboard: Tab: Moves across controls; Enter: Go to page
+
+Accessibility:
+- Wrap in <nav aria-label="Pagination">; current page uses aria-current="page".
+
+#### Side navigation (Stable)
+
+Side navigation is the primary way to move through an app, with collapsible groups for large information spaces.
+
+Page: https://mikelrosenthal.com/northstar/#/components/side-navigation · Figma node 4212:37
+
+Classes: `ns-count`, `ns-helper`, `ns-sidenav`, `ns-sidenav__group` · helper classes in the examples: `brand`, `brand__dot`
+
+Use:
+- Apps with five or more top-level destinations.
+
+Avoid:
+- Two or three destinations: use tabs or header links.
+
+- Do: Group items by task.
+- Do not: Use vague group names.
+
+```html
+<nav class="ns-sidenav" aria-label="App"><div class="brand" style="padding:6px 12px 10px"><span class="brand__dot"></span>NORTHSTAR</div><div class="ns-sidenav__group">Operate</div><a href="#/" aria-current="page">Dashboard</a><a href="#/">Accounts <span class="ns-count">3</span></a><a href="#/">Approvals</a><div class="ns-sidenav__group">Configure</div><a href="#/">Integrations</a><a href="#/">Access</a><a href="#/">Settings</a></nav>
+```
+
+Tokens: `--ns-background-shell` (Rail), `--ns-background-selected` (Current item), `--ns-text-accent` (Current label)
+
+Keyboard: Tab: Moves through links; Enter: Opens link or toggles group
+
+Accessibility:
+- Use <nav> with a label; current link sets aria-current="page".
+
+#### Tabs (Stable)
+
+Use tabs to allow users to navigate easily between views within the same context.
+
+Page: https://mikelrosenthal.com/northstar/#/components/tabs · Figma node 1842:24465
+
+Classes: `ns-count`, `ns-tab`, `ns-tabs`, `ns-tabs--fill`
+
+Variants: Icon: Without, With; Items: 2, 3, 4
+
+Use:
+- Two to four peer views of the same object.
+
+Avoid:
+- Sequential steps: use a progress indicator.
+- Top-level navigation: use side navigation.
+
+- Do: Use short, parallel nouns.
+- Do not: Write long or action-style tab labels.
+
+```html
+<div class="ns-tabs ns-tabs--fill" role="tablist" style="width:375px"><button class="ns-tab" role="tab" aria-selected="true">Overview</button><button class="ns-tab" role="tab" aria-selected="false">Nodes</button><button class="ns-tab" role="tab" aria-selected="false">Access</button></div>
+```
+
+Tokens: `--ns-blue-700` (Selection indicator (3px)), `--ns-gray-8` (Divider), `--ns-gray-4` (Inactive label), `--ns-text-primary` (Selected label)
+
+Keyboard: Arrow left / right: Move between tabs; Home / End: First / last tab; Tab: Moves into the panel
+
+Accessibility:
+- role="tablist", role="tab", aria-selected, and aria-controls pointing at each role="tabpanel".
+
+#### Tree view (New)
+
+Browses a hierarchy such as account, location and device. Each level indents 20px. Parents expand and collapse, and leaves keep the chevron space so labels line up.
+
+Page: https://mikelrosenthal.com/northstar/#/components/tree-view · Figma node 4466:335
+
+Classes: `is-leaf`, `ns-tree`, `ns-tree__chev`, `ns-tree__count`, `ns-tree__row`
+
+Variants: Depth: Up to four levels; Row: Collapsed, Expanded, Leaf; State: Default, Hover, Selected, Focus
+
+Use:
+- Real hierarchies two to four levels deep.
+- Child counts on parents, so people know what is inside before they open it.
+- Remembering the expanded state for each person.
+
+Avoid:
+- Do not use for flat lists. Use a plain list.
+- Do not put actions on every row. Use a Menu on hover or focus.
+- Do not go deeper than four levels.
+
+- Do: Parents show child counts, so the contents are known before opening.
+- Do not: A flat list has no hierarchy. Use a plain list.
+
+```html
+<ul class="ns-tree" role="tree" aria-label="Locations" style="width:320px"><li role="none"><div class="ns-tree__row" role="treeitem" aria-level="1" aria-expanded="true" aria-selected="false" style="--ns-tree-level:0"><span class="ns-tree__chev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span><span>Acme Corp</span><span class="ns-tree__count">2</span></div><ul role="group"><li role="none"><div class="ns-tree__row" role="treeitem" aria-level="2" aria-expanded="true" aria-selected="false" style="--ns-tree-level:1"><span class="ns-tree__chev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span><span>Chicago, IL</span><span class="ns-tree__count">2</span></div><ul role="group"><li role="none"><div class="ns-tree__row" role="treeitem" aria-level="3" aria-selected="true" style="--ns-tree-level:2"><span class="ns-tree__chev is-leaf" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span><span>Site 0042</span></div></li><li role="none"><div class="ns-tree__row" role="treeitem" aria-level="3" aria-selected="false" style="--ns-tree-level:2"><span class="ns-tree__chev is-leaf" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></span><span>Site 0187</span></div></li></ul></li></ul></li></ul>
+```
+
+Tokens: `--ns-background-hover` (Row hover), `--ns-background-selected` (Selected row), `--ns-text-tertiary` (Chevron and count), `--ns-focus-field` (Focus ring)
+
+Keyboard: Arrow down / up: Moves to the next or previous visible row; Arrow right: Expands a parent, or moves into its first child; Arrow left: Collapses a parent, or moves to its parent; Enter: Selects the focused row
+
+Accessibility:
+- The list has role=tree with a name. Each row is a treeitem with aria-level.
+- Parents set aria-expanded. Children sit in a group inside the parent.
+- The selected row sets aria-selected=true.
 
 ### Actions
 

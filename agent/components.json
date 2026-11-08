@@ -632,6 +632,201 @@
    ]
   },
   {
+   "id": "bar-chart",
+   "name": "Bar chart",
+   "category": "Data viz",
+   "status": "New",
+   "figma": null,
+   "description": "A bar chart compares one value across categories or time periods by bar height. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
+   "classes": [
+    "ns-chart",
+    "ns-chart--small",
+    "ns-chart--vertical",
+    "ns-chart__desc",
+    "ns-chart__desc--sm",
+    "ns-chart__dot",
+    "ns-chart__head",
+    "ns-chart__icon",
+    "ns-chart__kpi",
+    "ns-chart__kpis",
+    "ns-chart__plot",
+    "ns-chart__summary",
+    "ns-chart__title",
+    "ns-chart__title--lg",
+    "ns-chart__title--sm",
+    "ns-chart__trend",
+    "ns-chart__value",
+    "ns-chart__value--sm"
+   ],
+   "helperClasses": [],
+   "axes": [
+    {
+     "axis": "Size",
+     "values": "Small, Vertical small, Medium, Large, XL"
+    },
+    {
+     "axis": "Title",
+     "values": "Text"
+    },
+    {
+     "axis": "Value",
+     "values": "Text"
+    },
+    {
+     "axis": "Show icon",
+     "values": "Boolean"
+    }
+   ],
+   "use": [
+    "Comparing totals across months or categories.",
+    "A ranked list of a dozen items or fewer."
+   ],
+   "avoid": [
+    "A trend over many points. Use Line chart.",
+    "Parts of one whole. Use Pie chart."
+   ],
+   "guidance": [
+    {
+     "verdict": "do",
+     "note": "Axis labels and gridlines on the Medium plot."
+    },
+    {
+     "verdict": "do not",
+     "note": "The compact plot drops axes and labels."
+    }
+   ],
+   "variants": [
+    {
+     "name": "Sizes",
+     "note": "Five sizes from the same data. Small and Vertical small drop the axes and labels.",
+     "html": "<div style=\"display:grid;gap:24px;justify-items:start\"><div class=\"ns-chart ns-chart--small\" style=\"width:100%;max-width:330px\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title ns-chart__title--sm\">Orders</span><span class=\"ns-chart__value ns-chart__value--sm\">12,480<span class=\"ns-chart__trend\">+4.2%</span></span><span class=\"ns-chart__desc ns-chart__desc--sm\">Last 12 months</span></div><svg class=\"ns-chart__plot\" width=\"120\" height=\"64\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"Bar chart: monthly orders for twelve months, the latest month is the tallest\" data-chart=\"bar\" data-size=\"Small\" data-h=\"64\" data-w=\"120\"><rect x=\"3.3\" y=\"29.2\" width=\"8.4\" height=\"34.8\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"18.3\" y=\"22\" width=\"8.4\" height=\"42\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"33.3\" y=\"32.8\" width=\"8.4\" height=\"31.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"48.3\" y=\"24.4\" width=\"8.4\" height=\"39.6\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"63.3\" y=\"19.6\" width=\"8.4\" height=\"44.4\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"78.3\" y=\"23.2\" width=\"8.4\" height=\"40.8\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"93.3\" y=\"16\" width=\"8.4\" height=\"48\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"108.3\" y=\"8.8\" width=\"8.4\" height=\"55.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-1)\"/></svg></div><div class=\"ns-chart ns-chart--vertical\" style=\"width:100%;max-width:192px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title ns-chart__title--sm\">Orders</span><span class=\"ns-chart__value ns-chart__value--sm\">12,480<span class=\"ns-chart__trend\">+4.2%</span></span><span class=\"ns-chart__desc ns-chart__desc--sm\">Last 12 months</span></div></div><svg class=\"ns-chart__plot\" width=\"160\" height=\"140\" viewBox=\"0 0 160 140\" role=\"img\" aria-label=\"Bar chart: monthly orders for twelve months, the latest month is the tallest\" data-chart=\"bar\" data-size=\"Vertical small\" data-h=\"140\" data-w=\"160\"><rect x=\"4.4\" y=\"61.1\" width=\"11.2\" height=\"78.9\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"24.4\" y=\"44.8\" width=\"11.2\" height=\"95.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"44.4\" y=\"69.3\" width=\"11.2\" height=\"70.7\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"64.4\" y=\"50.2\" width=\"11.2\" height=\"89.8\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"84.4\" y=\"39.4\" width=\"11.2\" height=\"100.6\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"104.4\" y=\"47.5\" width=\"11.2\" height=\"92.5\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"124.4\" y=\"31.2\" width=\"11.2\" height=\"108.8\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"144.4\" y=\"14.9\" width=\"11.2\" height=\"125.1\" rx=\"3\" style=\"fill:var(--ns-chart-series-1)\"/></svg></div><div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Orders</span><span class=\"ns-chart__value\">12,480<span class=\"ns-chart__trend\">+4.2%</span></span><span class=\"ns-chart__desc\">Monthly orders over twelve months</span></div></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Bar chart: monthly orders for twelve months, the latest month is the tallest\" data-chart=\"bar\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><rect x=\"30\" y=\"-0.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"58.8\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"118.2\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"177.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><text x=\"22\" y=\"0\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">1.5k</text><text x=\"22\" y=\"59.3\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">1k</text><text x=\"22\" y=\"118.7\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">500</text><text x=\"22\" y=\"178\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">0</text><text x=\"42.4\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jan</text><text x=\"110.4\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Apr</text><text x=\"178.5\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jul</text><text x=\"246.6\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Oct</text><text x=\"314.6\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Dec</text><rect x=\"35.4\" y=\"104.9\" width=\"13.9\" height=\"73.1\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"60.2\" y=\"82.3\" width=\"13.9\" height=\"95.7\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"84.9\" y=\"94.5\" width=\"13.9\" height=\"83.5\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"109.7\" y=\"70.1\" width=\"13.9\" height=\"107.9\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"134.4\" y=\"77.1\" width=\"13.9\" height=\"100.9\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"159.2\" y=\"56.2\" width=\"13.9\" height=\"121.8\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"183.9\" y=\"87.5\" width=\"13.9\" height=\"90.5\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"208.7\" y=\"63.2\" width=\"13.9\" height=\"114.8\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"233.4\" y=\"49.2\" width=\"13.9\" height=\"128.8\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"258.2\" y=\"59.7\" width=\"13.9\" height=\"118.3\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"282.9\" y=\"38.8\" width=\"13.9\" height=\"139.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"307.7\" y=\"17.9\" width=\"13.9\" height=\"160.1\" rx=\"3\" style=\"fill:var(--ns-chart-series-1)\"/></svg></div><div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title ns-chart__title--lg\">Orders</span></div></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"260\" viewBox=\"0 0 327 260\" role=\"img\" aria-label=\"Bar chart: monthly orders for twelve months, the latest month is the tallest\" data-chart=\"bar\" data-size=\"Large\" data-h=\"260\" data-w=\"327\"><rect x=\"30\" y=\"-0.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"78.8\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"158.2\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"237.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><text x=\"22\" y=\"0\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">1.5k</text><text x=\"22\" y=\"79.3\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">1k</text><text x=\"22\" y=\"158.7\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">500</text><text x=\"22\" y=\"238\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">0</text><text x=\"42.4\" y=\"252\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jan</text><text x=\"110.4\" y=\"252\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Apr</text><text x=\"178.5\" y=\"252\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jul</text><text x=\"246.6\" y=\"252\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Oct</text><text x=\"314.6\" y=\"252\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Dec</text><rect x=\"35.4\" y=\"139.7\" width=\"13.9\" height=\"98.3\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"60.2\" y=\"109.3\" width=\"13.9\" height=\"128.7\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"84.9\" y=\"125.7\" width=\"13.9\" height=\"112.3\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"109.7\" y=\"92.9\" width=\"13.9\" height=\"145.1\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"134.4\" y=\"102.3\" width=\"13.9\" height=\"135.7\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"159.2\" y=\"74.2\" width=\"13.9\" height=\"163.8\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"183.9\" y=\"116.3\" width=\"13.9\" height=\"121.7\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"208.7\" y=\"83.6\" width=\"13.9\" height=\"154.4\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"233.4\" y=\"64.8\" width=\"13.9\" height=\"173.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"258.2\" y=\"78.9\" width=\"13.9\" height=\"159.1\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"282.9\" y=\"50.8\" width=\"13.9\" height=\"187.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"307.7\" y=\"22.7\" width=\"13.9\" height=\"215.3\" rx=\"3\" style=\"fill:var(--ns-chart-series-1)\"/></svg><div class=\"ns-chart__summary\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title ns-chart__title--sm\"><span class=\"ns-chart__dot\" style=\"background:var(--ns-chart-series-1)\"></span>Orders</span><span class=\"ns-chart__value ns-chart__value--sm\">12,480<span class=\"ns-chart__trend\">+4.2%</span></span><span class=\"ns-chart__desc ns-chart__desc--sm\">Monthly orders over twelve months</span></div><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title ns-chart__title--sm\"><span class=\"ns-chart__dot\" style=\"background:var(--ns-chart-series-3)\"></span>Best month</span><span class=\"ns-chart__value ns-chart__value--sm\">Dec<span class=\"ns-chart__trend\">+1.6%</span></span><span class=\"ns-chart__desc ns-chart__desc--sm\">Highest monthly total</span></div></div></div></div>"
+    },
+    {
+     "name": "XL",
+     "note": "Three KPIs above the plot.",
+     "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:800px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpis\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\"><span class=\"ns-chart__dot\" style=\"background:var(--ns-chart-series-1)\"></span>Orders</span><span class=\"ns-chart__value\">12,480<span class=\"ns-chart__trend\">+4.2%</span></span><span class=\"ns-chart__desc\">Monthly orders over twelve months</span></div><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\"><span class=\"ns-chart__dot\" style=\"background:var(--ns-chart-series-3)\"></span>Best month</span><span class=\"ns-chart__value\">Dec<span class=\"ns-chart__trend\">+1.6%</span></span><span class=\"ns-chart__desc\">Highest monthly total</span></div><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\"><span class=\"ns-chart__dot\" style=\"background:var(--ns-chart-series-2)\"></span>Average</span><span class=\"ns-chart__value\">1,040<span class=\"ns-chart__trend\">+0.8%</span></span><span class=\"ns-chart__desc\">Orders per month</span></div></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"752\" height=\"240\" viewBox=\"0 0 752 240\" role=\"img\" aria-label=\"Bar chart: monthly orders for twelve months, the latest month is the tallest\" data-chart=\"bar\" data-size=\"XL\" data-h=\"240\" data-w=\"752\"><rect x=\"30\" y=\"-0.5\" width=\"722\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"72.2\" width=\"722\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"144.8\" width=\"722\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"217.5\" width=\"722\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><text x=\"22\" y=\"0\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">1.5k</text><text x=\"22\" y=\"72.7\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">1k</text><text x=\"22\" y=\"145.3\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">500</text><text x=\"22\" y=\"218\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">0</text><text x=\"60.1\" y=\"232\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jan</text><text x=\"225.5\" y=\"232\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Apr</text><text x=\"391\" y=\"232\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jul</text><text x=\"556.5\" y=\"232\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Oct</text><text x=\"721.9\" y=\"232\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Dec</text><rect x=\"43.2\" y=\"128.1\" width=\"33.7\" height=\"89.9\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"103.4\" y=\"100.3\" width=\"33.7\" height=\"117.7\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"163.6\" y=\"115.3\" width=\"33.7\" height=\"102.7\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"223.7\" y=\"85.3\" width=\"33.7\" height=\"132.7\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"283.9\" y=\"93.9\" width=\"33.7\" height=\"124.1\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"344.1\" y=\"68.2\" width=\"33.7\" height=\"149.8\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"404.2\" y=\"106.7\" width=\"33.7\" height=\"111.3\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"464.4\" y=\"76.8\" width=\"33.7\" height=\"141.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"524.6\" y=\"59.6\" width=\"33.7\" height=\"158.4\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"584.7\" y=\"72.5\" width=\"33.7\" height=\"145.5\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"644.9\" y=\"46.8\" width=\"33.7\" height=\"171.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"705.1\" y=\"21.1\" width=\"33.7\" height=\"196.9\" rx=\"3\" style=\"fill:var(--ns-chart-series-1)\"/></svg></div>"
+    },
+    {
+     "name": "Plot only",
+     "note": "The SVG on its own, for use inside another card.",
+     "html": "<div style=\"width:327px\"><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Bar chart: monthly orders for twelve months, the latest month is the tallest\" data-chart=\"bar\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><rect x=\"30\" y=\"-0.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"58.8\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"118.2\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"177.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><text x=\"22\" y=\"0\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">1.5k</text><text x=\"22\" y=\"59.3\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">1k</text><text x=\"22\" y=\"118.7\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">500</text><text x=\"22\" y=\"178\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">0</text><text x=\"42.4\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jan</text><text x=\"110.4\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Apr</text><text x=\"178.5\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jul</text><text x=\"246.6\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Oct</text><text x=\"314.6\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Dec</text><rect x=\"35.4\" y=\"104.9\" width=\"13.9\" height=\"73.1\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"60.2\" y=\"82.3\" width=\"13.9\" height=\"95.7\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"84.9\" y=\"94.5\" width=\"13.9\" height=\"83.5\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"109.7\" y=\"70.1\" width=\"13.9\" height=\"107.9\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"134.4\" y=\"77.1\" width=\"13.9\" height=\"100.9\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"159.2\" y=\"56.2\" width=\"13.9\" height=\"121.8\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"183.9\" y=\"87.5\" width=\"13.9\" height=\"90.5\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"208.7\" y=\"63.2\" width=\"13.9\" height=\"114.8\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"233.4\" y=\"49.2\" width=\"13.9\" height=\"128.8\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"258.2\" y=\"59.7\" width=\"13.9\" height=\"118.3\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"282.9\" y=\"38.8\" width=\"13.9\" height=\"139.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"307.7\" y=\"17.9\" width=\"13.9\" height=\"160.1\" rx=\"3\" style=\"fill:var(--ns-chart-series-1)\"/></svg></div>"
+    }
+   ],
+   "tokens": [
+    {
+     "token": "--ns-chart-series-1",
+     "role": "Highlighted bar"
+    },
+    {
+     "token": "--ns-chart-series-2",
+     "role": "Other bars"
+    },
+    {
+     "token": "--ns-widget-grid",
+     "role": "Gridlines"
+    },
+    {
+     "token": "--ns-widget-bg",
+     "role": "Card surface"
+    },
+    {
+     "token": "--ns-border-subtle",
+     "role": "Card stroke and summary divider"
+    },
+    {
+     "token": "--ns-chart-label-text",
+     "role": "Axis labels and description"
+    },
+    {
+     "token": "--ns-status-success",
+     "role": "Trend"
+    },
+    {
+     "token": "--ns-radius-xl",
+     "role": "Card radius"
+    }
+   ],
+   "sizes": [
+    {
+     "size": "Small",
+     "value": "100px",
+     "use": "KPI tile: text left, mini plot right, no axes"
+    },
+    {
+     "size": "Vertical small",
+     "value": "256px",
+     "use": "Narrow column or sidebar, no axes"
+    },
+    {
+     "size": "Medium",
+     "value": "350px",
+     "use": "Default card with axis labels"
+    },
+    {
+     "size": "Large",
+     "value": "465px",
+     "use": "Card with divider and two-KPI summary"
+    },
+    {
+     "size": "XL",
+     "value": "390px",
+     "use": "Wide panel, three KPIs"
+    }
+   ],
+   "props": [
+    {
+     "prop": "size",
+     "type": "'small' | 'vertical-small' | 'medium' | 'large' | 'xl'",
+     "default": "'medium'",
+     "note": "Layout and plot size"
+    },
+    {
+     "prop": "title",
+     "type": "string",
+     "default": "-",
+     "note": "Header title"
+    },
+    {
+     "prop": "value",
+     "type": "string",
+     "default": "-",
+     "note": "Headline figure"
+    },
+    {
+     "prop": "trend",
+     "type": "string",
+     "default": "-",
+     "note": "Signed change, for example +2.4%"
+    },
+    {
+     "prop": "data",
+     "type": "number[]",
+     "default": "[]",
+     "note": "One value per bar from 0 to 1"
+    },
+    {
+     "prop": "showIcon",
+     "type": "boolean",
+     "default": "false",
+     "note": "Icon in the header"
+    }
+   ],
+   "keyboard": [
+    {
+     "key": "-",
+     "action": "Not interactive"
+    }
+   ],
+   "accessibility": [
+    "The SVG is role=\"img\" with a label stating the range and the highest bar. Provide a table nearby.",
+    "Trend text carries its sign, so the color is a second signal."
+   ],
+   "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Orders</span><span class=\"ns-chart__value\">12,480<span class=\"ns-chart__trend\">+4.2%</span></span><span class=\"ns-chart__desc\">Monthly orders over twelve months</span></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Bar chart: monthly orders for twelve months, the latest month is the tallest\" data-chart=\"bar\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><rect x=\"30\" y=\"-0.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"58.8\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"118.2\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"177.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><text x=\"22\" y=\"0\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">1.5k</text><text x=\"22\" y=\"59.3\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">1k</text><text x=\"22\" y=\"118.7\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">500</text><text x=\"22\" y=\"178\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">0</text><text x=\"42.4\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jan</text><text x=\"110.4\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Apr</text><text x=\"178.5\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jul</text><text x=\"246.6\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Oct</text><text x=\"314.6\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Dec</text><rect x=\"35.4\" y=\"104.9\" width=\"13.9\" height=\"73.1\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"60.2\" y=\"82.3\" width=\"13.9\" height=\"95.7\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"84.9\" y=\"94.5\" width=\"13.9\" height=\"83.5\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"109.7\" y=\"70.1\" width=\"13.9\" height=\"107.9\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"134.4\" y=\"77.1\" width=\"13.9\" height=\"100.9\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"159.2\" y=\"56.2\" width=\"13.9\" height=\"121.8\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"183.9\" y=\"87.5\" width=\"13.9\" height=\"90.5\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"208.7\" y=\"63.2\" width=\"13.9\" height=\"114.8\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"233.4\" y=\"49.2\" width=\"13.9\" height=\"128.8\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"258.2\" y=\"59.7\" width=\"13.9\" height=\"118.3\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"282.9\" y=\"38.8\" width=\"13.9\" height=\"139.2\" rx=\"3\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"307.7\" y=\"17.9\" width=\"13.9\" height=\"160.1\" rx=\"3\" style=\"fill:var(--ns-chart-series-1)\"/></svg></div>",
+   "react": "<BarChart size=\"medium\" title=\"Orders\" value=\"12,480\" trend=\"+4.2%\" data={[0.42, 0.55, 0.92]} />",
+   "reactKit": null,
+   "parts": []
+  },
+  {
    "id": "breadcrumb",
    "name": "Breadcrumb",
    "category": "Navigation",
@@ -3699,6 +3894,201 @@
    "parts": []
   },
   {
+   "id": "line-chart",
+   "name": "Line chart",
+   "category": "Data viz",
+   "status": "New",
+   "figma": null,
+   "description": "A line chart shows how a value moves over time, here against the same period last year. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
+   "classes": [
+    "ns-chart",
+    "ns-chart--small",
+    "ns-chart--vertical",
+    "ns-chart__desc",
+    "ns-chart__desc--sm",
+    "ns-chart__dot",
+    "ns-chart__head",
+    "ns-chart__icon",
+    "ns-chart__kpi",
+    "ns-chart__kpis",
+    "ns-chart__plot",
+    "ns-chart__summary",
+    "ns-chart__title",
+    "ns-chart__title--lg",
+    "ns-chart__title--sm",
+    "ns-chart__trend",
+    "ns-chart__value",
+    "ns-chart__value--sm"
+   ],
+   "helperClasses": [],
+   "axes": [
+    {
+     "axis": "Size",
+     "values": "Small, Vertical small, Medium, Large, XL"
+    },
+    {
+     "axis": "Title",
+     "values": "Text"
+    },
+    {
+     "axis": "Value",
+     "values": "Text"
+    },
+    {
+     "axis": "Show icon",
+     "values": "Boolean"
+    }
+   ],
+   "use": [
+    "A trend over time.",
+    "Comparing this period with the last one."
+   ],
+   "avoid": [
+    "Few categories. Use Bar chart.",
+    "Values that change only on set dates. Use Stepped line chart."
+   ],
+   "guidance": [
+    {
+     "verdict": "do",
+     "note": "Axis labels and gridlines on the Medium plot."
+    },
+    {
+     "verdict": "do not",
+     "note": "The compact plot drops axes and labels."
+    }
+   ],
+   "variants": [
+    {
+     "name": "Sizes",
+     "note": "Five sizes from the same data. Small and Vertical small drop the axes and labels.",
+     "html": "<div style=\"display:grid;gap:24px;justify-items:start\"><div class=\"ns-chart ns-chart--small\" style=\"width:100%;max-width:330px\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title ns-chart__title--sm\">Revenue</span><span class=\"ns-chart__value ns-chart__value--sm\">$84,200<span class=\"ns-chart__trend\">+6.1%</span></span><span class=\"ns-chart__desc ns-chart__desc--sm\">Vs last year</span></div><svg class=\"ns-chart__plot\" width=\"120\" height=\"64\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"Line chart: revenue this year against last year, this year ends higher\" data-chart=\"line\" data-size=\"Small\" data-h=\"64\" data-w=\"120\"><path d=\"M0.0 43.2 L17.1 36.5 L34.3 38.7 L51.4 29.2 L68.6 32.0 L85.7 24.2 L102.9 26.4 L120.0 17.4 L120.0 64.0 L0.0 64.0 Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.12\"/><path d=\"M0.0 44.3 L17.1 43.2 L34.3 37.6 L51.4 39.8 L68.6 34.2 L85.7 35.4 L102.9 30.9 L120.0 28.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-3);stroke-width:2\"/><path d=\"M0.0 43.2 L17.1 36.5 L34.3 38.7 L51.4 29.2 L68.6 32.0 L85.7 24.2 L102.9 26.4 L120.0 17.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-1);stroke-width:2\"/><circle cx=\"116\" cy=\"17.4\" r=\"3\" style=\"fill:var(--ns-chart-series-1)\"/></svg></div><div class=\"ns-chart ns-chart--vertical\" style=\"width:100%;max-width:192px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title ns-chart__title--sm\">Revenue</span><span class=\"ns-chart__value ns-chart__value--sm\">$84,200<span class=\"ns-chart__trend\">+6.1%</span></span><span class=\"ns-chart__desc ns-chart__desc--sm\">Vs last year</span></div></div><svg class=\"ns-chart__plot\" width=\"160\" height=\"140\" viewBox=\"0 0 160 140\" role=\"img\" aria-label=\"Line chart: revenue this year against last year, this year ends higher\" data-chart=\"line\" data-size=\"Vertical small\" data-h=\"140\" data-w=\"160\"><path d=\"M0.0 96.4 L22.9 80.6 L45.7 85.8 L68.6 63.4 L91.4 70.0 L114.3 51.5 L137.1 56.8 L160.0 35.7 L160.0 140.0 L0.0 140.0 Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.12\"/><path d=\"M0.0 99.0 L22.9 96.4 L45.7 83.2 L68.6 88.5 L91.4 75.3 L114.3 77.9 L137.1 67.4 L160.0 62.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-3);stroke-width:2\"/><path d=\"M0.0 96.4 L22.9 80.6 L45.7 85.8 L68.6 63.4 L91.4 70.0 L114.3 51.5 L137.1 56.8 L160.0 35.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-1);stroke-width:2\"/><circle cx=\"156\" cy=\"35.7\" r=\"3\" style=\"fill:var(--ns-chart-series-1)\"/></svg></div><div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Revenue</span><span class=\"ns-chart__value\">$84,200<span class=\"ns-chart__trend\">+6.1%</span></span><span class=\"ns-chart__desc\">This year against last year</span></div></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Line chart: revenue this year against last year, this year ends higher\" data-chart=\"line\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><rect x=\"30\" y=\"-0.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"58.8\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"118.2\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"177.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><text x=\"22\" y=\"0\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">$12k</text><text x=\"22\" y=\"59.3\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">$8k</text><text x=\"22\" y=\"118.7\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">$4k</text><text x=\"22\" y=\"178\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">0</text><text x=\"42\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jan</text><text x=\"133\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Apr</text><text x=\"224\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jul</text><text x=\"315\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Oct</text><path d=\"M30.0 123.0 L72.4 102.6 L114.9 109.4 L157.3 80.5 L199.7 89.0 L242.1 65.2 L284.6 72.0 L327.0 44.8 L327.0 178.0 L30.0 178.0 Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.12\"/><path d=\"M30.0 126.4 L72.4 123.0 L114.9 106.0 L157.3 112.8 L199.7 95.8 L242.1 99.2 L284.6 85.6 L327.0 78.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-3);stroke-width:2\"/><path d=\"M30.0 123.0 L72.4 102.6 L114.9 109.4 L157.3 80.5 L199.7 89.0 L242.1 65.2 L284.6 72.0 L327.0 44.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-1);stroke-width:2\"/><circle cx=\"323\" cy=\"44.8\" r=\"4\" style=\"fill:var(--ns-chart-series-1)\"/></svg></div><div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title ns-chart__title--lg\">Revenue</span></div></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"260\" viewBox=\"0 0 327 260\" role=\"img\" aria-label=\"Line chart: revenue this year against last year, this year ends higher\" data-chart=\"line\" data-size=\"Large\" data-h=\"260\" data-w=\"327\"><rect x=\"30\" y=\"-0.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"78.8\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"158.2\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"237.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><text x=\"22\" y=\"0\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">$12k</text><text x=\"22\" y=\"79.3\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">$8k</text><text x=\"22\" y=\"158.7\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">$4k</text><text x=\"22\" y=\"238\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">0</text><text x=\"42\" y=\"252\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jan</text><text x=\"133\" y=\"252\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Apr</text><text x=\"224\" y=\"252\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jul</text><text x=\"315\" y=\"252\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Oct</text><path d=\"M30.0 165.0 L72.4 137.4 L114.9 146.6 L157.3 107.5 L199.7 119.0 L242.1 86.8 L284.6 96.0 L327.0 59.2 L327.0 238.0 L30.0 238.0 Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.12\"/><path d=\"M30.0 169.6 L72.4 165.0 L114.9 142.0 L157.3 151.2 L199.7 128.2 L242.1 132.8 L284.6 114.4 L327.0 105.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-3);stroke-width:2\"/><path d=\"M30.0 165.0 L72.4 137.4 L114.9 146.6 L157.3 107.5 L199.7 119.0 L242.1 86.8 L284.6 96.0 L327.0 59.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-1);stroke-width:2\"/><circle cx=\"323\" cy=\"59.2\" r=\"4\" style=\"fill:var(--ns-chart-series-1)\"/></svg><div class=\"ns-chart__summary\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title ns-chart__title--sm\"><span class=\"ns-chart__dot\" style=\"background:var(--ns-chart-series-1)\"></span>Revenue</span><span class=\"ns-chart__value ns-chart__value--sm\">$84,200<span class=\"ns-chart__trend\">+6.1%</span></span><span class=\"ns-chart__desc ns-chart__desc--sm\">This year against last year</span></div><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title ns-chart__title--sm\"><span class=\"ns-chart__dot\" style=\"background:var(--ns-chart-series-3)\"></span>Last year</span><span class=\"ns-chart__value ns-chart__value--sm\">$79,350<span class=\"ns-chart__trend\">+2.2%</span></span><span class=\"ns-chart__desc ns-chart__desc--sm\">Same period last year</span></div></div></div></div>"
+    },
+    {
+     "name": "XL",
+     "note": "Three KPIs above the plot.",
+     "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:800px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpis\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\"><span class=\"ns-chart__dot\" style=\"background:var(--ns-chart-series-1)\"></span>Revenue</span><span class=\"ns-chart__value\">$84,200<span class=\"ns-chart__trend\">+6.1%</span></span><span class=\"ns-chart__desc\">This year against last year</span></div><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\"><span class=\"ns-chart__dot\" style=\"background:var(--ns-chart-series-3)\"></span>Last year</span><span class=\"ns-chart__value\">$79,350<span class=\"ns-chart__trend\">+2.2%</span></span><span class=\"ns-chart__desc\">Same period last year</span></div><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\"><span class=\"ns-chart__dot\" style=\"background:var(--ns-chart-series-2)\"></span>Peak</span><span class=\"ns-chart__value\">$9,800<span class=\"ns-chart__trend\">+1.4%</span></span><span class=\"ns-chart__desc\">Highest month</span></div></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"752\" height=\"240\" viewBox=\"0 0 752 240\" role=\"img\" aria-label=\"Line chart: revenue this year against last year, this year ends higher\" data-chart=\"line\" data-size=\"XL\" data-h=\"240\" data-w=\"752\"><rect x=\"30\" y=\"-0.5\" width=\"722\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"72.2\" width=\"722\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"144.8\" width=\"722\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"217.5\" width=\"722\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><text x=\"22\" y=\"0\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">$12k</text><text x=\"22\" y=\"72.7\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">$8k</text><text x=\"22\" y=\"145.3\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">$4k</text><text x=\"22\" y=\"218\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">0</text><text x=\"42\" y=\"232\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jan</text><text x=\"274.7\" y=\"232\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Apr</text><text x=\"507.3\" y=\"232\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jul</text><text x=\"740\" y=\"232\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Oct</text><path d=\"M30.0 151.0 L133.1 125.8 L236.3 134.2 L339.4 98.5 L442.6 109.0 L545.7 79.6 L648.9 88.0 L752.0 54.4 L752.0 218.0 L30.0 218.0 Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.12\"/><path d=\"M30.0 155.2 L133.1 151.0 L236.3 130.0 L339.4 138.4 L442.6 117.4 L545.7 121.6 L648.9 104.8 L752.0 96.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-3);stroke-width:2\"/><path d=\"M30.0 151.0 L133.1 125.8 L236.3 134.2 L339.4 98.5 L442.6 109.0 L545.7 79.6 L648.9 88.0 L752.0 54.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-1);stroke-width:2\"/><circle cx=\"748\" cy=\"54.4\" r=\"4\" style=\"fill:var(--ns-chart-series-1)\"/></svg></div>"
+    },
+    {
+     "name": "Plot only",
+     "note": "The SVG on its own, for use inside another card.",
+     "html": "<div style=\"width:327px\"><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Line chart: revenue this year against last year, this year ends higher\" data-chart=\"line\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><rect x=\"30\" y=\"-0.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"58.8\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"118.2\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"177.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><text x=\"22\" y=\"0\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">$12k</text><text x=\"22\" y=\"59.3\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">$8k</text><text x=\"22\" y=\"118.7\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">$4k</text><text x=\"22\" y=\"178\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">0</text><text x=\"42\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jan</text><text x=\"133\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Apr</text><text x=\"224\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jul</text><text x=\"315\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Oct</text><path d=\"M30.0 123.0 L72.4 102.6 L114.9 109.4 L157.3 80.5 L199.7 89.0 L242.1 65.2 L284.6 72.0 L327.0 44.8 L327.0 178.0 L30.0 178.0 Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.12\"/><path d=\"M30.0 126.4 L72.4 123.0 L114.9 106.0 L157.3 112.8 L199.7 95.8 L242.1 99.2 L284.6 85.6 L327.0 78.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-3);stroke-width:2\"/><path d=\"M30.0 123.0 L72.4 102.6 L114.9 109.4 L157.3 80.5 L199.7 89.0 L242.1 65.2 L284.6 72.0 L327.0 44.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-1);stroke-width:2\"/><circle cx=\"323\" cy=\"44.8\" r=\"4\" style=\"fill:var(--ns-chart-series-1)\"/></svg></div>"
+    }
+   ],
+   "tokens": [
+    {
+     "token": "--ns-chart-series-1",
+     "role": "This year line, area and latest point"
+    },
+    {
+     "token": "--ns-chart-series-3",
+     "role": "Comparison line"
+    },
+    {
+     "token": "--ns-widget-grid",
+     "role": "Gridlines"
+    },
+    {
+     "token": "--ns-widget-bg",
+     "role": "Card surface"
+    },
+    {
+     "token": "--ns-border-subtle",
+     "role": "Card stroke and summary divider"
+    },
+    {
+     "token": "--ns-chart-label-text",
+     "role": "Axis labels and description"
+    },
+    {
+     "token": "--ns-status-success",
+     "role": "Trend"
+    },
+    {
+     "token": "--ns-radius-xl",
+     "role": "Card radius"
+    }
+   ],
+   "sizes": [
+    {
+     "size": "Small",
+     "value": "100px",
+     "use": "KPI tile: text left, mini plot right, no axes"
+    },
+    {
+     "size": "Vertical small",
+     "value": "256px",
+     "use": "Narrow column or sidebar, no axes"
+    },
+    {
+     "size": "Medium",
+     "value": "350px",
+     "use": "Default card with axis labels"
+    },
+    {
+     "size": "Large",
+     "value": "465px",
+     "use": "Card with divider and two-KPI summary"
+    },
+    {
+     "size": "XL",
+     "value": "390px",
+     "use": "Wide panel, three KPIs"
+    }
+   ],
+   "props": [
+    {
+     "prop": "size",
+     "type": "'small' | 'vertical-small' | 'medium' | 'large' | 'xl'",
+     "default": "'medium'",
+     "note": "Layout and plot size"
+    },
+    {
+     "prop": "title",
+     "type": "string",
+     "default": "-",
+     "note": "Header title"
+    },
+    {
+     "prop": "value",
+     "type": "string",
+     "default": "-",
+     "note": "Headline figure"
+    },
+    {
+     "prop": "trend",
+     "type": "string",
+     "default": "-",
+     "note": "Signed change, for example +2.4%"
+    },
+    {
+     "prop": "data",
+     "type": "{ current: number[], previous: number[] }",
+     "default": "[]",
+     "note": "Two series from 0 to 1, same length"
+    },
+    {
+     "prop": "showIcon",
+     "type": "boolean",
+     "default": "false",
+     "note": "Icon in the header"
+    }
+   ],
+   "keyboard": [
+    {
+     "key": "-",
+     "action": "Not interactive"
+    }
+   ],
+   "accessibility": [
+    "The SVG is role=\"img\" with a label naming both series and which ends higher. Provide a table nearby.",
+    "Trend text carries its sign, so the color is a second signal."
+   ],
+   "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Revenue</span><span class=\"ns-chart__value\">$84,200<span class=\"ns-chart__trend\">+6.1%</span></span><span class=\"ns-chart__desc\">This year against last year</span></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Line chart: revenue this year against last year, this year ends higher\" data-chart=\"line\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><rect x=\"30\" y=\"-0.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"58.8\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"118.2\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"30\" y=\"177.5\" width=\"297\" height=\"1\" style=\"fill:var(--ns-widget-grid)\"/><text x=\"22\" y=\"0\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">$12k</text><text x=\"22\" y=\"59.3\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">$8k</text><text x=\"22\" y=\"118.7\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">$4k</text><text x=\"22\" y=\"178\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">0</text><text x=\"42\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jan</text><text x=\"133\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Apr</text><text x=\"224\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Jul</text><text x=\"315\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Oct</text><path d=\"M30.0 123.0 L72.4 102.6 L114.9 109.4 L157.3 80.5 L199.7 89.0 L242.1 65.2 L284.6 72.0 L327.0 44.8 L327.0 178.0 L30.0 178.0 Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.12\"/><path d=\"M30.0 126.4 L72.4 123.0 L114.9 106.0 L157.3 112.8 L199.7 95.8 L242.1 99.2 L284.6 85.6 L327.0 78.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-3);stroke-width:2\"/><path d=\"M30.0 123.0 L72.4 102.6 L114.9 109.4 L157.3 80.5 L199.7 89.0 L242.1 65.2 L284.6 72.0 L327.0 44.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-1);stroke-width:2\"/><circle cx=\"323\" cy=\"44.8\" r=\"4\" style=\"fill:var(--ns-chart-series-1)\"/></svg></div>",
+   "react": "<LineChart size=\"medium\" title=\"Revenue\" value=\"$84,200\" trend=\"+6.1%\" data={{ current: [0.3, 0.76], previous: [0.28, 0.56] }} />",
+   "reactKit": null,
+   "parts": []
+  },
+  {
    "id": "link",
    "name": "Link",
    "category": "Actions",
@@ -4678,6 +5068,205 @@
    ],
    "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Profiles</span><span class=\"ns-chart__value\">128<span class=\"ns-chart__trend\">+4.0%</span></span><span class=\"ns-chart__desc\">4 of 128 profiles shown across five measures</span></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Parallel coordinates: four of 128 profiles across five measures, one line per profile\" data-chart=\"parallel\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><rect x=\"15.5\" y=\"0\" width=\"1\" height=\"178\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"89.3\" y=\"0\" width=\"1\" height=\"178\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"163\" y=\"0\" width=\"1\" height=\"178\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"236.8\" y=\"0\" width=\"1\" height=\"178\" style=\"fill:var(--ns-widget-grid)\"/><rect x=\"310.5\" y=\"0\" width=\"1\" height=\"178\" style=\"fill:var(--ns-widget-grid)\"/><path d=\"M16.0 140.0 L89.8 55.0 L163.5 106.0 L237.3 38.0 L311.0 89.0\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-1);stroke-width:2\"/><path d=\"M16.0 72.0 L89.8 123.0 L163.5 55.0 L237.3 140.0 L311.0 72.0\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-2);stroke-width:2\"/><path d=\"M16.0 38.0 L89.8 89.0 L163.5 140.0 L237.3 72.0 L311.0 21.0\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-3);stroke-width:2\"/><path d=\"M16.0 106.0 L89.8 21.0 L163.5 72.0 L237.3 106.0 L311.0 140.0\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:none;stroke:var(--ns-chart-series-4);stroke-width:2\"/><text x=\"16\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Speed</text><text x=\"89.8\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Cost</text><text x=\"163.5\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Reach</text><text x=\"237.3\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Rate</text><text x=\"311\" y=\"192\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Score</text></svg></div>",
    "react": "<ParallelCoordinatesChart size=\"medium\" title=\"Profiles\" value=\"128\" trend=\"+4.0%\" data={[[0.2, 0.7, 0.4, 0.8, 0.5]]} />",
+   "reactKit": null,
+   "parts": []
+  },
+  {
+   "id": "pie-chart",
+   "name": "Pie chart",
+   "category": "Data viz",
+   "status": "New",
+   "figma": null,
+   "description": "A donut chart shows how one whole splits into four or fewer parts. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
+   "classes": [
+    "ns-chart",
+    "ns-chart--small",
+    "ns-chart--vertical",
+    "ns-chart__desc",
+    "ns-chart__desc--sm",
+    "ns-chart__dot",
+    "ns-chart__head",
+    "ns-chart__icon",
+    "ns-chart__kpi",
+    "ns-chart__kpis",
+    "ns-chart__plot",
+    "ns-chart__summary",
+    "ns-chart__title",
+    "ns-chart__title--lg",
+    "ns-chart__title--sm",
+    "ns-chart__trend",
+    "ns-chart__value",
+    "ns-chart__value--sm"
+   ],
+   "helperClasses": [],
+   "axes": [
+    {
+     "axis": "Size",
+     "values": "Small, Vertical small, Medium, Large, XL"
+    },
+    {
+     "axis": "Title",
+     "values": "Text"
+    },
+    {
+     "axis": "Value",
+     "values": "Text"
+    },
+    {
+     "axis": "Show icon",
+     "values": "Boolean"
+    }
+   ],
+   "use": [
+    "Share of a whole with four parts or fewer.",
+    "A KPI tile that needs a mix, not a trend."
+   ],
+   "avoid": [
+    "More than four parts. Use Bar chart.",
+    "Change over time. Use Line chart."
+   ],
+   "guidance": [
+    {
+     "verdict": "do",
+     "note": "Axis labels and gridlines on the Medium plot."
+    },
+    {
+     "verdict": "do not",
+     "note": "The compact plot drops axes and labels."
+    }
+   ],
+   "variants": [
+    {
+     "name": "Sizes",
+     "note": "Five sizes from the same data. Small and Vertical small drop the axes and labels.",
+     "html": "<div style=\"display:grid;gap:24px;justify-items:start\"><div class=\"ns-chart ns-chart--small\" style=\"width:100%;max-width:330px\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title ns-chart__title--sm\">Visits</span><span class=\"ns-chart__value ns-chart__value--sm\">48,300<span class=\"ns-chart__trend\">+3.4%</span></span><span class=\"ns-chart__desc ns-chart__desc--sm\">By channel</span></div><svg class=\"ns-chart__plot\" width=\"120\" height=\"64\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"Donut chart: traffic by channel, search 42%, direct 28%, social 18%, email 12%\" data-chart=\"pie\" data-size=\"Small\" data-h=\"64\" data-w=\"120\"><path d=\"M60.4 2A30 30 0 0 1 74.8 58.1L69.2 48.2A18.6 18.6 0 0 0 60.2 13.4Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M74.1 58.5A30 30 0 0 1 31.6 41.6L42.4 38A18.6 18.6 0 0 0 68.7 48.4Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-2)\"/><path d=\"M31.3 40.9A30 30 0 0 1 39.2 10.4L47.1 18.6A18.6 18.6 0 0 0 42.2 37.5Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-3)\"/><path d=\"M39.8 9.9A30 30 0 0 1 59.6 2L59.8 13.4A18.6 18.6 0 0 0 47.4 18.3Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-4)\"/></svg></div><div class=\"ns-chart ns-chart--vertical\" style=\"width:100%;max-width:192px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title ns-chart__title--sm\">Visits</span><span class=\"ns-chart__value ns-chart__value--sm\">48,300<span class=\"ns-chart__trend\">+3.4%</span></span><span class=\"ns-chart__desc ns-chart__desc--sm\">By channel</span></div></div><svg class=\"ns-chart__plot\" width=\"160\" height=\"140\" viewBox=\"0 0 160 140\" role=\"img\" aria-label=\"Donut chart: traffic by channel, search 42%, direct 28%, social 18%, email 12%\" data-chart=\"pie\" data-size=\"Vertical small\" data-h=\"140\" data-w=\"160\"><path d=\"M80.9 2A68 68 0 0 1 113.5 129.2L100.8 106.7A42.16 42.16 0 0 0 80.6 27.8Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M112 130A68 68 0 0 1 15.6 91.9L40.1 83.6A42.16 42.16 0 0 0 99.8 107.2Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-2)\"/><path d=\"M15.1 90.2A68 68 0 0 1 32.8 21L50.7 39.6A42.16 42.16 0 0 0 39.7 82.5Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-3)\"/><path d=\"M34.1 19.8A68 68 0 0 1 79.1 2L79.4 27.8A42.16 42.16 0 0 0 51.5 38.9Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-4)\"/></svg></div><div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Visits</span><span class=\"ns-chart__value\">48,300<span class=\"ns-chart__trend\">+3.4%</span></span><span class=\"ns-chart__desc\">Share of visits by channel</span></div></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Donut chart: traffic by channel, search 42%, direct 28%, social 18%, email 12%\" data-chart=\"pie\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><path d=\"M104.8 2A98 98 0 0 1 151.8 185.3L133.5 152.9A60.76 60.76 0 0 0 104.3 39.2Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M149.6 186.5A98 98 0 0 1 10.7 131.5L46 119.5A60.76 60.76 0 0 0 132.1 153.6Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-2)\"/><path d=\"M9.9 129.1A98 98 0 0 1 35.5 29.4L61.3 56.3A60.76 60.76 0 0 0 45.5 118Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-3)\"/><path d=\"M37.4 27.7A98 98 0 0 1 102.2 2L102.7 39.2A60.76 60.76 0 0 0 62.5 55.2Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-4)\"/><text x=\"103.5\" y=\"100\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"18\" font-weight=\"700\" style=\"fill:var(--ns-text-primary)\">42%</text><rect x=\"215\" y=\"63\" width=\"8\" height=\"8\" rx=\"2\" style=\"fill:var(--ns-chart-series-1)\"/><text x=\"229\" y=\"67\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Search 42%</text><rect x=\"215\" y=\"85\" width=\"8\" height=\"8\" rx=\"2\" style=\"fill:var(--ns-chart-series-2)\"/><text x=\"229\" y=\"89\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Direct 28%</text><rect x=\"215\" y=\"107\" width=\"8\" height=\"8\" rx=\"2\" style=\"fill:var(--ns-chart-series-3)\"/><text x=\"229\" y=\"111\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Social 18%</text><rect x=\"215\" y=\"129\" width=\"8\" height=\"8\" rx=\"2\" style=\"fill:var(--ns-chart-series-4)\"/><text x=\"229\" y=\"133\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Email 12%</text></svg></div><div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title ns-chart__title--lg\">Visits</span></div></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"260\" viewBox=\"0 0 327 260\" role=\"img\" aria-label=\"Donut chart: traffic by channel, search 42%, direct 28%, social 18%, email 12%\" data-chart=\"pie\" data-size=\"Large\" data-h=\"260\" data-w=\"327\"><path d=\"M104.8 28.5A101.5 101.5 0 0 1 153.6 218.3L134.5 184.7A62.93 62.93 0 0 0 104.3 67.1Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M151.2 219.6A101.5 101.5 0 0 1 7.4 162.6L43.9 150.2A62.93 62.93 0 0 0 133.1 185.5Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-2)\"/><path d=\"M6.6 160.1A101.5 101.5 0 0 1 33.1 56.9L59.8 84.7A62.93 62.93 0 0 0 43.4 148.7Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-3)\"/><path d=\"M35 55.1A101.5 101.5 0 0 1 102.2 28.5L102.7 67.1A62.93 62.93 0 0 0 61 83.6Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-4)\"/><text x=\"103.5\" y=\"130\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"18\" font-weight=\"700\" style=\"fill:var(--ns-text-primary)\">42%</text><rect x=\"215\" y=\"93\" width=\"8\" height=\"8\" rx=\"2\" style=\"fill:var(--ns-chart-series-1)\"/><text x=\"229\" y=\"97\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Search 42%</text><rect x=\"215\" y=\"115\" width=\"8\" height=\"8\" rx=\"2\" style=\"fill:var(--ns-chart-series-2)\"/><text x=\"229\" y=\"119\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Direct 28%</text><rect x=\"215\" y=\"137\" width=\"8\" height=\"8\" rx=\"2\" style=\"fill:var(--ns-chart-series-3)\"/><text x=\"229\" y=\"141\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Social 18%</text><rect x=\"215\" y=\"159\" width=\"8\" height=\"8\" rx=\"2\" style=\"fill:var(--ns-chart-series-4)\"/><text x=\"229\" y=\"163\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Email 12%</text></svg><div class=\"ns-chart__summary\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title ns-chart__title--sm\"><span class=\"ns-chart__dot\" style=\"background:var(--ns-chart-series-1)\"></span>Visits</span><span class=\"ns-chart__value ns-chart__value--sm\">48,300<span class=\"ns-chart__trend\">+3.4%</span></span><span class=\"ns-chart__desc ns-chart__desc--sm\">Share of visits by channel</span></div><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title ns-chart__title--sm\"><span class=\"ns-chart__dot\" style=\"background:var(--ns-chart-series-3)\"></span>Social</span><span class=\"ns-chart__value ns-chart__value--sm\">18%<span class=\"ns-chart__trend\">+1.1%</span></span><span class=\"ns-chart__desc ns-chart__desc--sm\">Third channel</span></div></div></div></div>"
+    },
+    {
+     "name": "XL",
+     "note": "Three KPIs above the plot.",
+     "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:800px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpis\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\"><span class=\"ns-chart__dot\" style=\"background:var(--ns-chart-series-1)\"></span>Visits</span><span class=\"ns-chart__value\">48,300<span class=\"ns-chart__trend\">+3.4%</span></span><span class=\"ns-chart__desc\">Share of visits by channel</span></div><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\"><span class=\"ns-chart__dot\" style=\"background:var(--ns-chart-series-3)\"></span>Social</span><span class=\"ns-chart__value\">18%<span class=\"ns-chart__trend\">+1.1%</span></span><span class=\"ns-chart__desc\">Third channel</span></div><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\"><span class=\"ns-chart__dot\" style=\"background:var(--ns-chart-series-2)\"></span>Direct</span><span class=\"ns-chart__value\">28%<span class=\"ns-chart__trend\">+0.4%</span></span><span class=\"ns-chart__desc\">Second channel</span></div></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"752\" height=\"240\" viewBox=\"0 0 752 240\" role=\"img\" aria-label=\"Donut chart: traffic by channel, search 42%, direct 28%, social 18%, email 12%\" data-chart=\"pie\" data-size=\"XL\" data-h=\"240\" data-w=\"752\"><path d=\"M317.5 2A118 118 0 0 1 374.2 222.7L352.1 183.6A73.16 73.16 0 0 0 317 46.8Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M371.5 224.1A118 118 0 0 1 204.3 157.9L246.7 143.5A73.16 73.16 0 0 0 350.4 184.6Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-2)\"/><path d=\"M203.3 155A118 118 0 0 1 234.1 35L265.2 67.3A73.16 73.16 0 0 0 246.1 141.7Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-3)\"/><path d=\"M236.4 32.9A118 118 0 0 1 314.5 2L315 46.8A73.16 73.16 0 0 0 266.6 66Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-4)\"/><text x=\"316\" y=\"120\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"18\" font-weight=\"700\" style=\"fill:var(--ns-text-primary)\">42%</text><rect x=\"640\" y=\"83\" width=\"8\" height=\"8\" rx=\"2\" style=\"fill:var(--ns-chart-series-1)\"/><text x=\"654\" y=\"87\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Search 42%</text><rect x=\"640\" y=\"105\" width=\"8\" height=\"8\" rx=\"2\" style=\"fill:var(--ns-chart-series-2)\"/><text x=\"654\" y=\"109\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Direct 28%</text><rect x=\"640\" y=\"127\" width=\"8\" height=\"8\" rx=\"2\" style=\"fill:var(--ns-chart-series-3)\"/><text x=\"654\" y=\"131\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Social 18%</text><rect x=\"640\" y=\"149\" width=\"8\" height=\"8\" rx=\"2\" style=\"fill:var(--ns-chart-series-4)\"/><text x=\"654\" y=\"153\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Email 12%</text></svg></div>"
+    },
+    {
+     "name": "Plot only",
+     "note": "The SVG on its own, for use inside another card.",
+     "html": "<div style=\"width:327px\"><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Donut chart: traffic by channel, search 42%, direct 28%, social 18%, email 12%\" data-chart=\"pie\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><path d=\"M104.8 2A98 98 0 0 1 151.8 185.3L133.5 152.9A60.76 60.76 0 0 0 104.3 39.2Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M149.6 186.5A98 98 0 0 1 10.7 131.5L46 119.5A60.76 60.76 0 0 0 132.1 153.6Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-2)\"/><path d=\"M9.9 129.1A98 98 0 0 1 35.5 29.4L61.3 56.3A60.76 60.76 0 0 0 45.5 118Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-3)\"/><path d=\"M37.4 27.7A98 98 0 0 1 102.2 2L102.7 39.2A60.76 60.76 0 0 0 62.5 55.2Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-4)\"/><text x=\"103.5\" y=\"100\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"18\" font-weight=\"700\" style=\"fill:var(--ns-text-primary)\">42%</text><rect x=\"215\" y=\"63\" width=\"8\" height=\"8\" rx=\"2\" style=\"fill:var(--ns-chart-series-1)\"/><text x=\"229\" y=\"67\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Search 42%</text><rect x=\"215\" y=\"85\" width=\"8\" height=\"8\" rx=\"2\" style=\"fill:var(--ns-chart-series-2)\"/><text x=\"229\" y=\"89\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Direct 28%</text><rect x=\"215\" y=\"107\" width=\"8\" height=\"8\" rx=\"2\" style=\"fill:var(--ns-chart-series-3)\"/><text x=\"229\" y=\"111\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Social 18%</text><rect x=\"215\" y=\"129\" width=\"8\" height=\"8\" rx=\"2\" style=\"fill:var(--ns-chart-series-4)\"/><text x=\"229\" y=\"133\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Email 12%</text></svg></div>"
+    }
+   ],
+   "tokens": [
+    {
+     "token": "--ns-chart-series-1",
+     "role": "Largest segment"
+    },
+    {
+     "token": "--ns-chart-series-2",
+     "role": "Second segment"
+    },
+    {
+     "token": "--ns-chart-series-3",
+     "role": "Third segment"
+    },
+    {
+     "token": "--ns-chart-series-4",
+     "role": "Fourth segment"
+    },
+    {
+     "token": "--ns-widget-bg",
+     "role": "Card surface"
+    },
+    {
+     "token": "--ns-border-subtle",
+     "role": "Card stroke and summary divider"
+    },
+    {
+     "token": "--ns-chart-label-text",
+     "role": "Axis labels and description"
+    },
+    {
+     "token": "--ns-status-success",
+     "role": "Trend"
+    },
+    {
+     "token": "--ns-radius-xl",
+     "role": "Card radius"
+    }
+   ],
+   "sizes": [
+    {
+     "size": "Small",
+     "value": "100px",
+     "use": "KPI tile: text left, mini plot right, no axes"
+    },
+    {
+     "size": "Vertical small",
+     "value": "256px",
+     "use": "Narrow column or sidebar, no axes"
+    },
+    {
+     "size": "Medium",
+     "value": "350px",
+     "use": "Default card with axis labels"
+    },
+    {
+     "size": "Large",
+     "value": "465px",
+     "use": "Card with divider and two-KPI summary"
+    },
+    {
+     "size": "XL",
+     "value": "390px",
+     "use": "Wide panel, three KPIs"
+    }
+   ],
+   "props": [
+    {
+     "prop": "size",
+     "type": "'small' | 'vertical-small' | 'medium' | 'large' | 'xl'",
+     "default": "'medium'",
+     "note": "Layout and plot size"
+    },
+    {
+     "prop": "title",
+     "type": "string",
+     "default": "-",
+     "note": "Header title"
+    },
+    {
+     "prop": "value",
+     "type": "string",
+     "default": "-",
+     "note": "Headline figure"
+    },
+    {
+     "prop": "trend",
+     "type": "string",
+     "default": "-",
+     "note": "Signed change, for example +2.4%"
+    },
+    {
+     "prop": "data",
+     "type": "{ label: string, value: number }[]",
+     "default": "[]",
+     "note": "Parts of one whole, largest first"
+    },
+    {
+     "prop": "showIcon",
+     "type": "boolean",
+     "default": "false",
+     "note": "Icon in the header"
+    }
+   ],
+   "keyboard": [
+    {
+     "key": "-",
+     "action": "Not interactive"
+    }
+   ],
+   "accessibility": [
+    "The SVG is role=\"img\" with a label listing every part and its percent.",
+    "Trend text carries its sign, so the color is a second signal."
+   ],
+   "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">Visits</span><span class=\"ns-chart__value\">48,300<span class=\"ns-chart__trend\">+3.4%</span></span><span class=\"ns-chart__desc\">Share of visits by channel</span></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Donut chart: traffic by channel, search 42%, direct 28%, social 18%, email 12%\" data-chart=\"pie\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><path d=\"M104.8 2A98 98 0 0 1 151.8 185.3L133.5 152.9A60.76 60.76 0 0 0 104.3 39.2Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-1)\"/><path d=\"M149.6 186.5A98 98 0 0 1 10.7 131.5L46 119.5A60.76 60.76 0 0 0 132.1 153.6Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-2)\"/><path d=\"M9.9 129.1A98 98 0 0 1 35.5 29.4L61.3 56.3A60.76 60.76 0 0 0 45.5 118Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-3)\"/><path d=\"M37.4 27.7A98 98 0 0 1 102.2 2L102.7 39.2A60.76 60.76 0 0 0 62.5 55.2Z\" fill-rule=\"evenodd\" style=\"fill:var(--ns-chart-series-4)\"/><text x=\"103.5\" y=\"100\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-size=\"18\" font-weight=\"700\" style=\"fill:var(--ns-text-primary)\">42%</text><rect x=\"215\" y=\"63\" width=\"8\" height=\"8\" rx=\"2\" style=\"fill:var(--ns-chart-series-1)\"/><text x=\"229\" y=\"67\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Search 42%</text><rect x=\"215\" y=\"85\" width=\"8\" height=\"8\" rx=\"2\" style=\"fill:var(--ns-chart-series-2)\"/><text x=\"229\" y=\"89\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Direct 28%</text><rect x=\"215\" y=\"107\" width=\"8\" height=\"8\" rx=\"2\" style=\"fill:var(--ns-chart-series-3)\"/><text x=\"229\" y=\"111\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Social 18%</text><rect x=\"215\" y=\"129\" width=\"8\" height=\"8\" rx=\"2\" style=\"fill:var(--ns-chart-series-4)\"/><text x=\"229\" y=\"133\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-chart-label-text)\">Email 12%</text></svg></div>",
+   "react": "<PieChart size=\"medium\" title=\"Visits\" value=\"48,300\" trend=\"+3.4%\" data={[{ label: \"Search\", value: 42 }]} />",
    "reactKit": null,
    "parts": []
   },
@@ -5808,6 +6397,205 @@
      "RadioGroupField"
     ]
    },
+   "parts": []
+  },
+  {
+   "id": "sankey-chart",
+   "name": "Sankey chart",
+   "category": "Data viz",
+   "status": "New",
+   "figma": null,
+   "description": "A sankey diagram shows how volume flows from sources to outcomes; band width carries the amount. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
+   "classes": [
+    "ns-chart",
+    "ns-chart--small",
+    "ns-chart--vertical",
+    "ns-chart__desc",
+    "ns-chart__desc--sm",
+    "ns-chart__dot",
+    "ns-chart__head",
+    "ns-chart__icon",
+    "ns-chart__kpi",
+    "ns-chart__kpis",
+    "ns-chart__plot",
+    "ns-chart__summary",
+    "ns-chart__title",
+    "ns-chart__title--lg",
+    "ns-chart__title--sm",
+    "ns-chart__trend",
+    "ns-chart__value",
+    "ns-chart__value--sm"
+   ],
+   "helperClasses": [],
+   "axes": [
+    {
+     "axis": "Size",
+     "values": "Small, Vertical small, Medium, Large, XL"
+    },
+    {
+     "axis": "Title",
+     "values": "Text"
+    },
+    {
+     "axis": "Value",
+     "values": "Text"
+    },
+    {
+     "axis": "Show icon",
+     "values": "Boolean"
+    }
+   ],
+   "use": [
+    "Where volume comes from and where it goes.",
+    "Conversion between two stages."
+   ],
+   "avoid": [
+    "A single sequence of steps. Use Funnel chart.",
+    "Exact values. Use Data table."
+   ],
+   "guidance": [
+    {
+     "verdict": "do",
+     "note": "Axis labels and gridlines on the Medium plot."
+    },
+    {
+     "verdict": "do not",
+     "note": "The compact plot drops axes and labels."
+    }
+   ],
+   "variants": [
+    {
+     "name": "Sizes",
+     "note": "Five sizes from the same data. Small and Vertical small drop the axes and labels.",
+     "html": "<div style=\"display:grid;gap:24px;justify-items:start\"><div class=\"ns-chart ns-chart--small\" style=\"width:100%;max-width:330px\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title ns-chart__title--sm\">New accounts</span><span class=\"ns-chart__value ns-chart__value--sm\">6,200<span class=\"ns-chart__trend\">+2.8%</span></span><span class=\"ns-chart__desc ns-chart__desc--sm\">Source to plan</span></div><svg class=\"ns-chart__plot\" width=\"120\" height=\"64\" viewBox=\"0 0 120 64\" role=\"img\" aria-label=\"Sankey diagram: three sources flow into paid and free plans, band width shows volume\" data-chart=\"sankey\" data-size=\"Small\" data-h=\"64\" data-w=\"120\"><path d=\"M6 0.0C60 0.0 60 0.0 114 0.0L114 18.0C60 18.0 60 16.8 6 16.8Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.35\"/><path d=\"M6 16.8C60 16.8 60 40.0 114 40.0L114 49.0C60 49.0 60 25.2 6 25.2Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.35\"/><path d=\"M6 29.2C60 29.2 60 18.0 114 18.0L114 30.0C60 30.0 60 40.4 6 40.4Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.35\"/><path d=\"M6 40.4C60 40.4 60 49.0 114 49.0L114 58.0C60 58.0 60 48.8 6 48.8Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.35\"/><path d=\"M6 52.8C60 52.8 60 30.0 114 30.0L114 36.0C60 36.0 60 58.4 6 58.4Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-3);fill-opacity:0.35\"/><path d=\"M6 58.4C60 58.4 60 58.0 114 58.0L114 64.0C60 64.0 60 64.0 6 64.0Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-3);fill-opacity:0.35\"/><rect x=\"0\" y=\"0\" width=\"6\" height=\"25.2\" rx=\"2\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"0\" y=\"29.2\" width=\"6\" height=\"19.6\" rx=\"2\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"0\" y=\"52.8\" width=\"6\" height=\"11.2\" rx=\"2\" style=\"fill:var(--ns-chart-series-3)\"/><rect x=\"114\" y=\"0\" width=\"6\" height=\"36\" rx=\"2\" style=\"fill:var(--ns-chart-target)\"/><rect x=\"114\" y=\"40\" width=\"6\" height=\"24\" rx=\"2\" style=\"fill:var(--ns-chart-target)\"/></svg></div><div class=\"ns-chart ns-chart--vertical\" style=\"width:100%;max-width:192px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title ns-chart__title--sm\">New accounts</span><span class=\"ns-chart__value ns-chart__value--sm\">6,200<span class=\"ns-chart__trend\">+2.8%</span></span><span class=\"ns-chart__desc ns-chart__desc--sm\">Source to plan</span></div></div><svg class=\"ns-chart__plot\" width=\"160\" height=\"140\" viewBox=\"0 0 160 140\" role=\"img\" aria-label=\"Sankey diagram: three sources flow into paid and free plans, band width shows volume\" data-chart=\"sankey\" data-size=\"Vertical small\" data-h=\"140\" data-w=\"160\"><path d=\"M6 0.0C80 0.0 80 0.0 154 0.0L154 40.8C80 40.8 80 39.6 6 39.6Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.35\"/><path d=\"M6 39.6C80 39.6 80 85.6 154 85.6L154 106.0C80 106.0 80 59.4 6 59.4Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.35\"/><path d=\"M6 63.4C80 63.4 80 40.8 154 40.8L154 68.0C80 68.0 80 89.8 6 89.8Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.35\"/><path d=\"M6 89.8C80 89.8 80 106.0 154 106.0L154 126.4C80 126.4 80 109.6 6 109.6Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.35\"/><path d=\"M6 113.6C80 113.6 80 68.0 154 68.0L154 81.6C80 81.6 80 126.8 6 126.8Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-3);fill-opacity:0.35\"/><path d=\"M6 126.8C80 126.8 80 126.4 154 126.4L154 140.0C80 140.0 80 140.0 6 140.0Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-3);fill-opacity:0.35\"/><rect x=\"0\" y=\"0\" width=\"6\" height=\"59.4\" rx=\"2\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"0\" y=\"63.4\" width=\"6\" height=\"46.2\" rx=\"2\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"0\" y=\"113.6\" width=\"6\" height=\"26.4\" rx=\"2\" style=\"fill:var(--ns-chart-series-3)\"/><rect x=\"154\" y=\"0\" width=\"6\" height=\"81.6\" rx=\"2\" style=\"fill:var(--ns-chart-target)\"/><rect x=\"154\" y=\"85.6\" width=\"6\" height=\"54.4\" rx=\"2\" style=\"fill:var(--ns-chart-target)\"/></svg></div><div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">New accounts</span><span class=\"ns-chart__value\">6,200<span class=\"ns-chart__trend\">+2.8%</span></span><span class=\"ns-chart__desc\">Where accounts came from and which plan they chose</span></div></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Sankey diagram: three sources flow into paid and free plans, band width shows volume\" data-chart=\"sankey\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><path d=\"M10 0.0C163.5 0.0 163.5 0.0 317 0.0L317 57.6C163.5 57.6 163.5 55.2 10 55.2Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.35\"/><path d=\"M10 55.2C163.5 55.2 163.5 123.2 317 123.2L317 152.0C163.5 152.0 163.5 82.8 10 82.8Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.35\"/><path d=\"M10 90.8C163.5 90.8 163.5 57.6 317 57.6L317 96.0C163.5 96.0 163.5 127.6 10 127.6Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.35\"/><path d=\"M10 127.6C163.5 127.6 163.5 152.0 317 152.0L317 180.8C163.5 180.8 163.5 155.2 10 155.2Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.35\"/><path d=\"M10 163.2C163.5 163.2 163.5 96.0 317 96.0L317 115.2C163.5 115.2 163.5 181.6 10 181.6Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-3);fill-opacity:0.35\"/><path d=\"M10 181.6C163.5 181.6 163.5 180.8 317 180.8L317 200.0C163.5 200.0 163.5 200.0 10 200.0Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-3);fill-opacity:0.35\"/><rect x=\"0\" y=\"0\" width=\"10\" height=\"82.8\" rx=\"2\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"0\" y=\"90.8\" width=\"10\" height=\"64.4\" rx=\"2\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"0\" y=\"163.2\" width=\"10\" height=\"36.8\" rx=\"2\" style=\"fill:var(--ns-chart-series-3)\"/><rect x=\"317\" y=\"0\" width=\"10\" height=\"115.2\" rx=\"2\" style=\"fill:var(--ns-chart-target)\"/><rect x=\"317\" y=\"123.2\" width=\"10\" height=\"76.8\" rx=\"2\" style=\"fill:var(--ns-chart-target)\"/><text x=\"16\" y=\"41.4\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Search</text><text x=\"16\" y=\"123\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Referral</text><text x=\"16\" y=\"181.6\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Ads</text><text x=\"311\" y=\"57.6\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Paid</text><text x=\"311\" y=\"161.6\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Free</text></svg></div><div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title ns-chart__title--lg\">New accounts</span></div></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"260\" viewBox=\"0 0 327 260\" role=\"img\" aria-label=\"Sankey diagram: three sources flow into paid and free plans, band width shows volume\" data-chart=\"sankey\" data-size=\"Large\" data-h=\"260\" data-w=\"327\"><path d=\"M10 0.0C163.5 0.0 163.5 0.0 317 0.0L317 75.6C163.5 75.6 163.5 73.2 10 73.2Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.35\"/><path d=\"M10 73.2C163.5 73.2 163.5 159.2 317 159.2L317 197.0C163.5 197.0 163.5 109.8 10 109.8Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.35\"/><path d=\"M10 117.8C163.5 117.8 163.5 75.6 317 75.6L317 126.0C163.5 126.0 163.5 166.6 10 166.6Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.35\"/><path d=\"M10 166.6C163.5 166.6 163.5 197.0 317 197.0L317 234.8C163.5 234.8 163.5 203.2 10 203.2Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.35\"/><path d=\"M10 211.2C163.5 211.2 163.5 126.0 317 126.0L317 151.2C163.5 151.2 163.5 235.6 10 235.6Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-3);fill-opacity:0.35\"/><path d=\"M10 235.6C163.5 235.6 163.5 234.8 317 234.8L317 260.0C163.5 260.0 163.5 260.0 10 260.0Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-3);fill-opacity:0.35\"/><rect x=\"0\" y=\"0\" width=\"10\" height=\"109.8\" rx=\"2\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"0\" y=\"117.8\" width=\"10\" height=\"85.4\" rx=\"2\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"0\" y=\"211.2\" width=\"10\" height=\"48.8\" rx=\"2\" style=\"fill:var(--ns-chart-series-3)\"/><rect x=\"317\" y=\"0\" width=\"10\" height=\"151.2\" rx=\"2\" style=\"fill:var(--ns-chart-target)\"/><rect x=\"317\" y=\"159.2\" width=\"10\" height=\"100.8\" rx=\"2\" style=\"fill:var(--ns-chart-target)\"/><text x=\"16\" y=\"54.9\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Search</text><text x=\"16\" y=\"160.5\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Referral</text><text x=\"16\" y=\"235.6\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Ads</text><text x=\"311\" y=\"75.6\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Paid</text><text x=\"311\" y=\"209.6\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Free</text></svg><div class=\"ns-chart__summary\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title ns-chart__title--sm\"><span class=\"ns-chart__dot\" style=\"background:var(--ns-chart-series-1)\"></span>New accounts</span><span class=\"ns-chart__value ns-chart__value--sm\">6,200<span class=\"ns-chart__trend\">+2.8%</span></span><span class=\"ns-chart__desc ns-chart__desc--sm\">Where accounts came from and which plan they chose</span></div><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title ns-chart__title--sm\"><span class=\"ns-chart__dot\" style=\"background:var(--ns-chart-series-3)\"></span>Ads</span><span class=\"ns-chart__value ns-chart__value--sm\">20%<span class=\"ns-chart__trend\">+1.3%</span></span><span class=\"ns-chart__desc ns-chart__desc--sm\">Share of new accounts from ads</span></div></div></div></div>"
+    },
+    {
+     "name": "XL",
+     "note": "Three KPIs above the plot.",
+     "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:800px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpis\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\"><span class=\"ns-chart__dot\" style=\"background:var(--ns-chart-series-1)\"></span>New accounts</span><span class=\"ns-chart__value\">6,200<span class=\"ns-chart__trend\">+2.8%</span></span><span class=\"ns-chart__desc\">Where accounts came from and which plan they chose</span></div><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\"><span class=\"ns-chart__dot\" style=\"background:var(--ns-chart-series-3)\"></span>Ads</span><span class=\"ns-chart__value\">20%<span class=\"ns-chart__trend\">+1.3%</span></span><span class=\"ns-chart__desc\">Share of new accounts from ads</span></div><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\"><span class=\"ns-chart__dot\" style=\"background:var(--ns-chart-series-2)\"></span>Referral</span><span class=\"ns-chart__value\">35%<span class=\"ns-chart__trend\">+0.9%</span></span><span class=\"ns-chart__desc\">Share from referrals</span></div></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"752\" height=\"240\" viewBox=\"0 0 752 240\" role=\"img\" aria-label=\"Sankey diagram: three sources flow into paid and free plans, band width shows volume\" data-chart=\"sankey\" data-size=\"XL\" data-h=\"240\" data-w=\"752\"><path d=\"M10 0.0C376 0.0 376 0.0 742 0.0L742 69.6C376 69.6 376 67.2 10 67.2Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.35\"/><path d=\"M10 67.2C376 67.2 376 147.2 742 147.2L742 182.0C376 182.0 376 100.8 10 100.8Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.35\"/><path d=\"M10 108.8C376 108.8 376 69.6 742 69.6L742 116.0C376 116.0 376 153.6 10 153.6Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.35\"/><path d=\"M10 153.6C376 153.6 376 182.0 742 182.0L742 216.8C376 216.8 376 187.2 10 187.2Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.35\"/><path d=\"M10 195.2C376 195.2 376 116.0 742 116.0L742 139.2C376 139.2 376 217.6 10 217.6Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-3);fill-opacity:0.35\"/><path d=\"M10 217.6C376 217.6 376 216.8 742 216.8L742 240.0C376 240.0 376 240.0 10 240.0Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-3);fill-opacity:0.35\"/><rect x=\"0\" y=\"0\" width=\"10\" height=\"100.8\" rx=\"2\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"0\" y=\"108.8\" width=\"10\" height=\"78.4\" rx=\"2\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"0\" y=\"195.2\" width=\"10\" height=\"44.8\" rx=\"2\" style=\"fill:var(--ns-chart-series-3)\"/><rect x=\"742\" y=\"0\" width=\"10\" height=\"139.2\" rx=\"2\" style=\"fill:var(--ns-chart-target)\"/><rect x=\"742\" y=\"147.2\" width=\"10\" height=\"92.8\" rx=\"2\" style=\"fill:var(--ns-chart-target)\"/><text x=\"16\" y=\"50.4\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Search</text><text x=\"16\" y=\"148\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Referral</text><text x=\"16\" y=\"217.6\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Ads</text><text x=\"736\" y=\"69.6\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Paid</text><text x=\"736\" y=\"193.6\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Free</text></svg></div>"
+    },
+    {
+     "name": "Plot only",
+     "note": "The SVG on its own, for use inside another card.",
+     "html": "<div style=\"width:327px\"><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Sankey diagram: three sources flow into paid and free plans, band width shows volume\" data-chart=\"sankey\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><path d=\"M10 0.0C163.5 0.0 163.5 0.0 317 0.0L317 57.6C163.5 57.6 163.5 55.2 10 55.2Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.35\"/><path d=\"M10 55.2C163.5 55.2 163.5 123.2 317 123.2L317 152.0C163.5 152.0 163.5 82.8 10 82.8Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.35\"/><path d=\"M10 90.8C163.5 90.8 163.5 57.6 317 57.6L317 96.0C163.5 96.0 163.5 127.6 10 127.6Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.35\"/><path d=\"M10 127.6C163.5 127.6 163.5 152.0 317 152.0L317 180.8C163.5 180.8 163.5 155.2 10 155.2Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.35\"/><path d=\"M10 163.2C163.5 163.2 163.5 96.0 317 96.0L317 115.2C163.5 115.2 163.5 181.6 10 181.6Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-3);fill-opacity:0.35\"/><path d=\"M10 181.6C163.5 181.6 163.5 180.8 317 180.8L317 200.0C163.5 200.0 163.5 200.0 10 200.0Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-3);fill-opacity:0.35\"/><rect x=\"0\" y=\"0\" width=\"10\" height=\"82.8\" rx=\"2\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"0\" y=\"90.8\" width=\"10\" height=\"64.4\" rx=\"2\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"0\" y=\"163.2\" width=\"10\" height=\"36.8\" rx=\"2\" style=\"fill:var(--ns-chart-series-3)\"/><rect x=\"317\" y=\"0\" width=\"10\" height=\"115.2\" rx=\"2\" style=\"fill:var(--ns-chart-target)\"/><rect x=\"317\" y=\"123.2\" width=\"10\" height=\"76.8\" rx=\"2\" style=\"fill:var(--ns-chart-target)\"/><text x=\"16\" y=\"41.4\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Search</text><text x=\"16\" y=\"123\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Referral</text><text x=\"16\" y=\"181.6\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Ads</text><text x=\"311\" y=\"57.6\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Paid</text><text x=\"311\" y=\"161.6\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Free</text></svg></div>"
+    }
+   ],
+   "tokens": [
+    {
+     "token": "--ns-chart-series-1",
+     "role": "First source and its flows"
+    },
+    {
+     "token": "--ns-chart-series-2",
+     "role": "Second source"
+    },
+    {
+     "token": "--ns-chart-series-3",
+     "role": "Third source"
+    },
+    {
+     "token": "--ns-chart-target",
+     "role": "Outcome nodes"
+    },
+    {
+     "token": "--ns-widget-bg",
+     "role": "Card surface"
+    },
+    {
+     "token": "--ns-border-subtle",
+     "role": "Card stroke and summary divider"
+    },
+    {
+     "token": "--ns-chart-label-text",
+     "role": "Axis labels and description"
+    },
+    {
+     "token": "--ns-status-success",
+     "role": "Trend"
+    },
+    {
+     "token": "--ns-radius-xl",
+     "role": "Card radius"
+    }
+   ],
+   "sizes": [
+    {
+     "size": "Small",
+     "value": "100px",
+     "use": "KPI tile: text left, mini plot right, no axes"
+    },
+    {
+     "size": "Vertical small",
+     "value": "256px",
+     "use": "Narrow column or sidebar, no axes"
+    },
+    {
+     "size": "Medium",
+     "value": "350px",
+     "use": "Default card with axis labels"
+    },
+    {
+     "size": "Large",
+     "value": "465px",
+     "use": "Card with divider and two-KPI summary"
+    },
+    {
+     "size": "XL",
+     "value": "390px",
+     "use": "Wide panel, three KPIs"
+    }
+   ],
+   "props": [
+    {
+     "prop": "size",
+     "type": "'small' | 'vertical-small' | 'medium' | 'large' | 'xl'",
+     "default": "'medium'",
+     "note": "Layout and plot size"
+    },
+    {
+     "prop": "title",
+     "type": "string",
+     "default": "-",
+     "note": "Header title"
+    },
+    {
+     "prop": "value",
+     "type": "string",
+     "default": "-",
+     "note": "Headline figure"
+    },
+    {
+     "prop": "trend",
+     "type": "string",
+     "default": "-",
+     "note": "Signed change, for example +2.4%"
+    },
+    {
+     "prop": "data",
+     "type": "{ from: string, to: string, value: number }[]",
+     "default": "[]",
+     "note": "One row per flow"
+    },
+    {
+     "prop": "showIcon",
+     "type": "boolean",
+     "default": "false",
+     "note": "Icon in the header"
+    }
+   ],
+   "keyboard": [
+    {
+     "key": "-",
+     "action": "Not interactive"
+    }
+   ],
+   "accessibility": [
+    "The SVG is role=\"img\" with a label naming the sources and outcomes. Provide a table of the flows nearby.",
+    "Trend text carries its sign, so the color is a second signal."
+   ],
+   "html": "<div class=\"ns-chart\" style=\"width:100%;max-width:375px\"><div class=\"ns-chart__head\"><div class=\"ns-chart__kpi\"><span class=\"ns-chart__title\">New accounts</span><span class=\"ns-chart__value\">6,200<span class=\"ns-chart__trend\">+2.8%</span></span><span class=\"ns-chart__desc\">Where accounts came from and which plan they chose</span></div><span class=\"ns-chart__icon\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 14 14\" fill=\"currentColor\"><rect x=\"0\" y=\"6\" width=\"3\" height=\"8\" rx=\"1\"/><rect x=\"5.5\" y=\"1\" width=\"3\" height=\"13\" rx=\"1\"/><rect x=\"11\" y=\"4\" width=\"3\" height=\"10\" rx=\"1\"/></svg></span></div><svg class=\"ns-chart__plot\" width=\"327\" height=\"200\" viewBox=\"0 0 327 200\" role=\"img\" aria-label=\"Sankey diagram: three sources flow into paid and free plans, band width shows volume\" data-chart=\"sankey\" data-size=\"Medium\" data-h=\"200\" data-w=\"327\"><path d=\"M10 0.0C163.5 0.0 163.5 0.0 317 0.0L317 57.6C163.5 57.6 163.5 55.2 10 55.2Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.35\"/><path d=\"M10 55.2C163.5 55.2 163.5 123.2 317 123.2L317 152.0C163.5 152.0 163.5 82.8 10 82.8Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-1);fill-opacity:0.35\"/><path d=\"M10 90.8C163.5 90.8 163.5 57.6 317 57.6L317 96.0C163.5 96.0 163.5 127.6 10 127.6Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.35\"/><path d=\"M10 127.6C163.5 127.6 163.5 152.0 317 152.0L317 180.8C163.5 180.8 163.5 155.2 10 155.2Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-2);fill-opacity:0.35\"/><path d=\"M10 163.2C163.5 163.2 163.5 96.0 317 96.0L317 115.2C163.5 115.2 163.5 181.6 10 181.6Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-3);fill-opacity:0.35\"/><path d=\"M10 181.6C163.5 181.6 163.5 180.8 317 180.8L317 200.0C163.5 200.0 163.5 200.0 10 200.0Z\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"fill:var(--ns-chart-series-3);fill-opacity:0.35\"/><rect x=\"0\" y=\"0\" width=\"10\" height=\"82.8\" rx=\"2\" style=\"fill:var(--ns-chart-series-1)\"/><rect x=\"0\" y=\"90.8\" width=\"10\" height=\"64.4\" rx=\"2\" style=\"fill:var(--ns-chart-series-2)\"/><rect x=\"0\" y=\"163.2\" width=\"10\" height=\"36.8\" rx=\"2\" style=\"fill:var(--ns-chart-series-3)\"/><rect x=\"317\" y=\"0\" width=\"10\" height=\"115.2\" rx=\"2\" style=\"fill:var(--ns-chart-target)\"/><rect x=\"317\" y=\"123.2\" width=\"10\" height=\"76.8\" rx=\"2\" style=\"fill:var(--ns-chart-target)\"/><text x=\"16\" y=\"41.4\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Search</text><text x=\"16\" y=\"123\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Referral</text><text x=\"16\" y=\"181.6\" text-anchor=\"start\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Ads</text><text x=\"311\" y=\"57.6\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Paid</text><text x=\"311\" y=\"161.6\" text-anchor=\"end\" dominant-baseline=\"middle\" font-size=\"11\" style=\"fill:var(--ns-text-primary)\">Free</text></svg></div>",
+   "react": "<SankeyChart size=\"medium\" title=\"New accounts\" value=\"6,200\" trend=\"+2.8%\" data={[{ from: \"Search\", to: \"Paid\", value: 30 }]} />",
+   "reactKit": null,
    "parts": []
   },
   {

@@ -275,6 +275,83 @@
       return out;
     },
   };
+  DEFS.bar = {
+    name: "Bar",
+    alt: "Bar chart: monthly orders for twelve months, the latest month is the tallest",
+    kpi: ["Orders", "12,480", "+4.2%", "Monthly orders over twelve months", "Last 12 months"],
+    sum: [["Best month", "Dec", "+1.6%", "Highest monthly total", "Highest month"], ["Average", "1,040", "+0.8%", "Orders per month", "Per month"]],
+    prims: (w, h, o) => {
+      const c = o.compact, ml = c ? 0 : 30, mb = c ? 0 : 22, pw = w - ml, ph = h - mb;
+      const V = [0.42, 0.55, 0.48, 0.62, 0.58, 0.70, 0.52, 0.66, 0.74, 0.68, 0.80, 0.92].slice(c ? 4 : 0);
+      const step = pw / V.length, bw = Math.max(3, step * 0.56);
+      const g = c ? [] : [...H.hgrid(ml, w, 0, ph, 4), ...H.ylab(ml - 8, 0, ph, ["1.5k", "1k", "500", "0"]), ...H.xlab(ml + step / 2, w - step / 2, h - 8, ["Jan", "Apr", "Jul", "Oct", "Dec"])];
+      return [...g, ...V.map((v, i) => { const bh = v * (ph - 4); return { k: "rect", x: ml + step * i + (step - bw) / 2, y: ph - bh, w: bw, h: bh, r: Math.min(3, bw / 2), f: i === V.length - 1 ? "s1" : "s2", n: "Bar " + (i + 1) }; })];
+    },
+  };
+  DEFS.line = {
+    name: "Line",
+    alt: "Line chart: revenue this year against last year, this year ends higher",
+    kpi: ["Revenue", "$84,200", "+6.1%", "This year against last year", "Vs last year"],
+    sum: [["Last year", "$79,350", "+2.2%", "Same period last year", "Last year"], ["Peak", "$9,800", "+1.4%", "Highest month", "Highest month"]],
+    prims: (w, h, o) => {
+      const c = o.compact, ml = c ? 0 : 30, mb = c ? 0 : 22, pw = w - ml, ph = h - mb;
+      const A = [0.30, 0.42, 0.38, 0.55, 0.50, 0.64, 0.60, 0.76], B = [0.28, 0.30, 0.40, 0.36, 0.46, 0.44, 0.52, 0.56];
+      const dx = pw / (A.length - 1), Y = (v) => ph - 4 - v * (ph - 8), P = (V) => V.map((v, i) => [ml + dx * i, Y(v)]);
+      const g = c ? [] : [...H.hgrid(ml, w, 0, ph, 4), ...H.ylab(ml - 8, 0, ph, ["$12k", "$8k", "$4k", "0"]), ...H.xlab(ml + 12, w - 12, h - 8, ["Jan", "Apr", "Jul", "Oct"])];
+      const a = P(A), end = a[a.length - 1];
+      return [...g,
+        { k: "path", d: H.poly([...a, [w, ph], [ml, ph]]) + " Z", f: "s1", o: 0.12, n: "Area" },
+        { k: "path", d: H.poly(P(B)), sk: "s3", sw: 2, n: "Last year" },
+        { k: "path", d: H.poly(a), sk: "s1", sw: 2, n: "This year" },
+        { k: "circle", cx: end[0] - 4, cy: end[1], r: c ? 3 : 4, f: "s1", n: "Latest point" }];
+    },
+  };
+  DEFS.pie = {
+    name: "Pie",
+    alt: "Donut chart: traffic by channel, search 42%, direct 28%, social 18%, email 12%",
+    kpi: ["Visits", "48,300", "+3.4%", "Share of visits by channel", "By channel"],
+    sum: [["Social", "18%", "+1.1%", "Third channel", "Third"], ["Direct", "28%", "+0.4%", "Second channel", "Second"]],
+    prims: (w, h, o) => {
+      const c = o.compact, key = !c && w >= 280, lw = key ? 120 : 0, R = Math.min(w - lw, h) / 2 - 2, cx = (w - lw) / 2, cy = h / 2;
+      const V = [["Search", 0.42], ["Direct", 0.28], ["Social", 0.18], ["Email", 0.12]], gap = 1.5, out = [];
+      let a = 0;
+      V.forEach(([, v], i) => { const a1 = a + v * 360; out.push({ k: "arc", cx, cy, ro: R, ri: R * 0.62, a0: a + gap / 2, a1: a1 - gap / 2, f: "s" + (i + 1), n: "Segment " + (i + 1) }); a = a1; });
+      if (!c) {
+        out.push({ k: "text", x: cx, y: cy, s: "42%", a: "middle", f: "text", size: 18, w: "Bold", n: "Center value" });
+        if (key) V.forEach(([l, v], i) => {
+          const y = cy + (i - 1.5) * 22;
+          out.push({ k: "rect", x: w - lw + 8, y: y - 4, w: 8, h: 8, r: 2, f: "s" + (i + 1), n: "Key " + (i + 1) });
+          out.push({ k: "text", x: w - lw + 22, y, s: l + " " + Math.round(v * 100) + "%", a: "start", n: "Key label" });
+        });
+      }
+      return out;
+    },
+  };
+  DEFS.sankey = {
+    name: "Sankey",
+    alt: "Sankey diagram: three sources flow into paid and free plans, band width shows volume",
+    kpi: ["New accounts", "6,200", "+2.8%", "Where accounts came from and which plan they chose", "Source to plan"],
+    sum: [["Ads", "20%", "+1.3%", "Share of new accounts from ads", "From ads"], ["Referral", "35%", "+0.9%", "Share from referrals", "From referrals"]],
+    prims: (w, h, o) => {
+      const c = o.compact, nw = c ? 6 : 10, gap = c ? 4 : 8, ph = h;
+      const S = [["Search", 0.45], ["Referral", 0.35], ["Ads", 0.20]], T = [["Paid", 0.6], ["Free", 0.4]];
+      const F = [[0, 0, 0.30], [0, 1, 0.15], [1, 0, 0.20], [1, 1, 0.15], [2, 0, 0.10], [2, 1, 0.10]];
+      const stack = (N) => { const u = ph - gap * (N.length - 1); let y = 0; return N.map(([, v]) => { const r = [y, v * u]; y += v * u + gap; return r; }); };
+      const sy = stack(S), ty = stack(T), u = ph - gap * 2, ut = ph - gap, so = sy.map((r) => r[0]), to = ty.map((r) => r[0]);
+      const x0 = nw, x1 = w - nw, mx = (x0 + x1) / 2, out = [];
+      F.forEach(([s, t, v], i) => {
+        const a0 = so[s], a1 = a0 + v * u, b0 = to[t], b1 = b0 + v * ut; so[s] = a1; to[t] = b1;
+        out.push({ k: "path", d: `M${x0} ${a0.toFixed(1)}C${mx} ${a0.toFixed(1)} ${mx} ${b0.toFixed(1)} ${x1} ${b0.toFixed(1)}L${x1} ${b1.toFixed(1)}C${mx} ${b1.toFixed(1)} ${mx} ${a1.toFixed(1)} ${x0} ${a1.toFixed(1)}Z`, f: "s" + (s + 1), o: 0.35, n: "Flow " + (i + 1) });
+      });
+      sy.forEach(([y, hh], i) => out.push({ k: "rect", x: 0, y, w: nw, h: hh, r: 2, f: "s" + (i + 1), n: "Source " + (i + 1) }));
+      ty.forEach(([y, hh], i) => out.push({ k: "rect", x: x1, y, w: nw, h: hh, r: 2, f: "target", n: "Target " + (i + 1) }));
+      if (!c) {
+        sy.forEach(([y, hh], i) => out.push({ k: "text", x: nw + 6, y: y + hh / 2, s: S[i][0], a: "start", f: "text", n: "Source label" }));
+        ty.forEach(([y, hh], i) => out.push({ k: "text", x: x1 - 6, y: y + hh / 2, s: T[i][0], a: "end", f: "text", n: "Target label" }));
+      }
+      return out;
+    },
+  };
   /* @defs-end */
 
   const TOKV = { s1: "--ns-chart-series-1", s2: "--ns-chart-series-2", s3: "--ns-chart-series-3", s4: "--ns-chart-series-4", s5: "--ns-chart-series-5", track: "--ns-chart-track", target: "--ns-chart-target", label: "--ns-chart-label-text", text: "--ns-text-primary", text2: "--ns-text-secondary", ok: "--ns-status-success", err: "--ns-status-error", warn: "--ns-status-warning", grid: "--ns-widget-grid", bg: "--ns-widget-bg", line: "--ns-border-subtle", band: "--ns-widget-band", muted: "--ns-widget-muted" };
