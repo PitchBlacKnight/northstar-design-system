@@ -1,4 +1,4 @@
-/* Figma specification documents, synced from NORTHSTAR DS (VZxmDNQiosTN6gqnvEQ65Z) on 2026-10-15.
+/* Figma specification documents, synced from NORTHSTAR DS (VZxmDNQiosTN6gqnvEQ65Z) on 2026-11-08.
    Component specs feed the Spec tab; WORKFLOWS feed composed pattern pages. Regenerate with tools/figma-spec-extract.mjs, do not hand-edit. */
 (function () {
   const NS = window.NS;
@@ -7456,6 +7456,2801 @@
      {
       "type": "text",
       "text": "Use M by default, S inside dense rows and L on touch layouts."
+     }
+    ]
+   }
+  ]
+ },
+ "radio-button": {
+  "nodeId": "4707:60",
+  "title": "Radio button",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 37",
+  "revision": "Reviewed 8 Nov 2026",
+  "summary": "Radio buttons allow users to select a single option from a list of mutually exclusive options. All possible options are exposed up front for users to compare. Built in Open Sans; every fill and text is bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Specified 8 Nov 2026 from the docs site; not yet source-reviewed in Figma",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4707:76",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Two to five mutually exclusive options that benefit from being visible together."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "More than five options: use a dropdown. Multiple choices: use checkboxes."
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:87",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Selected ring: interactive/primary. 2 · Selected and hover ring: blue/700. 3 · Unselected ring: gray/5. 4 · Label: text/secondary."
+     },
+     {
+      "type": "example",
+      "label": "Radio button",
+      "description": "Radio button instance, Hovered=No, Selected=Yes, Disabled=No, Show label=No."
+     },
+     {
+      "type": "text",
+      "text": "Variants: Hovered (No, Yes) · Selected (Yes, No) · Disabled (No, Yes) · Show label (No 16x16, Yes)"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:94",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Radio button · set 1842:24304 · page \"Radio button\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Hovered",
+        "VARIANT",
+        "No",
+        "No, Yes."
+       ],
+       [
+        "Selected",
+        "VARIANT",
+        "Yes",
+        "No, Yes."
+       ],
+       [
+        "Disabled",
+        "VARIANT",
+        "No",
+        "No, Yes."
+       ],
+       [
+        "Show label",
+        "VARIANT",
+        "No",
+        "No, Yes."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:125",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Selected ring",
+        "interactive/primary",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Selected and hover ring",
+        "blue/700",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Unselected ring",
+        "gray/5",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Label",
+        "text/secondary",
+        "Resolves in Light, Dark and High Contrast"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Docs: mikelrosenthal.com/northstar/#/components/radio-button"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:175",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "Group with <fieldset> and <legend>.",
+       "All radios in a group share one name."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:185",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Keyboard: Tab: Moves into and out of the group · Arrow keys: Move selection within the group"
+     }
+    ]
+   }
+  ]
+ },
+ "toggle": {
+  "nodeId": "4707:246",
+  "title": "Switch",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 38",
+  "revision": "Reviewed 8 Nov 2026",
+  "summary": "Switches allow users to turn an individual option on or off. They are usually used to activate or deactivate a specific setting. Built in Open Sans; every fill and text is bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Specified 8 Nov 2026 from the docs site; not yet source-reviewed in Figma",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4707:262",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Binary settings that take effect immediately."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Settings that need a Save action: use a checkbox."
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:273",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · On track: interactive/primary. 2 · Off track: gray/6. 3 · Knob travel: duration/base."
+     },
+     {
+      "type": "example",
+      "label": "Switch",
+      "description": "Switch instance, Selected=Yes, Show label=No, State=Default, Disabled=No."
+     },
+     {
+      "type": "text",
+      "text": "Variants: Selected (On, Off) · Show label (Yes, No) · State (Default, Hover) · Disabled (No, Yes)"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:280",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Switch · set 1842:24379 · page \"Switch\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Selected",
+        "VARIANT",
+        "Yes",
+        "No, Yes."
+       ],
+       [
+        "Show label",
+        "VARIANT",
+        "No",
+        "Yes, No."
+       ],
+       [
+        "State",
+        "VARIANT",
+        "Default",
+        "Default, Hover."
+       ],
+       [
+        "Disabled",
+        "VARIANT",
+        "No",
+        "No, Yes."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:311",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "On track",
+        "interactive/primary",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Off track",
+        "gray/6",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Knob travel",
+        "duration/base",
+        "Resolves in Light, Dark and High Contrast"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Docs: mikelrosenthal.com/northstar/#/components/switch"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:361",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "Use role=\"switch\" so screen readers say on or off."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:371",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Keyboard: Tab: Focus · Space: Toggle"
+     }
+    ]
+   }
+  ]
+ },
+ "slider": {
+  "nodeId": "4707:433",
+  "title": "Slider",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 39",
+  "revision": "Reviewed 8 Nov 2026",
+  "summary": "Sliders pick a value or range from a continuous or stepped scale. Built in Open Sans; every fill and text is bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Specified 8 Nov 2026 from the docs site; not yet source-reviewed in Figma",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4707:449",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Adjust values where the relative position matters more than exact input: thresholds, opacity, zoom."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Exact values are required: pair with or use a number input."
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:460",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Filled track and thumb ring: interactive/primary. 2 · Empty track: border/default."
+     },
+     {
+      "type": "example",
+      "label": "Slider",
+      "description": "Slider instance, State=Default, Value '65', Label 'Sync threshold', Show value=true, Show ticks=true."
+     },
+     {
+      "type": "text",
+      "text": "Variants: State (Default, Hover, Focus, Disabled)"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:467",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Slider · set 4207:1097 · page \"Slider\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Label",
+        "TEXT",
+        "Sync threshold",
+        "Text override."
+       ],
+       [
+        "Value",
+        "TEXT",
+        "65",
+        "Text override."
+       ],
+       [
+        "Show value",
+        "BOOLEAN",
+        "true",
+        "Shown or hidden."
+       ],
+       [
+        "Show ticks",
+        "BOOLEAN",
+        "true",
+        "Shown or hidden."
+       ],
+       [
+        "State",
+        "VARIANT",
+        "Default",
+        "Default, Hover, Focus, Disabled."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:498",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Filled track and thumb ring",
+        "interactive/primary",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Empty track",
+        "border/default",
+        "Resolves in Light, Dark and High Contrast"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Docs: mikelrosenthal.com/northstar/#/components/slider"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:548",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "Native range input exposes aria-valuenow, min and max.",
+       "Add aria-valuetext when units matter, for example \"60 percent\"."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:558",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Keyboard: Arrow keys: One step · Page up and down: 10 steps · Home and End: Min and max"
+     }
+    ]
+   }
+  ]
+ },
+ "date-picker": {
+  "nodeId": "4707:635",
+  "title": "Date picker",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 40",
+  "revision": "Reviewed 8 Nov 2026",
+  "summary": "Date pickers select a single date or a range from a calendar overlay, with typed input as an alternative. Built in Open Sans; every fill and text is bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Specified 8 Nov 2026 from the docs site; not yet source-reviewed in Figma",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4707:651",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Choosing dates near today, or ranges where seeing the week helps."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Dates far in the past like birthdays: use a typed input."
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:662",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Calendar surface: background/elevated. 2 · Selected day: interactive/primary. 3 · Range fill: background/selected. 4 · Today ring: teal/500."
+     },
+     {
+      "type": "example",
+      "label": "Date picker",
+      "description": "Day instance, State=Default, Day '14'."
+     },
+     {
+      "type": "text",
+      "text": "Variants: State (Default, Hover, Today, Selected, In range, Disabled, Outside)"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:669",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Date picker · set 4215:55 · page \"Date picker\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Day",
+        "TEXT",
+        "14",
+        "Text override."
+       ],
+       [
+        "State",
+        "VARIANT",
+        "Default",
+        "Default, Hover, Today, Selected, In range, Disabled, Outside."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:700",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Calendar surface",
+        "background/elevated",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Selected day",
+        "interactive/primary",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Range fill",
+        "background/selected",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Today ring",
+        "teal/500",
+        "Resolves in Light, Dark and High Contrast"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Docs: mikelrosenthal.com/northstar/#/components/date-picker"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:750",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "Calendar grid uses role=\"grid\"; days are buttons with full date labels.",
+       "The typed input is always available, so the calendar is never the only path."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:760",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Keyboard: Arrow keys: Move between days · Page up and down: Previous or next month · Enter: Select · Esc: Close"
+     }
+    ]
+   }
+  ]
+ },
+ "file-uploader": {
+  "nodeId": "4707:820",
+  "title": "File uploader",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 41",
+  "revision": "Reviewed 8 Nov 2026",
+  "summary": "File uploaders accept files by drag and drop or browse, and show progress and validation per file. Built in Open Sans; every fill and text is bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Specified 8 Nov 2026 from the docs site; not yet source-reviewed in Figma",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4707:836",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Importing data files, attachments and assets."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Pasting short text: use a textarea."
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:847",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Drop zone border: border/strong. 2 · Drag-over highlight: teal/500. 3 · Invalid file: status/error."
+     },
+     {
+      "type": "example",
+      "label": "File uploader",
+      "description": "Drop zone instance, State=Default, Constraints 'CSV or XLSX, up to 25 MB'."
+     },
+     {
+      "type": "text",
+      "text": "Variants: State (Default, Hover, Drag over, Disabled)"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:854",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "File uploader · set 4217:73 · page \"File uploader\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Constraints",
+        "TEXT",
+        "CSV or XLSX, up to 25 MB",
+        "Text override."
+       ],
+       [
+        "State",
+        "VARIANT",
+        "Default",
+        "Default, Hover, Drag over, Disabled."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:885",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Drop zone border",
+        "border/strong",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Drag-over highlight",
+        "teal/500",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Invalid file",
+        "status/error",
+        "Resolves in Light, Dark and High Contrast"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Docs: mikelrosenthal.com/northstar/#/components/file-uploader"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:935",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The drop zone wraps a real file input, so keyboard and screen reader users never need drag and drop.",
+       "Announce upload completion through a live region."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:945",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Keyboard: Tab: Focus the drop zone · Enter or Space: Open the file browser"
+     }
+    ]
+   }
+  ]
+ },
+ "tag": {
+  "nodeId": "4707:1013",
+  "title": "Tag",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 42",
+  "revision": "Reviewed 8 Nov 2026",
+  "summary": "Tags categorize content. They can represent keywords or people, and are grouped to describe an item or a search request. Built in Open Sans; every fill and text is bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Specified 8 Nov 2026 from the docs site; not yet source-reviewed in Figma",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4707:1029",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Label metadata like environment, team or tier. Show active filters that can be removed."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "System status like Active or Failed: use a badge."
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1040",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Primary fill: interactive/secondary-bg. 2 · Ghost border: gray/5. 3 · Indicator: teal/500. 4 · Rounded: radius/full. 5 · Square: radius/sm."
+     },
+     {
+      "type": "example",
+      "label": "Tag",
+      "description": "Tag instance, Size=Medium, Emphasis=Primary, Shape=Rounded, State=Informer & icon."
+     },
+     {
+      "type": "text",
+      "text": "Variants: Size (Medium 36, Small 28) · Emphasis (Primary, Ghost) · Shape (Rounded, Square) · State (Informer and icon, Informer, Text, Icon)"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1047",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Tag · set 1846:24201 · page \"Tags\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Size",
+        "VARIANT",
+        "Medium",
+        "Medium, Small."
+       ],
+       [
+        "Emphasis",
+        "VARIANT",
+        "Primary",
+        "Ghost, Primary."
+       ],
+       [
+        "Shape",
+        "VARIANT",
+        "Rounded",
+        "Rounded, Square."
+       ],
+       [
+        "State",
+        "VARIANT",
+        "Informer & icon",
+        "Icon, Informer, Informer & icon, Text."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1078",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Primary fill",
+        "interactive/secondary-bg",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Ghost border",
+        "gray/5",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Indicator",
+        "teal/500",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Rounded",
+        "radius/full",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Square",
+        "radius/sm",
+        "Resolves in Light, Dark and High Contrast"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Docs: mikelrosenthal.com/northstar/#/components/tag"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1128",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "Trailing buttons need a label that names the tag, for example aria-label=\"Remove Region: EU\".",
+       "The indicator color is never the only signal; the label carries meaning."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1138",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Keyboard: Tab: Focus the trailing action · Enter or Space: Run the action or remove the filter"
+     }
+    ]
+   }
+  ]
+ },
+ "card": {
+  "nodeId": "4707:1205",
+  "title": "Card",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 43",
+  "revision": "Reviewed 8 Nov 2026",
+  "summary": "Cards group related content and actions about a single subject. Clickable cards navigate as a whole. Built in Open Sans; every fill and text is bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Specified 8 Nov 2026 from the docs site; not yet source-reviewed in Figma",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4707:1221",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Collections of similar objects to scan and compare. Dashboard tiles with one job each."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Dense tabular data: use a data table."
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1232",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Default fill: background/surface. 2 · Elevated fill: background/elevated. 3 · Elevated shadow: elevation/02. 4 · Radius: radius/lg. 5 · Padding: space/7."
+     },
+     {
+      "type": "example",
+      "label": "Card",
+      "description": "Card instance, Kind=Default, State=Default, Body 'Growth tier. 12 active syncs, last run 4 minutes ago.', Title 'Atlas Works', Eyebrow 'PARTNER', Show eyebrow=true."
+     },
+     {
+      "type": "text",
+      "text": "Variants: Kind (Default, Elevated, Clickable, With strip) · State (Default, Hover)"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1239",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Card · set 4207:1138 · page \"Card\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Eyebrow",
+        "TEXT",
+        "PARTNER",
+        "Text override."
+       ],
+       [
+        "Title",
+        "TEXT",
+        "Atlas Works",
+        "Text override."
+       ],
+       [
+        "Body",
+        "TEXT",
+        "Growth tier. 12 active syncs, last run 4 minutes ago.",
+        "Text override."
+       ],
+       [
+        "Show eyebrow",
+        "BOOLEAN",
+        "true",
+        "Shown or hidden."
+       ],
+       [
+        "Kind",
+        "VARIANT",
+        "Default",
+        "Default, Elevated, Clickable, With strip."
+       ],
+       [
+        "State",
+        "VARIANT",
+        "Default",
+        "Default, Hover."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1270",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Default fill",
+        "background/surface",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Elevated fill",
+        "background/elevated",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Elevated shadow",
+        "elevation/02",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Radius",
+        "radius/lg",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Padding",
+        "space/7",
+        "Resolves in Light, Dark and High Contrast"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Docs: mikelrosenthal.com/northstar/#/components/card"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1320",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "A clickable card is one <a>. Do not nest other interactive elements inside it."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1330",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Keyboard: Tab: Focus a clickable card · Enter: Open"
+     }
+    ]
+   }
+  ]
+ },
+ "avatar": {
+  "nodeId": "4707:1405",
+  "title": "Avatar",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 44",
+  "revision": "Reviewed 8 Nov 2026",
+  "summary": "Avatars identify users and companies visually. Built in Open Sans; every fill and text is bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Specified 8 Nov 2026 from the docs site; not yet source-reviewed in Figma",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4707:1421",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Ownership, assignees and presence."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Decoration with no meaning."
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1432",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Initials fill: persian/500. 2 · Status dot: green/2. 3 · Round: radius/full. 4 · Overflow chip: background/selected."
+     },
+     {
+      "type": "example",
+      "label": "Avatar",
+      "description": "Avatar instance, Shape=Square, Avatar=Initials, Size=64px, Status=Yes."
+     },
+     {
+      "type": "text",
+      "text": "Variants: Shape (Round, Square) · Avatar (Photo, Initials, Memoji) · Size (16 to 64) · Status (Yes, No)"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1439",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Avatar · set 1747:22251 · page \"Avatar\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Shape",
+        "VARIANT",
+        "Square",
+        "Round, Square."
+       ],
+       [
+        "Avatar",
+        "VARIANT",
+        "Initials",
+        "Initials, Photo, Memoji."
+       ],
+       [
+        "Size",
+        "VARIANT",
+        "64px",
+        "16px, 20px, 24px, 28px, 32px, 36px, 40px, 48px, 64px."
+       ],
+       [
+        "Status",
+        "VARIANT",
+        "Yes",
+        "Yes, No."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1470",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Initials fill",
+        "persian/500",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Status dot",
+        "green/2",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Round",
+        "radius/full",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Overflow chip",
+        "background/selected",
+        "Resolves in Light, Dark and High Contrast"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Docs: mikelrosenthal.com/northstar/#/components/avatar"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1520",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "Use role=\"img\" with an aria-label that includes presence.",
+       "The overflow chip (+12) names the hidden count, for example \"12 more people\"."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1530",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Keyboard: Not interactive."
+     }
+    ]
+   }
+  ]
+ },
+ "progress": {
+  "nodeId": "4707:1596",
+  "title": "Progress",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 45",
+  "revision": "Reviewed 8 Nov 2026",
+  "summary": "Progress indicators show completion of a task: linear bars, rings for single metrics, and step indicators for flows. Includes loading: skeletons and spinners (Skeleton set 4038:31327). Built in Open Sans; every fill and text is bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Specified 8 Nov 2026 from the docs site; not yet source-reviewed in Figma",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4707:1612",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Operations that take more than about a second. Multi-step flows."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Instant actions. Waits under 300ms: show nothing."
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1623",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Bar fill: gradient/brand. 2 · Track: border/default. 3 · Fill transition: duration/slow. 4 · Skeleton base: background/elevated. 5 · Spinner arc: teal/500."
+     },
+     {
+      "type": "example",
+      "label": "Progress",
+      "description": "Progress indicator instance, Type=Linear, State=Determinate."
+     },
+     {
+      "type": "text",
+      "text": "Variants: Type (Linear, Circular) · State (Determinate, Indeterminate)"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1630",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Progress · set 4038:31350 · page \"Patterns\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Type",
+        "VARIANT",
+        "Linear",
+        "Linear, Circular."
+       ],
+       [
+        "State",
+        "VARIANT",
+        "Determinate",
+        "Determinate, Indeterminate."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1661",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Bar fill",
+        "gradient/brand",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Track",
+        "border/default",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Fill transition",
+        "duration/slow",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Skeleton base",
+        "background/elevated",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Spinner arc",
+        "teal/500",
+        "Resolves in Light, Dark and High Contrast"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Docs: mikelrosenthal.com/northstar/#/components/progress"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1711",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "Use role=\"progressbar\" with value attributes; omit values when indeterminate.",
+       "Step indicators mark the current step with aria-current=\"step\".",
+       "Loading containers set aria-busy=\"true\" while loading.",
+       "Spinners use role=\"status\" with a label."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1721",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Keyboard: Not interactive."
+     }
+    ]
+   }
+  ]
+ },
+ "tabs": {
+  "nodeId": "4707:1785",
+  "title": "Tabs",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 46",
+  "revision": "Reviewed 8 Nov 2026",
+  "summary": "Tabs let people move between views within the same context. Built in Open Sans; every fill and text is bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Specified 8 Nov 2026 from the docs site; not yet source-reviewed in Figma",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4707:1801",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Two to four peer views of the same object."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Sequential steps: use a progress indicator. Top-level navigation: use side navigation."
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1812",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Selection indicator 3px: blue/700. 2 · Divider: gray/8. 3 · Inactive label: gray/4. 4 · Selected label: text/primary."
+     },
+     {
+      "type": "example",
+      "label": "Tabs",
+      "description": "Tabs instance, Icon=No, Items=2."
+     },
+     {
+      "type": "text",
+      "text": "Variants: Icon (Without, With) · Items (2, 3, 4)"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1819",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Tabs · set 1842:24470 · page \"Tab\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Icon",
+        "VARIANT",
+        "No",
+        "No, Yes."
+       ],
+       [
+        "Items",
+        "VARIANT",
+        "2",
+        "4, 2, 3."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1850",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Selection indicator 3px",
+        "blue/700",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Divider",
+        "gray/8",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Inactive label",
+        "gray/4",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Selected label",
+        "text/primary",
+        "Resolves in Light, Dark and High Contrast"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Docs: mikelrosenthal.com/northstar/#/components/tabs"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1900",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "role=\"tablist\", role=\"tab\", aria-selected, and aria-controls pointing at each role=\"tabpanel\"."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:1910",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Keyboard: Arrow left and right: Move between tabs · Home and End: First and last tab · Tab: Into the panel"
+     }
+    ]
+   }
+  ]
+ },
+ "breadcrumb": {
+  "nodeId": "4707:1975",
+  "title": "Breadcrumb",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 47",
+  "revision": "Reviewed 8 Nov 2026",
+  "summary": "Breadcrumbs show where the current page sits in the hierarchy and let people move up levels. Built in Open Sans; every fill and text is bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Specified 8 Nov 2026 from the docs site; not yet source-reviewed in Figma",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4707:1991",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Hierarchies three or more levels deep."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Flat sites or single-level apps."
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2002",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Links: text/link. 2 · Separator: text/disabled."
+     },
+     {
+      "type": "example",
+      "label": "Breadcrumb",
+      "description": "Breadcrumb instance, Separator=Slash, Items=2, Link 1 'Partners', Current 'Current page'."
+     },
+     {
+      "type": "text",
+      "text": "Variants: Separator (Slash, Chevron) · Items (2, 3, 4)"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2009",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Breadcrumb · set 4208:1020 · page \"Breadcrumb\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Current",
+        "TEXT",
+        "Current page",
+        "Text override."
+       ],
+       [
+        "Link 1",
+        "TEXT",
+        "Partners",
+        "Text override."
+       ],
+       [
+        "Separator",
+        "VARIANT",
+        "Slash",
+        "Slash, Chevron."
+       ],
+       [
+        "Items",
+        "VARIANT",
+        "2",
+        "2, 3, 4."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2040",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Links",
+        "text/link",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Separator",
+        "text/disabled",
+        "Resolves in Light, Dark and High Contrast"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Docs: mikelrosenthal.com/northstar/#/components/breadcrumb"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2090",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "Wrap in <nav aria-label=\"Breadcrumb\">; mark the last item aria-current=\"page\"."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2100",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Keyboard: Tab: Moves between links"
+     }
+    ]
+   }
+  ]
+ },
+ "pagination": {
+  "nodeId": "4707:2162",
+  "title": "Pagination",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 48",
+  "revision": "Reviewed 8 Nov 2026",
+  "summary": "Pagination splits long collections into pages with page size control and position feedback. Built in Open Sans; every fill and text is bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Specified 8 Nov 2026 from the docs site; not yet source-reviewed in Figma",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4707:2178",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Tables and lists over about 50 items."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Feeds where infinite scroll fits better."
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2189",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Current page: interactive/primary. 2 · Hover: background/hover."
+     },
+     {
+      "type": "example",
+      "label": "Pagination",
+      "description": "Pagination instance."
+     },
+     {
+      "type": "text",
+      "text": "Variants: One component, no variant axes."
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2196",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Pagination · component 4038:31293 · page \"Patterns\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "None",
+        "-",
+        "-",
+        "Single component, no properties."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2227",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Current page",
+        "interactive/primary",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Hover",
+        "background/hover",
+        "Resolves in Light, Dark and High Contrast"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Docs: mikelrosenthal.com/northstar/#/components/pagination"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2277",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "Wrap in <nav aria-label=\"Pagination\">; the current page uses aria-current=\"page\"."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2287",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Keyboard: Tab: Moves across controls · Enter: Go to page"
+     }
+    ]
+   }
+  ]
+ },
+ "side-navigation": {
+  "nodeId": "4707:2354",
+  "title": "Side navigation",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 49",
+  "revision": "Reviewed 8 Nov 2026",
+  "summary": "Side navigation is the primary way to move through an app, with collapsible groups for large information spaces. Built in Open Sans; every fill and text is bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Specified 8 Nov 2026 from the docs site; not yet source-reviewed in Figma",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4707:2370",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Apps with five or more top-level destinations."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Two or three destinations: use tabs or header links."
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2381",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Rail: background/shell. 2 · Current item: background/selected. 3 · Current label: text/accent."
+     },
+     {
+      "type": "example",
+      "label": "Side navigation",
+      "description": "Item instance, Level=1, State=Default, Label 'Partners'."
+     },
+     {
+      "type": "text",
+      "text": "Variants: Level (1, 2) · State (Default, Hover, Selected, Disabled)"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2388",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Side navigation · set 4212:77 · page \"Side navigation\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Label",
+        "TEXT",
+        "Partners",
+        "Text override."
+       ],
+       [
+        "Icon",
+        "INSTANCE_SWAP",
+        "1727:22230",
+        "Text override."
+       ],
+       [
+        "Level",
+        "VARIANT",
+        "1",
+        "1, 2."
+       ],
+       [
+        "State",
+        "VARIANT",
+        "Default",
+        "Default, Hover, Selected, Disabled."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2419",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Rail",
+        "background/shell",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Current item",
+        "background/selected",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Current label",
+        "text/accent",
+        "Resolves in Light, Dark and High Contrast"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Docs: mikelrosenthal.com/northstar/#/components/side-navigation"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2469",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "Use <nav> with a label; the current link sets aria-current=\"page\"."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2479",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Keyboard: Tab: Moves through links · Enter: Opens a link or toggles a group"
+     }
+    ]
+   }
+  ]
+ },
+ "modal": {
+  "nodeId": "4707:2545",
+  "title": "Modal",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 50",
+  "revision": "Reviewed 8 Nov 2026",
+  "summary": "Modals focus attention on a single task or decision and block the rest of the page until dismissed. Built in Open Sans; every fill and text is bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Specified 8 Nov 2026 from the docs site; not yet source-reviewed in Figma",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4707:2561",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Confirming destructive or irreversible actions. Short, focused tasks that need an answer now."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Long forms: use a full page or side panel. Non-blocking info: use a notification."
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2572",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Surface: background/elevated. 2 · Shadow: elevation/04. 3 · Radius: radius/xl. 4 · Backdrop: background/primary."
+     },
+     {
+      "type": "example",
+      "label": "Modal",
+      "description": "Modal instance, Size=Small, Type=Default, Show close=true."
+     },
+     {
+      "type": "text",
+      "text": "Variants: Size (Small, Medium, Large) · Type (Default, Destructive)"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2579",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Modal · set 4211:201 · page \"Modal\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Show close",
+        "BOOLEAN",
+        "true",
+        "Shown or hidden."
+       ],
+       [
+        "Size",
+        "VARIANT",
+        "Small",
+        "Small, Medium, Large."
+       ],
+       [
+        "Type",
+        "VARIANT",
+        "Default",
+        "Default, Destructive."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2610",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Surface",
+        "background/elevated",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Shadow",
+        "elevation/04",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Radius",
+        "radius/xl",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Backdrop",
+        "background/primary",
+        "Resolves in Light, Dark and High Contrast"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Docs: mikelrosenthal.com/northstar/#/components/modal"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2660",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "role=\"dialog\", aria-modal=\"true\", aria-labelledby the title.",
+       "Focus moves in on open, stays inside (focus trap) and returns to the trigger on close."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2670",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Keyboard: Tab and Shift+Tab: Cycle inside the modal · Esc: Close · Enter: Activate the focused button"
+     }
+    ]
+   }
+  ]
+ },
+ "tooltip": {
+  "nodeId": "4707:2769",
+  "title": "Tooltip",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 51",
+  "revision": "Reviewed 8 Nov 2026",
+  "summary": "Tooltips show contextual help about a control when it is hovered or focused. Built in Open Sans; every fill and text is bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Specified 8 Nov 2026 from the docs site; not yet source-reviewed in Figma",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4707:2785",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Labeling icon-only buttons. Brief definitions of terms."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Essential info or anything interactive: use a popover."
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2796",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Bubble: background/inverse. 2 · Text: text/inverse. 3 · Radius: radius/sm."
+     },
+     {
+      "type": "example",
+      "label": "Tooltip",
+      "description": "Tooltip instance, Placement=Bottom right, Icon=No."
+     },
+     {
+      "type": "text",
+      "text": "Variants: Placement (Bottom, Bottom left, Bottom right, Left, Right, Top, Top left, Top right) · Icon (No, Yes)"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2803",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Tooltip · set 1846:24506 · page \"Tooltip\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Placement",
+        "VARIANT",
+        "Bottom right",
+        "Bottom, Bottom left, Bottom right, Left, Right, Top, Top left, Top right."
+       ],
+       [
+        "Icon",
+        "VARIANT",
+        "No",
+        "No, Yes."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2834",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Bubble",
+        "background/inverse",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Text",
+        "text/inverse",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Radius",
+        "radius/sm",
+        "Resolves in Light, Dark and High Contrast"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Docs: mikelrosenthal.com/northstar/#/components/tooltip"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2884",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The trigger references the bubble with aria-describedby; the bubble has role=\"tooltip\".",
+       "Shows on focus as well as hover, and Esc dismisses it."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2894",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Keyboard: Tab: Focusing the trigger shows the tooltip · Esc: Dismisses"
+     }
+    ]
+   }
+  ]
+ },
+ "popover": {
+  "nodeId": "4707:2957",
+  "title": "Popover",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 52",
+  "revision": "Reviewed 8 Nov 2026",
+  "summary": "Popovers show richer, interactive content anchored to a trigger, such as menus and quick filters. Built in Open Sans; every fill and text is bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Specified 8 Nov 2026 from the docs site; not yet source-reviewed in Figma",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4707:2973",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Overflow menus, quick filters, small forms."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Blocking decisions: use a modal."
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2984",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Panel: background/elevated. 2 · Shadow: elevation/02. 3 · Radius: radius/lg."
+     },
+     {
+      "type": "example",
+      "label": "Popover",
+      "description": "Popover instance, Placement=Top, Content 'Growth partners are billed per synced record above 50,000 a month.', Title 'Usage-based billing', Show actions=true."
+     },
+     {
+      "type": "text",
+      "text": "Variants: Placement (Top, Bottom, Left, Right)"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:2991",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Popover · set 4210:129 · page \"Popover\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Title",
+        "TEXT",
+        "Usage-based billing",
+        "Text override."
+       ],
+       [
+        "Content",
+        "TEXT",
+        "Growth partners are billed per synced record above 50,000 a month.",
+        "Text override."
+       ],
+       [
+        "Show actions",
+        "BOOLEAN",
+        "true",
+        "Shown or hidden."
+       ],
+       [
+        "Placement",
+        "VARIANT",
+        "Top",
+        "Top, Bottom, Left, Right."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:3022",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Panel",
+        "background/elevated",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Shadow",
+        "elevation/02",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Radius",
+        "radius/lg",
+        "Resolves in Light, Dark and High Contrast"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Docs: mikelrosenthal.com/northstar/#/components/popover"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:3072",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The trigger has aria-haspopup and aria-expanded, kept in sync on open and close.",
+       "Esc closes the popover and returns focus to the trigger."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:3082",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Keyboard: Enter or Space: Open · Arrow keys: Move between items · Esc: Close and return focus"
+     }
+    ]
+   }
+  ]
+ },
+ "accordion": {
+  "nodeId": "4707:3176",
+  "title": "Accordion",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 53",
+  "revision": "Reviewed 8 Nov 2026",
+  "summary": "Accordions stack sections of content that expand and collapse to save space. Built in Open Sans; every fill and text is bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Specified 8 Nov 2026 from the docs site; not yet source-reviewed in Figma",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4707:3192",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "FAQs, settings groups, long forms split by topic."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Content everyone needs: show it."
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:3203",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Dividers: border/subtle. 2 · Open indicator: text/accent. 3 · Indicator rotation: duration/base."
+     },
+     {
+      "type": "example",
+      "label": "Accordion",
+      "description": "Item instance, Expanded=No, State=Default, Content 'Every 15 minutes by default. Growth and Enterprise tiers can lower this to 5 minutes from partner settings.', Title 'How often do partner syncs run?'."
+     },
+     {
+      "type": "text",
+      "text": "Variants: Expanded (No, Yes) · State (Default, Hover, Focus, Disabled)"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:3210",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Accordion · set 4208:939 · page \"Accordion\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Title",
+        "TEXT",
+        "How often do partner syncs run?",
+        "Text override."
+       ],
+       [
+        "Content",
+        "TEXT",
+        "Every 15 minutes by default. Growth and Enterprise tiers can lower this to 5 minutes from partner settings.",
+        "Text override."
+       ],
+       [
+        "Expanded",
+        "VARIANT",
+        "No",
+        "No, Yes."
+       ],
+       [
+        "State",
+        "VARIANT",
+        "Default",
+        "Default, Hover, Focus, Disabled."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:3241",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Dividers",
+        "border/subtle",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Open indicator",
+        "text/accent",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Indicator rotation",
+        "duration/base",
+        "Resolves in Light, Dark and High Contrast"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Docs: mikelrosenthal.com/northstar/#/components/accordion"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:3291",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "Native <details> and <summary> expose the expanded state automatically."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:3301",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Keyboard: Tab: Moves between headers · Enter or Space: Toggle a section"
+     }
+    ]
+   }
+  ]
+ },
+ "divider": {
+  "nodeId": "4707:3368",
+  "title": "Divider",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 54",
+  "revision": "Reviewed 8 Nov 2026",
+  "summary": "Dividers separate groups of content horizontally, vertically, or with a label. Built in Open Sans; every fill and text is bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Specified 8 Nov 2026 from the docs site; not yet source-reviewed in Figma",
+   "Parity status": "Docs site renders the same component in HTML and CSS",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4707:3384",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Separating groups when spacing alone is not enough."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Between every list item: use spacing."
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:3395",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Line: border/subtle. 2 · Margin: space/5."
+     },
+     {
+      "type": "example",
+      "label": "Divider",
+      "description": "Divider instance, Kind=Horizontal, Label 'Section'."
+     },
+     {
+      "type": "text",
+      "text": "Variants: Kind (Horizontal, Labeled, Vertical)"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:3402",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Divider · set 4205:883 · page \"Divider\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Label",
+        "TEXT",
+        "Section",
+        "Text override."
+       ],
+       [
+        "Kind",
+        "VARIANT",
+        "Horizontal",
+        "Horizontal, Labeled, Vertical."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:3433",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Line",
+        "border/subtle",
+        "Resolves in Light, Dark and High Contrast"
+       ],
+       [
+        "Margin",
+        "space/5",
+        "Resolves in Light, Dark and High Contrast"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Docs: mikelrosenthal.com/northstar/#/components/divider"
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:3483",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "Use <hr> for semantic breaks; purely visual lines can be CSS borders."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4707:3493",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Keyboard: Not interactive."
      }
     ]
    }

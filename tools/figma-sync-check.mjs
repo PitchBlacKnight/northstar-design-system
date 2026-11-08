@@ -24,7 +24,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const FILE_KEY = "VZxmDNQiosTN6gqnvEQ65Z";
 const SITE = "https://mikelrosenthal.com/northstar/#/";
 // Scan every page except section dividers, docs and utility pages, and the widget/icon libraries.
-const SKIP_PAGE = /^———|^(Cover|Getting Started|Component Status|Changelog|Icons|Widgets|Informers.*|Dashboards|Archive|Doc template)$/;
+const SKIP_PAGE = /^———|^(Cover|Getting Started|Component Status|Changelog|Icons|Widgets|Informers.*|Dashboards|Dashboards \(original\)|Archive|Doc template)$/;
 const SCAN_PAGE = (name) => !SKIP_PAGE.test(name.trim());
 const offline = process.argv.includes("--offline");
 
@@ -153,11 +153,11 @@ async function online() {
   const fonts = new Map();
   const textWalk = (n, owner) => {
     const o = n.type === "COMPONENT_SET" || (n.type === "COMPONENT" && !owner) ? n.name : owner;
-    if (n.type === "TEXT" && o && n.style?.fontFamily && n.style.fontFamily !== "Open Sans") fonts.set(o, (fonts.get(o) || new Set()).add(n.style.fontFamily));
+    if (n.type === "TEXT" && o && n.style?.fontFamily && !/^(Open Sans|JetBrains Mono)$/.test(n.style.fontFamily)) fonts.set(o, (fonts.get(o) || new Set()).add(n.style.fontFamily));
     (n.children || []).forEach((c) => textWalk(c, o));
   };
   file.document.children.filter((p) => SCAN_PAGE(p.name)).forEach((p) => textWalk(p, null));
-  if (fonts.size) gap(`Fonts: ${fonts.size} component set(s) use a font other than Open Sans: ${[...fonts].map(([k, v]) => `${k} (${[...v].join(", ")})`).join("; ")}.`);
+  if (fonts.size) gap(`Fonts: ${fonts.size} component set(s) use a font other than Open Sans (JetBrains Mono is allowed for code): ${[...fonts].map(([k, v]) => `${k} (${[...v].join(", ")})`).join("; ")}.`);
   let grads = 0;
   const gradWalk = (n) => { if ((n.fills || []).some((f) => /^GRADIENT_/.test(f.type) && f.visible !== false)) grads++; (n.children || []).forEach(gradWalk); };
   file.document.children.filter((p) => p.name.trim() === "Widgets").forEach(gradWalk);
@@ -166,7 +166,7 @@ async function online() {
   // Spec frames vs Spec tabs.
   for (const f of specFrames) {
     const id = f.name.toLowerCase().replace(/\s+/g, "-");
-    const s = specs[id];
+    const s = Object.values(specs).find((x) => x.nodeId === f.id) || specs[id];
     if (!s) bad(`Figma has a "${f.name}" specification (${f.id}) but the site has no Spec tab for it.`);
     else if (s.nodeId !== f.id) bad(`Spec "${f.name}" moved in Figma: site has ${s.nodeId}, Figma has ${f.id}.`);
   }
