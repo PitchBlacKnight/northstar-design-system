@@ -98,7 +98,7 @@
   --color-ns-inset: var(--ns-widget-inset);
   --color-ns-grid: var(--ns-widget-grid);
   --color-ns-chart-label: var(--ns-chart-label-text);
-  --font-sans: 'Geist Variable', sans-serif;
+  --font-sans: var(--ns-font-sans);
   --font-mono: var(--ns-font-mono);
   --radius-sm: var(--ns-radius-sm);
   --radius-md: var(--ns-radius-md);
@@ -128,3 +128,6 @@
 /* Display numerals: tabular figures everywhere a number sits in a column */
 .tnum { font-variant-numeric: tabular-nums; }
 
+
+/* ns-overline labels (not Tailwind's overline decoration utility): uppercase, 11px, tracked (NorthStar overline role at chart size) */
+.ns-overline { margin: 0; font-size: var(--ns-type-chart-size); line-height: var(--ns-type-chart-line); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ns-chart-label-text); }

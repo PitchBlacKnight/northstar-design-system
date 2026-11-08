@@ -1,122 +1,143 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+/* Dashboard shell: sidebar built from the view registry, top bar with breadcrumb, Cmd-K palette,
+   theme and density toggles, Sonner toaster. Routing is the hash: #finance, #commerce ... */
+import * as React from "react";
+import { MoonIcon, SearchIcon, SunIcon, Rows3Icon, Rows4Icon } from "lucide-react";
+import { views, findView } from "@/views/registry";
+import type { ViewMeta } from "@/views/types";
+import { Toaster } from "@/components/ui/sonner";
+import { Button } from "@/components/ui/button";
+import { Kbd } from "@/components/ui/kbd";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandShortcut } from "@/components/ui/command";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 
-function App() {
-  const [count, setCount] = useState(0)
+const slugFromHash = () => decodeURIComponent(location.hash.replace(/^#\/?/, "")) || views[0]?.meta.slug || "";
+const groups = () => {
+  const m = new Map<ViewMeta["category"], typeof views>();
+  views.forEach((v) => m.set(v.meta.category, [...(m.get(v.meta.category) ?? []), v]));
+  return [...m.entries()];
+};
+const store = { get: (k: string) => { try { return localStorage.getItem("nsd-" + k); } catch { return null; } }, set: (k: string, v: string) => { try { localStorage.setItem("nsd-" + k, v); } catch { /* private mode */ } } };
 
+function Logo() {
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+    <svg viewBox="0 0 24 24" className="size-6 shrink-0" aria-hidden>
+      <path d="M3 15 12 4l9 11" fill="none" stroke="var(--ns-text-tertiary)" strokeWidth="2.2" strokeLinejoin="round" />
+      <path d="M12 11.5 15.5 16 12 20.5 8.5 16Z" fill="var(--ns-text-accent)" />
+    </svg>
+  );
 }
 
-export default App
+function Nav({ slug }: { slug: string }) {
+  const { setOpenMobile } = useSidebar();
+  return (
+    <Sidebar collapsible="offcanvas" className="border-r border-border">
+      <SidebarHeader className="px-4 pt-4">
+        <a href={"#" + (views[0]?.meta.slug ?? "")} className="flex items-center gap-2.5" onClick={() => setOpenMobile(false)}>
+          <Logo />
+          <span className="flex flex-col leading-tight">
+            <span className="text-sm font-bold text-foreground">NorthStar</span>
+            <span className="text-xs text-ns-tertiary">Dashboards</span>
+          </span>
+        </a>
+      </SidebarHeader>
+      <SidebarContent>
+        {groups().map(([cat, items]) => (
+          <SidebarGroup key={cat} className="py-1">
+            <SidebarGroupLabel className="ns-overline h-7">{cat}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {items.map(({ meta }) => (
+                  <SidebarMenuItem key={meta.slug}>
+                    <SidebarMenuButton isActive={meta.slug === slug} render={<a href={"#" + meta.slug} aria-current={meta.slug === slug ? "page" : undefined} onClick={() => setOpenMobile(false)} />}
+                      className="data-active:bg-ns-selected data-active:text-foreground data-active:shadow-[inset_2px_0_0_var(--ns-text-accent)]">
+                      <span className="truncate">{meta.title}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ))}
+      </SidebarContent>
+      <SidebarFooter className="px-4 pb-4">
+        <a href="../../#/" className="text-xs text-ns-link hover:underline">Back to the NorthStar docs</a>
+      </SidebarFooter>
+    </Sidebar>
+  );
+}
+
+export default function App() {
+  const [slug, setSlug] = React.useState(slugFromHash);
+  const [theme, setTheme] = React.useState<"dark" | "light">(() => (store.get("theme") === "light" ? "light" : "dark"));
+  const [compact, setCompact] = React.useState(() => store.get("density") === "compact");
+  const [palette, setPalette] = React.useState(false);
+  const embed = React.useMemo(() => new URLSearchParams(location.search).has("embed"), []);
+
+  React.useEffect(() => { const on = () => setSlug(slugFromHash()); addEventListener("hashchange", on); return () => removeEventListener("hashchange", on); }, []);
+  React.useEffect(() => { document.documentElement.dataset.theme = theme; store.set("theme", theme); }, [theme]);
+  React.useEffect(() => { if (compact) document.documentElement.dataset.density = "compact"; else delete document.documentElement.dataset.density; store.set("density", compact ? "compact" : "comfortable"); }, [compact]);
+  React.useEffect(() => {
+    const on = (e: KeyboardEvent) => { if (e.key.toLowerCase() === "k" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); setPalette((p) => !p); } };
+    addEventListener("keydown", on); return () => removeEventListener("keydown", on);
+  }, []);
+
+  const current = findView(slug);
+  React.useEffect(() => { if (current) document.title = `${current.meta.title} | NorthStar dashboards`; window.scrollTo(0, 0); }, [current]);
+  if (!current) return null;
+  const View = current.default;
+  const go = (s: string) => { setPalette(false); location.hash = s; };
+
+  return (
+    <SidebarProvider defaultOpen={!embed}>
+      <Nav slug={current.meta.slug} />
+      <SidebarInset className="min-w-0 bg-background">
+        <header className="sticky top-0 z-20 flex h-14 items-center gap-2 border-b border-border bg-[color-mix(in_srgb,var(--ns-background-primary)_88%,transparent)] px-3 backdrop-blur sm:px-5">
+          <SidebarTrigger className="-ml-1" />
+          <Breadcrumb className="min-w-0">
+            <BreadcrumbList className="flex-nowrap">
+              <BreadcrumbItem className="hidden sm:inline-flex">{current.meta.category}</BreadcrumbItem>
+              <BreadcrumbSeparator className="hidden sm:inline-flex" />
+              <BreadcrumbItem><BreadcrumbPage className="truncate font-semibold">{current.meta.title}</BreadcrumbPage></BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+          <div className="ml-auto flex items-center gap-1.5">
+            <Button variant="outline" size="sm" onClick={() => setPalette(true)} className="gap-2 text-muted-foreground" aria-label="Jump to a dashboard">
+              <SearchIcon className="size-3.5" />
+              <span className="hidden md:inline">Jump to</span>
+              <Kbd className="hidden md:inline-flex">⌘K</Kbd>
+            </Button>
+            <Button variant="ghost" size="icon-sm" onClick={() => setCompact((c) => !c)} aria-pressed={compact} aria-label={compact ? "Comfortable density" : "Compact density"} title="Density">
+              {compact ? <Rows4Icon /> : <Rows3Icon />}
+            </Button>
+            <Button variant="ghost" size="icon-sm" onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))} aria-label={theme === "dark" ? "Light theme" : "Dark theme"} title="Theme">
+              {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+            </Button>
+          </div>
+        </header>
+        <main id="main" className="mx-auto flex w-full max-w-[1600px] min-w-0 flex-col gap-4 p-3 sm:p-5">
+          <View key={current.meta.slug} />
+        </main>
+      </SidebarInset>
+      <CommandDialog open={palette} onOpenChange={setPalette} title="Jump to a dashboard" description="Search the dashboards by name or product">
+        <Command className="bg-ns-elevated">
+          <CommandInput placeholder="Search dashboards" />
+          <CommandList>
+            <CommandEmpty>No dashboard matches.</CommandEmpty>
+            {groups().map(([cat, items]) => (
+              <CommandGroup key={cat} heading={cat}>
+                {items.map(({ meta }) => (
+                  <CommandItem key={meta.slug} value={`${meta.title} ${meta.modeledOn} ${meta.category}`} onSelect={() => go(meta.slug)}>
+                    <span>{meta.title}</span>
+                    <CommandShortcut className="tracking-normal">{meta.modeledOn.split(",")[0]}</CommandShortcut>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            ))}
+          </CommandList>
+        </Command>
+      </CommandDialog>
+      <Toaster theme={theme} position="bottom-right" />
+    </SidebarProvider>
+  );
+}

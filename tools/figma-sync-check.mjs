@@ -29,10 +29,15 @@ const bad = (m) => problems.push(m), note = (m) => notes.push(m);
 
 /* ---------- site side ---------- */
 const compSrc = read("js/components.js");
-const site = [
+/* Components folded into a parent (NS.MERGED in components.js) are parts, not catalog entries: their
+   routes still resolve, but they do not count as components. */
+const mergedSrc = (compSrc.match(/NS\.MERGED = \{([^}]*)\}/) || [])[1] || "";
+const merged = new Set([...mergedSrc.matchAll(/"?([\w-]+)"?\s*:/g)].map((m) => m[1]));
+const allSite = [
   ...[...compSrc.matchAll(/id: "([\w-]+)", name: "([^"]+)", cat: "[^"]+", status: "[^"]+"(?:, figma: "([\d:]+)")?/g)].map(([, id, name, figma]) => ({ id, name, figma })),
   ...[...compSrc.matchAll(/chartEntry\("([\w-]+)", "\w+", \{\s*name: "([^"]+)", figma: (?:"([\d:]+)"|null)/g)].map(([, id, name, figma]) => ({ id, name, figma })),
 ];
+const site = allSite.filter((c) => !merged.has(c.id));
 /* Code-first: a component with figma: null is built and documented here and waits for the next batch sync. */
 const waiting = site.filter((c) => !c.figma);
 if (process.argv.includes("--queue")) {
@@ -40,7 +45,7 @@ if (process.argv.includes("--queue")) {
   process.exit(0);
 }
 const pages = new Set([...read("js/pages.js").matchAll(/\b(?:P|pattern)\("([\w/-]*)"/g)].map((m) => m[1]));
-const routes = new Set([...site.map((c) => "components/" + c.id), ...[...pages].map((p) => (p.includes("/") || p === "" ? p : "patterns/" + p))]);
+const routes = new Set([...allSite.map((c) => "components/" + c.id), ...[...pages].map((p) => (p.includes("/") || p === "" ? p : "patterns/" + p))]);
 const specSrc = read("js/specs.js");
 const specs = JSON.parse(specSrc.slice(specSrc.indexOf("NS.SPECS = ") + 11, specSrc.indexOf(";\n  NS.WORKFLOWS")));
 const syncedOn = (specSrc.match(/on (\d{4}-\d{2}-\d{2})/) || [])[1];
