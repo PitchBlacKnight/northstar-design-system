@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Machine-readable guide for AI agents
+# https://mikelrosenthal.com/northstar/llms.txt

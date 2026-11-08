@@ -1,0 +1,22 @@
+# NorthStar Design System
+
+> Design language and development kit for dense, dark, data-heavy enterprise consoles by Mikel Rosenthal: 60 components, 215 tokens, dark and light themes, framework-free HTML with ns- classes. v1.4.1, exported 2026-11-08.
+
+The docs site renders with JavaScript. Agents should read the files below instead of the HTML routes.
+
+## Agent files
+
+- [Agent guide](https://mikelrosenthal.com/northstar/agent/northstar.md): rules, floorplans, patterns, semantic tokens and every component with markup
+- [Components](https://mikelrosenthal.com/northstar/agent/components.json): the full catalog as JSON
+- [Tokens](https://mikelrosenthal.com/northstar/agent/tokens.json): every --ns- token with dark and light values
+- [tokens.css](https://mikelrosenthal.com/northstar/css/tokens.css): the token sheet to link
+- [components.css](https://mikelrosenthal.com/northstar/css/components.css): the component sheet to link
+
+## Human pages
+
+- [AI agent guide](https://mikelrosenthal.com/northstar/#/getting-started/agent-guide)
+- [Element reference](https://mikelrosenthal.com/northstar/#/getting-started/element-reference): names and the aliases people use
+- [Component status](https://mikelrosenthal.com/northstar/#/getting-started/component-status): what is linked to Figma
+- [Tokens](https://mikelrosenthal.com/northstar/#/foundations/tokens)
+- [Accessibility](https://mikelrosenthal.com/northstar/#/accessibility)
+

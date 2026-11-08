@@ -146,7 +146,7 @@
   const KEY = "ns-anthropic-key";
   NS.getKey = () => { try { return localStorage.getItem(KEY) || ""; } catch (e) { return ""; } };
   NS.setKey = (k) => { try { k ? localStorage.setItem(KEY, k) : localStorage.removeItem(KEY); } catch (e) {} };
-  NS.MODELS = [["claude-opus-5-5", "Claude Opus 5.5"], ["claude-sonnet-5", "Claude Sonnet 5"], ["claude-haiku-4-5-20251001", "Claude Haiku 4.5"]];
+  NS.MODELS = [["claude-opus-5-5", "Claude Opus 5.5"], ["claude-sonnet-5-5", "Claude Sonnet 5.5"], ["claude-haiku-5-5", "Claude Haiku 5.5"]];
 
   NS.systemPrompt = () => `You generate UI with the NorthStar Design System. Output ONLY an HTML fragment (no <html>, <head>, <body>, no markdown fences, no <script>, no explanations).
 Rules:

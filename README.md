@@ -31,6 +31,16 @@ Add a component: append an entry to NS.COMPONENTS in js/components.js. Nav, sear
 
 Icons: assets/icons/*.svg (95, exported from Figma Icons page, currentColor) + manifest.json.
 
+## Agent surface
+
+The docs render with JavaScript, so an agent that fetches a route gets an empty shell. The machine-readable surface is generated from the same catalog and committed:
+
+- `llms.txt` index of the files below
+- `agent/northstar.md` rules, floorplans, patterns, semantic tokens, every component with classes, markup, use and avoid rules, keyboard and accessibility notes
+- `agent/components.json` and `agent/tokens.json` the catalog and the token sheet (dark and light values) as JSON
+
+`node tools/agent-export.mjs` regenerates them in headless Chrome (`--check` fails if they are stale). The pre-commit hook regenerates and stages them when the catalog, tokens or page registry change. `node tools/agent-check.mjs <file.html>` validates markup an agent built: unknown ns- classes, raw colors, unknown or primitive tokens, icon buttons without a name, images without alt. `index.html` links the markdown and JSON with `rel="alternate"`.
+
 ## Keeping Figma and the site in sync
 
 **Code first.** New components can be built and documented here before they exist in Figma. Set `figma: null` (or leave the node out) in `js/components.js`; the page shows "Waiting for Figma sync", and Component status lists it. List what is waiting with `node tools/figma-sync-check.mjs --queue`. After the next batch sync to Figma, replace `null` with the node ID. Charts are described once in `js/charts.js`, and the same description draws the Figma layers and the docs SVG.

@@ -36,7 +36,13 @@
     title: "AI agent guide",
     status: "New",
     lede: "Rules for AI coding and design agents that build with NorthStar, including tools that read the Figma file or this site. It is also the short version of the system for people.",
-    body: () => `${h2("Quick start")}<ol>
+    body: () => `${h2("Machine-readable files")}<p>The docs render with JavaScript, so an agent that fetches a route gets an empty shell. Point it at these files instead. They are generated from the same catalog that builds this site, so they never drift from it.</p>${table(["File", "What it holds"], [
+      ['<a href="llms.txt"><code>llms.txt</code></a>', "Index of the files below, in the llms.txt convention"],
+      ['<a href="agent/northstar.md"><code>agent/northstar.md</code></a>', "The rules on this page, every floorplan and pattern, the semantic tokens, and every component with its classes, markup, use and avoid rules, keyboard and accessibility notes"],
+      ['<a href="agent/components.json"><code>agent/components.json</code></a>', "The component catalog as JSON: classes, variants with markup, tokens, props"],
+      ['<a href="agent/tokens.json"><code>agent/tokens.json</code></a>', "Every --ns- token with its dark and light value"],
+      ["<code>tools/agent-check.mjs</code>", "Checks markup an agent built: unknown ns- classes, raw colors, unknown or primitive tokens, unnamed icon buttons"],
+    ])}${h2("Quick start")}<ol>
 <li><strong>Find the page.</strong> Pick the closest page template in the Patterns and Floorplans sections.</li>
 <li><strong>Fill it with components.</strong> Use the component pages for markup, states and rules.</li>
 <li><strong>Style with tokens.</strong> Set theme and density on the html element, and use only semantic tokens.</li>
@@ -248,7 +254,8 @@ ${h2("Callable assets")}<p>Name an asset in a command to keep sample content con
     ["Components, specs and widgets", ["js/components.js", "js/specs.js", "js/widgets.js"]],
     ["Docs site", ["index.html", "js/ui.js", "js/app.js", "js/pages.js", "js/guides.js", "js/roadmap.js", "js/tools.js", "js/graphics.js", "js/home.js", "js/rays.js"]],
     ["Logo", ["assets/logo/northstar-mark.svg", "assets/logo/northstar-mark-mono.svg"]],
-    ["Icons and tooling", ["assets/icons/manifest.json", "tools/figma-sync-check.mjs"]],
+    ["Agent files", ["llms.txt", "agent/northstar.md", "agent/components.json", "agent/tokens.json"]],
+    ["Icons and tooling", ["assets/icons/manifest.json", "tools/figma-sync-check.mjs", "tools/agent-export.mjs", "tools/agent-check.mjs"]],
   ];
   NS.PAGES["getting-started/downloads"] = {
     title: "Downloads",
