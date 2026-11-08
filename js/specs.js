@@ -2222,7 +2222,7 @@
      {
       "type": "example",
       "label": "Medium",
-      "description": "Candlestick instance, Size=Medium, Value '4,820', Title 'Index', Show icon=false."
+      "description": "Candlestick instance, Size=Medium, Value '4,880', Title 'Index', Show icon=false."
      },
      {
       "type": "text",
@@ -2263,7 +2263,7 @@
        [
         "Value",
         "TEXT",
-        "4,820",
+        "4,880",
         "Binds to the headline figure. In Large it binds to the first summary figure."
        ],
        [
@@ -3790,7 +3790,7 @@
      {
       "type": "example",
       "label": "Medium",
-      "description": "Radial bar instance, Size=Medium, Value '78%', Title 'Progress', Show icon=false."
+      "description": "Radial bar instance, Size=Medium, Value '54%', Title 'Progress', Show icon=false."
      },
      {
       "type": "text",
@@ -3831,7 +3831,7 @@
        [
         "Value",
         "TEXT",
-        "78%",
+        "54%",
         "Binds to the headline figure. In Large it binds to the first summary figure."
        ],
        [
@@ -4182,7 +4182,7 @@
      {
       "type": "example",
       "label": "Medium",
-      "description": "Radar instance, Size=Medium, Value '86%', Title 'Coverage', Show icon=false."
+      "description": "Radar instance, Size=Medium, Value '68%', Title 'Coverage', Show icon=false."
      },
      {
       "type": "text",
@@ -4223,7 +4223,7 @@
        [
         "Value",
         "TEXT",
-        "86%",
+        "68%",
         "Binds to the headline figure. In Large it binds to the first summary figure."
        ],
        [
@@ -4378,7 +4378,7 @@
      {
       "type": "example",
       "label": "Medium",
-      "description": "Radial convergence instance, Size=Medium, Value '12', Title 'Links', Show icon=false."
+      "description": "Radial convergence instance, Size=Medium, Value '8', Title 'Links', Show icon=false."
      },
      {
       "type": "text",
@@ -4419,7 +4419,7 @@
        [
         "Value",
         "TEXT",
-        "12",
+        "8",
         "Binds to the headline figure. In Large it binds to the first summary figure."
        ],
        [
@@ -5162,7 +5162,7 @@
      {
       "type": "example",
       "label": "Medium",
-      "description": "Calendar instance, Size=Medium, Value '19', Title 'Active days', Show icon=false."
+      "description": "Calendar instance, Size=Medium, Value '31', Title 'Active days', Show icon=false."
      },
      {
       "type": "text",
@@ -5203,7 +5203,7 @@
        [
         "Value",
         "TEXT",
-        "19",
+        "31",
         "Binds to the headline figure. In Large it binds to the first summary figure."
        ],
        [
