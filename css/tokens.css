@@ -207,7 +207,8 @@
   --ns-chart-cap: round;
   --ns-chart-ramp-from: var(--ns-chart-series-2); /* low end of the one chart ramp; the high end is the series color */
   --ns-chart-ramp-fade: 42%;   /* ramp start for ink on a color block and for series other than series-1 */
-  --ns-chart-sheen: linear-gradient(150deg, color-mix(in srgb, #ffffff 14%, transparent) 0%, transparent 48%, color-mix(in srgb, #000000 24%, transparent) 100%); /* soft diagonal over a tile's own color */
+  --ns-chart-sheen: linear-gradient(150deg, transparent 0%, transparent 42%, color-mix(in srgb, #000000 26%, transparent) 100%); /* soft diagonal over a tile's own color. Darkens only, so light text never loses contrast */
+  --ns-chart-sheen-light: linear-gradient(150deg, color-mix(in srgb, #ffffff 22%, transparent) 0%, transparent 58%); /* the same diagonal for blocks with dark ink (teal, green, amber, paper). Lightens only */
   --ns-type-chart-title-size: 12px; /* tile corner titles (overline was 10px) */
 
   --ns-gradient-brand: linear-gradient(135deg, var(--ns-blue-500), var(--ns-teal-500));

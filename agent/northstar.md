@@ -2,7 +2,7 @@
 
 > Machine-readable guide for AI coding and design agents. Generated 2026-11-09 from the live catalog by tools/agent-export.mjs; do not edit by hand. Site: https://mikelrosenthal.com/northstar/ · Figma file VZxmDNQiosTN6gqnvEQ65Z.
 
-NorthStar is a design language and development kit for dense, dark, data-heavy enterprise consoles: 57 components, 223 tokens, dark and light themes, comfortable and compact density. Markup is framework-free HTML with ns- classes; style comes only from CSS custom properties.
+NorthStar is a design language and development kit for dense, dark, data-heavy enterprise consoles: 57 components, 224 tokens, dark and light themes, comfortable and compact density. Markup is framework-free HTML with ns- classes; style comes only from CSS custom properties.
 
 ## Files
 
@@ -138,7 +138,8 @@ Use these roles in components. Values are the dark theme; light overrides are in
 | `--ns-chart-series-3` | #991bfa | same |
 | `--ns-chart-series-4` | #7844f9 | #4807ea |
 | `--ns-chart-series-5` | #6a6a9f | #5a5a8f |
-| `--ns-chart-sheen` | linear-gradient(150deg, color-mix(in srgb, #ffffff 14%, transparent) 0%, transparent 48%, color-mix(in srgb, #000000 24%, transparent) 100%) | same |
+| `--ns-chart-sheen` | linear-gradient(150deg, transparent 0%, transparent 42%, color-mix(in srgb, #000000 26%, transparent) 100%) | same |
+| `--ns-chart-sheen-light` | linear-gradient(150deg, color-mix(in srgb, #ffffff 22%, transparent) 0%, transparent 58%) | same |
 | `--ns-chart-stroke` | 2.5px | same |
 | `--ns-chart-stroke-thin` | 1.5px | same |
 | `--ns-chart-target` | #ffffff | #05050f |

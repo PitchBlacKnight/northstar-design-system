@@ -624,13 +624,13 @@ body:not(.is-home) .shell::before { content: ""; position: absolute; top: 0; bot
 .bt--teal, .bt--blue, .bt--purple {
   background-color: var(--_block); border-color: transparent; color: var(--ink);
   --ramp-from: color-mix(in srgb, var(--ink) var(--ns-chart-ramp-fade), transparent);
-  --ns-text-primary: var(--ink); --ns-text-secondary: color-mix(in srgb, var(--ink) 78%, transparent); --ns-text-tertiary: color-mix(in srgb, var(--ink) 78%, transparent);
-  --ns-chart-label-text: color-mix(in srgb, var(--ink) 78%, transparent); --ns-chart-trend-text: var(--ink); --ns-chart-target: var(--ink);
+  --ns-text-primary: var(--ink); --ns-text-secondary: color-mix(in srgb, var(--ink) 92%, transparent); --ns-text-tertiary: color-mix(in srgb, var(--ink) 92%, transparent);
+  --ns-chart-label-text: color-mix(in srgb, var(--ink) 92%, transparent); --ns-chart-trend-text: var(--ink); --ns-chart-target: var(--ink);
   --ns-chart-series-1: var(--ink); --ns-chart-series-2: color-mix(in srgb, var(--ink) 55%, transparent); --ns-chart-series-3: color-mix(in srgb, var(--ink) 36%, transparent); --ns-chart-series-4: color-mix(in srgb, var(--ink) 74%, transparent); --ns-chart-series-5: color-mix(in srgb, var(--ink) 28%, transparent);
   --ns-chart-track: color-mix(in srgb, var(--ink) 16%, transparent); --ns-widget-grid: color-mix(in srgb, var(--ink) 18%, transparent); --ns-widget-track: color-mix(in srgb, var(--ink) 16%, transparent);
   --ns-border-default: color-mix(in srgb, var(--ink) 18%, transparent); --ns-interactive-primary: var(--ink);
 }
-.bt--teal { --_block: var(--ns-viz-1); /* not chart-series-1: the block remaps that to ink */ --ink: var(--ns-text-inverse); }
+.bt--teal { background-image: var(--ns-chart-sheen-light); --_block: var(--ns-viz-1); /* not chart-series-1: the block remaps that to ink */ --ink: var(--ns-text-inverse); }
 :root[data-theme="light"] .bt--teal { --ink: var(--ns-black); }
 .bt--blue { --_block: var(--ns-blue-500); --ink: var(--ns-text-on-color); }
 .bt--purple { --_block: var(--ns-purple-500); --ink: var(--ns-text-on-color); }

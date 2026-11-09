@@ -55,7 +55,7 @@ body { font-family: var(--ns-font-sans); color: var(--ns-text-primary); -webkit-
 .t--blue   { background: var(--ns-interactive-primary); color: var(--ns-text-on-color); box-shadow: none; --ink: var(--ns-text-on-color); --ink2: color-mix(in srgb, var(--ink) 70%, transparent); --faint: color-mix(in srgb, var(--ink) 20%, transparent); }
 .t--bruise { background: var(--ns-chart-series-3); color: var(--ns-text-on-color); box-shadow: none; --ink: var(--ns-text-on-color); --ink2: color-mix(in srgb, var(--ink) 70%, transparent); --faint: color-mix(in srgb, var(--ink) 20%, transparent); }
 .t--teal   { background: var(--ns-chart-series-1); color: var(--ns-text-inverse); box-shadow: none; --ink: var(--ns-text-inverse); --ink2: color-mix(in srgb, var(--ink) 70%, transparent); --faint: color-mix(in srgb, var(--ink) 20%, transparent); }
-:root[data-theme="light"] .t--teal { color: var(--ns-text-primary); --ink: var(--ns-text-primary); } /* series-1 teal is light in light mode: dark ink holds AA */
+:root[data-theme="light"] .t--teal, :root[data-theme="light"] .t--green, :root[data-theme="light"] .t--amber { color: var(--ns-text-primary); --ink: var(--ns-text-primary); --ink2: color-mix(in srgb, var(--ink) 86%, transparent); } /* series-1 teal is light in light mode: dark ink holds AA */
 .t--green  { background: var(--ns-viz-5); color: var(--ns-text-inverse); box-shadow: none; --ink: var(--ns-text-inverse); --ink2: color-mix(in srgb, var(--ink) 70%, transparent); --faint: color-mix(in srgb, var(--ink) 20%, transparent); }
 .t--amber  { background: var(--ns-viz-3); color: var(--ns-text-inverse); box-shadow: none; --ink: var(--ns-text-inverse); --ink2: color-mix(in srgb, var(--ink) 70%, transparent); --faint: color-mix(in srgb, var(--ink) 20%, transparent); }
 .t--paper  { background: var(--ns-background-inverse); color: var(--ns-text-inverse); box-shadow: none; --ink: var(--ns-text-inverse); --ink2: color-mix(in srgb, var(--ink) 70%, transparent); --faint: color-mix(in srgb, var(--ink) 20%, transparent); }
@@ -66,9 +66,11 @@ body { font-family: var(--ns-font-sans); color: var(--ns-text-primary); -webkit-
 .t--flush { padding: 0; }
 .t--tight { padding: var(--ns-space-5) 18px; }
 
-.t[class*="t--blue"], .t[class*="t--bruise"], .t[class*="t--teal"], .t[class*="t--green"], .t[class*="t--amber"], .t--paper { --lbl: var(--ink2); --ramp-from: color-mix(in srgb, var(--ink) var(--ns-chart-ramp-fade), transparent); } /* on a block the ramp is the ink, faded to full */
+.t[class*="t--blue"], .t[class*="t--bruise"], .t[class*="t--teal"], .t[class*="t--green"], .t[class*="t--amber"], .t--paper { --lbl: var(--ink); --ramp-from: color-mix(in srgb, var(--ink) var(--ns-chart-ramp-fade), transparent); } /* on a block the ramp is the ink, faded to full */
 .t--ink, .t--line { background-image: none; }
-.o { /* corner title */ font: 700 var(--ns-type-chart-title-size)/16px var(--ns-font-sans); letter-spacing: 1.2px; text-transform: uppercase; color: var(--lbl, var(--ns-widget-muted)); display: flex; align-items: center; gap: var(--ns-space-3); }
+.t--teal, .t--green, .t--amber, .t--paper { background-image: var(--ns-chart-sheen-light); } /* dark ink: the sheen may only lighten */
+.t--blue, .t--bruise { --ink2: color-mix(in srgb, var(--ink) 92%, transparent); } /* white on blue or purple needs nearly full ink to hold 4.5:1 */
+.o { /* corner title */ font: 700 var(--ns-type-chart-title-size)/16px var(--ns-font-sans); letter-spacing: 1.2px; text-transform: uppercase; color: var(--lbl, var(--ns-text-secondary)); display: flex; align-items: center; gap: var(--ns-space-3); } /* widget-muted was 3.4:1 on the tile */
 .o em { font-style: normal; margin-left: auto; letter-spacing: .4px; text-transform: none; font-weight: 600; font-size: var(--ns-type-caption-size); }
 .cap { font: 400 12px/16px var(--ns-font-sans); letter-spacing: .4px; color: var(--ink2, var(--ns-text-secondary)); }
 .ttl { margin: 0; font: 700 16px/22px var(--ns-font-sans); }
