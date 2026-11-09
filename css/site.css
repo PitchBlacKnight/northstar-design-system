@@ -463,7 +463,8 @@ body:not(.is-home) .hero-rays { opacity: .5; height: min(620px, 80vh); }
 .hm-link { display: inline-flex; align-items: center; gap: 6px; color: var(--ns-text-accent); font-weight: 600; font-size: 14px; text-decoration: none; padding: var(--ns-space-3) var(--ns-space-2); }
 .hm-link .hm-ic, .hm-tile__go .hm-ic, .hm-role__go .hm-ic { transition: transform .25s var(--hm-ease); }
 .hm-link:hover .hm-ic { transform: translateX(4px); }
-.hm-stats { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--ns-border-subtle); border-radius: 14px; background: color-mix(in srgb, var(--ns-background-secondary) 80%, transparent); backdrop-filter: blur(8px); overflow: hidden; }
+.hm-hero__grid > .hm-stats { grid-column: 1 / -1; }
+.hm-stats { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--ns-border-subtle); border-radius: var(--ns-radius-xl); background: color-mix(in srgb, var(--ns-background-secondary) 80%, transparent); backdrop-filter: blur(8px); overflow: hidden; }
 .hm-stats > div { display: grid; grid-template-columns: auto 1fr; column-gap: var(--ns-space-4); align-items: center; padding: 18px 22px; border-left: 1px solid var(--ns-border-subtle); }
 .hm-stats > div:first-child { border-left: 0; }
 .hm-stats .hm-ic { grid-row: span 2; color: var(--ns-text-accent); opacity: .85; }
@@ -667,15 +668,14 @@ body:not(.is-home) .shell::before { content: ""; position: absolute; top: 0; bot
 @media (max-width: 640px) { .dk-grid > * { grid-column: span 12 !important; } .dk-title { padding: var(--ns-space-6); } }
 
 /* Home hero film: the copy and the film share a two-column grid inside the content width. The film fills the column to the right of the copy and its height follows its width. */
-.hm-hero__grid { position: relative; display: grid; grid-template-columns: minmax(0, 37.5rem) minmax(0, 1fr); gap: var(--ns-space-11); align-items: start; }
+.hm-hero__grid { position: relative; display: grid; grid-template-columns: minmax(0, 37.5rem) minmax(0, 1fr); gap: var(--ns-space-8) var(--ns-space-11); align-items: stretch; }
 .hm-hero__copy { min-width: 0; }
-.hm-film-bg { position: relative; min-width: 0; transform: translate3d(0, var(--py, 0px), 0); }
-.hm-film__video { display: block; width: 100%; aspect-ratio: 16 / 9; height: auto; object-fit: cover; border-radius: 22px; box-shadow: 0 40px 90px -30px var(--ns-black); }
-.hm-film-card { margin-top: var(--ns-space-5); height: 110px; box-sizing: border-box; padding: var(--ns-space-6); border-radius: 22px; background: var(--ns-layer-01); display: flex; flex-direction: column; justify-content: space-between; }
-.hm-film-card span { font: 600 12px/1 var(--ns-font-mono); letter-spacing: .18em; text-transform: uppercase; color: var(--ns-text-secondary); }
-.hm-film-card b { font: 800 44px/1 var(--ns-font-sans); color: var(--ns-text-primary); }
+.hm-hero__copy > :last-child { margin-bottom: 0; }
+/* The film runs from the headline cap line to the bottom of the buttons; the stats row spans both columns below. */
+.hm-film-bg { position: relative; min-width: 0; display: flex; }
+.hm-film__video { display: block; width: 100%; height: 100%; min-height: 0; object-fit: cover; object-position: left center; border-radius: var(--ns-radius-xl); border: 1px solid var(--ns-border-subtle); box-sizing: border-box; }
 :root[data-theme="light"] .hm-film-bg { display: none; }
-.hm-film__ctl { position: absolute; right: 0; top: calc(-1 * var(--ns-space-11)); z-index: 2; }
+.hm-film__ctl { position: absolute; right: var(--ns-space-5); bottom: var(--ns-space-5); z-index: 2; }
 .hm-film__btn { font: 400 13px/1 var(--ns-font-sans); padding: var(--ns-space-3) var(--ns-space-5); border-radius: 999px; border: 1px solid var(--ns-border-strong); background: color-mix(in srgb, var(--ns-black) 70%, transparent); color: var(--ns-text-primary); cursor: pointer; backdrop-filter: blur(6px); }
 .hm-film__btn:focus-visible { outline: 2px solid var(--ns-focus-ring); outline-offset: 2px; }
-@media (max-width: 1180px) { .hm-hero__grid { grid-template-columns: minmax(0, 1fr); } .hm-film-bg { transform: none; } }
+@media (max-width: 1180px) { .hm-hero__grid { grid-template-columns: minmax(0, 1fr); } .hm-film__video { height: auto; aspect-ratio: 16 / 9; } }

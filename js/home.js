@@ -89,15 +89,14 @@
   <p class="hm-lede hm-in" style="--d:2">The design language and development kit for dense, dark, data-heavy enterprise consoles.</p>
   <button class="hm-search hm-in" style="--d:3" data-open-search aria-label="Search documentation">${ic("search", 20)}<span class="hm-search__q">Find a <span data-type>component</span><i class="hm-caret"></i></span><kbd>⌘K</kbd></button>
   <div class="hm-cta ns hm-in" style="--d:4"><a class="ns-btn" href="#/getting-started/about">Get started</a><a class="ns-btn ns-btn--tertiary" href="#/components">Browse components</a><a class="hm-link" href="#/tools/live-builder">Launch Live Builder ${ic("arrow", 16)}</a></div>
+ </div>
+ <div class="hm-film-bg" data-film-frame><video class="hm-film__video" data-film poster="assets/film/poster.jpg" src="assets/film/northstar-assembly.mp4" muted loop playsinline preload="metadata" aria-label="NorthStar film: the design system in 48 seconds"></video><div class="hm-film__ctl"><button type="button" class="hm-film__btn" data-film-toggle aria-pressed="false">Pause film</button></div></div>
   <div class="hm-stats hm-in" style="--d:5">
     <div>${ic("token", 18)}<b data-count="tokens">0</b><span>Tokens</span></div>
     <div>${ic("grid", 18)}<b data-to="${comps}">0</b><span>Components</span></div>
     <div>${ic("layers", 18)}<b data-to="${patternCount()}">0</b><span>Patterns</span></div>
     <div>${ic("layout", 18)}<b data-to="5">0</b><span>Floorplans</span></div>
   </div>
- </div>
- <div class="hm-film-bg" data-film-frame><video class="hm-film__video" data-film poster="assets/film/poster.jpg" src="assets/film/northstar-assembly.mp4" muted loop playsinline preload="metadata" aria-label="NorthStar film: the design system in 48 seconds"></video><div class="hm-film-card" aria-hidden="true"><span>Tokens</span><b>215+</b></div></div>
- <div class="hm-film__ctl hm-in" style="--d:6"><button type="button" class="hm-film__btn" data-film-toggle aria-pressed="false">Pause film</button></div>
  </div>
 </section>
 
@@ -202,6 +201,8 @@
     const heading = main.querySelector(".hero__brand");
     const alignFilm = () => {
       if (!frame || !heading) return;
+      // Two columns only: stacked, the film follows the copy at the normal row gap.
+      if (matchMedia("(max-width: 1180px)").matches) { frame.style.marginTop = ""; return; }
       const capInset = parseFloat(getComputedStyle(heading).fontSize) * 0.15;
       frame.style.marginTop = heading.offsetTop + capInset + "px";
     };
@@ -215,16 +216,7 @@
       if (!still) {
         filmIO = new IntersectionObserver(([e]) => (e.isIntersecting ? film.play().catch(() => {}) : film.pause()), { threshold: 0.35 });
         filmIO.observe(film);
-        // The frame drifts and tilts a little as the hero scrolls past, for depth.
-        let raf = 0;
-        const drift = () => {
-          raf = 0;
-          // Starts from scroll 0, so the film's top edge meets the header exactly at rest.
-          frame.style.setProperty("--py", (-Math.min(scrollY, 400) * 0.12).toFixed(1) + "px");
-        };
-        onScroll = () => { if (!raf) raf = requestAnimationFrame(drift); };
-        addEventListener("scroll", onScroll, { passive: true });
-        drift();
+        // No scroll drift: the frame stays locked to the copy column edges.
       }
     }
 
