@@ -5,7 +5,7 @@
    in assets/logo, keeping their names. Nothing else on the site needs to change.
 
    Generated from the logo source; chevron and letters take the text color (currentColor),
-   the star takes NS.LOGO.color and turns to the action blue in the light theme. */
+   the star takes the token --ns-logo-star (NS.LOGO.color is the fallback where no stylesheet is loaded). */
 (function () {
   const NS = (window.NS = window.NS || {});
   const L = (NS.LOGO = {

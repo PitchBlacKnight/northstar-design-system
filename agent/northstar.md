@@ -2,7 +2,7 @@
 
 > Machine-readable guide for AI coding and design agents. Generated 2026-11-09 from the live catalog by tools/agent-export.mjs; do not edit by hand. Site: https://mikelrosenthal.com/northstar/ · Figma file VZxmDNQiosTN6gqnvEQ65Z.
 
-NorthStar is a design language and development kit for dense, dark, data-heavy enterprise consoles: 57 components, 224 tokens, dark and light themes, comfortable and compact density. Markup is framework-free HTML with ns- classes; style comes only from CSS custom properties.
+NorthStar is a design language and development kit for dense, dark, data-heavy enterprise consoles: 57 components, 225 tokens, dark and light themes, comfortable and compact density. Markup is framework-free HTML with ns- classes; style comes only from CSS custom properties.
 
 ## Files
 
@@ -260,6 +260,12 @@ Use these roles in components. Values are the dark theme; light overrides are in
 | `--ns-layer-selected-01` | #1a1a3a | #e0e7ff |
 | `--ns-layer-selected-02` | #22224a | #e8edff |
 | `--ns-layer-selected-03` | #2a2a58 | #e0e7ff |
+
+### logo
+
+| Token | Dark | Light |
+|---|---|---|
+| `--ns-logo-star` | #27bdfa | #023aff |
 
 ### radius
 

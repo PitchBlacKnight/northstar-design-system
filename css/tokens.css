@@ -158,6 +158,7 @@
   --ns-border-default: var(--ns-gray-7);
   --ns-border-strong: var(--ns-gray-5);
 
+  --ns-logo-star: #27bdfa; /* logo/star: the star on the logo. Sky on dark; action blue on light, where sky fades */
   --ns-interactive-primary: var(--ns-blue-500);
   --ns-interactive-primary-hover: var(--ns-blue-700);
   --ns-interactive-primary-active: #022ecc; /* interactive/primary at 80% toward black; pressed stays blue, never purple */
@@ -292,6 +293,7 @@
   --ns-interactive-secondary-hover: var(--ns-gray-1);
   --ns-field-bg: var(--ns-gray-0);
   --ns-focus-ring: #006b65; /* teal in both modes; 6.5:1 on white */
+  --ns-logo-star: var(--ns-blue-500); /* logo/star */
 
   --ns-status-success: #267000; /* was #2f8a00 (4.4:1 on white) */
   --ns-status-warning: #944e00; /* was #b35f00 (3.9:1 on tinted tiles) */
@@ -401,6 +403,7 @@
   --ns-status-info: #023aff; /* status/info */
   --ns-background-selected: #1e1e24; /* background/selected */
   --ns-interactive-primary: #023aff; /* interactive/primary */
+  --ns-logo-star: #27bdfa; /* logo/star */
   --ns-interactive-danger: #cc2425; /* interactive/danger */
   --ns-interactive-danger-hover: #b82021;
   --ns-interactive-danger-active: #a31d1d;

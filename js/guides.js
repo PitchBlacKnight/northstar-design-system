@@ -298,7 +298,7 @@ ${h2("Callable assets")}<p>Name an asset in a command to keep sample content con
       ["On light", "White and light surfaces", "#191932", "#023AFF"],
       ["On blue", "The action blue, #023AFF", "#FFFFFF", "#01F1E3"],
       ["One color", "Print and one-color work", "currentColor", "currentColor"],
-    ])}<p>The star changes color with the surface because the sky blue fades on white and on the action blue.</p>
+    ])}<p>The star changes color with the surface because the sky blue fades on white and on the action blue. On the site it reads the token <code>--ns-logo-star</code> (Figma variable <code>logo/star</code>), so it follows the theme.</p>
     ${h2("Misuse")}${table(["Do not", "Why"], [
       ["Recolor the letters, chevron or star", "Use one of the four versions. They cover dark, light, blue and one-color work"],
       ["Move the star or close the gap under it", "The gap keeps the star and chevron apart in one color"],
