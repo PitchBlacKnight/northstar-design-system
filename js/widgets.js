@@ -104,10 +104,10 @@
   }
 
   function stacked({ w = 1000, h = 380 }) {
-    const pad = 40, cw = (w - pad) / 12, base = h - 36, r = rng(4); const gp = id("sp"), go = id("so");
+    const pad = 40, cw = (w - pad) / 12, base = h - 36, r = rng(4);
     let out = monthGrid(w, h, pad, false, ["1k", "800", "600", "400", "200", "0"]);
-    MONTHS.forEach((m, i) => { const x = pad + i * cw + cw / 2 - 3; const a = 0.25 + r() * 0.55, b = 0.06 + r() * 0.1; const ha = base * a, hb = base * b; out += `<rect x="${x}" y="${base + 8 - ha}" width="6" height="${ha}" rx="3" fill="url(#${gp})"/><rect x="${x}" y="${base + 8 - ha - 6 - hb}" width="6" height="${hb}" rx="3" fill="url(#${go})"/>`; });
-    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="Stacked column chart by month"><defs>${lin(gp, "purple")}${lin(go, "orange")}</defs>${out}</svg>`;
+    MONTHS.forEach((m, i) => { const x = pad + i * cw + cw / 2 - 3; const a = 0.25 + r() * 0.55, b = 0.06 + r() * 0.1; const ha = base * a, hb = base * b; out += `<rect x="${x}" y="${base + 8 - ha}" width="6" height="${ha}" rx="3" style="fill:${v("purple")}"/><rect x="${x}" y="${base + 8 - ha - 6 - hb}" width="6" height="${hb}" rx="3" style="fill:${v("orange")}"/>`; });
+    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="Stacked column chart by month">${out}</svg>`;
   }
 
   function globalBubbles({ w = 1000, h = 400 }) {
