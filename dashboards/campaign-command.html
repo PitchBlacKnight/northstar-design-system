@@ -14,10 +14,10 @@
   .fun { grid-column: 1 / 5; } .heat { grid-column: 5 / 10; }
   .frow { display: grid; grid-template-columns: 96px 1fr 64px; gap: 12px; align-items: center; font: 400 13px/18px var(--ns-font-sans); }
   .frow i { display: block; height: 20px; border-radius: 5px; background: var(--ns-gradient-brand); }
-  .frow span:first-child { color: var(--ns-widget-muted); } .frow b { text-align: right; font-weight: 700; }
+  .frow span:first-child { color: var(--ns-chart-label-text); } .frow b { text-align: right; font-weight: 700; }
   .hlab { display: grid; grid-template-columns: 34px 1fr; gap: 0; align-items: start; }
-  .hlab > div:first-child { display: grid; gap: 3px; font: 400 10px/21px var(--ns-font-sans); color: var(--ns-widget-muted); }
-  .hx { display: flex; justify-content: space-between; padding-left: 34px; font: 400 10px/1 var(--ns-font-sans); color: var(--ns-widget-muted); margin-top: 6px; }
+  .hlab > div:first-child { display: grid; gap: 3px; font: 400 10px/21px var(--ns-font-sans); color: var(--ns-chart-label-text); }
+  .hx { display: flex; justify-content: space-between; padding-left: 34px; font: 400 10px/1 var(--ns-font-sans); color: var(--ns-chart-label-text); margin-top: 6px; }
 </style>
 </head>
 <body>
@@ -63,7 +63,7 @@ a.innerHTML = s.open + `<div class="grid g1">
    <div class="row" style="gap:18px;margin-top:4px">${D.ring({ size: 124, stroke: 14, pct: 79, grad: ["var(--ns-chart-series-1)", "var(--ns-chart-series-2)"], label: "79%", fs: 26 })}
      <div class="ls" style="--cols:auto auto;gap:0;flex:1"><div><span class="k">Spent</span><b class="num">$412K</b></div><div><span class="k">Left</span><b class="num">$108K</b></div><div><span class="k">Days</span><b class="num">9</b></div></div></div>
    <div class="sp1"></div>
-   <div style="display:grid;gap:10px">${[["Meta", 92, 85], ["Search", 81, 85], ["YouTube", 64, 85]].map(([n, p, t]) => `<div style="display:grid;grid-template-columns:62px 1fr 34px;gap:10px;align-items:center;font:400 12px/1 var(--ns-font-sans)"><span style="color:var(--ns-widget-muted)">${n}</span>${D.bullet({ pct: p, target: t, color: p > 85 ? "var(--ns-status-warning)" : "var(--ns-chart-series-1)", h: 8 })}<b class="num">${p}%</b></div>`).join("")}</div>
+   <div style="display:grid;gap:10px">${[["Meta", 92, 85], ["Search", 81, 85], ["YouTube", 64, 85]].map(([n, p, t]) => `<div style="display:grid;grid-template-columns:62px 1fr 34px;gap:10px;align-items:center;font:400 12px/1 var(--ns-font-sans)"><span style="color:var(--ns-chart-label-text)">${n}</span>${D.bullet({ pct: p, target: t, color: p > 85 ? "var(--ns-status-warning)" : "var(--ns-chart-series-1)", h: 8 })}<b class="num">${p}%</b></div>`).join("")}</div>
  </section>
 
  <section class="t chan">

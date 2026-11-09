@@ -24,7 +24,10 @@
     const layers = [];
     for (let n = el; n && n.nodeType === 1; n = n.parentElement) {
       const cs = getComputedStyle(n);
-      if (cs.backgroundImage && cs.backgroundImage !== "none") return null;
+      /* Tiles carry --ns-chart-sheen over their own color. The sheen only darkens under light text and only
+         lightens under dark ink (STYLE-RULES.md), so the flat tile color is the worst case: measure against it. */
+      const sheen = n.matches(".t, .bt, .ns-w");
+      if (cs.backgroundImage && cs.backgroundImage !== "none" && !sheen) return null;
       const c = rgba(cs.backgroundColor); if (c[3] > 0) layers.push(c);
       if (c[3] >= 1) break;
     }
@@ -58,7 +61,11 @@
   };
 
   const themes = ["dark", "light"];
-  if (window.__a11yMode === "app") {
+  if (window.__a11yMode === "layout") {
+    /* one dashboard layout page (dashboards/*.html): every tile title, caption, legend and label */
+    const name = location.pathname.split("/").pop().replace(".html", "");
+    for (const t of themes) { document.documentElement.dataset.theme = t; await W(150); scan(document.body, `layout ${name} (${t})`); }
+  } else if (window.__a11yMode === "app") {
     const views = ["finance", "commerce", "observe", "crm", "projects", "deployments", "support", "people", "kit"];
     for (const t of themes) {
       const btn = document.querySelector(t === "light" ? "button[aria-label='Light theme']" : "button[aria-label='Dark theme']"); if (btn) { btn.click(); await W(600); } /* let color transitions finish */
@@ -79,6 +86,11 @@
           for (const [lab, h] of htmls) { host.innerHTML = `<div class="stage__canvas ns">${h}</div>`; await W(0); scan(host, `${c.id}${pc === c ? "" : "/" + pc.id} [${lab}] (${t})`); }
         }
       }
+    }
+    /* floorplans: color blocks remap text and chart tokens to one ink, so they are measured as assembled */
+    for (const t of themes) {
+      document.documentElement.dataset.theme = t; await W(100);
+      for (const [k, fp] of Object.entries(NS.FLOORPLANS || {})) { try { host.innerHTML = fp[2](); } catch { continue; } await W(0); scan(host, `floorplan ${k} (${t})`); }
     }
     host.remove();
   }

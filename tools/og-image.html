@@ -1,0 +1,31 @@
+<!doctype html>
+<!-- Share image source for assets/og-northstar.jpg (1200 x 630). The right side is the live Campaign command
+     layout, so the image always shows the current chart style. Rebuild with: sh tools/og-image.sh -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NorthStar share image</title>
+<link rel="stylesheet" href="../css/tokens.css">
+<style>
+  html, body { margin: 0; }
+  body { width: 1200px; height: 630px; overflow: hidden; position: relative; font-family: var(--ns-font-sans); color: var(--ns-white);
+    background: linear-gradient(120deg, var(--ns-blue-500) 0%, #0122b8 42%, var(--ns-black) 100%); }
+  .mark { position: absolute; left: 300px; top: 70px; width: 560px; opacity: .14; }
+  .copy { position: absolute; left: 128px; top: 138px; }
+  .copy img { display: block; width: 410px; }
+  .copy small { display: block; margin-top: 44px; font: 700 10px/1 var(--ns-font-sans); letter-spacing: 1.6px; text-transform: uppercase; }
+  .copy b { display: block; margin-top: 10px; font: 600 14px/1 var(--ns-font-sans); color: var(--ns-teal-500); }
+  .shot { position: absolute; left: 600px; top: 96px; width: 1600px; height: 1000px; transform: scale(.56); transform-origin: 0 0;
+    border: 0; border-radius: 28px; box-shadow: 0 40px 120px #00000099, 0 0 0 2px #ffffff22; background: var(--ns-black); }
+</style>
+</head>
+<body>
+  <img class="mark" src="../assets/logo/northstar-mark-on-blue.svg" alt="">
+  <div class="copy">
+    <img src="../assets/logo/northstar-ds-wordmark-on-blue.svg" alt="NorthStar DS">
+    <small>Live design system</small>
+    <b>mikelrosenthal.com/northstar →</b>
+  </div>
+  <iframe class="shot" src="../dashboards/campaign-command.html" title="Campaign command layout" scrolling="no"></iframe>
+</body>
+</html>

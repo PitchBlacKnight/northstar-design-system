@@ -11,14 +11,14 @@
   .spine { grid-column: 1 / 13; }
   .dc { grid-column: 1 / 7; } .cf { grid-column: 7 / 10; } .pt { grid-column: 1 / 5; } .lc { grid-column: 5 / 10; }
   .rr { display: grid; grid-template-columns: 1.3fr 1fr 82px 112px; gap: 14px; align-items: center; padding: 13px 0; border-bottom: 1px solid var(--ns-widget-grid); font: 400 13px/17px var(--ns-font-sans); } .rr:last-child { border: 0; }
-  .rr.hh { padding-top: 0; padding-bottom: 9px; font: 700 10px/1 var(--ns-font-sans); letter-spacing: 1.3px; text-transform: uppercase; color: var(--ns-widget-muted); }
-  .rr b { font-weight: 700; display: block; } .rr small { color: var(--ns-widget-muted); font-size: 11px; }
+  .rr.hh { padding-top: 0; padding-bottom: 9px; font: 700 10px/1 var(--ns-font-sans); letter-spacing: 1.3px; text-transform: uppercase; color: var(--ns-chart-label-text); }
+  .rr b { font-weight: 700; display: block; } .rr small { color: var(--ns-chart-label-text); font-size: 11px; }
   .alr { background: var(--ns-status-error-bg); box-shadow: inset 0 0 0 1px var(--ns-status-error); }
   .step { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
   .step > div { display: grid; justify-items: center; gap: 8px; text-align: center; font: 600 12px/1.2 var(--ns-font-sans); position: relative; }
   .step > div::before { content: ""; position: absolute; top: 15px; left: -50%; width: 100%; height: 3px; background: var(--_l, var(--ns-widget-track)); z-index: 0; } .step > div:first-child::before { display: none; }
   .step i { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font: 800 13px/1 var(--ns-font-sans); font-style: normal; background: var(--_c, var(--ns-widget-track)); color: var(--ns-black); position: relative; z-index: 1; }
-  .step small { display: block; color: var(--ns-widget-muted); font: 400 11px/14px var(--ns-font-sans); }
+  .step small { display: block; color: var(--ns-chart-label-text); font: 400 11px/14px var(--ns-font-sans); }
 
 </style>
 </head>
