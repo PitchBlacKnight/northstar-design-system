@@ -1,6 +1,6 @@
 # NorthStar Design System v1.4.1
 
-> Machine-readable guide for AI coding and design agents. Generated 2026-11-08 from the live catalog by tools/agent-export.mjs; do not edit by hand. Site: https://mikelrosenthal.com/northstar/ · Figma file VZxmDNQiosTN6gqnvEQ65Z.
+> Machine-readable guide for AI coding and design agents. Generated 2026-11-09 from the live catalog by tools/agent-export.mjs; do not edit by hand. Site: https://mikelrosenthal.com/northstar/ · Figma file VZxmDNQiosTN6gqnvEQ65Z.
 
 NorthStar is a design language and development kit for dense, dark, data-heavy enterprise consoles: 57 components, 218 tokens, dark and light themes, comfortable and compact density. Markup is framework-free HTML with ns- classes; style comes only from CSS custom properties.
 
@@ -742,7 +742,7 @@ Accessibility:
 
 A bar chart compares one value across categories or time periods by bar height. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.
 
-Page: https://mikelrosenthal.com/northstar/#/components/bar-chart
+Page: https://mikelrosenthal.com/northstar/#/components/bar-chart · Figma node 4721:1376
 
 Classes: `ns-chart`, `ns-chart--small`, `ns-chart--vertical`, `ns-chart__desc`, `ns-chart__desc--sm`, `ns-chart__dot`, `ns-chart__head`, `ns-chart__icon`, `ns-chart__kpi`, `ns-chart__kpis`, `ns-chart__plot`, `ns-chart__summary`, `ns-chart__title`, `ns-chart__title--lg`, `ns-chart__title--sm`, `ns-chart__trend`, `ns-chart__value`, `ns-chart__value--sm`
 
@@ -1063,7 +1063,7 @@ Accessibility:
 
 A line chart shows how a value moves over time, here against the same period last year. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.
 
-Page: https://mikelrosenthal.com/northstar/#/components/line-chart
+Page: https://mikelrosenthal.com/northstar/#/components/line-chart · Figma node 4721:1646
 
 Classes: `ns-chart`, `ns-chart--small`, `ns-chart--vertical`, `ns-chart__desc`, `ns-chart__desc--sm`, `ns-chart__dot`, `ns-chart__head`, `ns-chart__icon`, `ns-chart__kpi`, `ns-chart__kpis`, `ns-chart__plot`, `ns-chart__summary`, `ns-chart__title`, `ns-chart__title--lg`, `ns-chart__title--sm`, `ns-chart__trend`, `ns-chart__value`, `ns-chart__value--sm`
 
@@ -1132,7 +1132,7 @@ Accessibility:
 
 A donut chart shows how one whole splits into four or fewer parts. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.
 
-Page: https://mikelrosenthal.com/northstar/#/components/pie-chart
+Page: https://mikelrosenthal.com/northstar/#/components/pie-chart · Figma node 4721:1881
 
 Classes: `ns-chart`, `ns-chart--small`, `ns-chart--vertical`, `ns-chart__desc`, `ns-chart__desc--sm`, `ns-chart__dot`, `ns-chart__head`, `ns-chart__icon`, `ns-chart__kpi`, `ns-chart__kpis`, `ns-chart__plot`, `ns-chart__summary`, `ns-chart__title`, `ns-chart__title--lg`, `ns-chart__title--sm`, `ns-chart__trend`, `ns-chart__value`, `ns-chart__value--sm`
 
@@ -1309,7 +1309,7 @@ Accessibility:
 
 A sankey diagram shows how volume flows from sources to outcomes; band width carries the amount. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.
 
-Page: https://mikelrosenthal.com/northstar/#/components/sankey-chart
+Page: https://mikelrosenthal.com/northstar/#/components/sankey-chart · Figma node 4721:2133
 
 Classes: `ns-chart`, `ns-chart--small`, `ns-chart--vertical`, `ns-chart__desc`, `ns-chart__desc--sm`, `ns-chart__dot`, `ns-chart__head`, `ns-chart__icon`, `ns-chart__kpi`, `ns-chart__kpis`, `ns-chart__plot`, `ns-chart__summary`, `ns-chart__title`, `ns-chart__title--lg`, `ns-chart__title--sm`, `ns-chart__trend`, `ns-chart__value`, `ns-chart__value--sm`
 

@@ -10255,6 +10255,790 @@
     ]
    }
   ]
+ },
+ "bar-chart": {
+  "nodeId": "4721:3796",
+  "title": "Bar chart",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 55",
+  "revision": "Reviewed 8 Nov 2026",
+  "summary": "A data visualization card that compares one value across months or categories by bar height. Built natively for NorthStar after reviewing the Hyper charts kit; nothing was imported. Five sizes, three component properties, every fill bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Built 8 Nov 2026 from js/charts.js, not yet source-reviewed",
+   "Parity status": "Docs site renders the same data as SVG",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4721:3812",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Comparing totals across a dozen months or categories or fewer."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "A trend over many points (use Line chart) or parts of one whole (use Pie chart)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4721:3823",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Container: widget/bg fill, border/subtle stroke, radius/xl. 2 · Header: Title, Value with Trend, Description, optional Icon. 3 · Plot: bars from a zero baseline, the latest bar in chart/series-1 and the rest in chart/series-2; gridlines in widget/grid; axis labels in chart/label-text."
+     },
+     {
+      "type": "example",
+      "label": "Medium",
+      "description": "Bar instance, Size=Medium, Value '12,480', Title 'Orders', Show icon=false."
+     },
+     {
+      "type": "text",
+      "text": "Sizes: Small 330 wide (header left, mini plot right, no axes) · Vertical small 192 wide, no axes · Medium 375 wide with axes and labels · Large 375 wide with a divider and two-KPI summary · XL 800 wide, three KPIs."
+     }
+    ]
+   },
+   {
+    "nodeId": "4721:3830",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Chart / Bar · set 4721:1376 · page \"Bar chart\" under DATA VIZ."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Size",
+        "VARIANT",
+        "Small",
+        "Small, Vertical small, Medium, Large, XL. Medium is the recommended default."
+       ],
+       [
+        "Title",
+        "TEXT",
+        "Orders",
+        "Binds to the header title. In XL it binds to the first KPI title."
+       ],
+       [
+        "Value",
+        "TEXT",
+        "12,480",
+        "Binds to the headline figure. In Large it binds to the first summary figure."
+       ],
+       [
+        "Show icon",
+        "BOOLEAN",
+        "false",
+        "Off by default. Turn it on in Medium or XL; Small keeps text and plot only."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4721:3861",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Container fill",
+        "widget/bg",
+        "Card surface, same as the other data viz widgets"
+       ],
+       [
+        "Container stroke",
+        "border/subtle",
+        "1px hairline"
+       ],
+       [
+        "Container radius",
+        "radius/xl",
+        "12px"
+       ],
+       [
+        "Segment 1 to 5",
+        "chart/series-1 to chart/series-5",
+        "Alias viz/1, viz/4, viz/2, viz/7, widget/muted"
+       ],
+       [
+        "Track",
+        "chart/track",
+        "Alias widget/track; radius/full"
+       ],
+       [
+        "Target tick",
+        "chart/target",
+        "Alias text/primary"
+       ],
+       [
+        "Title, Value",
+        "text/primary",
+        "Open Sans SemiBold 14, Bold 28"
+       ],
+       [
+        "Axis label, Description",
+        "text/chart-label",
+        "Open Sans Regular 11 and 12"
+       ],
+       [
+        "Trend",
+        "status/success",
+        "Open Sans SemiBold 12"
+       ],
+       [
+        "Padding, gaps",
+        "spacing/5 to spacing/7, spacing/2 to spacing/4",
+        "16 or 24px padding; 4, 8, 12, 16, 20px gaps"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "All seven chart/* tokens are aliases of existing Semantic / Colors tokens, so Light, Dark and High Contrast resolve through the modes with no new hex values."
+     }
+    ]
+   },
+   {
+    "nodeId": "4721:3911",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The chart has a text equivalent: role=\"img\" with an aria-label that states the shape of the data, and a list or table of the values nearby.",
+       "Series are told apart by position, label or shape, not color alone.",
+       "Marks meet 3:1 against the card surface in Light, Dark and High Contrast.",
+       "Trend text carries its sign (+ or -), not just color.",
+       "Not interactive. If marks become links or filters, add focus rings from focus/ring and a keyboard order."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4721:3921",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Pick the size by container width: Small and Vertical small under 360px, Medium and Large at 360 to 600px, XL above 720px. Keep titles to three words and values to one figure with its unit."
+     }
+    ]
+   }
+  ]
+ },
+ "line-chart": {
+  "nodeId": "4721:4015",
+  "title": "Line chart",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 56",
+  "revision": "Reviewed 8 Nov 2026",
+  "summary": "A data visualization card that shows how a value moves over time against the same period last year. Built natively for NorthStar after reviewing the Hyper charts kit; nothing was imported. Five sizes, three component properties, every fill bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Built 8 Nov 2026 from js/charts.js, not yet source-reviewed",
+   "Parity status": "Docs site renders the same data as SVG",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4721:4031",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "A trend over time, or this period against the last one."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Few categories (use Bar chart) or values that change only on set dates (use Stepped line chart)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4721:4042",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Container: widget/bg fill, border/subtle stroke, radius/xl. 2 · Header: Title, Value with Trend, Description, optional Icon. 3 · Plot: this year as a 2px chart/series-1 line over a 12% flat area, last year as a 2px chart/series-3 line, a dot on the latest point; gridlines in widget/grid."
+     },
+     {
+      "type": "example",
+      "label": "Medium",
+      "description": "Line instance, Size=Medium, Value '$84,200', Title 'Revenue', Show icon=false."
+     },
+     {
+      "type": "text",
+      "text": "Sizes: Small 330 wide (header left, mini plot right, no axes) · Vertical small 192 wide, no axes · Medium 375 wide with axes and labels · Large 375 wide with a divider and two-KPI summary · XL 800 wide, three KPIs."
+     }
+    ]
+   },
+   {
+    "nodeId": "4721:4049",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Chart / Line · set 4721:1646 · page \"Line chart\" under DATA VIZ."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Size",
+        "VARIANT",
+        "Small",
+        "Small, Vertical small, Medium, Large, XL. Medium is the recommended default."
+       ],
+       [
+        "Title",
+        "TEXT",
+        "Revenue",
+        "Binds to the header title. In XL it binds to the first KPI title."
+       ],
+       [
+        "Value",
+        "TEXT",
+        "$84,200",
+        "Binds to the headline figure. In Large it binds to the first summary figure."
+       ],
+       [
+        "Show icon",
+        "BOOLEAN",
+        "false",
+        "Off by default. Turn it on in Medium or XL; Small keeps text and plot only."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4721:4080",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Container fill",
+        "widget/bg",
+        "Card surface, same as the other data viz widgets"
+       ],
+       [
+        "Container stroke",
+        "border/subtle",
+        "1px hairline"
+       ],
+       [
+        "Container radius",
+        "radius/xl",
+        "12px"
+       ],
+       [
+        "Segment 1 to 5",
+        "chart/series-1 to chart/series-5",
+        "Alias viz/1, viz/4, viz/2, viz/7, widget/muted"
+       ],
+       [
+        "Track",
+        "chart/track",
+        "Alias widget/track; radius/full"
+       ],
+       [
+        "Target tick",
+        "chart/target",
+        "Alias text/primary"
+       ],
+       [
+        "Title, Value",
+        "text/primary",
+        "Open Sans SemiBold 14, Bold 28"
+       ],
+       [
+        "Axis label, Description",
+        "text/chart-label",
+        "Open Sans Regular 11 and 12"
+       ],
+       [
+        "Trend",
+        "status/success",
+        "Open Sans SemiBold 12"
+       ],
+       [
+        "Padding, gaps",
+        "spacing/5 to spacing/7, spacing/2 to spacing/4",
+        "16 or 24px padding; 4, 8, 12, 16, 20px gaps"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "All seven chart/* tokens are aliases of existing Semantic / Colors tokens, so Light, Dark and High Contrast resolve through the modes with no new hex values."
+     }
+    ]
+   },
+   {
+    "nodeId": "4721:4130",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The chart has a text equivalent: role=\"img\" with an aria-label that states the shape of the data, and a list or table of the values nearby.",
+       "Series are told apart by position, label or shape, not color alone.",
+       "Marks meet 3:1 against the card surface in Light, Dark and High Contrast.",
+       "Trend text carries its sign (+ or -), not just color.",
+       "Not interactive. If marks become links or filters, add focus rings from focus/ring and a keyboard order."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4721:4140",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Pick the size by container width: Small and Vertical small under 360px, Medium and Large at 360 to 600px, XL above 720px. Keep titles to three words and values to one figure with its unit."
+     }
+    ]
+   }
+  ]
+ },
+ "pie-chart": {
+  "nodeId": "4721:4225",
+  "title": "Pie chart",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 57",
+  "revision": "Reviewed 8 Nov 2026",
+  "summary": "A data visualization card that shows how one whole splits into four or fewer parts as a donut. Built natively for NorthStar after reviewing the Hyper charts kit; nothing was imported. Five sizes, three component properties, every fill bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Built 8 Nov 2026 from js/charts.js, not yet source-reviewed",
+   "Parity status": "Docs site renders the same data as SVG",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4721:4241",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Share of a whole with four parts or fewer."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "More than four parts (use Bar chart) or change over time (use Line chart)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4721:4252",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Container: widget/bg fill, border/subtle stroke, radius/xl. 2 · Header: Title, Value with Trend, Description, optional Icon. 3 · Plot: four arc segments in chart/series-1 to 4, largest first, 1.5 degree gaps, the largest share as a number in the hole, and a key with each part and its percent (Medium and wider)."
+     },
+     {
+      "type": "example",
+      "label": "Medium",
+      "description": "Pie instance, Size=Medium, Value '48,300', Title 'Visits', Show icon=false."
+     },
+     {
+      "type": "text",
+      "text": "Sizes: Small 330 wide (header left, mini plot right, no axes) · Vertical small 192 wide, no axes · Medium 375 wide with axes and labels · Large 375 wide with a divider and two-KPI summary · XL 800 wide, three KPIs."
+     }
+    ]
+   },
+   {
+    "nodeId": "4721:4259",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Chart / Pie · set 4721:1881 · page \"Pie chart\" under DATA VIZ."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Size",
+        "VARIANT",
+        "Small",
+        "Small, Vertical small, Medium, Large, XL. Medium is the recommended default."
+       ],
+       [
+        "Title",
+        "TEXT",
+        "Visits",
+        "Binds to the header title. In XL it binds to the first KPI title."
+       ],
+       [
+        "Value",
+        "TEXT",
+        "48,300",
+        "Binds to the headline figure. In Large it binds to the first summary figure."
+       ],
+       [
+        "Show icon",
+        "BOOLEAN",
+        "false",
+        "Off by default. Turn it on in Medium or XL; Small keeps text and plot only."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4721:4290",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Container fill",
+        "widget/bg",
+        "Card surface, same as the other data viz widgets"
+       ],
+       [
+        "Container stroke",
+        "border/subtle",
+        "1px hairline"
+       ],
+       [
+        "Container radius",
+        "radius/xl",
+        "12px"
+       ],
+       [
+        "Segment 1 to 5",
+        "chart/series-1 to chart/series-5",
+        "Alias viz/1, viz/4, viz/2, viz/7, widget/muted"
+       ],
+       [
+        "Track",
+        "chart/track",
+        "Alias widget/track; radius/full"
+       ],
+       [
+        "Target tick",
+        "chart/target",
+        "Alias text/primary"
+       ],
+       [
+        "Title, Value",
+        "text/primary",
+        "Open Sans SemiBold 14, Bold 28"
+       ],
+       [
+        "Axis label, Description",
+        "text/chart-label",
+        "Open Sans Regular 11 and 12"
+       ],
+       [
+        "Trend",
+        "status/success",
+        "Open Sans SemiBold 12"
+       ],
+       [
+        "Padding, gaps",
+        "spacing/5 to spacing/7, spacing/2 to spacing/4",
+        "16 or 24px padding; 4, 8, 12, 16, 20px gaps"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "All seven chart/* tokens are aliases of existing Semantic / Colors tokens, so Light, Dark and High Contrast resolve through the modes with no new hex values."
+     }
+    ]
+   },
+   {
+    "nodeId": "4721:4340",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The chart has a text equivalent: role=\"img\" with an aria-label that states the shape of the data, and a list or table of the values nearby.",
+       "Series are told apart by position, label or shape, not color alone.",
+       "Marks meet 3:1 against the card surface in Light, Dark and High Contrast.",
+       "Trend text carries its sign (+ or -), not just color.",
+       "Not interactive. If marks become links or filters, add focus rings from focus/ring and a keyboard order."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4721:4350",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Pick the size by container width: Small and Vertical small under 360px, Medium and Large at 360 to 600px, XL above 720px. Keep titles to three words and values to one figure with its unit."
+     }
+    ]
+   }
+  ]
+ },
+ "sankey-chart": {
+  "nodeId": "4721:4432",
+  "title": "Sankey chart",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 58",
+  "revision": "Reviewed 8 Nov 2026",
+  "summary": "A data visualization card that shows how volume flows from sources to outcomes, band width carrying the amount. Built natively for NorthStar after reviewing the Hyper charts kit; nothing was imported. Five sizes, three component properties, every fill bound to Semantic / Colors.",
+  "meta": {
+   "Review status": "Built 8 Nov 2026 from js/charts.js, not yet source-reviewed",
+   "Parity status": "Docs site renders the same data as SVG",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4721:4448",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "Where volume comes from and where it goes, across one step."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "A single sequence of steps (use Funnel chart) or exact values (use Data table)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4721:4459",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Container: widget/bg fill, border/subtle stroke, radius/xl. 2 · Header: Title, Value with Trend, Description, optional Icon. 3 · Plot: source nodes in chart/series-1 to 3, outcome nodes in chart/target, flow bands in the source color at 35% opacity, labels in text/primary."
+     },
+     {
+      "type": "example",
+      "label": "Medium",
+      "description": "Sankey instance, Size=Medium, Value '6,200', Title 'New accounts', Show icon=false."
+     },
+     {
+      "type": "text",
+      "text": "Sizes: Small 330 wide (header left, mini plot right, no axes) · Vertical small 192 wide, no axes · Medium 375 wide with axes and labels · Large 375 wide with a divider and two-KPI summary · XL 800 wide, three KPIs."
+     }
+    ]
+   },
+   {
+    "nodeId": "4721:4466",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Chart / Sankey · set 4721:2133 · page \"Sankey chart\" under DATA VIZ."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "Size",
+        "VARIANT",
+        "Small",
+        "Small, Vertical small, Medium, Large, XL. Medium is the recommended default."
+       ],
+       [
+        "Title",
+        "TEXT",
+        "New accounts",
+        "Binds to the header title. In XL it binds to the first KPI title."
+       ],
+       [
+        "Value",
+        "TEXT",
+        "6,200",
+        "Binds to the headline figure. In Large it binds to the first summary figure."
+       ],
+       [
+        "Show icon",
+        "BOOLEAN",
+        "false",
+        "Off by default. Turn it on in Medium or XL; Small keeps text and plot only."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4721:4497",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Container fill",
+        "widget/bg",
+        "Card surface, same as the other data viz widgets"
+       ],
+       [
+        "Container stroke",
+        "border/subtle",
+        "1px hairline"
+       ],
+       [
+        "Container radius",
+        "radius/xl",
+        "12px"
+       ],
+       [
+        "Segment 1 to 5",
+        "chart/series-1 to chart/series-5",
+        "Alias viz/1, viz/4, viz/2, viz/7, widget/muted"
+       ],
+       [
+        "Track",
+        "chart/track",
+        "Alias widget/track; radius/full"
+       ],
+       [
+        "Target tick",
+        "chart/target",
+        "Alias text/primary"
+       ],
+       [
+        "Title, Value",
+        "text/primary",
+        "Open Sans SemiBold 14, Bold 28"
+       ],
+       [
+        "Axis label, Description",
+        "text/chart-label",
+        "Open Sans Regular 11 and 12"
+       ],
+       [
+        "Trend",
+        "status/success",
+        "Open Sans SemiBold 12"
+       ],
+       [
+        "Padding, gaps",
+        "spacing/5 to spacing/7, spacing/2 to spacing/4",
+        "16 or 24px padding; 4, 8, 12, 16, 20px gaps"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "All seven chart/* tokens are aliases of existing Semantic / Colors tokens, so Light, Dark and High Contrast resolve through the modes with no new hex values."
+     }
+    ]
+   },
+   {
+    "nodeId": "4721:4547",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The chart has a text equivalent: role=\"img\" with an aria-label that states the shape of the data, and a list or table of the values nearby.",
+       "Series are told apart by position, label or shape, not color alone.",
+       "Marks meet 3:1 against the card surface in Light, Dark and High Contrast.",
+       "Trend text carries its sign (+ or -), not just color.",
+       "Not interactive. If marks become links or filters, add focus rings from focus/ring and a keyboard order."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4721:4557",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Pick the size by container width: Small and Vertical small under 360px, Medium and Large at 360 to 600px, XL above 720px. Keep titles to three words and values to one figure with its unit."
+     }
+    ]
+   }
+  ]
  }
 };
   NS.WORKFLOWS = { "create-account": {

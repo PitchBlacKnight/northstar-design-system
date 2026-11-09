@@ -1231,7 +1231,7 @@
       react: '<CalendarChart size="medium" title="Active days" value="19" trend="+3.0%" data={[0.2, 0.8, 0.5]} />',
     }),
     chartEntry("bar-chart", "bar", {
-      name: "Bar chart", figma: null,
+      name: "Bar chart", figma: "4721:1376",
       desc: "A bar chart compares one value across categories or time periods by bar height. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
       doc: [
         ["Start at zero", "Bars always start at a zero baseline. A cut axis makes small differences look large."],
@@ -1246,7 +1246,7 @@
       react: '<BarChart size="medium" title="Orders" value="12,480" trend="+4.2%" data={[0.42, 0.55, 0.92]} />',
     }),
     chartEntry("line-chart", "line", {
-      name: "Line chart", figma: null,
+      name: "Line chart", figma: "4721:1646",
       desc: "A line chart shows how a value moves over time, here against the same period last year. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
       doc: [
         ["Two series at most", "This year is chart/series-1 with a light flat area; the comparison is chart/series-3 without an area."],
@@ -1261,7 +1261,7 @@
       react: '<LineChart size="medium" title="Revenue" value="$84,200" trend="+6.1%" data={{ current: [0.3, 0.76], previous: [0.28, 0.56] }} />',
     }),
     chartEntry("pie-chart", "pie", {
-      name: "Pie chart", figma: null,
+      name: "Pie chart", figma: "4721:1881",
       desc: "A donut chart shows how one whole splits into four or fewer parts. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
       doc: [
         ["Donut, not pie", "The hole holds the largest share as a number, so the reader does not have to judge angles."],
@@ -1276,7 +1276,7 @@
       react: '<PieChart size="medium" title="Visits" value="48,300" trend="+3.4%" data={[{ label: "Search", value: 42 }]} />',
     }),
     chartEntry("sankey-chart", "sankey", {
-      name: "Sankey chart", figma: null,
+      name: "Sankey chart", figma: "4721:2133",
       desc: "A sankey diagram shows how volume flows from sources to outcomes; band width carries the amount. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
       doc: [
         ["Sources keep their color", "Each band takes the color of its source, at 35% opacity, so crossings stay readable."],
