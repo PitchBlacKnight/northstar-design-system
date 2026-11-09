@@ -200,10 +200,15 @@
   --ns-chart-marker: #5050ff; /* chart/marker: spacing guide markers, same in all themes */
   /* Chart measurements, read by NS.viz (js/viz.js) so every renderer draws with the same numbers */
   --ns-chart-axis-size: var(--ns-type-chart-size);
-  --ns-chart-stroke: 2px;      /* series lines */
+  --ns-chart-stroke: 2.5px;    /* series lines */
   --ns-chart-stroke-thin: 1.5px; /* secondary lines, spark lines */
   --ns-chart-grid-stroke: 1px;
-  --ns-chart-bar-radius: 1px;  /* matches the Figma chart kit bars */
+  --ns-chart-bar-radius: 12px; /* one end radius for every chart mark. Marks up to 24px thick end in a full half-circle; wider bars keep the same 12px curve */
+  --ns-chart-cap: round;
+  --ns-chart-ramp-from: var(--ns-chart-series-2); /* low end of the one chart ramp; the high end is the series color */
+  --ns-chart-ramp-fade: 42%;   /* ramp start for ink on a color block and for series other than series-1 */
+  --ns-chart-sheen: linear-gradient(150deg, color-mix(in srgb, #ffffff 14%, transparent) 0%, transparent 48%, color-mix(in srgb, #000000 24%, transparent) 100%); /* soft diagonal over a tile's own color */
+  --ns-type-chart-title-size: 12px; /* tile corner titles (overline was 10px) */
 
   --ns-gradient-brand: linear-gradient(135deg, var(--ns-blue-500), var(--ns-teal-500));
   --ns-gradient-bruise: linear-gradient(135deg, var(--ns-persian-500), var(--ns-purple-500));

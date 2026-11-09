@@ -61,7 +61,7 @@
     const trackW = w - labelW, rowH = Math.max(h, 14), H = rows.length * rowH + (rows.length - 1) * gap, th = h >= 10 ? h - 4 : h;
     const body = rows.map((r, i) => {
       const cy = i * (rowH + gap) + rowH / 2, top = (cy - h / 2).toFixed(1); let x = 0;
-      const segs = r.segments.map((p, j) => { const sw = Math.max(2, (trackW * p) / 100); const el = `<rect x="${(labelW + x).toFixed(1)}" y="${top}" width="${sw.toFixed(1)}" height="${h}" style="fill:var(--ns-chart-series-${j + 1})"/>`; x += sw + 2; return el; }).join("");
+      const segs = r.segments.map((p, j) => { const sw = Math.max(2, (trackW * p) / 100); const el = `<rect x="${(labelW + x).toFixed(1)}" y="${top}" width="${sw.toFixed(1)}" height="${h}" rx="${h / 2}" style="fill:var(--ns-chart-series-${j + 1})"/>`; x += sw + 2; return el; }).join("");
       const label = `${r.label ? r.label + ": " : ""}${r.segments.join(" + ")} of ${r.segments.reduce((a, b) => a + b, 0)}, target ${r.target}`;
       const tick = r.target > 0 ? `<rect x="${(labelW + (trackW * r.target) / 100 - 2).toFixed(1)}" y="${(cy - th / 2).toFixed(1)}" width="2" height="${th}" rx="1" style="fill:var(--ns-chart-target)"/>` : "";
       return `<g role="listitem" aria-label="${label}">${labelW ? `<text x="0" y="${cy.toFixed(1)}" dominant-baseline="middle" font-size="${NS.viz ? NS.viz.m.axis : 11}" style="fill:var(--ns-chart-label-text)">${r.label}</text>` : ""}<clipPath id="${id}-${i}"><rect x="${labelW}" y="${top}" width="${trackW}" height="${h}" rx="${h / 2}"/></clipPath><rect x="${labelW}" y="${top}" width="${trackW}" height="${h}" rx="${h / 2}" style="fill:var(--ns-chart-track)"/><g clip-path="url(#${id}-${i})">${segs}</g>${tick}</g>`;

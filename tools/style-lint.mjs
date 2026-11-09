@@ -10,7 +10,7 @@ const RULES = [
   ["hex", /#[0-9a-fA-F]{3,8}\b/g, "use a token, not a hex value"],
   ["radius", /border-radius:\s*[^;}]*\b\d+px/g, "use --ns-radius-*"],
   ["glow", /(?<!0 )0 0 [1-9]\d*px\s+(?!\d)|drop-shadow\(|blur\(/g, "no glow or blur"],
-  ["gradient", /(?:linear|radial)-gradient\(|--ns-gradient-/g, "flat fills only"],
+  ["gradient", /(?:linear|radial)-gradient\(|--ns-gradient-/g, "flat fills only, except the chart ramp and --ns-chart-sheen"],
   ["font-size", /font-size:\s*\d+(?:\.\d+)?px/g, "use --ns-type-*-size"],
   ["weight", /font-weight:\s*(?!400|600|700)\d+/g, "weights are 400, 600, 700"],
 ];
@@ -19,6 +19,7 @@ for (const f of FILES) {
   readFileSync(f, "utf8").split("\n").forEach((line, i) => {
     if (/style-lint-ignore/.test(line)) return;
     for (const [id, re, why] of RULES) for (const m of line.matchAll(re)) {
+      if (id === "gradient" && /--ns-chart-ramp-/.test(line)) continue; /* the one chart ramp, low to high (STYLE-RULES.md) */
       const key = `${f}:${id}:${m[0]}`;
       if (!allow.includes(key)) out.push(`${f}:${i + 1}  ${id.padEnd(9)} ${m[0]}  (${why})`);
     }

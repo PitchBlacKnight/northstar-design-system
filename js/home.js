@@ -29,6 +29,10 @@
   const patternCount = () => (NS.NAV.find((g) => g.group === "Patterns") || { items: [] }).items.length;
 
   /* ?layout=deck: Command deck prototype. One color-blocked bento grid, one tile per job. */
+  /* counts on the home page come from the data, never typed in */
+  const floorCount = () => Object.keys(NS.FLOORPLANS || {}).length;
+  const widgetCount = () => (NS.WIDGETS || []).length;
+  const newCount = () => (NS.COMPONENTS || []).filter((c) => c.status === "New").length;
   const deckBody = (comps) => {
     const T = (span, c, icon, kicker, title, body, href, extra = "", o = {}) =>
       `<${href ? "a" : "div"} class="hm-tile dk-tile ${o.cls || ""}" style="--c:var(--hm-${c});${span}"${href ? ` href="${href}"` : ""}${o.ext ? ' target="_blank" rel="noopener"' : ""}${o.fa ? ` data-figma-access="${o.fa}"` : ""} data-reveal data-spot><span class="hm-tile__k">${ic(icon, 16)}${kicker}</span>${o.num ? `<b class="dk-num" ${o.num}>0</b>` : ""}<h3>${title}</h3>${body ? `<p>${body}</p>` : ""}${extra}${href ? `<span class="hm-tile__go" aria-hidden="true">${ic("arrow", 16)}</span>` : ""}</${href ? "a" : "div"}>`;
@@ -52,8 +56,8 @@
       `<div class="hm-sw" aria-hidden="true">${["blue-500", "teal-500", "purple-500", "navy-900", "yellow-500"].map((v, i) => `<i style="background:var(--ns-${v});--i:${i}"></i>`).join("")}</div>`)}
     ${T(sp(3), "gray", "token", "Token reference", "Every variable", "Searchable, one click to copy.", "#/foundations/tokens", "", { num: 'data-count="tokens"' })}
     ${T(sp(3), "blue", "layers", "Patterns", "Forms to errors", "Dialogs, tables, empty states and workflows.", "#/patterns/forms", "", { num: `data-to="${patternCount()}"` })}
-    ${T(sp(3), "yellow", "layout", "Floorplans", "Page templates", "Dashboard, list, detail, wizard and approval queue.", "#/floorplans", "", { num: 'data-to="5"' })}
-    ${T(sp(3), "green", "chart", "Graphics", "60+ dashboard widgets", "", "#/graphics", `<div class="hm-bars" aria-hidden="true">${[40, 70, 55, 90, 65, 82].map((h, i) => `<i style="--h:${h}%;--i:${i}"></i>`).join("")}</div>`)}
+    ${T(sp(3), "yellow", "layout", "Floorplans", "Page templates", "Dashboard, list, detail, wizard, approvals and two learning boards.", "#/floorplans", "", { num: `data-to="${floorCount()}"` })}
+    ${T(sp(3), "green", "chart", "Graphics", widgetCount() + " dashboard widgets", "", "#/graphics", `<div class="hm-bars" aria-hidden="true">${[40, 70, 55, 90, 65, 82].map((h, i) => `<i style="--h:${h}%;--i:${i}"></i>`).join("")}</div>`)}
     ${T(sp(3), "red", "access", "Accessibility", "WCAG 2.2 AA", "Checklist, criteria mapping and a contrast checker.", "#/accessibility")}
     ${T(sp(6), "violet", "spark", "Live Builder", "Watch a UI assemble from real tokens", "Pick a recipe, or describe one and let Claude build it.", "#/tools/live-builder", `<span class="ns-btn hm-live__btn">Launch</span>`, { cls: "hm-tile--live" })}
     ${T(sp(6), "teal", "clock", "What's new", "Latest changes", "", "", `<ol class="hm-rel">
@@ -95,7 +99,7 @@
     <div>${ic("token", 18)}<b data-count="tokens">0</b><span>Tokens</span></div>
     <div>${ic("grid", 18)}<b data-to="${comps}">0</b><span>Components</span></div>
     <div>${ic("layers", 18)}<b data-to="${patternCount()}">0</b><span>Patterns</span></div>
-    <div>${ic("layout", 18)}<b data-to="5">0</b><span>Floorplans</span></div>
+    <div>${ic("layout", 18)}<b data-to="${floorCount()}">0</b><span>Floorplans</span></div>
   </div>
  </div>
 </section>
@@ -116,7 +120,7 @@
   ${eye("02", '<span id="hm-lib">The library</span>', "grid")}
   <div class="hm-bento">
     ${tile("hm-tile--big", "teal", "grid", "Components", comps + " components, live", "Playgrounds, token tables, code, accessibility notes and Figma specs for every component.", "#/components",
-      `<span class="hm-new">14 new in Figma</span>
+      `<span class="hm-new">${newCount()} new</span>
       <div class="hm-demo ns" aria-hidden="true">
         <div><span class="ns-btn ns-btn--sm hm-demo__btn">Deploy</span></div>
         <div><span class="hm-tog"></span><span class="ns-badge ns-badge--positive ns-badge--sm">Active</span></div>
@@ -128,11 +132,11 @@
     ${tile("", "teal", "palette", "Foundations", "Color, type, space", "Radius, elevation, motion, icons and themes.", "#/foundations",
       `<div class="hm-sw" aria-hidden="true">${["blue-500", "teal-500", "purple-500", "navy-900", "yellow-500"].map((v, i) => `<i style="background:var(--ns-${v});--i:${i}"></i>`).join("")}</div>`)}
     ${tile("", "blue", "layers", "Patterns", "Forms to errors", "Dialogs, tables, empty states and the Create account workflow.", "#/patterns/forms")}
-    ${tile("", "green", "chart", "Graphics", "60+ dashboard widgets", "", "#/graphics",
+    ${tile("", "green", "chart", "Graphics", widgetCount() + " dashboard widgets", "", "#/graphics",
       `<div class="hm-bars" aria-hidden="true">${[40, 70, 55, 90, 65, 82].map((h, i) => `<i style="--h:${h}%;--i:${i}"></i>`).join("")}</div>`)}
     ${tile("", "red", "access", "Accessibility", "WCAG 2.2 AA", "Principles, checklist, criteria mapping and a contrast checker.", "#/accessibility")}
     ${tile("hm-tile--live", "violet", "spark", "Live Builder", "Watch a UI assemble from real tokens", "Pick a recipe, or describe one and let Claude build it.", "#/tools/live-builder", `<span class="ns-btn hm-live__btn">Launch</span>`)}
-    ${tile("", "yellow", "layout", "Floorplans", "5 page templates", "Dashboard, list, detail, wizard and approval queue.", "#/floorplans")}
+    ${tile("", "yellow", "layout", "Floorplans", floorCount() + " page templates", "Dashboard, list, detail, wizard, approvals and two learning boards.", "#/floorplans")}
     ${tile("", "gray", "token", "Token reference", "Every variable", "Searchable, one click to copy.", "#/foundations/tokens")}
   </div>
 </section>

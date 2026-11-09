@@ -2,7 +2,7 @@
    NORTHSTAR graphics framework - widget shells, tables, informers
    Mirrors Figma page "Widgets" (427:8676). Token-only values.
    ============================================================ */
-.ns-w { --_w: 290px; width: min(100%, var(--_w)); background: var(--ns-widget-bg); border-radius: var(--ns-widget-radius); box-shadow: var(--ns-widget-shadow); padding: var(--ns-widget-pad); color: var(--ns-text-primary); font-family: var(--ns-font-sans); display: grid; gap: var(--ns-space-5); align-content: start; position: relative; overflow: hidden; }
+.ns-w { --_w: 290px; width: min(100%, var(--_w)); background: var(--ns-widget-bg) var(--ns-chart-sheen); border-radius: var(--ns-widget-radius); box-shadow: var(--ns-widget-shadow); padding: var(--ns-widget-pad); color: var(--ns-text-primary); font-family: var(--ns-font-sans); display: grid; gap: var(--ns-space-5); align-content: start; position: relative; overflow: hidden; }
 .ns-w--S { --_w: 116px; padding: var(--ns-space-4); gap: var(--ns-space-3); justify-items: center; text-align: center; }
 .ns-w--S96 { --_w: 96px; padding: var(--ns-space-3); }
 .ns-w--M { --_w: 290px; }
@@ -114,13 +114,13 @@
 .ns-funnel__row { display: grid; gap: var(--ns-space-2); justify-items: center; }
 .ns-funnel__lbl { display: flex; justify-content: space-between; width: 100%; font: 400 var(--ns-type-caption-size)/var(--ns-type-caption-line) var(--ns-font-sans); color: var(--ns-text-secondary); }
 .ns-funnel__lbl b { color: var(--ns-text-primary); font-weight: 400; }
-.ns-funnel__row > i { display: block; height: 18px; width: var(--_v); border-radius: var(--ns-radius-sm); background: var(--_c); }
+.ns-funnel__row > i { display: block; height: 18px; width: var(--_v); border-radius: var(--ns-radius-full); background: var(--_c); }
 .ns-funnel--L { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--ns-space-4); }
 .ns-funnel__col { display: grid; gap: var(--ns-space-1); }
 .ns-funnel__n { font: 700 var(--ns-type-h6-size)/var(--ns-type-h6-line) var(--ns-font-sans); }
 .ns-funnel__share { font: 400 var(--ns-type-caption-size)/var(--ns-type-caption-line) var(--ns-font-sans); color: var(--ns-chart-label-text); }
-.ns-funnel__well { height: 160px; margin-top: var(--ns-space-3); border-radius: var(--ns-radius-md); background: var(--ns-widget-band); display: flex; align-items: flex-end; }
-.ns-funnel__well i { display: block; width: 100%; height: var(--_v); border-radius: var(--ns-radius-md); background: var(--_c); }
+.ns-funnel__well { height: 160px; margin-top: var(--ns-space-3); border-radius: var(--ns-radius-full); background: var(--ns-widget-band); display: flex; align-items: flex-end; }
+.ns-funnel__well i { display: block; width: 100%; height: var(--_v); border-radius: var(--ns-radius-full); background: var(--_c); }
 .ns-funnel__drop { margin-top: var(--ns-space-3); font: 400 var(--ns-type-caption-size)/1 var(--ns-font-sans); color: var(--ns-status-error); }
 .ns-funnel__drop.is-end { color: var(--ns-chart-label-text); }
 .ns-uptime { display: grid; grid-template-columns: repeat(var(--_n), 1fr); gap: var(--ns-space-1); height: 28px; }
@@ -137,7 +137,7 @@
 .ns-legend--values { flex-direction: column; gap: var(--ns-space-4); width: 230px; font-size: var(--ns-type-body2-size); }
 .ns-legend--values span { display: grid; grid-template-columns: 8px 1fr auto; gap: var(--ns-space-3); }
 .ns-legend--values b { color: var(--ns-text-primary); font-weight: 400; }
-.ns-w__part { padding: var(--ns-space-5); background: var(--ns-widget-bg); border-radius: var(--ns-widget-radius); display: inline-block; }
+.ns-w__part { padding: var(--ns-space-5); background: var(--ns-widget-bg) var(--ns-chart-sheen); border-radius: var(--ns-widget-radius); display: inline-block; }
 .ns-ctip { display: grid; gap: 6px; min-width: 140px; padding: 10px var(--ns-space-4); border-radius: var(--ns-radius-lg); background: var(--ns-widget-inset); border: 1px solid var(--ns-widget-grid); box-shadow: var(--ns-elevation-02); font-family: var(--ns-font-sans); }
 .ns-ctip__date { font: 400 var(--ns-type-caption-size)/1 var(--ns-font-sans); color: var(--ns-chart-label-text); }
 .ns-ctip__val { font: 700 var(--ns-type-h6-size)/1.2 var(--ns-font-sans); display: flex; align-items: center; gap: 6px; }
