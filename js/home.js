@@ -38,7 +38,7 @@
   <div class="dk-grid">
     <div class="hm-tile dk-tile dk-title" style="--c:var(--hm-blue);${sp(7, 2)}" data-reveal>
       <a class="hm-pill hm-in" href="#/changelog" style="--d:0"><b>${NS.VERSION}</b> Spec tabs synced from Figma · Oct 2026 ${ic("arrow", 14)}</a>
-      <h1 class="hero__brand hm-in" style="--d:1">NORTHSTAR <b>DS</b></h1>
+      <h1 class="hero__brand hm-in" style="--d:1">${NS.wordmarkSvg("hero__wordmark", "NorthStar DS", true)}</h1>
       <p class="hm-lede hm-in" style="--d:2">The design language and development kit for dense, dark, data-heavy enterprise consoles.</p>
       <button class="hm-search hm-in" style="--d:3" data-open-search aria-label="Search documentation">${ic("search", 20)}<span class="hm-search__q">Find a <span data-type>component</span><i class="hm-caret"></i></span><kbd>⌘K</kbd></button>
       <div class="hm-cta ns hm-in" style="--d:4"><a class="ns-btn" href="#/getting-started/about">Get started</a><a class="ns-btn ns-btn--tertiary" href="#/components">Browse components</a></div>
@@ -85,7 +85,7 @@
  <div class="hm-hero__grid">
  <div class="hm-hero__copy">
   <a class="hm-pill hm-in" href="#/changelog" style="--d:0"><b>${NS.VERSION}</b> Spec tabs synced from Figma · Oct 2026 ${ic("arrow", 14)}</a>
-  <h1 class="hero__brand hm-in" style="--d:1">NORTHSTAR <b>DS</b></h1>
+  <h1 class="hero__brand hm-in" style="--d:1">${NS.wordmarkSvg("hero__wordmark", "NorthStar DS", true)}</h1>
   <p class="hm-lede hm-in" style="--d:2">The design language and development kit for dense, dark, data-heavy enterprise consoles.</p>
   <button class="hm-search hm-in" style="--d:3" data-open-search aria-label="Search documentation">${ic("search", 20)}<span class="hm-search__q">Find a <span data-type>component</span><i class="hm-caret"></i></span><kbd>⌘K</kbd></button>
   <div class="hm-cta ns hm-in" style="--d:4"><a class="ns-btn" href="#/getting-started/about">Get started</a><a class="ns-btn ns-btn--tertiary" href="#/components">Browse components</a><a class="hm-link" href="#/tools/live-builder">Launch Live Builder ${ic("arrow", 16)}</a></div>

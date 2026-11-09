@@ -78,7 +78,7 @@ NorthStar is a design language and development kit for dense, dark, data-heavy e
 - **Iconography** (https://mikelrosenthal.com/northstar/#/foundations/iconography) 95 icons exported from the Figma Icons page: a 24px set, an 18px mini set, and a status set. Every icon uses currentColor, so it follows text and state tokens.
 - **Themes** (https://mikelrosenthal.com/northstar/#/foundations/themes) Dark is the default. Light is a full override layer on the same semantic roles, so components never change structure between modes.
 - **Token reference** (https://mikelrosenthal.com/northstar/#/foundations/tokens) Every NorthStar design token as a CSS custom property. Filter, click to copy, and see live values for the current theme.
-- **Logo** (https://mikelrosenthal.com/northstar/#/foundations/logo) The NorthStar mark: a gray chevron over a cyan diamond. Use it as drawn, at a size where the diamond stays visible, and with room around it.
+- **Logo** (https://mikelrosenthal.com/northstar/#/foundations/logo) The NorthStar DS logo is a wordmark with the mark standing in for the A: a chevron with a star on its tip. The mark also works on its own where space is short.
 - **Content and voice** (https://mikelrosenthal.com/northstar/#/foundations/content-voice) How NorthStar writes labels, errors, empty states and generated text. Apply these rules to anything a product or this site shows.
 
 ## Semantic tokens

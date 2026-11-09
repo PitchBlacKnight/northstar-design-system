@@ -167,7 +167,8 @@
     star: '<path d="M12 2.5l2.7 6.2 6.8.6-5.1 4.5 1.5 6.7L12 17l-5.9 3.5 1.5-6.7L2.5 9.3l6.8-.6z"/>',
   };
   D.icon = (k) => `<svg viewBox="0 0 24 24" aria-hidden="true">${IC[k]}</svg>`;
-  D.logo = '<svg viewBox="40 30 374 390" role="img" aria-label="NorthStar"><path d="M227 46.1094L393.703 328.086L290.844 281.977L227 170.25L163.156 281.977L60.2969 328.086L227 46.1094Z" fill="#C5C5C5"/><path d="M227 255.375L289.07 360.008L227 404.344L164.93 360.008L227 255.375Z" fill="#27BDFA"/></svg>';
+  /* The rail logo comes from the logo component (js/logo.js), loaded before this file. */
+  D.logo = NS.logoSvg ? NS.logoSvg("", NS.LOGO.name) : "";
 
   /* shell: rail + top bar. active = icon key. Returns {open, close} strings. */
   D.shell = ({ active = "grid", title, sub, right = "" }) => {

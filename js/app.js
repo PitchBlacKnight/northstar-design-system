@@ -54,7 +54,7 @@
 <a class="skip" href="#main-content">Skip to content</a>
 <header class="hdr" role="banner">
   <button class="icon-btn hdr__menu" id="menu-btn" aria-label="Open navigation" aria-expanded="false" aria-controls="side">${NS.icon.menu}</button>
-  <a class="brand" href="#/" aria-label="NorthStar DS home">${NS.logoSvg("brand__logo")}NORTHSTAR <span>DS</span></a>
+  <a class="brand" href="#/" aria-label="NorthStar DS home">${NS.logoSvg("brand__logo", "", true)}${NS.wordmarkSvg("brand__word", "", true)}</a>
   <span class="ver">${NS.VERSION}</span>
   <nav class="hdr__nav" aria-label="Primary">${[["foundations", "Foundations"], ["components", "Components"], ["patterns/forms", "Patterns"], ["graphics", "Graphics"], ["floorplans", "Floorplans"], ["tools/live-builder", "Live tools"]].map(([p, l]) => `<a href="#/${p}" data-top="${p.split("/")[0]}">${l}</a>`).join("")}</nav>
   <span class="hdr__spacer"></span>

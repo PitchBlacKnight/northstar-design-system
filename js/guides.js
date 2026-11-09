@@ -252,8 +252,8 @@ ${h2("Callable assets")}<p>Name an asset in a command to keep sample content con
   const FILE_GROUPS = [
     ["Tokens and styles", ["css/tokens.css", "css/components.css", "css/widgets.css", "css/site.css"]],
     ["Components, specs and widgets", ["js/components.js", "js/specs.js", "js/widgets.js"]],
-    ["Docs site", ["index.html", "js/ui.js", "js/app.js", "js/pages.js", "js/guides.js", "js/roadmap.js", "js/tools.js", "js/graphics.js", "js/home.js", "js/rays.js"]],
-    ["Logo", ["assets/logo/northstar-mark.svg", "assets/logo/northstar-mark-mono.svg"]],
+    ["Docs site", ["index.html", "js/logo.js", "js/ui.js", "js/app.js", "js/pages.js", "js/guides.js", "js/roadmap.js", "js/tools.js", "js/graphics.js", "js/home.js", "js/rays.js"]],
+    ["Logo", ["js/logo.js", ...["northstar-ds-wordmark", "northstar-ds-wordmark-light", "northstar-ds-wordmark-on-blue", "northstar-ds-wordmark-mono", "northstar-mark", "northstar-mark-light", "northstar-mark-on-blue", "northstar-mark-mono", "northstar-mark-animated", "northstar-mark-animated-light", "favicon"].map((f) => `assets/logo/${f}.svg`)]],
     ["Agent files", ["llms.txt", "agent/northstar.md", "agent/components.json", "agent/tokens.json"]],
     ["Icons and tooling", ["assets/icons/manifest.json", "tools/figma-sync-check.mjs", "tools/agent-export.mjs", "tools/agent-check.mjs"]],
   ];
@@ -264,28 +264,58 @@ ${h2("Callable assets")}<p>Name an asset in a command to keep sample content con
   };
 
   /* ---------- Logo ---------- */
-  const MARK = NS.logoSvg("", "NorthStar mark");
-  const MARK_MONO = MARK.replace(/#C5C5C5|#27BDFA/g, "currentColor");
+  const LOGO_DIR = "assets/logo/";
+  const logoTile = (bg, ink, inner, note) => `<div style="display:grid;gap:14px;justify-items:center;align-content:center;padding:28px 20px;background:${bg};color:${ink};border-radius:12px">${inner}<span class="ns-helper" style="color:inherit">${note}</span></div>`;
+  const logoImg = (file, w) => `<img src="${LOGO_DIR}${file}.svg" alt="" style="width:${w};max-width:100%;height:auto;display:block">`;
+  const logoRow = (file, w, min) => `<div class="ns-card" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(${min}px,1fr));gap:16px;padding:20px">
+      ${logoTile("var(--ns-navy-900)", "var(--ns-white)", logoImg(file, w), "On dark")}
+      ${logoTile("var(--ns-white)", "var(--ns-navy-900)", logoImg(file + "-light", w), "On light")}
+      ${logoTile("var(--ns-blue-500)", "var(--ns-white)", logoImg(file + "-on-blue", w), "On blue")}
+      ${logoTile("var(--ns-white)", "var(--ns-black)", logoImg(file + "-mono", w), "One color")}
+    </div>`;
   NS.PAGES["foundations/logo"] = {
     title: "Logo",
     status: "New",
-    lede: "The NorthStar mark: a gray chevron over a cyan diamond. Use it as drawn, at a size where the diamond stays visible, and with room around it.",
-    body: () => `${h2("The mark")}<div class="ns-card" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;align-items:center;padding:32px">
-      <div style="display:grid;gap:12px;justify-items:center;padding:16px;background:var(--ns-navy-900);border-radius:12px"><div style="width:120px">${MARK}</div><span class="ns-helper" style="color:var(--ns-white)">Full color on dark</span></div>
-      <div style="display:grid;gap:12px;justify-items:center;padding:16px;background:var(--ns-white);border-radius:12px"><div style="width:120px;color:var(--ns-navy-900)">${MARK_MONO}</div><span class="ns-helper" style="color:var(--ns-navy-900)">Mono on light</span></div>
-      <div style="display:grid;gap:12px;justify-items:center;padding:16px;background:var(--ns-navy-900);border-radius:12px"><div style="width:120px;color:var(--ns-white)">${MARK_MONO}</div><span class="ns-helper" style="color:var(--ns-white)">Mono on dark</span></div>
-    </div>${h2("Clear space and size")}${table(["Rule", "Value", "Note"], [
-      ["Clear space", "Half the mark's height on every side", "Keep text, edges and other logos out of this zone"],
-      ["Minimum size", "16px tall", "Below this the diamond closes up. Enlarge the mark or drop it"],
-      ["Preferred size in product", "24 to 40px tall", "The header uses 26px"],
-    ])}${h2("Color")}${table(["Version", "Use", "Colors"], [
-      ["Full color", "Dark surfaces, the default", "Chevron #C5C5C5, diamond #27BDFA"],
-      ["Mono", "Print, one-color, and light surfaces when color is not available", "One color, set with currentColor"],
-    ])}${h2("Misuse")}${table(["Do not", "Why"], [
-      ["Recolor the chevron or the diamond", "The two colors are the mark. Use mono instead"],
-      ["Rotate, skew or add effects", "The mark is drawn once; effects like the header glow are for the site, not the logo"],
-      ["Stretch or redraw it", "Scale proportionally and use the files in assets/logo"],
-    ])}${h2("Downloads")}<p>Files are in <code>assets/logo</code>. <a href="assets/logo/northstar-mark.svg" download>Full color SVG</a>, <a href="assets/logo/northstar-mark-mono.svg" download>Mono SVG</a>.</p>`,
+    lede: "The NorthStar DS logo is a wordmark with the mark standing in for the A: a chevron with a star on its tip. The mark also works on its own where space is short.",
+    body: () => `${h2("The wordmark")}<p>NORTHSTAR is set in Open Sans at the weight where the letter stems match the chevron's arms. DS is set in Light.</p>${logoRow("northstar-ds-wordmark", "100%", 240)}
+    ${h2("The mark")}<p>Use the mark alone for the favicon, the dashboard rail and the header on small screens.</p>${logoRow("northstar-mark", "72px", 150)}
+    ${h2("Motion")}<p>On the site the star rises onto the tip, glints once and twinkles again when the logo is hovered or focused. Hover the mark to see it.</p><div class="ns-card" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;align-items:center;padding:20px">
+      ${logoTile("var(--ns-navy-900)", "var(--ns-white)", `<div style="width:120px;padding:24px 0 8px">${NS.logoSvg("", "NorthStar mark, animated", true).replace('class="ns-logo__star"', `class="ns-logo__star" style="fill:${NS.LOGO.color}"`)}</div>`, "Rise, then twinkle on hover")}
+      <div>${table(["Part", "What happens"], [
+        ["Rise", "The star rises onto the tip and glints once, in about two seconds"],
+        ["Twinkle", "The star lifts and glints once more, then again on hover or focus"],
+        ["Reduced motion", "No animation. The logo is drawn still"],
+        ["Looping file", "northstar-mark-animated.svg loops the twinkle, for video and slides"],
+      ])}</div>
+    </div><p>Automatic motion ends within five seconds, so the logo needs no pause control.</p>
+    ${h2("Clear space and size")}${table(["Rule", "Value", "Note"], [
+      ["Clear space", "The height of the star on every side", "Keep text, edges and other logos out of this zone"],
+      ["Wordmark minimum", "20px tall", "Below this the star closes up. Use the mark instead"],
+      ["Mark minimum", "16px tall", "Below this the gap under the star closes up"],
+      ["In the header", "Wordmark 22px tall, mark 30px tall under 600px wide", "Set in css/site.css"],
+    ])}${h2("Color")}${table(["Version", "Use", "Letters and chevron", "Star"], [
+      ["On dark", "Dark surfaces, the default", "#FFFFFF", "#27BDFA"],
+      ["On light", "White and light surfaces", "#191932", "#023AFF"],
+      ["On blue", "The action blue, #023AFF", "#FFFFFF", "#01F1E3"],
+      ["One color", "Print and one-color work", "currentColor", "currentColor"],
+    ])}<p>The star changes color with the surface because the sky blue fades on white and on the action blue.</p>
+    ${h2("Misuse")}${table(["Do not", "Why"], [
+      ["Recolor the letters, chevron or star", "Use one of the four versions. They cover dark, light, blue and one-color work"],
+      ["Move the star or close the gap under it", "The gap keeps the star and chevron apart in one color"],
+      ["Rotate, skew or add effects", "The logo is drawn once and used as drawn"],
+      ["Stretch or retype it", "The letters are outlines. Scale proportionally and use the files in assets/logo"],
+    ])}${h2("Use your own logo")}<p>The logo is one component. Every screen draws it from <code>js/logo.js</code> or reads a file in <code>assets/logo</code>, so replacing it takes two steps.</p><ol><li>In <code>js/logo.js</code>, replace the name and the path data in <code>NS.LOGO</code>: <code>mark</code> for the icon and <code>wordmark</code> for the full logo.</li><li>In <code>assets/logo</code>, replace the files and keep their names.</li></ol>${codeBlock('NS.wordmarkSvg(className, label, live)  // the full logo\nNS.logoSvg(className, label, live)      // the mark alone', "js")}${table(["Where it appears", "Source"], [
+      ["Header", "NS.wordmarkSvg, and NS.logoSvg under 600px wide"],
+      ["Home hero", "NS.wordmarkSvg"],
+      ["Dashboard rail", "NS.logoSvg"],
+      ["App mock-ups: side navigation, floorplans, widget hero", "northstar-mark.svg and northstar-mark-light.svg"],
+      ["Browser tab", "favicon.svg"],
+      ["Share image", "assets/og-northstar.jpg, a flat image to export again"],
+    ])}${h2("Downloads")}<p>Files are in <code>assets/logo</code>.</p>${table(["File", "Dark", "Light", "Blue", "One color"], [
+      ["Wordmark", ...["", "-light", "-on-blue", "-mono"].map((v) => `<a href="${LOGO_DIR}northstar-ds-wordmark${v}.svg" download>SVG</a>`)],
+      ["Mark", ...["", "-light", "-on-blue", "-mono"].map((v) => `<a href="${LOGO_DIR}northstar-mark${v}.svg" download>SVG</a>`)],
+      ["Animated mark", `<a href="${LOGO_DIR}northstar-mark-animated.svg" download>SVG</a>`, `<a href="${LOGO_DIR}northstar-mark-animated-light.svg" download>SVG</a>`, "", ""],
+    ])}`,
   };
 
   /* ---------- Component status ---------- */
