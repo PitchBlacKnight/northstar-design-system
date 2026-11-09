@@ -46,3 +46,127 @@
 
   NS.viz = { tok, c, series: SERIES, label: LABEL, m: M, text, grid, round, ramp, rampFrom, fade };
 })();
+
+/* ---------- Chart motion ----------
+   Every chart draws itself in once, the first time it scrolls into view: columns and bars grow from their base,
+   lines draw, rings sweep, dots and cells pop, filled areas fade up after their line. One pass, under 1.5 seconds, nothing loops.
+   Labels, axes and gridlines stay put so the frame never jumps.
+   Still when the reader asks for reduced motion, in scaled thumbnails (.cthumb), under [data-motion="off"],
+   with ?motion=off, and in headless captures (so screenshots and visual tests show finished charts).
+   NS.chartMotion.play(svg) replays one chart. */
+(function () {
+  const NS = window.NS;
+  if (!NS || typeof IntersectionObserver === "undefined" || typeof MutationObserver === "undefined" || !Element.prototype.animate) return;
+  const q = new URLSearchParams(location.search).get("motion");
+  const still = q !== "on" && (q === "off" || matchMedia("(prefers-reduced-motion: reduce)").matches || /HeadlessChrome/.test(navigator.userAgent));
+  const M = (NS.chartMotion = { still, play: () => {} });
+  if (still) return;
+
+  const MARKS = "rect, path, circle, ellipse, polygon, polyline";
+  const WAIT = "ns-motion-wait";
+  const css = document.createElement("style");
+  css.textContent = `svg.${WAIT} :is(${MARKS}):not(defs *) { opacity: 0; } .bar.${WAIT} > i { width: 0; } @media print { svg.${WAIT} :is(${MARKS}) { opacity: 1; } .bar.${WAIT} > i { width: var(--_v); } }`;
+  document.head.appendChild(css);
+  const EASE = getComputedStyle(document.documentElement).getPropertyValue("--ns-easing-standard").trim() || "cubic-bezier(0.2, 0, 0, 1)";
+
+  /* What a mark is decides how it enters. Read from the drawn shape, so every chart gets it without its own code. */
+  const kind = (el, W, H) => {
+    let b; try { b = el.getBBox(); } catch (e) { return null; }
+    if (!b.width && !b.height) return null;
+    const tag = el.tagName.toLowerCase(), cs = getComputedStyle(el);
+    const filled = cs.fill !== "none" && cs.fillOpacity !== "0";
+    const stroked = cs.stroke !== "none" && parseFloat(cs.strokeWidth) > 0;
+    const dash = cs.strokeDasharray && cs.strokeDasharray !== "none" ? cs.strokeDasharray.split(/[ ,]+/).map(parseFloat) : null;
+    const arc = dash && dash.length === 2 && dash[0] > 12;            /* one long dash is an arc, many short ones a dotted rule */
+    const moved = el.hasAttribute("transform");                         /* its own transform would fight a scale */
+    if (tag === "rect") {
+      if (b.width >= W * 0.9 && b.height >= H * 0.9) return null;       /* plot background */
+      if (moved) return "fade";
+      if (Math.abs(b.width - b.height) <= Math.max(2, b.width * 0.15)) return "dot";   /* cells and swatches */
+      return b.height > b.width ? "col" : "bar";
+    }
+    if (tag === "circle" || tag === "ellipse") {
+      if (!filled && stroked) return arc ? "ring" : "fade";
+      return moved ? "fade" : "dot";
+    }
+    if (!filled && stroked) return arc ? "ring" : dash ? "fade" : "line";
+    return "fill";
+  };
+
+  /* kind: [keyframes(el), duration, first delay, total stagger] */
+  const box = (el, origin) => { el.style.transformBox = "fill-box"; el.style.transformOrigin = origin; };
+  const ENTER = {
+    col: [(el) => (box(el, "50% 100%"), [{ transform: "scaleY(0)" }, { transform: "scaleY(1)" }]), 700, 0, 360],
+    bar: [(el) => (box(el, "0% 50%"), [{ transform: "scaleX(0)" }, { transform: "scaleX(1)" }]), 700, 0, 360],
+    line: [(el) => { const L = el.getTotalLength(); return [{ strokeDasharray: `${L} ${L}`, strokeDashoffset: L }, { strokeDasharray: `${L} ${L}`, strokeDashoffset: 0 }]; }, 900, 80, 240],
+    ring: [(el) => { const cs = getComputedStyle(el); return [{ strokeDasharray: `0px, ${Math.ceil(el.getTotalLength())}px` }, { strokeDasharray: cs.strokeDasharray }]; }, 900, 0, 240],
+    dot: [(el) => (box(el, "50% 50%"), [{ transform: "scale(0)", opacity: 0 }, { transform: "scale(1)", opacity: getComputedStyle(el).opacity }]), 420, 260, 480],
+    fill: [(el) => [{ opacity: 0 }, { opacity: getComputedStyle(el).opacity }], 600, 450, 200],   /* areas follow their line */
+    fade: [(el) => [{ opacity: 0 }, { opacity: getComputedStyle(el).opacity }], 420, 160, 160],
+  };
+
+  M.play = (svg) => {
+    const vb = svg.viewBox && svg.viewBox.baseVal, r = svg.getBoundingClientRect();
+    const W = (vb && vb.width) || r.width, H = (vb && vb.height) || r.height;
+    const groups = {};
+    try {
+      svg.querySelectorAll(MARKS).forEach((el) => {
+        if (el.closest("defs, clipPath, mask, pattern, marker")) return;
+        svg.classList.remove(WAIT);                                      /* measure opacity and shape as drawn */
+        const k = kind(el, W, H);
+        if (k) (groups[k] = groups[k] || []).push(el);
+      });
+      Object.keys(groups).forEach((k) => {
+        const [frames, duration, d0, spread] = ENTER[k], els = groups[k], step = els.length > 1 ? spread / (els.length - 1) : 0;
+        const first = k === "dot" && groups.line ? 620 : d0;      /* points land after their line arrives */
+        els.forEach((el, i) => {
+          const a = el.animate(frames(el), { duration, delay: first + Math.min(step, 90) * i, easing: EASE, fill: "backwards" });
+          a.onfinish = a.oncancel = () => { el.style.removeProperty("transform-box"); el.style.removeProperty("transform-origin"); };
+        });
+      });
+    } finally { svg.classList.remove(WAIT); svg.dataset.motion = "done"; }
+  };
+
+  /* Bars drawn in CSS (.bar > i) grow to their value, a short step apart down the list. */
+  const playBar = (bar) => {
+    const fill = bar.firstElementChild, tile = bar.closest(".t, .ns-card, section") || document.body;
+    const i = Math.max(0, [...tile.querySelectorAll(".bar")].indexOf(bar));
+    bar.classList.remove(WAIT); bar.dataset.motion = "done";
+    if (fill) fill.animate([{ width: "0px" }, { width: getComputedStyle(fill).width }], { duration: 700, delay: Math.min(i * 45, 360), easing: EASE, fill: "backwards" });
+  };
+
+  const io = new IntersectionObserver((es) => es.forEach((e) => {
+    if (!e.isIntersecting) return;
+    io.unobserve(e.target);
+    if (e.target.classList.contains("bar")) return playBar(e.target);
+    /* a beat, so a plot that redraws to its tile width (charts.js) has settled before its marks are measured */
+    setTimeout(() => requestAnimationFrame(() => M.play(e.target)), 80);
+  }), { threshold: 0.15 });
+
+  const seen = new WeakMap();   /* host element -> chart slots already played, so a redraw in place does not replay */
+  const adopt = (svg) => {
+    if (svg.dataset.motion) return;
+    const host = svg.parentElement;
+    if (svg.closest('.cthumb, [data-motion="off"]') || (parseFloat(svg.getAttribute("width")) || svg.getBoundingClientRect().width) < 48) { svg.dataset.motion = "off"; return; }
+    if (host) {
+      const slot = [...host.children].filter((n) => n.tagName.toLowerCase() === "svg").indexOf(svg), set = seen.get(host) || new Set();
+      seen.set(host, set);
+      if (set.has(slot)) { svg.dataset.motion = "done"; return; }
+      set.add(slot);
+    }
+    svg.dataset.motion = "wait"; svg.classList.add(WAIT); io.observe(svg);
+  };
+  const adoptBar = (bar) => {
+    if (bar.dataset.motion || !bar.firstElementChild || bar.firstElementChild.tagName !== "I") return;
+    if (bar.closest('.cthumb, [data-motion="off"]')) { bar.dataset.motion = "off"; return; }
+    bar.dataset.motion = "wait"; bar.classList.add(WAIT); io.observe(bar);
+  };
+  const SEL = 'svg:is([role="img"], [data-chart], [data-bullet]):not(.ns-logo)';
+  const scan = (n) => {
+    if (n.nodeType !== 1) return;
+    if (n.matches(SEL)) adopt(n); n.querySelectorAll(SEL).forEach(adopt);
+    if (n.matches(".bar")) adoptBar(n); n.querySelectorAll(".bar").forEach(adoptBar);
+  };
+  new MutationObserver((ms) => ms.forEach((m) => m.addedNodes.forEach(scan))).observe(document.documentElement, { childList: true, subtree: true });
+  if (document.body) scan(document.body); else document.addEventListener("DOMContentLoaded", () => scan(document.body));
+})();
