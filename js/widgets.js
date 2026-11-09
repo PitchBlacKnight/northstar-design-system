@@ -12,7 +12,7 @@
   const v = (t) => NS.viz.c(t); /* palette names and viz tokens resolve to chart series */
 
   /* former gradient presets, now flat chart-series fills (NS.viz): GRAD[name] = [color, color] */
-  const GRAD = Object.fromEntries(["purple", "bruise", "blue", "orange", "green", "teal", "red"].map((k) => [k, [v(k), v(k)]]));
+  const GRAD = Object.fromEntries(["purple", "bruise", "blue", "orange", "green", "teal", "red"].map((k) => [k, [v(k), NS.viz.rampFrom(v(k))]])); /* [color, ramp start]: bars that fill a track ramp low to high (STYLE-RULES.md) */
 
   /* ---------- data ---------- */
   const TABLE = [["Finance", 324, 1540, "green-500"], ["Travel", 311, 1320, "orange-500"], ["Presentation", 300, 1201, "purple-500"], ["Startup", 288, 989, "teal-500"], ["Development", 276, 944, "red-400"], ["Design", 273, 897, "yellow-500"], ["Product", 233, 843, "periwinkle-500"], ["Research", 184, 765, "blue-500"], ["Other", 143, 565, "text-primary"]];
@@ -119,7 +119,7 @@
 
   function timeline({ w = 1500, h = 44, bubble = false }) {
     const r = rng(8), n = bubble ? 90 : 60; let out = "";
-    for (let i = 0; i < n; i++) { const x = (w * i) / n; if (bubble) { const rad = 2 + r() * 5; out += `<circle cx="${x + 6}" cy="${h / 2 - 6}" r="${rad}" style="fill:${v(r() > 0.5 ? "purple-500" : "cyan-400")}"/>`; } else { const bh = 12 + r() * 18; out += `<rect x="${x + 1}" y="${h - 10 - bh}" width="${w / n - 3}" height="${bh}" rx="1" style="fill:${v("widget-muted")};fill-opacity:.45"/>`; } }
+    for (let i = 0; i < n; i++) { const x = (w * i) / n; if (bubble) { const rad = 2 + r() * 5; out += `<circle cx="${x + 6}" cy="${h / 2 - 6}" r="${rad}" style="fill:${v(r() > 0.5 ? "purple-500" : "cyan-400")}"/>`; } else { const bh = 12 + r() * 18; out += `<rect x="${x + 1}" y="${h - 10 - bh}" width="${w / n - 3}" height="${bh}" rx="${(w / n - 3) / 2}" style="fill:${v("widget-muted")};fill-opacity:.45"/>`; } }
     out += `<rect x="0" y="${h - 4}" width="${w * 0.15}" height="3" rx="1.5" style="fill:${v("orange-500")}"/><rect x="${w * 0.15}" y="${h - 4}" width="${w * 0.3}" height="3" rx="1.5" style="fill:${v("blue-500")}"/><rect x="${w * 0.45}" y="${h - 4}" width="${w * 0.55}" height="3" rx="1.5" style="fill:${v("teal-500")}"/>`;
     return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="width:100%;height:${h}px" role="img" aria-label="Timeline">${out}</svg>`;
   }

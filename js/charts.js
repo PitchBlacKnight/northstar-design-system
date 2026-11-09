@@ -57,7 +57,7 @@
       const V = [1, 0.78, 0.56, 0.38, 0.22], L = ["Visits", "Signups", "Trial", "Paid", "Active"], out = [];
       V.forEach((v, i) => {
         const bw = pw * v, y = i * (bh + gap);
-        out.push({ k: "rect", x: ml + (pw - bw) / 2, y, w: bw, h: bh, r: Math.min(4, bh / 2), f: "s1", o: 1 - i * 0.16, n: "Stage " + (i + 1) });
+        out.push({ k: "rect", x: ml + (pw - bw) / 2, y, w: bw, h: bh, r: Math.min(12, bh / 2), f: "s1", o: 1 - i * 0.16, n: "Stage " + (i + 1) });
         if (!c) out.push({ k: "text", x: 0, y: y + bh / 2, s: L[i], a: "start", n: "Stage label" });
       });
       return out;
@@ -164,8 +164,8 @@
       const c = o.compact, cx = w / 2, cy = h / 2, R0 = Math.min(w, h) / 2 - 2, t = R0 * (c ? 0.14 : 0.11), gap = R0 * 0.05, V = [0.80, 0.62, 0.45, 0.30], out = [];
       V.forEach((v, i) => {
         const ro = R0 - i * (t + gap), ri = ro - t;
-        out.push({ k: "arc", cx, cy, ro, ri, a0: 0, a1: 270, f: "track", n: "Track " + (i + 1) });
-        out.push({ k: "arc", cx, cy, ro, ri, a0: 0, a1: 270 * v, f: "s" + (i + 1), n: "Ring " + (i + 1) });
+        out.push({ k: "arc", cx, cy, ro, ri, a0: 0, a1: 270, f: "track", round: true, n: "Track " + (i + 1) });
+        out.push({ k: "arc", cx, cy, ro, ri, a0: 0, a1: 270 * v, f: "s" + (i + 1), round: true, n: "Ring " + (i + 1) });
       });
       return out;
     },
@@ -285,7 +285,7 @@
       const V = [0.42, 0.55, 0.48, 0.62, 0.58, 0.70, 0.52, 0.66, 0.74, 0.68, 0.80, 0.92].slice(c ? 4 : 0);
       const step = pw / V.length, bw = Math.max(3, step * 0.56);
       const g = c ? [] : [...H.hgrid(ml, w, 0, ph, 4), ...H.ylab(ml - 8, 0, ph, ["1.5k", "1k", "500", "0"]), ...H.xlab(ml + step / 2, w - step / 2, h - 8, ["Jan", "Apr", "Jul", "Oct", "Dec"])];
-      return [...g, ...V.map((v, i) => { const bh = v * (ph - 4); return { k: "rect", x: ml + step * i + (step - bw) / 2, y: ph - bh, w: bw, h: bh, r: Math.min(3, bw / 2), f: i === V.length - 1 ? "s1" : "s2", n: "Bar " + (i + 1) }; })];
+      return [...g, ...V.map((v, i) => { const bh = v * (ph - 4); return { k: "rect", x: ml + step * i + (step - bw) / 2, y: ph - bh, w: bw, h: bh, r: Math.min(12, bw / 2), f: i === V.length - 1 ? "s1" : "s2", n: "Bar " + (i + 1) }; })];
     },
   };
   DEFS.line = {
@@ -373,6 +373,11 @@
   const prim = (p) => {
     if (p.k === "rect") return `<rect x="${n1(p.x)}" y="${n1(p.y)}" width="${n1(Math.max(0, p.w))}" height="${n1(Math.max(0, p.h))}"${p.r ? ` rx="${p.r}"` : ""} style="${fill(p.f, p.o)}${p.sk ? ";" + stroke(p.sk) + ";stroke-width:" + (p.sw || 1) : ""}"/>`;
     if (p.k === "circle") return `<circle cx="${n1(p.cx)}" cy="${n1(p.cy)}" r="${n1(p.r)}" style="${p.f ? fill(p.f, p.o) : "fill:none"}${p.sk ? ";" + stroke(p.sk) + ";stroke-width:" + (p.sw || 1) : ""}"/>`;
+    if (p.k === "arc" && p.round && p.ri > 0 && p.a1 - p.a0 < 359.99) { /* round ends: a stroked centre-line arc, shortened by the cap so the drawn arc still spans a0..a1 */
+      const rm = (p.ro + p.ri) / 2, sw = p.ro - p.ri, cap = ((sw / 2) / rm) * (180 / Math.PI), a0 = p.a0 + cap, a1 = Math.max(a0 + 0.01, p.a1 - cap);
+      const [x0, y0] = pt(p.cx, p.cy, rm, a0), [x1, y1] = pt(p.cx, p.cy, rm, a1);
+      return `<path d="M${n1(x0)} ${n1(y0)}A${n1(rm)} ${n1(rm)} 0 ${a1 - a0 > 180 ? 1 : 0} 1 ${n1(x1)} ${n1(y1)}" stroke-linecap="round" style="fill:none;${stroke(p.f, p.o)};stroke-width:${n1(sw)}"/>`;
+    }
     if (p.k === "arc") return `<path d="${arcPath(p)}" fill-rule="evenodd" style="${fill(p.f, p.o)}"/>`;
     if (p.k === "path") return `<path d="${p.d}" stroke-linecap="round" stroke-linejoin="round" style="${p.f ? fill(p.f, p.o) : "fill:none"}${p.sk ? ";" + stroke(p.sk, p.so) + ";stroke-width:" + (p.sw || 1.5) : ""}"/>`;
     if (p.k === "text") return `<text x="${n1(p.x)}" y="${n1(p.y)}" text-anchor="${p.a === "end" ? "end" : p.a === "middle" ? "middle" : "start"}" dominant-baseline="middle" font-size="${p.size || (NS.viz ? NS.viz.m.axis : 11)}"${p.w === "Bold" ? ' font-weight="700"' : ""} style="${fill(p.f || "label")}">${p.s}</text>`;

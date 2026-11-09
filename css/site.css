@@ -360,7 +360,7 @@ a.rcard:hover .fi [data-a], a.rcard:focus-visible .fi [data-a] { animation-itera
 .fp__grid > .ns-w { width: auto; }
 .fp__grid > .ns-w--L { grid-column: span 2; }
 .bars { display: flex; align-items: flex-end; gap: var(--ns-space-3); height: 140px; }
-.bars i { flex: 1; border-radius: 4px 4px 0 0; background: var(--ns-gradient-brand); min-height: 4px; }
+.bars i { flex: 1; border-radius: var(--ns-radius-full); background: var(--ns-gradient-brand); min-height: 4px; }
 .bars i:nth-child(3n) { background: var(--ns-gradient-bruise); }
 
 /* ---------- Contrast checker ---------- */
@@ -570,7 +570,7 @@ body:not(.is-home) .hero-rays { opacity: .5; height: min(620px, 80vh); }
 .hm-tile.is-in .hm-sw i { transform: none; opacity: 1; }
 .hm-tile:hover .hm-sw i { transform: translateY(-3px); transition-delay: calc(var(--i) * 40ms); }
 .hm-bars { display: flex; align-items: flex-end; gap: 6px; height: 64px; margin-top: auto; padding-top: var(--ns-space-5); }
-.hm-bars i { flex: 1; height: var(--h); border-radius: 3px 3px 0 0; background: linear-gradient(var(--ns-teal-500), var(--ns-blue-500)); transform-origin: bottom; transform: scaleY(0); transition: transform .7s var(--hm-ease); transition-delay: calc(var(--i) * 80ms + .2s); }
+.hm-bars i { flex: 1; height: var(--h); border-radius: var(--ns-radius-full); background: linear-gradient(var(--ns-teal-500), var(--ns-blue-500)); transform-origin: bottom; transform: scaleY(0); transition: transform .7s var(--hm-ease); transition-delay: calc(var(--i) * 80ms + .2s); }
 .hm-tile.is-in .hm-bars i { transform: scaleY(1); }
 .hm-tile:hover .hm-bars i { animation: hm-bar 1.2s ease-in-out infinite alternate; animation-delay: calc(var(--i) * -0.2s); }
 @keyframes hm-bar { to { transform: scaleY(.6); } }
@@ -640,11 +640,27 @@ body:not(.is-home) .shell::before { content: ""; position: absolute; top: 0; bot
 .bt { grid-column: span 4; min-width: 0; display: grid; gap: var(--ns-space-4); align-content: start; padding: var(--ns-space-6); border-radius: var(--ns-radius-xl); background: var(--ns-widget-bg); border: 1px solid var(--ns-border-subtle); font-family: var(--ns-font-sans); color: var(--ns-text-primary); box-sizing: border-box; }
 .bt--3 { grid-column: span 3; } .bt--5 { grid-column: span 5; } .bt--6 { grid-column: span 6; } .bt--7 { grid-column: span 7; } .bt--8 { grid-column: span 8; } .bt--9 { grid-column: span 9; } .bt--12 { grid-column: span 12; }
 .bt--tall { grid-row: span 2; }
-.bt--teal { background: color-mix(in srgb, var(--ns-teal-500) 16%, var(--ns-widget-bg)); border-color: color-mix(in srgb, var(--ns-teal-500) 34%, transparent); }
-.bt--blue { background: color-mix(in srgb, var(--ns-blue-500) 18%, var(--ns-widget-bg)); border-color: color-mix(in srgb, var(--ns-blue-500) 34%, transparent); }
-.bt--purple { background: color-mix(in srgb, var(--ns-purple-500) 18%, var(--ns-widget-bg)); border-color: color-mix(in srgb, var(--ns-purple-500) 34%, transparent); }
+/* Ink on block: the tile carries the color, and everything inside is drawn in one ink. The block remaps the
+   chart and text tokens to that ink, so any chart kit plot, legend or meter placed in it follows. */
+.bt { background-image: var(--ns-chart-sheen); --ramp-from: var(--ns-chart-ramp-from); }
+.bt--teal, .bt--blue, .bt--purple {
+  background-color: var(--_block); border-color: transparent; color: var(--ink);
+  --ramp-from: color-mix(in srgb, var(--ink) var(--ns-chart-ramp-fade), transparent);
+  --ns-text-primary: var(--ink); --ns-text-secondary: color-mix(in srgb, var(--ink) 92%, transparent); --ns-text-tertiary: color-mix(in srgb, var(--ink) 92%, transparent);
+  --ns-chart-label-text: color-mix(in srgb, var(--ink) 92%, transparent); --ns-chart-trend-text: var(--ink); --ns-chart-target: var(--ink);
+  --ns-chart-series-1: var(--ink); --ns-chart-series-2: color-mix(in srgb, var(--ink) 55%, transparent); --ns-chart-series-3: color-mix(in srgb, var(--ink) 36%, transparent); --ns-chart-series-4: color-mix(in srgb, var(--ink) 74%, transparent); --ns-chart-series-5: color-mix(in srgb, var(--ink) 28%, transparent);
+  --ns-chart-track: color-mix(in srgb, var(--ink) 16%, transparent); --ns-widget-grid: color-mix(in srgb, var(--ink) 18%, transparent); --ns-widget-track: color-mix(in srgb, var(--ink) 16%, transparent);
+  --ns-border-default: color-mix(in srgb, var(--ink) 18%, transparent); --ns-interactive-primary: var(--ink);
+}
+.bt--teal { background-image: var(--ns-chart-sheen-light); --_block: var(--ns-viz-1); /* not chart-series-1: the block remaps that to ink */ --ink: var(--ns-text-inverse); }
+:root[data-theme="light"] .bt--teal { --ink: var(--ns-black); }
+.bt--blue { --_block: var(--ns-blue-500); --ink: var(--ns-text-on-color); }
+.bt--purple { --_block: var(--ns-purple-500); --ink: var(--ns-text-on-color); }
+/* a meter in a tile ramps low to high across its track */
+.bt .ns-progress__track { container-type: inline-size; }
+.bt .ns-progress__bar { background: linear-gradient(90deg, var(--ramp-from), var(--ns-chart-series-1)) 0 0 / 100cqw 100% no-repeat; }
 .bt__head { display: grid; gap: var(--ns-space-1); }
-.bt__head h4 { margin: 0; font: 600 14px/20px var(--ns-font-sans); }
+.bt__head h4 { margin: 0; font: 600 16px/22px var(--ns-font-sans); }
 .bt__head span { font: 400 12px/16px var(--ns-font-sans); color: var(--ns-chart-label-text); }
 .bt__value { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--ns-space-3); font: 700 28px/36px var(--ns-font-sans); }
 .bt__trend { font: 600 12px/16px var(--ns-font-sans); color: var(--ns-chart-trend-text); }

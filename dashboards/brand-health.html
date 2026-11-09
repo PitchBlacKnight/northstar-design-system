@@ -10,8 +10,12 @@
   .g { grid-template-columns: repeat(12, 1fr); grid-template-rows: repeat(3, 1fr); }
   .rd { grid-column: 1 / 5; grid-row: 1 / 4; } .bhi { grid-column: 5 / 9; } .sov { grid-column: 9 / 13; }
   .tr { grid-column: 5 / 9; grid-row: 2 / 4; } .wd { grid-column: 9 / 13; } .qt { grid-column: 9 / 13; }
-  .wds { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; align-content: space-around; flex: 1; font-family: var(--ns-font-sans); letter-spacing: -.03em; line-height: 1; }
-  .wds span { font-weight: 800; }
+  .th { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 22px; flex: 1; min-height: 0; }
+  .th__lead { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; min-width: 0; }
+  .th__list { display: grid; align-content: space-between; gap: 6px; font: 600 12px/1 var(--ns-font-sans); }
+  .th__list > div { display: grid; grid-template-columns: 1fr auto; gap: 5px 8px; align-items: baseline; }
+  .th__list small { font: 400 11px/1 var(--ns-font-sans); color: var(--ink2); margin-left: 4px; }
+  .th__list .bar { grid-column: 1 / -1; height: 5px; }
   .sv { display: flex; height: 54px; border-radius: 10px; overflow: hidden; gap: 3px; }
   .sv i { display: block; background: var(--_c); width: var(--_w); border-radius: 4px; }
   .svl { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 20px; font: 600 13px/1 var(--ns-font-sans); }
@@ -29,8 +33,7 @@
 const D = NS.dash;
 const s = D.shell({ active: "star", title: "Brand Health", sub: "SALTLINE COFFEE  /  QUARTERLY TRACKER, WAVE 14  /  N = 4,812 US ADULTS", right: D.seg(["Wave 14", "Wave 13", "YoY"], 0) + `<span class="pill">vs 6 category peers</span>` });
 const ax = ["Quality", "Value", "Trust", "Innovation", "Sustainability", "Availability", "Relevance"];
-const w = ["Smooth", "Ritual", "Local", "Pricey", "Reliable", "Bold", "Sustainable", "Cozy", "Morning", "Rewards"];
-const sz = [60, 52, 44, 30, 40, 34, 36, 26, 46, 28]; const cl = ["var(--ns-black)", "var(--ns-chart-series-2)", "var(--ns-black)", "var(--ns-red-500)", "var(--ns-black)", "var(--ns-chart-series-4)", "var(--ns-black)", "var(--ns-chart-series-2)", "var(--ns-black)", "var(--ns-chart-series-4)"];
+const themes = [["Ritual", 14.1], ["Local", 11.6], ["Morning", 9.8], ["Reliable", 8.2], ["Pricey", 6.4, 1]]; /* mentions in thousands; bars are scaled to the lead theme, Smooth, at 18.4K */
 a.innerHTML = s.open + `<div class="grid g">
 
  <section class="t rd">
@@ -60,9 +63,12 @@ a.innerHTML = s.open + `<div class="grid g">
    <div class="sp1" style="display:flex;align-items:flex-end">${D.area({ w: 436, h: 410, ticks: 5, min: 0, max: 80, fmt: v => Math.round(v) + "%", labels: ["W3", "W5", "W7", "W9", "W11", "W14"], sets: [{ data: D.series(12, 58, 71, .04, 2), color: "var(--ns-chart-series-1)", sw: 2.6 }, { data: D.series(12, 33, 44, .05, 6), color: "var(--ns-chart-series-3)", sw: 2.6, fillTop: .25 }, { data: D.series(12, 17, 23, .06, 9), color: "var(--ns-viz-3)", sw: 2.6, fillTop: .2 }] })}</div>
  </section>
 
- <section class="t t--paper wd">
-   <div class="o">What people say <em>Top themes, mentions</em></div>
-   <div class="wds">${w.map((x, i) => `<span style="font-size:${sz[i]}px;color:${["#05050f","#023aff","#05050f","#d7002f","#05050f","#4807ea","#05050f","#023aff","#05050f","#4807ea"][i]};${i % 2 ? "" : ""}">${x}</span>`).join("")}</div>
+ <section class="t t--teal wd">
+   <div class="o">What people say <em>Top themes, 128K mentions</em></div>
+   <div class="th">
+     <div class="th__lead"><div class="d-lg">Smooth</div><span class="cap"><b class="num">18.4K</b> mentions, 14% of all</span><div class="sp1"></div><span class="tag">+6 pts vs wave 13</span></div>
+     <div class="th__list">${themes.map(([n, v, neg]) => `<div><span>${n}${neg ? ' <small>negative</small>' : ""}</span><b class="num">${v.toFixed(1)}K</b><div class="bar"><i style="--_v:${(v / 18.4 * 100).toFixed(0)}%;--_c:var(--ink)"></i></div></div>`).join("")}</div>
+   </div>
  </section>
 
  <section class="t t--bruise qt">

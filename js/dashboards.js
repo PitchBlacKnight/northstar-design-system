@@ -46,7 +46,7 @@
     sets.forEach((s, si) => {
       const N = s.n || s.data.length, F = s.from || 0; const pts = s.data.map((v, i) => [X(i + F, N), Y(v)]);
       const c = s.color || T("chart-series-1"); const line = s.step ? "M" + pts.map((p) => p.join(",")).join(" L") : smooth(pts);
-      if (s.fill !== false) { out += `<path d="${line} L${pts.at(-1)[0]},${pt + ih} L${pts[0][0]},${pt + ih} Z" fill="${c}" opacity="${s.fillTop ?? .16}"/>`; }
+      if (s.fill !== false) { const g = uid("fd"); defs += NS.viz.fade(g, c, Math.min(1, (s.fillTop ?? .16) * 2)); out += `<path d="${line} L${pts.at(-1)[0]},${pt + ih} L${pts[0][0]},${pt + ih} Z" fill="url(#${g})"/>`; }
       if (s.band) { const hi2 = s.band.map((b, i) => [X(i + F, N), Y(b[1])]), lo2 = s.band.map((b, i) => [X(i + F, N), Y(b[0])]).reverse(); out += `<path d="${smooth(hi2)} L${lo2[0][0]},${lo2[0][1]} ${smooth(lo2).replace(/^M[^C]*/, "")} Z" fill="${c}" opacity=".16"/>`; }
       out += `<path d="${line}" fill="none" stroke="${c}" stroke-width="${s.sw || 2.5}" ${s.dash ? `stroke-dasharray="${s.dash}"` : ""} stroke-linecap="round" stroke-linejoin="round"/>`;
       if (last && s.last !== false) { const p = pts.at(-1); out += `<circle cx="${p[0]}" cy="${p[1]}" r="4.5" fill="${ink || T("widget-bg")}" stroke="${c}" stroke-width="2.5"/>`; }
@@ -60,12 +60,13 @@
   /* ---------- bars ---------- */
   D.bars = ({ w = 600, h = 220, data, color = T("chart-series-1"), hi, hiColor, gap = 6, r = 4, labels = [], pad = [8, 4, 22, 4], track = false, vmax, fmt, labelFill, gridColor, grid = false, ticks = 4, pl }) => {
     const [pt, pr, pb, pl0] = pad; const L = pl ?? pl0; const iw = w - L - pr, ih = h - pt - pb; const m = Math.max(vmax ?? Math.max(...data, 0), 1e-9); const bw = (iw - gap * (data.length - 1)) / data.length;
-    let o = "";
+    let o = ""; const rp = Array.isArray(color) ? null : uid("rp"); /* one series ramps low to high; per-bar colors stay flat */
+    if (rp) o += `<defs>${NS.viz.ramp(rp, color, `gradientUnits="userSpaceOnUse" x1="0" x2="0" y1="${pt + ih}" y2="${pt}"`)}</defs>`;
     if (grid) for (let i = 0; i < ticks; i++) { const y = pt + (ih * i) / (ticks - 1); o += `<line x1="${L}" x2="${w - pr}" y1="${y}" y2="${y}" stroke="${gridColor || T("widget-grid")}" stroke-dasharray="2 5"/>`; if (fmt) o += text(L - 8, y + 4, fmt(m - (m * i) / (ticks - 1)), { anchor: "end", size: 11, fill: labelFill }); }
     data.forEach((v, i) => {
       const bh = v > 0 ? Math.max(2, (Math.min(v, m) / m) * ih) : 0, x = L + i * (bw + gap), y = pt + ih - bh; const c = hi === i ? (hiColor || T("chart-target")) : (Array.isArray(color) ? color[i] : color);
-      if (track) o += `<rect x="${x}" y="${pt}" width="${bw}" height="${ih}" rx="${r}" fill="${T("chart-track")}"/>`;
-      o += `<rect x="${x}" y="${y}" width="${bw}" height="${bh}" rx="${r}" fill="${c}"/>`;
+      if (track) o += `<rect x="${x}" y="${pt}" width="${bw}" height="${ih}" rx="${NS.viz.round(bw, ih)}" fill="${T("chart-track")}"/>`;
+      o += `<rect x="${x}" y="${y}" width="${bw}" height="${bh}" rx="${NS.viz.round(bw, bh)}" fill="${rp && hi !== i ? `url(#${rp})` : c}"/>`;
       if (labels[i] != null) o += text(x + bw / 2, h - 5, labels[i], { anchor: "middle", fill: labelFill });
     });
     return `<svg viewBox="0 0 ${w} ${h}" width="${w}" role="img">${o}</svg>`;
@@ -75,15 +76,15 @@
   D.stack = ({ w = 600, h = 220, sets, gap = 6, r = 3, labels = [], pad = [8, 4, 22, 4], labelFill, gap2 = 2 }) => {
     const [pt, pr, pb, pl] = pad; const len = sets[0].data.length; const iw = w - pl - pr, ih = h - pt - pb; const bw = (iw - gap * (len - 1)) / len;
     const tot = Array.from({ length: len }, (_, i) => sets.reduce((a, s) => a + s.data[i], 0)); const m = Math.max(...tot, 1e-9); let o = "";
-    for (let i = 0; i < len; i++) { let y = pt + ih; const x = pl + i * (bw + gap); sets.forEach((s, si) => { const bh = (s.data[i] / m) * ih; y -= bh; o += `<rect x="${x}" y="${y}" width="${bw}" height="${Math.max(0, bh - gap2)}" rx="${r}" fill="${s.color}"/>`; }); if (labels[i] != null) o += text(x + bw / 2, h - 5, labels[i], { anchor: "middle", fill: labelFill }); }
+    for (let i = 0; i < len; i++) { let y = pt + ih; const x = pl + i * (bw + gap); sets.forEach((s, si) => { const bh = (s.data[i] / m) * ih; y -= bh; o += `<rect x="${x}" y="${y}" width="${bw}" height="${Math.max(0, bh - gap2)}" rx="${NS.viz.round(bw, Math.max(0, bh - gap2))}" fill="${s.color}"/>`; }); if (labels[i] != null) o += text(x + bw / 2, h - 5, labels[i], { anchor: "middle", fill: labelFill }); }
     return `<svg viewBox="0 0 ${w} ${h}" width="${w}" role="img">${o}</svg>`;
   };
 
   /* ---------- rings ---------- */
   D.ring = ({ size = 120, stroke = 12, pct = 60, color = T("chart-series-1"), track = T("chart-track"), label, sub, labelFill, subFill, fs, grad }) => {
     if (grad) color = grad[0]; /* a gradient pair resolves to its first stop: flat fills only */
-    const r = (size - stroke) / 2, c = 2 * Math.PI * r;
-    return `<svg viewBox="0 0 ${size} ${size}" width="${size}" role="img" aria-label="${label ?? pct}"><circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${track}" stroke-width="${stroke}"/><circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${color}" stroke-width="${stroke}" stroke-linecap="round" ${arcDash(c, pct, stroke)} transform="rotate(-90 ${size / 2} ${size / 2})"/>${label != null ? text(size / 2, size / 2 + (sub ? 2 : (fs || size * .22) * .36), label, { anchor: "middle", size: fs || size * .22, weight: 800, fill: labelFill || T("text-primary") }) : ""}${sub ? text(size / 2, size / 2 + 16, sub, { anchor: "middle", size: 11, fill: subFill }) : ""}</svg>`;
+    const r = (size - stroke) / 2, c = 2 * Math.PI * r; const rp = uid("rp"), defs = `<defs>${NS.viz.ramp(rp, color, 'x1="0" x2="1" y1="0" y2="0"')}</defs>`; color = `url(#${rp})`;
+    return `<svg viewBox="0 0 ${size} ${size}" width="${size}" role="img" aria-label="${label ?? pct}">${defs}<circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${track}" stroke-width="${stroke}"/><circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${color}" stroke-width="${stroke}" stroke-linecap="round" ${arcDash(c, pct, stroke)} transform="rotate(-90 ${size / 2} ${size / 2})"/>${label != null ? text(size / 2, size / 2 + (sub ? 2 : (fs || size * .22) * .36), label, { anchor: "middle", size: fs || size * .22, weight: 800, fill: labelFill || T("text-primary") }) : ""}${sub ? text(size / 2, size / 2 + 16, sub, { anchor: "middle", size: 11, fill: subFill }) : ""}</svg>`;
   };
 
   D.rings = ({ size = 260, stroke = 14, gap = 8, items }) => {
@@ -101,7 +102,8 @@
 
   D.gauge = ({ w = 220, pct = 60, color = T("chart-series-1"), stroke = 16, label, sub, track = T("chart-track"), labelFill, bands }) => {
     const r = (w - stroke) / 2, cx = w / 2, cy = w / 2 + 4, len = Math.PI * r; const arc = `M${stroke / 2},${cy} A${r},${r} 0 0 1 ${w - stroke / 2},${cy}`;
-    return `<svg viewBox="0 0 ${w} ${cy + 22}" width="${w}" role="img"><path d="${arc}" fill="none" stroke="${track}" stroke-width="${stroke}" stroke-linecap="round"/><path d="${arc}" fill="none" stroke="${color}" stroke-width="${stroke}" stroke-linecap="round" ${arcDash(len, pct, stroke)}/>${label != null ? text(cx, cy - 4, label, { anchor: "middle", size: w * .2, weight: 800, fill: labelFill || T("text-primary") }) : ""}${sub ? text(cx, cy + 16, sub, { anchor: "middle", size: 11 }) : ""}</svg>`;
+    const rp = uid("rp"), defs = `<defs>${NS.viz.ramp(rp, color, `gradientUnits="userSpaceOnUse" x1="${stroke / 2}" x2="${w - stroke / 2}" y1="0" y2="0"`)}</defs>`; color = `url(#${rp})`;
+    return `<svg viewBox="0 0 ${w} ${cy + 22}" width="${w}" role="img">${defs}<path d="${arc}" fill="none" stroke="${track}" stroke-width="${stroke}" stroke-linecap="round"/><path d="${arc}" fill="none" stroke="${color}" stroke-width="${stroke}" stroke-linecap="round" ${arcDash(len, pct, stroke)}/>${label != null ? text(cx, cy - 4, label, { anchor: "middle", size: w * .2, weight: 800, fill: labelFill || T("text-primary") }) : ""}${sub ? text(cx, cy + 16, sub, { anchor: "middle", size: 11 }) : ""}</svg>`;
   };
 
   /* ---------- radar ---------- */
@@ -137,18 +139,18 @@
     const r = D.rng(seed); let p = 100, o = ""; const cs = []; for (let i = 0; i < n; i++) { const op = p, cl = p + (r() - .46) * 7 + .35; const hi = Math.max(op, cl) + r() * 3.5, lo = Math.min(op, cl) - r() * 3.5; cs.push([op, cl, hi, lo]); p = cl; }
     const mx = Math.max(...cs.map((c) => c[2])), mn = Math.min(...cs.map((c) => c[3])); const Y = (v) => 8 + (h - 24) - ((v - mn) / (mx - mn)) * (h - 24); const bw = (w - 6) / n;
     if (grid) for (let i = 0; i < 4; i++) o += `<line x1="0" x2="${w}" y1="${8 + ((h - 24) * i) / 3}" y2="${8 + ((h - 24) * i) / 3}" stroke="${T("widget-grid")}" stroke-dasharray="2 5"/>`;
-    cs.forEach(([op, cl, hi, lo], i) => { const x = 3 + i * bw + bw / 2, c = cl >= op ? up : down; o += `<line x1="${x}" x2="${x}" y1="${Y(hi)}" y2="${Y(lo)}" stroke="${c}" stroke-width="1.5"/><rect x="${x - bw * .32}" y="${Y(Math.max(op, cl))}" width="${bw * .64}" height="${Math.max(2, Math.abs(Y(op) - Y(cl)))}" rx="1.5" fill="${c}"/>`; });
+    cs.forEach(([op, cl, hi, lo], i) => { const x = 3 + i * bw + bw / 2, c = cl >= op ? up : down; o += `<line x1="${x}" x2="${x}" y1="${Y(hi)}" y2="${Y(lo)}" stroke="${c}" stroke-width="1.5"/><rect x="${x - bw * .32}" y="${Y(Math.max(op, cl))}" width="${bw * .64}" height="${Math.max(2, Math.abs(Y(op) - Y(cl)))}" rx="${NS.viz.round(bw * .64, Math.max(2, Math.abs(Y(op) - Y(cl))))}" fill="${c}"/>`; });
     return `<svg viewBox="0 0 ${w} ${h}" width="${w}" role="img">${o}</svg>`;
   };
 
   /* ---------- bullet / progress ---------- */
-  D.bullet = ({ pct = 70, target = 85, color = T("chart-series-1"), h = 10 }) => { pct = clampPct(pct); target = clampPct(target); return `<div style="position:relative;height:${h}px;border-radius:${h / 2}px;background:var(--faint,var(--ns-chart-track))"><i style="position:absolute;inset:0 auto 0 0;width:${pct}%;border-radius:inherit;background:${color}"></i><b style="position:absolute;left:${target}%;top:-4px;bottom:-4px;width:2px;background:var(--ink,var(--ns-chart-target));border-radius:1px"></b></div>`; };
+  D.bullet = ({ pct = 70, target = 85, color = T("chart-series-1"), h = 10 }) => { pct = clampPct(pct); target = clampPct(target); return `<div style="position:relative;height:${h}px;border-radius:${h / 2}px;background:var(--faint,var(--ns-chart-track));container-type:inline-size"><i style="position:absolute;inset:0 auto 0 0;width:${pct}%;border-radius:inherit;background:linear-gradient(90deg,${NS.viz.rampFrom(color)},${color}) 0 0 / 100cqw 100% no-repeat"></i><b style="position:absolute;left:${target}%;top:-4px;bottom:-4px;width:2px;background:var(--ink,var(--ns-chart-target));border-radius:1px"></b></div>`; };
 
   /* ---------- waterfall ---------- */
   D.waterfall = ({ w = 700, h = 240, steps, labels = [], labelFill, base = 0 }) => {
     let run = 0, o = ""; const pts = steps.map((s) => { const a = run; run = s.total ? s.v : run + s.v; return { a: s.total ? base : a, b: run, s }; });
     const mx = Math.max(base + 1e-9, Math.max(...pts.map((p) => Math.max(p.a, p.b))) * 1.08), bw = (w - 8) / steps.length * .64, st = (w - 8) / steps.length; const Y = (v) => 6 + (h - 30) - ((v - base) / (mx - base)) * (h - 30);
-    pts.forEach((p, i) => { const x = 4 + i * st + (st - bw) / 2, y1 = Y(Math.max(p.a, p.b)), y2 = Y(Math.min(p.a, p.b)); const c = p.s.total ? T("chart-series-2") : p.s.v >= 0 ? T("chart-series-1") : T("status-error"); o += `<rect x="${x}" y="${y1}" width="${bw}" height="${Math.max(3, y2 - y1)}" rx="4" fill="${c}"/>`; if (i < pts.length - 1) o += `<line x1="${x + bw}" x2="${x + st}" y1="${Y(p.b)}" y2="${Y(p.b)}" stroke="${T("widget-grid")}" stroke-dasharray="2 3"/>`; if ((labels[i] ?? p.s.l) != null) o += text(x + bw / 2, h - 6, labels[i] ?? p.s.l, { anchor: "middle", fill: labelFill }); o += text(x + bw / 2, y1 - 7, (p.s.v >= 0 && !p.s.total ? "+" : "") + p.s.v, { anchor: "middle", size: 11, weight: 700, fill: T("text-primary") }); });
+    pts.forEach((p, i) => { const x = 4 + i * st + (st - bw) / 2, y1 = Y(Math.max(p.a, p.b)), y2 = Y(Math.min(p.a, p.b)); const c = p.s.total ? T("chart-series-2") : p.s.v >= 0 ? T("chart-series-1") : T("status-error"); o += `<rect x="${x}" y="${y1}" width="${bw}" height="${Math.max(3, y2 - y1)}" rx="${NS.viz.round(bw, Math.max(3, y2 - y1))}" fill="${c}"/>`; if (i < pts.length - 1) o += `<line x1="${x + bw}" x2="${x + st}" y1="${Y(p.b)}" y2="${Y(p.b)}" stroke="${T("widget-grid")}" stroke-dasharray="2 3"/>`; if ((labels[i] ?? p.s.l) != null) o += text(x + bw / 2, h - 6, labels[i] ?? p.s.l, { anchor: "middle", fill: labelFill }); o += text(x + bw / 2, y1 - 7, (p.s.v >= 0 && !p.s.total ? "+" : "") + p.s.v, { anchor: "middle", size: 11, weight: 700, fill: T("text-primary") }); });
     return `<svg viewBox="0 0 ${w} ${h}" width="${w}" role="img">${o}</svg>`;
   };
 
