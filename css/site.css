@@ -717,3 +717,17 @@ body:not(.is-home) .shell::before { content: ""; position: absolute; top: 0; bot
 .hm-film__btn { font: 400 13px/1 var(--ns-font-sans); padding: var(--ns-space-3) var(--ns-space-5); border-radius: 999px; border: 1px solid var(--ns-border-strong); background: color-mix(in srgb, var(--ns-black) 70%, transparent); color: var(--ns-text-primary); cursor: pointer; backdrop-filter: blur(6px); }
 .hm-film__btn:focus-visible { outline: 2px solid var(--ns-focus-ring); outline-offset: 2px; }
 @media (max-width: 1180px) { .hm-hero__grid { grid-template-columns: minmax(0, 1fr); } .hm-film__video { height: auto; aspect-ratio: 16 / 9; } }
+
+/* Mobile overlap fixes */
+@media (min-width: 901px) { .shell > .side { z-index: 1; } }
+@media (max-width: 900px) {
+  .shell > .side { z-index: 450; }
+  .shell:has(> .side.is-open)::after {
+    content: ""; position: fixed; inset: 64px 0 0 0; z-index: 440;
+    background: color-mix(in srgb, var(--ns-background-primary) 72%, transparent);
+    -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+  }
+  html:has(.side.is-open) { overflow: hidden; }
+  .wstage { -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+  .wstage .ns-w { width: var(--_w); max-width: none; flex: none; }
+}

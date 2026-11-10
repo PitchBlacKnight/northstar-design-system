@@ -85,6 +85,7 @@
   const side = document.getElementById("side"), menuBtn = document.getElementById("menu-btn");
   const closeSide = () => { side.classList.remove("is-open"); menuBtn.setAttribute("aria-expanded", "false"); };
   menuBtn.onclick = () => { const o = side.classList.toggle("is-open"); menuBtn.setAttribute("aria-expanded", o); };
+  document.addEventListener("click", (e) => { if (side.classList.contains("is-open") && !side.contains(e.target) && !menuBtn.contains(e.target)) closeSide(); });
 
   document.getElementById("theme-btn").onclick = () => { const cur = root.dataset.theme || "dark"; NS.setTheme({ dark: "light", light: "contrast", contrast: "dark" }[cur]); render(true); };
   document.getElementById("density-btn").onclick = () => NS.setDensity(root.dataset.density === "compact" ? "comfortable" : "compact");
@@ -228,6 +229,6 @@
     else if (e.key === "Escape") { closeSide(); }
   });
 
-  window.addEventListener("hashchange", () => { const { route } = parse(); render(route === lastRoute); });
+  window.addEventListener("hashchange", () => { closeSide(); const { route } = parse(); render(route === lastRoute); });
   render();
 })();
