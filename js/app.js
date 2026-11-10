@@ -8,15 +8,17 @@
 
   /* ---------- theme ---------- */
   const THEME_KEY = "ns-theme";
+  const THEME_NEXT = { dark: "light", light: "contrast", contrast: "instrument", instrument: "dark" };
   const DENSITY_KEY = "ns-density";
   const getTheme = () => params.get("theme") || (() => { try { return localStorage.getItem(THEME_KEY); } catch (e) { return null; } })() || "dark";
   NS.setTheme = (t, persist = true) => {
-    if (t === "light" || t === "contrast") root.dataset.theme = t; else delete root.dataset.theme;
+    if (t === "light" || t === "contrast" || t === "instrument") root.dataset.theme = t; else delete root.dataset.theme;
+    if (t === "instrument" && !document.getElementById("ns-instrument-fonts")) { const l = document.createElement("link"); l.id = "ns-instrument-fonts"; l.rel = "stylesheet"; l.href = "https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap"; document.head.append(l); }
     if (persist && !params.get("theme")) try { localStorage.setItem(THEME_KEY, t); } catch (e) {}
     const b = document.getElementById("theme-btn");
-    const next = { dark: "light", light: "contrast", contrast: "dark" }[t] || "light";
-    const icon = { dark: NS.icon.sun, light: NS.icon.contrast, contrast: NS.icon.moon }[t] || NS.icon.sun;
-    if (b) { b.innerHTML = icon; b.setAttribute("aria-label", `Switch to ${next === "contrast" ? "high contrast" : next} theme`); }
+    const next = THEME_NEXT[t] || "light";
+    const icon = { dark: NS.icon.sun, light: NS.icon.contrast, contrast: NS.icon.ruler, instrument: NS.icon.moon }[t] || NS.icon.sun;
+    if (b) { b.innerHTML = icon; b.setAttribute("aria-label", `Switch to ${{ contrast: "high contrast", instrument: "Instrument" }[next] || next} theme`); }
   };
   NS.setTheme(getTheme(), false);
 
@@ -87,7 +89,7 @@
   menuBtn.onclick = () => { const o = side.classList.toggle("is-open"); menuBtn.setAttribute("aria-expanded", o); };
   document.addEventListener("click", (e) => { if (side.classList.contains("is-open") && !side.contains(e.target) && !menuBtn.contains(e.target)) closeSide(); });
 
-  document.getElementById("theme-btn").onclick = () => { const cur = root.dataset.theme || "dark"; NS.setTheme({ dark: "light", light: "contrast", contrast: "dark" }[cur]); render(true); };
+  document.getElementById("theme-btn").onclick = () => { const cur = root.dataset.theme || "dark"; NS.setTheme(THEME_NEXT[cur]); render(true); };
   document.getElementById("density-btn").onclick = () => NS.setDensity(root.dataset.density === "compact" ? "comfortable" : "compact");
   NS.setDensity(getDensity(), false);
 
@@ -151,6 +153,7 @@
     // post-render hooks
     main.querySelectorAll("[data-indet]").forEach((c) => (c.indeterminate = true));
     Object.keys(NS.playgrounds).forEach((id) => { const el = document.getElementById(id); if (el) NS.playgrounds[id].spec.init?.(el); else delete NS.playgrounds[id]; });
+    NS.measureAll?.();
     page.init && page.init();
     const tokStat = main.querySelector('[data-count="tokens"]'); if (tokStat) countUp(tokStat, NS.allTokens().length);
     buildToc(page.wide || page.home);

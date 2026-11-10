@@ -42,3 +42,15 @@ the mechanical ones on `css/components.css`, `css/widgets.css` and `css/dashboar
 - Open Sans. Sizes from `--ns-type-*-size`; weights 400, 600, 700 only.
 - Keyboard highlight in lists (`.is-active`) is `background-selected`; a match in search results is
   bold `text-primary`, never a colored block.
+
+## Instrument mode
+`data-theme="instrument"` is a fourth mode on the same roles (added 2026-11-10, from direction B of the
+2026-11-09 docs board). The rules above hold, with these mode values:
+- **Amber is action and measurement.** `interactive-primary`, `text-link`, `text-accent` and the
+  dimension overlay ink (`measure-ink`) are amber. Ink on amber is `text-on-color`, a dark brown.
+- **Cyan is focus.** `focus-ring` and `focus-field` are cyan. Nothing else is.
+- **Flat and matte.** No gradients except the two chart ones; elevation is a hairline plus a short shade.
+- **Shape.** `radius-sm` and `radius-md` 2px, `radius-lg` and up 3px. Pills stay `radius-full`.
+- **Type.** `font-display` (titles) is Schibsted Grotesk, `font-sans` (prose) Hanken Grotesk, and
+  `font-control` (buttons, tabs, nav) and `font-mono` are Spline Sans Mono. In the other modes
+  `font-display` and `font-control` point at Open Sans, so nothing changes there.

@@ -47,6 +47,8 @@
   --ns-font-sans: "Open Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --ns-font-ui: "Open Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --ns-font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --ns-font-display: var(--ns-font-sans); /* titles. Same as sans in Dark, Light and High Contrast; Instrument sets its own */
+  --ns-font-control: var(--ns-font-sans); /* buttons, tabs, nav labels. Instrument sets mono */
 
   --ns-type-h1-size: 72px;   --ns-type-h1-line: 118px;   --ns-type-h1-weight: 800;
   --ns-type-h2-size: 60px;   --ns-type-h2-line: 80px;   --ns-type-h2-weight: 800;
@@ -217,6 +219,9 @@
   --ns-gradient-purple: linear-gradient(180deg, var(--ns-magenta-500), var(--ns-violet-600));
   --ns-gradient-bubble: linear-gradient(180deg, var(--ns-cyan-400), var(--ns-sky-500));
   --ns-gradient-glow: radial-gradient(120% 90% at 85% 0%, #22d3ff 0%, #0a5cff 28%, #0b1a55 48%, transparent 70%);
+  --ns-measure-ink: var(--ns-text-accent); /* dimension overlay lines and labels on the playground stage */
+  --ns-stage-grid: radial-gradient(color-mix(in srgb, var(--ns-text-primary) 7%, transparent) 1px, transparent 1px); /* playground canvas pattern */
+  --ns-stage-grid-size: 16px 16px;
 
   /* ---------- Widgets (Figma: Widgets page) ---------- */
   --ns-widget-bg: var(--ns-navy-900);
@@ -429,4 +434,141 @@
   --ns-chart-series-5: #6a6a9f; /* chart/series-5 */
   --ns-chart-track: var(--ns-widget-track); /* chart/track, was #0e0e22 (the dark value), nearly invisible in high contrast */
   --ns-chart-target: #ffffff; /* chart/target */
+}
+
+/* ============================================================
+   Semantic roles - INSTRUMENT (dark mode, opt in with data-theme="instrument")
+   Direction B from the 2026-11-09 docs board. The docs read like an
+   engineering drawing: matte black, 1px hairlines, 2px corners, one amber
+   ink for action and measurement, cyan kept for focus. No glow, no blur.
+   Same role names as Dark, so components need no changes.
+   ============================================================ */
+:root[data-theme="instrument"] {
+  color-scheme: dark;
+
+  /* Type: Schibsted titles, Hanken prose, Spline Sans Mono for controls and data */
+  --ns-font-sans: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ns-font-ui: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ns-font-display: "Schibsted Grotesk", "Hanken Grotesk", system-ui, sans-serif;
+  --ns-font-mono: "Spline Sans Mono", "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --ns-font-control: var(--ns-font-mono);
+
+  /* Shape: 2px controls, 3px panels */
+  --ns-radius-sm: 2px;
+  --ns-radius-md: 2px;
+  --ns-radius-lg: 3px;
+  --ns-radius-xl: 3px;
+  --ns-radius-2xl: 3px;
+  --ns-radius-3xl: 3px;
+  --ns-widget-radius: 3px;
+
+  /* Surfaces: matte, each step one notch lighter */
+  --ns-background-primary: #0c0d0e;   /* background/primary */
+  --ns-background-secondary: #0f1011; /* background/secondary */
+  --ns-background-surface: #121315;   /* background/surface */
+  --ns-background-elevated: #17191b;  /* background/elevated */
+  --ns-background-shell: #0f1011;     /* background/shell */
+  --ns-background-selected: #1c1e21;  /* background/selected */
+  --ns-background-hover: #f2f1ec0a;
+  --ns-background-inverse: #f2f1ec;
+
+  --ns-layer-01: #121315;
+  --ns-layer-02: #17191b;
+  --ns-layer-03: #1c1e21;
+  --ns-layer-hover-01: #17191b;
+  --ns-layer-hover-02: #1c1e21;
+  --ns-layer-hover-03: #222428;
+  --ns-layer-selected-01: #1c1e21;
+  --ns-layer-selected-02: #222428;
+  --ns-layer-selected-03: #282a2e;
+  --ns-border-subtle-01: #26282b;
+  --ns-border-subtle-02: #2c2e32;
+  --ns-border-subtle-03: #34363a;
+  --ns-border-strong-01: #3a3d42;
+  --ns-border-strong-02: #4a4d53;
+  --ns-border-strong-03: #4a4d53;
+  --ns-field-01: #17191b;
+  --ns-field-02: #1c1e21;
+  --ns-field-03: #222428;
+  --ns-field-hover-01: #1c1e21;
+  --ns-field-hover-02: #222428;
+  --ns-field-hover-03: #282a2e;
+  --ns-field-bg: #17191b;
+
+  /* Text: warm white, never pure */
+  --ns-text-primary: #f2f1ec;
+  --ns-text-secondary: #b9b8b1;
+  --ns-text-tertiary: #8a8983; /* board muted #7a7a74 lifted to 5.4:1 on the base */
+  --ns-text-disabled: #5a5a55;
+  --ns-text-inverse: #0c0d0e;
+  --ns-text-on-color: #1a1200; /* dark ink on amber and on danger */
+  --ns-text-link: #f2b53c;
+  --ns-text-accent: #f2b53c;
+
+  --ns-border-subtle: #26282b;
+  --ns-border-default: #2f3236;
+  --ns-border-strong: #3a3d42;
+
+  /* Action and measurement share one amber ink */
+  --ns-logo-star: #f2b53c;
+  --ns-interactive-primary: #f2b53c;
+  --ns-interactive-primary-hover: #ffc962;
+  --ns-interactive-primary-active: #d99a1f; /* pressed stays amber, one step darker */
+  --ns-interactive-danger: #e2553f;
+  --ns-interactive-danger-hover: #ec6a55;
+  --ns-interactive-danger-active: #e04d36;
+  --ns-interactive-secondary-bg: #1c1e21;
+  --ns-interactive-secondary-hover: #26282b;
+  --ns-interactive-secondary: #b9b8b1;
+  --ns-interactive-ghost-hover: #f2f1ec0f;
+  --ns-focus-field: #58c6ff;
+  --ns-focus-ring: #58c6ff; /* cyan is reserved for focus */
+
+  --ns-status-success: #6fd38f;
+  --ns-status-warning: #f2b53c;
+  --ns-status-error: #ff6a52;
+  --ns-status-info: #58c6ff;
+  --ns-status-success-bg: #6fd38f14;
+  --ns-status-warning-bg: #f2b53c14;
+  --ns-status-error-bg: #ff6a5214;
+  --ns-status-info-bg: #58c6ff14;
+
+  /* Data: amber first, then cyan, green, bone, graphite */
+  --ns-viz-1: #f2b53c;
+  --ns-viz-2: #58c6ff;
+  --ns-viz-3: #6fd38f;
+  --ns-viz-4: #d8d6cc;
+  --ns-viz-5: #8a8983;
+  --ns-viz-6: #ff6a52;
+  --ns-viz-7: #b9b8b1;
+  --ns-chart-series-1: #f2b53c;
+  --ns-chart-series-2: #58c6ff;
+  --ns-chart-series-3: #6fd38f;
+  --ns-chart-series-4: #d8d6cc;
+  --ns-chart-series-5: #8a8983;
+  --ns-chart-marker: #f2b53c;
+  --ns-chart-ramp-from: #5a4318; /* amber at low value */
+  --ns-chart-label-text: #9a9992;
+  --ns-chart-trend-text: #6fd38f;
+
+  --ns-widget-bg: #121315;
+  --ns-widget-inset: #0c0d0e;
+  --ns-widget-track: #1c1e21;
+  --ns-widget-band: #17191b;
+  --ns-widget-grid: #26282b;
+  --ns-widget-muted: #8a8983;
+  --ns-widget-shadow: inset 0 0 0 1px #26282b;
+
+  /* Flat: no glow layers, elevation is a hairline plus a short shade */
+  --ns-gradient-brand: linear-gradient(135deg, #f2b53c, #f2b53c);
+  --ns-gradient-glow: linear-gradient(transparent, transparent);
+  --ns-elevation-01: 0 0 0 1px #26282b;
+  --ns-elevation-02: 0 4px 12px #00000080, 0 0 0 1px #2f3236;
+  --ns-elevation-03: 0 12px 32px #000000a6, 0 0 0 1px #2f3236;
+  --ns-elevation-04: 0 24px 64px #000000cc, 0 0 0 1px #3a3d42;
+
+  /* Stage: an 8px line grid, the measuring surface */
+  --ns-measure-ink: #f2b53c;
+  --ns-stage-grid: linear-gradient(#f2f1ec0b 1px, transparent 1px), linear-gradient(90deg, #f2f1ec0b 1px, transparent 1px);
+  --ns-stage-grid-size: 8px 8px;
 }
