@@ -1,0 +1,8 @@
+tools/node_modules/
+tools/shots/
+*.mp4
+*.log
+tools/sheet-*.jpg
+tools/site.js
+tools/frames/
+b2-assembly.before-logo.html

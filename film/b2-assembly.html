@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NorthStar Film: Assembly</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site/css/tokens.css">
+<style>
+  :root { --bg: var(--ns-black); --cyan: #27bdfa; --grey: #c5c5c5; --ray: #3b82f6; --teal: var(--ns-teal-500); --ink: #f4f6ff; --muted: #9a9ac4; }
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+  .stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; overflow: hidden; transform-origin: 50% 50%;
+    background: var(--bg); font-family: "Open Sans", sans-serif; color: var(--ink); }
+  .mono { font-family: "JetBrains Mono", monospace; }
+
+  /* The docs site's light: side rays from the top right, with the big mark overlaid */
+  .rays { position: absolute; inset: 0; }
+  .rays canvas { position: absolute; inset: 0; }
+  .rays__mark { position: absolute; top: -8%; right: -8%; width: 900px; mix-blend-mode: overlay; opacity: .9; }
+
+  .scene { position: absolute; inset: 0; visibility: hidden; }
+  .space { position: absolute; inset: 0; perspective: 1600px; }
+  .rig { position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform-style: preserve-3d; }
+  .card { position: absolute; width: 1600px; height: 900px; margin: -450px 0 0 -800px; border-radius: 16px; overflow: hidden; background: #0b0b18;
+    box-shadow: 0 50px 120px -30px #000d, 0 0 0 1px #ffffff1c; }
+  .card img { width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block; }
+  .dash { position: absolute; width: 1600px; height: 900px; overflow: hidden; background: #0f0f24; }
+  .dash iframe { width: 1600px; height: 900px; border: 0; display: block; pointer-events: none; }
+  .card .dash { position: static; }
+
+  .scrim { position: absolute; inset: 0; pointer-events: none; z-index: 5;
+    background: radial-gradient(120% 70% at 0% 100%, #05050ff5 0%, #05050fd9 30%, #05050f66 52%, transparent 70%); }
+  .line { position: absolute; left: 120px; bottom: 104px; width: 1180px; z-index: 6; opacity: 0; }
+  .line .k { font: 600 17px/1 "JetBrains Mono", monospace; letter-spacing: .22em; text-transform: uppercase; color: var(--cyan); margin-bottom: 24px; display: flex; gap: 16px; align-items: center; }
+  .line .k::before { content: ""; width: 44px; height: 2px; background: var(--cyan); }
+  .line p { margin: 0; font-weight: 700; font-size: 62px; line-height: 1.08; letter-spacing: -.025em; }
+  .line .w { display: inline-block; }
+
+  .logo { position: absolute; left: 50%; top: 44%; width: 300px; margin: -156px 0 0 -150px; overflow: visible; }
+  .logo #dia { filter: drop-shadow(0 0 22px #27bdfa); }
+  .word { position: absolute; left: 0; right: 0; top: 64%; text-align: center; font-size: 96px; font-weight: 700; letter-spacing: .08em; }
+  .word b { font-weight: 300; letter-spacing: .08em; }
+  .word .c { display: inline-block; }
+  .tag { position: absolute; left: 0; right: 0; top: 78%; text-align: center; font: 600 20px/1 "JetBrains Mono", monospace; letter-spacing: .3em; color: var(--muted); }
+
+  .swatch { position: absolute; width: 330px; height: 236px; margin: -118px 0 0 -165px; border-radius: 14px; background: #10101e; box-shadow: 0 0 0 1px #ffffff1c, 0 40px 80px -20px #000c; overflow: hidden; }
+  .swatch i { display: block; height: 150px; }
+  .swatch b { display: block; padding: 16px 20px 4px; font-size: 22px; } .swatch span { display: block; padding: 0 20px; font: 400 15px/1 "JetBrains Mono", monospace; color: var(--muted); }
+  .big { position: absolute; font-weight: 800; letter-spacing: -.05em; line-height: .85; white-space: nowrap; }
+  .big small { display: block; font: 600 26px/1 "JetBrains Mono", monospace; letter-spacing: .26em; text-transform: uppercase; color: var(--cyan); margin-top: 18px; }
+
+  .ticker { position: absolute; right: 120px; top: 0; bottom: 0; width: 470px; overflow: hidden; -webkit-mask-image: linear-gradient(transparent, #000 25%, #000 75%, transparent); }
+  .ticker div { font: 600 30px/58px "Open Sans"; color: #ffffffd0; white-space: nowrap; }
+  .ticker div span { font: 400 14px/1 "JetBrains Mono", monospace; color: var(--cyan); margin-right: 18px; letter-spacing: .1em; }
+
+  .cols { position: absolute; left: 115px; right: 24px; top: 0; bottom: 0; display: grid; grid-template-columns: repeat(12, 1fr); gap: 0 17px; }
+  .cols i { border-left: 1px solid #27bdfa50; border-right: 1px solid #27bdfa50; background: #27bdfa0a; transform-origin: top; }
+  .blk { position: absolute; border-radius: 26px; background: #1c1c3a; }
+  .blk b { position: absolute; left: 28px; top: 26px; font: 600 15px/1.4 "JetBrains Mono", monospace; letter-spacing: .06em; color: #ffffffa0; }
+
+  .chip { position: absolute; padding: 18px 26px; border-radius: 12px; background: #05050fe6; border: 1.5px solid #27bdfa; white-space: nowrap;
+    font: 600 30px/1 "JetBrains Mono", monospace; color: var(--ink); box-shadow: 0 20px 50px -10px #000c; }
+  .chip em { font-style: normal; color: var(--cyan); }
+  .chip--big { font: 700 44px/1 "Open Sans"; letter-spacing: -.01em; }
+  .chip--big em { font-weight: 800; }
+
+  .key { position: absolute; display: flex; gap: 18px; }
+  .key span { width: 150px; height: 150px; border-radius: 26px; background: linear-gradient(#22223a, #12121f); box-shadow: 0 0 0 1.5px #ffffff26, 0 14px 0 #08080f, 0 40px 60px -10px #000; display: grid; place-items: center; font: 700 64px/1 "Open Sans"; }
+
+  .split { position: absolute; top: 0; bottom: 0; width: 6px; margin-left: -3px; background: var(--cyan); box-shadow: 0 0 40px var(--cyan); z-index: 3; }
+
+  .endmark { position: absolute; left: 50%; top: 47%; width: 1160px; margin: -63px 0 0 -580px; overflow: visible; }
+  .end h1 { position: absolute; left: 0; right: 0; top: 56%; margin: 0; text-align: center; font-weight: 300; font-size: 112px; letter-spacing: .14em; line-height: 1; }
+  .end h1 b { font-weight: 800; letter-spacing: .04em; }
+  .end p { position: absolute; left: 0; right: 0; top: 64%; margin: 0; text-align: center; font-size: 44px; font-weight: 400; color: #d6d6f2; }
+  .end small { position: absolute; left: 0; right: 0; bottom: 70px; text-align: center; font: 600 20px/1 "JetBrains Mono", monospace; letter-spacing: .2em; color: var(--muted); }
+  .flash { position: absolute; inset: 0; background: #27bdfa; mix-blend-mode: screen; opacity: 0; pointer-events: none; z-index: 8; }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="rays" id="rays"></div>
+
+  <!-- 1. Logo -->
+  <div class="scene" id="s1">
+    <svg class="logo" viewBox="113 105 374 390" aria-hidden="true">
+      <path id="chevL" d="M236.16 424.87L300 313.14L300.6 314.19L300.6 277.6L300 278.02L263 251.59L133.3 470.98Z" fill="#FFFFFF"/>
+      <path id="chevR" d="M466.7 470.98L337 251.59L300 278.02L299.4 277.6L299.4 314.19L300 313.14L363.84 424.87Z" fill="#FFFFFF"/>
+      <path id="dia" d="M300 129.02L353.38 219L300 257.13L246.62 219Z" fill="#27BDFA"/>
+    </svg>
+    <div class="word" id="word">NORTHSTAR <b>DS</b></div>
+    <div class="tag" id="tag">DESIGN SYSTEM&nbsp;&nbsp;/&nbsp;&nbsp;V1.4.1</div>
+  </div>
+
+  <div class="scene" id="s2"><div class="space"><div class="rig" id="r2"></div></div></div>
+  <div class="scene" id="s3"><div class="space"><div class="rig" id="r3"></div></div></div>
+  <div class="scene" id="s4"><div class="space"><div class="rig" id="r4"></div></div><div class="ticker"><div id="tick"></div></div></div>
+  <div class="scene" id="s5a"><div class="cols" id="cols"></div></div>
+  <div class="scene" id="s5"><div class="space"><div class="rig" id="r5"></div></div></div>
+  <div class="scene" id="s6"><div class="space"><div class="rig" id="r6"></div></div></div>
+  <div class="scene" id="s7"><div class="space"><div class="rig" id="r7"></div></div></div>
+  <div class="scene" id="s8"><div class="space"><div class="rig" id="r8"></div></div></div>
+  <div class="scene" id="s9"></div>
+
+  <div class="scene end" id="s10">
+    <svg class="endmark" viewBox="0 0 2251.99 245.28" aria-hidden="true"><path fill="#FFFFFF" d="M180.81 242.55L122.5 242.55L39.12 93.95L37.89 93.95C38.28 99.72 38.62 105.75 38.92 112.04C39.22 118.33 39.5 124.63 39.78 130.95C40.05 137.26 40.29 143.43 40.49 149.46L40.49 242.55L0 242.55L0 42.55L57.94 42.55L141.14 189.53L142.06 189.53C141.85 183.8 141.61 177.93 141.34 171.9C141.07 165.87 140.82 159.83 140.59 153.76C140.36 147.7 140.18 141.81 140.04 136.11L140.04 42.55L180.81 42.55Z M422.07 142.27C422.07 157.68 420.17 171.71 416.38 184.34C412.58 196.97 406.78 207.84 398.97 216.96C391.16 226.08 381.24 233.08 369.2 237.96C357.15 242.84 342.86 245.28 326.33 245.28C309.88 245.28 295.65 242.84 283.62 237.96C271.59 233.08 261.65 226.09 253.82 216.98C245.99 207.87 240.16 196.98 236.33 184.3C232.5 171.63 230.58 157.53 230.58 142C230.58 121.27 233.99 103.23 240.81 87.86C247.63 72.49 258.14 60.57 272.34 52.1C286.55 43.63 304.64 39.4 326.6 39.4C348.59 39.4 366.62 43.64 380.69 52.12C394.76 60.6 405.17 72.55 411.93 87.96C418.69 103.38 422.07 121.48 422.07 142.27ZM278.28 142.27C278.28 155.73 279.93 167.31 283.24 177.02C286.55 186.73 291.74 194.2 298.82 199.42C305.89 204.65 315.06 207.26 326.33 207.26C337.82 207.26 347.1 204.65 354.16 199.42C361.22 194.2 366.36 186.73 369.56 177.02C372.77 167.31 374.37 155.73 374.37 142.27C374.37 122.06 370.69 106.13 363.32 94.49C355.95 82.86 343.71 77.04 326.6 77.04C315.22 77.04 305.97 79.67 298.85 84.91C291.73 90.16 286.52 97.65 283.22 107.39C279.93 117.12 278.28 128.75 278.28 142.27Z M532.17 42.55C550.32 42.55 565.33 44.74 577.19 49.13C589.06 53.52 597.91 60.13 603.74 68.95C609.57 77.77 612.48 88.87 612.48 102.25C612.48 111.11 610.85 118.93 607.57 125.73C604.3 132.52 599.91 138.35 594.41 143.23C588.91 148.1 582.81 152.16 576.13 155.4L634.81 242.55L584.05 242.55L537.7 166.83L517.44 166.83L517.44 242.55L472.01 242.55L472.01 42.55ZM529.73 78.89L517.44 78.89L517.44 130.76L530.19 130.76C542.74 130.76 551.95 128.55 557.81 124.12C563.68 119.7 566.61 112.89 566.61 103.7C566.61 95 563.63 88.69 557.66 84.77C551.7 80.85 542.39 78.89 529.73 78.89Z M748.03 242.55L702.6 242.55L702.6 80.15L649.71 80.15L649.71 42.55L800.88 42.55L800.88 80.15L748.03 80.15Z M1006.71 242.55L961.3 242.55L961.3 157.47L886.37 157.47L886.37 242.55L840.86 242.55L840.86 42.55L886.37 42.55L886.37 119.83L961.3 119.83L961.3 42.55L1006.71 42.55Z M1186.54 185.65C1186.54 197.25 1183.7 207.55 1178.03 216.55C1172.35 225.56 1163.95 232.6 1152.82 237.67C1141.68 242.74 1127.94 245.28 1111.59 245.28C1104.09 245.28 1097 244.84 1090.32 243.95C1083.63 243.06 1077.28 241.72 1071.25 239.91C1065.22 238.11 1059.35 235.84 1053.64 233.1L1053.64 191.43C1063.48 195.95 1073.62 199.84 1084.04 203.08C1094.47 206.33 1104.56 207.95 1114.31 207.95C1120.83 207.95 1126.11 207.11 1130.14 205.43C1134.17 203.74 1137.1 201.43 1138.95 198.49C1140.79 195.55 1141.71 192.18 1141.71 188.38C1141.71 183.77 1140.15 179.83 1137.02 176.57C1133.9 173.31 1129.47 170.19 1123.74 167.21C1118.02 164.23 1111.29 160.91 1103.57 157.26C1098.21 154.74 1092.73 151.84 1087.13 148.56C1081.52 145.28 1076.35 141.35 1071.6 136.75C1066.85 132.16 1063.02 126.63 1060.1 120.17C1057.18 113.71 1055.72 105.99 1055.72 97.01C1055.72 84.82 1058.57 74.46 1064.26 65.92C1069.96 57.38 1078.05 50.87 1088.53 46.39C1099 41.91 1111.3 39.67 1125.43 39.67C1136.51 39.67 1146.9 40.95 1156.6 43.49C1166.3 46.04 1176.04 49.49 1185.83 53.83L1171.4 89.08C1162.36 85.29 1154.06 82.34 1146.5 80.21C1138.94 78.09 1131.44 77.03 1123.99 77.03C1118.86 77.03 1114.53 77.8 1111 79.35C1107.46 80.89 1104.8 83.04 1103.01 85.8C1101.23 88.56 1100.33 91.75 1100.33 95.36C1100.33 99.67 1101.68 103.35 1104.36 106.38C1107.05 109.42 1111.21 112.42 1116.84 115.4C1122.48 118.37 1129.68 121.94 1138.45 126.09C1148.54 130.81 1157.16 135.76 1164.31 140.96C1171.45 146.16 1176.94 152.29 1180.78 159.36C1184.62 166.42 1186.54 175.19 1186.54 185.65Z M1311.24 242.55L1265.81 242.55L1265.81 80.15L1212.92 80.15L1212.92 42.55L1364.09 42.55L1364.09 80.15L1311.24 80.15Z M1710.48 42.55C1728.63 42.55 1743.64 44.74 1755.51 49.13C1767.38 53.52 1776.23 60.13 1782.06 68.95C1787.89 77.77 1790.8 88.87 1790.8 102.25C1790.8 111.11 1789.16 118.93 1785.89 125.73C1782.61 132.52 1778.22 138.35 1772.72 143.23C1767.22 148.1 1761.13 152.16 1754.45 155.4L1813.13 242.55L1762.37 242.55L1716.01 166.83L1695.75 166.83L1695.75 242.55L1650.32 242.55L1650.32 42.55ZM1708.04 78.89L1695.75 78.89L1695.75 130.76L1708.51 130.76C1721.06 130.76 1730.27 128.55 1736.13 124.12C1741.99 119.7 1744.92 112.89 1744.92 103.7C1744.92 95 1741.94 88.69 1735.98 84.77C1730.01 80.85 1720.7 78.89 1708.04 78.89Z"/><path fill="#FFFFFF" d="M2086.37 140.63C2086.37 162.97 2082.42 181.72 2074.53 196.85C2066.64 211.99 2054.97 223.39 2039.51 231.05C2024.05 238.72 2004.92 242.55 1982.12 242.55L1934.24 242.55L1934.24 42.55L1988.42 42.55C2009.76 42.55 2027.68 46.28 2042.18 53.76C2056.68 61.24 2067.67 72.25 2075.15 86.8C2082.63 101.35 2086.37 119.29 2086.37 140.63ZM2071.59 141.18C2071.59 122.12 2068.49 106.2 2062.29 93.43C2056.09 80.67 2046.6 71.07 2033.83 64.64C2021.07 58.21 2004.88 54.99 1985.27 54.99L1948.34 54.99L1948.34 230.1L1981.44 230.1C2011.63 230.1 2034.2 222.69 2049.16 207.87C2064.11 193.05 2071.59 170.82 2071.59 141.18Z M2251.99 190.97C2251.99 202.92 2248.98 212.93 2242.96 221C2236.94 229.07 2228.77 235.14 2218.47 239.19C2208.16 243.25 2196.49 245.28 2183.45 245.28C2175.33 245.28 2167.97 244.89 2161.36 244.12C2154.74 243.34 2148.77 242.32 2143.44 241.04C2138.1 239.76 2133.24 238.3 2128.87 236.66L2128.87 222.57C2135.98 225.31 2144.21 227.7 2153.56 229.75C2162.91 231.81 2173.1 232.83 2184.13 232.83C2194.53 232.83 2203.76 231.33 2211.83 228.32C2219.91 225.31 2226.27 220.75 2230.92 214.64C2235.57 208.53 2237.89 200.82 2237.89 191.52C2237.89 183.31 2235.96 176.59 2232.08 171.34C2228.2 166.1 2222.39 161.58 2214.64 157.8C2206.89 154.01 2197.13 150.16 2185.36 146.24C2177.16 143.41 2169.7 140.43 2163 137.28C2156.29 134.13 2150.57 130.48 2145.83 126.33C2141.09 122.19 2137.46 117.17 2134.95 111.29C2132.45 105.4 2131.19 98.45 2131.19 90.43C2131.19 79.39 2134 70.11 2139.6 62.59C2145.21 55.06 2152.83 49.36 2162.45 45.49C2172.07 41.61 2182.9 39.67 2194.94 39.67C2204.52 39.67 2213.61 40.56 2222.23 42.34C2230.85 44.12 2239.17 46.79 2247.2 50.34L2242.27 62.52C2234.25 59.05 2226.22 56.5 2218.2 54.86C2210.17 53.22 2202.24 52.4 2194.39 52.4C2185 52.4 2176.63 53.79 2169.29 56.57C2161.95 59.35 2156.13 63.52 2151.85 69.08C2147.56 74.65 2145.42 81.67 2145.42 90.15C2145.42 98.91 2147.4 105.97 2151.37 111.36C2155.34 116.74 2160.99 121.21 2168.33 124.76C2175.67 128.32 2184.36 131.78 2194.39 135.16C2206.25 139.17 2216.46 143.39 2225.04 147.81C2233.61 152.24 2240.24 157.82 2244.94 164.57C2249.64 171.32 2251.99 180.12 2251.99 190.97Z"/><path fill="#FFFFFF" d="M1379.83 242.55L1452.78 209.84L1498.06 130.6L1543.35 209.84L1616.3 242.55L1524.31 86.94L1498.06 105.69L1471.82 86.94Z"/><path class="dia2" fill="#27BDFA" d="M1498.06 0L1535.93 63.82L1498.06 90.87L1460.2 63.82Z" style="filter:drop-shadow(0 0 22px #27bdfa)"/></svg>
+    <p>From token to production screen.</p>
+    <small>MIKELROSENTHAL.COM/NORTHSTAR</small>
+  </div>
+
+  <div class="scrim" id="scrim"></div>
+  <div id="lines"></div>
+  <div class="flash" id="flash"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+  // Render mode drives the rays shader from the film clock so every frame is repeatable.
+  window.__t = 0;
+  if (new URLSearchParams(location.search).has("render")) {
+    const raf = window.requestAnimationFrame.bind(window);
+    window.requestAnimationFrame = (cb) => raf(() => cb(8000 + window.__t * 1000));
+  }
+  window.NS = {};
+</script>
+<script src="site/js/rays.js"></script>
+<script>
+  const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)];
+  const stage = $("#stage");
+  const fit = () => { const s = Math.min(innerWidth / 1920, innerHeight / 1080); stage.style.transform = `translate(-50%, -50%) scale(${s})`; };
+  addEventListener("resize", fit); fit();
+  NS.sideRays($("#rays"), { rayColor2: "#3B82F6", spread: 3, falloff: 1.1, intensity: 2, sourceX: 0.8, sourceY: -0.35 });
+  $("#rays").insertAdjacentHTML("beforeend", `<svg class="rays__mark" viewBox="113 105 374 390" aria-hidden="true"><path d="M236.16 424.87L300 313.14L300.6 314.19L300.6 277.6L300 278.02L263 251.59L133.3 470.98Z" fill="#FFFFFF"/><path d="M466.7 470.98L337 251.59L300 278.02L299.4 277.6L299.4 314.19L300 313.14L363.84 424.87Z" fill="#FFFFFF"/><path d="M300 129.02L353.38 219L300 257.13L246.62 219Z" fill="#27BDFA"/></svg>`);
+
+  // Building blocks
+  const el = (html) => { const d = document.createElement("div"); d.innerHTML = html.trim(); return d.firstChild; };
+  const put = (rig, node, p = {}) => { gsap.set(node, { x: 0, y: 0, z: 0, ...p }); $(rig).appendChild(node); return node; };
+  const shot = (name) => el(`<div class="card"><img src="shots/${name}.jpg" alt=""></div>`);
+  const live = (id, cls = "") => el(`<div class="dash ${cls}"><iframe src="site/dashboards/${id}.html" scrolling="no" tabindex="-1"></iframe></div>`);
+  const liveCard = (id) => { const c = el(`<div class="card"></div>`); c.appendChild(live(id)); return c; };
+
+  // Script lines, approved 2026-10-27 (script.md)
+  const LINES = [
+    ["02  Built for scale", "A design system for dense, data-heavy enterprise products."],
+    ["03  Foundations", "It starts with 225 tokens for color, type, spacing, motion and elevation."],
+    ["04  Components", "On top of them sit 57 components, each with a live playground, a token table, code and accessibility notes."],
+    ["05  Patterns and layouts", "It goes past components into 9 patterns, 7 floorplans and 24 dashboard layouts."],
+    ["06  Developers", "Developers get every value as a CSS variable, an element reference and specs synced from Figma."],
+    ["07  Live tools", "Live tools let you build a screen, edit tokens and search the whole library from the keyboard."],
+    ["08  Accessibility", "Accessibility is built in, with a contrast checker and WCAG mapping, next to component status and a changelog."],
+    ["09  Theming", "Change one token and every screen updates, in dark or light and at any density."]];
+  const lines = LINES.map(([k, t]) => {
+    const l = el(`<div class="line"><div class="k">${k}</div><p>${t.split(" ").map((w) => `<span class="w">${w}</span>`).join(" ")}</p></div>`);
+    $("#lines").appendChild(l); return l;
+  });
+  const say = (i, at, hold) => {
+    const l = lines[i];
+    tl.set(l, { opacity: 1, y: 0 }, at)
+      .fromTo(l.querySelector(".k"), { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: .5, ease: "power3.out" }, at)
+      .fromTo(l.querySelectorAll(".w"), { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: .7, stagger: .035, ease: "expo.out" }, at + .08)
+      .to(l, { opacity: 0, y: -16, duration: .35, ease: "power2.in" }, at + hold);
+  };
+  const scene = (id, from, to) => { tl.set(id, { visibility: "visible" }, from); if (to != null) tl.set(id, { visibility: "hidden" }, to); };
+  const flash = (at) => tl.fromTo("#flash", { opacity: .55 }, { opacity: 0, duration: .45, ease: "power2.out", immediateRender: false }, at);
+
+  const tl = gsap.timeline({ defaults: { ease: "power3.inOut" }, onUpdate: () => { window.__t = tl.time(); } });
+
+  /* 1. Logo assembles under the rays (0 - 4.4) */
+  gsap.set("#rays", { opacity: 0 }); gsap.set("#scrim", { opacity: 0 });
+  scene("#s1", 0, 4.4);
+  const word = $("#word"); word.innerHTML = word.innerHTML.replace(/(NORTHSTAR )/, (m) => m.split("").map((c) => `<span class="c">${c === " " ? "&nbsp;" : c}</span>`).join(""));
+  tl.to("#rays", { opacity: 1, duration: 2.2, ease: "power2.out" }, 0)
+    .from("#chevL", { x: -160, y: 120, opacity: 0, duration: 1.2, ease: "expo.out" }, .3)
+    .from("#chevR", { x: 160, y: 120, opacity: 0, duration: 1.2, ease: "expo.out" }, .38)
+    .from("#dia", { y: -260, opacity: 0, duration: 1, ease: "bounce.out" }, .9)
+    .from(".logo", { scale: .8, duration: 3.6, ease: "power1.out", transformOrigin: "50% 50%" }, .3)
+    .from("#word .c, #word b", { opacity: 0, y: 30, filter: "blur(8px)", duration: .8, stagger: .05, ease: "expo.out" }, 1.5)
+    .from("#tag", { opacity: 0, letterSpacing: ".6em", duration: 1.2, ease: "expo.out" }, 2.2)
+    .to("#s1", { opacity: 0, scale: 1.08, duration: .5, ease: "power2.in" }, 3.9);
+
+  /* 2. The docs site flies in (4.4 - 8.6) */
+  scene("#s2", 4.4, 8.6);
+  const home = put("#r2", shot("home"));
+  tl.set("#scrim", { opacity: 1 }, 4.4)
+    .fromTo("#r2", { z: -1400, rotationX: 38, rotationY: -26, rotationZ: 6 }, { z: 60, rotationX: 4, rotationY: 8, rotationZ: 0, duration: 3.6, ease: "expo.out" }, 4.4)
+    .to("#r2", { rotationY: -4, z: 140, duration: .9, ease: "power2.in" }, 7.7);
+  say(0, 4.8, 3.5);
+
+  /* 3. Foundations: swatches float at three depths over the token pages (8.6 - 13.2) */
+  scene("#s3", 8.6, 13.2);
+  put("#r3", shot("typography"), { x: -900, y: -260, z: -1600, rotationY: 18, opacity: .55 });
+  put("#r3", shot("tokens"), { x: 950, y: 260, z: -1900, rotationY: -18, opacity: .5 });
+  put("#r3", shot("color"), { x: 0, y: -60, z: -900, opacity: .7 });
+  const SW = [["Navy 900", "--ns-navy-900", "var(--ns-navy-900)"], ["Blue 500", "--ns-blue-500", "var(--ns-blue-500)"], ["Teal 500", "--ns-teal-500", "var(--ns-teal-500)"], ["Purple 500", "--ns-purple-500", "var(--ns-purple-500)"],
+    ["Green 500", "--ns-green-500", "var(--ns-green-500)"], ["Yellow 500", "--ns-yellow-500", "var(--ns-yellow-500)"], ["Red 400", "--ns-red-400", "var(--ns-red-400)"], ["Persian blue", "--ns-persian-500", "var(--ns-persian-500)"]];
+  const SWP = [[-640, -300, 250], [-160, -360, 60], [420, -280, 380], [700, 60, 120], [-760, 120, 420], [120, 300, 320], [-300, 20, -120], [560, 400, -60]];
+  const sws = SW.map(([n, t, c], i) => put("#r3", el(`<div class="swatch"><i style="background:${c}"></i><b>${n}</b><span>${t}</span></div>`), { x: SWP[i][0], y: SWP[i][1], z: SWP[i][2], rotationY: -SWP[i][0] / 60 }));
+  const big3 = put("#r3", el(`<div class="big" style="font-size:300px;margin:-160px 0 0 120px"><span id="n215">0</span><small>Design tokens</small></div>`), { z: 520 });
+  const cnt = { v: 0 };
+  tl.fromTo("#r3", { rotationY: 16, rotationX: -6, x: 180, z: -300 }, { rotationY: -14, rotationX: 4, x: -160, z: 0, duration: 4.6, ease: "sine.inOut" }, 8.6)
+    .from(sws, { opacity: 0, z: "-=900", duration: 1.1, stagger: .09, ease: "expo.out" }, 8.6)
+    .from(big3, { opacity: 0, duration: .5 }, 9.0)
+    .to(cnt, { v: 225, duration: 1.8, ease: "power2.out", onUpdate: () => { $("#n215").textContent = Math.round(cnt.v); } }, 9.0);
+  flash(8.6);
+  say(1, 9.0, 3.8);
+
+  /* 4. Components: the full library scrolls past like a conveyor; names tick by (13.2 - 18.4) */
+  scene("#s4", 13.2, 18.4);
+  const lib = put("#r4", el(`<div class="card" style="height:6895px;margin:-3447px 0 0 -800px"><img src="shots/components.jpg" alt=""></div>`), { x: -260, rotationX: 52, rotationZ: -14 });
+  const NAMES = "Accordion,Alert banner,Avatar,Badge,Bar chart,Breadcrumb,Bubble chart,Bullet chart,Button,Calendar chart,Candlestick chart,Card,Checkbox,Combobox,Command palette,Data table,Date picker,Divider,Dumbbell chart,File uploader,Funnel chart,Gauge chart,Heatmap chart,Inline edit,Line chart,Link,Menu,Modal,Notification,Number stepper,Pagination,Parallel coordinates chart,Pie chart,Popover,Progress,Radar chart,Radial bar chart,Radial convergence chart,Radial histogram chart,Radio button,Sankey chart,Scatter chart,Segmented control,Select,Side navigation,Slider,Stepped line chart,Sunburst chart,Switch,Tabs,Tag,Text input,Textarea,Tooltip,Tree chart,Tree view,Treemap chart".split(",");
+  $("#tick").innerHTML = NAMES.map((n, i) => `<div><span>${String(i + 1).padStart(2, "0")}</span>${n}</div>`).join("");
+  const big4 = put("#r4", el(`<div class="big" style="font-size:300px;margin:-470px 0 0 -640px"><span id="n60">0</span><small>Components</small></div>`), { z: 200 });
+  const c60 = { v: 0 };
+  tl.fromTo(lib, { y: 2700 }, { y: -900, duration: 5.2, ease: "none" }, 13.2)
+    .fromTo("#r4", { rotationY: 10, z: -200 }, { rotationY: -6, z: 80, duration: 5.2, ease: "sine.inOut" }, 13.2)
+    .fromTo("#tick", { y: 540 }, { y: 540 - 58 * NAMES.length, duration: 5.2, ease: "power1.inOut" }, 13.2)
+    .from(big4, { opacity: 0, duration: .5 }, 13.4)
+    .to(c60, { v: 57, duration: 2.2, ease: "power2.out", onUpdate: () => { $("#n60").textContent = Math.round(c60.v); } }, 13.4);
+  flash(13.2);
+  say(2, 13.6, 4.4);
+
+  /* 5a. A layout assembles on the 12-column grid (18.4 - 21.0) */
+  scene("#s5a", 18.4, 21.0);
+  const cols = $("#cols"); for (let i = 0; i < 12; i++) cols.appendChild(document.createElement("i"));
+  const BLOCKS = [[96, 88, 860, 590, "var(--ns-interactive-primary)", ".hero  col 1 / 8"], [970, 88, 236, 288, "#1c1c3a", ".k-spend"], [1220, 88, 360, 288, "var(--ns-teal-500)", ".k-conv"],
+    [970, 390, 236, 288, "#1c1c3a", ".pace"], [1220, 390, 360, 560, "#1c1c3a", ".chan  row 2 / 4"], [96, 692, 485, 260, "#1c1c3a", ".fun"], [595, 692, 611, 260, "#1c1c3a", ".heat"]];
+  const blks = BLOCKS.map(([x, y, w, h, bg, lab]) => { const b = el(`<div class="blk" style="left:${x * 1.2}px;top:${y * 1.2}px;width:${w * 1.2}px;height:${h * 1.2}px;background:${bg}"><b>${lab}</b></div>`); $("#s5a").appendChild(b); return b; });
+  gsap.set(cols.children, { scaleY: 0 }); gsap.set(blks, { clipPath: "inset(0 0 100% 0)" });
+  tl.to(cols.children, { scaleY: 1, duration: .6, stagger: .03, ease: "power3.inOut" }, 18.4);
+  blks.forEach((b, i) => tl.to(b, { clipPath: "inset(0 0 0% 0)", duration: .45, ease: "power4.out" }, 18.9 + i * .12));
+
+  /* 5b. It resolves into the real layout, then the camera pulls back through the library (21.0 - 25.4) */
+  scene("#s5", 20.4, 25.4);
+  const WALL = [["patterns", -1720, -1000, -300], ["floorplans", 0, -1000, -600], ["forms", 1720, -1000, -200], ["@status-wall", -1720, 0, -500], ["@campaign-command", 0, 0, 0],
+    ["@portfolio", 1720, 0, -350], ["graphics", -1720, 1000, -150], ["charts", 0, 1000, -450], ["dashboards", 1720, 1000, -250]];
+  const wall = WALL.map(([n, x, y, z]) => put("#r5", n[0] === "@" ? liveCard(n.slice(1)) : shot(n), { x, y, z }));
+  const CH = [["<em>9</em> patterns", -900, -620], ["<em>7</em> floorplans", 760, -560], ["<em>24</em> dashboard layouts", 380, 600]];
+  const chips = CH.map(([t, x, y]) => put("#r5", el(`<div class="chip chip--big">${t}</div>`), { x, y, z: 500 }));
+  gsap.set(wall.filter((_, i) => i !== 4), { opacity: 0 });
+  tl.fromTo(wall[4], { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: .7, ease: "power4.inOut" }, 20.4)
+    .fromTo("#r5", { z: 266.7, rotationY: 0, rotationX: 0 }, { z: 266.7, duration: .01 }, 20.4)
+    .to("#r5", { z: -2600, rotationY: 14, rotationX: 8, duration: 3.2, ease: "expo.inOut" }, 21.3)
+    .to(wall.filter((_, i) => i !== 4), { opacity: 1, duration: 1, stagger: { each: .07, from: "center" } }, 21.6)
+    .to("#r5", { rotationY: -10, x: 220, duration: 2.2, ease: "sine.inOut" }, 23.2)
+    .from(chips, { opacity: 0, scale: .6, duration: .6, stagger: .25, ease: "back.out(2)" }, 22.6)
+    .to("#scrim", { opacity: 0, duration: .3 }, 18.4).to("#scrim", { opacity: 1, duration: .5 }, 21.4);
+  say(3, 21.8, 3.3);
+
+  /* 6. Developers: tokens, element reference and the Figma spec, fanned in depth (25.4 - 30.0) */
+  scene("#s6", 25.4, 30.0);
+  const devs = [put("#r6", shot("element-ref"), { x: -760, z: -520, rotationY: 30 }), put("#r6", shot("spec"), { x: 760, z: -520, rotationY: -30 }), put("#r6", shot("tokens"), { z: -120 })];
+  const VARS = ["--ns-interactive-primary", "--ns-background-primary", "--ns-chart-series-1", "--ns-focus-ring", "--ns-layer-01", "--ns-space-4"];
+  const VP = [[-640, -360, 420], [380, -420, 260], [700, -40, 520], [-760, 140, 300], [-200, 300, 600], [520, 330, 380]];
+  const vars = VARS.map((v, i) => put("#r6", el(`<div class="chip">var(<em>${v}</em>)</div>`), { x: VP[i][0], y: VP[i][1], z: VP[i][2] }));
+  tl.fromTo("#r6", { rotationY: -18, x: -200, z: -500 }, { rotationY: 14, x: 160, z: -200, duration: 4.6, ease: "sine.inOut" }, 25.4)
+    .from(devs, { opacity: 0, rotationX: -40, y: "+=300", duration: 1, stagger: .12, ease: "expo.out" }, 25.4)
+    .from(vars, { opacity: 0, z: "-=600", duration: .8, stagger: .12, ease: "expo.out" }, 25.9);
+  flash(25.4);
+  say(4, 25.8, 3.8);
+
+  /* 7. Live tools: builder and token editor behind, command search in front, the key cap (30.0 - 34.6) */
+  scene("#s7", 30.0, 34.6);
+  const tools = [put("#r7", shot("builder"), { x: -860, y: -120, z: -900, rotationY: 24 }), put("#r7", shot("token-editor"), { x: 860, y: -120, z: -900, rotationY: -24 }), put("#r7", shot("cmdk"), { y: 0, z: -200 })];
+  const key = put("#r7", el(`<div class="key" style="margin:120px 0 0 300px"><span>⌘</span><span>K</span></div>`), { z: 560 });
+  tl.fromTo("#r7", { z: -400, rotationX: 10 }, { z: 40, rotationX: -2, duration: 4.6, ease: "power2.out" }, 30.0)
+    .from(tools, { opacity: 0, z: "-=800", duration: 1, stagger: .14, ease: "expo.out" }, 30.0)
+    .from(key, { opacity: 0, y: 120, duration: .6, ease: "back.out(2)" }, 30.6)
+    .to(key.children, { y: 12, boxShadow: "0 0 0 1.5px #27bdfa, 0 2px 0 #08080f, 0 20px 40px -10px #000", duration: .12, yoyo: true, repeat: 1, stagger: .08, ease: "power1.inOut" }, 31.4);
+  flash(30.0);
+  say(5, 30.4, 3.8);
+
+  /* 8. Accessibility and governance: a tilted grid slides past (34.6 - 39.2) */
+  scene("#s8", 34.6, 39.2);
+  const A11Y = [["contrast", -1720, -520, 0], ["wcag", 0, -520, -400], ["status", 1720, -520, -150], ["checklist", 3440, -520, -350], ["changelog", -860, 520, -250], ["element-ref", 860, 520, 0], ["how-tokens", 2580, 520, -300]];
+  const a11y = A11Y.map(([n, x, y, z]) => put("#r8", shot(n === "checklist" ? "contrast" : n), { x, y, z }));
+  tl.fromTo("#r8", { x: 900, z: -1500, rotationY: -22, rotationX: 12 }, { x: -1300, z: -1300, rotationY: -12, rotationX: 6, duration: 4.6, ease: "sine.inOut" }, 34.6)
+    .from(a11y, { opacity: 0, duration: .6, stagger: .06 }, 34.6);
+  flash(34.6);
+  say(6, 35.0, 3.8);
+
+  /* 9. Theming: one token line wipes the layout from dark to light (39.2 - 43.6) */
+  scene("#s9", 39.2, 43.6);
+  const light = live("status-wall"), darkD = live("status-wall");
+  [light, darkD].forEach((d) => { d.style.transformOrigin = "0 0"; $("#s9").appendChild(d); });
+  light.querySelector("iframe").addEventListener("load", (e) => { e.target.contentDocument.documentElement.dataset.theme = "light"; });
+  $("#s9").insertAdjacentHTML("beforeend", `<div style="position:absolute;inset:0;z-index:2;background:linear-gradient(0deg,#05050f 0%,#05050fe6 30%,transparent 52%)"></div><div class="split" id="split"></div><div class="chip" id="tchip" style="top:26px">data-theme: <em id="theme">dark</em></div>`);
+  tl.fromTo([light, darkD], { scale: 1.2 }, { scale: 1.25, duration: 4.4, ease: "none" }, 39.2)
+    .fromTo(darkD, { clipPath: "inset(0 0 0 0)" }, { clipPath: "inset(0 100% 0 0)", duration: 2.2, ease: "power3.inOut" }, 39.7)
+    .fromTo("#split", { left: 1920 }, { left: 0, duration: 2.2, ease: "power3.inOut" }, 39.7)
+    .fromTo("#tchip", { left: 1460 }, { left: 440, duration: 2.2, ease: "power3.inOut" }, 39.7)
+    .call(() => { $("#theme").textContent = "dark"; }, null, 39.3)
+    .call(() => { $("#theme").textContent = "light"; }, null, 40.8)
+    .to("#split", { opacity: 0, duration: .3 }, 41.9);
+  say(7, 40.2, 3.1);
+
+  /* 10. End card under the rays (43.6 - 48.6) */
+  scene("#s10", 43.6, null);
+  tl.to("#scrim", { opacity: 0, duration: .4 }, 43.4)
+    .from("#s10 .endmark", { scale: .7, opacity: 0, y: 60, duration: 1.1, ease: "expo.out", transformOrigin: "50% 50%" }, 43.6)
+    .from(".dia2", { y: -420, opacity: 0, duration: .9, ease: "bounce.out" }, 43.9)
+    .from("#s10 p", { y: 24, opacity: 0, duration: .8, ease: "expo.out" }, 44.7)
+    .from("#s10 small", { opacity: 0, duration: .8 }, 45.2)
+    .to({}, { duration: 2.6 }, 46.0);
+  flash(43.6);
+
+  // Playback and the renderer hook
+  const render = new URLSearchParams(location.search).has("render");
+  tl.pause(0);
+  window.__film = { duration: tl.duration(), seek: (t) => { tl.seek(t, false); window.__t = t; return 1; } };
+  const frames = [...document.querySelectorAll("iframe")].map((f) => new Promise((r) => { if (f.contentDocument && f.contentDocument.readyState === "complete") r(); else f.addEventListener("load", r, { once: true }); }));
+  const imgs = [...document.images].map((i) => i.complete ? 1 : new Promise((r) => { i.onload = i.onerror = r; }));
+  Promise.all([...frames, ...imgs]).then(() => document.fonts.ready).then(() => { window.__ready = true; if (!render) tl.play(0); });
+  if (!render) addEventListener("click", () => tl.restart());
+</script>
+</body>
+</html>

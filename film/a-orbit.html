@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NorthStar Film A: Orbit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --navy: #0d0d22; --navy-2: #191932; --teal: #01f1e3; --blue: #023aff; --blue-2: #2858ff; --purple: #991bfa; --ink: #f4f6ff; --muted: #9a9ac4; }
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+  .stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; overflow: hidden; transform-origin: 50% 50%;
+    background: radial-gradient(120% 90% at 50% 40%, #1b1b44 0%, var(--navy) 55%, #05050e 100%); font-family: "Open Sans", sans-serif; color: var(--ink); }
+
+  .world { position: absolute; inset: 0; perspective: 2200px; perspective-origin: 50% 50%; }
+  .cam { position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform-style: preserve-3d; }
+  .dash { position: absolute; width: 1600px; height: 900px; margin: -450px 0 0 -800px; border-radius: 22px; overflow: hidden;
+    box-shadow: 0 60px 120px -30px #000c, 0 0 0 1px #ffffff14; background: #0f0f24; backface-visibility: hidden; }
+  .dash iframe { width: 1600px; height: 900px; border: 0; display: block; pointer-events: none; }
+  .dash::after { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 0 40%, #ffffff10 48%, transparent 56%); pointer-events: none; }
+
+  .sweep { position: absolute; top: -20%; bottom: -20%; width: 260px; left: -400px; transform: skewX(-14deg);
+    background: linear-gradient(90deg, transparent, #01f1e355 45%, #ffffffaa 50%, #01f1e355 55%, transparent); mix-blend-mode: screen; opacity: 0; filter: blur(6px); }
+
+  .star { position: absolute; left: 50%; top: 50%; width: 120px; height: 120px; margin: -60px 0 0 -60px; }
+  .star svg { width: 100%; height: 100%; fill: var(--teal); filter: drop-shadow(0 0 30px #01f1e3) drop-shadow(0 0 90px #2858ff); }
+  .flare { position: absolute; left: 50%; top: 50%; width: 1400px; height: 2px; margin: -1px 0 0 -700px;
+    background: linear-gradient(90deg, transparent, #01f1e3 45%, #fff 50%, #01f1e3 55%, transparent); filter: blur(1px); transform: scaleX(0); }
+
+  .copy { position: absolute; left: 140px; bottom: 190px; max-width: 1200px; }
+  .copy .k { font: 600 18px/1 "JetBrains Mono", monospace; letter-spacing: .24em; text-transform: uppercase; color: var(--teal); margin-bottom: 26px; }
+  .copy h2 { margin: 0; font-weight: 800; font-size: 104px; line-height: .98; letter-spacing: -.035em; }
+  .copy h2 .w { display: inline-block; }
+  .line { position: absolute; left: 0; bottom: 0; width: 1400px; opacity: 0; }
+  .shade { position: absolute; inset: 0; background: linear-gradient(0deg, #05050ef8 0%, #05050ee0 34%, #05050e80 50%, transparent 66%); opacity: 0; pointer-events: none; }
+
+  .bars::before, .bars::after { content: ""; position: absolute; left: 0; right: 0; height: 120px; background: #000; z-index: 5; transition: none; }
+  .bars::before { top: 0; transform: translateY(var(--bar, 0%)); } .bars::after { bottom: 0; transform: translateY(calc(var(--bar, 0%) * -1)); }
+
+  .end { position: absolute; inset: 0; display: grid; align-content: center; padding-left: 260px; opacity: 0;
+    background: radial-gradient(70% 90% at 22% 50%, #1f1f55 0%, var(--navy) 60%, #05050e 100%); }
+  .mark { width: 132px; height: 132px; border-radius: 34px; background: linear-gradient(135deg, var(--blue), var(--teal)); display: grid; place-items: center; box-shadow: 0 30px 80px -10px #023aff99; }
+  .mark svg { width: 70px; height: 70px; fill: #0d0d22; }
+  .end h1 { margin: 54px 0 0; font-weight: 800; font-size: 190px; line-height: .9; letter-spacing: -.05em; }
+  .end p { margin: 30px 0 0; font-size: 46px; font-weight: 400; color: #c9c9ee; letter-spacing: -.01em; }
+  .end small { display: block; margin-top: 70px; font: 400 20px/1 "JetBrains Mono", monospace; letter-spacing: .14em; color: var(--muted); }
+
+  .grain { position: absolute; inset: -50%; z-index: 6; opacity: .07; pointer-events: none; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+  .vig { position: absolute; inset: 0; z-index: 4; pointer-events: none; background: radial-gradient(90% 80% at 50% 50%, transparent 55%, #000a 100%); }
+</style>
+</head>
+<body>
+<div class="stage bars" id="stage">
+  <div class="world" id="world"><div class="cam" id="cam"></div><div class="sweep" id="sweep"></div></div>
+  <div class="flare" id="flare"></div>
+  <div class="star" id="star"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.7 6.2 6.8.6-5.1 4.5 1.5 6.7L12 17l-5.9 3.5 1.5-6.7L2.5 9.3l6.8-.6z"/></svg></div>
+  <div class="shade" id="shade"></div>
+  <div class="copy" id="copy">
+    <div class="line" data-k="01  The problem"><h2>Your product has<br>a lot of screens.</h2></div>
+    <div class="line" data-k="02  The promise"><h2>They should feel<br>like one.</h2></div>
+    <div class="line" data-k="03  NorthStar"><h2>24 dashboard layouts.<br>One token set.</h2></div>
+    <div class="line" data-k="04  One source"><h2>Change a token.<br>Every screen follows.</h2></div>
+  </div>
+  <div class="end" id="end">
+    <div class="mark"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.7 6.2 6.8.6-5.1 4.5 1.5 6.7L12 17l-5.9 3.5 1.5-6.7L2.5 9.3l6.8-.6z"/></svg></div>
+    <h1>NorthStar</h1>
+    <p>Design once. Ship every screen.</p>
+    <small>MIKELROSENTHAL.COM/NORTHSTAR</small>
+  </div>
+  <div class="vig"></div><div class="grain" id="grain"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="film.js"></script>
+<script>
+  // 3x3 wall; campaign-command sits in the center so the opening shot match-cuts into the wall.
+  const WALL = ["launch-day-live", "portfolio", "growth-retention", "status-wall", "campaign-command", "pipeline-forecast", "brand-health", "board-report", "small-multiples"];
+  const cam = document.getElementById("cam");
+  const tiles = WALL.map((id, i) => {
+    const c = i % 3 - 1, r = Math.floor(i / 3) - 1, el = dash(id);
+    gsap.set(el, { x: c * 1720, y: r * 1010, z: -Math.abs(c) * 260, rotationY: -c * 14 });
+    cam.appendChild(el); return el;
+  });
+  const others = tiles.filter((_, i) => i !== 4);
+  const lines = [...document.querySelectorAll(".line")];
+  lines.forEach((l) => {
+    const h = l.querySelector("h2");
+    h.innerHTML = h.innerHTML.split("<br>").map((row) => row.split(" ").map((w) => `<span class="w">${w}</span>`).join(" ")).join("<br>");
+    l.insertAdjacentHTML("afterbegin", `<div class="k">${l.dataset.k}</div>`);
+  });
+  const say = (tl, i, at, hold) => {
+    const l = lines[i], w = l.querySelectorAll(".w");
+    tl.set(l, { opacity: 1 }, at)
+      .fromTo(l.querySelector(".k"), { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: .6, ease: "power3.out" }, at)
+      .fromTo(w, { yPercent: 110, opacity: 0, filter: "blur(10px)" }, { yPercent: 0, opacity: 1, filter: "blur(0px)", duration: .9, stagger: .07, ease: "expo.out" }, at + .1)
+      .to(l, { opacity: 0, y: -24, filter: "blur(8px)", duration: .5, ease: "power2.in" }, at + hold);
+  };
+
+  const tl = gsap.timeline({ defaults: { ease: "power2.inOut" } });
+  tl.call(() => setTheme("dark"), null, 0);
+  gsap.set(document.getElementById("stage"), { "--bar": "-100%" });
+  gsap.set(cam, { scale: .55, rotationX: 62, rotationZ: -24, z: -900, y: 120 });
+  gsap.set(others, { opacity: 0 });
+  gsap.set(tiles[4], { opacity: 0 });
+  gsap.set("#world", { filter: "blur(14px)" });
+  gsap.set("#star", { scale: 0, opacity: 0 });
+
+  // 1. Star ignites, letterbox closes in
+  tl.to("#stage", { "--bar": "0%", duration: 1.2, ease: "power3.out" }, 0)
+    .to("#star", { scale: 1, opacity: 1, duration: 1.1, ease: "back.out(2)" }, .2)
+    .to("#flare", { scaleX: 1, duration: 1.2, ease: "expo.out" }, .5)
+    .to("#star", { rotation: 72, duration: 3, ease: "none" }, .2)
+    .to("#shade", { opacity: 1, duration: .8 }, .4);
+  say(tl, 0, .8, 2.3);
+
+  // 2. Star becomes the light; the first dashboard rises out of the dark, rack focus
+  tl.to("#star", { scale: 14, opacity: 0, duration: 1.1, ease: "power3.in" }, 3.0)
+    .to("#flare", { scaleY: 40, opacity: 0, duration: 1 }, 3.0)
+    .to(tiles[4], { opacity: 1, duration: 1.2 }, 3.3)
+    .to(cam, { scale: 1.08, rotationX: 0, rotationZ: 0, z: 0, y: 0, duration: 3.6, ease: "expo.inOut" }, 3.2)
+    .to("#world", { filter: "blur(0px)", duration: 2.4, ease: "power2.out" }, 3.8)
+    .to(cam, { scale: 1.14, x: -40, duration: 1.4, ease: "none" }, 6.8);
+  say(tl, 1, 5.0, 2.4);
+
+  // 3. Pull back: the wall of layouts appears around it
+  tl.to(others, { opacity: 1, duration: 1.4, stagger: { each: .08, from: "center" } }, 8.0)
+    .to(cam, { scale: .36, x: 0, rotationY: 10, rotationX: 6, duration: 3.4, ease: "expo.inOut" }, 8.0)
+    .to(cam, { rotationY: -10, x: 120, duration: 4.2, ease: "sine.inOut" }, 11.2);
+  say(tl, 2, 9.4, 3.1);
+
+  // 4. A light sweep flips every layout to the light theme, tile by tile
+  tl.to("#sweep", { opacity: 1, duration: .3 }, 13.6)
+    .fromTo("#sweep", { left: -400 }, { left: 2200, duration: 2.0, ease: "power1.inOut" }, 13.6)
+    .to("#sweep", { opacity: 0, duration: .3 }, 15.3)
+    .to(cam, { scale: .44, rotationX: 0, duration: 3, ease: "power2.inOut" }, 13.6);
+  [0, 3, 6, 1, 4, 7, 2, 5, 8].forEach((i, k) => {
+    const at = 13.9 + Math.floor(k / 3) * .55;
+    tl.call(() => { try { tiles[i].querySelector("iframe").contentDocument.documentElement.dataset.theme = "light"; } catch (e) {} }, null, at)
+      .fromTo(tiles[i], { filter: "brightness(1.8)" }, { filter: "brightness(1)", duration: .5, ease: "power2.out", immediateRender: false }, at);
+  });
+  say(tl, 3, 14.6, 2.6);
+
+  // 5. Dive into the center layout, cut to the end card
+  tl.to(cam, { scale: 2.6, rotationY: 0, x: 0, y: 0, duration: 1.3, ease: "expo.in" }, 17.4)
+    .to("#world", { filter: "blur(18px)", duration: .6, ease: "power2.in" }, 18.1)
+    .to("#shade", { opacity: 0, duration: .4 }, 18.1)
+    .to("#end", { opacity: 1, duration: .5 }, 18.6)
+    .from(".end .mark", { scale: .4, rotation: -40, opacity: 0, duration: 1, ease: "back.out(1.8)" }, 18.8)
+    .from(".end h1", { yPercent: 40, opacity: 0, filter: "blur(12px)", duration: 1.1, ease: "expo.out" }, 19.0)
+    .from(".end p", { y: 30, opacity: 0, duration: .9, ease: "expo.out" }, 19.4)
+    .from(".end small", { opacity: 0, duration: .8 }, 19.8)
+    .to({}, { duration: 1.6 }, 20.6);
+
+  tl.to("#grain", { x: 40, y: -30, duration: tl.duration(), ease: "steps(" + Math.round(tl.duration() * 12) + ")" }, 0);
+  film(tl);
+</script>
+</body>
+</html>

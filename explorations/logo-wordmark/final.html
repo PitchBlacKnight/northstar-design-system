@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NorthStar DS, final set</title>
+<style>
+  html, body { margin: 0; background: #0f0f20; color: #fff; font: 12px/1.4 ui-monospace, Menlo, monospace; }
+  main { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 24px; }
+  .wm { grid-column: span 2; display: grid; place-items: center; padding: 56px 8%; border-radius: 10px; }
+  .wm img { width: 100%; height: auto; display: block; }
+  .ic { display: grid; place-items: center; padding: 28px; border-radius: 10px; }
+  .ic img { height: 120px; width: auto; display: block; }
+  .dark { background: #191932; } .light { background: #fff; } .blue { background: #023aff; } .mono { background: #e9e9ee; color: #000; }
+  .tile { all: unset; cursor: pointer; background: #191932; border-radius: 10px; display: grid; }
+  .tile img { width: 100%; height: auto; display: block; }
+  .tile span { padding: 0 16px 16px; opacity: .7; letter-spacing: .4px; }
+  .tile b { display: block; text-transform: uppercase; letter-spacing: 1.4px; color: #fff; }
+  .tile:focus-visible { outline: 2px solid #01f1e3; outline-offset: 2px; }
+  h2 { grid-column: 1 / -1; margin: 18px 0 0; font: 600 12px/1 ui-monospace, Menlo, monospace; letter-spacing: 1.4px; text-transform: uppercase; opacity: .55; }
+  @media (max-width: 800px) { main { grid-template-columns: repeat(2, 1fr); } }
+</style></head><body><main>
+  <h2>Wordmark, matched weight</h2>
+  <figure class="wm dark" style="margin:0"><img src="final/northstar-ds-wordmark-dark.svg" alt="NorthStar DS"></figure>
+  <figure class="wm light" style="margin:0"><img src="final/northstar-ds-wordmark-light.svg" alt="NorthStar DS"></figure>
+  <h2>Icon</h2>
+  <div class="ic dark"><img src="final/northstar-icon-dark.svg" alt=""></div>
+  <div class="ic light"><img src="final/northstar-icon-light.svg" alt=""></div>
+  <div class="ic blue"><img src="final/northstar-icon-on-blue.svg" alt=""></div>
+  <div class="ic mono"><img src="final/northstar-icon-mono.svg" alt=""></div>
+  <h2>Animated icon, click a tile to replay</h2>
+  <button class="tile t-rise" data-src="final/northstar-icon-rise-dark.svg"><img src="final/northstar-icon-rise-dark.svg" alt=""><span><b>rise</b>Star rises onto the tip, one glint</span></button><button class="tile t-shooting" data-src="final/northstar-icon-shooting-dark.svg"><img src="final/northstar-icon-shooting-dark.svg" alt=""><span><b>shooting</b>Shooting star lands, arms close in</span></button><button class="tile t-ignite" data-src="final/northstar-icon-ignite-dark.svg"><img src="final/northstar-icon-ignite-dark.svg" alt=""><span><b>ignite</b>Star ignites, arms point to it</span></button><button class="tile t-twinkle" data-src="final/northstar-icon-twinkle-dark.svg"><img src="final/northstar-icon-twinkle-dark.svg" alt=""><span><b>twinkle</b>Idle loop</span></button>
+</main>
+<script>
+  document.querySelectorAll('.tile').forEach(function (t) {
+    t.setAttribute('tabindex', '0');
+    function replay() { t.querySelector('img').src = t.dataset.src + '?r=' + Date.now(); }
+    t.addEventListener('click', replay);
+    t.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); replay(); } });
+  });
+</script></body></html>

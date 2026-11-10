@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NorthStar Film B: Assembly</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --navy: #121228; --tile: #1c1c3a; --teal: #01f1e3; --blue: #023aff; --purple: #991bfa; --ink: #f4f6ff; --muted: #8d8db8; }
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+  .stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; overflow: hidden; transform-origin: 50% 50%; background: var(--navy);
+    font-family: "Open Sans", sans-serif; color: var(--ink); }
+  .mono { font-family: "JetBrains Mono", monospace; }
+  .layer { position: absolute; inset: 0; }
+
+  .field { position: absolute; inset: 0; visibility: hidden; }
+  .field .tok { position: absolute; left: 96px; bottom: 84px; font: 600 30px/1.2 "JetBrains Mono", monospace; letter-spacing: .02em; }
+  .field .hex { position: absolute; right: 96px; top: 70px; font: 800 300px/1 "Open Sans"; letter-spacing: -.06em; opacity: .16; }
+
+  .say { position: absolute; left: 96px; top: 300px; margin: 0; font-weight: 800; font-size: 150px; line-height: .92; letter-spacing: -.045em; visibility: hidden; z-index: 3; }
+  .say .w { display: inline-block; visibility: hidden; }
+  .say.small { font-size: 100px; top: auto; bottom: 96px; padding: 30px 44px 40px; background: #0d0d22; border-left: 8px solid var(--teal); border-radius: 4px; text-shadow: none !important; }
+
+  .cols { position: absolute; left: 115px; right: 0; top: 0; bottom: 0; display: grid; grid-template-columns: repeat(12, 1fr); gap: 0 17px; padding: 0 24px 0 0; }
+  .cols i { border-left: 1px solid #01f1e340; border-right: 1px solid #01f1e340; background: #01f1e308; transform-origin: top; }
+  .blk { position: absolute; border-radius: 26px; background: var(--tile); }
+  .blk b { position: absolute; left: 28px; top: 26px; font: 600 15px/1.4 "JetBrains Mono", monospace; letter-spacing: .06em; color: #ffffffa0; }
+
+  .dash { position: absolute; width: 1600px; height: 900px; overflow: hidden; transform-origin: 0 0; background: #0f0f24; }
+  .dash iframe { width: 1600px; height: 900px; border: 0; display: block; pointer-events: none; }
+  .full { left: 0; top: 0; transform: scale(1.2); }
+  .cell { border-radius: 10px; }
+
+  .cap { position: absolute; z-index: 4; left: 96px; top: 70px; display: flex; gap: 22px; align-items: center; visibility: hidden;
+    font: 600 22px/1 "JetBrains Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
+  .cap .n { background: var(--teal); color: #0d0d22; padding: 12px 16px; border-radius: 8px; }
+  .cap .t { background: #0d0d22e6; padding: 12px 16px; border-radius: 8px; }
+
+  .split { position: absolute; top: 0; bottom: 0; width: 6px; margin-left: -3px; background: var(--teal); box-shadow: 0 0 40px var(--teal); z-index: 3; }
+  .chip { position: absolute; z-index: 4; top: 26px; padding: 16px 22px; border-radius: 12px; background: #0d0d22; border: 2px solid var(--teal);
+    font: 600 26px/1 "JetBrains Mono", monospace; color: var(--ink); white-space: nowrap; }
+  .chip em { font-style: normal; color: var(--teal); }
+
+  .end { position: absolute; inset: 0; background: var(--teal); color: #0d0d22; visibility: hidden; }
+  .end h1 { position: absolute; left: 80px; bottom: 170px; margin: 0; font-weight: 800; font-size: 330px; line-height: .8; letter-spacing: -.065em; }
+  .end p { position: absolute; left: 96px; bottom: 90px; margin: 0; font-size: 44px; font-weight: 600; letter-spacing: -.015em; }
+  .end .mark { position: absolute; left: 96px; top: 90px; width: 120px; height: 120px; border-radius: 30px; background: #0d0d22; display: grid; place-items: center; }
+  .end .mark svg { width: 64px; height: 64px; fill: var(--teal); }
+  .end small { position: absolute; right: 96px; top: 136px; font: 600 22px/1 "JetBrains Mono", monospace; letter-spacing: .12em; }
+  .end .rule { position: absolute; left: 96px; right: 96px; top: 250px; height: 4px; background: #0d0d22; transform-origin: left; }
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="field" style="background:var(--teal);color:#0d0d22"><div class="hex">01F1E3</div><div class="tok">--ns-teal-500</div></div>
+  <div class="field" style="background:var(--blue)"><div class="hex">023AFF</div><div class="tok">--ns-interactive-primary</div></div>
+  <div class="field" style="background:var(--purple)"><div class="hex">991BFA</div><div class="tok">--ns-chart-series-3</div></div>
+
+  <h2 class="say" id="say1">Your product<br>has a lot<br>of screens.</h2>
+
+  <div class="layer" id="build">
+    <div class="cols" id="cols"></div>
+  </div>
+  <h2 class="say small" id="say2">They should<br>feel like one.</h2>
+
+  <div class="layer" id="hero"></div>
+  <div class="layer" id="mosaic"></div>
+  <h2 class="say small" id="say3" style="text-shadow:0 4px 40px #000">24 layouts.<br>One token set.</h2>
+  <div class="cap" id="cap"><span class="n" id="capn">01 / 24</span><span class="t" id="capt">Campaign command</span></div>
+
+  <div class="layer" id="flip"></div>
+  <h2 class="say small" id="say4" style="text-shadow:0 4px 40px #0008">Change a token.<br>Every screen follows.</h2>
+
+  <div class="end" id="end">
+    <div class="mark"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.7 6.2 6.8.6-5.1 4.5 1.5 6.7L12 17l-5.9 3.5 1.5-6.7L2.5 9.3l6.8-.6z"/></svg></div>
+    <small>MIKELROSENTHAL.COM/NORTHSTAR</small>
+    <div class="rule"></div>
+    <h1>NorthStar</h1>
+    <p>Design once. Ship every screen.</p>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="film.js"></script>
+<script>
+  const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)];
+  const show = (tl, el, at) => tl.set(el, { visibility: "visible", opacity: 1 }, at);
+  const hide = (tl, el, at) => tl.set(el, { visibility: "hidden", opacity: 0 }, at);
+  // Words cut in one at a time: no fades, the edit does the work.
+  const words = (el) => { el.innerHTML = el.innerHTML.split("<br>").map((r) => r.split(" ").map((w) => `<span class="w">${w}</span>`).join(" ")).join("<br>"); return el.querySelectorAll(".w"); };
+  const cutIn = (tl, el, at, gap = .13) => { show(tl, el, at); words(el).forEach((w, i) => tl.set(w, { visibility: "visible" }, at + i * gap)); };
+
+  // Campaign command tile skeleton, in 1600px dashboard space (scaled 1.2 to the frame)
+  const BLOCKS = [
+    [96, 88, 860, 590, "var(--blue)", ".hero  col 1 / 8"], [970, 88, 236, 288, "var(--tile)", ".k-spend"], [1220, 88, 360, 288, "var(--teal)", ".k-conv"],
+    [970, 390, 236, 288, "var(--tile)", ".pace"], [1220, 390, 360, 560, "var(--tile)", ".chan  row 2 / 4"], [96, 692, 485, 260, "var(--tile)", ".fun"], [595, 692, 611, 260, "var(--tile)", ".heat"]];
+  const build = $("#build"), cols = $("#cols");
+  for (let i = 0; i < 12; i++) cols.appendChild(document.createElement("i"));
+  const blks = BLOCKS.map(([x, y, w, h, bg, lab]) => {
+    const b = document.createElement("div"); b.className = "blk";
+    Object.assign(b.style, { left: x * 1.2 + "px", top: y * 1.2 + "px", width: w * 1.2 + "px", height: h * 1.2 + "px", background: bg });
+    b.innerHTML = `<b style="color:${bg.includes("teal") ? "#0d0d22b0" : ""}">${lab}</b>`; build.appendChild(b); return b;
+  });
+  const hero = dash("campaign-command", "full"); $("#hero").appendChild(hero);
+
+  const MOS = [["launch-day-live", "Launch day live"], ["portfolio", "Portfolio"], ["status-wall", "Status wall"], ["growth-retention", "Growth and retention"],
+    ["pipeline-forecast", "Pipeline forecast"], ["brand-health", "Brand health"], ["board-report", "Board report"], ["small-multiples", "Small multiples"], ["radial-hub", "Radial hub"]];
+  const cells = MOS.map(([id], i) => {
+    const c = dash(id, "cell"), cw = (1920 - 16 * 4) / 3, ch = (1080 - 16 * 4) / 3, s = cw / 1600;
+    Object.assign(c.style, { left: 16 + (i % 3) * (cw + 16) + "px", top: 16 + Math.floor(i / 3) * (ch + 16) + "px", transform: `scale(${s})`, height: ch / s + "px" });
+    $("#mosaic").appendChild(c); return c;
+  });
+  const dark = dash("status-wall", "full"), light = dash("status-wall", "full");
+  $("#flip").append(light, dark);
+  $("#flip").insertAdjacentHTML("beforeend", `<div class="split" id="split"></div><div class="chip" id="chip">data-theme: <em id="theme">dark</em></div>`);
+  light.querySelector("iframe").addEventListener("load", (e) => { e.target.contentDocument.documentElement.dataset.theme = "light"; });
+
+  gsap.set(["#build", "#hero", "#mosaic", "#flip"], { visibility: "hidden" });
+  gsap.set(cols.children, { scaleY: 0 });
+  gsap.set(blks, { clipPath: "inset(0 0 100% 0)" });
+  gsap.set(cells, { clipPath: "inset(0 0 100% 0)" });
+
+  const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
+  const fields = $$(".field");
+
+  // 1. Token color fields, hard cuts on the beat
+  fields.forEach((f, i) => { show(tl, f, i * .42); hide(tl, f, (i + 1) * .42); tl.from(f.querySelector(".hex"), { xPercent: 12, duration: .42, ease: "none" }, i * .42); });
+  cutIn(tl, $("#say1"), 1.4, .16);
+  hide(tl, "#say1", 3.6);
+
+  // 2. The 12-column grid draws, tiles drop into the campaign command layout
+  show(tl, "#build", 3.6);
+  tl.to(cols.children, { scaleY: 1, duration: .7, stagger: .035, ease: "power3.inOut" }, 3.6);
+  blks.forEach((b, i) => tl.to(b, { clipPath: "inset(0 0 0% 0)", duration: .55, ease: "power4.out" }, 4.3 + i * .16));
+  cutIn(tl, $("#say2"), 4.9, .14);
+  tl.to(cols.children, { opacity: 0, duration: .4, ease: "none" }, 6.6);
+
+  // 3. The skeleton resolves into the real layout
+  hide(tl, "#say2", 7.2);
+  show(tl, "#hero", 7.2);
+  tl.fromTo(hero, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: .9, ease: "power4.inOut" }, 7.2);
+  hide(tl, "#build", 8.1);
+  tl.fromTo(hero, { scale: 1.2 }, { scale: 1.26, x: -60, y: -30, duration: 2, ease: "none" }, 7.2);
+
+  // 4. Mosaic: nine layouts wipe in, the counter runs to 24
+  show(tl, "#mosaic", 9.2); hide(tl, "#hero", 9.6);
+  cells.forEach((c, i) => tl.to(c, { clipPath: "inset(0 0 0% 0)", duration: .45, ease: "power4.out" }, 9.2 + [4, 0, 2, 6, 8, 1, 3, 7, 5][i] * .1));
+  show(tl, "#cap", 9.2);
+  const names = ["Campaign command", "Launch day live", "Portfolio", "Customer journey", "Deal home", "Lead flow", "Growth and retention", "Pipeline forecast", "Brand health", "Board report", "Kanban board", "Status wall",
+    "Year calendar", "Small multiples", "Radial hub", "Milestone spine", "Diverging matrix", "Editorial stat wall", "Annotated briefing", "Stage: discovery", "Stage: registration", "Stage: configuration", "Stage: contract", "Stage: project"];
+  names.forEach((n, i) => tl.call(() => { $("#capn").textContent = String(i + 1).padStart(2, "0") + " / 24"; $("#capt").textContent = n; }, null, 9.2 + i * .14));
+  cutIn(tl, $("#say3"), 10.4, .14);
+  tl.to("#mosaic", { scale: 1.06, duration: 4, ease: "none", transformOrigin: "50% 50%" }, 9.2);
+  hide(tl, "#say3", 13.4); hide(tl, "#cap", 13.4);
+
+  // 5. Theme flip: one layout, a token line wipes dark to light
+  show(tl, "#flip", 13.4); hide(tl, "#mosaic", 13.4);
+  gsap.set("#split", { left: 1920 }); gsap.set("#chip", { left: 1500 });
+  tl.fromTo(dark, { clipPath: "inset(0 0 0 0)" }, { clipPath: "inset(0 100% 0 0)", duration: 2.2, ease: "power3.inOut" }, 14.0)
+    .fromTo("#split", { left: 1920 }, { left: 0, duration: 2.2, ease: "power3.inOut" }, 14.0)
+    .fromTo("#chip", { left: 1500 }, { left: 440, duration: 2.2, ease: "power3.inOut" }, 14.0)
+    .call(() => { $("#theme").textContent = "dark"; }, null, 13.5)
+    .call(() => { $("#theme").textContent = "light"; }, null, 15.1)
+    .to("#split", { opacity: 0, duration: .3 }, 16.2);
+  cutIn(tl, $("#say4"), 14.6, .13);
+  tl.fromTo([dark, light], { scale: 1.2 }, { scale: 1.24, duration: 4, ease: "none" }, 13.4);
+
+  // 6. End card on a teal field
+  hide(tl, "#say4", 17.6); hide(tl, "#flip", 17.6); show(tl, "#end", 17.6);
+  tl.from(".end h1", { yPercent: 100, duration: .9, ease: "expo.out" }, 17.6)
+    .from(".end .rule", { scaleX: 0, duration: .9, ease: "expo.inOut" }, 17.7)
+    .from(".end .mark", { scale: 0, rotation: -90, duration: .8, ease: "back.out(2)" }, 17.9);
+  show(tl, ".end p", 18.5); tl.set(".end p", { visibility: "hidden" }, 0);
+  show(tl, ".end small", 18.8); tl.set(".end small", { visibility: "hidden" }, 0);
+  tl.to({}, { duration: 2.2 }, 19.0);
+
+  film(tl);
+</script>
+</body>
+</html>

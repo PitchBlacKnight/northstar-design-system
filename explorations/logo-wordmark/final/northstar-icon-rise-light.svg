@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600" role="img" aria-label="NorthStar"><title>NorthStar</title><style>
+.star{transform-box:fill-box;transform-origin:50% 62%}
+.spark,.ring{opacity:0}
+*{animation-play-state:var(--p,running)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+
+.arm{animation:chev .8s cubic-bezier(.16,1,.3,1) calc(0s - var(--t,0s)) both}
+.star{animation:rise 1.1s cubic-bezier(.3,0,.2,1) calc(0.3s - var(--t,0s)) both}
+.s1{animation:glint .8s ease-out calc(1.25s - var(--t,0s)) both}
+@keyframes chev{from{opacity:0;transform:translateY(28px)}}
+@keyframes rise{0%{opacity:0;transform:translateY(90px) scale(.45)}35%{opacity:1}72%{transform:translateY(-14px) scale(1.06)}100%{transform:none}}
+@keyframes glint{0%{opacity:0;transform:scale(0)}35%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.25) rotate(45deg)}}
+</style><g fill="#191932"><path class="arm al" d="M236.16 424.87L300 313.14L300.6 314.19L300.6 277.6L300 278.02L263 251.59L133.3 470.98Z"/><path class="arm ar" d="M466.7 470.98L337 251.59L300 278.02L299.4 277.6L299.4 314.19L300 313.14L363.84 424.87Z"/></g><g transform="translate(300 205)"><circle class="ring" r="150" fill="none" stroke="#023AFF" stroke-width="5"/></g><g class="fly"><path class="star" fill="#023AFF" d="M300 129.02L353.38 219L300 257.13L246.62 219Z"/></g><g transform="translate(300 205)"><path class="spark s1" fill="#023AFF" d="M0 -170L9 -9L170 0L9 9L0 170L-9 9L-170 0L-9 -9Z"/></g><g transform="translate(182 153)"><path class="spark s2" fill="#023AFF" d="M0 -40L4 -4L40 0L4 4L0 40L-4 4L-40 0L-4 -4Z"/></g><g transform="translate(404 227)"><path class="spark s3" fill="#023AFF" d="M0 -30L3 -3L30 0L3 3L0 30L-3 3L-30 0L-3 -3Z"/></g></svg>

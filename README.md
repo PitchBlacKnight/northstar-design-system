@@ -31,6 +31,16 @@ Add a component: append an entry to NS.COMPONENTS in js/components.js. Nav, sear
 
 Icons: assets/icons/*.svg (95, exported from Figma Icons page, currentColor) + manifest.json.
 
+## Not published (kept out of the live rsync)
+
+- film/          Hero film source. b2-assembly.html is the GSAP timeline; `site` links back to this repo.
+                 Serve with `python3 -m http.server 8960` in film/, then in film/tools (EXE = Chrome path):
+                 `node capture.js` (stills), `STILLS=3.5 node render.js http://localhost:8960/b2-assembly.html frames/p.png`
+                 (poster), `node render.js <url> ../NorthStar-Assembly.mp4` (about 8 min), ffmpeg to 1280x720 crf 27,
+                 copy mp4 and poster to assets/film/. Renders (*.mp4), frames and node_modules are gitignored.
+- explorations/  Direction mocks kept for reference: chart-directions (A1/A2, A2 chosen), visual-directions
+                 (A Color blocks, B Signal), logo-wordmark (wordmark generators: build_faces.py, build_site.py, build_og.py).
+
 ## Agent surface
 
 The docs render with JavaScript, so an agent that fetches a route gets an empty shell. The machine-readable surface is generated from the same catalog and committed:

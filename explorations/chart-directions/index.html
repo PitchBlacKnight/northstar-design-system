@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NorthStar chart directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root { --page:#05050f; --navy:#191932; --line:#26264a; --text:#fff; --dim:#b9b9d6; --label:#8f8fc0; --teal:#01f1e3; --blue:#023aff; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin:0; background:var(--page); color:var(--text); font-family:"Open Sans",system-ui,sans-serif; font-size:15px; line-height:1.5; -webkit-font-smoothing:antialiased; }
+.mono { font-family:"JetBrains Mono",ui-monospace,monospace; }
+.wrap { max-width:1360px; margin:0 auto; padding:0 20px; }
+
+.top { position:sticky; top:0; z-index:5; background:color-mix(in srgb,var(--page) 88%,transparent); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+.top .wrap { display:flex; align-items:center; gap:16px; height:56px; }
+.top b { font-weight:800; letter-spacing:.08em; font-size:13px; }
+.top span { color:var(--label); font-size:13px; }
+.top nav { margin-left:auto; display:flex; gap:4px; }
+.top a { color:var(--dim); text-decoration:none; font-size:13px; font-weight:600; padding:6px 12px; border-radius:6px; border:1px solid var(--line); }
+.top a:hover, .top a:focus-visible { color:#fff; border-color:var(--teal); outline:none; }
+
+.intro { display:grid; grid-template-columns:1.1fr 1fr; gap:48px; padding:56px 0 40px; align-items:end; }
+.intro h1 { font-size:clamp(34px,5vw,60px); line-height:1.02; font-weight:800; margin:0; letter-spacing:-.02em; }
+.intro p { color:var(--dim); margin:0; max-width:52ch; }
+
+.eye { display:flex; align-items:center; gap:12px; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--label); margin:0 0 14px; }
+.eye::after { content:""; flex:1; height:1px; background:var(--line); }
+
+/* audit */
+.audit { width:100%; border-collapse:collapse; font-size:13px; margin-bottom:72px; }
+.audit th, .audit td { text-align:left; padding:10px 14px 10px 0; border-bottom:1px solid var(--line); vertical-align:top; }
+.audit th { font:500 11px "JetBrains Mono",monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--label); }
+.audit td:first-child { color:var(--label); width:13%; }
+.audit td { color:var(--dim); width:21.75%; }
+.audit em { font-style:normal; color:#fff; font-weight:600; }
+.scroll { overflow-x:auto; }
+
+/* direction header */
+.dir { padding:8px 0 88px; scroll-margin-top:72px; }
+.dhead { display:grid; grid-template-columns:auto 1fr 1fr; gap:28px; align-items:start; margin-bottom:24px; }
+.dhead .letter { font-size:80px; line-height:.8; font-weight:800; color:var(--teal); }
+.dhead h2 { margin:0 0 6px; font-size:32px; line-height:1.1; font-weight:800; letter-spacing:-.01em; }
+.dhead p { margin:0; color:var(--dim); max-width:50ch; }
+.dhead ul { margin:0; padding:0; list-style:none; font-size:12px; color:var(--dim); }
+.dhead li { padding:5px 0 5px 18px; position:relative; border-bottom:1px solid var(--line); }
+.dhead li::before { content:"+"; position:absolute; left:0; color:var(--teal); }
+.dhead li.risk::before { content:"!"; color:#ffa63f; }
+.pick { display:inline-block; font:500 10px "JetBrains Mono",monospace; letter-spacing:.12em; text-transform:uppercase; background:var(--teal); color:#05050f; padding:3px 8px; border-radius:3px; vertical-align:middle; margin-left:10px; }
+
+/* board */
+.board { display:grid; grid-template-columns:repeat(12,1fr); gap:12px; }
+.tile { grid-column:span var(--span); grid-row:span var(--rows,1); background:var(--bg); color:var(--fg); padding:22px; display:flex; flex-direction:column; min-width:0; min-height:196px; position:relative; }
+.tile svg { display:block; width:100%; height:auto; overflow:visible; }
+.tile .grow { flex:1; min-height:10px; }
+.lab { font:500 13px "JetBrains Mono",monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--sub); display:flex; justify-content:space-between; gap:8px; }
+.ttl { font-size:17px; font-weight:600; line-height:1.3; }
+.sbt { font-size:12px; color:var(--sub); }
+.val { font-variant-numeric:tabular-nums; letter-spacing:-.02em; line-height:1; margin-top:10px; display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+.val small { font-size:.42em; letter-spacing:0; }
+.val .delta { font-size:12px; font-weight:700; letter-spacing:0; color:var(--up); }
+.note { font-size:11px; color:var(--sub); }
+.row { display:flex; justify-content:space-between; gap:8px; font-size:12px; }
+.row span:last-child { font-weight:700; font-variant-numeric:tabular-nums; }
+.row .k { color:var(--sub); font-weight:400 !important; }
+
+.hb { position:relative; width:100%; }
+.hb i { display:block; height:100%; background-repeat:no-repeat; }
+.hb b { position:absolute; top:-4px; bottom:-4px; width:2px; margin-left:-1px; }
+.seg { display:flex; height:100%; }
+.seg i { display:block; height:100%; }
+.list { display:grid; gap:11px; margin-top:14px; }
+.fun { display:grid; grid-template-columns:86px 1fr 52px; gap:12px; align-items:center; font-size:12px; margin-top:16px; row-gap:20px; }
+.fun span:nth-child(3n+1) { color:var(--sub); }
+.fun span:nth-child(3n) { text-align:right; font-weight:700; font-variant-numeric:tabular-nums; }
+.units { display:grid; grid-template-columns:44px 1fr; gap:10px 10px; align-items:center; font-size:11px; color:var(--sub); margin-top:18px; row-gap:22px; }
+.lg { display:flex; flex-wrap:wrap; gap:6px 16px; font-size:11px; color:var(--sub); margin-top:16px; }
+.lg i { display:inline-block; width:8px; height:8px; margin-right:6px; vertical-align:middle; }
+.ringrow { display:flex; align-items:center; gap:20px; margin-top:14px; }
+.ringrow svg { width:104px; flex:none; }
+.ringrow .side { flex:1; display:grid; gap:8px; }
+
+/* A: color blocks */
+.bd-A .tile { border-radius:14px; }
+.bd-A .val { font-weight:800; font-size:52px; }
+.bd-A .val--xl { font-size:128px; letter-spacing:-.04em; }
+.bd-A .lg i { border-radius:2px; }
+/* B: instrument */
+.bd-B { gap:1px; background:var(--line); border:1px solid var(--line); }
+.bd-B .val { font-weight:600; font-size:38px; }
+.bd-B .val--xl { font-size:72px; }
+.bd-B .lg i { height:2px; width:12px; }
+.bd-B .hb b { top:-5px; bottom:-5px; width:1px; }
+/* C: spectrum */
+.bd-C .tile { border-radius:20px; }
+.bd-C .val { font-weight:700; font-size:44px; }
+.bd-C .val--xl { font-size:88px; }
+.bd-C .lg i { border-radius:50%; }
+.bd-C .hb b { border-radius:2px; }
+
+/* rules strip */
+.rules { display:grid; grid-template-columns:repeat(7,1fr); gap:0; margin-top:20px; border-top:1px solid var(--line); }
+.rules div { padding:14px 14px 0 0; font-size:12px; color:var(--dim); }
+.rules dt { font:500 10px "JetBrains Mono",monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--label); margin-bottom:4px; }
+.rules dd { margin:0; }
+
+.close { border-top:1px solid var(--line); padding:40px 0 96px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:32px; font-size:13px; color:var(--dim); }
+.close h3 { margin:0 0 8px; font-size:15px; color:#fff; }
+.close p { margin:0; }
+
+@media (max-width:1000px) {
+  .intro, .dhead, .close { grid-template-columns:1fr; gap:20px; }
+  .tile { grid-column:span 6; }
+  .tile[style*="--span:6"], .tile[style*="--span:5"] { grid-column:span 12; }
+  .rules { grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:620px) {
+  .tile { grid-column:span 12 !important; }
+  .top span { display:none; }
+  .bd-A .val--xl { font-size:84px; }
+  .audit { min-width:760px; }
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <b>NORTHSTAR DS</b><span>Chart styling, direction A: ink on block</span>
+  <nav><a href="#A1">A1 · Flat</a><a href="#A2">A2 · With gradients</a></nav>
+</div></header>
+
+<main class="wrap">
+  <section class="intro">
+    <h1>Ink on block, with one rounded end.</h1>
+    <p>Each board below holds the same eleven charts with the same data, taken from the home tiles, the Dashboard floorplan, Learner progress and Campaign command. Direction A is now drawn twice: flat, and with gradients. Every bar, line, ring and track ends in the same full-round cap.</p>
+  </section>
+
+  <p class="eye mono">Where the drift is today</p>
+  <div class="scroll"><table class="audit">
+    <thead><tr><th>Property</th><th>Home tiles</th><th>Dashboard floorplan</th><th>Learner progress</th><th>Campaign command</th></tr></thead>
+    <tbody>
+      <tr><td>Fill</td><td><em>Gradient</em>, teal to blue, top to bottom</td><td>Flat, plus a <em>gradient ring</em> and bubbles</td><td>Flat</td><td>Flat bars, but the funnel is a <em>blue to teal gradient</em></td></tr>
+      <tr><td>Bar shape</td><td>4px top corners</td><td><em>Capsules</em>, stacked teal over purple</td><td>Capsule segments</td><td>Square bars, capsule bar list</td></tr>
+      <tr><td>Tile surface</td><td>Black with glow</td><td>Navy</td><td><em>Tinted</em> teal, purple and blue</td><td><em>Solid</em> blue and teal blocks</td></tr>
+      <tr><td>First series color</td><td>Blue and teal mixed</td><td><em>Purple and orange</em></td><td>Teal</td><td>White or black ink on blocks, <em>seven hues</em> in one ranking</td></tr>
+      <tr><td>Ring</td><td>None</td><td>Thin, gradient, round cap</td><td>Thick, four hues, 270 degrees</td><td>Thick, teal, full circle</td></tr>
+      <tr><td>Labels</td><td>Mono caps</td><td>Sentence case</td><td>Sentence case with subtitle</td><td>Mono caps, 800 weight numbers</td></tr>
+    </tbody>
+  </table></div>
+
+  <div id="out"></div>
+
+  <section class="close">
+    <div><h3>What is the same in both</h3><p>Open Sans and JetBrains Mono, the existing palette, 11px axis text in chart-label-text, one series order (teal, blue, purple, violet), status colors kept for status, and a single source in <span class="mono">js/viz.js</span>.</p></div>
+    <div><h3>What a pick changes</h3><p>Bar radius, stroke and cap tokens, how tile surfaces are assigned, the style-lint rules, the chart sets in Figma on the next sync, and the visual baselines.</p></div>
+    <div><h3>Not shown</h3><p>Light mode and high contrast. Ink on a color block has to hold 4.5:1 in both modes, so the block colors need a light-mode pass.</p></div>
+  </section>
+</main>
+
+<script>
+const P = { teal:'#01f1e3', blue:'#2858ff', act:'#023aff', purple:'#991bfa', violet:'#7844f9', muted:'#6a6a9f', navy:'#191932', black:'#05050f', green:'#5eff5a', label:'#8f8fc0' };
+const al = (c,a) => c === '#fff' ? `rgba(255,255,255,${a})` : `rgba(5,5,15,${a})`;
+const mix = (c,p) => `color-mix(in srgb, ${c} ${p}%, ${P.navy})`;
+const ink = (bg,fg,grad) => ({ bg:grad||bg, dot:bg, ramp:[al(fg,.42),fg], fg, sub:al(fg,.76), track:al(fg,.16), grid:al(fg,.18), s:[fg, al(fg,.5), al(fg,.3), al(fg,.72)], neutral:al(fg,.4), hi:fg, up:fg });
+const base = (o) => Object.assign({ ramp:[P.blue,P.teal], bg:P.navy, fg:'#fff', sub:P.label, track:'#0e0e22', grid:'#2a2a4a', s:[P.teal,P.blue,P.purple,P.violet], neutral:P.muted, hi:P.teal, up:P.green }, o);
+
+const SHAPE = { r:99, cap:'round', sw:2.5, ringW:11, barH:10, head:'caps', curve:true, cell:4 };
+const D = {
+  A1: Object.assign({ mode:'flat' }, SHAPE, {
+       surf: k => ({ hero:ink(P.act,'#fff'), bars:ink(P.teal,P.black), prog:ink(P.purple,'#fff') }[k] || base()) }),
+  A2: Object.assign({ mode:'ramp' }, SHAPE, {
+       surf: k => ({ hero:ink(P.act,'#fff','linear-gradient(150deg,#3565ff 0%,#023aff 48%,#0122b8 100%)'),
+                     bars:ink(P.teal,P.black,'linear-gradient(150deg,#7dfbf3 0%,#01f1e3 45%,#00bfd4 100%)'),
+                     prog:ink(P.purple,'#fff','linear-gradient(150deg,#b659ff 0%,#991bfa 48%,#6410d6 100%)') }[k]
+                   || base({ bg:'linear-gradient(165deg,#1f1f3f 0%,#191932 55%,#141429 100%)', dot:P.navy })) }),
+};
+
+let n = 0; const uid = () => 'g' + (++n);
+const smooth = (p) => { let d = `M${p[0][0]},${p[0][1]}`; for (let i=0;i<p.length-1;i++){ const a=p[i-1]||p[i], b=p[i], c=p[i+1], e=p[i+2]||c; d += `C${b[0]+(c[0]-a[0])/6},${b[1]+(c[1]-a[1])/6} ${c[0]-(e[0]-b[0])/6},${c[1]-(e[1]-b[1])/6} ${c[0]},${c[1]}`; } return d; };
+const poly = (p) => 'M' + p.map(q => q.join(',')).join('L');
+const txt = (t,x,y,s,a='start') => `<text x="${x}" y="${y}" font-size="11" text-anchor="${a}" fill="${t.sub}">${s}</text>`;
+const hgrad = (id,t) => `<linearGradient id="${id}" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="${t.ramp[0]}"/><stop offset="1" stop-color="${t.ramp[1]}"/></linearGradient>`;
+const fade = (id,col,a) => `<linearGradient id="${id}" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity="${a}"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient>`;
+
+function area({d,t}) {
+  const W=620,H=270,L=42,R=8,T=8,B=24, g=uid(), f=uid();
+  const rev=[38,34,36,35,44,50,54,52,51,55,60,66,74,78,82,86,84,90,96,104,108,112];
+  const sp=[20,20,21,21,21,22,22,22,23,23,23,24,24,24,25,25,25,26,26,26,27,27];
+  const x=i=>L+i*(W-L-R)/(rev.length-1), y=v=>T+(1-v/140)*(H-T-B);
+  const pr=rev.map((v,i)=>[x(i),y(v)]), ps=sp.map((v,i)=>[x(i),y(v)]);
+  const ln=d.curve?smooth(pr):poly(pr), l2=d.curve?smooth(ps):poly(ps);
+  const stroke = d.mode==='ramp' ? `url(#${g})` : d.mode==='focus' ? t.hi : t.s[0];
+  const fill = d.mode==='ramp' ? `url(#${f})` : d.mode==='focus' ? 'none' : al(t.fg,.26);
+  const s2 = d.mode==='focus' ? t.neutral : t.s[1];
+  let o = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Revenue against media spend, Oct 1 to 22"><defs>${hgrad(g,t)}${fade(f,t.ramp[1],.42)}</defs>`;
+  [0,35,70,105,140].forEach(v => { o += `<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="${t.grid}" stroke-width="1" ${d.mode==='ramp'&&v?'stroke-dasharray="2 6"':''}/>` + txt(t,L-8,y(v)+4,'$'+v+'K','end'); });
+  ['Oct 1','Oct 8','Oct 15','Oct 22'].forEach((s,i) => o += txt(t,x(i*7),H-4,s,i===3?'end':i?'middle':'start'));
+  o += `<path d="${ln}L${x(21)},${y(0)}L${x(0)},${y(0)}Z" fill="${fill}"/><path d="${l2}" fill="none" stroke="${s2}" stroke-width="1.5" stroke-dasharray="4 4"/>`;
+  o += `<path d="${ln}" fill="none" stroke="${stroke}" stroke-width="${d.sw}" stroke-linecap="${d.cap}" stroke-linejoin="round"/>`;
+  o += `<circle cx="${x(21)}" cy="${y(112)}" r="4.5" fill="${t.dot||t.bg}" stroke="${d.mode==='ramp'?t.ramp[1]:stroke}" stroke-width="2"/></svg>`;
+  return o;
+}
+function spark({d,t}) {
+  const W=250,H=64, g=uid(), f=uid(), v=[30,28,33,31,36,34,40,44,42,50,48,56,60,66];
+  const p=v.map((q,i)=>[4+i*(W-8)/(v.length-1), H-6-(q-24)/44*(H-14)]);
+  const ln=d.curve?smooth(p):poly(p), e=p[p.length-1];
+  const stroke = d.mode==='ramp' ? `url(#${g})` : d.mode==='focus' ? t.neutral : t.s[0];
+  const fill = d.mode==='ramp' ? `url(#${f})` : d.mode==='flat' ? t.s[0] : 'none';
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Spend trend, rising"><defs>${hgrad(g,t)}${fade(f,t.ramp[1],.35)}</defs>
+  <path d="${ln}L${e[0]},${H}L${p[0][0]},${H}Z" fill="${fill}" ${d.mode==='flat'?'opacity=".18"':''}/>
+  <path d="${ln}" fill="none" stroke="${stroke}" stroke-width="${d.sw}" stroke-linecap="${d.cap}" stroke-linejoin="round"/>
+  ${d.mode!=='flat'?`<circle cx="${e[0]}" cy="${e[1]}" r="3.5" fill="${t.hi}"/>`:''}</svg>`;
+}
+function bars({d,t}) {
+  const W=250,H=84, g=uid(), v=[22,24,23,30,34,33,38,40,39,44,50,52,51,56,60,58,70,74,72,68];
+  const slot=W/v.length, bw=slot*(d.mode==='focus'?.5:.64), rx=Math.min(d.r,bw/2);
+  let o=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Purchases per day, rising"><defs><linearGradient id="${g}" gradientUnits="userSpaceOnUse" x1="0" x2="0" y1="${H}" y2="0"><stop offset="0" stop-color="${t.ramp[0]}"/><stop offset="1" stop-color="${t.ramp[1]}"/></linearGradient></defs>`;
+  v.forEach((q,i)=>{ const h=q/78*H; const fill = d.mode==='ramp' ? `url(#${g})` : d.mode==='focus' ? (i===v.length-1?t.hi:t.neutral) : t.s[0];
+    o+=`<rect x="${i*slot+(slot-bw)/2}" y="${H-h}" width="${bw}" height="${h}" rx="${rx}" fill="${fill}"/>`; });
+  return o+'</svg>';
+}
+function arc(t,d,cx,cy,r,w,pct,stroke) {
+  const c=2*Math.PI*r, round=d.cap==='round', len=Math.max(.01,c*pct/100-(round?w:0)), rot=-90+(round?(w/2)/r*180/Math.PI:0);
+  return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${t.track}" stroke-width="${w}"/><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${stroke}" stroke-width="${w}" stroke-linecap="${d.cap}" stroke-dasharray="${len} ${c}" transform="rotate(${rot} ${cx} ${cy})"/>`;
+}
+function ring({d,t},pct) {
+  const S=104,g=uid(), stroke=d.mode==='ramp'?`url(#${g})`:d.mode==='focus'?t.hi:t.s[0];
+  return `<svg viewBox="0 0 ${S} ${S}" role="img" aria-label="${pct} percent of budget spent"><defs>${hgrad(g,t)}</defs>${arc(t,d,S/2,S/2,(S-d.ringW)/2-1,d.ringW,pct,stroke)}<text x="${S/2}" y="${S/2+7}" text-anchor="middle" font-size="21" font-weight="700" fill="${t.fg}">${pct}%</text></svg>`;
+}
+function rings({d,t}) {
+  const S=190, step=d.mode==='focus'?13:d.ringW+5; let o=`<svg viewBox="0 0 ${S} ${S}" style="max-width:190px;margin:14px auto 0" role="img" aria-label="Four goals: 80, 62, 45 and 30 percent">`;
+  [80,62,45,30].forEach((p,i)=> o+=arc(t,d,S/2,S/2,S/2-d.ringW/2-2-i*step,d.ringW,p,t.s[i]));
+  return o+'</svg>';
+}
+function heat({d,t}) {
+  const cs=13,gp=2.5,L=30,T=2,W=L+24*(cs+gp),H=T+7*(cs+gp)+16, days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  let o=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Purchases by hour, peak Thursday 8 PM">`;
+  for(let r=0;r<7;r++){ o+=txt(t,0,T+r*(cs+gp)+10,days[r]);
+    for(let c=0;c<24;c++){ let v=Math.exp(-Math.pow((c-19)/6,2))*(1-.12*Math.abs(r-3))+((r*7+c*13)%5)*.03; v=c<7?0:Math.min(1,v); const q=Math.round(v*4)/4;
+      let fill=t.track, op=1;
+      if(q>0){ if(d.mode==='flat'){fill=t.s[0];op=.2+.8*q;} else if(d.mode==='focus'){ if(q>=1){fill=t.hi;} else {fill=t.neutral;op=.25+.75*q;} } else { fill=`rgb(${Math.round(40-39*v)},${Math.round(88+153*v)},${Math.round(255-28*v)})`; op=.35+.65*v; } }
+      o+=`<rect x="${L+c*(cs+gp)}" y="${T+r*(cs+gp)}" width="${cs}" height="${cs}" rx="${d.cell}" fill="${fill}" opacity="${op}"/>`; } }
+  ['12A','6A','12P','6P'].forEach((s,i)=>o+=txt(t,L+i*6*(cs+gp),H-2,s));
+  return o+'</svg>';
+}
+function step({d,t}) {
+  const W=380,H=150,L=28,R=6,T=8,B=22, f=uid(), a=[1,1,1.5,1.5,1.4,2.1,2.1,1.8,2.0,2.4], b=[.7,1,1,1.3,1.5,1.5,1.2,1.7,1.5,1.9];
+  const x=i=>L+i*(W-L-R)/a.length, y=v=>T+(1-v/3)*(H-T-B);
+  const path=v=>{ let p=`M${x(0)},${y(v[0])}`; v.forEach((q,i)=>{ p+=`V${y(q)}H${x(i+1)}`; }); return p; };
+  const c1=d.mode==='focus'?t.hi:t.s[0], c2=d.mode==='focus'?t.neutral:t.s[2];
+  let o=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Weekly target and actual hours by phase"><defs>${fade(f,P.teal,.28)}</defs>`;
+  [0,1,2,3].forEach(v=>o+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="${t.grid}" ${d.mode==='ramp'&&v?'stroke-dasharray="2 6"':''}/>`+txt(t,L-8,y(v)+4,v?v+'k':'0','end'));
+  ['Jan','Apr','Jul','Oct'].forEach((s,i)=>o+=txt(t,x(i*3),H-4,s));
+  if(d.mode==='ramp') o+=`<path d="${path(a)}V${y(0)}H${x(0)}Z" fill="url(#${f})"/>`;
+  o+=`<path d="${path(b)}" fill="none" stroke="${c2}" stroke-width="${d.sw}" stroke-linejoin="${d.cap==='round'?'round':'miter'}" stroke-linecap="${d.cap}"/><path d="${path(a)}" fill="none" stroke="${c1}" stroke-width="${d.sw}" stroke-linejoin="${d.cap==='round'?'round':'miter'}" stroke-linecap="${d.cap}"/>`;
+  return o+'</svg>';
+}
+/* html bars */
+function hbar({d,t},p,emph,tick) {
+  const rad=Math.min(d.r,d.barH/2);
+  const bg = d.mode==='ramp' ? `linear-gradient(90deg,${t.ramp[0]},${t.ramp[1]});background-size:${10000/Math.max(p,1)}% 100%` : d.mode==='focus' ? (emph?t.hi:t.neutral) : t.s[0];
+  return `<div class="hb" style="height:${d.barH}px;background:${t.track};border-radius:${rad}px"><i style="width:${p}%;background:${bg};border-radius:${rad}px"></i>${tick!=null?`<b style="left:${tick}%;background:${t.fg}"></b>`:''}</div>`;
+}
+function barlist(c) {
+  const rows=[['Meta',5.9],['Google Search',5.4],['YouTube',4.6],['TikTok',4.1],['Programmatic',3.2],['Retail media',2.9],['Podcast',2.2]];
+  return `<div class="list">${rows.map(([k,v])=>`<div><div class="row" style="margin-bottom:5px"><span>${k}</span><span>${v.toFixed(1)}x</span></div>${hbar(c,v/6.5*100,v>=4,4/6.5*100)}</div>`).join('')}</div><div class="grow"></div><p class="note" style="margin:14px 0 0">The tick is the 4.0x target. Four of seven channels clear it.</p>`;
+}
+function funnel(c) {
+  const rows=[['Clicks','612K',100],['Sessions','498K',81],['Add to cart','84K',14],['Purchases','31.2K',5]];
+  return `<div class="fun">${rows.map(([k,v,p],i)=>`<span>${k}</span>${hbar(c,p,i===3)}<span>${v}</span>`).join('')}</div>`;
+}
+function units(c) {
+  const {d,t}=c, rad=Math.min(d.r,d.barH/2), rows=[[40,10,10,14,98],[38,10,12,20,88],[15,8,8,10,50],[15,10,12,12,64],[40,14,14,14,98]];
+  return `<div class="units">${rows.map((r,i)=>`<span>Unit ${i+1}</span><div class="hb" style="height:${d.barH}px;background:${t.track};border-radius:${rad}px"><div class="seg" style="gap:3px">${r.slice(0,4).map((w,j)=>`<i style="width:${w}%;background:${t.s[j]};border-radius:${rad}px"></i>`).join('')}</div><b style="left:${r[4]}%;background:${t.fg}"></b></div>`).join('')}</div>
+  <div class="lg">${['Video','Reading','Practice','Review'].map((s,j)=>`<span><i style="background:${t.s[j]}"></i>${s}</span>`).join('')}</div>`;
+}
+
+function tile(k, o) {
+  const d=D[k], t=d.surf(o.key), c={d,t};
+  const head = d.head==='caps' ? `<div class="lab"><span>${o.label}</span>${o.tag?`<span>${o.tag}</span>`:''}</div>` : `<div class="ttl">${o.title}</div><div class="sbt">${o.sub}</div>`;
+  const val = o.val ? `<div class="val ${o.xl?'val--xl':''}"><span>${o.val}${o.unit?`<small>${o.unit}</small>`:''}</span>${o.delta?`<span class="delta">${o.delta}</span>`:''}</div>` : '';
+  return `<article class="tile" style="--span:${o.span};--rows:${o.rows||1};--bg:${t.bg};--fg:${t.fg};--sub:${t.sub};--up:${t.up}">${head}${val}${o.body(c)}</article>`;
+}
+const push = (b) => (c) => `<div class="grow"></div>${b(c)}`;
+function board(k) {
+  const T=[
+    { key:'hero', span:6, rows:2, xl:true, label:'Blended ROAS', tag:'Revenue / media spend', title:'Blended ROAS', sub:'Revenue over media spend, flight to date', val:'4.82', unit:'x', delta:'▲ 0.61x vs Q3', body:push(area) },
+    { key:'spend', span:3, label:'Media spend', tag:'of $520K', title:'Media spend', sub:'Of a $520K flight', val:'$412', unit:'K', delta:'▼ 3.1% pacing', body:push(spark) },
+    { key:'bars', span:3, label:'Purchases', tag:'Daily', title:'Purchases', sub:'Per day, this flight', val:'31,204', delta:'▲ 18.4%', body:push(bars) },
+    { key:'ring', span:3, label:'Budget pacing', title:'Budget pacing', sub:'Share of flight budget spent', body:(c)=>`<div class="grow"></div><div class="ringrow">${ring(c,79)}<div class="side"><div class="row"><span class="k">Spent</span><span>$412K</span></div><div class="row"><span class="k">Left</span><span>$108K</span></div><div class="row"><span class="k">Days</span><span>9</span></div></div></div><div class="grow"></div>` },
+    { key:'prog', span:3, label:'Course completion', tag:'4 courses', title:'Course completion', sub:'Across 4 courses', val:'68', unit:'%', delta:'▲ 4.0%', body:(c)=>`<div class="grow"></div><div class="row" style="margin-bottom:8px"><span class="k">Target 80%</span><span>68%</span></div>${hbar(c,68,true,80)}` },
+    { key:'units', span:5, label:'Progress against course goals', title:'Progress against course goals', sub:'Segments are modules, the tick is the goal', body:units },
+    { key:'rings', span:3, label:'Goal progress', tag:'Four goals', title:'Goal progress', sub:'Four goals', body:(c)=>rings(c)+`<div class="lg" style="justify-content:center">${[['Weekly',80],['Skills',62],['Practice',45],['Review',30]].map(([s,p],j)=>`<span><i style="background:${c.t.s[j]}"></i>${s} ${p}%</span>`).join('')}</div>` },
+    { key:'chan', span:4, label:'ROAS by channel', tag:'Oct 1 - 22', title:'ROAS by channel', sub:'Oct 1 to 22', body:barlist },
+    { key:'fun', span:4, label:'Conversion funnel', tag:'Flight to date', title:'Conversion funnel', sub:'Flight to date', body:funnel },
+    { key:'heat', span:4, label:'Purchases by hour', tag:'Peak 8 PM, Thu', title:'Purchases by hour', sub:'Peak 8 PM, Thursday', body:push(heat) },
+    { key:'step', span:4, label:'Weekly target by phase', tag:'Hours', title:'Weekly target by phase', sub:'Hours per week, changes by phase', body:(c)=>`<div class="grow"></div>${step(c)}<div class="lg"><span><i style="background:${c.d.mode==='focus'?c.t.hi:c.t.s[0]}"></i>Target</span><span><i style="background:${c.d.mode==='focus'?c.t.neutral:c.t.s[2]}"></i>Actual</span></div>` },
+  ];
+  return `<div class="board bd-A">${T.map(o=>tile(k,o)).join('')}</div>`;
+}
+
+const DIRS = [
+  { k:'A1', name:'Flat ink, rounded',
+    idea:'The tile carries the color and the chart is drawn in one ink. Every mark now ends the same way: bars, tracks, segments, rings and lines all take a full-round cap. Corner titles are 13px, up from 10.',
+    notes:['One cap rule replaces the square, 4px and capsule ends in use today.','Passes the current flat-fill lint as it stands.',['risk','Round caps on a ring overshoot the true value by half the stroke, so the arc is shortened to match.']],
+    rules:[['Fill','Flat. Ink at 100, 50 and 30 percent on blocks'],['Ends','Full round on every mark'],['Lines','2.5px, round caps and joins'],['Surface','Solid block for the lead metric, navy for the rest'],['Corner title','13px mono caps'],['Numbers','800 weight, up to 128px'],['System change','chart-bar-radius 1px to full, new chart-cap round, stroke 2 to 2.5px']] },
+  { k:'A2', name:'With gradients', pick:true,
+    idea:'Same rules and same round ends. Gradients come in at two places only. Tile surfaces get a soft diagonal in their own color, and a single series fades from quiet to full along its value: ink on blocks, blue to teal on navy.',
+    notes:['The gradient always means the same thing, low to high, so it reads as a scale.','Categories (course modules, goals, target against actual) stay flat.',['risk','Changes the flat-fill rule from 2026-10-26: style-lint has to allow the ramp and the tile surfaces.']],
+    rules:[['Fill','One ramp per tile, tied to the value axis'],['Ends','Full round on every mark'],['Lines','2.5px, round, fade under the line'],['Surface','Soft diagonal in the tile color'],['Corner title','13px mono caps'],['Numbers','800 weight, up to 128px'],['System change','New chart-ramp and tile-surface gradient tokens, lint allows only those']] },
+];
+document.getElementById('out').innerHTML = DIRS.map(x => `
+  <section class="dir" id="${x.k}">
+    <div class="dhead">
+      <div class="letter">${x.k}</div>
+      <div><h2>${x.name}${x.pick?'<span class="pick">Recommended</span>':''}</h2><p>${x.idea}</p></div>
+      <ul>${x.notes.map(s=>Array.isArray(s)?`<li class="risk">${s[1]}</li>`:`<li>${s}</li>`).join('')}</ul>
+    </div>
+    ${board(x.k)}
+    <dl class="rules">${x.rules.map(([a,b])=>`<div><dt>${a}</dt><dd>${b}</dd></div>`).join('')}</dl>
+  </section>`).join('');
+</script>
+</body>
+</html>

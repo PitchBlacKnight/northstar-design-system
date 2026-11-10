@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NorthStar DS wordmark</title>
+<style>
+  html, body { margin: 0; }
+  body { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; }
+  figure { margin: 0; display: grid; place-items: center; padding: 9vw 6vw; position: relative; }
+  figure img { width: 100%; max-width: 760px; height: auto; display: block; }
+  figcaption { position: absolute; left: 20px; bottom: 16px; font: 600 11px/1 ui-monospace, Menlo, monospace; letter-spacing: 1.4px; text-transform: uppercase; opacity: .6; }
+  .dark { background: #191932; color: #fff; }
+  .light { background: #fff; color: #191932; }
+  .blue { background: #023aff; color: #fff; }
+  .mono { background: #e9e9ee; color: #000; }
+  .mono svg { width: 100%; max-width: 760px; height: auto; display: block; }
+  @media (max-width: 800px) { body { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+  <figure class="dark"><img src="northstar-ds-wordmark-dark.svg" alt="NorthStar DS"><figcaption>Dark</figcaption></figure>
+  <figure class="light"><img src="northstar-ds-wordmark-light.svg" alt="NorthStar DS"><figcaption>Light</figcaption></figure>
+  <figure class="blue"><img src="northstar-ds-wordmark-on-blue.svg" alt="NorthStar DS"><figcaption>On blue</figcaption></figure>
+  <figure class="mono"><img src="northstar-ds-wordmark-mono.svg" alt="NorthStar DS"><figcaption>Mono (currentColor)</figcaption></figure>
+</body>
+</html>
