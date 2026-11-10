@@ -2092,6 +2092,164 @@
    "parts": []
   },
   {
+   "id": "chat",
+   "name": "Chat",
+   "category": "Containers",
+   "status": "New",
+   "figma": null,
+   "description": "A conversation surface for an AI assistant or support agent. A header names who is answering, the log holds alternating user and assistant messages, and the composer sends the next one. The docs site uses it for Ask NorthStar, bottom right.",
+   "classes": [
+    "ns-btn",
+    "ns-btn--square",
+    "ns-chat",
+    "ns-chat__bubble",
+    "ns-chat__composer",
+    "ns-chat__head",
+    "ns-chat__log",
+    "ns-chat__meta",
+    "ns-chat__msg",
+    "ns-chat__msg--bot",
+    "ns-chat__msg--user",
+    "ns-chat__suggest",
+    "ns-chat__title",
+    "ns-chat__typing",
+    "ns-chat__who",
+    "ns-tag",
+    "ns-tag--sm",
+    "ns-textarea"
+   ],
+   "helperClasses": [],
+   "axes": [
+    {
+     "axis": "Message",
+     "values": "User, Assistant, Error"
+    },
+    {
+     "axis": "State",
+     "values": "Empty with suggestions, Conversation, Thinking"
+    },
+    {
+     "axis": "Placement",
+     "values": "Inline panel, Floating panel"
+    }
+   ],
+   "use": [
+    "Use for an assistant that answers open questions in plain language.",
+    "Use for support threads where both sides write turns.",
+    "Offer two to four suggestions in the empty state so users know what to ask."
+   ],
+   "avoid": [
+    "Do not use for a single command or search. Use the command palette.",
+    "Do not use for system status. Use a notification or alert.",
+    "Do not hide that the answers are generated."
+   ],
+   "guidance": [
+    {
+     "verdict": "do",
+     "note": "Label the log and announce new replies through a polite live region."
+    },
+    {
+     "verdict": "do not",
+     "note": "A log with no name and no live region is silent to screen readers."
+    }
+   ],
+   "variants": [
+    {
+     "name": "Conversation",
+     "note": "User turns on the right in the primary color, assistant turns on the left.",
+     "html": "<div class=\"ns-chat\" style=\"width:100%;max-width:360px;height:380px\"><div class=\"ns-chat__head\"><h3 class=\"ns-chat__title\">Ask NorthStar</h3><span class=\"ns-chat__meta\">Answers from the docs</span></div><div class=\"ns-chat__log\" role=\"log\" aria-label=\"Conversation\" aria-live=\"polite\"><div class=\"ns-chat__msg ns-chat__msg--user\"><div class=\"ns-chat__bubble\">Which button should I use to delete an account?</div></div><div class=\"ns-chat__msg ns-chat__msg--bot\"><span class=\"ns-chat__who\">NorthStar</span><div class=\"ns-chat__bubble\">Use the <code>ns-btn--danger</code> button, and confirm in a modal that names the account.</div></div></div><div class=\"ns-chat__composer\"><textarea class=\"ns-textarea\" rows=\"1\" placeholder=\"Ask a question\" aria-label=\"Message\"></textarea><button class=\"ns-btn ns-btn--square\" type=\"button\" aria-label=\"Send\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M4 12h13M12 5l7 7-7 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button></div></div>"
+    },
+    {
+     "name": "Empty",
+     "note": "Suggestions in the empty state.",
+     "html": "<div class=\"ns-chat\" style=\"width:100%;max-width:360px;height:380px\"><div class=\"ns-chat__head\"><h3 class=\"ns-chat__title\">Ask NorthStar</h3><span class=\"ns-chat__meta\">Answers from the docs</span></div><div class=\"ns-chat__log\" role=\"log\" aria-label=\"Conversation\" aria-live=\"polite\"><div class=\"ns-chat__msg ns-chat__msg--bot\"><span class=\"ns-chat__who\">NorthStar</span><div class=\"ns-chat__bubble\">Ask about components, tokens or patterns.</div></div><div class=\"ns-chat__suggest\"><button class=\"ns-tag ns-tag--sm\" type=\"button\">Which token is the focus ring?</button><button class=\"ns-tag ns-tag--sm\" type=\"button\">When do I use a toast?</button></div></div><div class=\"ns-chat__composer\"><textarea class=\"ns-textarea\" rows=\"1\" placeholder=\"Ask a question\" aria-label=\"Message\"></textarea><button class=\"ns-btn ns-btn--square\" type=\"button\" aria-label=\"Send\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M4 12h13M12 5l7 7-7 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button></div></div>"
+    },
+    {
+     "name": "Thinking",
+     "note": "Typing indicator before the reply streams in.",
+     "html": "<div class=\"ns-chat\" style=\"width:100%;max-width:360px;height:380px\"><div class=\"ns-chat__head\"><h3 class=\"ns-chat__title\">Ask NorthStar</h3><span class=\"ns-chat__meta\">Answers from the docs</span></div><div class=\"ns-chat__log\" role=\"log\" aria-label=\"Conversation\" aria-live=\"polite\"><div class=\"ns-chat__msg ns-chat__msg--user\"><div class=\"ns-chat__bubble\">Which button should I use to delete an account?</div></div><div class=\"ns-chat__msg ns-chat__msg--bot\"><span class=\"ns-chat__who\">NorthStar</span><div class=\"ns-chat__bubble\"><span class=\"ns-chat__typing\" aria-label=\"NorthStar is thinking\"><i></i><i></i><i></i></span></div></div></div><div class=\"ns-chat__composer\"><textarea class=\"ns-textarea\" rows=\"1\" placeholder=\"Ask a question\" aria-label=\"Message\"></textarea><button class=\"ns-btn ns-btn--square\" type=\"button\" aria-label=\"Send\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M4 12h13M12 5l7 7-7 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button></div></div>"
+    }
+   ],
+   "tokens": [
+    {
+     "token": "--ns-interactive-primary",
+     "role": "User message fill"
+    },
+    {
+     "token": "--ns-background-secondary",
+     "role": "Assistant message fill"
+    },
+    {
+     "token": "--ns-status-error-bg",
+     "role": "Error message fill"
+    },
+    {
+     "token": "--ns-border-subtle",
+     "role": "Header and composer dividers"
+    },
+    {
+     "token": "--ns-radius-md",
+     "role": "Message corners"
+    }
+   ],
+   "sizes": [],
+   "props": [
+    {
+     "prop": "title",
+     "type": "string",
+     "default": "-",
+     "note": "Who is answering. Required"
+    },
+    {
+     "prop": "messages",
+     "type": "{ role: 'user' | 'assistant'; content: string }[]",
+     "default": "[]",
+     "note": "The conversation"
+    },
+    {
+     "prop": "suggestions",
+     "type": "string[]",
+     "default": "[]",
+     "note": "Shown when there are no messages"
+    },
+    {
+     "prop": "thinking",
+     "type": "boolean",
+     "default": "false",
+     "note": "Shows the typing indicator"
+    },
+    {
+     "prop": "onSend",
+     "type": "(text: string) => void",
+     "default": "-",
+     "note": "Called with the composer text"
+    }
+   ],
+   "keyboard": [
+    {
+     "key": "Enter",
+     "action": "Sends the message"
+    },
+    {
+     "key": "Shift + Enter",
+     "action": "Adds a new line"
+    },
+    {
+     "key": "Escape",
+     "action": "Closes a floating panel and returns focus to its launcher"
+    }
+   ],
+   "accessibility": [
+    "The log has role=log, an accessible name and aria-live=polite, so streamed replies are read once they settle.",
+    "The composer textarea has a label. The send button has aria-label=Send.",
+    "A floating panel is role=dialog with aria-labelledby on its title. The launcher sets aria-expanded."
+   ],
+   "html": "<div class=\"ns-chat\" style=\"width:100%;max-width:360px;height:380px\"><div class=\"ns-chat__head\"><h3 class=\"ns-chat__title\">Ask NorthStar</h3><span class=\"ns-chat__meta\">Answers from the docs</span></div><div class=\"ns-chat__log\" role=\"log\" aria-label=\"Conversation\" aria-live=\"polite\"><div class=\"ns-chat__msg ns-chat__msg--user\"><div class=\"ns-chat__bubble\">Which button should I use to delete an account?</div></div><div class=\"ns-chat__msg ns-chat__msg--bot\"><span class=\"ns-chat__who\">NorthStar</span><div class=\"ns-chat__bubble\">Use the <code>ns-btn--danger</code> button, and confirm in a modal that names the account.</div></div></div><div class=\"ns-chat__composer\"><textarea class=\"ns-textarea\" rows=\"1\" placeholder=\"Ask a question\" aria-label=\"Message\"></textarea><button class=\"ns-btn ns-btn--square\" type=\"button\" aria-label=\"Send\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M4 12h13M12 5l7 7-7 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button></div></div>",
+   "react": "<Chat title=\"Ask NorthStar\" messages={messages} suggestions={[\"Which button for a destructive action?\"]} onSend={send} />",
+   "reactKit": null,
+   "parts": []
+  },
+  {
    "id": "checkbox",
    "name": "Checkbox",
    "category": "Inputs",

@@ -102,6 +102,22 @@
     react: o.react,
   });
 
+  /* ---------- Chat demo markup (shared by the Chat docs entry and Ask NorthStar) ---------- */
+  NS.chatSend = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M4 12h13M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  NS.chatDemo = function (state) {
+    const bot = (t) => `<div class="ns-chat__msg ns-chat__msg--bot"><span class="ns-chat__who">NorthStar</span><div class="ns-chat__bubble">${t}</div></div>`;
+    const user = (t) => `<div class="ns-chat__msg ns-chat__msg--user"><div class="ns-chat__bubble">${t}</div></div>`;
+    const q = user("Which button should I use to delete an account?");
+    let log;
+    if (state === "Empty") log = bot("Ask about components, tokens or patterns.") + '<div class="ns-chat__suggest"><button class="ns-tag ns-tag--sm" type="button">Which token is the focus ring?</button><button class="ns-tag ns-tag--sm" type="button">When do I use a toast?</button></div>';
+    else if (state === "Thinking") log = q + bot('<span class="ns-chat__typing" aria-label="NorthStar is thinking"><i></i><i></i><i></i></span>');
+    else if (state === "Error") log = q + '<div class="ns-chat__msg ns-chat__msg--bot ns-chat__msg--error"><span class="ns-chat__who">NorthStar</span><div class="ns-chat__bubble">The request failed. <button class="ns-btn ns-btn--ghost ns-btn--sm" type="button">Retry</button></div></div>';
+    else log = q + bot("Use the <code>ns-btn--danger</code> button, and confirm in a modal that names the account.");
+    const named = state !== "Nolabel";
+    return `<div class="ns-chat" style="width:100%;max-width:360px;height:380px"><div class="ns-chat__head"><h3 class="ns-chat__title">Ask NorthStar</h3><span class="ns-chat__meta">Answers from the docs</span></div><div class="ns-chat__log"${named ? ' role="log" aria-label="Conversation" aria-live="polite"' : ""}>${log}</div><div class="ns-chat__composer"><textarea class="ns-textarea" rows="1" placeholder="Ask a question"${named ? ' aria-label="Message"' : ""}></textarea><button class="ns-btn ns-btn--square" type="button" aria-label="Send">${NS.chatSend}</button></div></div>`;
+  };
+  const NS_CHAT = (s) => NS.chatDemo(s);
+
   NS.COMPONENTS = [
     {
       id: "button", name: "Button", cat: "Actions", status: "Stable", figma: "4038:31741",
@@ -720,6 +736,31 @@
       keyboard: [["Tab", "Moves focus into and out of the field"], ["Enter", "Adds a new line. It does not submit the form"]],
       aria: ["Associate the label with for and id.", "Link helper and error text with aria-describedby.", "Set aria-invalid=true on error. Announce the counter at the limit, not on every key press."],
       react: '<Textarea label="Description" maxLength={1000} helper="Services, regions and size" />',
+    },
+    {
+      id: "chat", name: "Chat", cat: "Containers", status: "New",
+      desc: "A conversation surface for an AI assistant or support agent. A header names who is answering, the log holds alternating user and assistant messages, and the composer sends the next one. The docs site uses it for Ask NorthStar, bottom right.",
+      axes: [["Message", "User, Assistant, Error"], ["State", "Empty with suggestions, Conversation, Thinking"], ["Placement", "Inline panel, Floating panel"]],
+      doc: [["Who is answering", "Name the assistant in the header and say what it knows, such as Answers from the NorthStar docs. Never present a model as a person."], ["Thinking", "Show the three-dot indicator until the first words arrive, then stream the reply into the same bubble."], ["Errors", "Put a failed request in the log as an error message with a way to retry. Do not clear what the user typed."]],
+      playground: {
+        controls: [
+          { key: "state", label: "State", options: ["Conversation", "Thinking", "Empty", "Error"] },
+        ],
+        render: (s) => NS.chatDemo(s.state),
+      },
+      when: ["Use for an assistant that answers open questions in plain language.", "Use for support threads where both sides write turns.", "Offer two to four suggestions in the empty state so users know what to ask."],
+      whenNot: ["Do not use for a single command or search. Use the command palette.", "Do not use for system status. Use a notification or alert.", "Do not hide that the answers are generated."],
+      variants: [
+        ["Conversation", "User turns on the right in the primary color, assistant turns on the left.", NS_CHAT("Conversation")],
+        ["Empty", "Suggestions in the empty state.", NS_CHAT("Empty")],
+        ["Thinking", "Typing indicator before the reply streams in.", NS_CHAT("Thinking")],
+      ],
+      dd: [NS_CHAT("Conversation"), "Label the log and announce new replies through a polite live region.", NS_CHAT("Nolabel"), "A log with no name and no live region is silent to screen readers."],
+      tokens: [["--ns-interactive-primary", "User message fill"], ["--ns-background-secondary", "Assistant message fill"], ["--ns-status-error-bg", "Error message fill"], ["--ns-border-subtle", "Header and composer dividers"], ["--ns-radius-md", "Message corners"]],
+      props: [["title", "string", "-", "Who is answering. Required"], ["messages", "{ role: 'user' | 'assistant'; content: string }[]", "[]", "The conversation"], ["suggestions", "string[]", "[]", "Shown when there are no messages"], ["thinking", "boolean", "false", "Shows the typing indicator"], ["onSend", "(text: string) => void", "-", "Called with the composer text"]],
+      keyboard: [["Enter", "Sends the message"], ["Shift + Enter", "Adds a new line"], ["Escape", "Closes a floating panel and returns focus to its launcher"]],
+      aria: ["The log has role=log, an accessible name and aria-live=polite, so streamed replies are read once they settle.", "The composer textarea has a label. The send button has aria-label=Send.", "A floating panel is role=dialog with aria-labelledby on its title. The launcher sets aria-expanded."],
+      react: '<Chat title="Ask NorthStar" messages={messages} suggestions={["Which button for a destructive action?"]} onSend={send} />',
     },
     {
       id: "combobox", name: "Combobox", cat: "Inputs", status: "New", figma: "4466:34",

@@ -1,6 +1,6 @@
 # NorthStar Design System
 
-> Design language and development kit for dense, dark, data-heavy enterprise consoles by Mikel Rosenthal: 57 components, 225 tokens, dark and light themes, framework-free HTML with ns- classes. v1.5.0, exported 2026-11-10.
+> Design language and development kit for dense, dark, data-heavy enterprise consoles by Mikel Rosenthal: 58 components, 225 tokens, dark and light themes, framework-free HTML with ns- classes. v1.5.0, exported 2026-11-10.
 
 The docs site renders with JavaScript. Agents should read the files below instead of the HTML routes.
 
