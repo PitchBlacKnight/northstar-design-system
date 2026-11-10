@@ -41,6 +41,19 @@ Icons: assets/icons/*.svg (95, exported from Figma Icons page, currentColor) + m
 - explorations/  Direction mocks kept for reference: chart-directions (A1/A2, A2 chosen), visual-directions
                  (A Color blocks, B Signal), logo-wordmark (wordmark generators: build_faces.py, build_site.py, build_og.py).
 
+## Releasing a version
+
+The version is typed in four places. Change all of them in one commit.
+
+1. `js/pages.js`: `NS.VERSION`, and a new entry at the top of the changelog page (`P("changelog", ...)`). Rename any "Unreleased" section to the new version.
+2. `film/b2-assembly.html`: the `#tag` line under the logo. Re-render the film and poster (steps under "Not published"), then copy both to `assets/film/`.
+3. The case study page in the live site folder (`northstar-case-study.html`): the version pill in the hero, plus the film and poster in `ASSETS/northstar-case-study/`.
+4. Agent files: `node tools/agent-export.mjs` rewrites `llms.txt` and `agent/`. The pre-commit hook also does this.
+
+Then run `node tools/check-all.mjs`, push, sync to the live site folder and deploy. Exclude `/film` and `/explorations` with the leading slash in the rsync. Without the slash, `film` also matches `assets/film` and the new film never reaches the live folder.
+
+The LinkedIn film and cuts in `RESUMES/Reach/video` show the version in their first four seconds, and the Figma file has its own version label. Update both when the release should show there too.
+
 ## Agent surface
 
 The docs render with JavaScript, so an agent that fetches a route gets an empty shell. The machine-readable surface is generated from the same catalog and committed:
