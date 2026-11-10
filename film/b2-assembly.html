@@ -166,10 +166,10 @@
   const tl = gsap.timeline({ defaults: { ease: "power3.inOut" }, onUpdate: () => { window.__t = tl.time(); } });
 
   /* 1. Logo assembles under the rays (0 - 4.4) */
-  gsap.set("#rays", { opacity: 0 }); gsap.set("#scrim", { opacity: 0 });
+  gsap.set("#rays canvas", { opacity: 0 }); gsap.set("#scrim", { opacity: 0 });
   scene("#s1", 0, 4.4);
   const word = $("#word"); word.innerHTML = word.innerHTML.replace(/(NORTHSTAR )/, (m) => m.split("").map((c) => `<span class="c">${c === " " ? "&nbsp;" : c}</span>`).join(""));
-  tl.to("#rays", { opacity: 1, duration: 2.2, ease: "power2.out" }, 0)
+  tl.to("#rays canvas", { opacity: 1, duration: 2.2, ease: "power2.out" }, 0)
     .from("#chevL", { x: -160, y: 120, opacity: 0, duration: 1.2, ease: "expo.out" }, .3)
     .from("#chevR", { x: 160, y: 120, opacity: 0, duration: 1.2, ease: "expo.out" }, .38)
     .from("#dia", { y: -260, opacity: 0, duration: 1, ease: "bounce.out" }, .9)
