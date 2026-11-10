@@ -59,6 +59,8 @@ The docs render with JavaScript, so an agent that fetches a route gets an empty 
 
 **Visual check.** `node tools/visual-check.mjs` screenshots every component demo and its first two variants on fixed tiles, plus the eight dashboards, in dark and light, and compares them with the PNG baselines in `tests/visual/baseline`, tile by tile. Changed tiles get a diff image in `tests/visual/diff`. After an intended visual change, run it with `--update` and commit the new baselines. It needs network for Open Sans.
 
+**Counts check.** `node tools/counts-check.mjs` counts the real tokens, components, patterns, dashboards and spec tabs, then fails on any typed number that disagrees: the share description, the agent export, and the case study page when the portfolio folder is on this machine.
+
 **All checks.** `node tools/check-all.mjs` runs everything above in parallel (about 40 seconds) and warns if the Figma token has expired. Run it before publishing. The pre-commit hook runs the same runner with only the checks the staged files touch.
 
 Links run both ways: every component in `js/components.js` has a `figma` node ID, and every component in the NORTHSTAR DS Figma file (VZxmDNQiosTN6gqnvEQ65Z) has a documentation link to its page here. Nothing updates automatically, so check for drift by hand:

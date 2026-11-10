@@ -31,6 +31,7 @@
   /* ?layout=deck: Command deck prototype. One color-blocked bento grid, one tile per job. */
   /* counts on the home page come from the data, never typed in */
   const floorCount = () => Object.keys(NS.FLOORPLANS || {}).length;
+  const dashCount = () => (NS.DASHBOARDS || []).length;
   const widgetCount = () => (NS.WIDGETS || []).length;
   const newCount = () => (NS.COMPONENTS || []).filter((c) => c.status === "New").length;
   const deckBody = (comps) => {
@@ -99,7 +100,7 @@
     <div>${ic("token", 18)}<b data-count="tokens">0</b><span>Tokens</span></div>
     <div>${ic("grid", 18)}<b data-to="${comps}">0</b><span>Components</span></div>
     <div>${ic("layers", 18)}<b data-to="${patternCount()}">0</b><span>Patterns</span></div>
-    <div>${ic("layout", 18)}<b data-to="${floorCount()}">0</b><span>Floorplans</span></div>
+    <div>${ic("layout", 18)}<b data-to="${dashCount()}">0</b><span>Dashboards</span></div>
   </div>
  </div>
 </section>

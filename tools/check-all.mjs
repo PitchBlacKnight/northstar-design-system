@@ -15,6 +15,7 @@ import { fileURLToPath } from "node:url";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const CHECKS = {
   tokens: ["Token lint", "tools/token-lint.mjs"],
+  counts: ["Counts check (typed numbers vs the system)", "tools/counts-check.mjs"],
   style: ["Style lint (STYLE-RULES.md)", "tools/style-lint.mjs"],
   drift: ["Token drift vs Figma snapshot", "tools/token-drift.mjs"],
   fit: ["Fit probe", "tools/fit-probe.mjs"],
