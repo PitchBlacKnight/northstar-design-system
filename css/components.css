@@ -11,7 +11,7 @@
   --_hover: var(--ns-interactive-primary-hover); --_press: var(--ns-interactive-primary-active); --_h: var(--ns-density-control);
   display: inline-flex; align-items: center; justify-content: center; gap: var(--ns-space-3);
   min-height: var(--_h); padding: 0 var(--ns-space-6);
-  font: 600 var(--ns-type-button-size)/var(--ns-type-button-line) var(--ns-font-sans); letter-spacing: normal;
+  font: 600 var(--ns-type-button-size)/var(--ns-type-button-line) var(--ns-font-control); letter-spacing: normal;
   color: var(--_fg); background: var(--_bg); border: 1px solid var(--_bd); border-radius: var(--ns-radius-md);
   cursor: pointer; white-space: nowrap; text-decoration: none;
   transition: background var(--ns-duration-fast) var(--ns-easing-standard), border-color var(--ns-duration-fast) var(--ns-easing-standard), transform var(--ns-duration-fast) var(--ns-easing-standard);
@@ -234,7 +234,7 @@
 
 /* ---------- Tabs (Figma: Icon x Items) ---------- */
 .ns-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--ns-border-subtle); overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
-.ns-tab { all: unset; box-sizing: border-box; cursor: pointer; padding: var(--ns-space-5) var(--ns-space-6); font: 600 var(--ns-type-body2-size)/1 var(--ns-font-sans); color: var(--ns-text-secondary); border-bottom: 3px solid transparent; margin-bottom: -1px; white-space: nowrap; display: inline-flex; gap: var(--ns-space-3); align-items: center; transition: color var(--ns-duration-fast) var(--ns-easing-standard), border-color var(--ns-duration-fast) var(--ns-easing-standard); }
+.ns-tab { all: unset; box-sizing: border-box; cursor: pointer; padding: var(--ns-space-5) var(--ns-space-6); font: 600 var(--ns-type-body2-size)/1 var(--ns-font-control); color: var(--ns-text-secondary); border-bottom: 3px solid transparent; margin-bottom: -1px; white-space: nowrap; display: inline-flex; gap: var(--ns-space-3); align-items: center; transition: color var(--ns-duration-fast) var(--ns-easing-standard), border-color var(--ns-duration-fast) var(--ns-easing-standard); }
 .ns-tab svg { width: 18px; height: 18px; }
 .ns-tab:hover { color: var(--ns-text-primary); }
 .ns-tab[aria-selected="true"] { color: var(--ns-text-primary); border-bottom-color: var(--ns-interactive-primary); }
