@@ -119,8 +119,8 @@
 .ns-funnel__col { display: grid; gap: var(--ns-space-1); }
 .ns-funnel__n { font: 700 var(--ns-type-h6-size)/var(--ns-type-h6-line) var(--ns-font-sans); }
 .ns-funnel__share { font: 400 var(--ns-type-caption-size)/var(--ns-type-caption-line) var(--ns-font-sans); color: var(--ns-chart-label-text); }
-.ns-funnel__well { height: 160px; margin-top: var(--ns-space-3); border-radius: var(--ns-radius-full); background: var(--ns-widget-band); display: flex; align-items: flex-end; }
-.ns-funnel__well i { display: block; width: 100%; height: var(--_v); border-radius: var(--ns-radius-full); background: var(--_c); }
+.ns-funnel__well { height: 160px; margin-top: var(--ns-space-3); border-radius: var(--ns-radius-lg); background: var(--ns-widget-band); display: flex; align-items: flex-end; overflow: hidden; }
+.ns-funnel__well i { display: block; width: 100%; height: var(--_v); min-height: 4px; border-radius: var(--ns-radius-lg) var(--ns-radius-lg) 0 0; background: var(--_c); }
 .ns-funnel__drop { margin-top: var(--ns-space-3); font: 400 var(--ns-type-caption-size)/1 var(--ns-font-sans); color: var(--ns-status-error); }
 .ns-funnel__drop.is-end { color: var(--ns-chart-label-text); }
 .ns-uptime { display: grid; grid-template-columns: repeat(var(--_n), 1fr); gap: var(--ns-space-1); height: 28px; }
