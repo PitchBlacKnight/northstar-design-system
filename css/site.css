@@ -447,7 +447,6 @@ html.embed .page-tabs { top: 0; }
 .hero-rays { position: absolute; top: 0; left: 264px; right: 0; height: min(820px, 100vh); pointer-events: none; z-index: 0; background: var(--ns-background-primary); -webkit-mask-image: linear-gradient(#000 60%, transparent); mask-image: linear-gradient(#000 60%, transparent); transition: opacity .6s ease; }
 body:not(.is-home) .hero-rays { opacity: .5; height: min(620px, 80vh); }
 .shell > .main { position: relative; z-index: 1; }
-.shell > .side { z-index: 1; }
 @media (max-width: 900px) { .hero-rays { left: 0; } }
 .hero-rays canvas { position: absolute; inset: 0; }
 /* Oversized mark blended into the rays: it lights up wherever the beams pass. */
