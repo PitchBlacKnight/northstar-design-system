@@ -144,9 +144,12 @@
     const sw = w * 0.08, r = w / 2 - sw / 2, cx = w / 2, cy = w / 2, h = w / 2 + sw / 2;
     const pt = (p) => { const a = Math.PI + Math.PI * (p / 100); return `${(cx + r * Math.cos(a)).toFixed(1)},${(cy + r * Math.sin(a)).toFixed(1)}`; };
     const arc = (a, b, style, width = sw) => `<path d="M${pt(a)} A${r},${r} 0 0 1 ${pt(b)}" fill="none" style="stroke:${style}" stroke-width="${width}" stroke-linecap="round"/>`;
-    const ro = r + sw * 0.9, pto = (p) => { const a = Math.PI + Math.PI * (p / 100); return `${(cx + ro * Math.cos(a)).toFixed(1)},${(cy + ro * Math.sin(a)).toFixed(1)}`; };
-    const band = (a, b, c) => `<path d="M${pto(a)} A${ro},${ro} 0 0 1 ${pto(b)}" fill="none" style="stroke:${v(c)}" stroke-width="${sw * 0.3}"/>`;
-    return `<svg width="${w}" height="${h + (thresholds ? sw : 0)}" viewBox="${thresholds ? -sw : 0} ${thresholds ? -sw : 0} ${w + (thresholds ? sw * 2 : 0)} ${h + (thresholds ? sw : 0)}" role="img" aria-label="${pct}% of capacity">${arc(0.5, 99.5, v("widget-track"))}${arc(0.5, Math.min(pct, 99.5), v(tone))}${thresholds ? band(70, 90, "status-warning") + band(90, 100, "status-error") : ""}</svg>`;
+    /* Threshold bands sit in the track itself: butt-capped so they meet cleanly, round caps only at the two ends */
+    const seg = (a, b, style) => `<path d="M${pt(a)} A${r},${r} 0 0 1 ${pt(b)}" fill="none" style="stroke:${style}" stroke-width="${sw}" stroke-linecap="butt"/>`;
+    const track = thresholds
+      ? arc(0.5, 70, v("widget-track")) + arc(90, 99.5, v("status-error")) + seg(70, 90, v("status-warning"))
+      : arc(0.5, 99.5, v("widget-track"));
+    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="${pct}% of capacity">${track}${arc(0.5, Math.min(pct, 99.5), v(tone))}</svg>`;
   }
 
   /* Filled trend with a flat 16% fill; axis=true adds gridlines, y ticks and months */
