@@ -1,6 +1,6 @@
-# NorthStar Design System v1.4.1
+# NorthStar Design System v1.5.0
 
-> Machine-readable guide for AI coding and design agents. Generated 2026-11-09 from the live catalog by tools/agent-export.mjs; do not edit by hand. Site: https://mikelrosenthal.com/northstar/ · Figma file VZxmDNQiosTN6gqnvEQ65Z.
+> Machine-readable guide for AI coding and design agents. Generated 2026-11-10 from the live catalog by tools/agent-export.mjs; do not edit by hand. Site: https://mikelrosenthal.com/northstar/ · Figma file VZxmDNQiosTN6gqnvEQ65Z.
 
 NorthStar is a design language and development kit for dense, dark, data-heavy enterprise consoles: 57 components, 225 tokens, dark and light themes, comfortable and compact density. Markup is framework-free HTML with ns- classes; style comes only from CSS custom properties.
 

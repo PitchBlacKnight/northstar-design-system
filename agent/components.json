@@ -1,6 +1,6 @@
 {
- "version": "v1.4.1",
- "generated": "2026-11-09",
+ "version": "v1.5.0",
+ "generated": "2026-11-10",
  "site": "https://mikelrosenthal.com/northstar/",
  "note": "html is the shipped implementation. reactKit, where present, is real code from the NorthStar React kit (dashboards/app/src/kit, copy-in, typechecked); react without reactKit is an illustrative shape only",
  "components": [
