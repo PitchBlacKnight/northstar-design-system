@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="../../css/components.css">
 <title>Analytical list</title>
 <meta name="description" content="A list of records with a page header, filter toolbar, selectable sortable table, selection bar and pagination.">
+<script src="../../js/ns-behavior.js" defer></script>
 </head>
 <body class="ns-body">
 <div class="ns-app">
@@ -29,19 +30,26 @@
     <div class="ns-field"><label class="ns-label" for="status">Status</label><select class="ns-select" id="status"><option>Any status</option><option>Active</option><option>At risk</option></select></div>
   </div>
   <div class="ns-table-wrap">
-    <div class="ns-table-bar is-batch"><b>2 selected</b><div class="ns-cluster ns-cluster--center"><button class="ns-btn ns-btn--sm ns-btn--tertiary">Change tier</button><button class="ns-btn ns-btn--sm ns-btn--danger">Archive 2 accounts</button></div></div>
+    <div class="ns-table-bar is-batch"><b data-batch-label data-default="Accounts">2 selected</b><div class="ns-cluster ns-cluster--center"><button class="ns-btn ns-btn--sm ns-btn--tertiary">Change tier</button><button class="ns-btn ns-btn--sm ns-btn--danger" data-open-modal="confirm-archive">Archive accounts</button></div></div>
     <table class="ns-table">
       <caption class="ns-visually-hidden">Accounts, sorted by revenue</caption>
-      <thead><tr><th><label class="ns-check"><input type="checkbox" aria-label="Select all rows"></label></th><th aria-sort="none">Account <span class="ns-sort">↕</span></th><th>Tier</th><th class="num" aria-sort="descending">Revenue <span class="ns-sort">↓</span></th><th>Status</th></tr></thead>
+      <thead><tr><th><label class="ns-check"><input type="checkbox" data-select-all aria-label="Select all rows"></label></th><th data-sort>Account <span class="ns-sort">↕</span></th><th>Tier</th><th data-sort class="num" aria-sort="descending">Revenue <span class="ns-sort">↓</span></th><th>Status</th></tr></thead>
       <tbody>
-        <tr class="is-selected"><td><label class="ns-check"><input type="checkbox" checked aria-label="Select Acme Corp"></label></td><td>Acme Corp</td><td>Gold</td><td class="num">$38,900</td><td><span class="ns-dot ns-dot--success">active</span></td></tr>
-        <tr class="is-selected"><td><label class="ns-check"><input type="checkbox" checked aria-label="Select Zeta Inc"></label></td><td>Zeta Inc</td><td>Gold</td><td class="num">$19,850</td><td><span class="ns-dot ns-dot--warning">at risk</span></td></tr>
-        <tr><td><label class="ns-check"><input type="checkbox" aria-label="Select Beta LLC"></label></td><td>Beta LLC</td><td>Silver</td><td class="num">$12,400</td><td><span class="ns-dot ns-dot--success">active</span></td></tr>
-        <tr><td><label class="ns-check"><input type="checkbox" aria-label="Select Northwind"></label></td><td>Northwind</td><td>Silver</td><td class="num">$5,200</td><td><span class="ns-dot ns-dot--error">churned</span></td></tr>
+        <tr class="is-selected"><td><label class="ns-check"><input type="checkbox" data-row-select checked aria-label="Select Acme Corp"></label></td><td>Acme Corp</td><td>Gold</td><td class="num">$38,900</td><td><span class="ns-dot ns-dot--success">active</span></td></tr>
+        <tr class="is-selected"><td><label class="ns-check"><input type="checkbox" data-row-select checked aria-label="Select Zeta Inc"></label></td><td>Zeta Inc</td><td>Gold</td><td class="num">$19,850</td><td><span class="ns-dot ns-dot--warning">at risk</span></td></tr>
+        <tr><td><label class="ns-check"><input type="checkbox" data-row-select aria-label="Select Beta LLC"></label></td><td>Beta LLC</td><td>Silver</td><td class="num">$12,400</td><td><span class="ns-dot ns-dot--success">active</span></td></tr>
+        <tr><td><label class="ns-check"><input type="checkbox" data-row-select aria-label="Select Northwind"></label></td><td>Northwind</td><td>Silver</td><td class="num">$5,200</td><td><span class="ns-dot ns-dot--error">churned</span></td></tr>
       </tbody>
     </table>
   </div>
   <nav class="ns-pagination" aria-label="Pagination"><button class="ns-page" disabled aria-label="Previous page">‹</button><button class="ns-page" aria-current="page">1</button><button class="ns-page">2</button><button class="ns-page">3</button><span>…</span><button class="ns-page">12</button><button class="ns-page" aria-label="Next page">›</button></nav>
+  <div class="ns-modal-backdrop" id="confirm-archive" hidden>
+    <div class="ns-modal ns-modal--sm" role="dialog" aria-modal="true" aria-labelledby="confirm-archive-title">
+      <div class="ns-modal__head"><div><p class="ns-modal__label">Accounts</p><h2 class="ns-modal__title" id="confirm-archive-title">Archive the selected accounts?</h2></div><button class="ns-btn ns-btn--ghost ns-btn--icon ns-btn--sm" type="button" aria-label="Close" data-close>×</button></div>
+      <div class="ns-modal__body">Archived accounts stop syncing and leave every report. You can restore them for 30 days.</div>
+      <div class="ns-modal__foot"><button class="ns-btn ns-btn--tertiary" type="button" data-close>Cancel</button><button class="ns-btn ns-btn--danger" type="button" data-close>Archive</button></div>
+    </div>
+  </div>
 </main>
 </div>
 </body>

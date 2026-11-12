@@ -38,6 +38,7 @@ Accessibility:
 - Focus moves in on open and returns to the trigger on close. Try the live modal.
 
 Notes for agents:
-- Wrap the ns-modal in an ns-modal-backdrop. A dialog element works as the backdrop wrapper in a static page.
-- Return focus to the control that opened the modal when it closes.
+- Keep the modal in the page, closed: <div class="ns-modal-backdrop" id="confirm-x" hidden><div class="ns-modal ns-modal--sm" role="dialog" aria-modal="true" aria-labelledby="confirm-x-title">...</div></div>. The trigger gets data-open-modal="confirm-x"; Cancel and the close button get data-close. js/ns-behavior.js moves focus in, traps it, closes on Escape or a backdrop click and returns focus to the trigger.
+- The close button is <button class="ns-btn ns-btn--ghost ns-btn--icon ns-btn--sm" type="button" aria-label="Close" data-close>×</button>. The docs examples show icon-btn, which is a docs-site class; do not copy it.
+- See agent/templates/analytical-list.html for a full confirmation.
 

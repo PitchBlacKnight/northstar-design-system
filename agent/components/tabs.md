@@ -46,3 +46,6 @@ Keyboard: Arrow left / right: Move between tabs; Home / End: First / last tab; T
 Accessibility:
 - role="tablist", role="tab", aria-selected, and aria-controls pointing at each role="tabpanel".
 
+Notes for agents:
+- Give each tab an id and aria-controls, and each panel role=tabpanel, the matching id, aria-labelledby and hidden when not selected. js/ns-behavior.js switches tabs on click and with arrows, Home and End. See agent/templates/object-detail.html.
+

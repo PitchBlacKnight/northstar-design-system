@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="../../css/components.css">
 <title>Object detail</title>
 <meta name="description" content="One record: breadcrumb, header with status and actions, tabs, detail cards with a side column, and a notice.">
+<script src="../../js/ns-behavior.js" defer></script>
 </head>
 <body class="ns-body">
 <div class="ns-app">
@@ -35,6 +36,8 @@
       <section class="ns-card"><h2 class="ns-card__title">Plan</h2><p class="ns-card__body">Gold, billed yearly.</p></section>
     </aside>
   </div>
+  <section class="ns-card" role="tabpanel" id="panel-integrations" aria-labelledby="tab-integrations" hidden><h2 class="ns-card__title">Integrations</h2><p class="ns-card__body">14 active integrations across 3 regions.</p></section>
+  <section class="ns-card" role="tabpanel" id="panel-billing" aria-labelledby="tab-billing" hidden><h2 class="ns-card__title">Billing</h2><p class="ns-card__body">Billed yearly. Next invoice on 1 March 2027.</p></section>
 </main>
 </div>
 </body>

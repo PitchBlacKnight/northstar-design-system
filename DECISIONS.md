@@ -86,3 +86,15 @@ Each entry: the problem, options rejected and why, what was tested, what shipped
 **Ship.** Published with this commit.
 
 **Open.** A real behavior script for agents, and the type scale: the CSS `--ns-type-h1`..`h6` sizes are a different scale from the Figma Heading styles (CSS h2 is 60px; Figma Heading / H2 is 24px).
+
+## 2026-11-12 · Behavior script for agent-built pages (no visual change)
+
+**Define.** Agents could write correct NorthStar markup but not make it work: the docs site's behavior lives in `js/ui.js`, mixed with docs-only demo code, and the checker rejected any script.
+
+**Build.** `js/ns-behavior.js`, a standalone file (no dependencies) that wires the documented markup: tabs with panels, menus, radio groups and segmented controls, tree view, dropdown, popover, modal (open by id, focus trap, Escape, backdrop and data-close, focus return), dismiss, table selection and sorting, pagination, stepper, slider, textarea counters, combobox, command palette and toasts. It fires ns:* events for apps and exposes `NorthStar.toast`, `openModal`, `closeModal`, `sortTable`, `selectTab`. It changes no styles. The docs site does not load it; `js/ui.js` is untouched. `agent-check` now allows exactly one script, `js/ns-behavior.js` by src, and still rejects inline scripts and any other file. Two CSS rules let markup keep closed things in the page: `.ns-modal-backdrop[hidden]` and `[role=tabpanel][hidden]` now hide (the site never sets either). Templates load the script; the analytical list gained a confirmation modal and sort and selection hooks, and object detail has three linked tab panels. Agent docs gained a Load the behavior script rule plus modal and tabs notes (the docs-site `icon-btn` close button is replaced by `ns-btn ns-btn--ghost ns-btn--icon` in agent markup).
+
+**Rejected.** Moving the site onto the new script: it would mean rewiring `js/ui.js` and its demos, a change to how the site behaves, which was out of scope.
+
+**Test.** `tools/behavior-script-check.mjs` builds a page from the markup in `agent/components.json` and runs 49 interaction checks in headless Chrome. All pass, and a deliberately broken script failed 3 of them. It runs in `check-all`. The templates were also driven in a real browser: sort, the modal opening with focus inside, Escape returning focus, selection counts and tab panels. A pixel comparison of 12 site pages (tabs, modal, table, combobox, command palette, tree, alert, a floorplan, home and dashboards) against the live site found 0 changed pixels. `check-all`: 13 of 13 pass.
+
+**Ship.** Published with this commit.

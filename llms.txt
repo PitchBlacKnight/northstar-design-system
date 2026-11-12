@@ -12,6 +12,7 @@ The docs site renders with JavaScript. Agents should read the files below instea
 - [Components](https://mikelrosenthal.com/northstar/agent/components.json): the full catalog as JSON
 - [Tokens](https://mikelrosenthal.com/northstar/agent/tokens.json): every --ns- token with dark and light values
 - [tokens.css](https://mikelrosenthal.com/northstar/css/tokens.css): the token sheet to link
+- [ns-behavior.js](https://mikelrosenthal.com/northstar/js/ns-behavior.js): the optional behavior script (keyboard, ARIA, modal, tabs, table selection and sort, combobox, toasts)
 - [components.css](https://mikelrosenthal.com/northstar/css/components.css): the component sheet to link
 
 ## Human pages

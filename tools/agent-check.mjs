@@ -32,7 +32,11 @@ for (const [name, html] of inputs) {
   [...used].filter((t) => tokens.has(t) && PRIMITIVE.test(t)).forEach((t) => issues.push({ kind: "primitive-token", detail: `${t} (use a semantic role)` }));
   (html.match(/<button[^>]*class="[^"]*ns-btn--icon[^"]*"[^>]*>/g) || []).forEach((b) => { if (!/aria-label=|aria-labelledby=/.test(b)) issues.push({ kind: "unnamed-icon-button", detail: b.slice(0, 80) }); });
   (html.match(/<img\b(?![^>]*\balt=)[^>]*>/g) || []).forEach((i) => issues.push({ kind: "image-without-alt", detail: i.slice(0, 80) }));
-  if (/<script\b/i.test(html)) issues.push({ kind: "script-tag", detail: "components are markup and CSS only" });
+  /* The one allowed script is the NorthStar behavior file, loaded by src with no inline code. */
+  for (const m of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
+    const src = (m[1].match(/\bsrc=["']([^"']+)["']/) || [])[1] || "";
+    if (!/(^|\/)js\/ns-behavior\.js(\?.*)?$/.test(src) || m[2].trim()) issues.push({ kind: "script-tag", detail: "only <script src=\".../js/ns-behavior.js\" defer></script> is allowed; components are markup and CSS" });
+  }
   if (/font-family\s*:/.test(html) && !/font-family\s*:\s*var\(--ns-font/.test(html)) issues.push({ kind: "raw-font", detail: "font-family without --ns-font token" });
   total += issues.length;
   report.push({ file: name, classes: classes.size, tokens: used.size, issues });

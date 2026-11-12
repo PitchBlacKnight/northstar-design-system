@@ -1,0 +1,64 @@
+- generic [ref=f46e2]:
+  - navigation "App" [ref=f46e3]:
+    - generic [ref=f46e4]:
+      - generic [ref=f46e5]: Operate
+      - link "Dashboard" [ref=f46e6] [cursor=pointer]:
+        - /url: "#"
+      - link "Accounts 3" [ref=f46e7] [cursor=pointer]:
+        - /url: "#"
+        - text: Accounts
+        - generic [ref=f46e8]: "3"
+      - link "Approvals" [ref=f46e9] [cursor=pointer]:
+        - /url: "#"
+      - generic [ref=f46e10]: Configure
+      - link "Integrations" [ref=f46e11] [cursor=pointer]:
+        - /url: "#"
+      - link "Settings" [ref=f46e12] [cursor=pointer]:
+        - /url: "#"
+  - main [ref=f46e13]:
+    - paragraph [ref=f46e14]: Sample data
+    - generic [ref=f46e15]:
+      - generic [ref=f46e16]:
+        - navigation "Breadcrumb" [ref=f46e17]:
+          - list [ref=f46e18]:
+            - listitem [ref=f46e19]:
+              - link "Accounts" [ref=f46e20] [cursor=pointer]:
+                - /url: "#"
+            - listitem [ref=f46e21]: / Acme Corp
+        - heading "Acme Corp" [level=1] [ref=f46e22]
+        - paragraph [ref=f46e23]:
+          - generic [ref=f46e24]: Active
+          - text: Gold tier, renews in 42 days.
+      - generic [ref=f46e25]:
+        - button "Edit" [ref=f46e26] [cursor=pointer]
+        - button "Create invoice" [ref=f46e27] [cursor=pointer]
+    - status [ref=f46e28]:
+      - generic [ref=f46e32]:
+        - paragraph [ref=f46e33]: API quota at 85%
+        - paragraph [ref=f46e34]: Raise the limit or the CRM sync pauses at 100%.
+    - tablist "Account sections" [ref=f46e35]:
+      - tab "Overview" [selected] [ref=f46e36] [cursor=pointer]
+      - tab "Integrations 14" [ref=f46e37] [cursor=pointer]:
+        - text: Integrations
+        - generic [ref=f46e38]: "14"
+      - tab "Billing" [ref=f46e39] [cursor=pointer]
+    - tabpanel "Overview" [ref=f46e40]:
+      - generic [ref=f46e41]:
+        - generic [ref=f46e42]:
+          - heading "Usage" [level=2] [ref=f46e43]
+          - generic [ref=f46e44]:
+            - generic [ref=f46e45]:
+              - generic [ref=f46e46]: API calls this month
+              - generic [ref=f46e47]: 85%
+            - progressbar "API calls this month" [ref=f46e48]
+        - generic [ref=f46e50]:
+          - heading "Contacts" [level=2] [ref=f46e51]
+          - paragraph [ref=f46e52]: Priya Raman, owner. Jordan Ellis, billing.
+      - complementary "Summary" [ref=f46e53]:
+        - generic [ref=f46e54]:
+          - generic [ref=f46e55]: Revenue
+          - generic [ref=f46e56]: $38,900
+          - generic [ref=f46e57]: ↑ +6.2%
+        - generic [ref=f46e58]:
+          - heading "Plan" [level=2] [ref=f46e59]
+          - paragraph [ref=f46e60]: Gold, billed yearly.
