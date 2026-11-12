@@ -123,6 +123,7 @@ async function online() {
 
   // Figma -> site: every component needs a doc link to a real site route.
   for (const c of figma) {
+    if (c.name.startsWith("_") || c.name.startsWith(".")) continue; /* private building blocks, hidden from publishing */
     const links = (meta[c.id] && meta[c.id].documentationLinks) || [];
     const uri = links[0] && links[0].uri;
     if (!uri) {

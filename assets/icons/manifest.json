@@ -1,7 +1,7 @@
 [
   {
-    "name": "Restoraunt",
-    "file": "restoraunt.svg",
+    "name": "Restaurant",
+    "file": "restaurant.svg",
     "size": 24,
     "set": "24"
   },
@@ -84,7 +84,7 @@
     "set": "24"
   },
   {
-    "name": "stacks",
+    "name": "Stacks",
     "file": "stacks.svg",
     "size": 24,
     "set": "24"
@@ -132,7 +132,7 @@
     "set": "24"
   },
   {
-    "name": "avalanche avax",
+    "name": "Avalanche AVAX",
     "file": "avalanche-avax.svg",
     "size": 24,
     "set": "24"
@@ -300,8 +300,8 @@
     "set": "24"
   },
   {
-    "name": "Tag",
-    "file": "tag-2.svg",
+    "name": "Bookmark",
+    "file": "bookmark.svg",
     "size": 24,
     "set": "24"
   },
@@ -528,8 +528,8 @@
     "set": "mini"
   },
   {
-    "name": "24",
-    "file": "24.svg",
+    "name": "24 hours",
+    "file": "24-hours.svg",
     "size": 18,
     "set": "mini"
   },
@@ -564,8 +564,8 @@
     "set": "status"
   },
   {
-    "name": "Frame",
-    "file": "frame.svg",
+    "name": "Log in",
+    "file": "log-in.svg",
     "size": 24,
     "set": "24"
   }

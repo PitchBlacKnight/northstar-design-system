@@ -1,6 +1,6 @@
 {
  "version": "v1.5.0",
- "generated": "2026-11-10",
+ "generated": "2026-11-12",
  "site": "https://mikelrosenthal.com/northstar/",
  "note": "html is the shipped implementation. reactKit, where present, is real code from the NorthStar React kit (dashboards/app/src/kit, copy-in, typechecked); react without reactKit is an illustrative shape only",
  "components": [
@@ -116,7 +116,7 @@
    "helperClasses": [],
    "axes": [
     {
-     "axis": "Type",
+     "axis": "Status",
      "values": "Default, Accent, Error, Success, Warning"
     },
     {
@@ -281,7 +281,7 @@
      "values": "Round, Square"
     },
     {
-     "axis": "Avatar",
+     "axis": "Content",
      "values": "Photo, Initials, Memoji"
     },
     {
@@ -2096,7 +2096,7 @@
    "name": "Chat",
    "category": "Containers",
    "status": "New",
-   "figma": null,
+   "figma": "4759:60",
    "description": "A conversation surface for an AI assistant or support agent. A header names who is answering, the log holds alternating user and assistant messages, and the composer sends the next one. The docs site uses it for Ask NorthStar, bottom right.",
    "classes": [
     "ns-btn",
@@ -4643,7 +4643,7 @@
    "axes": [
     {
      "axis": "Toast / Status",
-     "values": "Information, Success, Warning, Error"
+     "values": "Info, Success, Warning, Error"
     },
     {
      "axis": "Toast / Action",
@@ -6448,20 +6448,16 @@
    "helperClasses": [],
    "axes": [
     {
-     "axis": "Hovered",
-     "values": "No, Yes"
+     "axis": "State",
+     "values": "Default, Hover, Disabled"
     },
     {
      "axis": "Selected",
      "values": "Yes, No"
     },
     {
-     "axis": "Disabled",
-     "values": "No, Yes"
-    },
-    {
      "axis": "Show label",
-     "values": "No (16x16), Yes"
+     "values": "Boolean, on by default (off: 16x16)"
     }
    ],
    "use": [
@@ -7907,20 +7903,16 @@
    "helperClasses": [],
    "axes": [
     {
-     "axis": "Selected",
-     "values": "On, Off"
+     "axis": "State",
+     "values": "Default, Hover, Disabled"
     },
     {
-     "axis": "Show label",
+     "axis": "Selected",
      "values": "Yes, No"
     },
     {
-     "axis": "State",
-     "values": "Default, Hover"
-    },
-    {
-     "axis": "Disabled",
-     "values": "No, Yes"
+     "axis": "Show label",
+     "values": "Boolean, on by default"
     }
    ],
    "use": [

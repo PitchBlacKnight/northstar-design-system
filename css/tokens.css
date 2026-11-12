@@ -101,6 +101,14 @@
   --ns-easing-enter: cubic-bezier(0, 0, 0, 1);
   --ns-easing-exit: cubic-bezier(0.3, 0, 1, 1);
 
+  /* ---------- Opacity (Figma: Primitives / Opacity) ---------- */
+  --ns-opacity-hover: 0.08;
+  --ns-opacity-pressed: 0.16;
+  --ns-opacity-disabled: 0.4;
+  --ns-opacity-subtle: 0.64;
+  --ns-opacity-overlay: 0.72;
+  --ns-opacity-full: 1;
+
   /* ---------- Layout ---------- */
   --ns-breakpoint-compact: 480px;
   --ns-breakpoint-medium: 768px;

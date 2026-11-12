@@ -27,4 +27,4 @@ NorthStar is a design system for dense, data-heavy enterprise consoles. This rep
 1. Any change to the token mapping or a new token.
 2. The first component of a new batch, compared with Figma in light and dark.
 3. Anything that leaves this computer: a push, a deploy, a Figma publish.
-4. Deleting Figma nodes, styles or variables. Archive or hide them instead.
+4. Deleting Figma nodes, styles or variables. Archive or hide them instead (a leading `_` hides a component or style from publishing).

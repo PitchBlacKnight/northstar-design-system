@@ -3,7 +3,7 @@
 Date: 2026-11-12. Measured against Nehmat Gereige's "Agent-Ready Design System" playbook (Figma, audit, PLAN.md, tokens, code, catalog, Code Connect, GitHub, new-screen test).
 Sources: Figma file VZxmDNQiosTN6gqnvEQ65Z (read-only scan of all 93 pages), repo `main` at aa06b6f.
 
-**Status 2026-11-12:** P1 items 1 to 5, P2 items 9 and 10 and P3 item 11 are done in Figma; see `DECISIONS.md` for what changed and what is still open. `CLAUDE.md` and `DECISIONS.md` now exist.
+**Status 2026-11-12:** every Figma and repo item below is resolved, except Code Connect (Figma Pro plan) and the new-screen test, which is still to run. See `DECISIONS.md` for both passes.
 
 ## Scorecard
 

@@ -1,4 +1,4 @@
-/* Figma specification documents, synced from NORTHSTAR DS (VZxmDNQiosTN6gqnvEQ65Z) on 2026-11-08.
+/* Figma specification documents, synced from NORTHSTAR DS (VZxmDNQiosTN6gqnvEQ65Z) on 2026-11-12.
    Component specs feed the Spec tab; WORKFLOWS feed composed pattern pages. Regenerate with tools/figma-spec-extract.mjs, do not hand-edit. */
 (function () {
   const NS = window.NS;
@@ -1015,7 +1015,7 @@
      {
       "type": "example",
       "label": "Checkbox anatomy (card bg background/elevated #1e1e24, radius 10, padding 20)",
-      "description": "Checkbox instance, default (Checked=Yes, Hovered=No, Disabled=No, Show label=No), 16 × 16px, followed by composed outside-the-instance label text 'Send welcome kit' (Inter Semi Bold 12px text/secondary), 8px gap."
+      "description": "Checkbox instance, default (State=Default, Checked=Yes, Show label off), 16 × 16px, followed by composed outside-the-instance label text 'Send welcome kit' (Inter Semi Bold 12px text/secondary), 8px gap."
      },
      {
       "type": "text",
@@ -1045,9 +1045,9 @@
       ],
       "rows": [
        [
-        "Hovered",
-        "No / Yes",
-        "No"
+        "State",
+        "Default / Hover / Disabled",
+        "Default"
        ],
        [
         "Checked",
@@ -1055,21 +1055,16 @@
         "Yes"
        ],
        [
-        "Disabled",
-        "No / Yes",
-        "No"
-       ],
-       [
         "Show label",
-        "No / Yes",
-        "No"
+        "Boolean: on / off",
+        "On"
        ]
       ]
      },
      {
       "type": "note",
       "heading": "Variant coverage boundary",
-      "text": "Disabled + hover combinations are absent. There is no explicit Figma Focus or Indeterminate variant. Preserve this boundary in documentation and implementation mapping."
+      "text": "State is Default, Hover or Disabled, so disabled and hover never combine. There is no explicit Figma Focus or Indeterminate variant. Preserve this boundary in documentation and implementation mapping."
      }
     ]
    },
@@ -1082,39 +1077,39 @@
       "type": "table",
       "columns": [
        "Actual configuration",
-       "Show label = No",
-       "Show label = Yes"
+       "Show label off",
+       "Show label on"
       ],
       "rows": [
        [
         "Checked",
-        "Checkbox instance (Checked Yes, Hovered No, Disabled No), 16×16, blue filled box with checkmark",
-        "Same with Show label=Yes: box + 'Text' label, 54×16, label gray/3 #8a8a98"
+        "Checkbox instance (State Default, Checked Yes), 16×16, blue filled box with checkmark",
+        "Same with Show label on: box + 'Text' label, 54×16, label gray/3 #8a8a98"
        ],
        [
         "Checked + hover",
-        "Hovered=Yes Checked=Yes, 16×16",
-        "Hovered=Yes Checked=Yes Show label=Yes; label gray/1 #d0d0da"
+        "State=Hover Checked=Yes, 16×16",
+        "State=Hover Checked=Yes, Show label on; label gray/1 #d0d0da"
        ],
        [
         "Unchecked",
         "Checked=No, 1px border gray/4 #70707c, radius 2, 16×16",
-        "Checked=No Show label=Yes, label gray/3"
+        "Checked=No, Show label on, label gray/3"
        ],
        [
         "Unchecked + hover",
-        "Checked=No Hovered=Yes, border gray/0 #f5f5ff",
-        "Hovered=Yes Checked=No Show label=Yes; label gray/0 #f5f5ff"
+        "Checked=No State=Hover, border gray/0 #f5f5ff",
+        "State=Hover Checked=No, Show label on; label gray/0 #f5f5ff"
        ],
        [
         "Checked + disabled",
-        "Checked=Yes Disabled=Yes, 16×16",
-        "Disabled=Yes Show label=Yes; label gray/6 #40404a"
+        "State=Disabled Checked=Yes, 16×16",
+        "State=Disabled, Show label on; label gray/6 #40404a"
        ],
        [
         "Unchecked + disabled",
-        "Checked=No Disabled=Yes, border gray/6 #40404a",
-        "Disabled=Yes Checked=No Show label=Yes; label gray/6 #40404a"
+        "Checked=No State=Disabled, border gray/6 #40404a",
+        "State=Disabled Checked=No, Show label on; label gray/6 #40404a"
        ]
       ]
      },
@@ -1183,7 +1178,7 @@
      {
       "type": "checklist",
       "items": [
-       "Use native input type=\"checkbox\" with an associated label. Labels remain required when Show label = No; provide a programmatic name tied to the option.",
+       "Use native input type=\"checkbox\" with an associated label. Labels remain required when Show label is off; provide a programmatic name tied to the option.",
        "Space toggles the checkbox; native checked / disabled behavior is source-backed. Do not imply group propagation exists.",
        "Use a larger clickable label target around the 16px glyph. Target at least 24 × 24px or satisfy WCAG 2.2 spacing exceptions; verify in context.",
        "For mixed state, set DOM indeterminate and convey mixed state to assistive technology. Require visible focus, contrast, forced-color and screen-reader tests before release."
@@ -1226,9 +1221,9 @@
         "Require names even when visually hidden."
        ],
        [
-        "Disabled Yes / No; Hovered",
+        "State: Default / Hover / Disabled",
         "disabled; CSS hover",
-        "Disabled + hover is not a Figma combination."
+        "Disabled and hover are separate State values."
        ],
        [
         "No indeterminate / focus variant",
@@ -1592,7 +1587,7 @@
       ],
       "rows": [
        [
-        "Type",
+        "Status",
         "Default · Error · Accent · Success · Warning",
         "Default"
        ],
@@ -1650,7 +1645,7 @@
      {
       "type": "note",
       "heading": "Proposed behavior, not visual variants",
-      "text": "Dismissed, focused, loading and live-announcement states are not Type variants. The five tones do not establish urgency or accessibility approval; announcement timing belongs to the implementation contract."
+      "text": "Dismissed, focused, loading and live-announcement states are not Status variants. The five tones do not establish urgency or accessibility approval; announcement timing belongs to the implementation contract."
      }
     ]
    },
@@ -1736,7 +1731,7 @@
       ],
       "rows": [
        [
-        "Type",
+        "Status",
         "type default / accent / error / success / warning",
         "Tone names align; primitive binding parity is incomplete."
        ],
@@ -5695,7 +5690,7 @@
      },
      {
       "type": "text",
-      "text": "Variants: Success, Information, Warning or Error, each with an Undo action or none."
+      "text": "Variants: Success, Info, Warning or Error, each with an Undo action or none."
      }
     ]
    },
@@ -5721,7 +5716,7 @@
         "Status",
         "VARIANT",
         "Success",
-        "Success, Information, Warning, Error."
+        "Success, Info, Warning, Error."
        ],
        [
         "Action",
@@ -7502,11 +7497,11 @@
      {
       "type": "example",
       "label": "Radio button",
-      "description": "Radio button instance, Hovered=No, Selected=Yes, Disabled=No, Show label=No."
+      "description": "Radio button instance, State=Default, Selected=Yes, Show label off."
      },
      {
       "type": "text",
-      "text": "Variants: Hovered (No, Yes) · Selected (Yes, No) · Disabled (No, Yes) · Show label (No 16x16, Yes)"
+      "text": "Variants: State (Default, Hover, Disabled) · Selected (Yes, No). Boolean: Show label (on by default; off leaves the 16x16 control)."
      }
     ]
    },
@@ -7529,10 +7524,10 @@
       ],
       "rows": [
        [
-        "Hovered",
+        "State",
         "VARIANT",
-        "No",
-        "No, Yes."
+        "Default",
+        "Default, Hover, Disabled."
        ],
        [
         "Selected",
@@ -7541,16 +7536,10 @@
         "No, Yes."
        ],
        [
-        "Disabled",
-        "VARIANT",
-        "No",
-        "No, Yes."
-       ],
-       [
         "Show label",
-        "VARIANT",
-        "No",
-        "No, Yes."
+        "BOOLEAN",
+        "On",
+        "Off hides the label."
        ]
       ]
      }
@@ -7665,11 +7654,11 @@
      {
       "type": "example",
       "label": "Switch",
-      "description": "Switch instance, Selected=Yes, Show label=No, State=Default, Disabled=No."
+      "description": "Switch instance, State=Default, Selected=Yes, Show label off."
      },
      {
       "type": "text",
-      "text": "Variants: Selected (On, Off) · Show label (Yes, No) · State (Default, Hover) · Disabled (No, Yes)"
+      "text": "Variants: State (Default, Hover, Disabled) · Selected (Yes, No). Boolean: Show label (on by default)."
      }
     ]
    },
@@ -7699,21 +7688,15 @@
        ],
        [
         "Show label",
-        "VARIANT",
-        "No",
-        "Yes, No."
+        "BOOLEAN",
+        "On",
+        "Off hides the label."
        ],
        [
         "State",
         "VARIANT",
         "Default",
-        "Default, Hover."
-       ],
-       [
-        "Disabled",
-        "VARIANT",
-        "No",
-        "No, Yes."
+        "Default, Hover, Disabled."
        ]
       ]
      }
@@ -8629,7 +8612,7 @@
      },
      {
       "type": "text",
-      "text": "Variants: Shape (Round, Square) · Avatar (Photo, Initials, Memoji) · Size (16 to 64) · Status (Yes, No)"
+      "text": "Variants: Shape (Round, Square) · Content (Photo, Initials, Memoji) · Size (16 to 64) · Status (Yes, No)"
      }
     ]
    },
@@ -8658,7 +8641,7 @@
         "Round, Square."
        ],
        [
-        "Avatar",
+        "Content",
         "VARIANT",
         "Initials",
         "Initials, Photo, Memoji."
@@ -11035,6 +11018,169 @@
      {
       "type": "text",
       "text": "Pick the size by container width: Small and Vertical small under 360px, Medium and Large at 360 to 600px, XL above 720px. Keep titles to three words and values to one figure with its unit."
+     }
+    ]
+   }
+  ]
+ },
+ "chat": {
+  "nodeId": "4760:2095",
+  "title": "Chat",
+  "category": "NORTHSTAR DS / COMPONENT SPECIFICATION · 59",
+  "revision": "Reviewed 12 Nov 2026",
+  "summary": "A conversation surface for an AI assistant or support agent. A header names who is answering, the log holds alternating user and assistant messages, and the composer sends the next one.",
+  "meta": {
+   "Review status": "Built 12 Nov 2026 from the docs-site component, not yet source-reviewed",
+   "Parity status": "Docs site renders the same component in HTML and CSS (ns-chat)",
+   "Evidence boundary": "Figma inspection, not runtime or AT testing"
+  },
+  "sections": [
+   {
+    "nodeId": "4760:2111",
+    "number": "01",
+    "heading": "Purpose / when not to use",
+    "blocks": [
+     {
+      "type": "note",
+      "heading": "USE",
+      "text": "An assistant that answers open questions in plain language, or a support thread where both sides write turns."
+     },
+     {
+      "type": "note",
+      "heading": "DO NOT USE",
+      "text": "Do not use for a single command or search (Command palette) or for system status (Notification or Alert banner). Never hide that answers are generated."
+     }
+    ]
+   },
+   {
+    "nodeId": "4760:2122",
+    "number": "02",
+    "heading": "Visual anatomy",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "1 · Container: 360 × 380, background/surface, 1px border/subtle, radius/lg. 2 · Header: title and source line, bottom divider. 3 · Log: user turns right in interactive/primary, assistant turns left in background/secondary. 4 · Composer: message field and Send, top divider."
+     },
+     {
+      "type": "example",
+      "label": "Conversation",
+      "description": "Chat instance, State=Conversation."
+     },
+     {
+      "type": "text",
+      "text": "Variants: State = Conversation, Empty (with suggestions), Thinking (typing dots) or Error (with Retry)."
+     }
+    ]
+   },
+   {
+    "nodeId": "4760:2129",
+    "number": "03",
+    "heading": "Actual Figma API / defaults",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "Chat · set 4759:158 · page \"Chat\" in the NorthStar file."
+     },
+     {
+      "type": "table",
+      "columns": [
+       "Property",
+       "Type",
+       "Default",
+       "Notes"
+      ],
+      "rows": [
+       [
+        "State",
+        "VARIANT",
+        "Conversation",
+        "Conversation, Empty, Thinking, Error."
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4760:2150",
+    "number": "04",
+    "heading": "Current bindings / semantic mapping",
+    "blocks": [
+     {
+      "type": "table",
+      "columns": [
+       "Layer",
+       "Token",
+       "Role"
+      ],
+      "rows": [
+       [
+        "Container fill",
+        "background/surface",
+        "Chat surface"
+       ],
+       [
+        "User bubble",
+        "interactive/primary",
+        "Text in text/on-color"
+       ],
+       [
+        "Assistant bubble",
+        "background/secondary",
+        "Error turns use status/error-bg"
+       ],
+       [
+        "Title",
+        "text/primary",
+        "Body / Strong"
+       ],
+       [
+        "Message",
+        "text/primary",
+        "Body / Default"
+       ],
+       [
+        "Who and source line",
+        "text/tertiary",
+        "Label and Caption"
+       ],
+       [
+        "Log gap",
+        "spacing/4",
+        "12px"
+       ]
+      ]
+     },
+     {
+      "type": "text",
+      "text": "Fills, strokes, radii and spacing are bound to variables; text uses NorthStar text styles."
+     }
+    ]
+   },
+   {
+    "nodeId": "4760:2188",
+    "number": "05",
+    "heading": "Accessibility contract",
+    "blocks": [
+     {
+      "type": "checklist",
+      "items": [
+       "The log has role=\"log\", an accessible name and aria-live=\"polite\".",
+       "The composer textarea has a label; the Send button has aria-label=\"Send\".",
+       "A floating panel is role=\"dialog\" with aria-labelledby on its title; the launcher sets aria-expanded.",
+       "Enter sends, Shift + Enter adds a line, Escape closes a floating panel and returns focus.",
+       "Generated answers are labeled as generated and cite their source."
+      ]
+     }
+    ]
+   },
+   {
+    "nodeId": "4760:2198",
+    "number": "06",
+    "heading": "Responsive / content rules",
+    "blocks": [
+     {
+      "type": "text",
+      "text": "The panel is 360px wide in the docs. Messages wrap at 85% of the log width; the log scrolls and the composer stays pinned."
      }
     ]
    }

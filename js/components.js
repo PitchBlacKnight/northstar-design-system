@@ -248,7 +248,7 @@
     {
       id: "radio-button", name: "Radio button", cat: "Inputs", status: "Stable", figma: "1842:24303",
       desc: "Radio buttons allow users to select a single option from a list of mutually exclusive options. All possible options are exposed up front for users to compare.",
-      axes: [["Hovered", "No, Yes"], ["Selected", "Yes, No"], ["Disabled", "No, Yes"], ["Show label", "No (16x16), Yes"]],
+      axes: [["State", "Default, Hover, Disabled"], ["Selected", "Yes, No"], ["Show label", "Boolean, on by default (off: 16x16)"]],
       doc: [["Label", "Radio buttons should always have a label. When the label is not defined, a checkbox becomes standalone."], ["Selection", "Radio buttons can be selected, not selected and disabled."], ["Disabled", "Radio buttons in a disabled state show that a selection exists, but is not available in that circumstance. Usually this state is used to show the user that the action may become available later."]],
       playground: {
         controls: [{ key: "dir", label: "Orientation", options: ["Vertical", "Horizontal"] }, { key: "disabled", label: "Disabled", type: "bool" }],
@@ -267,7 +267,7 @@
     {
       id: "toggle", name: "Switch", cat: "Inputs", status: "Stable", figma: "1842:24379",
       desc: "Switches allow users to turn an individual option on or off. They are usually used to activate or deactivate a specific setting.",
-      axes: [["Selected", "On, Off"], ["Show label", "Yes, No"], ["State", "Default, Hover"], ["Disabled", "No, Yes"]],
+      axes: [["State", "Default, Hover, Disabled"], ["Selected", "Yes, No"], ["Show label", "Boolean, on by default"]],
       doc: [],
       playground: {
         controls: [{ key: "size", label: "Size", options: ["Figma 29x16", "Default", "Small"] }, { key: "on", label: "On", type: "bool", default: true }, { key: "disabled", label: "Disabled", type: "bool" }],
@@ -415,7 +415,7 @@
     {
       id: "avatar", name: "Avatar", cat: "Data", status: "Stable", figma: "1747:21338",
       desc: "Component for visual identification of users and companies.",
-      axes: [["Shape", "Round, Square"], ["Avatar", "Photo, Initials, Memoji"], ["Size", "16, 20, 24, 28, 32, 36, 40, 48, 64"], ["Status", "Yes, No"]],
+      axes: [["Shape", "Round, Square"], ["Content", "Photo, Initials, Memoji"], ["Size", "16, 20, 24, 28, 32, 36, 40, 48, 64"], ["Status", "Yes, No"]],
       doc: [["Shape", "The main type of component is the avatar in a circle. Additionally, you can use a square shape to cover all your design needs. The status icon is used to display various statuses."], ["Size", "The avatar can also be customized to fit your context. We offer nine different sizes."], ["Image", "Avatars can have a specific image, which is usually uploaded by the user or moderator. If the avatar does not have a photo or it is not uploaded, the Initials component is used instead. In rare cases, a company logo can be used."]],
       playground: { controls: [{ key: "type", label: "Avatar", options: ["Initials", "Memoji", "Photo"] }, { key: "shape", label: "Shape", options: ["Round", "Square"] }, { key: "size", label: "Size", options: ["16", "20", "24", "28", "32", "36", "40", "48", "64"], default: "64" }, { key: "status", label: "Status", type: "bool", default: true }], render: (s) => `<span class="ns-avatar ns-avatar--${s.size}${s.shape === "Square" ? " ns-avatar--square" : ""}${s.type === "Memoji" ? " ns-avatar--memoji" : ""}"${s.type === "Photo" ? ' style="background-image:linear-gradient(135deg,#ffb38a,#b36bff 60%,#2b1a55)"' : ""}${s.status ? ' data-status="online"' : ""} role="img" aria-label="Alex Park${s.status ? ", online" : ""}">${s.type === "Initials" ? "AP" : s.type === "Memoji" ? "\u{1F9D1}‍\u{1F4BB}" : ""}</span>` },
       when: ["Ownership, assignees, and presence."], whenNot: ["Decoration with no meaning."],
@@ -555,7 +555,7 @@
     {
       id: "alert-banner", name: "Alert banner", cat: "Feedback", status: "Stable", figma: "1727:18329",
       desc: "In-line alerts display a non-modal message associated with objects in a view.",
-      axes: [["Type", "Default, Accent, Error, Success, Warning"], ["Buttons", "Yes, No"], ["Description", "Yes, No"]],
+      axes: [["Status", "Default, Accent, Error, Success, Warning"], ["Buttons", "Yes, No"], ["Description", "Yes, No"]],
       doc: [["Message text", "To be as clear and quick to read as possible, the messages in Alerts should be short."], ["Dismissible", "The banner can be closed at any time. Therefore, it contains a close button."], ["Semantic variants", "The alert banner always has a meaning, so we use color coding. We suggest using five options for different situations."]],
       playground: {
         block: true,
@@ -738,7 +738,7 @@
       react: '<Textarea label="Description" maxLength={1000} helper="Services, regions and size" />',
     },
     {
-      id: "chat", name: "Chat", cat: "Containers", status: "New",
+      id: "chat", name: "Chat", cat: "Containers", status: "New", figma: "4759:60",
       desc: "A conversation surface for an AI assistant or support agent. A header names who is answering, the log holds alternating user and assistant messages, and the composer sends the next one. The docs site uses it for Ask NorthStar, bottom right.",
       axes: [["Message", "User, Assistant, Error"], ["State", "Empty with suggestions, Conversation, Thinking"], ["Placement", "Inline panel, Floating panel"]],
       doc: [["Who is answering", "Name the assistant in the header and say what it knows, such as Answers from the NorthStar docs. Never present a model as a person."], ["Thinking", "Show the three-dot indicator until the first words arrive, then stream the reply into the same bubble."], ["Errors", "Put a failed request in the log as an error message with a way to retry. Do not clear what the user typed."]],
@@ -930,7 +930,7 @@
     {
       id: "toast", name: "Toast", cat: "Feedback", status: "New", figma: "4465:138",
       desc: "A short message after an action, such as Account archived. Toasts stack in a corner and clear on their own. Errors the person must fix belong inline, not in a toast.",
-      axes: [["Status", "Information, Success, Warning, Error"], ["Action", "None or one button"], ["Message", "Shown or hidden"]],
+      axes: [["Status", "Info, Success, Warning, Error"], ["Action", "None or one button"], ["Message", "Shown or hidden"]],
       doc: [["Undo instead of confirm", "For reversible actions, offer Undo in the toast rather than a confirm dialog."], ["Stacking", "Show at most three toasts. The newest sits on top."]],
       playground: {
         controls: [

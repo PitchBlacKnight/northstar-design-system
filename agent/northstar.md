@@ -1,8 +1,8 @@
 # NorthStar Design System v1.5.0
 
-> Machine-readable guide for AI coding and design agents. Generated 2026-11-10 from the live catalog by tools/agent-export.mjs; do not edit by hand. Site: https://mikelrosenthal.com/northstar/ · Figma file VZxmDNQiosTN6gqnvEQ65Z.
+> Machine-readable guide for AI coding and design agents. Generated 2026-11-12 from the live catalog by tools/agent-export.mjs; do not edit by hand. Site: https://mikelrosenthal.com/northstar/ · Figma file VZxmDNQiosTN6gqnvEQ65Z.
 
-NorthStar is a design language and development kit for dense, dark, data-heavy enterprise consoles: 58 components, 225 tokens, dark and light themes, comfortable and compact density. Markup is framework-free HTML with ns- classes; style comes only from CSS custom properties.
+NorthStar is a design language and development kit for dense, dark, data-heavy enterprise consoles: 58 components, 231 tokens, dark and light themes, comfortable and compact density. Markup is framework-free HTML with ns- classes; style comes only from CSS custom properties.
 
 ## Files
 
@@ -267,6 +267,17 @@ Use these roles in components. Values are the dark theme; light overrides are in
 |---|---|---|
 | `--ns-logo-star` | #27bdfa | #023aff |
 
+### opacity
+
+| Token | Dark | Light |
+|---|---|---|
+| `--ns-opacity-disabled` | 0.4 | same |
+| `--ns-opacity-full` | 1 | same |
+| `--ns-opacity-hover` | 0.08 | same |
+| `--ns-opacity-overlay` | 0.72 | same |
+| `--ns-opacity-pressed` | 0.16 | same |
+| `--ns-opacity-subtle` | 0.64 | same |
+
 ### radius
 
 | Token | Dark | Light |
@@ -462,7 +473,7 @@ Accessibility:
 
 A conversation surface for an AI assistant or support agent. A header names who is answering, the log holds alternating user and assistant messages, and the composer sends the next one. The docs site uses it for Ask NorthStar, bottom right.
 
-Page: https://mikelrosenthal.com/northstar/#/components/chat
+Page: https://mikelrosenthal.com/northstar/#/components/chat · Figma node 4759:60
 
 Classes: `ns-btn`, `ns-btn--square`, `ns-chat`, `ns-chat__bubble`, `ns-chat__composer`, `ns-chat__head`, `ns-chat__log`, `ns-chat__meta`, `ns-chat__msg`, `ns-chat__msg--bot`, `ns-chat__msg--user`, `ns-chat__suggest`, `ns-chat__title`, `ns-chat__typing`, `ns-chat__who`, `ns-tag`, `ns-tag--sm`, `ns-textarea`
 
@@ -532,7 +543,7 @@ Page: https://mikelrosenthal.com/northstar/#/components/alert-banner · Figma no
 
 Classes: `ns-alert`, `ns-alert--accent`, `ns-alert--compact`, `ns-alert--default`, `ns-alert--error`, `ns-alert--success`, `ns-alert--warning`, `ns-alert__actions`, `ns-alert__close`, `ns-alert__desc`, `ns-alert__end`, `ns-alert__icon`, `ns-alert__title`, `ns-btn`, `ns-btn--ghost`, `ns-btn--outline`, `ns-helper`
 
-Variants: Type: Default, Accent, Error, Success, Warning; Buttons: Yes, No; Description: Yes, No
+Variants: Status: Default, Accent, Error, Success, Warning; Buttons: Yes, No; Description: Yes, No
 
 Use:
 - Messages tied to a view or object.
@@ -563,7 +574,7 @@ Page: https://mikelrosenthal.com/northstar/#/components/notification · Figma no
 
 Classes: `ns-btn`, `ns-btn--ghost`, `ns-btn--sm`, `ns-btn--tertiary`, `ns-helper`, `ns-notice`, `ns-notice--error`, `ns-notice--info`, `ns-notice--success`, `ns-notice--toast`, `ns-notice__body`, `ns-notice__close`, `ns-notice__icon`, `ns-notice__title`
 
-Variants: Toast / Status: Information, Success, Warning, Error; Toast / Action: None or one button; Toast / Message: Shown or hidden
+Variants: Toast / Status: Info, Success, Warning, Error; Toast / Action: None or one button; Toast / Message: Shown or hidden
 
 Use:
 - Inline: messages tied to a section.
@@ -606,7 +617,7 @@ Page: https://mikelrosenthal.com/northstar/#/components/avatar · Figma node 174
 
 Classes: `ns-avatar`, `ns-avatar--16`, `ns-avatar--20`, `ns-avatar--24`, `ns-avatar--28`, `ns-avatar--32`, `ns-avatar--36`, `ns-avatar--40`, `ns-avatar--48`, `ns-avatar--64`, `ns-avatar--brand`, `ns-avatar--memoji`, `ns-avatar--more`, `ns-avatar--square`, `ns-avatar-group`
 
-Variants: Shape: Round, Square; Avatar: Photo, Initials, Memoji; Size: 16, 20, 24, 28, 32, 36, 40, 48, 64; Status: Yes, No
+Variants: Shape: Round, Square; Content: Photo, Initials, Memoji; Size: 16, 20, 24, 28, 32, 36, 40, 48, 64; Status: Yes, No
 
 Use:
 - Ownership, assignees, and presence.
@@ -2081,7 +2092,7 @@ Page: https://mikelrosenthal.com/northstar/#/components/radio-button · Figma no
 
 Classes: `ns-check`, `ns-check--radio`, `ns-label`
 
-Variants: Hovered: No, Yes; Selected: Yes, No; Disabled: No, Yes; Show label: No (16x16), Yes
+Variants: State: Default, Hover, Disabled; Selected: Yes, No; Show label: Boolean, on by default (off: 16x16)
 
 Use:
 - Two to five mutually exclusive options that benefit from being visible together.
@@ -2218,7 +2229,7 @@ Page: https://mikelrosenthal.com/northstar/#/components/toggle · Figma node 184
 
 Classes: `ns-toggle`, `ns-toggle--sm`, `ns-toggle--xs`
 
-Variants: Selected: On, Off; Show label: Yes, No; State: Default, Hover; Disabled: No, Yes
+Variants: State: Default, Hover, Disabled; Selected: Yes, No; Show label: Boolean, on by default
 
 Use:
 - Binary settings that take effect immediately.
