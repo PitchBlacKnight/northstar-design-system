@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../../css/components.css">
+<title>Object detail</title>
+<meta name="description" content="One record: breadcrumb, header with status and actions, tabs, detail cards with a side column, and a notice.">
+</head>
+<body class="ns-body">
+<div class="ns-app">
+<nav class="ns-app__nav" aria-label="App"><div class="ns-sidenav"><div class="ns-sidenav__group">Operate</div><a href="#">Dashboard</a><a href="#" aria-current="page">Accounts <span class="ns-count">3</span></a><a href="#">Approvals</a><div class="ns-sidenav__group">Configure</div><a href="#">Integrations</a><a href="#">Settings</a></div></nav>
+<main class="ns-app__main">
+  <p class="ns-helper">Sample data</p>
+  <header class="ns-page-head">
+    <div class="ns-page-head__text">
+      <nav aria-label="Breadcrumb"><ol class="ns-breadcrumb"><li><a href="#">Accounts</a></li><li aria-current="page">Acme Corp</li></ol></nav>
+      <h1 class="ns-page-head__title">Acme Corp</h1>
+      <p class="ns-page-head__desc"><span class="ns-status-dot ns-status-dot--positive">Active</span> Gold tier, renews in 42 days.</p>
+    </div>
+    <div class="ns-page-head__actions"><button class="ns-btn ns-btn--outline">Edit</button><button class="ns-btn">Create invoice</button></div>
+  </header>
+  <div class="ns-alert ns-alert--warning" role="status"><span class="ns-alert__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 16v-4M12 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></span><div><p class="ns-alert__title">API quota at 85%</p><p class="ns-alert__desc">Raise the limit or the CRM sync pauses at 100%.</p></div></div>
+  <div class="ns-tabs" role="tablist" aria-label="Account sections"><button class="ns-tab" role="tab" id="tab-overview" aria-controls="panel-overview" aria-selected="true">Overview</button><button class="ns-tab" role="tab" id="tab-integrations" aria-controls="panel-integrations" aria-selected="false" tabindex="-1">Integrations <span class="ns-count">14</span></button><button class="ns-tab" role="tab" id="tab-billing" aria-controls="panel-billing" aria-selected="false" tabindex="-1">Billing</button></div>
+  <div class="ns-split" role="tabpanel" id="panel-overview" aria-labelledby="tab-overview">
+    <div class="ns-stack">
+      <section class="ns-card"><h2 class="ns-card__title">Usage</h2><div class="ns-progress"><div class="ns-progress__meta"><span>API calls this month</span><span>85%</span></div><div class="ns-progress__track" role="progressbar" aria-label="API calls this month" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><div class="ns-progress__bar" style="--_v:85%"></div></div></div></section>
+      <section class="ns-card"><h2 class="ns-card__title">Contacts</h2><p class="ns-card__body">Priya Raman, owner. Jordan Ellis, billing.</p></section>
+    </div>
+    <aside class="ns-stack" aria-label="Summary">
+      <div class="ns-kpi"><span class="ns-kpi__label">Revenue</span><span class="ns-kpi__value">$38,900</span><span class="ns-kpi__delta">↑ +6.2%</span></div>
+      <section class="ns-card"><h2 class="ns-card__title">Plan</h2><p class="ns-card__body">Gold, billed yearly.</p></section>
+    </aside>
+  </div>
+</main>
+</div>
+</body>
+</html>

@@ -1,0 +1,953 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - link "Skip to content" [ref=e3] [cursor=pointer]:
+      - /url: "#main-content"
+    - banner [ref=e4]:
+      - link "NorthStar DS home" [ref=e5] [cursor=pointer]:
+        - /url: "#/"
+      - generic [ref=e11]: v1.5.0
+      - navigation "Primary" [ref=e12]:
+        - link "Foundations" [ref=e13] [cursor=pointer]:
+          - /url: "#/foundations"
+        - link "Components" [ref=e14] [cursor=pointer]:
+          - /url: "#/components"
+        - link "Patterns" [ref=e15] [cursor=pointer]:
+          - /url: "#/patterns/forms"
+        - link "Graphics" [ref=e16] [cursor=pointer]:
+          - /url: "#/graphics"
+        - link "Floorplans" [ref=e17] [cursor=pointer]:
+          - /url: "#/floorplans"
+        - link "Live tools" [ref=e18] [cursor=pointer]:
+          - /url: "#/tools/live-builder"
+      - button "Search documentation" [ref=e19] [cursor=pointer]:
+        - generic [ref=e23]: Search docs...
+      - button "Open token editor" [ref=e24] [cursor=pointer]
+      - button "Comfortable" [ref=e30] [cursor=pointer]
+      - button "Switch to light theme" [ref=e31] [cursor=pointer]
+      - link "Open Figma library" [ref=e35] [cursor=pointer]:
+        - /url: https://www.figma.com/design/VZxmDNQiosTN6gqnvEQ65Z/NorthStar-Design-System
+    - generic [ref=e38]:
+      - navigation "Documentation" [ref=e39]:
+        - generic [ref=e40]:
+          - button "Getting started" [expanded] [ref=e41] [cursor=pointer]
+          - list [ref=e46]:
+            - listitem [ref=e47]:
+              - link "Home" [ref=e48] [cursor=pointer]:
+                - /url: "#/"
+            - listitem [ref=e49]:
+              - link "About NorthStar" [ref=e50] [cursor=pointer]:
+                - /url: "#/getting-started/about"
+            - listitem [ref=e51]:
+              - link "Designers" [ref=e52] [cursor=pointer]:
+                - /url: "#/getting-started/designers"
+            - listitem [ref=e53]:
+              - link "Developers" [ref=e54] [cursor=pointer]:
+                - /url: "#/getting-started/developers"
+            - listitem [ref=e55]:
+              - link "Adoption guide" [ref=e56] [cursor=pointer]:
+                - /url: "#/getting-started/adoption"
+            - listitem [ref=e57]:
+              - link "Changelog" [ref=e58] [cursor=pointer]:
+                - /url: "#/changelog"
+            - listitem [ref=e59]:
+              - link "AI agent guide New" [ref=e60] [cursor=pointer]:
+                - /url: "#/getting-started/agent-guide"
+                - text: AI agent guide
+                - generic [ref=e61]: New
+            - listitem [ref=e62]:
+              - link "Element reference" [ref=e63] [cursor=pointer]:
+                - /url: "#/getting-started/element-reference"
+            - listitem [ref=e64]:
+              - link "Component status New" [ref=e65] [cursor=pointer]:
+                - /url: "#/getting-started/component-status"
+                - text: Component status
+                - generic [ref=e66]: New
+            - listitem [ref=e67]:
+              - link "Downloads" [ref=e68] [cursor=pointer]:
+                - /url: "#/getting-started/downloads"
+            - listitem [ref=e69]:
+              - link "React kit New" [ref=e70] [cursor=pointer]:
+                - /url: "#/getting-started/react"
+                - text: React kit
+                - generic [ref=e71]: New
+        - generic [ref=e72]:
+          - button "Foundations" [expanded] [ref=e73] [cursor=pointer]
+          - list [ref=e79]:
+            - listitem [ref=e80]:
+              - link "Overview" [ref=e81] [cursor=pointer]:
+                - /url: "#/foundations"
+            - listitem [ref=e82]:
+              - link "How tokens work New" [ref=e83] [cursor=pointer]:
+                - /url: "#/foundations/how-tokens-work"
+                - text: How tokens work
+                - generic [ref=e84]: New
+            - listitem [ref=e85]:
+              - link "Color" [ref=e86] [cursor=pointer]:
+                - /url: "#/foundations/color"
+            - listitem [ref=e87]:
+              - link "Typography" [ref=e88] [cursor=pointer]:
+                - /url: "#/foundations/typography"
+            - listitem [ref=e89]:
+              - link "Spacing and layout" [ref=e90] [cursor=pointer]:
+                - /url: "#/foundations/spacing"
+            - listitem [ref=e91]:
+              - link "Radius" [ref=e92] [cursor=pointer]:
+                - /url: "#/foundations/radius"
+            - listitem [ref=e93]:
+              - link "Elevation" [ref=e94] [cursor=pointer]:
+                - /url: "#/foundations/elevation"
+            - listitem [ref=e95]:
+              - link "Motion" [ref=e96] [cursor=pointer]:
+                - /url: "#/foundations/motion"
+            - listitem [ref=e97]:
+              - link "Iconography" [ref=e98] [cursor=pointer]:
+                - /url: "#/foundations/iconography"
+            - listitem [ref=e99]:
+              - link "Themes" [ref=e100] [cursor=pointer]:
+                - /url: "#/foundations/themes"
+            - listitem [ref=e101]:
+              - link "Token reference" [ref=e102] [cursor=pointer]:
+                - /url: "#/foundations/tokens"
+            - listitem [ref=e103]:
+              - link "Logo New" [ref=e104] [cursor=pointer]:
+                - /url: "#/foundations/logo"
+                - text: Logo
+                - generic [ref=e105]: New
+            - listitem [ref=e106]:
+              - link "Content and voice New" [ref=e107] [cursor=pointer]:
+                - /url: "#/foundations/content-voice"
+                - text: Content and voice
+                - generic [ref=e108]: New
+        - generic [ref=e109]:
+          - button "Components" [expanded] [ref=e110] [cursor=pointer]
+          - list [ref=e117]:
+            - listitem [ref=e118]:
+              - link "Overview" [ref=e119] [cursor=pointer]:
+                - /url: "#/components"
+            - listitem [ref=e120]:
+              - link "Accordion" [ref=e121] [cursor=pointer]:
+                - /url: "#/components/accordion"
+            - listitem [ref=e122]:
+              - link "Alert banner" [ref=e123] [cursor=pointer]:
+                - /url: "#/components/alert-banner"
+            - listitem [ref=e124]:
+              - link "Avatar" [ref=e125] [cursor=pointer]:
+                - /url: "#/components/avatar"
+            - listitem [ref=e126]:
+              - link "Badge" [ref=e127] [cursor=pointer]:
+                - /url: "#/components/badge"
+            - listitem [ref=e128]:
+              - link "Bar chart New" [ref=e129] [cursor=pointer]:
+                - /url: "#/components/bar-chart"
+                - text: Bar chart
+                - generic [ref=e130]: New
+            - listitem [ref=e131]:
+              - link "Breadcrumb" [ref=e132] [cursor=pointer]:
+                - /url: "#/components/breadcrumb"
+            - listitem [ref=e133]:
+              - link "Bubble chart New" [ref=e134] [cursor=pointer]:
+                - /url: "#/components/bubble-chart"
+                - text: Bubble chart
+                - generic [ref=e135]: New
+            - listitem [ref=e136]:
+              - link "Bullet chart New" [ref=e137] [cursor=pointer]:
+                - /url: "#/components/bullet-chart"
+                - text: Bullet chart
+                - generic [ref=e138]: New
+            - listitem [ref=e139]:
+              - link "Button" [ref=e140] [cursor=pointer]:
+                - /url: "#/components/button"
+            - listitem [ref=e141]:
+              - link "Calendar chart New" [ref=e142] [cursor=pointer]:
+                - /url: "#/components/calendar-chart"
+                - text: Calendar chart
+                - generic [ref=e143]: New
+            - listitem [ref=e144]:
+              - link "Candlestick chart New" [ref=e145] [cursor=pointer]:
+                - /url: "#/components/candlestick-chart"
+                - text: Candlestick chart
+                - generic [ref=e146]: New
+            - listitem [ref=e147]:
+              - link "Card" [ref=e148] [cursor=pointer]:
+                - /url: "#/components/card"
+            - listitem [ref=e149]:
+              - link "Chat New" [ref=e150] [cursor=pointer]:
+                - /url: "#/components/chat"
+                - text: Chat
+                - generic [ref=e151]: New
+            - listitem [ref=e152]:
+              - link "Checkbox" [ref=e153] [cursor=pointer]:
+                - /url: "#/components/checkbox"
+            - listitem [ref=e154]:
+              - link "Combobox New" [ref=e155] [cursor=pointer]:
+                - /url: "#/components/combobox"
+                - text: Combobox
+                - generic [ref=e156]: New
+            - listitem [ref=e157]:
+              - link "Command palette New" [ref=e158] [cursor=pointer]:
+                - /url: "#/components/command-palette"
+                - text: Command palette
+                - generic [ref=e159]: New
+            - listitem [ref=e160]:
+              - link "Data table" [ref=e161] [cursor=pointer]:
+                - /url: "#/components/data-table"
+            - listitem [ref=e162]:
+              - link "Date picker New" [ref=e163] [cursor=pointer]:
+                - /url: "#/components/date-picker"
+                - text: Date picker
+                - generic [ref=e164]: New
+            - listitem [ref=e165]:
+              - link "Divider" [ref=e166] [cursor=pointer]:
+                - /url: "#/components/divider"
+            - listitem [ref=e167]:
+              - link "Dumbbell chart New" [ref=e168] [cursor=pointer]:
+                - /url: "#/components/dumbbell-chart"
+                - text: Dumbbell chart
+                - generic [ref=e169]: New
+            - listitem [ref=e170]:
+              - link "File uploader New" [ref=e171] [cursor=pointer]:
+                - /url: "#/components/file-uploader"
+                - text: File uploader
+                - generic [ref=e172]: New
+            - listitem [ref=e173]:
+              - link "Funnel chart New" [ref=e174] [cursor=pointer]:
+                - /url: "#/components/funnel-chart"
+                - text: Funnel chart
+                - generic [ref=e175]: New
+            - listitem [ref=e176]:
+              - link "Gauge chart New" [ref=e177] [cursor=pointer]:
+                - /url: "#/components/gauge-chart"
+                - text: Gauge chart
+                - generic [ref=e178]: New
+            - listitem [ref=e179]:
+              - link "Heatmap chart New" [ref=e180] [cursor=pointer]:
+                - /url: "#/components/heatmap-chart"
+                - text: Heatmap chart
+                - generic [ref=e181]: New
+            - listitem [ref=e182]:
+              - link "Inline edit New" [ref=e183] [cursor=pointer]:
+                - /url: "#/components/inline-edit"
+                - text: Inline edit
+                - generic [ref=e184]: New
+            - listitem [ref=e185]:
+              - link "Line chart New" [ref=e186] [cursor=pointer]:
+                - /url: "#/components/line-chart"
+                - text: Line chart
+                - generic [ref=e187]: New
+            - listitem [ref=e188]:
+              - link "Link New" [ref=e189] [cursor=pointer]:
+                - /url: "#/components/link"
+                - text: Link
+                - generic [ref=e190]: New
+            - listitem [ref=e191]:
+              - link "Menu New" [ref=e192] [cursor=pointer]:
+                - /url: "#/components/menu"
+                - text: Menu
+                - generic [ref=e193]: New
+            - listitem [ref=e194]:
+              - link "Modal" [ref=e195] [cursor=pointer]:
+                - /url: "#/components/modal"
+            - listitem [ref=e196]:
+              - link "Notification" [ref=e197] [cursor=pointer]:
+                - /url: "#/components/notification"
+            - listitem [ref=e198]:
+              - link "Number stepper New" [ref=e199] [cursor=pointer]:
+                - /url: "#/components/number-stepper"
+                - text: Number stepper
+                - generic [ref=e200]: New
+            - listitem [ref=e201]:
+              - link "Pagination" [ref=e202] [cursor=pointer]:
+                - /url: "#/components/pagination"
+            - listitem [ref=e203]:
+              - link "Parallel coordinates chart New" [ref=e204] [cursor=pointer]:
+                - /url: "#/components/parallel-coordinates-chart"
+                - text: Parallel coordinates chart
+                - generic [ref=e205]: New
+            - listitem [ref=e206]:
+              - link "Pie chart New" [ref=e207] [cursor=pointer]:
+                - /url: "#/components/pie-chart"
+                - text: Pie chart
+                - generic [ref=e208]: New
+            - listitem [ref=e209]:
+              - link "Popover" [ref=e210] [cursor=pointer]:
+                - /url: "#/components/popover"
+            - listitem [ref=e211]:
+              - link "Progress" [ref=e212] [cursor=pointer]:
+                - /url: "#/components/progress"
+            - listitem [ref=e213]:
+              - link "Radar chart New" [ref=e214] [cursor=pointer]:
+                - /url: "#/components/radar-chart"
+                - text: Radar chart
+                - generic [ref=e215]: New
+            - listitem [ref=e216]:
+              - link "Radial bar chart New" [ref=e217] [cursor=pointer]:
+                - /url: "#/components/radial-bar-chart"
+                - text: Radial bar chart
+                - generic [ref=e218]: New
+            - listitem [ref=e219]:
+              - link "Radial convergence chart New" [ref=e220] [cursor=pointer]:
+                - /url: "#/components/radial-convergence-chart"
+                - text: Radial convergence chart
+                - generic [ref=e221]: New
+            - listitem [ref=e222]:
+              - link "Radial histogram chart New" [ref=e223] [cursor=pointer]:
+                - /url: "#/components/radial-histogram-chart"
+                - text: Radial histogram chart
+                - generic [ref=e224]: New
+            - listitem [ref=e225]:
+              - link "Radio button" [ref=e226] [cursor=pointer]:
+                - /url: "#/components/radio-button"
+            - listitem [ref=e227]:
+              - link "Sankey chart New" [ref=e228] [cursor=pointer]:
+                - /url: "#/components/sankey-chart"
+                - text: Sankey chart
+                - generic [ref=e229]: New
+            - listitem [ref=e230]:
+              - link "Scatter chart New" [ref=e231] [cursor=pointer]:
+                - /url: "#/components/scatter-chart"
+                - text: Scatter chart
+                - generic [ref=e232]: New
+            - listitem [ref=e233]:
+              - link "Segmented control New" [ref=e234] [cursor=pointer]:
+                - /url: "#/components/segmented-control"
+                - text: Segmented control
+                - generic [ref=e235]: New
+            - listitem [ref=e236]:
+              - link "Select" [ref=e237] [cursor=pointer]:
+                - /url: "#/components/select"
+            - listitem [ref=e238]:
+              - link "Side navigation" [ref=e239] [cursor=pointer]:
+                - /url: "#/components/side-navigation"
+            - listitem [ref=e240]:
+              - link "Slider" [ref=e241] [cursor=pointer]:
+                - /url: "#/components/slider"
+            - listitem [ref=e242]:
+              - link "Stepped line chart New" [ref=e243] [cursor=pointer]:
+                - /url: "#/components/stepped-line-chart"
+                - text: Stepped line chart
+                - generic [ref=e244]: New
+            - listitem [ref=e245]:
+              - link "Sunburst chart New" [ref=e246] [cursor=pointer]:
+                - /url: "#/components/sunburst-chart"
+                - text: Sunburst chart
+                - generic [ref=e247]: New
+            - listitem [ref=e248]:
+              - link "Switch" [ref=e249] [cursor=pointer]:
+                - /url: "#/components/toggle"
+            - listitem [ref=e250]:
+              - link "Tabs" [ref=e251] [cursor=pointer]:
+                - /url: "#/components/tabs"
+            - listitem [ref=e252]:
+              - link "Tag" [ref=e253] [cursor=pointer]:
+                - /url: "#/components/tag"
+            - listitem [ref=e254]:
+              - link "Text input" [ref=e255] [cursor=pointer]:
+                - /url: "#/components/text-input"
+            - listitem [ref=e256]:
+              - link "Textarea New" [ref=e257] [cursor=pointer]:
+                - /url: "#/components/textarea"
+                - text: Textarea
+                - generic [ref=e258]: New
+            - listitem [ref=e259]:
+              - link "Tooltip" [ref=e260] [cursor=pointer]:
+                - /url: "#/components/tooltip"
+            - listitem [ref=e261]:
+              - link "Tree chart New" [ref=e262] [cursor=pointer]:
+                - /url: "#/components/tree-chart"
+                - text: Tree chart
+                - generic [ref=e263]: New
+            - listitem [ref=e264]:
+              - link "Tree view New" [ref=e265] [cursor=pointer]:
+                - /url: "#/components/tree-view"
+                - text: Tree view
+                - generic [ref=e266]: New
+            - listitem [ref=e267]:
+              - link "Treemap chart New" [ref=e268] [cursor=pointer]:
+                - /url: "#/components/treemap-chart"
+                - text: Treemap chart
+                - generic [ref=e269]: New
+        - generic [ref=e270]:
+          - button "Patterns" [expanded] [ref=e271] [cursor=pointer]
+          - list [ref=e276]:
+            - listitem [ref=e277]:
+              - link "Production patterns New" [ref=e278] [cursor=pointer]:
+                - /url: "#/patterns/production"
+                - text: Production patterns
+                - generic [ref=e279]: New
+            - listitem [ref=e280]:
+              - link "Create account workflow New" [ref=e281] [cursor=pointer]:
+                - /url: "#/patterns/create-account"
+                - text: Create account workflow
+                - generic [ref=e282]: New
+            - listitem [ref=e283]:
+              - link "Forms" [ref=e284] [cursor=pointer]:
+                - /url: "#/patterns/forms"
+            - listitem [ref=e285]:
+              - link "Modal dialogs" [ref=e286] [cursor=pointer]:
+                - /url: "#/patterns/modal-dialogs"
+            - listitem [ref=e287]:
+              - link "Table views" [ref=e288] [cursor=pointer]:
+                - /url: "#/patterns/table-views"
+            - listitem [ref=e289]:
+              - link "Empty states" [ref=e290] [cursor=pointer]:
+                - /url: "#/patterns/empty-states"
+            - listitem [ref=e291]:
+              - link "Loading" [ref=e292] [cursor=pointer]:
+                - /url: "#/patterns/loading"
+            - listitem [ref=e293]:
+              - link "Search and filter" [ref=e294] [cursor=pointer]:
+                - /url: "#/patterns/search-filter"
+            - listitem [ref=e295]:
+              - link "Errors" [ref=e296] [cursor=pointer]:
+                - /url: "#/patterns/errors"
+        - generic [ref=e297]:
+          - button "Graphics framework" [expanded] [ref=e298] [cursor=pointer]
+          - list [ref=e303]:
+            - listitem [ref=e304]:
+              - link "Overview" [ref=e305] [cursor=pointer]:
+                - /url: "#/graphics"
+            - listitem [ref=e306]:
+              - link "Widget gallery 95" [ref=e307] [cursor=pointer]:
+                - /url: "#/graphics/gallery"
+                - text: Widget gallery
+                - generic [ref=e308]: "95"
+            - listitem [ref=e309]:
+              - link "Circle charts" [ref=e310] [cursor=pointer]:
+                - /url: "#/graphics/circle"
+            - listitem [ref=e311]:
+              - link "Line charts" [ref=e312] [cursor=pointer]:
+                - /url: "#/graphics/line"
+            - listitem [ref=e313]:
+              - link "Combined circle charts" [ref=e314] [cursor=pointer]:
+                - /url: "#/graphics/combined"
+            - listitem [ref=e315]:
+              - link "Column charts" [ref=e316] [cursor=pointer]:
+                - /url: "#/graphics/column"
+            - listitem [ref=e317]:
+              - link "Bubble charts" [ref=e318] [cursor=pointer]:
+                - /url: "#/graphics/bubble"
+            - listitem [ref=e319]:
+              - link "Other" [ref=e320] [cursor=pointer]:
+                - /url: "#/graphics/other"
+            - listitem [ref=e321]:
+              - link "Tables" [ref=e322] [cursor=pointer]:
+                - /url: "#/graphics/table"
+            - listitem [ref=e323]:
+              - link "Simple informers" [ref=e324] [cursor=pointer]:
+                - /url: "#/graphics/informer"
+            - listitem [ref=e325]:
+              - link "Gauges" [ref=e326] [cursor=pointer]:
+                - /url: "#/graphics/gauge"
+            - listitem [ref=e327]:
+              - link "Area charts" [ref=e328] [cursor=pointer]:
+                - /url: "#/graphics/area"
+            - listitem [ref=e329]:
+              - link "Heatmaps" [ref=e330] [cursor=pointer]:
+                - /url: "#/graphics/heatmap"
+            - listitem [ref=e331]:
+              - link "Ranked bars" [ref=e332] [cursor=pointer]:
+                - /url: "#/graphics/ranked"
+            - listitem [ref=e333]:
+              - link "Funnels" [ref=e334] [cursor=pointer]:
+                - /url: "#/graphics/funnel"
+            - listitem [ref=e335]:
+              - link "Uptime strips" [ref=e336] [cursor=pointer]:
+                - /url: "#/graphics/uptime"
+            - listitem [ref=e337]:
+              - link "Widget states" [ref=e338] [cursor=pointer]:
+                - /url: "#/graphics/state"
+            - listitem [ref=e339]:
+              - link "Chart parts" [ref=e340] [cursor=pointer]:
+                - /url: "#/graphics/parts"
+            - listitem [ref=e341]:
+              - link "Board builder Tool" [ref=e342] [cursor=pointer]:
+                - /url: "#/graphics/board"
+                - text: Board builder
+                - generic [ref=e343]: Tool
+            - listitem [ref=e344]:
+              - link "Chart types" [ref=e345] [cursor=pointer]:
+                - /url: "#/data-viz/charts"
+            - listitem [ref=e346]:
+              - link "Color palettes" [ref=e347] [cursor=pointer]:
+                - /url: "#/data-viz/palettes"
+            - listitem [ref=e348]:
+              - link "Sankey chart" [ref=e349] [cursor=pointer]:
+                - /url: "#/data-viz/sankey"
+        - generic [ref=e350]:
+          - button "Dashboard layouts" [expanded] [ref=e351] [cursor=pointer]
+          - list [ref=e358]:
+            - listitem [ref=e359]:
+              - link "Overview 24" [ref=e360] [cursor=pointer]:
+                - /url: "#/dashboards"
+                - text: Overview
+                - generic [ref=e361]: "24"
+            - listitem [ref=e362]:
+              - link "Chart parts New" [ref=e363] [cursor=pointer]:
+                - /url: "#/dashboards/chart-parts"
+                - text: Chart parts
+                - generic [ref=e364]: New
+            - listitem [ref=e365]:
+              - link "Campaign command" [ref=e366] [cursor=pointer]:
+                - /url: "#/dashboards/campaign-command"
+            - listitem [ref=e367]:
+              - link "Launch day live" [ref=e368] [cursor=pointer]:
+                - /url: "#/dashboards/launch-day-live"
+            - listitem [ref=e369]:
+              - link "Portfolio" [ref=e370] [cursor=pointer]:
+                - /url: "#/dashboards/portfolio"
+            - listitem [ref=e371]:
+              - link "Status wall" [ref=e372] [cursor=pointer]:
+                - /url: "#/dashboards/status-wall"
+            - listitem [ref=e373]:
+              - link "Growth and retention" [ref=e374] [cursor=pointer]:
+                - /url: "#/dashboards/growth-retention"
+            - listitem [ref=e375]:
+              - link "Board report" [ref=e376] [cursor=pointer]:
+                - /url: "#/dashboards/board-report"
+            - listitem [ref=e377]:
+              - link "Pipeline and forecast" [ref=e378] [cursor=pointer]:
+                - /url: "#/dashboards/pipeline-forecast"
+            - listitem [ref=e379]:
+              - link "Brand health" [ref=e380] [cursor=pointer]:
+                - /url: "#/dashboards/brand-health"
+            - listitem [ref=e381]:
+              - link "Deal home" [ref=e382] [cursor=pointer]:
+                - /url: "#/dashboards/deal-home"
+            - listitem [ref=e383]:
+              - link "Stage 1, project" [ref=e384] [cursor=pointer]:
+                - /url: "#/dashboards/stage-project"
+            - listitem [ref=e385]:
+              - link "Stage 2, configuration" [ref=e386] [cursor=pointer]:
+                - /url: "#/dashboards/stage-configuration"
+            - listitem [ref=e387]:
+              - link "Stage 3, discovery" [ref=e388] [cursor=pointer]:
+                - /url: "#/dashboards/stage-discovery"
+            - listitem [ref=e389]:
+              - link "Stage 4, confirmation" [ref=e390] [cursor=pointer]:
+                - /url: "#/dashboards/stage-registration"
+            - listitem [ref=e391]:
+              - link "Stage 5, contract" [ref=e392] [cursor=pointer]:
+                - /url: "#/dashboards/stage-contract"
+            - listitem [ref=e393]:
+              - link "Editorial stat wall" [ref=e394] [cursor=pointer]:
+                - /url: "#/dashboards/editorial-stat-wall"
+            - listitem [ref=e395]:
+              - link "Milestone spine" [ref=e396] [cursor=pointer]:
+                - /url: "#/dashboards/milestone-spine"
+            - listitem [ref=e397]:
+              - link "Radial hub" [ref=e398] [cursor=pointer]:
+                - /url: "#/dashboards/radial-hub"
+            - listitem [ref=e399]:
+              - link "Kanban board" [ref=e400] [cursor=pointer]:
+                - /url: "#/dashboards/kanban-board"
+            - listitem [ref=e401]:
+              - link "Lead flow" [ref=e402] [cursor=pointer]:
+                - /url: "#/dashboards/lead-flow"
+            - listitem [ref=e403]:
+              - link "Small multiples" [ref=e404] [cursor=pointer]:
+                - /url: "#/dashboards/small-multiples"
+            - listitem [ref=e405]:
+              - link "Year calendar" [ref=e406] [cursor=pointer]:
+                - /url: "#/dashboards/year-calendar"
+            - listitem [ref=e407]:
+              - link "Customer journey" [ref=e408] [cursor=pointer]:
+                - /url: "#/dashboards/customer-journey"
+            - listitem [ref=e409]:
+              - link "Annotated briefing" [ref=e410] [cursor=pointer]:
+                - /url: "#/dashboards/annotated-briefing"
+            - listitem [ref=e411]:
+              - link "Diverging matrix" [ref=e412] [cursor=pointer]:
+                - /url: "#/dashboards/diverging-matrix"
+        - generic [ref=e413]:
+          - button "Floorplans" [expanded] [ref=e414] [cursor=pointer]
+          - list [ref=e418]:
+            - listitem [ref=e419]:
+              - link "Overview" [ref=e420] [cursor=pointer]:
+                - /url: "#/floorplans"
+            - listitem [ref=e421]:
+              - link "Dashboard" [ref=e422] [cursor=pointer]:
+                - /url: "#/floorplans/dashboard"
+            - listitem [ref=e423]:
+              - link "Analytical list" [ref=e424] [cursor=pointer]:
+                - /url: "#/floorplans/analytical-list"
+            - listitem [ref=e425]:
+              - link "Object detail" [ref=e426] [cursor=pointer]:
+                - /url: "#/floorplans/object-detail"
+            - listitem [ref=e427]:
+              - link "Guided wizard" [ref=e428] [cursor=pointer]:
+                - /url: "#/floorplans/wizard"
+            - listitem [ref=e429]:
+              - link "Approval queue" [ref=e430] [cursor=pointer]:
+                - /url: "#/floorplans/approval-queue"
+            - listitem [ref=e431]:
+              - link "Learner progress" [ref=e432] [cursor=pointer]:
+                - /url: "#/floorplans/learner-progress"
+            - listitem [ref=e433]:
+              - link "Enrollment health" [ref=e434] [cursor=pointer]:
+                - /url: "#/floorplans/enrollment-health"
+        - generic [ref=e435]:
+          - button "Accessibility" [expanded] [ref=e436] [cursor=pointer]
+          - list [ref=e441]:
+            - listitem [ref=e442]:
+              - link "Principles" [ref=e443] [cursor=pointer]:
+                - /url: "#/accessibility"
+            - listitem [ref=e444]:
+              - link "Checklist" [ref=e445] [cursor=pointer]:
+                - /url: "#/accessibility/checklist"
+            - listitem [ref=e446]:
+              - link "WCAG mapping" [ref=e447] [cursor=pointer]:
+                - /url: "#/accessibility/wcag"
+            - listitem [ref=e448]:
+              - link "Contrast checker Tool" [ref=e449] [cursor=pointer]:
+                - /url: "#/accessibility/contrast"
+                - text: Contrast checker
+                - generic [ref=e450]: Tool
+        - generic [ref=e451]:
+          - button "Live tools" [expanded] [ref=e452] [cursor=pointer]
+          - list [ref=e456]:
+            - listitem [ref=e457]:
+              - link "Live Builder Live" [ref=e458] [cursor=pointer]:
+                - /url: "#/tools/live-builder"
+                - text: Live Builder
+                - generic [ref=e459]: Live
+            - listitem [ref=e460]:
+              - link "AI generator AI" [ref=e461] [cursor=pointer]:
+                - /url: "#/tools/ai"
+                - text: AI generator
+                - generic [ref=e462]: AI
+            - listitem [ref=e463]:
+              - link "Token editor" [ref=e464] [cursor=pointer]:
+                - /url: "#/tools/token-editor"
+            - listitem [ref=e465]:
+              - link "Embed mode" [ref=e466] [cursor=pointer]:
+                - /url: "#/tools/embed"
+            - listitem [ref=e467]:
+              - link "Agentic commands Beta" [ref=e468] [cursor=pointer]:
+                - /url: "#/tools/agentic-commands"
+                - text: Agentic commands
+                - generic [ref=e469]: Beta
+        - generic [ref=e470]:
+          - button "Community" [expanded] [ref=e471] [cursor=pointer]
+          - list [ref=e477]:
+            - listitem [ref=e478]:
+              - link "Contributing" [ref=e479] [cursor=pointer]:
+                - /url: "#/community/contributing"
+            - listitem [ref=e480]:
+              - link "Governance" [ref=e481] [cursor=pointer]:
+                - /url: "#/community/governance"
+            - listitem [ref=e482]:
+              - link "Carbon parity New" [ref=e483] [cursor=pointer]:
+                - /url: "#/community/carbon-parity"
+                - text: Carbon parity
+                - generic [ref=e484]: New
+            - listitem [ref=e485]:
+              - link "Support" [ref=e486] [cursor=pointer]:
+                - /url: "#/community/support"
+      - generic [ref=e487]:
+        - main [ref=e488]:
+          - generic [ref=e489]:
+            - generic [ref=e490]: New
+            - generic [ref=e491]: "Last updated: Oct 2026"
+            - link "View in Figma ↗" [ref=e492] [cursor=pointer]:
+              - /url: https://www.figma.com/design/VZxmDNQiosTN6gqnvEQ65Z/NorthStar-Design-System?node-id=4759-60
+          - heading "Chat" [level=1] [ref=e493]
+          - paragraph [ref=e494]: A conversation surface for an AI assistant or support agent. A header names who is answering, the log holds alternating user and assistant messages, and the composer sends the next one. The docs site uses it for Ask NorthStar, bottom right.
+          - navigation [ref=e495]:
+            - tablist "Chat documentation" [ref=e496]:
+              - tab "Usage" [selected] [ref=e497] [cursor=pointer]
+              - tab "Style" [ref=e498] [cursor=pointer]
+              - tab "Code" [ref=e499] [cursor=pointer]
+              - tab "Accessibility" [ref=e500] [cursor=pointer]
+              - tab "Spec" [ref=e501] [cursor=pointer]
+          - generic [ref=e502]:
+            - heading [level=2] [ref=e503]:
+              - text: Live demo
+              - link "Link to section" [ref=e504] [cursor=pointer]:
+                - /url: "#live-demo"
+                - text: "#"
+            - generic [ref=e505]:
+              - generic [ref=e506]:
+                - generic [ref=e507]: Live playground
+                - button "Grid" [ref=e509] [cursor=pointer]
+              - generic [ref=e510]:
+                - generic [ref=e512]:
+                  - generic [ref=e513]:
+                    - heading "Ask NorthStar" [level=3] [ref=e514]
+                    - generic [ref=e515]: Answers from the docs
+                  - log "Conversation" [ref=e516]:
+                    - generic [ref=e517]: Which button should I use to delete an account?
+                    - generic [ref=e519]:
+                      - generic [ref=e520]: NorthStar
+                      - generic [ref=e521]:
+                        - text: Use the
+                        - code [ref=e522]: ns-btn--danger
+                        - text: button, and confirm in a modal that names the account.
+                  - generic [ref=e523]:
+                    - textbox "Message" [ref=e524]:
+                      - /placeholder: Ask a question
+                    - button "Send" [ref=e525] [cursor=pointer]
+                - generic [ref=e529]:
+                  - heading "State" [level=4] [ref=e530]
+                  - group "State" [ref=e531]:
+                    - button "Conversation" [pressed] [ref=e532] [cursor=pointer]
+                    - button "Thinking" [ref=e533] [cursor=pointer]
+                    - button "Empty" [ref=e534] [cursor=pointer]
+                    - button "Error" [ref=e535] [cursor=pointer]
+              - generic [ref=e536]:
+                - button "Copy" [ref=e538] [cursor=pointer]
+                - code [ref=e540]: <div class="ns-chat" style="width:100%;max-width:360px;height:380px"><div class="ns-chat__head"><h3 class="ns-chat__title">Ask NorthStar</h3><span class="ns-chat__meta">Answers from the docs</span></div><div class="ns-chat__log" role="log" aria-label="Conversation" aria-live="polite"><div class="ns-chat__msg ns-chat__msg--user"><div class="ns-chat__bubble">Which button should I use to delete an account?</div></div><div class="ns-chat__msg ns-chat__msg--bot"><span class="ns-chat__who">NorthStar</span><div class="ns-chat__bubble">Use the <code>ns-btn--danger</code> button, and confirm in a modal that names the account.</div></div></div><div class="ns-chat__composer"><textarea class="ns-textarea" rows="1" placeholder="Ask a question" aria-label="Message"></textarea><button class="ns-btn ns-btn--square" type="button" aria-label="Send"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M4 12h13M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div>
+            - heading [level=2] [ref=e541]:
+              - text: Overview
+              - link "Link to section" [ref=e542] [cursor=pointer]:
+                - /url: "#overview"
+                - text: "#"
+            - paragraph [ref=e543]: A conversation surface for an AI assistant or support agent. A header names who is answering, the log holds alternating user and assistant messages, and the composer sends the next one. The docs site uses it for Ask NorthStar, bottom right.
+            - heading "Figma variants" [level=3] [ref=e544]
+            - table [ref=e546]:
+              - rowgroup [ref=e547]:
+                - row [ref=e548]:
+                  - columnheader "Property" [ref=e549]
+                  - columnheader "Values" [ref=e550]
+              - rowgroup [ref=e551]:
+                - row [ref=e552]:
+                  - cell [ref=e553]:
+                    - code [ref=e554]: Message
+                  - cell "User, Assistant, Error" [ref=e555]
+                - row [ref=e556]:
+                  - cell [ref=e557]:
+                    - code [ref=e558]: State
+                  - cell "Empty with suggestions, Conversation, Thinking" [ref=e559]
+                - row [ref=e560]:
+                  - cell [ref=e561]:
+                    - code [ref=e562]: Placement
+                  - cell "Inline panel, Floating panel" [ref=e563]
+            - paragraph [ref=e564]:
+              - link "Open Chat in Figma ↗" [ref=e565] [cursor=pointer]:
+                - /url: https://www.figma.com/design/VZxmDNQiosTN6gqnvEQ65Z/NorthStar-Design-System?node-id=4759-60
+            - heading "Guidelines" [level=3] [ref=e566]
+            - heading "Who is answering" [level=4] [ref=e567]
+            - paragraph [ref=e568]: Name the assistant in the header and say what it knows, such as Answers from the NorthStar docs. Never present a model as a person.
+            - heading "Thinking" [level=4] [ref=e569]
+            - paragraph [ref=e570]: Show the three-dot indicator until the first words arrive, then stream the reply into the same bubble.
+            - heading "Errors" [level=4] [ref=e571]
+            - paragraph [ref=e572]: Put a failed request in the log as an error message with a way to retry. Do not clear what the user typed.
+            - heading "When to use" [level=3] [ref=e573]
+            - list [ref=e574]:
+              - listitem [ref=e575]: Use for an assistant that answers open questions in plain language.
+              - listitem [ref=e576]: Use for support threads where both sides write turns.
+              - listitem [ref=e577]: Offer two to four suggestions in the empty state so users know what to ask.
+            - heading "When not to use" [level=3] [ref=e578]
+            - list [ref=e579]:
+              - listitem [ref=e580]: Do not use for a single command or search. Use the command palette.
+              - listitem [ref=e581]: Do not use for system status. Use a notification or alert.
+              - listitem [ref=e582]: Do not hide that the answers are generated.
+            - heading [level=2] [ref=e583]:
+              - text: Variants
+              - link "Link to section" [ref=e584] [cursor=pointer]:
+                - /url: "#variants"
+                - text: "#"
+            - heading "Conversation" [level=3] [ref=e585]
+            - paragraph [ref=e586]: User turns on the right in the primary color, assistant turns on the left.
+            - generic [ref=e587]:
+              - generic [ref=e588]: Conversation
+              - generic [ref=e591]:
+                - generic [ref=e592]:
+                  - heading "Ask NorthStar" [level=3] [ref=e593]
+                  - generic [ref=e594]: Answers from the docs
+                - log "Conversation" [ref=e595]:
+                  - generic [ref=e596]: Which button should I use to delete an account?
+                  - generic [ref=e598]:
+                    - generic [ref=e599]: NorthStar
+                    - generic [ref=e600]:
+                      - text: Use the
+                      - code [ref=e601]: ns-btn--danger
+                      - text: button, and confirm in a modal that names the account.
+                - generic [ref=e602]:
+                  - textbox "Message" [ref=e603]:
+                    - /placeholder: Ask a question
+                  - button "Send" [ref=e604] [cursor=pointer]
+              - generic [ref=e607]:
+                - button "Copy" [ref=e609] [cursor=pointer]
+                - code [ref=e611]: <div class="ns-chat" style="width:100%;max-width:360px;height:380px"><div class="ns-chat__head"><h3 class="ns-chat__title">Ask NorthStar</h3><span class="ns-chat__meta">Answers from the docs</span></div><div class="ns-chat__log" role="log" aria-label="Conversation" aria-live="polite"><div class="ns-chat__msg ns-chat__msg--user"><div class="ns-chat__bubble">Which button should I use to delete an account?</div></div><div class="ns-chat__msg ns-chat__msg--bot"><span class="ns-chat__who">NorthStar</span><div class="ns-chat__bubble">Use the <code>ns-btn--danger</code> button, and confirm in a modal that names the account.</div></div></div><div class="ns-chat__composer"><textarea class="ns-textarea" rows="1" placeholder="Ask a question" aria-label="Message"></textarea><button class="ns-btn ns-btn--square" type="button" aria-label="Send"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M4 12h13M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div>
+            - heading "Empty" [level=3] [ref=e612]
+            - paragraph [ref=e613]: Suggestions in the empty state.
+            - generic [ref=e614]:
+              - generic [ref=e615]: Empty
+              - generic [ref=e618]:
+                - generic [ref=e619]:
+                  - heading "Ask NorthStar" [level=3] [ref=e620]
+                  - generic [ref=e621]: Answers from the docs
+                - log "Conversation" [ref=e622]:
+                  - generic [ref=e623]:
+                    - generic [ref=e624]: NorthStar
+                    - generic [ref=e625]: Ask about components, tokens or patterns.
+                  - generic [ref=e626]:
+                    - button "Which token is the focus ring?" [ref=e627] [cursor=pointer]
+                    - button "When do I use a toast?" [ref=e628] [cursor=pointer]
+                - generic [ref=e629]:
+                  - textbox "Message" [ref=e630]:
+                    - /placeholder: Ask a question
+                  - button "Send" [ref=e631] [cursor=pointer]
+              - generic [ref=e634]:
+                - button "Copy" [ref=e636] [cursor=pointer]
+                - code [ref=e638]: <div class="ns-chat" style="width:100%;max-width:360px;height:380px"><div class="ns-chat__head"><h3 class="ns-chat__title">Ask NorthStar</h3><span class="ns-chat__meta">Answers from the docs</span></div><div class="ns-chat__log" role="log" aria-label="Conversation" aria-live="polite"><div class="ns-chat__msg ns-chat__msg--bot"><span class="ns-chat__who">NorthStar</span><div class="ns-chat__bubble">Ask about components, tokens or patterns.</div></div><div class="ns-chat__suggest"><button class="ns-tag ns-tag--sm" type="button">Which token is the focus ring?</button><button class="ns-tag ns-tag--sm" type="button">When do I use a toast?</button></div></div><div class="ns-chat__composer"><textarea class="ns-textarea" rows="1" placeholder="Ask a question" aria-label="Message"></textarea><button class="ns-btn ns-btn--square" type="button" aria-label="Send"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M4 12h13M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div>
+            - heading "Thinking" [level=3] [ref=e639]
+            - paragraph [ref=e640]: Typing indicator before the reply streams in.
+            - generic [ref=e641]:
+              - generic [ref=e642]: Thinking
+              - generic [ref=e645]:
+                - generic [ref=e646]:
+                  - heading "Ask NorthStar" [level=3] [ref=e647]
+                  - generic [ref=e648]: Answers from the docs
+                - log "Conversation" [ref=e649]:
+                  - generic [ref=e650]: Which button should I use to delete an account?
+                  - generic [ref=e652]:
+                    - generic [ref=e653]: NorthStar
+                    - generic "NorthStar is thinking" [ref=e655]
+                - generic [ref=e659]:
+                  - textbox "Message" [ref=e660]:
+                    - /placeholder: Ask a question
+                  - button "Send" [ref=e661] [cursor=pointer]
+              - generic [ref=e664]:
+                - button "Copy" [ref=e666] [cursor=pointer]
+                - code [ref=e668]: <div class="ns-chat" style="width:100%;max-width:360px;height:380px"><div class="ns-chat__head"><h3 class="ns-chat__title">Ask NorthStar</h3><span class="ns-chat__meta">Answers from the docs</span></div><div class="ns-chat__log" role="log" aria-label="Conversation" aria-live="polite"><div class="ns-chat__msg ns-chat__msg--user"><div class="ns-chat__bubble">Which button should I use to delete an account?</div></div><div class="ns-chat__msg ns-chat__msg--bot"><span class="ns-chat__who">NorthStar</span><div class="ns-chat__bubble"><span class="ns-chat__typing" aria-label="NorthStar is thinking"><i></i><i></i><i></i></span></div></div></div><div class="ns-chat__composer"><textarea class="ns-textarea" rows="1" placeholder="Ask a question" aria-label="Message"></textarea><button class="ns-btn ns-btn--square" type="button" aria-label="Send"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M4 12h13M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div>
+            - heading [level=2] [ref=e669]:
+              - text: Best practices
+              - link "Link to section" [ref=e670] [cursor=pointer]:
+                - /url: "#best-practices"
+                - text: "#"
+            - generic [ref=e671]:
+              - generic [ref=e672]:
+                - generic [ref=e674]:
+                  - generic [ref=e675]:
+                    - heading "Ask NorthStar" [level=3] [ref=e676]
+                    - generic [ref=e677]: Answers from the docs
+                  - log "Conversation" [ref=e678]:
+                    - generic [ref=e679]: Which button should I use to delete an account?
+                    - generic [ref=e681]:
+                      - generic [ref=e682]: NorthStar
+                      - generic [ref=e683]:
+                        - text: Use the
+                        - code [ref=e684]: ns-btn--danger
+                        - text: button, and confirm in a modal that names the account.
+                  - generic [ref=e685]:
+                    - textbox "Message" [ref=e686]:
+                      - /placeholder: Ask a question
+                    - button "Send" [ref=e687] [cursor=pointer]
+                - generic [ref=e690]:
+                  - heading "Do" [level=4] [ref=e691]
+                  - paragraph [ref=e692]: Label the log and announce new replies through a polite live region.
+              - generic [ref=e693]:
+                - generic [ref=e695]:
+                  - generic [ref=e696]:
+                    - heading "Ask NorthStar" [level=3] [ref=e697]
+                    - generic [ref=e698]: Answers from the docs
+                  - generic [ref=e699]:
+                    - generic [ref=e700]: Which button should I use to delete an account?
+                    - generic [ref=e702]:
+                      - generic [ref=e703]: NorthStar
+                      - generic [ref=e704]:
+                        - text: Use the
+                        - code [ref=e705]: ns-btn--danger
+                        - text: button, and confirm in a modal that names the account.
+                  - generic [ref=e706]:
+                    - textbox "Ask a question" [ref=e707]
+                    - button "Send" [ref=e708] [cursor=pointer]
+                - generic [ref=e711]:
+                  - heading "Don't" [level=4] [ref=e712]
+                  - paragraph [ref=e713]: A log with no name and no live region is silent to screen readers.
+            - heading [level=2] [ref=e714]:
+              - text: Related
+              - link "Link to section" [ref=e715] [cursor=pointer]:
+                - /url: "#related"
+                - text: "#"
+            - list [ref=e716]:
+              - listitem [ref=e717]:
+                - link "Accordion" [ref=e718] [cursor=pointer]:
+                  - /url: "#/components/accordion"
+              - listitem [ref=e719]:
+                - link "Card" [ref=e720] [cursor=pointer]:
+                  - /url: "#/components/card"
+              - listitem [ref=e721]:
+                - link "Divider" [ref=e722] [cursor=pointer]:
+                  - /url: "#/components/divider"
+          - generic [ref=e723]:
+            - generic [ref=e724]: Was this page helpful?
+            - button "Yes" [ref=e725] [cursor=pointer]
+            - button "No" [ref=e726] [cursor=pointer]
+            - link "Suggest an edit" [ref=e727] [cursor=pointer]:
+              - /url: "#/community/contributing"
+          - navigation "Previous and next" [ref=e728]:
+            - link "Previous ← Card" [ref=e729] [cursor=pointer]:
+              - /url: "#/components/card"
+              - generic [ref=e730]: Previous
+              - text: ← Card
+            - link "Next Checkbox →" [ref=e731] [cursor=pointer]:
+              - /url: "#/components/checkbox"
+              - generic [ref=e732]: Next
+              - text: Checkbox →
+          - generic [ref=e733]:
+            - generic [ref=e734]:
+              - heading "NORTHSTAR DESIGN SYSTEM" [level=4] [ref=e735]
+              - paragraph [ref=e736]: An enterprise-grade UI architecture crafted for secure, high-density telemetry dashboards, command panels, and distributed cloud systems.
+            - generic [ref=e737]:
+              - heading "Resources" [level=5] [ref=e738]
+              - list [ref=e739]:
+                - listitem [ref=e740]:
+                  - link "Figma library" [ref=e741] [cursor=pointer]:
+                    - /url: https://www.figma.com/design/VZxmDNQiosTN6gqnvEQ65Z/NorthStar-Design-System
+                - listitem [ref=e742]:
+                  - link "Developer guide" [ref=e743] [cursor=pointer]:
+                    - /url: "#/getting-started/developers"
+                - listitem [ref=e744]:
+                  - link "Token reference" [ref=e745] [cursor=pointer]:
+                    - /url: "#/foundations/tokens"
+            - generic [ref=e746]:
+              - heading "Community" [level=5] [ref=e747]
+              - list [ref=e748]:
+                - listitem [ref=e749]:
+                  - link "Slack channel" [ref=e750] [cursor=pointer]:
+                    - /url: "#/community/support"
+                - listitem [ref=e751]:
+                  - link "Contribution guide" [ref=e752] [cursor=pointer]:
+                    - /url: "#/community/contributing"
+                - listitem [ref=e753]:
+                  - link "Security board" [ref=e754] [cursor=pointer]:
+                    - /url: "#/community/governance"
+            - paragraph [ref=e755]: © 2026 NorthStar Enterprise Solutions. Code licensed under Apache 2.0. Documentation licensed under CC BY 4.0.
+        - complementary "On this page" [ref=e756]:
+          - heading "On this page" [level=2] [ref=e757]
+          - list [ref=e758]:
+            - listitem [ref=e759]:
+              - link "Live demo" [ref=e760] [cursor=pointer]:
+                - /url: "#/components/chat#live-demo"
+            - listitem [ref=e761]:
+              - link "Overview" [ref=e762] [cursor=pointer]:
+                - /url: "#/components/chat#overview"
+            - listitem [ref=e763]:
+              - link "Variants" [ref=e764] [cursor=pointer]:
+                - /url: "#/components/chat#variants"
+            - listitem [ref=e765]:
+              - link "Best practices" [ref=e766] [cursor=pointer]:
+                - /url: "#/components/chat#best-practices"
+            - listitem [ref=e767]:
+              - link "Related" [ref=e768] [cursor=pointer]:
+                - /url: "#/components/chat#related"
+          - generic [ref=e769]:
+            - link "Open in Figma ↗" [ref=e770] [cursor=pointer]:
+              - /url: https://www.figma.com/design/VZxmDNQiosTN6gqnvEQ65Z/NorthStar-Design-System
+            - link "Open in embed mode ↗" [ref=e771] [cursor=pointer]:
+              - /url: "?embed#/components/chat"
+            - link "Copy page link" [ref=e772] [cursor=pointer]:
+              - /url: "#"
+  - complementary [aria-hidden] [ref=e773]:
+    - generic [ref=e774]:
+      - generic [ref=e775]:
+        - heading [level=2] [ref=e776]: Token editor
+        - paragraph [ref=e777]: Edits apply to every component on the site, live.
+      - button [ref=e778] [cursor=pointer]
+    - generic [ref=e782]:
+      - button [ref=e783] [cursor=pointer]: Copy CSS
+      - button [ref=e784] [cursor=pointer]: Copy JSON
+      - button [ref=e785] [cursor=pointer]: Reset all
+  - button "Ask NorthStar" [ref=e786] [cursor=pointer]

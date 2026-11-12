@@ -154,24 +154,24 @@
    ],
    "tokens": [
     {
-     "token": "--ns-navy-900",
-     "role": "Default fill"
+     "token": "--ns-status-info-bg",
+     "role": "Default and accent fill"
     },
     {
-     "token": "--ns-blue-500",
-     "role": "Accent fill"
+     "token": "--ns-status-info",
+     "role": "Default and accent icon"
     },
     {
-     "token": "--ns-red-400",
-     "role": "Error accent"
+     "token": "--ns-status-error",
+     "role": "Error icon (fill --ns-status-error-bg)"
     },
     {
-     "token": "--ns-green-500",
-     "role": "Success accent"
+     "token": "--ns-status-success",
+     "role": "Success icon (fill --ns-status-success-bg)"
     },
     {
-     "token": "--ns-purple-500",
-     "role": "Warning accent"
+     "token": "--ns-status-warning",
+     "role": "Warning icon (fill --ns-status-warning-bg)"
     },
     {
      "token": "--ns-radius-sm",
@@ -328,12 +328,12 @@
    ],
    "tokens": [
     {
-     "token": "--ns-persian-500",
-     "role": "Initials fill (Accents/Persian blue)"
+     "token": "--ns-interactive-primary",
+     "role": "Initials fill"
     },
     {
-     "token": "--ns-green-2",
-     "role": "Status dot (Green 2)"
+     "token": "--ns-status-success",
+     "role": "Online status dot (away: --ns-status-warning, busy: --ns-status-error)"
     },
     {
      "token": "--ns-radius-full",
@@ -517,7 +517,7 @@
    ],
    "tokens": [
     {
-     "token": "--ns-purple-400",
+     "token": "--ns-status-info",
      "role": "Informative"
     },
     {
@@ -535,10 +535,6 @@
     {
      "token": "--ns-status-warning",
      "role": "Critical dot"
-    },
-    {
-     "token": "--ns-status-info",
-     "role": "Informative dot"
     }
    ],
    "sizes": [
@@ -1452,8 +1448,8 @@
      "role": "Secondary hover (gray/7)"
     },
     {
-     "token": "--ns-gray-4",
-     "role": "Disabled fill"
+     "token": "--ns-border-default",
+     "role": "Disabled fill (text --ns-text-disabled)"
     },
     {
      "token": "--ns-radius-lg",
@@ -2936,8 +2932,8 @@
      "role": "Range fill"
     },
     {
-     "token": "--ns-teal-500",
-     "role": "Today ring"
+     "token": "--ns-text-accent",
+     "role": "Today"
     }
    ],
    "sizes": [],
@@ -3293,8 +3289,8 @@
      "role": "Drop zone border"
     },
     {
-     "token": "--ns-teal-500",
-     "role": "Drag-over highlight"
+     "token": "--ns-interactive-primary",
+     "role": "Drag-over border and tint"
     },
     {
      "token": "--ns-status-error",
@@ -5560,7 +5556,7 @@
    ],
    "tokens": [
     {
-     "token": "--ns-gradient-brand",
+     "token": "--ns-interactive-primary",
      "role": "Bar fill"
     },
     {
@@ -5574,10 +5570,6 @@
     {
      "token": "--ns-background-elevated",
      "role": "Skeleton base"
-    },
-    {
-     "token": "--ns-teal-500",
-     "role": "Spinner arc"
     }
    ],
    "sizes": [],
@@ -6490,11 +6482,11 @@
      "role": "Selected ring (blue/500)"
     },
     {
-     "token": "--ns-blue-700",
+     "token": "--ns-interactive-primary-hover",
      "role": "Selected + hover ring"
     },
     {
-     "token": "--ns-gray-5",
+     "token": "--ns-border-strong",
      "role": "Unselected ring"
     },
     {
@@ -7182,7 +7174,7 @@
      "role": "Hover (gray/7)"
     },
     {
-     "token": "--ns-blue-700",
+     "token": "--ns-interactive-primary",
      "role": "Selected item indicator"
     },
     {
@@ -7944,7 +7936,7 @@
      "role": "On track"
     },
     {
-     "token": "--ns-gray-6",
+     "token": "--ns-border-strong",
      "role": "Off track"
     },
     {
@@ -8046,15 +8038,15 @@
    ],
    "tokens": [
     {
-     "token": "--ns-blue-700",
-     "role": "Selection indicator (3px)"
+     "token": "--ns-interactive-primary",
+     "role": "Selection indicator"
     },
     {
-     "token": "--ns-gray-8",
+     "token": "--ns-border-subtle",
      "role": "Divider"
     },
     {
-     "token": "--ns-gray-4",
+     "token": "--ns-text-secondary",
      "role": "Inactive label"
     },
     {
@@ -8194,11 +8186,11 @@
      "role": "Primary fill"
     },
     {
-     "token": "--ns-gray-5",
+     "token": "--ns-border-strong",
      "role": "Ghost border"
     },
     {
-     "token": "--ns-teal-500",
+     "token": "--ns-chart-series-1",
      "role": "Indicator"
     },
     {

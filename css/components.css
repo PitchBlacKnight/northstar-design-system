@@ -157,6 +157,7 @@
 
 /* ---------- Card / tile ---------- */
 .ns-card { background: var(--ns-layer, var(--ns-background-surface)); border: 1px solid var(--ns-layer-border, var(--ns-border-subtle)); border-radius: var(--ns-radius-lg); padding: var(--ns-space-7); display: grid; gap: var(--ns-space-4); align-content: start; }
+.ns-card__eyebrow { margin: 0; font: 700 var(--ns-type-overline-size)/var(--ns-type-overline-line) var(--ns-font-sans); letter-spacing: var(--ns-type-overline-tracking); text-transform: uppercase; color: var(--ns-text-tertiary); }
 .ns-card--elevated { background: var(--ns-layer, var(--ns-background-elevated)); border-color: transparent; box-shadow: var(--ns-elevation-02); }
 .ns-card--clickable { cursor: pointer; transition: border-color var(--ns-duration-base) var(--ns-easing-standard), transform var(--ns-duration-base) var(--ns-easing-standard); }
 .ns-card--clickable:hover { border-color: var(--ns-border-strong); transform: translateY(-2px); }
@@ -370,6 +371,7 @@
 .ns-alert .ns-btn--ghost { --_fg: var(--ns-text-primary); }
 .ns-alert__close { all: unset; cursor: pointer; width: 20px; height: 20px; display: grid; place-items: center; border-radius: var(--ns-radius-xs); color: var(--ns-text-secondary); font-size: var(--ns-type-body1-size); }
 .ns-alert__close:focus-visible { outline: 2px solid var(--ns-focus-ring); outline-offset: 2px; }
+.ns-alert--default, .ns-alert--accent { --_bg: var(--ns-status-info-bg); --_c: var(--ns-status-info); } /* same as the base alert; named so the documented modifiers exist */
 .ns-alert--error { --_bg: var(--ns-status-error-bg); --_c: var(--ns-status-error); }
 .ns-alert--success { --_bg: var(--ns-status-success-bg); --_c: var(--ns-status-success); }
 .ns-alert--warning { --_bg: var(--ns-status-warning-bg); --_c: var(--ns-status-warning); }
@@ -642,3 +644,37 @@
 
 .embed .ns-ask-fab, .embed .ns-ask-panel { display: none; }
 @media (max-width: 600px) { .ns-ask-panel .ns-chat__meta { display: none; } }
+
+/* ---------- Page layout: app shell, page header, stacks, clusters, splits, columns ----------
+   Public layout classes for app pages and agent-built screens. The docs site keeps its own fp- and
+   site- classes, so nothing on the site uses these yet. Layout widths may use px; components may not. */
+.ns-app { display: grid; grid-template-columns: var(--ns-app-nav-width, 240px) minmax(0, 1fr); min-height: 100vh; background: var(--ns-background-primary); color: var(--ns-text-primary); font-family: var(--ns-font-sans); }
+.ns-app--no-nav { grid-template-columns: minmax(0, 1fr); }
+.ns-app__nav { background: var(--ns-background-shell); border-right: 1px solid var(--ns-border-subtle); padding: var(--ns-space-5) var(--ns-space-3); min-width: 0; }
+.ns-app__main { display: flex; flex-direction: column; gap: var(--ns-space-6); padding: var(--ns-space-8); min-width: 0; }
+.ns-app__main--narrow { max-width: var(--ns-content-max-width); }
+.ns-page-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--ns-space-5); }
+.ns-page-head__text { display: grid; gap: var(--ns-space-2); min-width: 0; }
+.ns-page-head__eyebrow { margin: 0; font: 700 var(--ns-type-overline-size)/var(--ns-type-overline-line) var(--ns-font-sans); letter-spacing: var(--ns-type-overline-tracking); text-transform: uppercase; color: var(--ns-text-tertiary); }
+.ns-page-head__title { margin: 0; font: 600 var(--ns-type-h5-size)/1.334 var(--ns-font-sans); letter-spacing: 0; color: var(--ns-text-primary); }
+.ns-page-head__desc { margin: 0; font: 400 var(--ns-type-body2-size)/var(--ns-type-body2-line) var(--ns-font-sans); color: var(--ns-text-secondary); }
+.ns-page-head__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ns-space-3); }
+.ns-stack { display: flex; flex-direction: column; gap: var(--ns-space-5); min-width: 0; }
+.ns-stack--sm { gap: var(--ns-space-3); }
+.ns-stack--lg { gap: var(--ns-space-7); }
+.ns-cluster { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--ns-space-4); }
+.ns-cluster--center { align-items: center; }
+.ns-cluster--between { justify-content: space-between; }
+.ns-split { display: grid; grid-template-columns: minmax(0, 1fr) var(--ns-split-aside, 320px); gap: var(--ns-space-6); align-items: start; }
+.ns-columns { display: grid; grid-template-columns: repeat(var(--ns-columns, 3), minmax(0, 1fr)); gap: var(--ns-space-5); align-items: stretch; }
+.ns-columns--2 { --ns-columns: 2; } .ns-columns--4 { --ns-columns: 4; }
+@media (max-width: 1024px) { .ns-split { grid-template-columns: minmax(0, 1fr); } .ns-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 768px) {
+  .ns-app { grid-template-columns: minmax(0, 1fr); }
+  .ns-app__nav { border-right: 0; border-bottom: 1px solid var(--ns-border-subtle); }
+  .ns-app__main { padding: var(--ns-space-5); }
+  .ns-columns { grid-template-columns: minmax(0, 1fr); }
+}
+.ns-body { margin: 0; background: var(--ns-background-primary); color: var(--ns-text-primary); font-family: var(--ns-font-sans); }
+.ns-field--grow { flex: 1 1 var(--ns-field-basis, 240px); min-width: 0; }
+.ns-visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }

@@ -4,7 +4,7 @@ NorthStar is a design system for dense, data-heavy enterprise consoles. This rep
 
 ## Read first
 
-- `agent/northstar.md`: the build rules, components, tokens and page templates. Treat every Avoid line as a hard limit.
+- `agent/northstar.md`: the index. Rules, layout classes, templates and the component table. Then the component file in `agent/components/` and the closest template in `agent/templates/`. Treat every Avoid line as a hard limit.
 - `agent/components.json` and `agent/tokens.json`: the same catalog as data.
 - `STYLE-RULES.md`: color roles, surfaces, shape, focus and type. These are the design rules.
 - `DECISIONS.md`: why things are the way they are.

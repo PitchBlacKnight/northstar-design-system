@@ -24,6 +24,7 @@ const CHECKS = {
   visual: ["Visual check", "tools/visual-check.mjs"],
   parity: ["React kit parity with docs", "tools/parity-check.mjs"],
   charts: ["Chart check (values vs drawing)", "tools/chart-check.mjs"],
+  templates: ["Agent templates (agent-check)", "tools/agent-check.mjs", "agent/templates/analytical-list.html", "agent/templates/object-detail.html", "agent/templates/settings-form.html", "agent/templates/dashboard.html"],
   figma: ["Figma drift (online)", "tools/figma-sync-check.mjs", "--strict"],
 };
 const picked = process.argv.slice(2).filter((a) => CHECKS[a]);

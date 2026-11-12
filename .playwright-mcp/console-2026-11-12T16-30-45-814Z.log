@@ -1,0 +1,4 @@
+[      40ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8911/favicon.ico:1
+[  304262ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8912/favicon.ico:1
+[  306890ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://mikelrosenthal.com/favicon.ico:1
+[  933761ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8913/favicon.ico:1

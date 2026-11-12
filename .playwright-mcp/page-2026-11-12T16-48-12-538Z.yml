@@ -1,0 +1,98 @@
+- main [ref=f42e3]:
+  - paragraph [ref=f42e4]: Sample data
+  - generic [ref=f42e5]:
+    - generic [ref=f42e6]:
+      - navigation "Breadcrumb" [ref=f42e7]:
+        - list [ref=f42e8]:
+          - listitem [ref=f42e9]:
+            - link "Settings" [ref=f42e10] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=f42e11]: / Team
+      - heading "Team members" [level=1] [ref=f42e12]
+      - paragraph [ref=f42e13]: 12 of 15 seats used on the Growth plan.
+    - generic [ref=f42e14]:
+      - button "Export CSV" [ref=f42e15] [cursor=pointer]
+      - button "Invite member" [ref=f42e16] [cursor=pointer]
+  - status [ref=f42e17]:
+    - generic [ref=f42e21]:
+      - paragraph [ref=f42e22]: 2 invitations expire in 3 days
+      - paragraph [ref=f42e23]: Resend them from the Invitations tab, or they will need a new invite.
+    - button "Dismiss" [ref=f42e25] [cursor=pointer]: ×
+  - tablist "Team sections" [ref=f42e26]:
+    - tab "Members" [selected] [ref=f42e27] [cursor=pointer]
+    - tab "Invitations" [ref=f42e28] [cursor=pointer]
+    - tab "Roles" [ref=f42e29] [cursor=pointer]
+  - tabpanel [ref=f42e30]:
+    - generic [ref=f42e31]:
+      - search [ref=f42e32]:
+        - searchbox "Search members" [ref=f42e35]
+        - generic [ref=f42e36]:
+          - generic [ref=f42e37]: Role
+          - combobox "Role" [ref=f42e38] [cursor=pointer]:
+            - option "All roles" [selected]
+            - option "Owner"
+            - option "Admin"
+            - option "Editor"
+            - option "Viewer"
+      - generic [ref=f42e39]:
+        - generic [ref=f42e40]:
+          - generic [ref=f42e41]: 2 selected
+          - generic [ref=f42e42]:
+            - button "Change role" [ref=f42e43] [cursor=pointer]
+            - button "Remove 2 members" [ref=f42e44] [cursor=pointer]
+        - table "Team members, sorted by name" [ref=f42e45]:
+          - caption [ref=f42e46]: Team members, sorted by name
+          - rowgroup [ref=f42e47]:
+            - row [ref=f42e48]:
+              - columnheader "Select all rows" [ref=f42e49]:
+                - checkbox "Select all rows" [ref=f42e51] [cursor=pointer]
+              - columnheader "Name ↑" [ref=f42e52]
+              - columnheader "Role ↕" [ref=f42e53]
+              - columnheader "Last active ↕" [ref=f42e54]
+              - columnheader "Status" [ref=f42e55]
+          - rowgroup [ref=f42e56]:
+            - row [ref=f42e57]:
+              - cell [ref=f42e58]:
+                - checkbox "Select Priya Raman" [checked] [ref=f42e60] [cursor=pointer]
+              - cell "Priya Raman" [ref=f42e61]
+              - cell "Admin" [ref=f42e62]
+              - cell "2 min ago" [ref=f42e63]
+              - cell "active" [ref=f42e64]
+            - row [ref=f42e66]:
+              - cell [ref=f42e67]:
+                - checkbox "Select Jordan Ellis" [ref=f42e69] [cursor=pointer]
+              - cell "Jordan Ellis" [ref=f42e70]
+              - cell "Editor" [ref=f42e71]
+              - cell "Invited" [ref=f42e72]
+              - cell "invited" [ref=f42e73]
+            - row [ref=f42e75]:
+              - cell [ref=f42e76]:
+                - checkbox "Select Mateo Alvarez" [checked] [ref=f42e78] [cursor=pointer]
+              - cell "Mateo Alvarez" [ref=f42e79]
+              - cell "Owner" [ref=f42e80]
+              - cell "Today" [ref=f42e81]
+              - cell "active" [ref=f42e82]
+            - row [ref=f42e84]:
+              - cell [ref=f42e85]:
+                - checkbox "Select Hana Kobayashi" [ref=f42e87] [cursor=pointer]
+              - cell "Hana Kobayashi" [ref=f42e88]
+              - cell "Editor" [ref=f42e89]
+              - cell "14 days ago" [ref=f42e90]
+              - cell "suspended" [ref=f42e91]
+            - row [ref=f42e93]:
+              - cell [ref=f42e94]:
+                - checkbox "Select Sam Okafor" [ref=f42e96] [cursor=pointer]
+              - cell "Sam Okafor" [ref=f42e97]
+              - cell "Viewer" [ref=f42e98]
+              - cell "Yesterday" [ref=f42e99]
+              - cell "active" [ref=f42e100]
+    - complementary "Plan summary" [ref=f42e102]:
+      - generic [ref=f42e103]:
+        - paragraph [ref=f42e104]: Plan
+        - heading "Growth" [level=2] [ref=f42e105]
+        - paragraph [ref=f42e106]: 15 seats, billed yearly. Renews 1 March 2027.
+      - generic [ref=f42e107]:
+        - generic [ref=f42e108]:
+          - generic [ref=f42e109]: Seats used
+          - generic [ref=f42e110]: 12 of 15
+        - progressbar "Seats used" [ref=f42e111]

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../../css/components.css">
+<title>Analytical list</title>
+<meta name="description" content="A list of records with a page header, filter toolbar, selectable sortable table, selection bar and pagination.">
+</head>
+<body class="ns-body">
+<div class="ns-app">
+<nav class="ns-app__nav" aria-label="App"><div class="ns-sidenav"><div class="ns-sidenav__group">Operate</div><a href="#">Dashboard</a><a href="#" aria-current="page">Accounts <span class="ns-count">3</span></a><a href="#">Approvals</a><div class="ns-sidenav__group">Configure</div><a href="#">Integrations</a><a href="#">Settings</a></div></nav>
+<main class="ns-app__main">
+  <p class="ns-helper">Sample data</p>
+  <header class="ns-page-head">
+    <div class="ns-page-head__text">
+      <nav aria-label="Breadcrumb"><ol class="ns-breadcrumb"><li><a href="#">Operate</a></li><li aria-current="page">Accounts</li></ol></nav>
+      <h1 class="ns-page-head__title">Accounts</h1>
+      <p class="ns-page-head__desc">288 accounts across 3 regions.</p>
+    </div>
+    <div class="ns-page-head__actions"><button class="ns-btn ns-btn--outline">Export CSV</button><button class="ns-btn">Add account</button></div>
+  </header>
+  <div class="ns-cluster" role="search">
+    <div class="ns-field ns-field--grow"><label class="ns-label" for="q">Search</label><div class="ns-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input class="ns-input" id="q" type="search" placeholder="Search accounts"></div></div>
+    <div class="ns-field"><label class="ns-label" for="tier">Tier</label><select class="ns-select" id="tier"><option>All tiers</option><option>Gold</option><option>Silver</option></select></div>
+    <div class="ns-field"><label class="ns-label" for="status">Status</label><select class="ns-select" id="status"><option>Any status</option><option>Active</option><option>At risk</option></select></div>
+  </div>
+  <div class="ns-table-wrap">
+    <div class="ns-table-bar is-batch"><b>2 selected</b><div class="ns-cluster ns-cluster--center"><button class="ns-btn ns-btn--sm ns-btn--tertiary">Change tier</button><button class="ns-btn ns-btn--sm ns-btn--danger">Archive 2 accounts</button></div></div>
+    <table class="ns-table">
+      <caption class="ns-visually-hidden">Accounts, sorted by revenue</caption>
+      <thead><tr><th><label class="ns-check"><input type="checkbox" aria-label="Select all rows"></label></th><th aria-sort="none">Account <span class="ns-sort">↕</span></th><th>Tier</th><th class="num" aria-sort="descending">Revenue <span class="ns-sort">↓</span></th><th>Status</th></tr></thead>
+      <tbody>
+        <tr class="is-selected"><td><label class="ns-check"><input type="checkbox" checked aria-label="Select Acme Corp"></label></td><td>Acme Corp</td><td>Gold</td><td class="num">$38,900</td><td><span class="ns-dot ns-dot--success">active</span></td></tr>
+        <tr class="is-selected"><td><label class="ns-check"><input type="checkbox" checked aria-label="Select Zeta Inc"></label></td><td>Zeta Inc</td><td>Gold</td><td class="num">$19,850</td><td><span class="ns-dot ns-dot--warning">at risk</span></td></tr>
+        <tr><td><label class="ns-check"><input type="checkbox" aria-label="Select Beta LLC"></label></td><td>Beta LLC</td><td>Silver</td><td class="num">$12,400</td><td><span class="ns-dot ns-dot--success">active</span></td></tr>
+        <tr><td><label class="ns-check"><input type="checkbox" aria-label="Select Northwind"></label></td><td>Northwind</td><td>Silver</td><td class="num">$5,200</td><td><span class="ns-dot ns-dot--error">churned</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <nav class="ns-pagination" aria-label="Pagination"><button class="ns-page" disabled aria-label="Previous page">‹</button><button class="ns-page" aria-current="page">1</button><button class="ns-page">2</button><button class="ns-page">3</button><span>…</span><button class="ns-page">12</button><button class="ns-page" aria-label="Next page">›</button></nav>
+</main>
+</div>
+</body>
+</html>

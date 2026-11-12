@@ -6,7 +6,9 @@ The docs site renders with JavaScript. Agents should read the files below instea
 
 ## Agent files
 
-- [Agent guide](https://mikelrosenthal.com/northstar/agent/northstar.md): rules, floorplans, patterns, semantic tokens and every component with markup
+- [Agent guide](https://mikelrosenthal.com/northstar/agent/northstar.md): start here. Rules, layout classes, templates, the component index and semantic tokens
+- Components: https://mikelrosenthal.com/northstar/agent/components/<id>.md, one file per component with markup, variants and rules
+- Templates: https://mikelrosenthal.com/northstar/agent/templates/, runnable pages to copy
 - [Components](https://mikelrosenthal.com/northstar/agent/components.json): the full catalog as JSON
 - [Tokens](https://mikelrosenthal.com/northstar/agent/tokens.json): every --ns- token with dark and light values
 - [tokens.css](https://mikelrosenthal.com/northstar/css/tokens.css): the token sheet to link

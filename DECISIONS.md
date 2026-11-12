@@ -67,3 +67,22 @@ Each entry: the problem, options rejected and why, what was tested, what shipped
 - Figma and code differ on Search (Figma rectangle, code pill), Select (Figma border), table header style, card eyebrow and radius, progress track, breadcrumb link color and tab glow.
 
 **Ship.** Results recorded here; the fixes above are open.
+
+## 2026-11-12 · Fixes from the new-screen test (no visual change)
+
+**Define.** Close the gaps the first agent run found, without changing anything a visitor sees on the site.
+
+**Build.**
+- `agent/northstar.md` is now an index (33 KB, was 233 KB): rules, layout, templates, a component table and semantic tokens. Each component has its own file in `agent/components/`, each pattern its own in `agent/patterns/`. The exporter removes orphaned files.
+- New layout classes in `components.css`, unused by the site: `ns-app` (`--no-nav`, `__nav`, `__main`), `ns-page-head` (`__text`, `__eyebrow`, `__title`, `__desc`, `__actions`), `ns-stack`, `ns-cluster`, `ns-split`, `ns-columns`, `ns-body`, `ns-field--grow`, `ns-visually-hidden`, `ns-card__eyebrow`. The modifiers `ns-alert--default` and `ns-alert--accent` are now defined with the same values as the base alert.
+- Four runnable templates in `agent/templates/` (analytical list, object detail, settings form, dashboard). They are checked in `check-all`.
+- Docs corrected to match the CSS: 22 token-list entries that named primitives or old values, the tertiary button description, the dark theme value, `is-batch`, `is-selected`, the modal backdrop, and the progress `--_v` hook. A Behavior section explains that NorthStar ships markup and CSS, not a script.
+- Figma matched to the code: fields (borderless, 4px corners, search as a pill), card (8px corners, overline eyebrow), progress (bare 6px track), alert (4px corners), table header (overline) and status cells (ns-dot style), breadcrumb (teal links, primary current page), tab underline (no glow).
+
+**Rejected.** A standalone behavior script pulled out of `js/ui.js`: that file mixes component behavior with docs demos, so extracting it would risk changing the site. Restyling the tertiary button: it would change about 35 buttons on the site.
+
+**Test.** A pixel comparison of the live site and the new build at 1440px, on 12 pages including the dashboards index and three dashboards, found 0 changed pixels. `check-all`: 12 of 12 pass. A second fresh Sonnet agent rebuilt the same frame from the new files: 0 lines of custom CSS (the first run wrote its own page CSS), 14 tool calls (was about 20), and a clean checker run. It copied most of the screen from the templates. Its remaining notes (no-nav shell, body margin, aside width, toolbar field width, hidden caption, confirm pattern, `--_v`, tab panel ids) were fixed in the same pass.
+
+**Ship.** Published with this commit.
+
+**Open.** A real behavior script for agents, and the type scale: the CSS `--ns-type-h1`..`h6` sizes are a different scale from the Figma Heading styles (CSS h2 is 60px; Figma Heading / H2 is 24px).

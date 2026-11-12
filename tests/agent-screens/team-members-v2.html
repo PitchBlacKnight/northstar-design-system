@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../../css/components.css">
+<title>Team members</title>
+<meta name="description" content="Team members settings: seats, invitations, member table with bulk actions, plan summary.">
+</head>
+<body>
+<div class="ns-app ns-app--no-nav">
+<main class="ns-app__main">
+  <p class="ns-helper">Sample data</p>
+  <header class="ns-page-head">
+    <div class="ns-page-head__text">
+      <nav aria-label="Breadcrumb"><ol class="ns-breadcrumb"><li><a href="#">Settings</a></li><li aria-current="page">Team</li></ol></nav>
+      <h1 class="ns-page-head__title">Team members</h1>
+      <p class="ns-page-head__desc">12 of 15 seats used on the Growth plan.</p>
+    </div>
+    <div class="ns-page-head__actions"><button class="ns-btn ns-btn--outline">Export CSV</button><button class="ns-btn">Invite member</button></div>
+  </header>
+  <div class="ns-alert ns-alert--default" role="status"><span class="ns-alert__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 16v-4M12 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></span><div><p class="ns-alert__title">2 invitations expire in 3 days</p><p class="ns-alert__desc">Resend them from the Invitations tab, or they will need a new invite.</p></div><div class="ns-alert__end"><button class="ns-alert__close" aria-label="Dismiss">×</button></div></div>
+  <div class="ns-tabs" role="tablist" aria-label="Team sections"><button class="ns-tab" role="tab" aria-selected="true">Members</button><button class="ns-tab" role="tab" aria-selected="false">Invitations</button><button class="ns-tab" role="tab" aria-selected="false">Roles</button></div>
+  <div class="ns-split" role="tabpanel">
+    <div class="ns-stack">
+      <div class="ns-cluster" role="search">
+        <div class="ns-field"><div class="ns-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input class="ns-input" type="search" placeholder="Search members" aria-label="Search members"></div></div>
+        <div class="ns-field"><label class="ns-label" for="role">Role</label><select class="ns-select" id="role"><option>All roles</option><option>Owner</option><option>Admin</option><option>Editor</option><option>Viewer</option></select></div>
+      </div>
+      <div class="ns-table-wrap">
+        <div class="ns-table-bar is-batch"><b aria-live="polite">2 selected</b><div class="ns-cluster ns-cluster--center"><button class="ns-btn ns-btn--sm ns-btn--tertiary">Change role</button><button class="ns-btn ns-btn--sm ns-btn--danger">Remove 2 members</button></div></div>
+        <table class="ns-table">
+          <caption class="ns-helper">Team members, sorted by name</caption>
+          <thead><tr><th><label class="ns-check"><input type="checkbox" aria-label="Select all rows"></label></th><th aria-sort="ascending">Name <span class="ns-sort">↑</span></th><th aria-sort="none">Role <span class="ns-sort">↕</span></th><th class="num" aria-sort="none">Last active <span class="ns-sort">↕</span></th><th>Status</th></tr></thead>
+          <tbody>
+            <tr class="is-selected"><td><label class="ns-check"><input type="checkbox" checked aria-label="Select Priya Raman"></label></td><td>Priya Raman</td><td>Admin</td><td class="num">2 min ago</td><td><span class="ns-dot ns-dot--success">active</span></td></tr>
+            <tr><td><label class="ns-check"><input type="checkbox" aria-label="Select Jordan Ellis"></label></td><td>Jordan Ellis</td><td>Editor</td><td class="num">Invited</td><td><span class="ns-dot ns-dot--warning">invited</span></td></tr>
+            <tr class="is-selected"><td><label class="ns-check"><input type="checkbox" checked aria-label="Select Mateo Alvarez"></label></td><td>Mateo Alvarez</td><td>Owner</td><td class="num">Today</td><td><span class="ns-dot ns-dot--success">active</span></td></tr>
+            <tr><td><label class="ns-check"><input type="checkbox" aria-label="Select Hana Kobayashi"></label></td><td>Hana Kobayashi</td><td>Editor</td><td class="num">14 days ago</td><td><span class="ns-dot ns-dot--error">suspended</span></td></tr>
+            <tr><td><label class="ns-check"><input type="checkbox" aria-label="Select Sam Okafor"></label></td><td>Sam Okafor</td><td>Viewer</td><td class="num">Yesterday</td><td><span class="ns-dot ns-dot--success">active</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <aside class="ns-stack" aria-label="Plan summary">
+      <section class="ns-card"><p class="ns-card__eyebrow">Plan</p><h2 class="ns-card__title">Growth</h2><p class="ns-card__body">15 seats, billed yearly. Renews 1 March 2027.</p></section>
+      <div class="ns-progress"><div class="ns-progress__meta"><span>Seats used</span><span>12 of 15</span></div><div class="ns-progress__track" role="progressbar" aria-label="Seats used" aria-valuenow="12" aria-valuemin="0" aria-valuemax="15"><div class="ns-progress__bar" style="--_v:80%"></div></div></div>
+    </aside>
+  </div>
+</main>
+</div>
+</body>
+</html>

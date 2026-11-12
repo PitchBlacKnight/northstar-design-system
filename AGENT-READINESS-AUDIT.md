@@ -3,7 +3,7 @@
 Date: 2026-11-12. Measured against Nehmat Gereige's "Agent-Ready Design System" playbook (Figma, audit, PLAN.md, tokens, code, catalog, Code Connect, GitHub, new-screen test).
 Sources: Figma file VZxmDNQiosTN6gqnvEQ65Z (read-only scan of all 93 pages), repo `main` at aa06b6f.
 
-**Status 2026-11-12:** every Figma and repo item below is resolved, except Code Connect (Figma Pro plan). The new-screen test ran and its findings are open fixes. See `DECISIONS.md` for both passes.
+**Status 2026-11-12:** every Figma and repo item below is resolved, except Code Connect (Figma Pro plan). The new-screen test ran twice; its findings are fixed. See `DECISIONS.md` for both passes.
 
 ## Scorecard
 
@@ -22,7 +22,7 @@ Sources: Figma file VZxmDNQiosTN6gqnvEQ65Z (read-only scan of all 93 pages), rep
 | Code Connect | None. The Figma plan is Pro, and Code Connect needs Organization or Enterprise | **Blocked**, use substitutes |
 | Package | React kit covers 14 of 58 components inside `dashboards/app`. No published package | Optional |
 | GitHub | Public repo, default branch `main` | Done |
-| New-screen test from a Figma frame | Run 2026-11-12: a fresh Sonnet agent built frame 4762:2541 from the agent files only (about 20 tool calls, checker clean). Close match; found the gaps listed in `DECISIONS.md` | Done, with fixes to make |
+| New-screen test from a Figma frame | Run 2026-11-12: a fresh Sonnet agent built frame 4762:2541 from the agent files only (about 20 tool calls, checker clean). Close match; gaps fixed the same day and a second run needed no custom CSS (see `DECISIONS.md`) | Done |
 
 ## Figma cleanup, by priority
 
