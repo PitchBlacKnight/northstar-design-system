@@ -40,5 +40,6 @@ the mechanical ones on `css/components.css`, `css/widgets.css` and `css/dashboar
 
 ## Type
 - Open Sans. Sizes from `--ns-type-*-size`; weights 400, 600, 700 only.
+- Two type scales. `--ns-type-h1` to `-h6` are the display scale (72 down to 20px) for marketing and docs headings. Product screens use the Figma text styles, each linked in Figma to the token it equals: Heading / H2 is `h5` size with a 32px line, Heading / H3 is `h6`, Heading / H4 and Body / Large are `body1`, Body is `body2`, Caption and Label are `caption`, Overline is `overline`, Chart / Value is `h4`, Chart / Label is `chart`. Heading / H1 (32/40) has no token yet.
 - Keyboard highlight in lists (`.is-active`) is `background-selected`; a match in search results is
   bold `text-primary`, never a colored block.

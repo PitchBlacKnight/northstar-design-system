@@ -48,6 +48,9 @@
   --ns-font-ui: "Open Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --ns-font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
+  /* Display scale (marketing and docs headings). The product scale is the Figma text styles, which map to these tokens:
+     Heading / H2 = h5 size with a 32px line, Heading / H3 = h6, Heading / H4 = body1, Body = body2, Caption and Label = caption,
+     Overline = overline, Chart / Value = h4, Chart / Label = chart. A Figma style named H3 is not --ns-type-h3. */
   --ns-type-h1-size: 72px;   --ns-type-h1-line: 118px;   --ns-type-h1-weight: 800;
   --ns-type-h2-size: 60px;   --ns-type-h2-line: 80px;   --ns-type-h2-weight: 800;
   --ns-type-h3-size: 48px;   --ns-type-h3-line: 56px;   --ns-type-h3-weight: 700;

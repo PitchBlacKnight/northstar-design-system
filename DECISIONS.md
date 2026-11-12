@@ -98,3 +98,15 @@ Each entry: the problem, options rejected and why, what was tested, what shipped
 **Test.** `tools/behavior-script-check.mjs` builds a page from the markup in `agent/components.json` and runs 49 interaction checks in headless Chrome. All pass, and a deliberately broken script failed 3 of them. It runs in `check-all`. The templates were also driven in a real browser: sort, the modal opening with focus inside, Escape returning focus, selection counts and tab panels. A pixel comparison of 12 site pages (tabs, modal, table, combobox, command palette, tree, alert, a floorplan, home and dashboards) against the live site found 0 changed pixels. `check-all`: 13 of 13 pass.
 
 **Ship.** Published with this commit.
+
+## 2026-11-12 · Type scale: Figma styles linked to the CSS tokens (no visual change on the site)
+
+**Define.** Figma's text styles Heading / H1 to H4 (32, 24, 20, 16px) share names with the CSS tokens `--ns-type-h1` to `-h6` (72, 60, 48, 28, 24, 20px), a different, larger display scale. No text style was linked to a type variable, so Dev Mode and agents could not tell that Heading / H3 is `h6`, not `h3`.
+
+**Build.** In Figma, every product text style is linked to the type variables it equals (size, line height, and tracking for Overline) and carries a description naming its CSS tokens. Two variables were added to mirror existing CSS tokens: `font-size/chart` and `line-height/chart`. Overline was the one real disagreement: Figma 10/14 with 1px tracking against code 10/16 with 1.5px. Figma now matches the code, which made Command palette and Card 2px taller in Figma. The two scales are documented in `tokens.css` (a comment), `STYLE-RULES.md` and the agent guide's new Type scale rule.
+
+**Rejected.** Renaming or resizing the CSS `h1` to `h6` tokens to match Figma: the site's Typography page and about 20 components use them, so it would change the site. Adding new CSS heading tokens (32/40 and 24/32): the site counts its tokens live, so the home counter and token reference would change. Renaming the Figma styles: linking and describing them removes the ambiguity without breaking anyone's habits.
+
+**Test.** Pixel comparison of Home, Typography, Tokens and Dashboards against the live site: 0 changed pixels. `check-all`: 13 of 13 pass.
+
+**Open.** Heading / H1 (32/40) and the 32px line under Heading / H2 have no CSS token. Closing that means adding tokens, which changes the visible token count from 231.
