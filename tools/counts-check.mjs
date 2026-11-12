@@ -37,8 +37,8 @@ scan("index.html", (read("index.html").match(/<meta[^>]+description[^>]+>/g) || 
 scan("llms.txt", read("llms.txt").split("\n").slice(0, 6).join("\n"), prose);
 scan("agent/northstar.md", read("agent/northstar.md").split("\n").slice(0, 8).join("\n"), prose);
 
-const study = join(ROOT, "..", "_pathfinder-live", "northstar-case-study.html");
-if (existsSync(study)) {
+const study = [join(process.env.HOME || "", "Sites", "mikelrosenthal.com", "northstar-case-study.html"), join(ROOT, "..", "..", "mikelrosenthal.com", "northstar-case-study.html"), join(ROOT, "..", "_pathfinder-live", "northstar-case-study.html")].find((p) => existsSync(p)) || "";
+if (study) {
   const stat = (word, key) => [new RegExp(`<b>([\\d,]+\\+?)</b><(?:span|small)>${word}`, "g"), key];
   scan("case study", readFileSync(study, "utf8"), [
     stat("Tokens", "tokens"), stat("Components", "components"), stat("Patterns", "patterns"), stat("Dashboards", "dashboards"),
@@ -46,6 +46,6 @@ if (existsSync(study)) {
   ]);
 }
 
-console.log(`Counts: ${real.tokens} tokens, ${real.components} components, ${real.patterns} patterns, ${real.dashboards} dashboards, ${real.specs} spec tabs${existsSync(study) ? "" : " (case study folder not found, skipped)"}`);
+console.log(`Counts: ${real.tokens} tokens, ${real.components} components, ${real.patterns} patterns, ${real.dashboards} dashboards, ${real.specs} spec tabs${study ? "" : " (case study folder not found, skipped)"}`);
 if (bad.length) { console.error(bad.map((b) => "  " + b).join("\n")); process.exit(1); }
 console.log("Every typed count matches.");
