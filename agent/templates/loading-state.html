@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../../css/components.css">
+<title>Loading state</title>
+<meta name="description" content="A page that is loading: skeleton blocks in place of a table and a card, a busy button, and a determinate progress bar for a long import.">
+<script src="../../js/ns-behavior.js" defer></script>
+</head>
+<body class="ns-body">
+<div class="ns-app ns-app--no-nav">
+<main class="ns-app__main">
+  <header class="ns-page-head">
+    <div class="ns-page-head__text"><p class="ns-page-head__eyebrow">Accounts</p><h1 class="ns-page-head__title">Connected accounts</h1></div>
+    <div class="ns-page-head__actions"><button class="ns-btn" type="button" aria-busy="true" disabled><span class="ns-spin"></span>Syncing</button></div>
+  </header>
+  <section class="ns-card" aria-labelledby="l1-title"><h2 class="ns-card__title" id="l1-title">Import</h2>
+    <div class="ns-progress"><div class="ns-progress__meta"><span>Importing 3 of 12 files</span><span>25%%</span></div><div class="ns-progress__track" role="progressbar" aria-label="Importing files" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><div class="ns-progress__bar" style="--_v:25%%"></div></div></div>
+  </section>
+  <section class="ns-card" aria-busy="true" aria-labelledby="l2-title"><h2 class="ns-card__title" id="l2-title">Accounts</h2>
+    <p class="ns-helper">Loading accounts</p>
+    <div class="ns-stack ns-stack--sm" aria-hidden="true">
+      <div class="ns-skel">&nbsp;</div><div class="ns-skel">&nbsp;</div><div class="ns-skel">&nbsp;</div><div class="ns-skel">&nbsp;</div>
+    </div>
+  </section>
+</main>
+</div>
+</body>
+</html>

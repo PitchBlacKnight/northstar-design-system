@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/tokens.css">
+<link rel="stylesheet" href="../../css/components.css">
+<title>Empty state</title>
+<meta name="description" content="Three empty states inside cards: nothing yet with a first action, no search matches with a way to clear the filter, and a section the user cannot use yet.">
+<script src="../../js/ns-behavior.js" defer></script>
+</head>
+<body class="ns-body">
+<div class="ns-app ns-app--no-nav">
+<main class="ns-app__main">
+  <header class="ns-page-head">
+    <div class="ns-page-head__text"><p class="ns-page-head__eyebrow">Accounts</p><h1 class="ns-page-head__title">Connected accounts</h1><p class="ns-page-head__desc">Accounts sync every 15 minutes.</p></div>
+    <div class="ns-page-head__actions"><button class="ns-btn" type="button">Add account</button></div>
+  </header>
+  <p class="ns-helper">Sample data</p>
+  <div class="ns-columns ns-columns--2">
+    <section class="ns-card" aria-labelledby="e1-title"><h2 class="ns-card__title" id="e1-title">No accounts yet</h2><p class="ns-card__body">Add your first account to start syncing data.</p><div class="ns-cluster"><button class="ns-btn ns-btn--secondary" type="button">Add account</button><a class="ns-link" href="#">Read the setup guide</a></div></section>
+    <section class="ns-card" aria-labelledby="e2-title"><h2 class="ns-card__title" id="e2-title">No matches</h2><p class="ns-card__body">No account matches the status filter Failed. Remove the filter or check the spelling.</p><div class="ns-cluster"><button class="ns-btn ns-btn--outline" type="button">Clear filters</button></div></section>
+  </div>
+  <section class="ns-card" aria-labelledby="e3-title"><p class="ns-card__eyebrow">Restricted</p><h2 class="ns-card__title" id="e3-title">Audit log is not available</h2><p class="ns-card__body">Your role cannot view the audit log. Ask a workspace admin for access.</p></section>
+</main>
+</div>
+</body>
+</html>

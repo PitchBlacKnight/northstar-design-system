@@ -1,5 +1,7 @@
 # NorthStar agent-readiness audit
 
+> **Historical snapshot of 2026-11-12.** The counts and gaps listed here were resolved in that pass. Current state is in `DECISIONS.md`; current counts come from `tools/counts-check.mjs`.
+
 Date: 2026-11-12. Measured against Nehmat Gereige's "Agent-Ready Design System" playbook (Figma, audit, PLAN.md, tokens, code, catalog, Code Connect, GitHub, new-screen test).
 Sources: Figma file VZxmDNQiosTN6gqnvEQ65Z (read-only scan of all 93 pages), repo `main` at aa06b6f.
 

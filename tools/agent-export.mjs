@@ -46,6 +46,41 @@ const m = dom.match(/<script type="application\/json" id="ns-agent-export">([\s\
 if (!m) fail("agent export produced no result (the page did not finish rendering).");
 const data = JSON.parse(m[1].replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&"));
 
+
+/* ---------- Token decisions (measured in css/tokens.css 2026-11-15; usage counts in DECISIONS.md) ---------- */
+const DEPRECATED = {
+  "--ns-layer-01": ["--ns-background-surface", "same dark value; light differs (gray-0 vs white). .ns-layer classes still use it internally"],
+  "--ns-layer-02": ["--ns-background-elevated", "same value in dark and light"],
+  "--ns-widget-bg": ["--ns-background-elevated", "same value in dark and light"],
+  "--ns-chart-track": ["--ns-widget-track", "alias of --ns-widget-track"],
+  "--ns-viz-1": ["--ns-chart-series-1", "same dark value; light is a slightly different teal"],
+  "--ns-viz-2": ["--ns-chart-series-3", "same value"],
+};
+data.tokens.forEach((t) => { const d = DEPRECATED[t.name]; if (d) { t.deprecated = true; t.use = d[0]; } });
+const WHICH = [
+  ["Page background", "--ns-background-primary"],
+  ["Card, panel and table surface", "--ns-background-surface"],
+  ["Raised surface (modal, menu, popover, widget tile)", "--ns-background-elevated"],
+  ["Selected row, selected option, keyboard highlight", "--ns-background-selected"],
+  ["Hover fill on a row or item", "--ns-background-hover"],
+  ["Border: card, divider, table row", "--ns-border-subtle"],
+  ["Border: input, select, button outline", "--ns-border-default"],
+  ["Border: emphasis, hover or strong separation", "--ns-border-strong"],
+  ["Text: headings and body", "--ns-text-primary"],
+  ["Text: supporting and helper text", "--ns-text-secondary"],
+  ["Text: placeholder, caption, disabled hint", "--ns-text-tertiary"],
+  ["Status: success", "--ns-status-success (tinted surface: --ns-status-success-bg)"],
+  ["Status: warning", "--ns-status-warning (tinted surface: --ns-status-warning-bg)"],
+  ["Status: error", "--ns-status-error (tinted surface: --ns-status-error-bg)"],
+  ["Status: info", "--ns-status-info (tinted surface: --ns-status-info-bg)"],
+  ["Chart series, in order", "--ns-chart-series-1 to --ns-chart-series-5"],
+  ["Chart axis and data label text", "--ns-chart-label-text"],
+  ["Chart and progress track", "--ns-widget-track"],
+  ["Primary action, selection indicator", "--ns-interactive-primary"],
+  ["Link and accent text", "--ns-text-link"],
+  ["Focus ring", "--ns-focus-ring"],
+];
+
 /* ---------- Markdown ---------- */
 const SITE = "https://mikelrosenthal.com/northstar/";
 const RULES = [
@@ -100,6 +135,12 @@ list("Floorplans (site pages for people; copy agent/templates instead)", data.fl
 list("Patterns", data.patterns);
 list("Foundations", data.foundations);
 
+md.push("## Which token to use", "", "One token per task. Pick from this table before searching the full list below. Check the Deprecated list before using any token that is not here.", "", "| Task | Token |", "|---|---|");
+WHICH.forEach(([task, tok]) => md.push(`| ${task} | ${tok.replace(/--ns-[a-z0-9-]+/g, (m) => "`" + m + "`")} |`));
+md.push("");
+md.push("## Deprecated for new work", "", "These tokens still work and are not removed. Do not use them in new markup; use the replacement. Each entry also carries deprecated and use in tokens.json.", "", "| Deprecated | Use instead | Why |", "|---|---|---|");
+Object.entries(DEPRECATED).forEach(([k, [u, why]]) => md.push(`| \`${k}\` | \`${u}\` | ${why} |`));
+md.push("");
 md.push("## Semantic tokens", "", "Use these roles in components. Values are the dark theme; light overrides are in tokens.json.", "");
 const semantic = data.tokens.filter((t) => !/^--ns-(gray|navy|blue|persian|purple|teal|green|yellow|red|magenta|violet|cyan|sky|orange|periwinkle)-\d|^--ns-(black|white)$/.test(t.name));
 const groups = {};

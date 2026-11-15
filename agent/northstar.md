@@ -1,8 +1,8 @@
 # NorthStar Design System v1.5.0
 
-> Machine-readable guide for AI coding and design agents. Generated 2026-11-12 from the live catalog by tools/agent-export.mjs; do not edit by hand. Site: https://mikelrosenthal.com/northstar/ · Figma file VZxmDNQiosTN6gqnvEQ65Z.
+> Machine-readable guide for AI coding and design agents. Generated 2026-11-15 from the live catalog by tools/agent-export.mjs; do not edit by hand. Site: https://mikelrosenthal.com/northstar/ · Figma file VZxmDNQiosTN6gqnvEQ65Z.
 
-NorthStar is a design language and development kit for dense, dark, data-heavy enterprise consoles: 58 components, 231 tokens, dark and light themes, comfortable and compact density. Markup is framework-free HTML with ns- classes; style comes only from CSS custom properties.
+NorthStar is a design language and development kit for dense, dark, data-heavy enterprise consoles: 58 components, 270 tokens, dark and light themes, comfortable and compact density. Markup is framework-free HTML with ns- classes; style comes only from CSS custom properties.
 
 ## Files
 
@@ -92,6 +92,47 @@ NorthStar is a design language and development kit for dense, dark, data-heavy e
 - **Logo** (https://mikelrosenthal.com/northstar/#/foundations/logo) The NorthStar DS logo is a wordmark with the mark standing in for the A: a chevron with a star on its tip. The mark also works on its own where space is short.
 - **Content and voice** (https://mikelrosenthal.com/northstar/#/foundations/content-voice) How NorthStar writes labels, errors, empty states and generated text. Apply these rules to anything a product or this site shows.
 
+## Which token to use
+
+One token per task. Pick from this table before searching the full list below. Check the Deprecated list before using any token that is not here.
+
+| Task | Token |
+|---|---|
+| Page background | `--ns-background-primary` |
+| Card, panel and table surface | `--ns-background-surface` |
+| Raised surface (modal, menu, popover, widget tile) | `--ns-background-elevated` |
+| Selected row, selected option, keyboard highlight | `--ns-background-selected` |
+| Hover fill on a row or item | `--ns-background-hover` |
+| Border: card, divider, table row | `--ns-border-subtle` |
+| Border: input, select, button outline | `--ns-border-default` |
+| Border: emphasis, hover or strong separation | `--ns-border-strong` |
+| Text: headings and body | `--ns-text-primary` |
+| Text: supporting and helper text | `--ns-text-secondary` |
+| Text: placeholder, caption, disabled hint | `--ns-text-tertiary` |
+| Status: success | `--ns-status-success` (tinted surface: `--ns-status-success-bg`) |
+| Status: warning | `--ns-status-warning` (tinted surface: `--ns-status-warning-bg`) |
+| Status: error | `--ns-status-error` (tinted surface: `--ns-status-error-bg`) |
+| Status: info | `--ns-status-info` (tinted surface: `--ns-status-info-bg`) |
+| Chart series, in order | `--ns-chart-series-1` to `--ns-chart-series-5` |
+| Chart axis and data label text | `--ns-chart-label-text` |
+| Chart and progress track | `--ns-widget-track` |
+| Primary action, selection indicator | `--ns-interactive-primary` |
+| Link and accent text | `--ns-text-link` |
+| Focus ring | `--ns-focus-ring` |
+
+## Deprecated for new work
+
+These tokens still work and are not removed. Do not use them in new markup; use the replacement. Each entry also carries deprecated and use in tokens.json.
+
+| Deprecated | Use instead | Why |
+|---|---|---|
+| `--ns-layer-01` | `--ns-background-surface` | same dark value; light differs (gray-0 vs white). .ns-layer classes still use it internally |
+| `--ns-layer-02` | `--ns-background-elevated` | same value in dark and light |
+| `--ns-widget-bg` | `--ns-background-elevated` | same value in dark and light |
+| `--ns-chart-track` | `--ns-widget-track` | alias of --ns-widget-track |
+| `--ns-viz-1` | `--ns-chart-series-1` | same dark value; light is a slightly different teal |
+| `--ns-viz-2` | `--ns-chart-series-3` | same value |
+
 ## Semantic tokens
 
 Use these roles in components. Values are the dark theme; light overrides are in tokens.json.
@@ -132,6 +173,12 @@ Use these roles in components. Values are the dark theme; light overrides are in
 | `--ns-breakpoint-medium` | 768px | same |
 | `--ns-breakpoint-wide` | 1600px | same |
 
+### charcoal
+
+| Token | Dark | Light |
+|---|---|---|
+| `--ns-charcoal-900` | #121216 | same |
+
 ### chart
 
 | Token | Dark | Light |
@@ -162,6 +209,14 @@ Use these roles in components. Values are the dark theme; light overrides are in
 | Token | Dark | Light |
 |---|---|---|
 | `--ns-content-max-width` | 1440px | same |
+
+### crimson
+
+| Token | Dark | Light |
+|---|---|---|
+| `--ns-crimson-600` | #cc1a54 | same |
+| `--ns-crimson-700` | #b8174c | same |
+| `--ns-crimson-800` | #a31443 | same |
 
 ### density
 
@@ -258,6 +313,15 @@ Use these roles in components. Values are the dark theme; light overrides are in
 | `--ns-interactive-secondary-bg` | #1e1e24 | #f5f5ff |
 | `--ns-interactive-secondary-hover` | #2c2c35 | #d0d0da |
 
+### lavender
+
+| Token | Dark | Light |
+|---|---|---|
+| `--ns-lavender-100` | #f3f3fb | same |
+| `--ns-lavender-200` | #e6e6f2 | same |
+| `--ns-lavender-300` | #dcdcea | same |
+| `--ns-lavender-50` | #fafaff | same |
+
 ### layer
 
 | Token | Dark | Light |
@@ -302,6 +366,14 @@ Use these roles in components. Values are the dark theme; light overrides are in
 | `--ns-radius-sm` | 4px | same |
 | `--ns-radius-xl` | 12px | same |
 | `--ns-radius-xs` | 2px | same |
+
+### scarlet
+
+| Token | Dark | Light |
+|---|---|---|
+| `--ns-scarlet-600` | #cc2425 | same |
+| `--ns-scarlet-700` | #b82021 | same |
+| `--ns-scarlet-800` | #a31d1d | same |
 
 ### space
 
@@ -425,8 +497,12 @@ Runnable pages built only from NorthStar classes and tokens. Each links the two 
 
 - **Analytical list** https://mikelrosenthal.com/northstar/agent/templates/analytical-list.html A list of records with a page header, filter toolbar, selectable sortable table, selection bar and pagination.
 - **Dashboard** https://mikelrosenthal.com/northstar/agent/templates/dashboard.html An overview page: page header with a range filter, a row of KPI tiles, a two-column area and a compact table.
+- **Empty state** https://mikelrosenthal.com/northstar/agent/templates/empty-state.html Three empty states inside cards: nothing yet with a first action, no search matches with a way to clear the filter, and a section the user cannot use yet.
+- **Error state** https://mikelrosenthal.com/northstar/agent/templates/error-state.html A page-level error: an alert with the reason and a retry, a card that could not load with a retry action, and a form-level failure kept above the content.
+- **Loading state** https://mikelrosenthal.com/northstar/agent/templates/loading-state.html A page that is loading: skeleton blocks in place of a table and a card, a busy button, and a determinate progress bar for a long import.
 - **Object detail** https://mikelrosenthal.com/northstar/agent/templates/object-detail.html One record: breadcrumb, header with status and actions, tabs, detail cards with a side column, and a notice.
 - **Settings form** https://mikelrosenthal.com/northstar/agent/templates/settings-form.html A single-column settings form with an error summary, fields with helpers and one error, checkboxes, a switch and form actions.
+- **Sign in** https://mikelrosenthal.com/northstar/agent/templates/sign-in.html A sign-in card with email and password fields, an inline error alert, a primary action and a link to reset the password.
 
 ## Components
 

@@ -2,7 +2,7 @@
 
 Docs site for the NorthStar Design System. Static, no build step.
 
-Source of truth: Figma file VZxmDNQiosTN6gqnvEQ65Z (page "00 Foundations" + site frames).
+Code first: `css/tokens.css`, `css/components.css` and `js/components.js` are the source of truth. The Figma file VZxmDNQiosTN6gqnvEQ65Z is synced from code in batches, only when the owner says "sync". Read `design-rules.md` first.
 
 ## Run
 

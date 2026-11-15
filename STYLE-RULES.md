@@ -1,3 +1,5 @@
+> The main rules file is `design-rules.md`. This file is kept as the detailed style rules it includes.
+
 # NorthStar style rules
 
 One set of rules for every component, widget, chart and dashboard tile. `tools/style-lint.mjs` enforces

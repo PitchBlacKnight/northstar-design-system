@@ -4,14 +4,15 @@ NorthStar is a design system for dense, data-heavy enterprise consoles. This rep
 
 ## Read first
 
+- `design-rules.md`: the main rules file. Tiers, naming, Figma sync rules, style rules and do-nots. Read it before anything else.
 - `agent/northstar.md`: the index. Rules, layout classes, templates and the component table. Then the component file in `agent/components/` and the closest template in `agent/templates/`. Treat every Avoid line as a hard limit.
 - `agent/components.json` and `agent/tokens.json`: the same catalog as data.
-- `STYLE-RULES.md`: color roles, surfaces, shape, focus and type. These are the design rules.
+- `STYLE-RULES.md`: color roles, surfaces, shape, focus and type (folded into `design-rules.md`).
 - `DECISIONS.md`: why things are the way they are.
 
 ## Sources of truth
 
-- Figma file `VZxmDNQiosTN6gqnvEQ65Z` (NORTHSTAR DS). Variables carry Web code syntax, so Dev Mode and the Figma MCP show `var(--ns-...)` names. Component descriptions name the `ns-` classes and link to the docs page.
+- Code is the source of truth. Figma file `VZxmDNQiosTN6gqnvEQ65Z` (NORTHSTAR DS) is synced from it. Variables carry Web code syntax, so Dev Mode and the Figma MCP show `var(--ns-...)` names. Component descriptions name the `ns-` classes and link to the docs page.
 - `css/tokens.css` and `css/components.css`: the shipped styles. No raw hex, px or font values inside a component where a token exists.
 - `js/components.js`: one entry per component drives nav, search, docs tabs and `agent/*`. Do not edit `agent/*` by hand; `tools/agent-export.mjs` regenerates it.
 

@@ -43,6 +43,48 @@
   --ns-orange-500: #ff8a00;
   --ns-periwinkle-500: #6c63ff;
 
+
+  /* ---------- Primitives: tuned tones (added 2026-11-15 so semantic roles alias a primitive instead of a raw value) ---------- */
+  --ns-navy-980: #0b0b16;
+  --ns-navy-970: #0c0c14;
+  --ns-navy-960: #0e0e18;
+  --ns-navy-950: #0e0e22;
+  --ns-navy-940: #12122a;
+  --ns-navy-930: #16163a;
+  --ns-navy-800: #2a2a4a;
+  --ns-lavender-50: #fafaff;
+  --ns-lavender-100: #f3f3fb;
+  --ns-lavender-200: #e6e6f2;
+  --ns-lavender-300: #dcdcea;
+  --ns-blue-50: #e8edff;
+  --ns-purple-200: #8f8fc0;
+  --ns-purple-350: #5a5a8f;
+  --ns-green-700: #2a7a00;
+  --ns-green-800: #267000;
+  --ns-yellow-800: #944e00;
+  --ns-red-300: #ff5c8d;
+  --ns-red-700: #b80028;
+  --ns-red-800: #930020;
+  --ns-red-900: #84001d;
+  --ns-red-950: #76001a;
+  --ns-crimson-600: #cc1a54;
+  --ns-crimson-700: #b8174c;
+  --ns-crimson-800: #a31443;
+  --ns-scarlet-600: #cc2425;
+  --ns-scarlet-700: #b82021;
+  --ns-scarlet-800: #a31d1d;
+  --ns-blue-300: #4d7cff;
+  --ns-blue-400: #2858ff;
+  --ns-blue-600: #022ecc;
+  --ns-periwinkle-600: #5050ff;
+  --ns-cyan-500: #27bdfa;
+  --ns-teal-600: #00a89e;
+  --ns-teal-700: #00a097;
+  --ns-teal-800: #006b65;
+  --ns-violet-400: #b45cff;
+  --ns-persian-400: #7844f9;
+  --ns-charcoal-900: #121216;
+
   /* ---------- Typography ---------- */
   --ns-font-sans: "Open Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --ns-font-ui: "Open Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -125,17 +167,17 @@
      Semantic roles - DARK (default)
      ============================================================ */
   --ns-background-primary: var(--ns-black);
-  --ns-background-secondary: #0b0b16;
-  --ns-background-surface: #0e0e18;
+  --ns-background-secondary: var(--ns-navy-980);
+  --ns-background-surface: var(--ns-navy-960);
   --ns-background-elevated: var(--ns-navy-900);
-  --ns-background-shell: #0c0c14;
-  --ns-background-selected: #16163a;
+  --ns-background-shell: var(--ns-navy-970);
+  --ns-background-selected: var(--ns-navy-930);
   --ns-background-hover: #ffffff0d;
   --ns-background-inverse: var(--ns-white);
 
   /* Layers: each nested surface steps one level lighter. Fields take the next layer up. */
-  --ns-layer-01: #0e0e18;
-  --ns-layer-02: var(--ns-navy-900);
+  --ns-layer-01: var(--ns-navy-960); /* deprecated for new work: use --ns-background-surface (see agent/northstar.md) */
+  --ns-layer-02: var(--ns-navy-900); /* deprecated for new work: use --ns-background-elevated (see agent/northstar.md) */
   --ns-layer-03: #222244;
   --ns-layer-hover-01: #181826;
   --ns-layer-hover-02: #212142;
@@ -149,7 +191,7 @@
   --ns-border-strong-01: var(--ns-gray-5);
   --ns-border-strong-02: var(--ns-gray-4);
   --ns-border-strong-03: var(--ns-gray-4);
-  --ns-field-01: #121216;
+  --ns-field-01: var(--ns-charcoal-900);
   --ns-field-02: #1f1f3c;
   --ns-field-03: #28284e;
   --ns-field-hover-01: #1a1a22;
@@ -169,16 +211,16 @@
   --ns-border-default: var(--ns-gray-7);
   --ns-border-strong: var(--ns-gray-5);
 
-  --ns-logo-star: #27bdfa; /* logo/star: the star on the logo. Sky on dark; action blue on light, where sky fades */
+  --ns-logo-star: var(--ns-cyan-500); /* logo/star: the star on the logo. Sky on dark; action blue on light, where sky fades */
   --ns-interactive-primary: var(--ns-blue-500);
   --ns-interactive-primary-hover: var(--ns-blue-700);
-  --ns-interactive-primary-active: #022ecc; /* interactive/primary at 80% toward black; pressed stays blue, never purple */
-  --ns-interactive-danger: #cc1a54; /* interactive/danger: status error at 80% toward black, so white text holds 5.5:1 */
-  --ns-interactive-danger-hover: #b8174c;
-  --ns-interactive-danger-active: #a31443;
+  --ns-interactive-primary-active: var(--ns-blue-600); /* interactive/primary at 80% toward black; pressed stays blue, never purple */
+  --ns-interactive-danger: var(--ns-crimson-600); /* interactive/danger: status error at 80% toward black, so white text holds 5.5:1 */
+  --ns-interactive-danger-hover: var(--ns-crimson-700);
+  --ns-interactive-danger-active: var(--ns-crimson-800);
   --ns-interactive-secondary-bg: var(--ns-gray-8);
   --ns-interactive-secondary-hover: var(--ns-gray-7);
-  --ns-field-bg: #121216;
+  --ns-field-bg: var(--ns-charcoal-900);
   --ns-focus-field: var(--ns-blue-700);
   --ns-interactive-secondary: var(--ns-purple-500);
   --ns-interactive-ghost-hover: #ffffff12;
@@ -187,14 +229,14 @@
   --ns-status-success: var(--ns-green-500);
   --ns-status-warning: var(--ns-yellow-500);
   --ns-status-error: var(--ns-red-400);
-  --ns-status-info: #4d7cff;
+  --ns-status-info: var(--ns-blue-300);
   --ns-status-success-bg: #5eff5a14;
   --ns-status-warning-bg: #ffa63f14;
   --ns-status-error-bg: #ff206914;
   --ns-status-info-bg: #023aff1f;
 
-  --ns-viz-1: var(--ns-teal-500);
-  --ns-viz-2: var(--ns-purple-500);
+  --ns-viz-1: var(--ns-teal-500); /* deprecated for new work: use --ns-chart-series-1 (see agent/northstar.md) */
+  --ns-viz-2: var(--ns-purple-500); /* deprecated for new work: use --ns-chart-series-3 (see agent/northstar.md) */
   --ns-viz-3: var(--ns-yellow-500);
   --ns-viz-4: var(--ns-blue-500);
   --ns-viz-5: var(--ns-green-500);
@@ -203,13 +245,13 @@
 
   /* Chart tokens: aliases of theme-aware tokens, so one definition covers both themes */
   --ns-chart-series-1: var(--ns-viz-1);
-  --ns-chart-series-2: #2858ff; /* was viz-4 (#023aff, 2.5:1 on the widget): nudged to 3.2:1 */
+  --ns-chart-series-2: var(--ns-blue-400); /* was viz-4 (#023aff, 2.5:1 on the widget): nudged to 3.2:1 */
   --ns-chart-series-3: var(--ns-viz-2);
-  --ns-chart-series-4: #7844f9; /* was viz-7 (#4807ea, 2.0:1): nudged to 3.3:1 */
+  --ns-chart-series-4: var(--ns-persian-400); /* was viz-7 (#4807ea, 2.0:1): nudged to 3.3:1 */
   --ns-chart-series-5: var(--ns-widget-muted);
-  --ns-chart-track: var(--ns-widget-track);
+  --ns-chart-track: var(--ns-widget-track); /* deprecated for new work: use --ns-widget-track (see agent/northstar.md) */
   --ns-chart-target: var(--ns-text-primary);
-  --ns-chart-marker: #5050ff; /* chart/marker: spacing guide markers, same in all themes */
+  --ns-chart-marker: var(--ns-periwinkle-600); /* chart/marker: spacing guide markers, same in all themes */
   /* Chart measurements, read by NS.viz (js/viz.js) so every renderer draws with the same numbers */
   --ns-chart-axis-size: var(--ns-type-chart-size);
   --ns-chart-stroke: 2.5px;    /* series lines */
@@ -230,14 +272,14 @@
   --ns-gradient-glow: radial-gradient(120% 90% at 85% 0%, #22d3ff 0%, #0a5cff 28%, #0b1a55 48%, transparent 70%);
 
   /* ---------- Widgets (Figma: Widgets page) ---------- */
-  --ns-widget-bg: var(--ns-navy-900);
+  --ns-widget-bg: var(--ns-navy-900); /* deprecated for new work: use --ns-background-elevated (see agent/northstar.md) */
   --ns-widget-inset: var(--ns-black);
-  --ns-widget-track: #0e0e22;
-  --ns-widget-band: #12122a;
-  --ns-widget-grid: #2a2a4a;
+  --ns-widget-track: var(--ns-navy-950);
+  --ns-widget-band: var(--ns-navy-940);
+  --ns-widget-grid: var(--ns-navy-800);
   --ns-widget-muted: var(--ns-purple-300);
   /* Chart text, tuned for 4.5:1 on the widget surface. Graphics keep their own tokens. */
-  --ns-chart-label-text: #8f8fc0;
+  --ns-chart-label-text: var(--ns-purple-200);
   --ns-chart-trend-text: var(--ns-status-success);
   --ns-widget-radius: 12px;
   --ns-widget-shadow: inset 0 1px 0.3px #ffffff08;
@@ -259,8 +301,8 @@
   --ns-background-secondary: var(--ns-gray-0);
   --ns-background-surface: var(--ns-white);
   --ns-background-elevated: var(--ns-white);
-  --ns-background-shell: #fafaff;
-  --ns-background-selected: #e8edff;
+  --ns-background-shell: var(--ns-lavender-50);
+  --ns-background-selected: var(--ns-blue-50);
   --ns-background-hover: #05050f0a;
   --ns-background-inverse: var(--ns-black);
 
@@ -272,7 +314,7 @@
   --ns-layer-hover-02: var(--ns-gray-0);
   --ns-layer-hover-03: #e8e8f5;
   --ns-layer-selected-01: #e0e7ff;
-  --ns-layer-selected-02: #e8edff;
+  --ns-layer-selected-02: var(--ns-blue-50);
   --ns-layer-selected-03: #e0e7ff;
   --ns-border-subtle-01: var(--ns-gray-1);
   --ns-border-subtle-02: var(--ns-gray-1);
@@ -292,8 +334,8 @@
   --ns-text-tertiary: var(--ns-gray-5);
   --ns-text-disabled: var(--ns-gray-2);
   --ns-text-inverse: var(--ns-white);
-  --ns-text-link: #006b65; /* links are the teal accent in both modes */
-  --ns-text-accent: #006b65; /* was #007f78: 4.2:1 on the selected surface, now 5.5:1 */
+  --ns-text-link: var(--ns-teal-800); /* links are the teal accent in both modes */
+  --ns-text-accent: var(--ns-teal-800); /* was #007f78: 4.2:1 on the selected surface, now 5.5:1 */
 
   --ns-border-subtle: var(--ns-gray-1);
   --ns-border-default: var(--ns-gray-2);
@@ -303,30 +345,30 @@
   --ns-interactive-secondary-bg: var(--ns-gray-0);
   --ns-interactive-secondary-hover: var(--ns-gray-1);
   --ns-field-bg: var(--ns-gray-0);
-  --ns-focus-ring: #006b65; /* teal in both modes; 6.5:1 on white */
+  --ns-focus-ring: var(--ns-teal-800); /* teal in both modes; 6.5:1 on white */
   --ns-logo-star: var(--ns-blue-500); /* logo/star */
 
-  --ns-status-success: #267000; /* was #2f8a00 (4.4:1 on white) */
-  --ns-status-warning: #944e00; /* was #b35f00 (3.9:1 on tinted tiles) */
-  --ns-status-error: #b80028; /* was #d7002f (4.3:1 on tinted tiles) */
-  --ns-interactive-danger: #930020;
-  --ns-interactive-danger-hover: #84001d;
-  --ns-interactive-danger-active: #76001a;
+  --ns-status-success: var(--ns-green-800); /* was #2f8a00 (4.4:1 on white) */
+  --ns-status-warning: var(--ns-yellow-800); /* was #b35f00 (3.9:1 on tinted tiles) */
+  --ns-status-error: var(--ns-red-700); /* was #d7002f (4.3:1 on tinted tiles) */
+  --ns-interactive-danger: var(--ns-red-800);
+  --ns-interactive-danger-hover: var(--ns-red-900);
+  --ns-interactive-danger-active: var(--ns-red-950);
   --ns-status-info: var(--ns-blue-500);
   --ns-status-success-bg: #73be031a;
   --ns-status-warning-bg: #ffa63f1f;
   --ns-status-error-bg: #ff2d2e14;
   --ns-status-info-bg: #023aff12;
 
-  --ns-viz-1: #00a89e;
+  --ns-viz-1: var(--ns-teal-600);
   --ns-widget-bg: var(--ns-white);
   --ns-widget-inset: var(--ns-gray-0);
-  --ns-widget-track: #e6e6f2;
-  --ns-widget-band: #f3f3fb;
-  --ns-widget-grid: #dcdcea;
-  --ns-widget-muted: #5a5a8f;
-  --ns-chart-label-text: #5a5a8f;
-  --ns-chart-trend-text: #2a7a00;
+  --ns-widget-track: var(--ns-lavender-200);
+  --ns-widget-band: var(--ns-lavender-100);
+  --ns-widget-grid: var(--ns-lavender-300);
+  --ns-widget-muted: var(--ns-purple-350);
+  --ns-chart-label-text: var(--ns-purple-350);
+  --ns-chart-trend-text: var(--ns-green-700);
   --ns-widget-shadow: 0 1px 2px #05050f14, 0 0 0 1px var(--ns-border-subtle);
 
   --ns-elevation-01: 0 1px 2px #05050f14, 0 0 0 1px var(--ns-border-subtle);
@@ -336,7 +378,7 @@
 
   color-scheme: light;
   /* Series 1 nudged to 3.2:1 on white (was viz-1, #00a89e, 3.0:1) */
-  --ns-chart-series-1: #00a097;
+  --ns-chart-series-1: var(--ns-teal-700);
   --ns-chart-series-2: var(--ns-viz-4);
   --ns-chart-series-4: var(--ns-viz-7);
 }
@@ -414,10 +456,10 @@
   --ns-status-info: #023aff; /* status/info */
   --ns-background-selected: #1e1e24; /* background/selected */
   --ns-interactive-primary: #023aff; /* interactive/primary */
-  --ns-logo-star: #27bdfa; /* logo/star */
-  --ns-interactive-danger: #cc2425; /* interactive/danger */
-  --ns-interactive-danger-hover: #b82021;
-  --ns-interactive-danger-active: #a31d1d;
+  --ns-logo-star: var(--ns-cyan-500); /* logo/star */
+  --ns-interactive-danger: var(--ns-scarlet-600); /* interactive/danger */
+  --ns-interactive-danger-hover: var(--ns-scarlet-700);
+  --ns-interactive-danger-active: var(--ns-scarlet-800);
   --ns-focus-ring: #ffa63f; /* focus/ring */
   --ns-widget-bg: #191932; /* widget/bg */
   --ns-widget-inset: #000000; /* widget/inset */
@@ -426,17 +468,17 @@
   --ns-widget-grid: #5b5b65; /* widget/grid */
   --ns-widget-muted: #d0d0da; /* widget/muted */
   --ns-viz-1: #01f1e3; /* viz/1 */
-  --ns-viz-2: #b45cff; /* viz/2 */
+  --ns-viz-2: var(--ns-violet-400); /* viz/2 */
   --ns-viz-3: #ffa63f; /* viz/3 */
-  --ns-viz-4: #4d7cff; /* viz/4 */
+  --ns-viz-4: var(--ns-blue-300); /* viz/4 */
   --ns-viz-5: #5eff5a; /* viz/5 */
-  --ns-viz-6: #ff5c8d; /* viz/6 */
+  --ns-viz-6: var(--ns-red-300); /* viz/6 */
   --ns-viz-7: #8855e8; /* viz/7 */
   --ns-chart-label-text: #d0d0da; /* text/chart-label */
   --ns-chart-series-1: #01f1e3; /* chart/series-1 */
-  --ns-chart-series-2: #2858ff; /* chart/series-2 (was #023aff, 2.5:1): 3.2:1 on widget/bg */
+  --ns-chart-series-2: var(--ns-blue-400); /* chart/series-2 (was #023aff, 2.5:1): 3.2:1 on widget/bg */
   --ns-chart-series-3: #991bfa; /* chart/series-3 */
-  --ns-chart-series-4: #7844f9; /* chart/series-4 (was #4807ea, 2.0:1): 3.3:1 on widget/bg */
+  --ns-chart-series-4: var(--ns-persian-400); /* chart/series-4 (was #4807ea, 2.0:1): 3.3:1 on widget/bg */
   --ns-chart-series-5: #6a6a9f; /* chart/series-5 */
   --ns-chart-track: var(--ns-widget-track); /* chart/track, was #0e0e22 (the dark value), nearly invisible in high contrast */
   --ns-chart-target: #ffffff; /* chart/target */

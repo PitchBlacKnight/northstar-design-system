@@ -25,7 +25,7 @@ const CHECKS = {
   parity: ["React kit parity with docs", "tools/parity-check.mjs"],
   charts: ["Chart check (values vs drawing)", "tools/chart-check.mjs"],
   behaviorScript: ["Behavior script (js/ns-behavior.js)", "tools/behavior-script-check.mjs"],
-  templates: ["Agent templates (agent-check)", "tools/agent-check.mjs", "agent/templates/analytical-list.html", "agent/templates/object-detail.html", "agent/templates/settings-form.html", "agent/templates/dashboard.html"],
+  templates: ["Agent templates (agent-check)", "tools/agent-check.mjs", "agent/templates/analytical-list.html", "agent/templates/object-detail.html", "agent/templates/settings-form.html", "agent/templates/dashboard.html", "agent/templates/sign-in.html", "agent/templates/empty-state.html", "agent/templates/loading-state.html", "agent/templates/error-state.html"],
   figma: ["Figma drift (online)", "tools/figma-sync-check.mjs", "--strict"],
 };
 const picked = process.argv.slice(2).filter((a) => CHECKS[a]);

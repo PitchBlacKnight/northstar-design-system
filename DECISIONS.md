@@ -110,3 +110,23 @@ Each entry: the problem, options rejected and why, what was tested, what shipped
 **Test.** Pixel comparison of Home, Typography, Tokens and Dashboards against the live site: 0 changed pixels. `check-all`: 13 of 13 pass.
 
 **Open.** Heading / H1 (32/40) and the 32px line under Heading / H2 have no CSS token. Closing that means adding tokens, which changes the visible token count from 231.
+
+## 2026-11-15 · Agent surface pass: one rules file, token decisions, state templates (no visual change)
+
+**Define.** Agents had three gaps: rules split across CLAUDE.md, STYLE-RULES.md and notes outside the repo; duplicate tokens with no stated preference (`--ns-background-*` against `--ns-layer-*`, `--ns-viz-*` against `--ns-chart-series-*`, `--ns-widget-bg` and `--ns-chart-track` as aliases); and no templates for sign-in, empty, loading or error screens.
+
+**Build.** `design-rules.md` is now the first read: source of truth and sync rules, token tiers, naming for new tokens, do-nots and the style rules. `STYLE-RULES.md` stays and points to it. The agent export gained a "Which token to use" table (one token per task) and a "Deprecated for new work" list, and `agent/tokens.json` entries carry `deprecated` and `use`. `tokens.css` has comments beside the six deprecated tokens; no values changed. Four templates added: sign-in, empty state, loading state, error state, built from existing classes only (skeletons use `&nbsp;` for height, so no inline style). `README.md` now says code first. `AGENT-READINESS-AUDIT.md` is marked historical. The long dated working history moved out of memory into a private archive (not in this public repo). The deleted-Vercel-project folder was moved to ~/ARCHIVE/_backups/northstar-vercel-deleted-2026-11-15/.
+
+**Rejected.** Deprecating every `--ns-layer-*` token: `layer-03` and the hover and selected variants have no equal in `--ns-background-*`, and the `.ns-layer` classes use them. Deprecating `--ns-viz-3..7`: there are only five chart series, so they have no replacement. Deprecating `--ns-chart-label-text` or `--ns-widget-muted`: the values differ.
+
+**Test.** Pairs measured in `tokens.css` per mode. `layer-02`, `widget-bg` and `background-elevated` are equal in dark and light; `layer-01` equals `background-surface` in dark only. Preferred token is the one `components.css` uses most. Templates pass the templates check. The visual check passes without `--update`.
+
+**Ship.** Not committed, pushed or deployed. Left uncommitted for review.
+
+## 2026-11-15 · Tuned tones become primitives
+
+**Define.** 51 Semantic / Colors variables held a raw value in at least one mode, so an agent reading Figma saw hex where it should see a role-to-primitive chain.
+**Build.** 33 mode values that already equaled a primitive now alias it. 39 tuned tones (contrast-tuned navies, lavenders, status darks, danger sets, chart tones) became named primitives in code and Figma with the same names: navy/980 to navy/800, lavender/50 to 300, blue/50, 300, 400, 600, purple/200, 350, green/700, 800, yellow/800, red/300, 700 to 950, crimson/600 to 800, scarlet/600 to 800, periwinkle/600, cyan/500, teal/600 to 800, violet/400, persian/400, charcoal/900. Each has WEB code syntax, no picker scopes, and a "use through a semantic token" description. 52 more mode values alias them. Rejected: leaving them raw (agents copy hex) and snapping them to the nearest existing primitive (changes contrast that was tuned for AA).
+**Test.** Values are identical, so token drift, visual and a11y checks are unchanged. Token count is 270 (was 231); index.html and the case study counter were updated.
+**Design.** Only the alpha tints (hover, status backgrounds, ghost hover) stay raw: a Figma alias cannot change opacity.
+**Ship.** Figma edited in place. Not deployed.
