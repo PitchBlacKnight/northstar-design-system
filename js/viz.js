@@ -161,11 +161,37 @@
     if (bar.closest('.cthumb, [data-motion="off"]')) { bar.dataset.motion = "off"; return; }
     bar.dataset.motion = "wait"; bar.classList.add(WAIT); io.observe(bar);
   };
+  /* Headline numbers count up to their value once, as their chart arrives: same easing, about as long as a bar grows.
+     Only the number moves; prefix and suffix ($, %, /s, GB) stay. The box is held at its final width so the trend
+     beside it never shifts, and the final text is the original text, character for character. Words (Dec, CA) stay put. */
+  const VAL = ".ns-chart__value, .ns-w__value, .bt__value";
+  const NUM = /^([^\d-]*)(-?\d[\d,]*(?:\.\d+)?)(.*)$/s;
+  const count = (el) => {
+    el.dataset.count = "done";
+    const node = [...el.childNodes].find((x) => x.nodeType === 3 && x.textContent.trim());
+    const m = node && node.textContent.trim().match(NUM);
+    if (!m) return;
+    const [, pre, num, post] = m, to = parseFloat(num.replace(/,/g, "")), dec = (num.split(".")[1] || "").length;
+    if (!isFinite(to) || to === 0) return;
+    const raw = node.textContent, box = document.createElement("span");
+    box.style.display = "inline-block"; box.textContent = raw; node.replaceWith(box);
+    box.style.minWidth = box.getBoundingClientRect().width + "px";
+    const fmt = (v) => pre + v.toLocaleString("en-US", { minimumFractionDigits: dec, maximumFractionDigits: dec, useGrouping: num.includes(",") }) + post;
+    const t0 = performance.now(), D = 900, ease = (k) => 1 - Math.pow(1 - k, 3);
+    const step = (now) => {
+      const k = Math.min(1, (now - t0) / D);
+      if (k < 1) { box.textContent = fmt(to * ease(k)); requestAnimationFrame(step); } else box.replaceWith(document.createTextNode(raw));
+    };
+    box.textContent = fmt(0); requestAnimationFrame(step);
+  };
+  const vio = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { vio.unobserve(e.target); count(e.target); } }), { threshold: 0.6 });
+  const adoptVal = (el) => { if (el.dataset.count || el.closest('.cthumb, [data-motion="off"]')) return; el.dataset.count = "wait"; vio.observe(el); };
   const SEL = 'svg:is([role="img"], [data-chart], [data-bullet]):not(.ns-logo)';
   const scan = (n) => {
     if (n.nodeType !== 1) return;
     if (n.matches(SEL)) adopt(n); n.querySelectorAll(SEL).forEach(adopt);
     if (n.matches(".bar")) adoptBar(n); n.querySelectorAll(".bar").forEach(adoptBar);
+    if (n.matches(VAL)) adoptVal(n); n.querySelectorAll(VAL).forEach(adoptVal);
   };
   new MutationObserver((ms) => ms.forEach((m) => m.addedNodes.forEach(scan))).observe(document.documentElement, { childList: true, subtree: true });
   if (document.body) scan(document.body); else document.addEventListener("DOMContentLoaded", () => scan(document.body));

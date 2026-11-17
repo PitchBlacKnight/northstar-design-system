@@ -130,3 +130,21 @@ Each entry: the problem, options rejected and why, what was tested, what shipped
 **Test.** Values are identical, so token drift, visual and a11y checks are unchanged. Token count is 270 (was 231); index.html and the case study counter were updated.
 **Design.** Only the alpha tints (hover, status backgrounds, ghost hover) stay raw: a Figma alias cannot change opacity.
 **Ship.** Figma edited in place. Not deployed.
+
+## 2026-11-16 · Seven chart gaps, from the Bklit UI list
+
+**Define.** Bklit UI (open source, MIT, github.com/bklit/bklit-ui) is a chart registry for shadcn/ui. Held against its chart list, NorthStar's chart components (22) had no stacked area, composed (bar plus line), profit and loss, map, live or brushing chart, and no shared way to annotate a plot. Headline numbers were the last open item in chart motion.
+
+**Build.** Seven chart descriptions in `js/charts.js`, each drawing all five sizes from one `prims` function like every other chart: Area (stacked), Composed (two scales), Profit and loss (split at zero), Choropleth (US tile grid, five steps plus no data), Live line (one tick a second, Pause button), Annotated line and Brush (the plot is a range slider). Overlay helpers in `NS.chartKit.H`: `span`, `band`, `rule`, `deadline`, `trend`, `projection`, `marker`. A new `da` property on path primitives draws dashes. `js/viz.js` counts headline numbers up once as their chart arrives (`.ns-chart__value`, `.ns-w__value`, `.bt__value`), holding the final width so the trend never shifts. Docs entries in `js/components.js` with `figma: null` (waiting for a sync).
+
+**Rejected.**
+- Installing Bklit: it needs React 19, Tailwind, shadcn, Base UI and Motion. NorthStar is framework-free with no build, and React working apps were rejected on 2026-11-08. No Bklit code was copied; only its list of chart types was used as a reference.
+- A geographic map: needs map data and does not draw in Figma as plain shapes. The tile grid keeps small states visible.
+- Sparkline as a chart component: it already exists as `NS.dash.spark`.
+- Stopping live updates under reduced motion: the update is new data, not decoration. The Pause button covers WCAG 2.2.2, and compact sizes (no room for a button) never update.
+
+**Test.** Chart, accessibility, behavior, parity and fit checks pass. The visual check with the seven new components filtered out shows no change on the 334 existing tiles; baselines were then updated because new tiles shift the 48-tile pages. Brush tested by keyboard (pan, resize, Home, End, three-month minimum) and pointer; live ticks once a second and stops on Pause; counted values end on the exact original text.
+
+**Design.** Profit and loss uses status success and error on purpose (a result, like Candlestick), with position above or below zero carrying the same meaning. Dashed always means not measured.
+
+**Ship.** Committed on branch `chart-gaps`. Not merged, pushed or deployed. Before publishing: the case study counter says 58 components (now 65), and the Figma builder needs `da` (dash) support when these sets are synced.

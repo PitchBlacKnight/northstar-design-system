@@ -12,6 +12,22 @@
     ylab: (x, y0, y1, L) => L.map((s, i) => ({ k: "text", x, y: y0 + ((y1 - y0) * i) / (L.length - 1), s, a: "end", n: "Axis label" })),
     xlab: (x0, x1, y, L) => L.map((s, i) => ({ k: "text", x: x0 + (x1 - x0) * (L.length === 1 ? 0.5 : i / (L.length - 1)), y, s, a: "middle", n: "Axis label" })),
     poly: (P) => P.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" "),
+    /* Overlays: marks any chart can lay over its plot. Behind the data: span (weekends, a reference area)
+       and band (a goal range). Over the data: rule (a threshold), deadline, trend, projection and marker.
+       Dashed strokes use da; every overlay is a plain rect, path, circle or text, so Figma draws them too. */
+    span: (x0, x1, y0, y1, n = "Span", f = "band", o) => ({ k: "rect", x: Math.min(x0, x1), y: y0, w: Math.abs(x1 - x0), h: y1 - y0, f, o, n }),
+    band: (x0, x1, ya, yb, n = "Reference band", f = "s2") => ({ k: "rect", x: x0, y: Math.min(ya, yb), w: x1 - x0, h: Math.abs(yb - ya), f, o: 0.14, n }),
+    rule: (x0, x1, y, n = "Reference line", sk = "target") => ({ k: "path", d: `M${x0.toFixed(1)} ${y.toFixed(1)}L${x1.toFixed(1)} ${y.toFixed(1)}`, sk, sw: 1.5, da: "4 4", n }),
+    deadline: (x, y0, y1, s, n = "Deadline") => [{ k: "path", d: `M${x.toFixed(1)} ${y0.toFixed(1)}L${x.toFixed(1)} ${y1.toFixed(1)}`, sk: "target", sw: 1.5, da: "3 3", n }, ...(s ? [{ k: "text", x: x - 4, y: y0 + 8, s, a: "end", n: n + " label" }] : [])],
+    /* least-squares line through points [[x, y]], drawn across their x range */
+    trend: (P, n = "Trend line", sk = "target") => {
+      const k = P.length, mx = P.reduce((a, p) => a + p[0], 0) / k, my = P.reduce((a, p) => a + p[1], 0) / k;
+      const sxx = P.reduce((a, p) => a + (p[0] - mx) ** 2, 0) || 1, m = P.reduce((a, p) => a + (p[0] - mx) * (p[1] - my), 0) / sxx;
+      const xa = Math.min(...P.map((p) => p[0])), xb = Math.max(...P.map((p) => p[0]));
+      return { k: "path", d: H.poly([[xa, my + m * (xa - mx)], [xb, my + m * (xb - mx)]]), sk, sw: 1.5, so: 0.7, n };
+    },
+    projection: (P, sk = "s1", n = "Projection") => [{ k: "path", d: H.poly(P), sk, sw: 2, da: "5 5", n }, { k: "circle", cx: P[P.length - 1][0], cy: P[P.length - 1][1], r: 4, f: "bg", sk, sw: 2, n: n + " end" }],
+    marker: (cx, cy, s, n = "Marker", sk = "s1") => [{ k: "circle", cx, cy, r: 5, f: "bg", sk, sw: 2, n }, ...(s ? [{ k: "text", x: cx, y: cy - 14, s, a: "middle", f: "text", n: n + " label" }] : [])],
   };
 
   const DEFS = {};
@@ -352,6 +368,168 @@
       return out;
     },
   };
+  DEFS.area = {
+    name: "Area",
+    alt: "Stacked area chart: organic and paid sessions over eight months, both rising, paid stacked on top",
+    kpi: ["Sessions", "212,400", "+5.4%", "Organic below, paid stacked above", "Organic + paid"],
+    sum: [["Paid", "74,300", "+1.5%", "Upper band", "Upper band"], ["Best month", "Aug", "+0.9%", "Highest total", "Highest total"]],
+    prims: (w, h, o) => {
+      const c = o.compact, ml = c ? 0 : 30, mb = c ? 0 : 22, pw = w - ml, ph = h - mb;
+      const A = [0.22, 0.26, 0.25, 0.31, 0.30, 0.36, 0.38, 0.44], B = [0.12, 0.14, 0.18, 0.16, 0.20, 0.22, 0.21, 0.26];
+      const dx = pw / (A.length - 1), Y = (v) => ph - 2 - v * (ph - 6), X = (i) => ml + dx * i;
+      const low = A.map((v, i) => [X(i), Y(v)]), top = A.map((v, i) => [X(i), Y(v + B[i])]);
+      const g = c ? [] : [...H.hgrid(ml, w, 0, ph, 4), ...H.ylab(ml - 8, 0, ph, ["30k", "20k", "10k", "0"]), ...H.xlab(ml + 12, w - 12, h - 8, ["Jan", "Mar", "May", "Aug"])];
+      return [...g,
+        { k: "path", d: H.poly([...low, [X(A.length - 1), Y(0)], [ml, Y(0)]]) + " Z", f: "s1", o: 0.5, n: "Organic" },
+        { k: "path", d: H.poly([...top, ...low.slice().reverse()]) + " Z", f: "s3", o: 0.4, n: "Paid" },
+        { k: "path", d: H.poly(low), sk: "s1", sw: 2, n: "Organic edge" },
+        { k: "path", d: H.poly(top), sk: "s3", sw: 2, n: "Paid edge" }];
+    },
+  };
+  DEFS.composed = {
+    name: "Composed",
+    alt: "Composed chart: monthly orders as bars and the conversion rate as a line on its own scale, both rising",
+    kpi: ["Orders", "9,860", "+3.1%", "Orders as bars, conversion as a line", "Orders and rate"],
+    sum: [["Conversion", "3.4%", "+0.2%", "Line, right-hand scale", "Right scale"], ["Best month", "Oct", "+1.0%", "Most orders", "Most orders"]],
+    prims: (w, h, o) => {
+      const c = o.compact, ml = c ? 0 : 30, mr = c ? 0 : 30, mb = c ? 0 : 22, pw = w - ml - mr, ph = h - mb;
+      const V = [0.40, 0.52, 0.46, 0.58, 0.55, 0.64, 0.60, 0.72, 0.68, 0.80].slice(c ? 3 : 0), R = [0.55, 0.50, 0.58, 0.62, 0.57, 0.66, 0.70, 0.68, 0.76, 0.84].slice(c ? 3 : 0);
+      const step = pw / V.length, bw = Math.max(3, step * 0.5), Y = (v) => ph - 4 - v * (ph - 12), X = (i) => ml + step * (i + 0.5);
+      const g = c ? [] : [...H.hgrid(ml, w - mr, 0, ph, 4), ...H.ylab(ml - 8, 0, ph, ["1.2k", "800", "400", "0"]), ...["4%", "3%", "2%", "1%"].map((s, i) => ({ k: "text", x: w - mr + 8, y: (ph * i) / 3, s, a: "start", n: "Right axis label" })), ...H.xlab(X(0), X(V.length - 1), h - 8, ["Jan", "Apr", "Jul", "Oct"])];
+      const line = R.map((v, i) => [X(i), Y(v)]), end = line[line.length - 1];
+      return [...g,
+        ...V.map((v, i) => { const bh = v * (ph - 4); return { k: "rect", x: X(i) - bw / 2, y: ph - bh, w: bw, h: bh, r: Math.min(12, bw / 2), f: "s1", o: 0.85, n: "Bar " + (i + 1) }; }),
+        { k: "path", d: H.poly(line), sk: "s3", sw: 2.5, n: "Conversion" },
+        { k: "circle", cx: end[0], cy: end[1], r: c ? 3 : 4, f: "s3", n: "Latest rate" }];
+    },
+  };
+  DEFS.profitloss = {
+    name: "Profit and loss",
+    alt: "Profit and loss line: twelve months of net result around zero, four months fall below zero",
+    kpi: ["Net result", "$18,400", "+2.6%", "Monthly net, above and below zero", "Above and below zero"],
+    sum: [["Best month", "$6,200", "+1.8%", "Largest gain", "Largest gain"], ["Months in profit", "8", "+1", "Of twelve months", "Of 12"]],
+    prims: (w, h, o) => {
+      const c = o.compact, ml = c ? 0 : 36, mb = c ? 0 : 22, pw = w - ml, ph = h - mb, mid = ph / 2, amp = ph / 2 - 6;
+      const V = [0.20, 0.35, 0.10, -0.15, -0.30, -0.05, 0.25, 0.45, 0.30, -0.10, 0.40, 0.60];
+      const dx = pw / (V.length - 1), X = (i) => ml + dx * i, Y = (v) => mid - v * amp;
+      /* split the line where it crosses zero, so each piece takes one color and one fill */
+      const segs = []; let cur = [[X(0), Y(V[0])]], up = V[0] >= 0;
+      for (let i = 1; i < V.length; i++) {
+        if ((V[i] >= 0) !== up) { const t = V[i - 1] / (V[i - 1] - V[i]), cross = [X(i - 1) + t * dx, mid]; cur.push(cross); segs.push([up, cur]); cur = [cross]; up = !up; }
+        cur.push([X(i), Y(V[i])]);
+      }
+      segs.push([up, cur]);
+      const g = c ? [] : [...H.ylab(ml - 8, 6, ph - 6, ["+$6k", "0", "-$6k"]), ...H.xlab(ml + 12, w - 12, h - 8, ["Jan", "Apr", "Jul", "Oct", "Dec"])];
+      const out = [...g, { k: "rect", x: ml, y: mid - 0.5, w: pw, h: 1, f: "target", n: "Zero line" }];
+      segs.forEach(([u, P], i) => out.push({ k: "path", d: H.poly([...P, [P[P.length - 1][0], mid], [P[0][0], mid]]) + " Z", f: u ? "ok" : "err", o: 0.16, n: (u ? "Gain" : "Loss") + " area " + (i + 1) }));
+      segs.forEach(([u, P], i) => out.push({ k: "path", d: H.poly(P), sk: u ? "ok" : "err", sw: 2, n: (u ? "Gain" : "Loss") + " line " + (i + 1) }));
+      return out;
+    },
+  };
+  DEFS.choropleth = {
+    name: "Choropleth",
+    alt: "Tile map choropleth: one square per US state, darker states have more active accounts, two states have no data",
+    kpi: ["Active accounts", "41,200", "+2.9%", "By state, darker is more", "By state"],
+    sum: [["Top state", "CA", "+1.2%", "Most accounts", "Most accounts"], ["States reporting", "48", "+2", "Of 50 states", "Of 50"]],
+    /* tile grid: [state, column, row] on a 12 by 8 grid */
+    tiles: [["AK", 0, 0], ["ME", 11, 0], ["WI", 6, 1], ["VT", 10, 1], ["NH", 11, 1], ["WA", 1, 2], ["ID", 2, 2], ["MT", 3, 2], ["ND", 4, 2], ["MN", 5, 2], ["IL", 6, 2], ["MI", 7, 2], ["NY", 9, 2], ["MA", 10, 2],
+      ["OR", 1, 3], ["NV", 2, 3], ["WY", 3, 3], ["SD", 4, 3], ["IA", 5, 3], ["IN", 6, 3], ["OH", 7, 3], ["PA", 8, 3], ["NJ", 9, 3], ["CT", 10, 3], ["RI", 11, 3],
+      ["CA", 1, 4], ["UT", 2, 4], ["CO", 3, 4], ["NE", 4, 4], ["MO", 5, 4], ["KY", 6, 4], ["WV", 7, 4], ["VA", 8, 4], ["MD", 9, 4], ["DE", 10, 4],
+      ["AZ", 2, 5], ["NM", 3, 5], ["KS", 4, 5], ["AR", 5, 5], ["TN", 6, 5], ["NC", 7, 5], ["SC", 8, 5], ["OK", 4, 6], ["LA", 5, 6], ["MS", 6, 6], ["AL", 7, 6], ["GA", 8, 6], ["HI", 0, 7], ["TX", 4, 7], ["FL", 9, 7]],
+    prims: (w, h, o) => {
+      const c = o.compact, mb = c ? 0 : 24, gap = c ? 1.5 : 3, ph = h - mb, T = DEFS.choropleth.tiles;
+      const s = Math.max(2, Math.min((w - gap * 11) / 12, (ph - gap * 7) / 8)), x0 = (w - (s * 12 + gap * 11)) / 2, y0 = (ph - (s * 8 + gap * 7)) / 2;
+      const STEP = [0.18, 0.38, 0.58, 0.78, 1], none = { WY: 1, ND: 1 }, out = [];
+      T.forEach(([st, col, row], i) => {
+        const v = st === "CA" ? 4 : st === "TX" || st === "NY" ? 3 : (i * 7 + col * 3 + row * 5) % 5, x = x0 + col * (s + gap), y = y0 + row * (s + gap);
+        out.push(none[st] ? { k: "rect", x, y, w: s, h: s, r: c ? 1 : 3, f: "track", n: st + " (no data)" } : { k: "rect", x, y, w: s, h: s, r: c ? 1 : 3, f: "s1", o: STEP[v], n: st });
+      });
+      if (!c) {
+        /* Fewer [five steps] More, then the no-data key: about 250px in one centred row. Narrower plots drop
+           the no-data key, then the words, so the legend never runs past the plot. */
+        const k = 12, ly = h - 8, words = w >= 200, nd = w >= 270, lx = w / 2 - (nd ? 82 : words ? 40 : 38);
+        if (words) out.push({ k: "text", x: lx - 8, y: ly, s: "Fewer", a: "end", n: "Legend low" });
+        STEP.forEach((op, i) => out.push({ k: "rect", x: lx + i * (k + 4), y: ly - k / 2, w: k, h: k, r: 2, f: "s1", o: op, n: "Legend step " + (i + 1) }));
+        if (words) out.push({ k: "text", x: lx + 5 * k + 16 + 8, y: ly, s: "More", a: "start", n: "Legend high" });
+        if (nd) out.push({ k: "rect", x: lx + 120, y: ly - k / 2, w: k, h: k, r: 2, f: "track", n: "Legend no data" }, { k: "text", x: lx + 120 + k + 6, y: ly, s: "No data", a: "start", n: "Legend no data label" });
+      }
+      return out;
+    },
+  };
+  DEFS.live = {
+    name: "Live line",
+    live: true,
+    alt: "Live line chart: requests per second over the last 60 seconds, updating every second",
+    kpi: ["Requests", "1,284/s", "+1.9%", "Last 60 seconds, updates every second", "Last 60 s"],
+    sum: [["Peak", "1,460/s", "+0.6%", "Highest in the window", "Window high"], ["Errors", "0.2%", "+0.1%", "Share of failed requests", "Failed"]],
+    /* the value at tick k; the window shows ticks t to t + 29, so each tick slides the line one step left */
+    at: (k) => 0.48 + 0.18 * Math.sin(k * 0.3) + 0.09 * Math.sin(k * 0.85 + 1) + 0.035 * Math.sin(k * 2.2 + 2),
+    prims: (w, h, o) => {
+      const c = o.compact, ml = c ? 0 : 30, mr = c ? 4 : 10, mb = c ? 0 : 22, pw = w - ml - mr, ph = h - mb, N = 30, t = o.t || 0;
+      const dx = pw / (N - 1), Y = (v) => ph - 4 - v * (ph - 8);
+      const P = Array.from({ length: N }, (_, i) => [ml + dx * i, Y(DEFS.live.at(t + i))]), end = P[N - 1];
+      const g = c ? [] : [...H.hgrid(ml, w - mr, 0, ph, 4), ...H.ylab(ml - 8, 0, ph, ["1.6k", "1.2k", "800", "400"]), ...H.xlab(ml + 14, w - mr - 10, h - 8, ["-60s", "-30s", "Now"])];
+      return [...g,
+        { k: "path", d: H.poly([...P, [end[0], ph], [ml, ph]]) + " Z", f: "s1", o: 0.12, n: "Area" },
+        { k: "path", d: H.poly(P), sk: "s1", sw: 2, n: "Requests" },
+        { k: "circle", cx: end[0], cy: end[1], r: c ? 5 : 8, f: "s1", o: 0.2, n: "Now halo" },
+        { k: "circle", cx: end[0], cy: end[1], r: c ? 2.5 : 4, f: "s1", n: "Now point" }];
+    },
+  };
+  DEFS.annotated = {
+    name: "Annotated line",
+    alt: "Annotated line chart: eleven days of signups with weekends shaded, a goal band, a launch deadline, a marked peak and a dashed projection to day fourteen",
+    kpi: ["Signups", "1,920", "+7.4%", "Two weeks against the goal band", "Vs goal band"],
+    sum: [["Projected", "2,300", "+1.9%", "Dashed line to day 14", "Projection"], ["Peak day", "212", "+0.8%", "Marked on the plot", "Marked"]],
+    prims: (w, h, o) => {
+      const c = o.compact, ml = c ? 0 : 30, mb = c ? 0 : 22, pw = w - ml, ph = h - mb, N = 14, pad = c ? 3 : 8;
+      const V = [0.30, 0.36, 0.33, 0.42, 0.40, 0.28, 0.26, 0.48, 0.55, 0.72, 0.60], F = [0.66, 0.73, 0.80];   /* days 12 to 14 */
+      const dx = (pw - pad * 2) / (N - 1), X = (i) => ml + pad + dx * i, Y = (v) => ph - 4 - v * (ph - 8), P = V.map((v, i) => [X(i), Y(v)]);
+      const out = [];
+      [[5, 6], [12, 13]].forEach(([a, b], i) => out.push(H.span(Math.max(ml, X(a) - dx / 2), Math.min(w, X(b) + dx / 2), 0, ph, "Weekend " + (i + 1))));
+      if (!c) out.push(...H.hgrid(ml, w, 0, ph, 4), ...H.ylab(ml - 8, 0, ph, ["300", "200", "100", "0"]), ...H.xlab(ml + 20, w - 22, h - 8, ["Day 1", "Day 7", "Day 14"]));
+      out.push(H.band(ml, w, Y(0.45), Y(0.62), "Goal band"));
+      if (!c) out.push({ k: "text", x: ml + 6, y: Y(0.62) + 9, s: "Goal", a: "start", n: "Goal label" });
+      out.push(...H.deadline(X(11), 0, ph, c ? "" : "Launch"));
+      if (o.size === "XL") out.push(H.trend(P));
+      out.push({ k: "path", d: H.poly(P), sk: "s1", sw: 2, n: "Signups" });
+      out.push(...H.projection([P[P.length - 1], ...F.map((v, i) => [X(V.length + i), Y(v)])]));
+      out.push(...H.marker(P[9][0], P[9][1], c ? "" : "Peak 212"));
+      return out;
+    },
+  };
+  DEFS.brush = {
+    name: "Brush",
+    alt: "Brush chart: three years of monthly throughput, a window on the overview strip picks the months shown above",
+    kpi: ["Throughput", "18.6k", "+3.3%", "Drag the window to choose the months", "Pick a range"],
+    sum: [["Range high", "2.1k", "+0.7%", "Highest month in the window", "Window high"], ["Range low", "1.2k", "+0.3%", "Lowest month in the window", "Window low"]],
+    N: 36,
+    at: (i) => 0.34 + i * 0.012 + 0.14 * Math.sin(i * 0.7) + 0.06 * Math.sin(i * 1.9 + 1),
+    month: (i) => ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][i % 12] + " " + (2024 + Math.floor(i / 12)),
+    /* where the overview strip sits; the behavior below reads the same numbers to turn a drag into a range */
+    layout: (w, h, o) => { const c = o.compact, ml = c ? 0 : 30, ov = c ? 20 : 36, gap = c ? 6 : 10, lab = c ? 0 : 20; return { ml, pw: w - ml, fh: h - ov - gap - lab, oy: h - ov, ov }; },
+    range: (o) => { const r = o.range || [0.55, 0.9], n = DEFS.brush.N - 1, snap = (v) => Math.round(Math.max(0, Math.min(v, 1)) * n) / n; return [snap(r[0]), snap(r[1])]; },   /* snapped to whole months, so a pan never changes the width */
+    prims: (w, h, o) => {
+      const B = DEFS.brush, L = B.layout(w, h, o), c = o.compact, N = B.N, [a, b] = B.range(o);
+      const i0 = Math.round(a * (N - 1)), i1 = Math.max(i0 + 1, Math.round(b * (N - 1))), n = i1 - i0;
+      const FY = (v) => L.fh - 4 - v * (L.fh - 8), OY = (v) => L.oy + L.ov - 3 - v * (L.ov - 6), OX = (i) => L.ml + (L.pw * i) / (N - 1);
+      const F = Array.from({ length: n + 1 }, (_, k) => [L.ml + (L.pw * k) / n, FY(B.at(i0 + k))]);
+      const x0 = OX(i0), x1 = OX(i1), out = [];
+      if (!c) out.push(...H.hgrid(L.ml, w, 0, L.fh, 3), ...H.ylab(L.ml - 8, 0, L.fh, ["2k", "1k", "0"]), ...H.xlab(L.ml + 28, w - 28, L.fh + 11, [B.month(i0), B.month(Math.round((i0 + i1) / 2)), B.month(i1)]));
+      out.push({ k: "path", d: H.poly([...F, [w, L.fh], [L.ml, L.fh]]) + " Z", f: "s1", o: 0.12, n: "Focus area" }, { k: "path", d: H.poly(F), sk: "s1", sw: 2, n: "Focus line" });
+      out.push({ k: "rect", x: L.ml, y: L.oy, w: L.pw, h: L.ov, r: 4, f: "band", n: "Overview" });
+      out.push({ k: "path", d: H.poly(Array.from({ length: N }, (_, i) => [OX(i), OY(B.at(i))])), sk: "s1", sw: 1.5, so: 0.7, n: "Overview line" });
+      out.push({ k: "rect", x: x0, y: L.oy, w: x1 - x0, h: L.ov, r: 4, f: "s1", o: 0.14, sk: "s1", sw: 1.5, n: "Brush window" });
+      const hh = Math.min(16, L.ov - 8);
+      [x0, x1].forEach((x, i) => out.push({ k: "rect", x: x - 3, y: L.oy + (L.ov - hh) / 2, w: 6, h: hh, r: 3, f: "s1", n: i ? "Handle end" : "Handle start" }));
+      return out;
+    },
+    /* the plot is a range slider: Left and Right move the window, Shift with an arrow resizes it */
+    aria: (o) => {
+      const B = DEFS.brush, [a, b] = B.range(o), i0 = Math.round(a * (B.N - 1)), i1 = Math.max(i0 + 1, Math.round(b * (B.N - 1)));
+      return { role: "slider", tabindex: "0", "aria-label": "Throughput range. Left and Right move the window, Shift with Left or Right resizes it", "aria-valuemin": "0", "aria-valuemax": String(B.N - 1), "aria-valuenow": String(i0), "aria-valuetext": B.month(i0) + " to " + B.month(i1) };
+    },
+  };
   /* @defs-end */
 
   const TOKV = { s1: "--ns-chart-series-1", s2: "--ns-chart-series-2", s3: "--ns-chart-series-3", s4: "--ns-chart-series-4", s5: "--ns-chart-series-5", track: "--ns-chart-track", target: "--ns-chart-target", label: "--ns-chart-label-text", text: "--ns-text-primary", text2: "--ns-text-secondary", ok: "--ns-status-success", err: "--ns-status-error", warn: "--ns-status-warning", grid: "--ns-widget-grid", bg: "--ns-widget-bg", line: "--ns-border-subtle", band: "--ns-widget-band", muted: "--ns-widget-muted" };
@@ -379,7 +557,7 @@
       return `<path d="M${n1(x0)} ${n1(y0)}A${n1(rm)} ${n1(rm)} 0 ${a1 - a0 > 180 ? 1 : 0} 1 ${n1(x1)} ${n1(y1)}" stroke-linecap="round" style="fill:none;${stroke(p.f, p.o)};stroke-width:${n1(sw)}"/>`;
     }
     if (p.k === "arc") return `<path d="${arcPath(p)}" fill-rule="evenodd" style="${fill(p.f, p.o)}"/>`;
-    if (p.k === "path") return `<path d="${p.d}" stroke-linecap="round" stroke-linejoin="round" style="${p.f ? fill(p.f, p.o) : "fill:none"}${p.sk ? ";" + stroke(p.sk, p.so) + ";stroke-width:" + (p.sw || 1.5) : ""}"/>`;
+    if (p.k === "path") return `<path d="${p.d}" stroke-linecap="${p.da ? "butt" : "round"}" stroke-linejoin="round"${p.da ? ` stroke-dasharray="${p.da}"` : ""} style="${p.f ? fill(p.f, p.o) : "fill:none"}${p.sk ? ";" + stroke(p.sk, p.so) + ";stroke-width:" + (p.sw || 1.5) : ""}"/>`;
     if (p.k === "text") return `<text x="${n1(p.x)}" y="${n1(p.y)}" text-anchor="${p.a === "end" ? "end" : p.a === "middle" ? "middle" : "start"}" dominant-baseline="middle" font-size="${p.size || (NS.viz ? NS.viz.m.axis : 11)}"${p.w === "Bold" ? ' font-weight="700"' : ""} style="${fill(p.f || "label")}">${p.s}</text>`;
     return "";
   };
@@ -387,10 +565,20 @@
   const SIZES = { Small: [330, 120, 64], "Vertical small": [192, 160, 140], Medium: [375, 327, 200], Large: [375, 327, 260], XL: [800, 752, 240] };
 
   /* the plot on its own, for use inside another card */
+  /* the role and label of a plot: an image by default; a chart with aria() (the brush) is a control */
+  const roleOf = (d, o) => (d.aria ? d.aria(o) : { role: "img", "aria-label": d.alt });
   const svg = (id, size = "Medium", o = {}) => {
     const d = DEFS[id], s = SIZES[size], w = o.width || s[1], h = o.height || s[2];
-    const compact = size === "Small" || size === "Vertical small";
-    return `<svg class="ns-chart__plot" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="${d.alt}" data-chart="${id}" data-size="${size}" data-h="${h}" data-w="${w}">${d.prims(w, h, { compact, size }).map(prim).join("")}</svg>`;
+    const compact = size === "Small" || size === "Vertical small", opts = { compact, size, t: o.t || 0, range: o.range };
+    const attrs = Object.entries(roleOf(d, opts)).map(([k, v]) => `${k}="${v}"`).join(" ");
+    return `<svg class="ns-chart__plot" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" ${attrs} data-chart="${id}" data-size="${size}" data-h="${h}" data-w="${w}"${o.range ? ` data-range="${o.range.join(",")}"` : ""}>${d.prims(w, h, opts).map(prim).join("")}</svg>`;
+  };
+  /* redraw one plot in place at width w, from the state kept on the element (live tick, brush range) */
+  const optsOf = (el) => ({ compact: el.dataset.size === "Small" || el.dataset.size === "Vertical small", size: el.dataset.size, t: +el.dataset.t || 0, range: el.dataset.range ? el.dataset.range.split(",").map(Number) : undefined });
+  const paint = (el, w) => {
+    const d = DEFS[el.dataset.chart], o = optsOf(el);
+    el.innerHTML = d.prims(w, +el.dataset.h, o).map(prim).join("");
+    if (d.aria) Object.entries(d.aria(o)).forEach(([k, v]) => el.setAttribute(k, v));
   };
 
   const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
@@ -398,12 +586,16 @@
   const kpi = (k, o = {}) => `<div class="ns-chart__kpi"><span class="ns-chart__title${o.lg ? " ns-chart__title--lg" : ""}${o.sm ? " ns-chart__title--sm" : ""}">${o.dot ? `<span class="ns-chart__dot" style="background:var(--ns-chart-series-${o.dot})"></span>` : ""}${esc(k[0])}</span>${o.titleOnly ? "" : `<span class="ns-chart__value${o.sm ? " ns-chart__value--sm" : ""}">${esc(k[1])}<span class="ns-chart__trend">${esc(k[2])}</span></span><span class="ns-chart__desc${o.sm ? " ns-chart__desc--sm" : ""}">${esc(o.compact && k[4] ? k[4] : k[3])}</span>`}</div>`;
 
   const card = (id, size = "Medium", icon = true) => {
-    const d = DEFS[id], K = d.kpi, S = d.sum, ic = icon ? barIcon : "", w = SIZES[size][0], plot = svg(id, size);
+    const d = DEFS[id], K = d.kpi, S = d.sum, w = SIZES[size][0], plot = svg(id, size);
+    /* a live chart in a full-size card carries a pause control (WCAG 2.2.2); compact sizes stay still */
+    const live = d.live && size !== "Small" && size !== "Vertical small";
+    const ic = (live ? `<button class="ns-btn ns-btn--ghost ns-btn--sm ns-chart__pause" type="button">Pause</button>` : "") + (icon ? barIcon : "");
+    const tools = live ? `<div class="ns-chart__tools">${ic}</div>` : ic, at = live ? " data-live" : "";
     if (size === "Small") return `<div class="ns-chart ns-chart--small" style="width:100%;max-width:${w}px">${kpi(K, { sm: true, compact: true })}${plot}${ic}</div>`;
     if (size === "Vertical small") return `<div class="ns-chart ns-chart--vertical" style="width:100%;max-width:${w}px"><div class="ns-chart__head">${kpi(K, { sm: true, compact: true })}${ic}</div>${plot}</div>`;
-    if (size === "Large") return `<div class="ns-chart" style="width:100%;max-width:${w}px"><div class="ns-chart__head">${kpi(K, { lg: true, titleOnly: true })}${ic}</div>${plot}<div class="ns-chart__summary">${kpi(K, { dot: 1, sm: true })}${kpi(S[0], { dot: 3, sm: true })}</div></div>`;
-    if (size === "XL") return `<div class="ns-chart" style="width:100%;max-width:${w}px"><div class="ns-chart__head"><div class="ns-chart__kpis">${kpi(K, { dot: 1 })}${kpi(S[0], { dot: 3 })}${kpi(S[1], { dot: 2 })}</div>${ic}</div>${plot}</div>`;
-    return `<div class="ns-chart" style="width:100%;max-width:${w}px"><div class="ns-chart__head">${kpi(K)}${ic}</div>${plot}</div>`;
+    if (size === "Large") return `<div class="ns-chart"${at} style="width:100%;max-width:${w}px"><div class="ns-chart__head">${kpi(K, { lg: true, titleOnly: true })}${tools}</div>${plot}<div class="ns-chart__summary">${kpi(K, { dot: 1, sm: true })}${kpi(S[0], { dot: 3, sm: true })}</div></div>`;
+    if (size === "XL") return `<div class="ns-chart"${at} style="width:100%;max-width:${w}px"><div class="ns-chart__head"><div class="ns-chart__kpis">${kpi(K, { dot: 1 })}${kpi(S[0], { dot: 3 })}${kpi(S[1], { dot: 2 })}</div>${tools}</div>${plot}</div>`;
+    return `<div class="ns-chart"${at} style="width:100%;max-width:${w}px"><div class="ns-chart__head">${kpi(K)}${tools}</div>${plot}</div>`;
   };
 
   /* Plots redraw at the width of their tile, so labels stay at their real size instead of scaling down.
@@ -414,9 +606,8 @@
     const w = Math.max(96, Math.round(el.getBoundingClientRect().width));
     if (!w || String(w) === el.dataset.w) return;
     if (el.dataset.chart && DEFS[el.dataset.chart]) {
-      const h = +el.dataset.h, size = el.dataset.size, compact = size === "Small" || size === "Vertical small";
-      el.setAttribute("viewBox", `0 0 ${w} ${h}`); el.setAttribute("width", w);
-      el.innerHTML = DEFS[el.dataset.chart].prims(w, h, { compact, size }).map(prim).join("");
+      el.setAttribute("viewBox", `0 0 ${w} ${+el.dataset.h}`); el.setAttribute("width", w);
+      paint(el, w);
     } else if (el.dataset.bullet && NS.bulletSvg) {
       const b = JSON.parse(el.dataset.bullet), t = document.createElement("div");
       t.innerHTML = NS.bulletSvg(b.rows, { ...b.opts, width: w });
@@ -435,6 +626,71 @@
   }
 
   const fit = (root = document) => root.querySelectorAll("svg[data-chart], svg[data-bullet]").forEach(redraw);
+
+  if (typeof document !== "undefined" && typeof setInterval === "function") {
+    const width = (el) => +el.dataset.w || el.viewBox.baseVal.width;
+    /* Live line: one tick a second while the card is on screen and not paused. Still in headless captures
+       and with ?motion=off, so screenshots and visual tests are stable. The update is new data, not decoration,
+       so it keeps running under reduced motion; the Pause button stops it. */
+    const frozen = /HeadlessChrome/.test(navigator.userAgent) || new URLSearchParams(location.search).get("motion") === "off";
+    if (!frozen) setInterval(() => {
+      if (document.hidden) return;
+      document.querySelectorAll(".ns-chart[data-live]:not(.is-paused) svg[data-chart]").forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > innerHeight || el.closest('[data-motion="off"]')) return;
+        el.dataset.t = (+el.dataset.t || 0) + 1; paint(el, width(el));
+      });
+    }, 1000);
+    document.addEventListener("click", (e) => {
+      const b = e.target.closest && e.target.closest(".ns-chart__pause");
+      if (!b) return;
+      const paused = b.closest(".ns-chart").classList.toggle("is-paused");
+      b.textContent = paused ? "Resume" : "Pause";
+    });
+
+    /* Brush: drag the window to move it, drag a handle to resize it, press outside it to jump there.
+       Keys: Left and Right move by one month, Shift with Left or Right moves the end, Home and End jump. */
+    const B = DEFS.brush, MIN = 3 / (B.N - 1);
+    const setRange = (el, a, b) => {
+      const span = b - a;
+      if (a < 0) { a = 0; b = span; } if (b > 1) { b = 1; a = 1 - span; }
+      el.dataset.range = [Math.max(0, a), Math.min(1, b)].map((v) => +v.toFixed(4)).join(","); paint(el, width(el));
+    };
+    const local = (el, e) => { const r = el.getBoundingClientRect(), w = width(el); return [(e.clientX - r.left) * (w / r.width), (e.clientY - r.top) * (+el.dataset.h / r.height)]; };
+    let drag = null;
+    document.addEventListener("pointerdown", (e) => {
+      const el = e.target.closest && e.target.closest('svg[data-chart="brush"]');
+      if (!el) return;
+      const w = width(el), L = B.layout(w, +el.dataset.h, optsOf(el)), [x, y] = local(el, e);
+      if (y < L.oy - 4) return;
+      const [a, b] = B.range(optsOf(el)), f = Math.max(0, Math.min(1, (x - L.ml) / L.pw)), xa = L.ml + a * L.pw, xb = L.ml + b * L.pw;
+      let mode = Math.abs(x - xa) < 8 ? "start" : Math.abs(x - xb) < 8 ? "end" : x > xa && x < xb ? "pan" : "jump";
+      if (mode === "jump") { setRange(el, f - (b - a) / 2, f + (b - a) / 2); mode = "pan"; }
+      drag = { el, mode, f0: f, r0: B.range(optsOf(el)), L };
+      el.setPointerCapture(e.pointerId); e.preventDefault();
+    });
+    document.addEventListener("pointermove", (e) => {
+      if (!drag) return;
+      const { el, mode, f0, r0, L } = drag, f = Math.max(0, Math.min(1, (local(el, e)[0] - L.ml) / L.pw));
+      if (mode === "pan") setRange(el, r0[0] + f - f0, r0[1] + f - f0);
+      else if (mode === "start") setRange(el, Math.min(f, r0[1] - MIN), r0[1]);
+      else setRange(el, r0[0], Math.max(f, r0[0] + MIN));
+    });
+    const end = () => { drag = null; };
+    document.addEventListener("pointerup", end); document.addEventListener("pointercancel", end);
+    document.addEventListener("keydown", (e) => {
+      const el = e.target.closest && e.target.closest('svg[data-chart="brush"]');
+      if (!el) return;
+      const [a, b] = B.range(optsOf(el)), s = 1 / (B.N - 1);
+      const K = { ArrowLeft: -s, ArrowDown: -s, ArrowRight: s, ArrowUp: s }[e.key];
+      if (K && e.shiftKey) setRange(el, a, Math.max(a + MIN, Math.min(1, b + K)));
+      else if (K) setRange(el, a + K, b + K);
+      else if (e.key === "Home") setRange(el, 0, b - a);
+      else if (e.key === "End") setRange(el, 1 - (b - a), 1);
+      else return;
+      e.preventDefault();
+    });
+  }
 
   NS.chartKit = { H, defs: DEFS, svg, card, fit, sizes: SIZES };
 })();

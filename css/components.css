@@ -585,6 +585,11 @@
 .ns-chart__summary .ns-chart__kpi { flex: 1 1 120px; }
 .ns-chart__kpis .ns-chart__kpi { flex: 1 1 140px; }
 .ns-chart__summary { display: flex; flex-wrap: wrap; gap: var(--ns-space-5); padding-top: var(--ns-space-6); border-top: 1px solid var(--ns-border-subtle); }
+.ns-chart__tools { display: flex; align-items: center; gap: var(--ns-space-3); flex: none; }
+/* Brush: the plot is a range slider; drag works sideways while the page still scrolls up and down */
+.ns-chart__plot[data-chart="brush"] { cursor: grab; touch-action: pan-y; border-radius: var(--ns-radius-sm); }
+.ns-chart__plot[data-chart="brush"]:active { cursor: grabbing; }
+.ns-chart__plot[data-chart="brush"]:focus-visible { outline: 2px solid var(--ns-focus-ring); outline-offset: 2px; }
 
 /* Hit areas: small controls keep their look but get a 24px target (WCAG 2.2, 2.5.8) */
 .ns-tag button, .ns-alert__close, .ns-notice__close, .ns-breadcrumb a { position: relative; }

@@ -1,8 +1,8 @@
 # NorthStar Design System v1.5.0
 
-> Machine-readable guide for AI coding and design agents. Generated 2026-11-15 from the live catalog by tools/agent-export.mjs; do not edit by hand. Site: https://mikelrosenthal.com/northstar/ · Figma file VZxmDNQiosTN6gqnvEQ65Z.
+> Machine-readable guide for AI coding and design agents. Generated 2026-11-17 from the live catalog by tools/agent-export.mjs; do not edit by hand. Site: https://mikelrosenthal.com/northstar/ · Figma file VZxmDNQiosTN6gqnvEQ65Z.
 
-NorthStar is a design language and development kit for dense, dark, data-heavy enterprise consoles: 58 components, 270 tokens, dark and light themes, comfortable and compact density. Markup is framework-free HTML with ns- classes; style comes only from CSS custom properties.
+NorthStar is a design language and development kit for dense, dark, data-heavy enterprise consoles: 65 components, 270 tokens, dark and light themes, comfortable and compact density. Markup is framework-free HTML with ns- classes; style comes only from CSS custom properties.
 
 ## Files
 
@@ -512,10 +512,13 @@ One file per component under https://mikelrosenthal.com/northstar/agent/componen
 |---|---|---|---|
 | Accordion | Containers | Accordions stack sections of content that expand and collapse to save space. | agent/components/accordion.md |
 | Alert banner | Feedback | In-line alerts display a non-modal message associated with objects in a view. | agent/components/alert-banner.md |
+| Annotated line chart | Data viz | An annotated line chart is a line chart with overlays that explain it: shaded weekends, a goal band, a deadline, a marker on the peak and a dashed projection. | agent/components/annotated-line-chart.md |
+| Area chart | Data viz | A stacked area chart shows how a total over time splits into two parts, here organic sessions with paid sessions stacked on top. | agent/components/area-chart.md |
 | Avatar | Data | Component for visual identification of users and companies. | agent/components/avatar.md |
 | Badge | Status | Badges are designed to display a small amount of information for statuses and labels with color categorization. | agent/components/badge.md |
 | Bar chart | Data viz | A bar chart compares one value across categories or time periods by bar height. | agent/components/bar-chart.md |
 | Breadcrumb | Navigation | Breadcrumbs show where the current page sits in the hierarchy and let people move up levels. | agent/components/breadcrumb.md |
+| Brush chart | Data viz | A brush chart pairs a detail plot with an overview strip of the whole series. | agent/components/brush-chart.md |
 | Bubble chart | Data viz | A bubble chart plots items on two axes and uses area for a third measure. | agent/components/bubble-chart.md |
 | Bullet chart | Data viz | A bullet chart shows one measure per row against a target: stacked segments on a quiet track and a single tick for the goal. | agent/components/bullet-chart.md |
 | Button | Actions | The button component gives users the ability to perform an action or navigate to another page. | agent/components/button.md |
@@ -524,8 +527,10 @@ One file per component under https://mikelrosenthal.com/northstar/agent/componen
 | Card | Containers | Cards group related content and actions about a single subject. | agent/components/card.md |
 | Chat | Containers | A conversation surface for an AI assistant or support agent. | agent/components/chat.md |
 | Checkbox | Inputs | Checkboxes select one or more options from a list, or toggle a single setting that applies on submit. | agent/components/checkbox.md |
+| Choropleth chart | Data viz | A tile map choropleth shows a value by region, one equal square per US state on a 12 by 8 grid, darker squares for more. | agent/components/choropleth-chart.md |
 | Combobox | Inputs | A filterable multi-select for long lists. | agent/components/combobox.md |
 | Command palette | Navigation | A global launcher for finding records, pages and actions. | agent/components/command-palette.md |
+| Composed chart | Data viz | A composed chart draws two measures with different units on one time axis: a count as bars on the left scale and a rate as a line on the right scale. | agent/components/composed-chart.md |
 | Data table | Data | Data tables organize large sets of records into rows and columns with sorting, selection, and batch actions. | agent/components/data-table.md |
 | Date picker | Inputs | Date pickers select a single date or a range from a calendar overlay, with typed input as an alternative. | agent/components/date-picker.md |
 | Divider | Containers | Dividers separate groups of content horizontally, vertically, or with a label. | agent/components/divider.md |
@@ -537,6 +542,7 @@ One file per component under https://mikelrosenthal.com/northstar/agent/componen
 | Inline edit | Inputs | Edit one field in place on a detail page. | agent/components/inline-edit.md |
 | Line chart | Data viz | A line chart shows how a value moves over time, here against the same period last year. | agent/components/line-chart.md |
 | Link | Actions | A text link for navigation. | agent/components/link.md |
+| Live line chart | Data viz | A live line chart shows the last 60 seconds of a stream and slides one step left every second, with a point and halo on the newest value. | agent/components/live-line-chart.md |
 | Menu | Actions | A list of actions that opens from a trigger, such as a row's more button. | agent/components/menu.md |
 | Modal | Overlays | Modals focus attention on a single task or decision and block the rest of the page until dismissed. | agent/components/modal.md |
 | Notification | Feedback | Notifications communicate system messages: inline in context, or as toasts that appear and dismiss themselves. | agent/components/notification.md |
@@ -545,6 +551,7 @@ One file per component under https://mikelrosenthal.com/northstar/agent/componen
 | Parallel coordinates chart | Data viz | A parallel coordinates chart compares several measures across profiles, one line per profile, so you can see which profiles move together. | agent/components/parallel-coordinates-chart.md |
 | Pie chart | Data viz | A donut chart shows how one whole splits into four or fewer parts. | agent/components/pie-chart.md |
 | Popover | Overlays | Popovers show richer, interactive content anchored to a trigger, such as menus and quick filters. | agent/components/popover.md |
+| Profit and loss chart | Data viz | A profit and loss chart is a line around a zero baseline: the part above zero is a gain, the part below is a loss. | agent/components/profit-loss-chart.md |
 | Progress | Status | Progress indicators show completion of a task: linear bars, rings for single metrics, and step indicators for flows. | agent/components/progress.md |
 | Radar chart | Data viz | A radar chart compares several measures for one or two items on radial axes. | agent/components/radar-chart.md |
 | Radial bar chart | Data viz | A radial bar chart shows progress toward a target as concentric rings, one ring per goal. | agent/components/radial-bar-chart.md |

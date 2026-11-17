@@ -47,7 +47,7 @@ const findChrome = () => {
 };
 const chrome = findChrome();
 if (!chrome) { console.error("chart check skipped: no Chrome found."); process.exit(2); }
-const DOC_ROUTES = ["#/graphics/gallery", "#/floorplans/dashboard", "#/floorplans/learner-progress", "#/floorplans/enrollment-health", "#/dashboards/chart-parts", ...["bubble", "candlestick", "funnel", "dumbbell", "heatmap", "parallel-coordinates", "stepped-line", "scatter", "gauge", "radial-bar", "radial-histogram", "radar", "radial-convergence", "sunburst", "tree", "treemap", "calendar", "bullet"].map((c) => `#/components/${c}-chart`), "#/components/progress", "#/components/card"];
+const DOC_ROUTES = ["#/graphics/gallery", "#/floorplans/dashboard", "#/floorplans/learner-progress", "#/floorplans/enrollment-health", "#/dashboards/chart-parts", ...["bubble", "candlestick", "funnel", "dumbbell", "heatmap", "parallel-coordinates", "stepped-line", "scatter", "gauge", "radial-bar", "radial-histogram", "radar", "radial-convergence", "sunburst", "tree", "treemap", "calendar", "bullet", "area", "composed", "profit-loss", "choropleth", "live-line", "annotated-line", "brush"].map((c) => `#/components/${c}-chart`), "#/components/progress", "#/components/card"];
 const TYPES = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".woff2": "font/woff2" };
 const server = createServer((req, res) => {
   const url = decodeURIComponent((req.url || "/").split("?")[0]);

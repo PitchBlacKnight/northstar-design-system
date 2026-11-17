@@ -43,6 +43,8 @@
     "parallel-coordinates-chart": chart("parallel-coordinates-chart"), "radar-chart": chart("radar-chart"), "radial-bar-chart": chart("radial-bar-chart"),
     "radial-convergence-chart": chart("radial-convergence-chart"), "radial-histogram-chart": chart("radial-histogram-chart"), "scatter-chart": chart("scatter-chart"),
     "stepped-line-chart": chart("stepped-line-chart"), "sunburst-chart": chart("sunburst-chart"), "tree-chart": chart("tree-chart"), "treemap-chart": chart("treemap-chart"),
+    "area-chart": chart("area-chart"), "composed-chart": chart("composed-chart"), "profit-loss-chart": chart("profit-loss-chart"), "choropleth-chart": chart("choropleth-chart"),
+    "live-line-chart": chart("live-line-chart"), "annotated-line-chart": chart("annotated-line-chart"), "brush-chart": chart("brush-chart"),
   };
   NS.VARIANT_GUIDE = G;
 })();
