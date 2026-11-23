@@ -20,7 +20,7 @@
 .ns-w--L .ns-w__title, .ns-w--XL .ns-w__title { font-size: var(--ns-type-title-size); line-height: var(--ns-type-title-line); }
 .ns-w__title--bold { font: 700 var(--ns-type-h6-size)/var(--ns-type-h6-line) var(--ns-font-sans); }
 .ns-w__kpi { display: grid; gap: var(--ns-space-1); }
-.ns-w__value { display: flex; align-items: baseline; gap: var(--ns-space-3); flex-wrap: wrap; font: 800 28px/1.15 var(--ns-font-sans); letter-spacing: -0.3px; }
+.ns-w__value { display: flex; align-items: baseline; gap: var(--ns-space-3); flex-wrap: wrap; font: 800 var(--ns-type-h4-size)/1.15 var(--ns-font-sans); letter-spacing: -0.3px; }
 .ns-w__value--xl { font-size: var(--ns-type-h4-size); }
 .ns-w__value--sm { font-size: var(--ns-type-h6-size); }
 .ns-w__delta { font: 400 var(--ns-type-body2-size)/1 var(--ns-font-sans); color: var(--ns-status-success); white-space: nowrap; }
@@ -35,7 +35,7 @@
 .ns-w__inset { background: var(--ns-widget-inset); border-radius: var(--ns-radius-md); padding: var(--ns-space-5) var(--ns-space-6); display: grid; gap: var(--ns-space-4); }
 .ns-w__pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--ns-space-5); }
 .ns-w__pair span { display: block; font: 400 var(--ns-type-body2-size)/1.4 var(--ns-font-sans); }
-.ns-w__pair b { font: 800 18px/1.3 var(--ns-font-sans); }
+.ns-w__pair b { font: 700 var(--ns-type-h6-size)/1.3 var(--ns-font-sans); }
 .ns-w__side { display: flex; align-items: center; gap: var(--ns-space-5); }
 
 /* Tables inside widgets */
@@ -75,7 +75,7 @@
 /* Gallery helpers (docs) */
 .wgal { display: flex; flex-wrap: wrap; gap: var(--ns-space-5); align-items: flex-start; }
 .wgal figure { margin: 0; display: grid; gap: var(--ns-space-3); max-width: 100%; }
-.wgal figcaption { font: 400 11px/1.3 var(--ns-font-mono); color: var(--ns-text-tertiary); max-width: 290px; }
+.wgal figcaption { font: 400 var(--ns-type-chart-size)/1.3 var(--ns-font-mono); color: var(--ns-text-tertiary); max-width: 290px; }
 .wgal figcaption b { color: var(--ns-text-secondary); font-weight: 600; }
 .wstage { border: 1px solid var(--ns-border-subtle); border-radius: var(--ns-radius-lg); padding: var(--ns-space-8); margin: 0 0 var(--ns-space-7); background: var(--ns-background-primary); overflow-x: auto; }
 .whero { position: relative; border-radius: var(--ns-radius-xl); overflow: hidden; padding: var(--ns-space-11) var(--ns-space-9) var(--ns-space-9); margin: 0 0 var(--ns-space-9); background: var(--ns-widget-bg); color: var(--ns-text-primary); }
@@ -88,7 +88,7 @@
 .ns-w--center { justify-items: center; text-align: center; }
 .ns-w--fluid { width: var(--_w); max-width: 100%; }
 .ns-w__head { display: flex; justify-content: space-between; align-items: center; gap: var(--ns-space-4); flex-wrap: wrap; }
-.ns-w__inline { font: 800 var(--ns-type-h6-size)/1 var(--ns-font-sans); margin-left: var(--ns-space-3); }
+.ns-w__inline { font: 700 var(--ns-type-h6-size)/1 var(--ns-font-sans); margin-left: var(--ns-space-3); }
 .ns-w__range { display: flex; justify-content: space-between; font: 400 var(--ns-type-caption-size)/var(--ns-type-caption-line) var(--ns-font-sans); color: var(--ns-chart-label-text); }
 .ns-gauge { position: relative; display: grid; place-items: end center; }
 .ns-gauge__val { position: absolute; bottom: 6px; font: 800 var(--ns-type-h5-size)/1 var(--ns-font-sans); }
@@ -153,7 +153,7 @@
 .ns-state__icon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--ns-widget-inset); border: 1.5px solid var(--_c); color: var(--_c); font: 400 var(--ns-type-body1-size)/1 var(--ns-font-sans); }
 .ns-w--S .ns-state__icon { width: 28px; height: 28px; }
 .ns-state__retry { color: var(--ns-text-link); font: 400 var(--ns-type-body2-size)/1 var(--ns-font-sans); text-decoration: underline; }
-.ns-sk { display: block; height: 12px; border-radius: var(--ns-radius-sm); background: var(--ns-widget-track); animation: ns-sk 1.4s var(--ns-easing-standard) infinite; }
+.ns-sk { display: block; height: 12px; border-radius: var(--ns-radius-sm); background: var(--ns-widget-track); animation: ns-sk var(--ns-duration-loop) var(--ns-easing-standard) infinite; }
 .ns-sk--lg { height: 22px; }
 .ns-sk--ring { width: 56px; height: 56px; border-radius: 50%; }
 .ns-sk__bars { display: flex; align-items: flex-end; gap: 6px; height: 64px; width: 100%; }

@@ -60,7 +60,7 @@ const cssName = (col, name) => {
   if (col === "Primitives / Spacing") return "--ns-space-" + name.split("/")[1];
   if (col === "Primitives / Radius") return "--ns-radius-" + name.split("/")[1];
   if (col === "Primitives / Motion") return "--ns-duration-" + name.split("/")[1];
-  if (col === "Primitives / Typography") { const [k, t] = name.split("/"); const key = TYPE[t] || t; return k === "font-size" ? `--ns-type-${key}-size` : k === "line-height" ? `--ns-type-${key}-line` : null; }
+  if (col === "Primitives / Typography") { const [k, t] = name.split("/"); const key = TYPE[t] || t; const part = { "font-size": "size", "line-height": "line", "font-weight": "weight", "letter-spacing": "tracking" }[k]; return part ? `--ns-type-${key}-${part}` : null; }
   return "--ns-" + name.replace("/", "-");
 };
 
@@ -74,7 +74,8 @@ for (const [col, { vars }] of Object.entries(snap.collections)) {
       if (mode !== "Dark" && mode !== "Default" && mode !== "Full" && scope[0][cn] === undefined && lookup(cn, [root]) === undefined) continue;
       const cv = lookup(cn, scope);
       if (cv === undefined) { if (mode === "Dark" || mode === "Default" || mode === "Full") missing.push(`${name} -> ${cn}`); continue; }
-      const a = norm(fv), b = norm(cv);
+      /* Figma stores opacity as a percentage (40), CSS as a ratio (0.4) */
+      const a = norm(col === "Primitives / Opacity" ? fv / 100 : fv), b = norm(cv);
       if (/var\(|color-mix|calc|gradient/.test(b)) { unresolved.push(`${cn} (${mode}): ${cv}`); continue; }
       compared++;
       if (a !== b) {

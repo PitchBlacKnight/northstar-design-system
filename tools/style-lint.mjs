@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* Style lint: one set of rules for every component, widget and dashboard stylesheet (STYLE-RULES.md).
-   Flags raw palette variables, hex colors, px radii, glows and gradients, px font sizes and stray weights.
+   Flags raw palette variables, hex colors, px radii, glows and gradients, px font sizes (also inside the font shorthand), stray weights, raw z-index and raw durations.
    Exit 1 on any finding not listed in tokens/style-allow.json. */
 import { readFileSync, existsSync } from "node:fs";
 const FILES = ["css/components.css", "css/widgets.css", "css/dashboards.css"];
@@ -12,7 +12,12 @@ const RULES = [
   ["glow", /(?<!0 )0 0 [1-9]\d*px\s+(?!\d)|drop-shadow\(|blur\(/g, "no glow or blur"],
   ["gradient", /(?:linear|radial)-gradient\(|--ns-gradient-/g, "flat fills only, except the chart ramp and --ns-chart-sheen"],
   ["font-size", /font-size:\s*\d+(?:\.\d+)?px/g, "use --ns-type-*-size"],
+  ["font-short", /font:\s*\d{3}\s+(?:clamp\()?\d+(?:\.\d+)?px/g, "use --ns-type-*-size in the font shorthand too"],
   ["weight", /font-weight:\s*(?!400|600|700)\d+/g, "weights are 400, 600, 700"],
+  ["weight", /font:\s*(?!400|600|700|800)\d{3}\s/g, "weights are 400, 600, 700, and 800 for display type"],
+  ["weight-800", /font:\s*800\s+(?:(?:[1-9]|1\d|2[0-3])(?:\.\d+)?px|var\(--ns-type-(?:overline|caption|chart|body\d|button|title|h6)-size\))/g, "800 is the display weight: 24px and up"],
+  ["z-index", /z-index:\s*\d{2,}/g, "use --ns-z-*"],
+  ["duration", /(?:animation|transition)[\w-]*:[^;}]*?(?<![\w.-])\d*\.?\d+m?s\b/g, "use --ns-duration-*"],
 ];
 const out = [];
 for (const f of FILES) {

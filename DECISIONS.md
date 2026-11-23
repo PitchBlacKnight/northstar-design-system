@@ -148,3 +148,40 @@ Each entry: the problem, options rejected and why, what was tested, what shipped
 **Design.** Profit and loss uses status success and error on purpose (a result, like Candlestick), with position above or below zero carrying the same meaning. Dashed always means not measured.
 
 **Ship.** Committed on branch `chart-gaps`. Not merged, pushed or deployed. Before publishing: the case study counter says 58 components (now 65), and the Figma builder needs `da` (dash) support when these sets are synced.
+
+## 2026-11-22 · Audit fixes (code side)
+
+**Define.** An audit measured the system against `design-rules.md` and against the live Figma variables. Values matched Figma, but the code broke some of its own rules and two lints had blind spots. This pass fixes what the rules already decide. Anything that needs a new token or a design choice is listed under Design and left alone.
+
+**Build.**
+- High Contrast block: 55 raw hex values now alias the primitive they equal (no value change), the same way Dark and Light do.
+- `status-info` in High Contrast is `blue-300` (5.45:1 on the background; `blue-500` was 2.95:1). Dark made the same move earlier.
+- `viz-1` in Light is `teal-700`, the same as `chart-series-1` (3.24:1 on a white tile; `teal-600` was 2.96:1).
+- Dark `elevation-04` lost its 40px blue glow (rule: no glow, no colored shadows).
+- `widget-radius`, `chart-bar-radius`, `widget-pad` and `type-chart-title-size` alias the token they equal (no value change).
+- Slider: Firefox gets the focus ring and the same 16px thumb as WebKit.
+- Dropdown trigger height is `density-control` (40px, was a fixed 42px). Pagination and the small input use `density-control-sm`, so they follow compact density.
+- 37 px sizes inside the `font` shorthand now use `--ns-type-*-size` (and the matching line token where the pair is a token pair). No value change.
+- The five `--ns-gradient-*` tokens are marked deprecated for new work in the agent files (docs-site decoration only).
+
+**Test.** `tools/style-lint.mjs` now reads px sizes inside the `font` shorthand; it also checks weight 800, raw z-index and raw durations; one fluid docs heading is listed in `tokens/style-allow.json`. `tools/token-drift.mjs` now also compares font weights, letter spacing, opacity and layout. The snapshot `tokens/figma-variables.json` was refreshed from a full live dump (222 variables; it had 197). Token lint baseline lowered from 194 to 146.
+
+**Design.** The owner then said to settle the open items for the good of the system (2026-11-22):
+- **Weight.** 800 is the display weight: `h1`, `h2`, KPI values and dashboard numerals, 24px and up. Four uses below 24px dropped to 700. The lint enforces it.
+- **Radius.** Controls use `radius-sm`, as the rule said: button, combobox, stepper and segmented moved from `radius-md`. A segmented button steps down to `radius-xs`.
+- **Fields.** One recipe (borderless `field-bg`, decided 2026-10): combobox and stepper now match the input. High Contrast draws the field edge.
+- **Disabled.** Two recipes by kind, written into the rules: actions recolor, fields and selection controls fade. The dropdown trigger now matches the button.
+- **New tokens (19, count 270 to 289).** `z-tooltip` to `z-modal` (7, the values already in use), `duration-delay` and three `duration-loop*` (typing dots moved from 1.2s to the 1.4s loop), `type-heading1-size` and `-line` (32/40, the Figma Heading / H1), a numeral scale `type-numeral-mega` to `-md` (5), `density-control-lg` (48px, 40px compact).
+- **Sizes snapped to the scale.** 26px to `h5`, 18px to `h6`, 15px to `body2`.
+- **Chart colors.** Dark `viz-4` is `blue-400` and `viz-7` is `persian-400`, the move `chart-series-2` and `-4` already made. Light `viz-3` and `viz-5` stay as they are: see Rejected.
+- **High Contrast.** `interactive-primary` is `blue-400` (3.8:1, was 2.95:1); `background-shell` and `field-bg` are black like the other surfaces.
+
+**Rejected.**
+- Darker Light values for `viz-3` (`yellow-800`) and `viz-5` (`green-700`): tried and reverted. Both tokens also fill color-block tiles under dark text, and the darker fills dropped that text to 3.2:1 and 3.75:1 on 18 dashboard elements. As chart marks on a white tile they are still 1.95:1 and 1.32:1; fixing that needs separate mark tones, not a darker fill.
+- Removing duplicate tokens (`border-subtle-01`, `text-accent`, `font-ui`): shipped names are never removed. `font-ui` is marked deprecated in the agent files.
+- Deriving the status tints from each theme's status color: the light tints use the brighter hue on purpose; a dark hue at low alpha turns muddy.
+- Tokens for off-scale spacing in the dashboards (6, 18, 22, 38px): snapping them moves 24 layouts. The lint baseline tracks them.
+- A border on fields in Dark and Light: the borderless field is an earlier decision. Its edge is below 3:1 against the surface; that stays an open accessibility item.
+
+**Ship.** On branch `audit-fixes`, not merged, pushed or deployed. Seven values now differ from Figma on purpose and are listed in `tokens/drift-allow.json` until the next sync, and the 19 new tokens have no Figma variable yet. Component radius and field changes also wait for that sync. The case study still says 270 tokens.
+

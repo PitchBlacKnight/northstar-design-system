@@ -99,6 +99,14 @@
   --ns-type-h4-size: 28px;   --ns-type-h4-line: 36px;   --ns-type-h4-weight: 700;
   --ns-type-h5-size: 24px;   --ns-type-h5-line: 36px;   --ns-type-h5-weight: 700;
   --ns-type-h6-size: 20px;   --ns-type-h6-line: 28px;   --ns-type-h6-weight: 700;
+  /* Product heading (Figma Heading / H1) and the KPI value: the step between h4 and h3 */
+  --ns-type-heading1-size: 32px;   --ns-type-heading1-line: 40px;
+  /* Numeral scale for dashboard headline numbers (.d-mega to .d-md). Weight 800, tight line height set by the class */
+  --ns-type-numeral-mega-size: 168px;
+  --ns-type-numeral-xxl-size: 112px;
+  --ns-type-numeral-xl-size: 76px;
+  --ns-type-numeral-lg-size: var(--ns-type-h3-size);
+  --ns-type-numeral-md-size: 30px;
   --ns-type-title-size: 20px;  --ns-type-title-line: 32px;
   --ns-type-body1-size: 16px;  --ns-type-body1-line: 24px;  --ns-type-body1-tracking: 0.44px;
   --ns-type-body2-size: 14px;  --ns-type-body2-line: 20px;  --ns-type-body2-tracking: 0.25px;
@@ -142,6 +150,11 @@
   --ns-duration-base: 200ms;
   --ns-duration-slow: 320ms;
   --ns-duration-expressive: 500ms;
+  /* Loops and waits. Not zeroed under reduced motion: each looping component switches its own animation off */
+  --ns-duration-delay: 150ms;       /* wait before a tooltip shows */
+  --ns-duration-loop-fast: 800ms;   /* spinner turn */
+  --ns-duration-loop: 1400ms;       /* skeleton shimmer, indeterminate bar, typing dots */
+  --ns-duration-loop-slow: 2000ms;  /* live status blink */
   --ns-easing-standard: cubic-bezier(0.2, 0, 0, 1);
   --ns-easing-enter: cubic-bezier(0, 0, 0, 1);
   --ns-easing-exit: cubic-bezier(0.3, 0, 1, 1);
@@ -153,6 +166,15 @@
   --ns-opacity-subtle: 0.64;
   --ns-opacity-overlay: 0.72;
   --ns-opacity-full: 1;
+
+  /* Stacking order, lowest to highest. Local stacking inside one component may use 1 to 3 */
+  --ns-z-tooltip: 10;
+  --ns-z-popover: 20;
+  --ns-z-dropdown: 30;
+  --ns-z-launcher: 880;
+  --ns-z-panel: 890;
+  --ns-z-toast: 900;
+  --ns-z-modal: 1000;
 
   /* ---------- Layout ---------- */
   --ns-breakpoint-compact: 480px;
@@ -238,10 +260,10 @@
   --ns-viz-1: var(--ns-teal-500); /* deprecated for new work: use --ns-chart-series-1 (see agent/northstar.md) */
   --ns-viz-2: var(--ns-purple-500); /* deprecated for new work: use --ns-chart-series-3 (see agent/northstar.md) */
   --ns-viz-3: var(--ns-yellow-500);
-  --ns-viz-4: var(--ns-blue-500);
+  --ns-viz-4: var(--ns-blue-400); /* 3.2:1 on widget-bg (blue-500 was 2.5:1); same move as chart-series-2 */
   --ns-viz-5: var(--ns-green-500);
   --ns-viz-6: var(--ns-red-400);
-  --ns-viz-7: var(--ns-persian-500);
+  --ns-viz-7: var(--ns-persian-400); /* 3.3:1 on widget-bg (persian-500 was 2.0:1); same move as chart-series-4 */
 
   /* Chart tokens: aliases of theme-aware tokens, so one definition covers both themes */
   --ns-chart-series-1: var(--ns-viz-1);
@@ -257,14 +279,15 @@
   --ns-chart-stroke: 2.5px;    /* series lines */
   --ns-chart-stroke-thin: 1.5px; /* secondary lines, spark lines */
   --ns-chart-grid-stroke: 1px;
-  --ns-chart-bar-radius: 12px; /* one end radius for every chart mark. Marks up to 24px thick end in a full half-circle; wider bars keep the same 12px curve */
+  --ns-chart-bar-radius: var(--ns-radius-xl); /* one end radius for every chart mark. Marks up to 24px thick end in a full half-circle; wider bars keep the same 12px curve */
   --ns-chart-cap: round;
   --ns-chart-ramp-from: var(--ns-chart-series-2); /* low end of the one chart ramp; the high end is the series color */
   --ns-chart-ramp-fade: 42%;   /* ramp start for ink on a color block and for series other than series-1 */
   --ns-chart-sheen: linear-gradient(150deg, transparent 0%, transparent 42%, color-mix(in srgb, #000000 26%, transparent) 100%); /* soft diagonal over a tile's own color. Darkens only, so light text never loses contrast */
   --ns-chart-sheen-light: linear-gradient(150deg, color-mix(in srgb, #ffffff 22%, transparent) 0%, transparent 58%); /* the same diagonal for blocks with dark ink (teal, green, amber, paper). Lightens only */
-  --ns-type-chart-title-size: 12px; /* tile corner titles (overline was 10px) */
+  --ns-type-chart-title-size: var(--ns-type-caption-size); /* tile corner titles (overline was 10px) */
 
+  /* Gradients below are docs-site decoration only. Product UI uses flat fills; the two allowed gradients are --ns-chart-sheen and the chart ramp (design-rules.md, Surfaces). */
   --ns-gradient-brand: linear-gradient(135deg, var(--ns-blue-500), var(--ns-teal-500));
   --ns-gradient-bruise: linear-gradient(135deg, var(--ns-persian-500), var(--ns-purple-500));
   --ns-gradient-purple: linear-gradient(180deg, var(--ns-magenta-500), var(--ns-violet-600));
@@ -281,14 +304,14 @@
   /* Chart text, tuned for 4.5:1 on the widget surface. Graphics keep their own tokens. */
   --ns-chart-label-text: var(--ns-purple-200);
   --ns-chart-trend-text: var(--ns-status-success);
-  --ns-widget-radius: 12px;
+  --ns-widget-radius: var(--ns-radius-xl);
   --ns-widget-shadow: inset 0 1px 0.3px #ffffff08;
-  --ns-widget-pad: 24px;
+  --ns-widget-pad: var(--ns-space-7);
 
   --ns-elevation-01: 0 1px 2px #00000066, 0 0 0 1px var(--ns-border-subtle);
   --ns-elevation-02: 0 4px 12px #00000080, 0 0 0 1px var(--ns-border-default);
   --ns-elevation-03: 0 12px 32px #000000a6, 0 0 0 1px var(--ns-border-default);
-  --ns-elevation-04: 0 24px 64px #000000cc, 0 0 0 1px var(--ns-border-strong), 0 0 40px #023aff33;
+  --ns-elevation-04: 0 24px 64px #000000cc, 0 0 0 1px var(--ns-border-strong);
 
   color-scheme: dark;
 }
@@ -360,7 +383,9 @@
   --ns-status-error-bg: #ff2d2e14;
   --ns-status-info-bg: #023aff12;
 
-  --ns-viz-1: var(--ns-teal-600);
+  --ns-viz-1: var(--ns-teal-700); /* same teal as chart-series-1 in light: 3.24:1 on a white tile (teal-600 was 2.96:1) */
+  --ns-viz-4: var(--ns-blue-500);
+  --ns-viz-7: var(--ns-persian-500);
   --ns-widget-bg: var(--ns-white);
   --ns-widget-inset: var(--ns-gray-0);
   --ns-widget-track: var(--ns-lavender-200);
@@ -401,6 +426,7 @@
 :root {
   --ns-density-control: 40px;
   --ns-density-control-sm: 32px;
+  --ns-density-control-lg: 48px;
   --ns-density-row-y: var(--ns-space-4);
   --ns-density-pad-x: var(--ns-space-5);
 }
@@ -409,6 +435,7 @@
 [data-density="compact"] {
   --ns-density-control: 32px;
   --ns-density-control-sm: 28px;
+  --ns-density-control-lg: 40px;
   --ns-density-row-y: var(--ns-space-2);
   --ns-density-pad-x: var(--ns-space-4);
 }
@@ -416,70 +443,72 @@
 /* High Contrast: values from the Figma Semantic High Contrast mode. Opt in with data-theme="contrast". */
 :root[data-theme="contrast"] {
   color-scheme: dark;
-  --ns-background-primary: #05050f; /* background/primary */
-  --ns-background-secondary: #05050f; /* background/secondary */
-  --ns-background-surface: #05050f; /* background/surface */
-  --ns-background-elevated: #05050f; /* background/elevated */
+  --ns-background-primary: var(--ns-black); /* background/primary */
+  --ns-background-secondary: var(--ns-black); /* background/secondary */
+  --ns-background-surface: var(--ns-black); /* background/surface */
+  --ns-background-elevated: var(--ns-black); /* background/elevated */
+  --ns-background-shell: var(--ns-black); /* one background in High Contrast; borders carry the structure */
+  --ns-field-bg: var(--ns-black); /* same as field-01; fields get a white border in this theme (components.css) */
   /* Layers collapse to one surface; borders carry the separation */
-  --ns-layer-01: #05050f;
-  --ns-layer-02: #05050f;
-  --ns-layer-03: #05050f;
-  --ns-layer-hover-01: #1e1e24;
-  --ns-layer-hover-02: #1e1e24;
-  --ns-layer-hover-03: #1e1e24;
-  --ns-layer-selected-01: #1e1e24;
-  --ns-layer-selected-02: #1e1e24;
-  --ns-layer-selected-03: #1e1e24;
-  --ns-border-subtle-01: #ffffff;
-  --ns-border-subtle-02: #ffffff;
-  --ns-border-subtle-03: #ffffff;
-  --ns-border-strong-01: #ffffff;
-  --ns-border-strong-02: #ffffff;
-  --ns-border-strong-03: #ffffff;
-  --ns-field-01: #05050f;
-  --ns-field-02: #05050f;
-  --ns-field-03: #05050f;
-  --ns-field-hover-01: #1e1e24;
-  --ns-field-hover-02: #1e1e24;
-  --ns-field-hover-03: #1e1e24;
-  --ns-text-primary: #ffffff; /* text/primary */
-  --ns-text-secondary: #ffffff; /* text/secondary */
-  --ns-text-tertiary: #ffffff; /* text/tertiary */
-  --ns-text-disabled: #a9a9b7; /* text/disabled */
-  --ns-text-inverse: #05050f; /* text/inverse */
-  --ns-border-default: #ffffff; /* border/default */
-  --ns-border-subtle: #ffffff; /* border/subtle */
-  --ns-border-strong: #ffffff; /* border/strong */
-  --ns-status-success: #5eff5a; /* status/success */
-  --ns-status-warning: #ffa63f; /* status/warning */
-  --ns-status-error: #ff2d2e; /* status/error */
-  --ns-status-info: #023aff; /* status/info */
-  --ns-background-selected: #1e1e24; /* background/selected */
-  --ns-interactive-primary: #023aff; /* interactive/primary */
+  --ns-layer-01: var(--ns-black);
+  --ns-layer-02: var(--ns-black);
+  --ns-layer-03: var(--ns-black);
+  --ns-layer-hover-01: var(--ns-gray-8);
+  --ns-layer-hover-02: var(--ns-gray-8);
+  --ns-layer-hover-03: var(--ns-gray-8);
+  --ns-layer-selected-01: var(--ns-gray-8);
+  --ns-layer-selected-02: var(--ns-gray-8);
+  --ns-layer-selected-03: var(--ns-gray-8);
+  --ns-border-subtle-01: var(--ns-white);
+  --ns-border-subtle-02: var(--ns-white);
+  --ns-border-subtle-03: var(--ns-white);
+  --ns-border-strong-01: var(--ns-white);
+  --ns-border-strong-02: var(--ns-white);
+  --ns-border-strong-03: var(--ns-white);
+  --ns-field-01: var(--ns-black);
+  --ns-field-02: var(--ns-black);
+  --ns-field-03: var(--ns-black);
+  --ns-field-hover-01: var(--ns-gray-8);
+  --ns-field-hover-02: var(--ns-gray-8);
+  --ns-field-hover-03: var(--ns-gray-8);
+  --ns-text-primary: var(--ns-white); /* text/primary */
+  --ns-text-secondary: var(--ns-white); /* text/secondary */
+  --ns-text-tertiary: var(--ns-white); /* text/tertiary */
+  --ns-text-disabled: var(--ns-gray-2); /* text/disabled */
+  --ns-text-inverse: var(--ns-black); /* text/inverse */
+  --ns-border-default: var(--ns-white); /* border/default */
+  --ns-border-subtle: var(--ns-white); /* border/subtle */
+  --ns-border-strong: var(--ns-white); /* border/strong */
+  --ns-status-success: var(--ns-green-500); /* status/success */
+  --ns-status-warning: var(--ns-yellow-500); /* status/warning */
+  --ns-status-error: var(--ns-red-500); /* status/error */
+  --ns-status-info: var(--ns-blue-300); /* status/info */
+  --ns-background-selected: var(--ns-gray-8); /* background/selected */
+  --ns-interactive-primary: var(--ns-blue-400); /* 3.8:1 against the background (blue-500 was 2.95:1); white text on it is 5.3:1 */
   --ns-logo-star: var(--ns-cyan-500); /* logo/star */
   --ns-interactive-danger: var(--ns-scarlet-600); /* interactive/danger */
   --ns-interactive-danger-hover: var(--ns-scarlet-700);
   --ns-interactive-danger-active: var(--ns-scarlet-800);
-  --ns-focus-ring: #ffa63f; /* focus/ring */
-  --ns-widget-bg: #191932; /* widget/bg */
-  --ns-widget-inset: #000000; /* widget/inset */
-  --ns-widget-track: #2c2c35; /* widget/track */
-  --ns-widget-band: #1e1e24; /* widget/band */
-  --ns-widget-grid: #5b5b65; /* widget/grid */
-  --ns-widget-muted: #d0d0da; /* widget/muted */
-  --ns-viz-1: #01f1e3; /* viz/1 */
+  --ns-focus-ring: var(--ns-yellow-500); /* focus/ring */
+  --ns-widget-bg: var(--ns-navy-900); /* widget/bg */
+  --ns-widget-inset: var(--ns-gray-10); /* widget/inset */
+  --ns-widget-track: var(--ns-gray-7); /* widget/track */
+  --ns-widget-band: var(--ns-gray-8); /* widget/band */
+  --ns-widget-grid: var(--ns-gray-5); /* widget/grid */
+  --ns-widget-muted: var(--ns-gray-1); /* widget/muted */
+  --ns-viz-1: var(--ns-teal-500); /* viz/1 */
   --ns-viz-2: var(--ns-violet-400); /* viz/2 */
-  --ns-viz-3: #ffa63f; /* viz/3 */
+  --ns-viz-3: var(--ns-yellow-500); /* viz/3 */
   --ns-viz-4: var(--ns-blue-300); /* viz/4 */
-  --ns-viz-5: #5eff5a; /* viz/5 */
+  --ns-viz-5: var(--ns-green-500); /* viz/5 */
   --ns-viz-6: var(--ns-red-300); /* viz/6 */
-  --ns-viz-7: #8855e8; /* viz/7 */
-  --ns-chart-label-text: #d0d0da; /* text/chart-label */
-  --ns-chart-series-1: #01f1e3; /* chart/series-1 */
+  --ns-viz-7: var(--ns-purple-400); /* viz/7 */
+  --ns-chart-label-text: var(--ns-gray-1); /* text/chart-label */
+  --ns-chart-series-1: var(--ns-teal-500); /* chart/series-1 */
   --ns-chart-series-2: var(--ns-blue-400); /* chart/series-2 (was #023aff, 2.5:1): 3.2:1 on widget/bg */
-  --ns-chart-series-3: #991bfa; /* chart/series-3 */
+  --ns-chart-series-3: var(--ns-purple-500); /* chart/series-3 */
   --ns-chart-series-4: var(--ns-persian-400); /* chart/series-4 (was #4807ea, 2.0:1): 3.3:1 on widget/bg */
-  --ns-chart-series-5: #6a6a9f; /* chart/series-5 */
+  --ns-chart-series-5: var(--ns-purple-300); /* chart/series-5 */
   --ns-chart-track: var(--ns-widget-track); /* chart/track, was #0e0e22 (the dark value), nearly invisible in high contrast */
-  --ns-chart-target: #ffffff; /* chart/target */
+  --ns-chart-target: var(--ns-white); /* chart/target */
 }

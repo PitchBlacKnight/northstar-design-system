@@ -53,8 +53,14 @@ const DEPRECATED = {
   "--ns-layer-02": ["--ns-background-elevated", "same value in dark and light"],
   "--ns-widget-bg": ["--ns-background-elevated", "same value in dark and light"],
   "--ns-chart-track": ["--ns-widget-track", "alias of --ns-widget-track"],
-  "--ns-viz-1": ["--ns-chart-series-1", "same dark value; light is a slightly different teal"],
+  "--ns-viz-1": ["--ns-chart-series-1", "same value in dark and light"],
   "--ns-viz-2": ["--ns-chart-series-3", "same value"],
+  "--ns-font-ui": ["--ns-font-sans", "same value"],
+  "--ns-gradient-brand": ["--ns-chart-sheen", "docs-site decoration only. Product UI uses flat fills; the one tile gradient is the sheen, and a single series may use the chart ramp"],
+  "--ns-gradient-bruise": ["--ns-chart-sheen", "docs-site decoration only. Product UI uses flat fills; the one tile gradient is the sheen, and a single series may use the chart ramp"],
+  "--ns-gradient-purple": ["--ns-chart-sheen", "docs-site decoration only. Product UI uses flat fills; the one tile gradient is the sheen, and a single series may use the chart ramp"],
+  "--ns-gradient-bubble": ["--ns-chart-sheen", "docs-site decoration only. Product UI uses flat fills; the one tile gradient is the sheen, and a single series may use the chart ramp"],
+  "--ns-gradient-glow": ["--ns-chart-sheen", "docs-site decoration only. Product UI uses flat fills; the one tile gradient is the sheen, and a single series may use the chart ramp"],
 };
 data.tokens.forEach((t) => { const d = DEPRECATED[t.name]; if (d) { t.deprecated = true; t.use = d[0]; } });
 const WHICH = [

@@ -1,8 +1,8 @@
 # NorthStar Design System v1.5.0
 
-> Machine-readable guide for AI coding and design agents. Generated 2026-11-17 from the live catalog by tools/agent-export.mjs; do not edit by hand. Site: https://mikelrosenthal.com/northstar/ · Figma file VZxmDNQiosTN6gqnvEQ65Z.
+> Machine-readable guide for AI coding and design agents. Generated 2026-11-23 from the live catalog by tools/agent-export.mjs; do not edit by hand. Site: https://mikelrosenthal.com/northstar/ · Figma file VZxmDNQiosTN6gqnvEQ65Z.
 
-NorthStar is a design language and development kit for dense, dark, data-heavy enterprise consoles: 65 components, 270 tokens, dark and light themes, comfortable and compact density. Markup is framework-free HTML with ns- classes; style comes only from CSS custom properties.
+NorthStar is a design language and development kit for dense, dark, data-heavy enterprise consoles: 65 components, 289 tokens, dark and light themes, comfortable and compact density. Markup is framework-free HTML with ns- classes; style comes only from CSS custom properties.
 
 ## Files
 
@@ -130,8 +130,14 @@ These tokens still work and are not removed. Do not use them in new markup; use 
 | `--ns-layer-02` | `--ns-background-elevated` | same value in dark and light |
 | `--ns-widget-bg` | `--ns-background-elevated` | same value in dark and light |
 | `--ns-chart-track` | `--ns-widget-track` | alias of --ns-widget-track |
-| `--ns-viz-1` | `--ns-chart-series-1` | same dark value; light is a slightly different teal |
+| `--ns-viz-1` | `--ns-chart-series-1` | same value in dark and light |
 | `--ns-viz-2` | `--ns-chart-series-3` | same value |
+| `--ns-font-ui` | `--ns-font-sans` | same value |
+| `--ns-gradient-brand` | `--ns-chart-sheen` | docs-site decoration only. Product UI uses flat fills; the one tile gradient is the sheen, and a single series may use the chart ramp |
+| `--ns-gradient-bruise` | `--ns-chart-sheen` | docs-site decoration only. Product UI uses flat fills; the one tile gradient is the sheen, and a single series may use the chart ramp |
+| `--ns-gradient-purple` | `--ns-chart-sheen` | docs-site decoration only. Product UI uses flat fills; the one tile gradient is the sheen, and a single series may use the chart ramp |
+| `--ns-gradient-bubble` | `--ns-chart-sheen` | docs-site decoration only. Product UI uses flat fills; the one tile gradient is the sheen, and a single series may use the chart ramp |
+| `--ns-gradient-glow` | `--ns-chart-sheen` | docs-site decoration only. Product UI uses flat fills; the one tile gradient is the sheen, and a single series may use the chart ramp |
 
 ## Semantic tokens
 
@@ -223,6 +229,7 @@ Use these roles in components. Values are the dark theme; light overrides are in
 | Token | Dark | Light |
 |---|---|---|
 | `--ns-density-control` | 40px | same |
+| `--ns-density-control-lg` | 48px | same |
 | `--ns-density-control-sm` | 32px | same |
 | `--ns-density-pad-x` | 16px | same |
 | `--ns-density-row-y` | 12px | same |
@@ -232,9 +239,13 @@ Use these roles in components. Values are the dark theme; light overrides are in
 | Token | Dark | Light |
 |---|---|---|
 | `--ns-duration-base` | 200ms | same |
+| `--ns-duration-delay` | 150ms | same |
 | `--ns-duration-expressive` | 500ms | same |
 | `--ns-duration-fast` | 100ms | same |
 | `--ns-duration-instant` | 0ms | same |
+| `--ns-duration-loop` | 1400ms | same |
+| `--ns-duration-loop-fast` | 800ms | same |
+| `--ns-duration-loop-slow` | 2000ms | same |
 | `--ns-duration-slow` | 320ms | same |
 
 ### easing
@@ -252,7 +263,7 @@ Use these roles in components. Values are the dark theme; light overrides are in
 | `--ns-elevation-01` | 0 1px 2px #00000066, 0 0 0 1px #1e1e24 | 0 1px 2px #05050f14, 0 0 0 1px #d0d0da |
 | `--ns-elevation-02` | 0 4px 12px #00000080, 0 0 0 1px #2c2c35 | 0 4px 12px #05050f1a, 0 0 0 1px #d0d0da |
 | `--ns-elevation-03` | 0 12px 32px #000000a6, 0 0 0 1px #2c2c35 | 0 12px 32px #05050f24, 0 0 0 1px #d0d0da |
-| `--ns-elevation-04` | 0 24px 64px #000000cc, 0 0 0 1px #5b5b65, 0 0 40px #023aff33 | 0 24px 64px #05050f33, 0 0 0 1px #a9a9b7 |
+| `--ns-elevation-04` | 0 24px 64px #000000cc, 0 0 0 1px #5b5b65 | 0 24px 64px #05050f33, 0 0 0 1px #a9a9b7 |
 
 ### field
 
@@ -459,6 +470,13 @@ Use these roles in components. Values are the dark theme; light overrides are in
 | `--ns-type-h6-line` | 28px | same |
 | `--ns-type-h6-size` | 20px | same |
 | `--ns-type-h6-weight` | 700 | same |
+| `--ns-type-heading1-line` | 40px | same |
+| `--ns-type-heading1-size` | 32px | same |
+| `--ns-type-numeral-lg-size` | 48px | same |
+| `--ns-type-numeral-md-size` | 30px | same |
+| `--ns-type-numeral-mega-size` | 168px | same |
+| `--ns-type-numeral-xl-size` | 76px | same |
+| `--ns-type-numeral-xxl-size` | 112px | same |
 | `--ns-type-overline-line` | 16px | same |
 | `--ns-type-overline-size` | 10px | same |
 | `--ns-type-overline-tracking` | 1.5px | same |
@@ -469,13 +487,13 @@ Use these roles in components. Values are the dark theme; light overrides are in
 
 | Token | Dark | Light |
 |---|---|---|
-| `--ns-viz-1` | #01f1e3 | #00a89e |
+| `--ns-viz-1` | #01f1e3 | #00a097 |
 | `--ns-viz-2` | #991bfa | same |
 | `--ns-viz-3` | #ffa63f | same |
-| `--ns-viz-4` | #023aff | same |
+| `--ns-viz-4` | #2858ff | #023aff |
 | `--ns-viz-5` | #5eff5a | same |
 | `--ns-viz-6` | #ff2069 | same |
-| `--ns-viz-7` | #4807ea | same |
+| `--ns-viz-7` | #7844f9 | #4807ea |
 
 ### widget
 
@@ -490,6 +508,18 @@ Use these roles in components. Values are the dark theme; light overrides are in
 | `--ns-widget-radius` | 12px | same |
 | `--ns-widget-shadow` | inset 0 1px 0.3px #ffffff08 | 0 1px 2px #05050f14, 0 0 0 1px #d0d0da |
 | `--ns-widget-track` | #0e0e22 | #e6e6f2 |
+
+### z
+
+| Token | Dark | Light |
+|---|---|---|
+| `--ns-z-dropdown` | 30 | same |
+| `--ns-z-launcher` | 880 | same |
+| `--ns-z-modal` | 1000 | same |
+| `--ns-z-panel` | 890 | same |
+| `--ns-z-popover` | 20 | same |
+| `--ns-z-toast` | 900 | same |
+| `--ns-z-tooltip` | 10 | same |
 
 ## Templates (markup to copy)
 

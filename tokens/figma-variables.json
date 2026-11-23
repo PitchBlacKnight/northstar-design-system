@@ -1,6 +1,6 @@
 {
  "file": "VZxmDNQiosTN6gqnvEQ65Z",
- "captured": "2026-11-09 (logo/star added by hand after creating it in Figma; last full dump 2026-11-08); primitives added 2026-11-15",
+ "captured": "2026-11-22 (full dump of every COLOR and FLOAT variable, read through the Figma MCP)",
  "collections": {
   "Primitives / Colors": {
    "modes": [
@@ -784,6 +784,67 @@
     },
     "line-height/button": {
      "Default": 20
+    },
+    "letter-spacing/body-1": {
+     "Default": 0.44
+    },
+    "letter-spacing/body-2": {
+     "Default": 0.25
+    },
+    "letter-spacing/caption": {
+     "Default": 0.4
+    },
+    "letter-spacing/overline": {
+     "Default": 1.5
+    },
+    "font-weight/h1": {
+     "Default": 800
+    },
+    "font-weight/h2": {
+     "Default": 800
+    },
+    "font-weight/h3": {
+     "Default": 700
+    },
+    "font-weight/h4": {
+     "Default": 700
+    },
+    "font-weight/h5": {
+     "Default": 700
+    },
+    "font-weight/h6": {
+     "Default": 700
+    },
+    "font-size/chart": {
+     "Default": 11
+    },
+    "line-height/chart": {
+     "Default": 16
+    }
+   }
+  },
+  "Primitives / Opacity": {
+   "modes": [
+    "Default"
+   ],
+   "vars": {
+    "opacity/disabled": {
+     "Default": 40
+    },
+    "opacity/subtle": {
+     "Default": 64
+    },
+    "opacity/overlay": {
+     "Default": 72
+    },
+    "opacity/hover": {
+     "Default": 8
+    },
+    "opacity/pressed": {
+     "Default": 16
+    },
+    "opacity/full": {
+     "Default": 100
     }
    }
   },
@@ -818,6 +879,34 @@
      "Full": 500,
      "Reduced": 200,
      "None": 0
+    }
+   }
+  },
+  "Primitives / Layout": {
+   "modes": [
+    "Default"
+   ],
+   "vars": {
+    "breakpoint/compact": {
+     "Default": 480
+    },
+    "breakpoint/medium": {
+     "Default": 768
+    },
+    "breakpoint/expanded": {
+     "Default": 1280
+    },
+    "breakpoint/wide": {
+     "Default": 1600
+    },
+    "content/max-width": {
+     "Default": 1440
+    },
+    "grid/columns": {
+     "Default": 12
+    },
+    "grid/gutter": {
+     "Default": 24
     }
    }
   }

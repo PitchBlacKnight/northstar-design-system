@@ -35,7 +35,8 @@ The task table and the deprecated list are generated into `agent/northstar.md` (
 - No purple for pressed or selected states. No teal for selection.
 - No borrowed chart or palette colors to mean success, warning or error.
 - Never remove the focus ring.
-- No fonts other than Open Sans (and JetBrains Mono for code). Weights 400, 600 and 700 only.
+- No fonts other than Open Sans (and JetBrains Mono for code). Weights 400, 600 and 700; 800 only for display type (see Type).
+- No raw `z-index` of 10 or more and no raw durations: use `--ns-z-*` and `--ns-duration-*`.
 - No radius outside `--ns-radius-*`, except `50%` for circles.
 - Do not edit `agent/*` by hand; run `node tools/agent-export.mjs`.
 - Do not rename or remove an existing token.
@@ -73,15 +74,37 @@ the mechanical ones on `css/components.css`, `css/widgets.css` and `css/dashboar
   keeps the same 12px curve. Marks that tile against each other (donut parts, treemap and
   Sankey nodes, heat cells) keep their small radius.
 - Radius from `--ns-radius-*` only; `50%` is allowed for circles.
-- Controls (buttons, fields, selects, chips) use `radius-sm`; cards and tiles use `radius-lg`
-  (widgets `--ns-widget-radius`); pills use `radius-full`.
+- Controls (buttons, fields, selects, chips, combobox, stepper, segmented) use `radius-sm`; cards and tiles use `radius-lg`
+  (widgets `--ns-widget-radius`); pills use `radius-full`. A control that sits inside another control's padding
+  (a segmented button) steps down to `radius-xs`.
+
+### Fields
+- One recipe for input, select, textarea, combobox and stepper: `field-bg` fill, a transparent 1px border, `radius-sm`.
+  Hover shows `border-default`; focus shows the focus ring and `focus-field`.
+- High Contrast draws the field edge in `border-strong`, because every surface there is one black.
+- Heights come from `--ns-density-control`, `-sm` and `-lg`, so compact density reaches every control.
+
+### Disabled
+- Actions (button, dropdown trigger, link, menu item, segmented and stepper buttons) recolor: `text-disabled` text, and a
+  filled one sits on `border-default`.
+- Fields and selection controls (input, select, textarea, combobox, stepper, checkbox, radio, toggle, pagination) fade as a
+  whole with `--ns-opacity-disabled`.
+- Both use `cursor: not-allowed` where the element still receives the pointer.
+
+### Motion and stacking
+- Durations from `--ns-duration-*`. Loops use `duration-loop-fast` (spinner), `duration-loop` (shimmer, indeterminate, typing)
+  and `duration-loop-slow` (status blink). Each looping component turns its own animation off under reduced motion.
+- `z-index` from `--ns-z-*` (tooltip, popover, dropdown, launcher, panel, toast, modal). Local stacking inside one component may use 1 to 3.
 
 ### Focus
 - One focus ring everywhere: `outline: 2px solid var(--ns-focus-ring); outline-offset: 2px`.
+  An item that its container clips (a tab, an accordion summary, a menu item, a stepper or segmented button) draws the same ring inset: `outline-offset: -2px`.
   Never removed. Fields may also change border color.
 
 ### Type
-- Open Sans. Sizes from `--ns-type-*-size`; weights 400, 600, 700 only.
-- Two type scales. `--ns-type-h1` to `-h6` are the display scale (72 down to 20px) for marketing and docs headings. Product screens use the Figma text styles, each linked in Figma to the token it equals: Heading / H2 is `h5` size with a 32px line, Heading / H3 is `h6`, Heading / H4 and Body / Large are `body1`, Body is `body2`, Caption and Label are `caption`, Overline is `overline`, Chart / Value is `h4`, Chart / Label is `chart`. Heading / H1 (32/40) has no token yet.
+- Open Sans. Sizes from `--ns-type-*-size`; weights 400, 600 and 700. 800 is the display weight: `h1`, `h2`, KPI values and
+  dashboard numerals, at 24px and up.
+- Dashboard headline numbers use the numeral scale, `--ns-type-numeral-mega-size` (168px) down to `-md-size` (30px).
+- Two type scales. `--ns-type-h1` to `-h6` are the display scale (72 down to 20px) for marketing and docs headings. Product screens use the Figma text styles, each linked in Figma to the token it equals: Heading / H2 is `h5` size with a 32px line, Heading / H3 is `h6`, Heading / H4 and Body / Large are `body1`, Body is `body2`, Caption and Label are `caption`, Overline is `overline`, Chart / Value is `h4`, Chart / Label is `chart`. Heading / H1 (32/40) is `heading1`.
 - Keyboard highlight in lists (`.is-active`) is `background-selected`; a match in search results is
   bold `text-primary`, never a colored block.
