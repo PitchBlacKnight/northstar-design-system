@@ -6,6 +6,7 @@ The main rules file. Read it first. Code is the source of truth; Figma is synced
 
 - Code is the source: `css/tokens.css`, `css/components.css`, `js/components.js`. Figma file `VZxmDNQiosTN6gqnvEQ65Z` is synced from code in batches.
 - Sync to Figma only on the owner's word "sync". Never write to Figma otherwise.
+- A sync ends with both snapshots refreshed: `tokens/figma-variables.json` (variables) and `tokens/figma-components.json` (the shape of each control: radius, height, fill, border). `tools/token-drift.mjs` and `tools/component-drift.mjs` compare them with the CSS. A new control gets an entry in `tokens/component-map.json`.
 - Edit Figma in place. Never rebuild a variable set or component set from scratch (a rebuild such as `buildSet` deletes pages). Archive or hide instead of deleting.
 - Open Sans is the type family everywhere (JetBrains Mono for code).
 

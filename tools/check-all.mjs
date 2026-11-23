@@ -18,6 +18,7 @@ const CHECKS = {
   counts: ["Counts check (typed numbers vs the system)", "tools/counts-check.mjs"],
   style: ["Style lint (STYLE-RULES.md)", "tools/style-lint.mjs"],
   drift: ["Token drift vs Figma snapshot", "tools/token-drift.mjs"],
+  components: ["Component drift vs Figma snapshot", "tools/component-drift.mjs"],
   fit: ["Fit probe", "tools/fit-probe.mjs"],
   behavior: ["Behavior check", "tools/behavior-check.mjs"],
   a11y: ["Accessibility check", "tools/a11y-check.mjs"],

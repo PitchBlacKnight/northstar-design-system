@@ -42,7 +42,7 @@
 .ns-label { font: 600 var(--ns-type-caption-size)/var(--ns-type-caption-line) var(--ns-font-sans); letter-spacing: var(--ns-type-caption-tracking); color: var(--ns-text-secondary); }
 .ns-helper { font: 400 var(--ns-type-caption-size)/var(--ns-type-caption-line) var(--ns-font-sans); color: var(--ns-text-tertiary); }
 .ns-input, .ns-select, .ns-textarea {
-  width: 100%; min-height: var(--ns-density-control); padding: 0 var(--ns-space-4);
+  box-sizing: border-box; width: 100%; min-height: var(--ns-density-control); padding: 0 var(--ns-space-4);
   font: 400 var(--ns-type-body2-size)/var(--ns-type-body2-line) var(--ns-font-sans); letter-spacing: normal;
   color: var(--ns-text-primary); background: var(--ns-field, var(--ns-field-bg));
   border: 1px solid transparent; border-radius: var(--ns-radius-sm);
@@ -62,7 +62,7 @@
 .ns-field.is-warning .ns-helper { color: var(--ns-status-warning); }
 .ns-field.is-success .ns-input { border-color: var(--ns-status-success); }
 .ns-input--sm { min-height: var(--ns-density-control-sm); }
-.ns-input--md { min-height: 36px; }
+.ns-input--md { min-height: var(--ns-density-control); }
 .ns-field.is-error .ns-input::placeholder { color: var(--ns-status-error); }
 .ns-field.is-warning .ns-input::placeholder { color: var(--ns-status-warning); }
 .ns-input--lg { min-height: var(--ns-density-control-lg); }

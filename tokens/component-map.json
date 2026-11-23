@@ -1,0 +1,178 @@
+{
+ "note": "One entry per control measured by tools/component-drift.mjs. html is the smallest markup that renders the control; selector picks the element to measure inside it. figma names the node (a component set or a component), the variant by its property pairs, and optionally a named layer inside the variant. allow lists intended differences as property: reason.",
+ "entries": [
+  {
+   "key": "button",
+   "html": "<button class=\"ns-btn\">Label</button>",
+   "selector": ".ns-btn",
+   "figma": {
+    "node": "4038:31741",
+    "variant": "Hierarchy=Primary, State=Default, Size=M"
+   }
+  },
+  {
+   "key": "button/small",
+   "html": "<button class=\"ns-btn ns-btn--sm\">Label</button>",
+   "selector": ".ns-btn",
+   "figma": {
+    "node": "4038:31741",
+    "variant": "Hierarchy=Primary, State=Default, Size=S"
+   }
+  },
+  {
+   "key": "button/large",
+   "html": "<button class=\"ns-btn ns-btn--lg\">Label</button>",
+   "selector": ".ns-btn",
+   "figma": {
+    "node": "4038:31741",
+    "variant": "Hierarchy=Primary, State=Default, Size=L"
+   }
+  },
+  {
+   "key": "button/secondary",
+   "html": "<button class=\"ns-btn ns-btn--secondary\">Label</button>",
+   "selector": ".ns-btn",
+   "figma": {
+    "node": "4038:31741",
+    "variant": "Hierarchy=Secondary, State=Default, Size=M"
+   }
+  },
+  {
+   "key": "button/danger",
+   "html": "<button class=\"ns-btn ns-btn--danger\">Label</button>",
+   "selector": ".ns-btn",
+   "figma": {
+    "node": "4038:31741",
+    "variant": "Hierarchy=Danger, State=Default, Size=M"
+   }
+  },
+  {
+   "key": "button/disabled",
+   "html": "<button class=\"ns-btn\" disabled>Label</button>",
+   "selector": ".ns-btn",
+   "figma": {
+    "node": "4038:31741",
+    "variant": "Hierarchy=Primary, State=Disabled, Size=M"
+   }
+  },
+  {
+   "key": "icon-button",
+   "html": "<button class=\"ns-btn ns-btn--icon\" aria-label=\"Add\"></button>",
+   "selector": ".ns-btn",
+   "figma": {
+    "node": "4466:661",
+    "variant": "Hierarchy=Primary, Size=M, State=Default"
+   }
+  },
+  {
+   "key": "icon-button/disabled",
+   "html": "<button class=\"ns-btn ns-btn--icon\" aria-label=\"Add\" disabled></button>",
+   "selector": ".ns-btn",
+   "figma": {
+    "node": "4466:661",
+    "variant": "Hierarchy=Primary, Size=M, State=Disabled"
+   }
+  },
+  {
+   "key": "text-input",
+   "html": "<input class=\"ns-input\" aria-label=\"Name\">",
+   "selector": ".ns-input",
+   "figma": {
+    "node": "1846:24423",
+    "variant": "Size=Medium, State=Default"
+   }
+  },
+  {
+   "key": "text-input/medium",
+   "html": "<input class=\"ns-input ns-input--md\" aria-label=\"Name\">",
+   "selector": ".ns-input",
+   "figma": {
+    "node": "1846:24423",
+    "variant": "Size=Medium, State=Default"
+   }
+  },
+  {
+   "key": "text-input/large",
+   "html": "<input class=\"ns-input ns-input--lg\" aria-label=\"Name\">",
+   "selector": ".ns-input",
+   "figma": {
+    "node": "1846:24423",
+    "variant": "Size=Large, State=Default"
+   }
+  },
+  {
+   "key": "text-input/small",
+   "html": "<input class=\"ns-input ns-input--sm\" aria-label=\"Name\">",
+   "selector": ".ns-input",
+   "figma": {
+    "node": "1846:24423",
+    "variant": "Size=Small, State=Default"
+   }
+  },
+  {
+   "key": "combobox",
+   "html": "<div class=\"ns-combobox\"><div class=\"ns-combobox__control\"><input aria-label=\"Tags\"></div></div>",
+   "selector": ".ns-combobox__control",
+   "figma": {
+    "node": "4466:34",
+    "variant": "State=Default",
+    "part": "Control"
+   }
+  },
+  {
+   "key": "number-stepper",
+   "html": "<div class=\"ns-stepper\"><button aria-label=\"Less\"></button><input aria-label=\"Count\" value=\"3\"><button aria-label=\"More\"></button></div>",
+   "selector": ".ns-stepper",
+   "figma": {
+    "node": "4466:261",
+    "variant": "Value=3, State=Default"
+   }
+  },
+  {
+   "key": "segmented-control",
+   "html": "<div class=\"ns-segmented\"><button>Table</button><button>Board</button></div>",
+   "selector": ".ns-segmented",
+   "figma": {
+    "node": "4466:175",
+    "variant": "Count=2, Disabled=None"
+   }
+  },
+  {
+   "key": "segmented-control/segment",
+   "html": "<div class=\"ns-segmented\"><button>Table</button><button>Board</button></div>",
+   "selector": ".ns-segmented button:last-child",
+   "figma": {
+    "node": "4466:175",
+    "variant": "Count=2, Disabled=None",
+    "part": "Segment 2"
+   }
+  },
+  {
+   "key": "dropdown-trigger",
+   "html": "<button class=\"ns-dd__trigger\">Dropdown</button>",
+   "selector": ".ns-dd__trigger",
+   "figma": {
+    "node": "1842:24092",
+    "variant": "Content=Text, State=Default"
+   }
+  },
+  {
+   "key": "dropdown-trigger/icon",
+   "html": "<button class=\"ns-dd__trigger ns-dd__trigger--icon\" aria-label=\"More\"></button>",
+   "selector": ".ns-dd__trigger",
+   "figma": {
+    "node": "1842:24092",
+    "variant": "Content=Icon, State=Default"
+   }
+  },
+  {
+   "key": "dropdown-trigger/disabled",
+   "html": "<button class=\"ns-dd__trigger\" disabled>Dropdown</button>",
+   "selector": ".ns-dd__trigger",
+   "figma": {
+    "node": "1842:24092",
+    "variant": "Content=Text, State=Disabled"
+   }
+  }
+ ]
+}

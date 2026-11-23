@@ -185,3 +185,25 @@ Each entry: the problem, options rejected and why, what was tested, what shipped
 
 **Ship.** On branch `audit-fixes`, not merged, pushed or deployed. Published 2026-11-22 (main db8510e). Synced to Figma the same day on the owner's word: the seven changed values now alias their primitives, 18 new variables were added (z-index, loop durations, heading1 and the numeral sizes; `density-control-lg` stays code-only like the other density tokens), Heading / H1 is linked to `heading1`, and six sets were edited in place: Button, Icon button, Combobox, Number stepper, Segmented control and Dropdown trigger. Before the sync those sets used 8px or 6px corners in Figma; none of the checks compares component radius. The snapshot was refreshed and checked against the live file by hash, so `tokens/drift-allow.json` is back to the spacing notes only. Not synced: the weight changes on four small labels and the Figma Elevation styles, which match neither theme.
 
+## 2026-11-22 · Component drift check and the rest of the Figma findings
+
+**Define.** The audit sync showed that six Figma sets had 8px or 6px corners while code had 6px, and every check passed, because the checks compared variables and never the components that use them. The remaining Figma findings were also open: variables without descriptions and Elevation styles that matched neither theme.
+
+**Build.**
+- `tools/component-drift.mjs` renders each control from `tokens/component-map.json` with the shipped CSS in headless Chrome and compares radius, height, fill and border with a Figma snapshot, `tokens/figma-components.json`. It also flags a Figma fill that is a raw color or a primitive, and a typed radius. `--figma-script` prints the read-only script that refreshes the snapshot through the Figma MCP. 19 controls are mapped: button sizes and hierarchies, icon button, text input sizes, combobox, number stepper, segmented control, dropdown trigger, and three disabled states.
+- It runs in `check-all` and in the pre-commit hook when `css/tokens.css`, `css/components.css` or the map changes.
+- The check found more than the audit had: the secondary button (Figma had a bordered surface fill), a 36px Medium input, a 32px combobox, a 42px segmented control, dropdown triggers filled with a primitive, and disabled buttons at reduced opacity. All were fixed in Figma, in place.
+- Fields were missing `box-sizing: border-box`, so on a page without the docs site's reset an input was 42px tall and wider than its container. Fixed in `css/components.css`; the docs site is unchanged.
+
+**Design.**
+- Text input has three sizes that match the button: Small 32px, Medium 40px (the default), Large 48px. Medium was 36px in both Figma and code, smaller than the default it was named after.
+- `border/default` gained the frame fill scope in Figma, because the code uses it as the disabled fill.
+- Elevation in Figma: `Elevation/01` to `/04` hold the dark values and `Elevation/Light/01` to `/04` the light ones, each a shadow plus a 1px ring bound to the border variable. An effect style cannot change with the variable mode, and a mode-aware version would need eight new tokens.
+- All 114 variables without a description now have one.
+
+**Rejected.** Removing the `_Legacy` paint styles and `_Archive` text styles: the leading underscore already hides them from publishing, and the rule is to archive, never delete.
+
+**Test.** Component drift: 19 controls, no differences. Token drift: tokens match Figma.
+
+**Ship.** Still open: the spec tabs (`js/specs.js`, extracted from Figma spec frames on 2026-11-12) describe older values for these controls, such as an 8px button radius. They need a spec pass in Figma and a new extraction.
+

@@ -80,6 +80,8 @@ The docs render with JavaScript, so an agent that fetches a route gets an empty 
 
 **Token drift.** `node tools/token-drift.mjs` compares `css/tokens.css` with the Figma variables snapshot in `tokens/figma-variables.json`, mode by mode (Dark, Light, High Contrast, spacing, radius, type, motion). Figma's REST variables API needs an Enterprise plan, so refresh the snapshot during a sync by running `tools/figma-variables-dump.js` through the Figma MCP. Intended differences live in `tokens/drift-allow.json` with a reason.
 
+**Component drift.** `node tools/component-drift.mjs` compares the shape of each control (corner radius, height, fill, border) between the shipped CSS and the Figma snapshot in `tokens/figma-components.json`. Token drift only proves the variables agree; this proves the components that use them agree. The controls and how to render them are in `tokens/component-map.json`. Refresh the snapshot during a sync: run the output of `node tools/component-drift.mjs --figma-script` in the Figma MCP and save the returned JSON over the snapshot.
+
 **Visual check.** `node tools/visual-check.mjs` screenshots every component demo and its first two variants on fixed tiles, plus the eight dashboards, in dark and light, and compares them with the PNG baselines in `tests/visual/baseline`, tile by tile. Changed tiles get a diff image in `tests/visual/diff`. After an intended visual change, run it with `--update` and commit the new baselines. It needs network for Open Sans.
 
 **Counts check.** `node tools/counts-check.mjs` counts the real tokens, components, patterns, dashboards and spec tabs, then fails on any typed number that disagrees: the share description, the agent export, and the case study page when the portfolio folder is on this machine.
