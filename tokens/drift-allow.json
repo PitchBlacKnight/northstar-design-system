@@ -10,12 +10,5 @@
  "--ns-space-11|Compact": "Code compact density changes control heights and row padding through --ns-density-*; the spacing scale stays fixed. Figma's Compact mode scales spacing for mockups.",
  "--ns-space-12|Compact": "Code compact density changes control heights and row padding through --ns-density-*; the spacing scale stays fixed. Figma's Compact mode scales spacing for mockups.",
  "--ns-space-13|Compact": "Code compact density changes control heights and row padding through --ns-density-*; the spacing scale stays fixed. Figma's Compact mode scales spacing for mockups.",
- "--ns-space-14|Compact": "Code compact density changes control heights and row padding through --ns-density-*; the spacing scale stays fixed. Figma's Compact mode scales spacing for mockups.",
- "--ns-status-info|High Contrast": "Code changed 2026-11-22 for contrast (audit-fixes); Figma takes this value at the next sync. Remove this line after the sync.",
- "--ns-viz-1|Light": "Code changed 2026-11-22 for contrast (audit-fixes); Figma takes this value at the next sync. Remove this line after the sync.",
- "--ns-viz-4|Dark": "Code changed 2026-11-22 for contrast (audit-fixes); Figma takes this value at the next sync. Remove this line after the sync.",
- "--ns-viz-7|Dark": "Code changed 2026-11-22 for contrast (audit-fixes); Figma takes this value at the next sync. Remove this line after the sync.",
- "--ns-background-shell|High Contrast": "Code changed 2026-11-22 for contrast (audit-fixes); Figma takes this value at the next sync. Remove this line after the sync.",
- "--ns-field-bg|High Contrast": "Code changed 2026-11-22 for contrast (audit-fixes); Figma takes this value at the next sync. Remove this line after the sync.",
- "--ns-interactive-primary|High Contrast": "Code changed 2026-11-22 for contrast (audit-fixes); Figma takes this value at the next sync. Remove this line after the sync."
+ "--ns-space-14|Compact": "Code compact density changes control heights and row padding through --ns-density-*; the spacing scale stays fixed. Figma's Compact mode scales spacing for mockups."
 }

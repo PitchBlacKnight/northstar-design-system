@@ -1,6 +1,6 @@
 {
  "file": "VZxmDNQiosTN6gqnvEQ65Z",
- "captured": "2026-11-22 (full dump of every COLOR and FLOAT variable, read through the Figma MCP)",
+ "captured": "2026-11-22 after the audit-fixes sync (every COLOR and FLOAT variable; checked against the live file by per-collection hash)",
  "collections": {
   "Primitives / Colors": {
    "modes": [
@@ -340,7 +340,7 @@
     "status/info": {
      "Dark": "#4d7cff",
      "Light": "#023aff",
-     "High Contrast": "#023aff"
+     "High Contrast": "#4d7cff"
     },
     "background/selected": {
      "Dark": "#16163a",
@@ -350,7 +350,7 @@
     "interactive/primary": {
      "Dark": "#023aff",
      "Light": "#023aff",
-     "High Contrast": "#023aff"
+     "High Contrast": "#2858ff"
     },
     "interactive/primary-hover": {
      "Dark": "#3506ef",
@@ -404,7 +404,7 @@
     },
     "viz/1": {
      "Dark": "#01f1e3",
-     "Light": "#00a89e",
+     "Light": "#00a097",
      "High Contrast": "#01f1e3"
     },
     "viz/2": {
@@ -418,7 +418,7 @@
      "High Contrast": "#ffa63f"
     },
     "viz/4": {
-     "Dark": "#023aff",
+     "Dark": "#2858ff",
      "Light": "#023aff",
      "High Contrast": "#4d7cff"
     },
@@ -433,7 +433,7 @@
      "High Contrast": "#ff5c8d"
     },
     "viz/7": {
-     "Dark": "#4807ea",
+     "Dark": "#7844f9",
      "Light": "#4807ea",
      "High Contrast": "#8855e8"
     },
@@ -480,7 +480,7 @@
     "background/shell": {
      "Dark": "#0c0c14",
      "Light": "#fafaff",
-     "High Contrast": "#0c0c14"
+     "High Contrast": "#05050f"
     },
     "background/hover": {
      "Dark": "#ffffff0d",
@@ -525,7 +525,7 @@
     "field/bg": {
      "Dark": "#121216",
      "Light": "#f5f5ff",
-     "High Contrast": "#121216"
+     "High Contrast": "#05050f"
     },
     "focus/field": {
      "Dark": "#3506ef",
@@ -820,6 +820,27 @@
     },
     "line-height/chart": {
      "Default": 16
+    },
+    "font-size/heading1": {
+     "Default": 32
+    },
+    "line-height/heading1": {
+     "Default": 40
+    },
+    "font-size/numeral-mega": {
+     "Default": 168
+    },
+    "font-size/numeral-xxl": {
+     "Default": 112
+    },
+    "font-size/numeral-xl": {
+     "Default": 76
+    },
+    "font-size/numeral-md": {
+     "Default": 30
+    },
+    "font-size/numeral-lg": {
+     "Default": 48
     }
    }
   },
@@ -879,6 +900,26 @@
      "Full": 500,
      "Reduced": 200,
      "None": 0
+    },
+    "duration/delay": {
+     "Full": 150,
+     "Reduced": 150,
+     "None": 150
+    },
+    "duration/loop-fast": {
+     "Full": 800,
+     "Reduced": 800,
+     "None": 800
+    },
+    "duration/loop": {
+     "Full": 1400,
+     "Reduced": 1400,
+     "None": 1400
+    },
+    "duration/loop-slow": {
+     "Full": 2000,
+     "Reduced": 2000,
+     "None": 2000
     }
    }
   },
@@ -907,6 +948,27 @@
     },
     "grid/gutter": {
      "Default": 24
+    },
+    "z/tooltip": {
+     "Default": 10
+    },
+    "z/popover": {
+     "Default": 20
+    },
+    "z/dropdown": {
+     "Default": 30
+    },
+    "z/launcher": {
+     "Default": 880
+    },
+    "z/panel": {
+     "Default": 890
+    },
+    "z/toast": {
+     "Default": 900
+    },
+    "z/modal": {
+     "Default": 1000
     }
    }
   }
