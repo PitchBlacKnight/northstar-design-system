@@ -1334,7 +1334,7 @@
     /* 2026-11-16 batch: gaps found against the open-source Bklit UI chart list (MIT). Rebuilt here in the
        chart description format, NorthStar tokens only; no Bklit code. Built in code, waiting for a Figma sync. */
     chartEntry("area-chart", "area", {
-      name: "Area chart", figma: null,
+      name: "Area chart", figma: "4792:216",
       desc: "A stacked area chart shows how a total over time splits into two parts, here organic sessions with paid sessions stacked on top. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
       doc: [
         ["Stacked, two parts", "The lower band is chart/series-1, the upper band chart/series-3. The top edge of the upper band is the total, so the reader gets the total and the split from one shape."],
@@ -1349,7 +1349,7 @@
       react: '<AreaChart size="medium" title="Sessions" value="212,400" trend="+5.4%" data={{ lower: [0.22, 0.44], upper: [0.12, 0.26] }} />',
     }),
     chartEntry("composed-chart", "composed", {
-      name: "Composed chart", figma: null,
+      name: "Composed chart", figma: "4792:506",
       desc: "A composed chart draws two measures with different units on one time axis: a count as bars on the left scale and a rate as a line on the right scale. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
       doc: [
         ["Two marks, two scales", "Bars are the count on the left axis in chart/series-1. The line is the rate on the right axis in chart/series-3. Each axis is labeled in its own unit so no one reads the line against the bar scale."],
@@ -1364,7 +1364,7 @@
       react: '<ComposedChart size="medium" title="Orders" value="9,860" trend="+3.1%" data={{ bars: [0.4, 0.8], line: [0.55, 0.84] }} />',
     }),
     chartEntry("profit-loss-chart", "profitloss", {
-      name: "Profit and loss chart", figma: null,
+      name: "Profit and loss chart", figma: "4792:807",
       desc: "A profit and loss chart is a line around a zero baseline: the part above zero is a gain, the part below is a loss. The line splits where it crosses zero, so each piece takes one color. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
       doc: [
         ["Status color, on purpose", "Gains use status/success and losses status/error, because here the color means a result, the same rule as Candlestick chart. Position above or below the zero line carries the same meaning without color."],
@@ -1379,7 +1379,7 @@
       react: '<ProfitLossChart size="medium" title="Net result" value="$18,400" trend="+2.6%" data={[0.2, -0.3, 0.6]} />',
     }),
     chartEntry("choropleth-chart", "choropleth", {
-      name: "Choropleth chart", figma: null,
+      name: "Choropleth chart", figma: "4792:1292",
       desc: "A tile map choropleth shows a value by region, one equal square per US state on a 12 by 8 grid, darker squares for more. Equal tiles keep small states as visible as large ones and need no map data. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
       doc: [
         ["Tiles, not borders", "Every state is the same square, so Rhode Island counts as much as Texas and the grid draws in Figma as plain rectangles. Use a geographic map only when shape and distance matter."],
@@ -1394,7 +1394,7 @@
       react: '<ChoroplethChart size="medium" title="Active accounts" value="41,200" trend="+2.9%" data={[{ state: "CA", value: 1 }]} />',
     }),
     chartEntry("live-line-chart", "live", {
-      name: "Live line chart", figma: null,
+      name: "Live line chart", figma: "4792:1711",
       desc: "A live line chart shows the last 60 seconds of a stream and slides one step left every second, with a point and halo on the newest value. The card carries a Pause button. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel; the two compact sizes stay still. The plot renders from one description as SVG, and the same description draws the Figma set.",
       doc: [
         ["Pause is required", "Anything that updates on its own for more than five seconds needs a way to stop it (WCAG 2.2.2). Every live card has a Pause button; the compact sizes have no room for one, so they do not update."],
@@ -1410,7 +1410,7 @@
       react: '<LiveLineChart size="medium" title="Requests" value="1,284/s" trend="+1.9%" stream={requests} />',
     }),
     chartEntry("annotated-line-chart", "annotated", {
-      name: "Annotated line chart", figma: null,
+      name: "Annotated line chart", figma: "4792:1980",
       desc: "An annotated line chart is a line chart with overlays that explain it: shaded weekends, a goal band, a deadline, a marker on the peak and a dashed projection. Every overlay is a shared helper in NS.chartKit.H, so any chart can use them. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
       doc: [
         ["Overlays sit behind or above", "Spans (weekends) and bands (the goal range) draw behind the data. Rules, deadlines, trend lines, projections and markers draw above it. The data line is never covered by a fill."],
@@ -1425,7 +1425,7 @@
       react: '<AnnotatedLineChart size="medium" title="Signups" value="1,920" trend="+7.4%" data={{ values: [0.3, 0.6], projection: [0.6, 0.8], goal: [0.45, 0.62], deadline: 11 }} />',
     }),
     chartEntry("brush-chart", "brush", {
-      name: "Brush chart", figma: null,
+      name: "Brush chart", figma: "4792:2250",
       desc: "A brush chart pairs a detail plot with an overview strip of the whole series. A window on the strip chooses which months the detail plot shows: drag it to move, drag an edge to resize, press outside it to jump. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
       doc: [
         ["The plot is a control", "The SVG is a range slider. It takes focus, shows the one focus ring, and works from the keyboard as well as by pointer."],

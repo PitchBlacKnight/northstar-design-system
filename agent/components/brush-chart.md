@@ -4,7 +4,7 @@
 
 A brush chart pairs a detail plot with an overview strip of the whole series. A window on the strip chooses which months the detail plot shows: drag it to move, drag an edge to resize, press outside it to jump. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.
 
-Page: https://mikelrosenthal.com/northstar/#/components/brush-chart
+Page: https://mikelrosenthal.com/northstar/#/components/brush-chart · Figma node 4792:2250
 
 Classes: `ns-chart`, `ns-chart--small`, `ns-chart--vertical`, `ns-chart__desc`, `ns-chart__desc--sm`, `ns-chart__dot`, `ns-chart__head`, `ns-chart__icon`, `ns-chart__kpi`, `ns-chart__kpis`, `ns-chart__plot`, `ns-chart__summary`, `ns-chart__title`, `ns-chart__title--lg`, `ns-chart__title--sm`, `ns-chart__trend`, `ns-chart__value`, `ns-chart__value--sm`
 

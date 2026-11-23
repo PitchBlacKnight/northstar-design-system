@@ -207,3 +207,20 @@ Each entry: the problem, options rejected and why, what was tested, what shipped
 
 **Ship.** Published 2026-11-22. The spec pass followed the same day: 36 annotation texts were edited in place in seven Figma spec frames (Button, Icon button, Text input, Combobox, Number stepper, Segmented control, Dropdown). Combobox, Icon button, Number stepper and Segmented control were then re-extracted with `tools/figma-spec-extract.mjs`; a dry run showed only the edited strings changed. Button, Text input and Dropdown are curated entries the extractor would flatten, so `js/specs.js` was edited for them directly, and the Button state tables were rewritten from the live set (they still listed a purple pressed fill, Inter and 38px heights). In Figma, disabled fields (Text input, Combobox, Number stepper) now bind opacity to `opacity/disabled`; they were 70% and 45%. Not touched: the Text input bindings row that still lists primitives for placeholder and text colors, and Icon button's secondary hierarchy, which no check compares yet.
 
+## 2026-11-22 · Seven charts synced to Figma; chart builder fixed
+
+**Define.** Area, Composed, Profit and loss, Choropleth, Live line, Annotated line and Brush existed in code since 2026-11-16 with no Figma set and no spec frame, so the online Figma check failed. The stored builder (`nslib/lib` in the file's shared plugin data) could not draw dashed strokes or the overlay helpers these charts use.
+
+**Build.**
+- Builder: added the overlay helpers from `js/charts.js` (span, band, rule, deadline, trend, projection, marker), dashed strokes (`da`), and round-ended arcs drawn as a stroked centre line, as the site does.
+- The seven definitions were appended to `nslib/defs` as the exact source text (same length and hash as lines 371 to 532 of `js/charts.js`), then seven sets were built with `buildSet`, one page each after "Bubble chart": 4792:216, 4792:506, 4792:807, 4792:1292, 4792:1711, 4792:1980, 4792:2250. Each has five sizes, three properties, a description and a docs link.
+- Seven spec frames were made with the stored spec builder in slots 53 to 59 (numbers 60 to 66) and extracted into `js/specs.js`. Spec tabs: 66.
+
+**Test.** Before anything was written, each chart's drawing output for all five sizes was hashed in Figma and compared with the same hash from the code: 35 of 35 matched. The same check on the 21 older charts found three whose stored definition was older than the code (Bar, Funnel, Radial bar: round ends); they were replaced, and all 28 now match.
+
+**Design.**
+- Transparency is layer opacity, not paint opacity. A variable-bound paint loses its opacity inside an instance, so every chart instance showed solid fills (the Line chart spec specimen had a solid area). A mark with a transparent fill and a stroke is drawn as two layers. All 28 sets were redrawn in place with the stored updater; set and variant ids are unchanged.
+- The Figma sets for Live line and Brush are still frames. The Pause button and the range slider live in code.
+
+**Ship.** The online Figma check passes for the first time since the charts were added: 65 components, 66 spec tabs, no drift and no sync gaps.
+

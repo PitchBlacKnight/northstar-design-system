@@ -255,7 +255,7 @@
    "name": "Annotated line chart",
    "category": "Data viz",
    "status": "New",
-   "figma": null,
+   "figma": "4792:1980",
    "description": "An annotated line chart is a line chart with overlays that explain it: shaded weekends, a goal band, a deadline, a marker on the peak and a dashed projection. Every overlay is a shared helper in NS.chartKit.H, so any chart can use them. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
    "classes": [
     "ns-chart",
@@ -455,7 +455,7 @@
    "name": "Area chart",
    "category": "Data viz",
    "status": "New",
-   "figma": null,
+   "figma": "4792:216",
    "description": "A stacked area chart shows how a total over time splits into two parts, here organic sessions with paid sessions stacked on top. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
    "classes": [
     "ns-chart",
@@ -1297,7 +1297,7 @@
    "name": "Brush chart",
    "category": "Data viz",
    "status": "New",
-   "figma": null,
+   "figma": "4792:2250",
    "description": "A brush chart pairs a detail plot with an overview strip of the whole series. A window on the strip chooses which months the detail plot shows: drag it to move, drag an edge to resize, press outside it to jump. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
    "classes": [
     "ns-chart",
@@ -2967,7 +2967,7 @@
    "name": "Choropleth chart",
    "category": "Data viz",
    "status": "New",
-   "figma": null,
+   "figma": "4792:1292",
    "description": "A tile map choropleth shows a value by region, one equal square per US state on a 12 by 8 grid, darker squares for more. Equal tiles keep small states as visible as large ones and need no map data. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
    "classes": [
     "ns-chart",
@@ -3441,7 +3441,7 @@
    "name": "Composed chart",
    "category": "Data viz",
    "status": "New",
-   "figma": null,
+   "figma": "4792:506",
    "description": "A composed chart draws two measures with different units on one time axis: a count as bars on the left scale and a rate as a line on the right scale. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
    "classes": [
     "ns-chart",
@@ -5361,7 +5361,7 @@
    "name": "Live line chart",
    "category": "Data viz",
    "status": "New",
-   "figma": null,
+   "figma": "4792:1711",
    "description": "A live line chart shows the last 60 seconds of a stream and slides one step left every second, with a point and halo on the newest value. The card carries a Pause button. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel; the two compact sizes stay still. The plot renders from one description as SVG, and the same description draws the Figma set.",
    "classes": [
     "ns-btn",
@@ -6717,7 +6717,7 @@
    "name": "Profit and loss chart",
    "category": "Data viz",
    "status": "New",
-   "figma": null,
+   "figma": "4792:807",
    "description": "A profit and loss chart is a line around a zero baseline: the part above zero is a gain, the part below is a loss. The line splits where it crosses zero, so each piece takes one color. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.",
    "classes": [
     "ns-chart",

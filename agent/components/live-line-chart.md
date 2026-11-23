@@ -4,7 +4,7 @@
 
 A live line chart shows the last 60 seconds of a stream and slides one step left every second, with a point and halo on the newest value. The card carries a Pause button. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel; the two compact sizes stay still. The plot renders from one description as SVG, and the same description draws the Figma set.
 
-Page: https://mikelrosenthal.com/northstar/#/components/live-line-chart
+Page: https://mikelrosenthal.com/northstar/#/components/live-line-chart · Figma node 4792:1711
 
 Classes: `ns-btn`, `ns-btn--ghost`, `ns-btn--sm`, `ns-chart`, `ns-chart--small`, `ns-chart--vertical`, `ns-chart__desc`, `ns-chart__desc--sm`, `ns-chart__dot`, `ns-chart__head`, `ns-chart__icon`, `ns-chart__kpi`, `ns-chart__kpis`, `ns-chart__pause`, `ns-chart__plot`, `ns-chart__summary`, `ns-chart__title`, `ns-chart__title--lg`, `ns-chart__title--sm`, `ns-chart__tools`, `ns-chart__trend`, `ns-chart__value`, `ns-chart__value--sm`
 

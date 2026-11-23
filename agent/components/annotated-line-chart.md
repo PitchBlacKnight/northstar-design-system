@@ -4,7 +4,7 @@
 
 An annotated line chart is a line chart with overlays that explain it: shaded weekends, a goal band, a deadline, a marker on the peak and a dashed projection. Every overlay is a shared helper in NS.chartKit.H, so any chart can use them. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.
 
-Page: https://mikelrosenthal.com/northstar/#/components/annotated-line-chart
+Page: https://mikelrosenthal.com/northstar/#/components/annotated-line-chart · Figma node 4792:1980
 
 Classes: `ns-chart`, `ns-chart--small`, `ns-chart--vertical`, `ns-chart__desc`, `ns-chart__desc--sm`, `ns-chart__dot`, `ns-chart__head`, `ns-chart__icon`, `ns-chart__kpi`, `ns-chart__kpis`, `ns-chart__plot`, `ns-chart__summary`, `ns-chart__title`, `ns-chart__title--lg`, `ns-chart__title--sm`, `ns-chart__trend`, `ns-chart__value`, `ns-chart__value--sm`
 

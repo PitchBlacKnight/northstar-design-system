@@ -4,7 +4,7 @@
 
 A profit and loss chart is a line around a zero baseline: the part above zero is a gain, the part below is a loss. The line splits where it crosses zero, so each piece takes one color. Five sizes cover a KPI tile, a narrow column, the default card, a card with a summary and a wide multi-KPI panel. The plot renders from one description as SVG, and the same description draws the Figma set.
 
-Page: https://mikelrosenthal.com/northstar/#/components/profit-loss-chart
+Page: https://mikelrosenthal.com/northstar/#/components/profit-loss-chart · Figma node 4792:807
 
 Classes: `ns-chart`, `ns-chart--small`, `ns-chart--vertical`, `ns-chart__desc`, `ns-chart__desc--sm`, `ns-chart__dot`, `ns-chart__head`, `ns-chart__icon`, `ns-chart__kpi`, `ns-chart__kpis`, `ns-chart__plot`, `ns-chart__summary`, `ns-chart__title`, `ns-chart__title--lg`, `ns-chart__title--sm`, `ns-chart__trend`, `ns-chart__value`, `ns-chart__value--sm`
 
