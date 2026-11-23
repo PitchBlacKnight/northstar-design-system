@@ -205,5 +205,5 @@ Each entry: the problem, options rejected and why, what was tested, what shipped
 
 **Test.** Component drift: 19 controls, no differences. Token drift: tokens match Figma.
 
-**Ship.** Still open: the spec tabs (`js/specs.js`, extracted from Figma spec frames on 2026-11-12) describe older values for these controls, such as an 8px button radius. They need a spec pass in Figma and a new extraction.
+**Ship.** Published 2026-11-22. The spec pass followed the same day: 36 annotation texts were edited in place in seven Figma spec frames (Button, Icon button, Text input, Combobox, Number stepper, Segmented control, Dropdown). Combobox, Icon button, Number stepper and Segmented control were then re-extracted with `tools/figma-spec-extract.mjs`; a dry run showed only the edited strings changed. Button, Text input and Dropdown are curated entries the extractor would flatten, so `js/specs.js` was edited for them directly, and the Button state tables were rewritten from the live set (they still listed a purple pressed fill, Inter and 38px heights). In Figma, disabled fields (Text input, Combobox, Number stepper) now bind opacity to `opacity/disabled`; they were 70% and 45%. Not touched: the Text input bindings row that still lists primitives for placeholder and text colors, and Icon button's secondary hierarchy, which no check compares yet.
 

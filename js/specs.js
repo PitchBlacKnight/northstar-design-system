@@ -1,4 +1,4 @@
-/* Figma specification documents, synced from NORTHSTAR DS (VZxmDNQiosTN6gqnvEQ65Z) on 2026-11-12.
+/* Figma specification documents, synced from NORTHSTAR DS (VZxmDNQiosTN6gqnvEQ65Z) on 2026-11-22.
    Component specs feed the Spec tab; WORKFLOWS feed composed pattern pages. Regenerate with tools/figma-spec-extract.mjs, do not hand-edit. */
 (function () {
   const NS = window.NS;
@@ -41,15 +41,15 @@
      {
       "type": "example",
       "label": "ACTUAL INSTANCE · Primary / Default / M",
-      "description": "Button instance, Hierarchy=Primary, State=Default, Size=M, label property 'Create account', showLeadingIcon=true (plus glyph, 16px icon slot). Visual: bg interactive/primary #023aff, radius 8px, padding 16px x 9px, gap 8px, min-width 96px, label Inter Medium 14px/20px. Specimen card bg background/elevated #1e1e24, radius 10px, padding 16px."
+      "description": "Button instance, Hierarchy=Primary, State=Default, Size=M, label property 'Create account', showLeadingIcon=true (plus glyph, 16px icon slot). Visual: bg interactive/primary #023aff, radius 4px, height 40px, padding 16px, gap 8px, min-width 96px, label Open Sans SemiBold 14px/20px. Specimen card bg background/elevated #1e1e24, radius 10px, padding 16px."
      },
      {
       "type": "text",
-      "text": "1 · Container: 8px corner radius; content-driven width with minimum width. 2 · Label: action verb + object; M uses 14px / 20px. 3 · Optional icon slots: leading and trailing visibility are booleans; current glyphs are plus marks."
+      "text": "1 · Container: 4px corner radius; content-driven width with minimum width. 2 · Label: action verb + object; M uses 14px / 20px. 3 · Optional icon slots: leading and trailing visibility are booleans; current glyphs are plus marks."
      },
      {
       "type": "text",
-      "text": "M primary / ghost: 38px • M secondary / outline: 40px"
+      "text": "S 32px • M 40px • L 48px, every hierarchy"
      }
     ]
    },
@@ -157,79 +157,79 @@
         "M",
         "interactive/primary #023aff",
         "none",
-        "text/on-primary (white); Inter Medium 14/20 (inferred, block not parsed)",
-        "16x9 / 8 / 96",
-        "radius 8"
+        "text/on-color (white); Open Sans SemiBold 14/20",
+        "16x4 / 8 / 96",
+        "radius 4, height 40"
        ],
        [
         "Primary",
         "Hover",
         "M",
-        "interactive/hover #3506ef",
+        "interactive/primary-hover #3506ef",
         "none",
-        "text/on-primary white",
-        "16x9 / 8 / 96",
+        "text/on-color white",
+        "16x4 / 8 / 96",
         ""
        ],
        [
         "Primary",
         "Pressed",
         "M",
-        "interactive/pressed #991bfa",
+        "interactive/primary-active #022ecc",
         "none",
-        "text/on-primary white",
-        "16x9 / 8 / 96",
+        "text/on-color white",
+        "16x4 / 8 / 96",
         ""
        ],
        [
         "Primary",
         "Disabled",
         "M",
-        "interactive/disabled #2c2c35",
+        "border/default #2c2c35",
         "none",
-        "text/secondary #d0d0da",
-        "16x9 / 8 / 96",
-        "opacity 64%"
+        "text/disabled #5b5b65",
+        "16x4 / 8 / 96",
+        "full opacity"
        ],
        [
         "Secondary",
         "Default",
         "M",
-        "background/surface #191932",
-        "1px border/default #2c2c35",
+        "interactive/secondary-bg #1e1e24",
+        "none",
         "text/primary white",
-        "16x9 / 8 / 96",
+        "16x4 / 8 / 96",
         ""
        ],
        [
         "Secondary",
         "Hover",
         "M",
-        "background/selected #2c2c35",
-        "1px border/default #2c2c35",
+        "interactive/secondary-hover #2c2c35",
+        "none",
         "text/primary white",
-        "16x9 / 8 / 96",
+        "16x4 / 8 / 96",
         ""
        ],
        [
         "Secondary",
         "Pressed",
         "M",
-        "background/surface #191932",
+        "interactive/secondary-hover #2c2c35",
         "1px interactive/primary #023aff",
         "text/primary white",
-        "16x9 / 8 / 96",
+        "16x4 / 8 / 96",
         ""
        ],
        [
         "Secondary",
         "Disabled",
         "M",
-        "background/surface #191932",
-        "1px border/default",
-        "text/primary white",
-        "16x9 / 8 / 96",
-        "opacity 64%"
+        "border/default #2c2c35",
+        "none",
+        "text/disabled #5b5b65",
+        "16x4 / 8 / 96",
+        "full opacity"
        ],
        [
         "Outline",
@@ -238,7 +238,7 @@
         "none",
         "1px border/default #2c2c35",
         "text/primary white",
-        "16x9 / 8 / 96",
+        "16x4 / 8 / 96",
         ""
        ],
        [
@@ -248,7 +248,7 @@
         "none",
         "1px interactive/primary #023aff",
         "text/primary white",
-        "16x9 / 8 / 96",
+        "16x4 / 8 / 96",
         ""
        ],
        [
@@ -256,10 +256,10 @@
         "Disabled",
         "M",
         "none",
-        "1px border/default",
+        "1px border/default #2c2c35",
         "text/disabled #5b5b65",
-        "16x9 / 8 / 96",
-        "opacity 64%"
+        "16x4 / 8 / 96",
+        "full opacity"
        ],
        [
         "Ghost",
@@ -268,17 +268,17 @@
         "none",
         "none",
         "text/primary white",
-        "16x9 / 8 / 96",
+        "16x4 / 8 / 96",
         ""
        ],
        [
         "Ghost",
         "Hover/Pressed",
         "M",
-        "background/selected #2c2c35",
+        "background/selected #16163a",
         "none",
         "text/primary white",
-        "16x9 / 8 / 96",
+        "16x4 / 8 / 96",
         ""
        ],
        [
@@ -288,8 +288,48 @@
         "none",
         "none",
         "text/disabled #5b5b65",
-        "16x9 / 8 / 96",
-        "opacity 64%"
+        "16x4 / 8 / 96",
+        "full opacity"
+       ],
+       [
+        "Danger",
+        "Default",
+        "M",
+        "interactive/danger #cc1a54",
+        "none",
+        "text/on-color white",
+        "16x4 / 8 / 96",
+        ""
+       ],
+       [
+        "Danger",
+        "Hover",
+        "M",
+        "interactive/danger-hover #b8174c",
+        "none",
+        "text/on-color white",
+        "16x4 / 8 / 96",
+        ""
+       ],
+       [
+        "Danger",
+        "Pressed",
+        "M",
+        "interactive/danger-active #a31443",
+        "none",
+        "text/on-color white",
+        "16x4 / 8 / 96",
+        ""
+       ],
+       [
+        "Danger",
+        "Disabled",
+        "M",
+        "border/default #2c2c35",
+        "none",
+        "text/disabled #5b5b65",
+        "16x4 / 8 / 96",
+        "full opacity"
        ],
        [
         "all",
@@ -297,9 +337,9 @@
         "S",
         "same as M",
         "same as M",
-        "same as M but Inter Medium 12/16",
-        "12x7 / 6 / 80",
-        "heights 30 (primary/ghost) / 32 (secondary/outline)"
+        "same as M but Open Sans Regular 12/16",
+        "12x4 / 4 / 80",
+        "height 32"
        ],
        [
         "all",
@@ -307,9 +347,9 @@
         "L",
         "same as M",
         "same as M",
-        "same as M but Inter Medium 16/24",
-        "20x12 / 8 / 112",
-        "heights 48 / 50"
+        "same as M but Open Sans SemiBold 16/24",
+        "20x4 / 8 / 112",
+        "height 48"
        ]
       ]
      }
@@ -329,14 +369,14 @@
       ],
       "rows": [
        [
-        "interactive/primary → hover → pressed",
+        "interactive/primary → primary-hover → primary-active",
         "--ns-interactive-primary → --ns-interactive-primary-hover → --ns-interactive-primary-active",
         "Name mapping observed; verify values per theme."
        ],
        [
-        "interactive/disabled; text/disabled",
+        "border/default; text/disabled",
         "Unavailable surface / label",
-        "Observed on sampled states; not accessibility approval."
+        "Disabled fill and label at full opacity; not accessibility approval."
        ],
        [
         "text/inverse; text/primary",
@@ -344,9 +384,9 @@
         "text/inverse on colored fills needs theme-specific contrast review."
        ],
        [
-        "background/surface; background/selected; border/default",
-        "Supporting action surface, hover fill, outline",
-        "Semantic bindings observed; Dark surface values drift online."
+        "interactive/secondary-bg; interactive/secondary-hover; border/default",
+        "Secondary fill, secondary hover, outline",
+        "Semantic bindings; values match the code."
        ]
       ]
      },
@@ -412,9 +452,9 @@
         "Map booleans to optional icons; do not infer icon-only API."
        ],
        [
-        "M observed 38 / 40px",
-        "S36 / M40 / L48 / XL52px; shape rounded / square",
-        "P1: reconcile dimensions and migration; XL / shape remain legacy."
+        "S 32 / M 40 / L 48px",
+        "S32 / M40 / L48 / XL52px; shape rounded / square",
+        "S, M and L match; XL / shape remain legacy."
        ]
       ]
      },
@@ -493,7 +533,7 @@
      },
      {
       "type": "text",
-      "text": "60 variants named 'Hierarchy=X, State=Y, Size=Z' (4x5x3), ids 4038:31357 to 4038:31733. Icon slot: 16x16 plus glyph (two rounded 1px rects 10x2 and 2x10), colored to match label. All variants: radius 8px, Inter Medium label."
+      "text": "60 variants named 'Hierarchy=X, State=Y, Size=Z' (4x5x3), ids 4038:31357 to 4038:31733. Icon slot: 16x16 plus glyph (two rounded 1px rects 10x2 and 2x10), colored to match label. All variants: radius 4px, Open Sans label."
      },
      {
       "type": "table",
@@ -503,32 +543,32 @@
        "Padding (x,y)",
        "Gap",
        "Label font",
-       "Heights (Primary/Ghost; Secondary/Outline)"
+       "Height"
       ],
       "rows": [
        [
         "S",
         "80",
-        "12,7",
-        "6",
-        "Inter Medium 12/16",
-        "30; 32"
+        "12,4",
+        "4",
+        "Open Sans Regular 12/16",
+        "32"
        ],
        [
         "M",
         "96",
-        "16,9",
+        "16,4",
         "8",
-        "Inter Medium 14/20",
-        "38; 40"
+        "Open Sans SemiBold 14/20",
+        "40"
        ],
        [
         "L",
         "112",
-        "20,12",
+        "20,4",
         "8",
-        "Inter Medium 16/24",
-        "48; 50"
+        "Open Sans SemiBold 16/24",
+        "48"
        ]
       ]
      },
@@ -548,53 +588,53 @@
         "Default",
         "interactive/primary #023aff",
         "-",
-        "text/on-primary (white)",
+        "text/on-color (white)",
         "100"
        ],
        [
         "Primary",
         "Hover",
-        "interactive/hover #3506ef",
+        "interactive/primary-hover #3506ef",
         "-",
-        "text/on-primary white",
+        "text/on-color white",
         "100"
        ],
        [
         "Primary",
         "Pressed",
-        "interactive/pressed #991bfa",
+        "interactive/primary-active #022ecc",
         "-",
-        "text/on-primary white",
+        "text/on-color white",
         "100"
        ],
        [
         "Primary",
         "Disabled",
-        "interactive/disabled #2c2c35",
+        "border/default #2c2c35",
         "-",
-        "text/secondary #d0d0da",
-        "64%"
+        "text/disabled #5b5b65",
+        "100"
        ],
        [
         "Secondary",
         "Default",
-        "background/surface #191932",
-        "border/default #2c2c35",
+        "interactive/secondary-bg #1e1e24",
+        "-",
         "text/primary white",
         "100"
        ],
        [
         "Secondary",
         "Hover",
-        "background/selected #2c2c35",
-        "border/default",
+        "interactive/secondary-hover #2c2c35",
+        "-",
         "text/primary white",
         "100"
        ],
        [
         "Secondary",
         "Pressed",
-        "background/surface",
+        "interactive/secondary-hover #2c2c35",
         "interactive/primary #023aff",
         "text/primary white",
         "100"
@@ -602,16 +642,16 @@
        [
         "Secondary",
         "Disabled",
-        "background/surface",
-        "border/default",
-        "text/primary white",
-        "64%"
+        "border/default #2c2c35",
+        "-",
+        "text/disabled #5b5b65",
+        "100"
        ],
        [
         "Outline",
         "Default",
         "none",
-        "border/default",
+        "border/default #2c2c35",
         "text/primary white",
         "100"
        ],
@@ -619,7 +659,7 @@
         "Outline",
         "Hover",
         "none",
-        "interactive/primary",
+        "interactive/primary #023aff",
         "text/primary white",
         "100"
        ],
@@ -627,7 +667,7 @@
         "Outline",
         "Pressed",
         "none",
-        "interactive/primary",
+        "interactive/primary #023aff",
         "text/primary white",
         "100"
        ],
@@ -635,9 +675,9 @@
         "Outline",
         "Disabled",
         "none",
-        "border/default",
+        "border/default #2c2c35",
         "text/disabled #5b5b65",
-        "64%"
+        "100"
        ],
        [
         "Ghost",
@@ -650,7 +690,7 @@
        [
         "Ghost",
         "Hover",
-        "background/selected #2c2c35",
+        "background/selected #16163a",
         "-",
         "text/primary white",
         "100"
@@ -658,7 +698,7 @@
        [
         "Ghost",
         "Pressed",
-        "background/selected #2c2c35",
+        "background/selected #16163a",
         "-",
         "text/primary white",
         "100"
@@ -669,7 +709,39 @@
         "none",
         "-",
         "text/disabled #5b5b65",
-        "64%"
+        "100"
+       ],
+       [
+        "Danger",
+        "Default",
+        "interactive/danger #cc1a54",
+        "-",
+        "text/on-color white",
+        "100"
+       ],
+       [
+        "Danger",
+        "Hover",
+        "interactive/danger-hover #b8174c",
+        "-",
+        "text/on-color white",
+        "100"
+       ],
+       [
+        "Danger",
+        "Pressed",
+        "interactive/danger-active #a31443",
+        "-",
+        "text/on-color white",
+        "100"
+       ],
+       [
+        "Danger",
+        "Disabled",
+        "border/default #2c2c35",
+        "-",
+        "text/disabled #5b5b65",
+        "100"
        ]
       ]
      },
@@ -724,7 +796,7 @@
      {
       "type": "example",
       "label": "RECOMMENDED COMPOSITION · demo data",
-      "description": "Label text 'Billing email' (Inter SemiBold 12/18, text/secondary); Text input instance 'Labeled field specimen' 400px wide x 36px (Medium), bg gray/9 #0f0f13, radius 5px, entered text 'billing@atlas.example' Open Sans 14/20 gray/2 #a9a9b7 at left 14px; helper text 'We’ll send invoices to this address.' (Open Sans 14/20 text/secondary)."
+      "description": "Label text 'Billing email' (Inter SemiBold 12/18, text/secondary); Text input instance 'Labeled field specimen' 400px wide x 40px (Medium), bg field/bg #121216, radius 4px, entered text 'billing@atlas.example' Open Sans 14/20 gray/2 #a9a9b7 at left 14px; helper text 'We’ll send invoices to this address.' (Open Sans 14/20 text/secondary)."
      },
      {
       "type": "text",
@@ -751,7 +823,7 @@
       "rows": [
        [
         "Size",
-        "Small 32px · Medium 36px · Large 48px",
+        "Small 32px · Medium 40px · Large 48px",
         "Small"
        ],
        [
@@ -799,7 +871,7 @@
        "Fill",
        "Border",
        "Placeholder color",
-       "Other (all sizes: width 220, radius 5px; heights S 32 / M 36 / L 48)"
+       "Other (all sizes: width 220, radius 4px; heights S 32 / M 40 / L 48)"
       ],
       "rows": [
        [
@@ -880,8 +952,8 @@
        ],
        [
         "Size Small / Medium / Large",
-        "s / m / l modifiers → 32 / 36 / 48px",
-        "Sizes match; bare ns-input is 40px, medium modifier is 36px."
+        "s / m / l modifiers → 32 / 40 / 48px",
+        "Sizes match; bare ns-input and the medium modifier are both 40px."
        ]
       ]
      },
@@ -1293,7 +1365,7 @@
      {
       "type": "example",
       "label": "ACTUAL TRIGGER + MENU · composed open illustration",
-      "description": "Two real instances stacked: Dropdown / Trigger (Content=Text, State=Default, 150×42, label 'Dropdown') above Dropdown / Menu (Items=4, 200×174), 8px gap, inside card bg background/elevated #1e1e24 radius 10 padding 20."
+      "description": "Two real instances stacked: Dropdown / Trigger (Content=Text, State=Default, 150×40, label 'Dropdown') above Dropdown / Menu (Items=4, 200×174), 8px gap, inside card bg background/elevated #1e1e24 radius 10 padding 20."
      },
      {
       "type": "text",
@@ -1322,12 +1394,12 @@
        [
         "Trigger · 1842:24092 · 9",
         "Content: Text / Icon / Two icons",
-        "Two icons; 176 × 42px"
+        "Two icons; 176 × 40px"
        ],
        [
         "Trigger",
         "State: Default / Hover / Disabled",
-        "Default; Text 150 × 42px; Icon 36 × 36px"
+        "Default; Text 150 × 40px; Icon 36 × 36px"
        ],
        [
         "Menu · 1842:24065 · 4",
@@ -1365,7 +1437,7 @@
      {
       "type": "example",
       "label": "Trigger state matrix",
-      "description": "Rows: Text, Icon, Two icons; columns Default, Hover, Disabled. Dropdown / Trigger instances. Text: label 'Dropdown' (Open Sans Bold 16px/24, gray/0 #f5f5ff) + 18px Arrow down chevron, padding 9px 12px 9px 20px, gap 16, 150×42. Icon: only 18px chevron, padding 9px, 36×36. Two icons: 18px Setting icon + 'Dropdown' + chevron, padding 9px 12px, gap 24 (inner gap 8), 176×42. Radius 6px. Default bg gray/8 #1e1e24; Hover bg gray/7 #2c2c35; Disabled opacity 25% (bg gray/8; Icon disabled bg gray/9 #0f0f13)."
+      "description": "Rows: Text, Icon, Two icons; columns Default, Hover, Disabled. Dropdown / Trigger instances. Text: label 'Dropdown' (Open Sans Bold 16px/24, gray/0 #f5f5ff) + 18px Arrow down chevron, padding 8px 12px 8px 20px, gap 16, 150×40. Icon: only 18px chevron, padding 9px, 36×36. Two icons: 18px Setting icon + 'Dropdown' + chevron, padding 8px 12px, gap 24 (inner gap 8), 176×40. Radius 4px. Default bg interactive/secondary-bg #1e1e24; Hover bg interactive/secondary-hover #2c2c35; Disabled bg border/default #2c2c35 with a text/disabled label, at full opacity."
      },
      {
       "type": "label",
@@ -1411,9 +1483,9 @@
         "Map to semantic text roles; contrast review by theme."
        ],
        [
-        "gray/7; gray/8; gray/9",
+        "interactive/secondary-hover; interactive/secondary-bg; gray/9",
         "Hover surface; trigger; menu surface",
-        "Map background/selected, background/surface, background/elevated; Dark values drift."
+        "Trigger is on semantic fills; the menu still uses a primitive."
        ],
        [
         "body-1 and body-2 size / line-height",
@@ -5850,7 +5922,7 @@
     "blocks": [
      {
       "type": "text",
-      "text": "1 · Control: 340px, background/elevated, border/default, 8px radius. 2 · Tags: widget/band pills with a remove mark. 3 · Query: placeholder in text/tertiary. 4 · List: below the control when open, the active row in background/selected."
+      "text": "1 · Control: 340px, field/bg, no border, 4px radius. 2 · Tags: widget/band pills with a remove mark. 3 · Query: placeholder in text/tertiary. 4 · List: below the control when open, the active row in background/selected."
      },
      {
       "type": "example",
@@ -5906,13 +5978,13 @@
       "rows": [
        [
         "Control fill",
-        "background/elevated",
+        "field/bg",
         "Field surface"
        ],
        [
         "Control stroke",
-        "border/default",
-        "interactive/primary when Open"
+        "none; focus/field",
+        "1px focus/field when Open"
        ],
        [
         "Tag",
@@ -5936,7 +6008,7 @@
        ],
        [
         "Disabled",
-        "Opacity 45%",
+        "opacity/disabled (40%)",
         "Whole component"
        ]
       ]
@@ -6504,7 +6576,7 @@
     "blocks": [
      {
       "type": "text",
-      "text": "1 · Track: background/secondary with a border/default stroke, 8px radius. 2 · Selected segment: background/elevated, SemiBold text/primary. 3 · Other segments: Regular text/secondary. 4 · Disabled segment: text/disabled."
+      "text": "1 · Track: background/secondary with a border/default stroke, 4px radius. 2 · Selected segment: background/elevated, SemiBold text/primary. 3 · Other segments: Regular text/secondary. 4 · Disabled segment: text/disabled."
      },
      {
       "type": "example",
@@ -6668,7 +6740,7 @@
     "blocks": [
      {
       "type": "text",
-      "text": "1 · Container: 136 by 40, background/secondary, border/default, 8px radius. 2 · Decrement and increment: 40px buttons, text/secondary. 3 · Value: SemiBold 16, text/primary. 4 · Disabled limit: text/disabled on the button that cannot move."
+      "text": "1 · Container: 136 by 40, field/bg, no border, 4px radius. 2 · Decrement and increment: 40px buttons, text/secondary. 3 · Value: SemiBold 16, text/primary. 4 · Disabled limit: text/disabled on the button that cannot move."
      },
      {
       "type": "example",
@@ -6730,13 +6802,13 @@
       "rows": [
        [
         "Container fill",
-        "background/secondary",
+        "field/bg",
         "Field surface"
        ],
        [
-        "Container stroke",
-        "border/default",
-        "1px, 8px radius"
+        "Container radius",
+        "radius/sm",
+        "4px, no border"
        ],
        [
         "Value",
@@ -6755,7 +6827,7 @@
        ],
        [
         "Disabled",
-        "Opacity 45%",
+        "opacity/disabled (40%)",
         "Whole component"
        ]
       ]
@@ -7317,7 +7389,7 @@
     "blocks": [
      {
       "type": "text",
-      "text": "1 · Container: 32, 40 or 48px square, 8px radius. 2 · Icon: three-dot More icon, 14, 16 or 20px. 3 · Hierarchy sets the fill and the icon color. 4 · Focus: 2px focus/ring outside the container. 5 · Disabled: 45% opacity."
+      "text": "1 · Container: 32, 40 or 48px square, 4px radius. 2 · Icon: three-dot More icon, 14, 16 or 20px. 3 · Hierarchy sets the fill and the icon color. 4 · Focus: 2px focus/ring outside the container. 5 · Disabled: border/default fill, text/disabled icon."
      },
      {
       "type": "example",
@@ -7337,7 +7409,7 @@
     "blocks": [
      {
       "type": "text",
-      "text": "Icon button · set 4466:661 · page \"Icon button\" in the NorthStar file."
+      "text": "Icon button · set 4466:661 · page \"Buttons\" (folded into Buttons) in the NorthStar file."
      },
      {
       "type": "table",
@@ -7386,7 +7458,7 @@
        [
         "Primary fill",
         "interactive/primary",
-        "Hover interactive/hover, pressed interactive/pressed"
+        "Hover interactive/primary-hover, pressed interactive/primary-active"
        ],
        [
         "Primary icon",
@@ -7396,7 +7468,7 @@
        [
         "Secondary fill and stroke",
         "background/elevated, border/default",
-        "Hover background/hover, pressed background/selected"
+        "Hover interactive/secondary-hover, pressed background/selected"
        ],
        [
         "Ghost icon",
@@ -7415,8 +7487,8 @@
        ],
        [
         "Disabled",
-        "Opacity 45%",
-        "Whole component"
+        "border/default, text/disabled",
+        "Fill and icon, full opacity"
        ]
       ]
      },
@@ -7438,7 +7510,7 @@
        "Targets are 32px or larger in every size.",
        "The focus ring is visible on every hierarchy.",
        "Danger is named in text, not only colored.",
-       "Disabled is 45% opacity and not focusable."
+       "Disabled uses border/default and text/disabled, and is not focusable."
       ]
      }
     ]
